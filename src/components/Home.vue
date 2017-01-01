@@ -47,7 +47,7 @@
         </q-card-main>
       </q-card>
     </div>
-    <div class="row col shadow-1">
+    <div class="row col shadow-1 trans-table">
       <q-transition
               appear
               enter="fadeIn"
@@ -239,12 +239,11 @@ export default {
       await this.getTrans()
       done()
     },
+    refreshBalance(e, done) {
+      this.$q.events.$emit('refreshAccount', () => done())
+    },
     formatTimestamp(timestamp) {
       return fullTimestamp(timestamp)
-    },
-    refreshBalance(e, done) {
-      this.$q.events.$emit('refreshAccount')
-      this._.delay(() => done(), 1000)
     },
     async getAccountInfo(address) {
       let res = await api.account({
@@ -349,6 +348,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+
+.trans-table
+  margin-top 3%
 
 </style>

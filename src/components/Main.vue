@@ -84,6 +84,7 @@ import {
 } from 'quasar'
 import { api } from '../utils/api'
 import { setCache, getCache } from '../utils/util'
+const func = () => {}
 
 export default {
   name: 'Home',
@@ -124,12 +125,30 @@ export default {
       }
       return conf
     },
-    async refreshAccount() {
+    async refreshAccount(cb = func) {
+      // refresh user balance
       console.log('event refreshAccount...')
       let res = await api.account({ address: this.user.account.address })
       let user = this._.merge({}, this.user, res)
       this.user = user
       setCache('user', user)
+      this._.delay(() => cb(), 1500) // delay refresh
+    },
+    async getIssuer(cbOk = func, cbErr = func) {
+      // get user issuer info
+      let res = await api.issuer({
+        address: this.user.account.address
+      })
+      if (res.success) {
+        this.user.issuer = res.issuer
+        let user = this._.merge({}, this.user, res)
+        this.user = user
+        setCache('user', user)
+        cbOk(res)
+        // TODO
+      } else {
+        cbErr()
+      }
     }
   },
   async mounted() {
@@ -147,11 +166,12 @@ export default {
   },
   created() {
     // register event
-    console.log('created main vue')
     this.$q.events.$on('refreshAccount', this.refreshAccount)
+    this.$q.events.$on('getIssuer', this.getIssuer)
   },
   beforeDestroy() {
     this.$q.events.$off('refreshAccount', this.refreshAccount)
+    this.$q.events.$off('getIssuer', this.getIssuer)
   }
 }
 </script>

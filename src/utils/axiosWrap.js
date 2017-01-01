@@ -28,8 +28,8 @@ axiosWrap.interceptors.response.use(
     if (result.status !== 200) {
       return Promise.reject(result)
     }
-    console.log(result.request.responseURL, '...........')
-    console.log(result)
+
+    console.log(result.data, result.request.responseURL)
     return result.data
   },
   result => {

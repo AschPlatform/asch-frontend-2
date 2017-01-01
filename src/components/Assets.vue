@@ -50,13 +50,14 @@ export default {
   },
   mounted() {},
   watch: {
-    userObj(val) {
-      console.log(val)
-    }
-  }
+    userObj(val) {}
+  },
+  created() {
+    // register event
+  },
+  beforeDestroy() {}
 }
 </script>
 
 <style lang="stylus">
-
 </style>
