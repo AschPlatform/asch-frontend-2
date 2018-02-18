@@ -17,17 +17,16 @@
     "babel-runtime": "^6.25.0",
     "bignumber.js": "^6.0.0",
     "bip39": "^2.5.0",
-    "clipboard": "^1.7.1",
     "lodash": "^4.17.5",
     "moment": "^2.20.1",
     "quasar-extras": "0.x",
     "quasar-framework": "0.14.9",
     "vue": "^2.5.0",
     "vue-async-computed": "^3.3.1",
+    "vue-clipboards": "^1.2.1",
     "vue-cookie": "^1.1.4",
     "vue-i18n": "^7.4.2",
     "vue-router": "^3.0.1",
-    "vue-sessionstorage": "^1.0.0",
     "vuelidate": "^0.6.1"
   },
   "devDependencies": {

@@ -74,7 +74,7 @@ const router = new VueRouter({
 // add hook verify cookie
 
 router.beforeEach((to, from, next) => {
-  let user = to.params.user || Vue.prototype.$session.get('user')
+  let user = to.params.user || Vue.prototype.$session.get.item('user')
   if (to.path.indexOf('login') > 0 || user) {
     next({ params: { user: user } })
     return null

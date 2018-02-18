@@ -11,25 +11,33 @@ require(`quasar/dist/quasar.${__THEME}.css`)
 // require(`quasar/dist/quasar.ie.${__THEME}.css`)
 
 import Vue from 'vue'
-import Quasar from 'quasar'
+import Quasar, { SessionStorage, Cookies, QTransition } from 'quasar'
 import router from './router'
-import axios from 'axios'
-import VueSessionStorage from 'vue-sessionstorage'
+import axios from './utils/axiosWrap'
 import VueI18n from 'vue-i18n'
 import langs from './translations'
 import Vuelidate from 'vuelidate'
 import filters from './utils/filters'
-// import AsyncComputed from 'vue-async-computed'
+import VueClipboards from 'vue-clipboards'
+import 'quasar-extras/animate/fadeIn.css'
+import 'quasar-extras/animate/fadeOut.css'
 
+// import AsyncComputed from 'vue-async-computed'
 // Vue.use(AsyncComputed)
 
 Vue.config.productionTip = false
-Vue.use(Quasar) // Install Quasar Framework
-Vue.use(VueSessionStorage) // sessionStorage
+Vue.use(Quasar, {
+  components: {
+    QTransition
+  }
+}) // Install Quasar Framework
 Vue.use(VueI18n)
 Vue.use(Vuelidate)
+Vue.use(VueClipboards)
 
 Vue.prototype.$http = axios
+Vue.prototype.$session = SessionStorage
+Vue.prototype.$cookies = Cookies
 
 if (__THEME === 'mat') {
   require('quasar-extras/roboto-font')
@@ -49,7 +57,9 @@ const getLanguage = () => {
 
 // 判断用户使用的语言
 const i18n = new VueI18n({
-  locale: getLanguage().toLowerCase().split('-')[0], // set locale
+  locale: getLanguage()
+    .toLowerCase()
+    .split('-')[0], // set locale
   messages: langs // set locale messages
 })
 

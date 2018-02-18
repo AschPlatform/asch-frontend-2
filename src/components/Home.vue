@@ -11,7 +11,7 @@
                       {{user.account.balance | fee}} XAS
                     </big>
           <div class='col'>
-            <q-btn id='addr-data' :data-clipboard-text="user.account.address" flat>
+            <q-btn id='addr-data' v-clipboard="user.account.address" @success="info('copy success...')" flat>
               {{user.account.address}}
             </q-btn>
           </div>
@@ -44,6 +44,7 @@
       </q-card>
     </div>
     <div class="row col-12 ">
+     
       <q-card v-if="transData" class="col-12">
         <q-data-table :data="transData.transactions" :config="tableConf" :columns="columns" @refresh="refresh" @rowclick="rowClick">
         <template slot="col-id" slot-scope="cell">
@@ -59,7 +60,7 @@
         </q-popover >
       </template>
 
-      <template slot="col-fee" slot-scope="cell">
+      <template slot="col-amount" slot-scope="cell">
         {{getAmountNFee(cell)}}
       </template>
 
@@ -84,6 +85,10 @@
 
 
       </q-data-table>
+      <q-pagination v-model="pageNo" :max="maxPage" />
+      <q-inner-loading :visible="loading">
+        <q-spinner-gears size="50px" color="primary"></q-spinner-gears>
+      </q-inner-loading>
     </q-card>
     </div>
     
@@ -102,11 +107,13 @@ import {
   QDataTable,
   QTooltip,
   QPopover,
-  Dialog
+  Dialog,
+  QPagination,
+  QSpinnerGears,
+  QInnerLoading
 } from 'quasar'
 import { api } from '../utils/api'
 import { transTypes } from '../utils/constants'
-import Clipboard from 'clipboard'
 import { fullTimestamp, convertFee } from '../utils/asch'
 
 export default {
@@ -122,11 +129,18 @@ export default {
     QDataTable,
     QTooltip,
     QPopover,
-    Dialog
+    Dialog,
+    QPagination,
+    QSpinnerGears,
+    QInnerLoading
   },
   data() {
     return {
       transData: null,
+      pageNo: 1,
+      limit: 20,
+      maxPage: 0,
+      loading: false,
       tableConf: {
         title: this.$t('MY_TRSACTIONS'),
         refresh: true,
@@ -138,11 +152,11 @@ export default {
           maxHeight: '700px'
         },
         rowHeight: '35px',
-        responsive: false,
-        pagination: {
-          rowsPerPage: 15,
-          options: [5, 10, 15, 30, 50, 500]
-        }
+        responsive: false
+        // pagination: {
+        //   rowsPerPage: 15,
+        //   options: [5, 10, 15, 30, 50, 500]
+        // }
         // selection: 'multiple'
       },
       columns: [
@@ -195,7 +209,7 @@ export default {
         },
         {
           label: this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')',
-          field: 'fee',
+          field: 'amount',
           filter: true,
           classes: 'text-right',
           sort: true,
@@ -215,8 +229,8 @@ export default {
   },
   methods: {
     async refresh(done) {
-      // let trans = await this.getTrans()
-      // this.transRecord = trans
+      this.resetTable()
+      await this.getTrans()
       done()
     },
     formatTimestamp(timestamp) {
@@ -228,26 +242,47 @@ export default {
         address: address
       })
       let { publicKey, balance } = res.account
+      balance = convertFee(balance)
+      const addressStr = this.$t('ADDRESS')
+      const publicKeyStr = this.$t('PUBLIC_KEY')
+      const balanceStr = this.$t('BALANCE')
+      // let message = `${addressStr}: ${address} <br/> ${publicKeyStr}: ${publicKey} <br/> ${balanceStr}:${balance}`
+      let tableStr = `<table class="q-table horizontal-separator highlight loose "><tbody>
+    <tr id='detail-addr' :v-clipboard="address" @success="info('copy success...')">
+      <td >${addressStr}</td>
+      <td >${address}</td>
+    </tr>
+    <tr id='detail-pub' :v-clipboard="publicKey" @success="info('copy success...')">
+      <td >${publicKeyStr}</td>
+      <td >${publicKey}</td>
+    </tr>
+    <tr id='detail-amount' :v-clipboard="balance" @success="info('copy success...')">
+      <td >${balanceStr}</td>
+      <td >${balance}</td>
+    </tr>
+    <tbody></table>
+    `
       Dialog.create({
         title: this.$t('ACCOUNT_DETAIL'),
-        form: {
-          address: {
-            type: 'text',
-            label: this.$t('ADDRESS'),
-            disable: true,
-            model: address
-          },
-          publicKey: {
-            type: 'text',
-            label: this.$t('PUBLIC_KEY'),
-            model: publicKey
-          },
-          amount: {
-            type: 'text',
-            label: this.$t('BALANCE'),
-            model: convertFee(balance)
-          }
-        }
+        message: tableStr
+        // form: {
+        //   address: {
+        //     type: 'text',
+        //     label: addressStr,
+        //     disable: true,
+        //     model: address
+        //   },
+        //   publicKey: {
+        //     type: 'text',
+        //     label: publicKeyStr,
+        //     model: publicKey
+        //   },
+        //   amount: {
+        //     type: 'text',
+        //     label: balanceStr,
+        //     model: balance
+        //   }
+        // }
       })
     },
     info(key) {
@@ -255,15 +290,20 @@ export default {
     },
     // get transactions
     async getTrans() {
-      let count = this.tableConf.pagination.rowsPerPage
+      this.loading = true
+      let limit = this.limit
+      let pageNo = this.pageNo
       let res = await api.transactions({
         recipientId: this.user.account.address,
         senderPublicKey: this.user.account.publicKey,
         orderBy: 't_timestamp:desc',
-        limit: count,
-        offset: 0 * count
+        limit: limit,
+        offset: (pageNo - 1) * limit
       })
       this.transData = res
+      // set max
+      this.maxPage = Math.ceil(res.count / limit)
+      this.loading = false
       return res
     },
     getAmountNFee(data) {
@@ -273,13 +313,11 @@ export default {
     matchSelf(address) {
       return this.user.account.address === address
     },
-    resetTable() {}
+    resetTable() {
+      this.pageNo = 1
+    }
   },
   async mounted() {
-    let clipboard = new Clipboard('#addr-data')
-    clipboard.on('success', e => {
-      this.info('copy success...')
-    })
     if (this.user) {
       this.getTrans()
     }
@@ -294,6 +332,9 @@ export default {
       if (val) {
         this.getTrans()
       }
+    },
+    pageNo(val) {
+      this.getTrans()
     }
   }
 }

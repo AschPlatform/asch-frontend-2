@@ -16,10 +16,10 @@
   
     <div slot="left">
       <!--
-            Use <q-side-link> component
-            instead of <q-item> for
-            internal vue-router navigation
-          -->
+              Use <q-side-link> component
+              instead of <q-item> for
+              internal vue-router navigation
+            -->
       <q-list no-border link inset-delimiter>
         <q-list-header>Essential Links</q-list-header>
         <q-side-link item :to="getRouterConf('home')">
@@ -60,7 +60,9 @@
         </q-side-link>
       </q-list>
     </div>
-    <router-view :userObj="user"/>
+    <q-transition appear enter="fadeIn" leave="fadeOut" mode="out-in" :duration="500">
+      <router-view :userObj="user" />
+    </q-transition>
   </q-layout>
 </template>
 
@@ -116,12 +118,17 @@ export default {
       Toast.create.warning(this.$t(key))
     },
     getRouterConf(name) {
-      const conf = { name: name, params: { user: this.user } }
+      const conf = {
+        name: name,
+        params: {
+          user: this.user
+        }
+      }
       return conf
     }
   },
   async mounted() {
-    let user = this.$route.params.user || this.$session.get('user') || null
+    let user = this.$route.params.user || this.$session.get.item('user') || null
     // TODO
     if (!user) {
       console.log('no session data, please login...')

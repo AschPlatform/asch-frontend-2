@@ -208,7 +208,7 @@ export default {
 
 <style lang="stylus" scoped>
 .login-panel {
-  height: 50vh;
+  height: 30vh;
   margin-top: 10%;
 }
 
