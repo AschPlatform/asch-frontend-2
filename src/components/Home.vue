@@ -44,52 +44,56 @@
       </q-card>
     </div>
     <div class="row col-12 ">
-     
-      <q-card v-if="transData" class="col-12">
-        <q-data-table :data="transData.transactions" :config="tableConf" :columns="columns" @refresh="refresh" @rowclick="rowClick">
-        <template slot="col-id" slot-scope="cell">
-        <div class="my-label text-grey-8">
+      <q-transition
+              appear
+              enter="fadeIn"
+              leave="fadeOut"
+              mode="out-in"
+            >
+        <q-card v-if="transData" class="col-12">
+          <q-data-table :data="transData.transactions" :config="tableConf" :columns="columns" @refresh="refresh" @rowclick="rowClick">
+          <template slot="col-id" slot-scope="cell">
+          <div class="my-label text-grey-8">
+            {{cell.data}}
+            <q-tooltip>{{cell.data}}</q-tooltip>
+          </div>
+        </template>
+        <template slot="col-message" slot-scope="cell">
           {{cell.data}}
-          <q-tooltip>{{cell.data}}</q-tooltip>
-        </div>
-      </template>
-      <template slot="col-message" slot-scope="cell">
-        {{cell.data}}
-        <q-popover v-if="cell.data"  ref="popover-msg">
-        <div class="light-paragraph">{{cell.data}}</div>
-        </q-popover >
-      </template>
+          <q-popover v-if="cell.data"  ref="popover-msg">
+          <div class="light-paragraph">{{cell.data}}</div>
+          </q-popover >
+        </template>
 
-      <template slot="col-amount" slot-scope="cell">
-        {{getAmountNFee(cell)}}
-      </template>
+        <template slot="col-amount" slot-scope="cell">
+          {{getAmountNFee(cell)}}
+        </template>
 
-      <template slot="col-senderId" class="table-address" slot-scope="cell">
-        <a @click="getAccountInfo(cell.data)">
-          {{matchSelf(cell.data)?'Me':cell.data}}
-        </a>
-        <q-tooltip v-if="!matchSelf(cell.data)">{{cell.data}}</q-tooltip>
-      </template>
-
-      <template slot="col-recipientId" slot-scope="cell">
-        <div v-if="cell.data">
-          <a  @click="getAccountInfo(cell.data)">
+        <template slot="col-senderId" class="table-address" slot-scope="cell">
+          <a @click="getAccountInfo(cell.data)">
             {{matchSelf(cell.data)?'Me':cell.data}}
           </a>
-          <q-tooltip v-if="!matchSelf(cell.data)" ref="popover-rec">
-            {{cell.data}}
-          </q-tooltip >
-        </div>
-        <div v-else >SYSTEM</div>
-      </template>
+          <q-tooltip v-if="!matchSelf(cell.data)">{{cell.data}}</q-tooltip>
+        </template>
+
+        <template slot="col-recipientId" slot-scope="cell">
+          <div v-if="cell.data">
+            <a  @click="getAccountInfo(cell.data)">
+              {{matchSelf(cell.data)?'Me':cell.data}}
+            </a>
+            <q-tooltip v-if="!matchSelf(cell.data)" ref="popover-rec">
+              {{cell.data}}
+            </q-tooltip >
+          </div>
+          <div v-else >SYSTEM</div>
+        </template>
 
 
-      </q-data-table>
-      <q-pagination v-model="pageNo" :max="maxPage" />
-      <q-inner-loading :visible="loading">
-        <q-spinner-gears size="50px" color="primary"></q-spinner-gears>
-      </q-inner-loading>
-    </q-card>
+        </q-data-table>
+        <q-pagination v-model="pageNo" :max="maxPage" />
+        <q-inner-loading :visible="loading" />
+      </q-card>
+      </q-transition>
     </div>
     
   </div>
