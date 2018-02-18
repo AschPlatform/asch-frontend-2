@@ -3,6 +3,7 @@ import Bip39 from 'bip39'
 
 export const getPub = secret => AschJs.crypto.getKeys(secret).publicKey
 export const getAddr = secret => AschJs.crypto.getAddress(secret)
+export const createIssuer = (name, desc, secret, rpsecondPassword = '') => AschJs.uia.createIssuer(name, desc, secret, rpsecondPassword)
 export const generateM = () => Bip39.generateMnemonic()
 export const fullTimestamp = timestamp => AschJs.utils.format.fullTimestamp(timestamp)
 export const convertFee = (fee, precision = 8) => {

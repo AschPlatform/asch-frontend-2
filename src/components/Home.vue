@@ -319,7 +319,7 @@ export default {
       this.pageNo = 1
     }
   },
-  async mounted() {
+  mounted() {
     if (this.user) {
       this.getTrans()
     }

@@ -18,11 +18,11 @@
         <q-card-separator />
         <q-card-main class="row col-10 justify-center ">
           <div class="row col-10 justify-between">
-            <q-btn loader big class="col-auto " color="primary" @click="login">
-              {{$t('LOGIN')}}
-            </q-btn>
             <q-btn big outline class="col-aotu " color="primary" @click="newUser">
               {{$t('NEW_ACCOUNT')}}
+            </q-btn>
+            <q-btn loader big class="col-auto " color="primary" @click="login">
+              {{$t('LOGIN')}}
             </q-btn>
           </div>
         </q-card-main>
@@ -79,14 +79,14 @@ import {
   QInput,
   QSelect,
   QCheckbox,
-  QBtn,
-  Toast
+  QBtn
 } from 'quasar'
 import { required } from 'vuelidate/lib/validators'
 import { bip39 } from '../utils/validators'
 import { langsOpts } from '../utils/constants'
 import { getPub, getAddr, generateM } from '../utils/asch'
 import { api } from '../utils/api'
+import { toastError } from '../utils/util'
 
 export default {
   components: {
@@ -125,7 +125,7 @@ export default {
     async login(e, done) {
       this.$v.secret.$touch()
       if (this.$v.secret.$error) {
-        this.toastError('ERR_VIOLATE_BIP39')
+        toastError('ERR_VIOLATE_BIP39')
         done()
         return
       }
@@ -148,11 +148,11 @@ export default {
             }
           })
         } else {
-          this.toastError('ERR_SERVER_ERROR')
+          toastError('ERR_SERVER_ERROR')
         }
       } catch (e) {
         console.log(e)
-        this.toastError('ERR_SERVER_ERROR')
+        toastError('ERR_SERVER_ERROR')
       } finally {
         done()
       }
@@ -191,15 +191,12 @@ export default {
       if (valid) {
         this.cleanRegister()
       } else {
-        this.toastError('ERR_PASSWORD_NOT_EQUAL')
+        toastError('ERR_PASSWORD_NOT_EQUAL')
       }
     },
     // change language
     changeLang(val) {
       this.locale = this.$i18n.locale = val
-    },
-    toastError(key) {
-      Toast.create.warning(this.$t(key))
     }
   },
   mounted() {}
