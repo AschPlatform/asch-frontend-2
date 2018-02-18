@@ -134,7 +134,7 @@ const lang = {
   MAXIMUM: '最大发行量',
   PRECISION: '精度',
   QUANTITY: '当前存量',
-  CANCELLATION: '注销',
+  CANCELLATION: '注销状态',
   OPERATION: '操作',
   DESCRIBE: '描述',
   TOPLIMIT: '上限',

@@ -1,7 +1,7 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <div v-if="user" class="layout-padding">
-    <div class="row col-12 ">
+  <div v-if="user" class="layout-padding self-center">
+    <div class="row col">
       <q-card class="col" color="secondary">
         <q-card-title>
           {{$t('BALANCE')}}
@@ -43,14 +43,14 @@
         </q-card-main>
       </q-card>
     </div>
-    <div class="row col-12 ">
+    <div class="row col shadow-1">
       <q-transition
               appear
               enter="fadeIn"
               leave="fadeOut"
               mode="out-in"
             >
-        <q-card v-if="transData" class="col-12">
+        <div v-if="transData" class="col-12">
           <q-data-table :data="transData.transactions" :config="tableConf" :columns="columns" @refresh="refresh" @rowclick="rowClick">
           <template slot="col-id" slot-scope="cell">
           <div class="my-label text-grey-8">
@@ -92,7 +92,7 @@
         </q-data-table>
         <q-pagination v-model="pageNo" :max="maxPage" />
         <q-inner-loading :visible="loading" />
-      </q-card>
+      </div>
       </q-transition>
     </div>
     
@@ -113,7 +113,6 @@ import {
   QPopover,
   Dialog,
   QPagination,
-  QSpinnerGears,
   QInnerLoading
 } from 'quasar'
 import { api } from '../utils/api'
@@ -135,7 +134,6 @@ export default {
     QPopover,
     Dialog,
     QPagination,
-    QSpinnerGears,
     QInnerLoading
   },
   data() {

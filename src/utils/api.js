@@ -35,7 +35,8 @@ const fetch = (url, data, method, postHeaders) => {
   //   }
   // }
 
-  let realUrl = urls.server.caos + url
+  // let realUrl = urls.server.caos + url
+  let realUrl = urls.server.local + url
   let type = method.toLowerCase()
   let res = {}
   if (type === 'get') {
