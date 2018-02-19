@@ -114,9 +114,6 @@ export default {
     launch(url) {
       openURL(url)
     },
-    toastError(key) {
-      Toast.create.warning(this.$t(key))
-    },
     getRouterConf(name) {
       const conf = {
         name: name,
@@ -134,9 +131,10 @@ export default {
       console.log('no session data, please login...')
       this.$router.push('/login')
     } else {
-      this.user = await api.login({
+      let res = await api.login({
         publicKey: user.account.publicKey
       })
+      this.user = { ...user, ...res }
     }
   },
   beforeDestroy() {}

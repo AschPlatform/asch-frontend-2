@@ -123,9 +123,10 @@ export default {
   computed: {},
   methods: {
     async login(e, done) {
+      const t = this.$t
       this.$v.secret.$touch()
       if (this.$v.secret.$error) {
-        toastError('ERR_VIOLATE_BIP39')
+        toastError(t('ERR_VIOLATE_BIP39'))
         done()
         return
       }
@@ -148,11 +149,11 @@ export default {
             }
           })
         } else {
-          toastError('ERR_SERVER_ERROR')
+          toastError(t('ERR_SERVER_ERROR'))
         }
       } catch (e) {
         console.log(e)
-        toastError('ERR_SERVER_ERROR')
+        toastError(t('ERR_SERVER_ERROR'))
       } finally {
         done()
       }
@@ -191,7 +192,7 @@ export default {
       if (valid) {
         this.cleanRegister()
       } else {
-        toastError('ERR_PASSWORD_NOT_EQUAL')
+        toastError(this.$t('ERR_PASSWORD_NOT_EQUAL'))
       }
     },
     // change language

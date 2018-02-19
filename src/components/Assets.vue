@@ -11,7 +11,7 @@
       <q-tab-pane name="publisher"> <assets-publisher :userObj="user" /> </q-tab-pane>
       <q-tab-pane name="assets"> <assets-register :userObj="user" /></q-tab-pane>
       <q-tab-pane name="myAssets"> <assets-published :userObj="user" /></q-tab-pane>
-      <q-tab-pane name="records"> <assets-record :userObj="user" /></q-tab-pane>
+      <q-tab-pane name="records"> <assets-records :userObj="user" /></q-tab-pane>
     </q-tabs>
 </template>
 

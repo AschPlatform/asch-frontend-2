@@ -31,6 +31,6 @@ export const confirm = (conf, cancel = () => {}, confirm = () => {}) => {
     ]
   })
 }
-export const toastError = key => {
-  Toast.create.warning(this.$t(key))
+export const toastError = message => {
+  Toast.create.warning(message)
 }
