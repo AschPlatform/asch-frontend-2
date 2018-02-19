@@ -12,6 +12,7 @@ require(`quasar/dist/quasar.${__THEME}.css`)
 
 import Vue from 'vue'
 import Quasar, { SessionStorage, Cookies, QTransition } from 'quasar'
+import _ from 'lodash'
 import router from './router'
 import axios from './utils/axiosWrap'
 import VueI18n from 'vue-i18n'
@@ -38,6 +39,7 @@ Vue.use(VueClipboards)
 Vue.prototype.$http = axios
 Vue.prototype.$session = SessionStorage
 Vue.prototype.$cookies = Cookies
+Vue.prototype._ = _
 
 if (__THEME === 'mat') {
   require('quasar-extras/roboto-font')

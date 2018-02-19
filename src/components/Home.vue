@@ -5,6 +5,10 @@
       <q-card class="col" color="secondary">
         <q-card-title>
           {{$t('BALANCE')}}
+          <!-- add balance refresh -->
+          <div slot="right" class="row items-center">
+           <q-btn loader flat round icon="refresh" @click="refreshBalance"/>
+          </div>
         </q-card-title>
         <q-card-main class="row">
           <big>
@@ -51,7 +55,7 @@
               mode="out-in"
             >
         <div v-if="transData" class="col-12">
-          <q-data-table :data="transData.transactions" :config="tableConf" :columns="columns" @refresh="refresh" @rowclick="rowClick">
+          <q-data-table :data="transData.transactions" :config="tableConf" :columns="columns" @refresh="refresh" >
           <template slot="col-id" slot-scope="cell">
           <div class="my-label text-grey-8">
             {{cell.data}}
@@ -238,7 +242,10 @@ export default {
     formatTimestamp(timestamp) {
       return fullTimestamp(timestamp)
     },
-    rowClick() {},
+    refreshBalance(e, done) {
+      this.$q.events.$emit('refreshAccount')
+      this._.delay(() => done(), 1000)
+    },
     async getAccountInfo(address) {
       let res = await api.account({
         address: address

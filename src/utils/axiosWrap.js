@@ -18,9 +18,9 @@ let axiosWrap = axios.create({
 })
 
 /* 过滤请求 */
-// axiosWrap.interceptors.request.use(config => {
-//   return config
-// })
+axiosWrap.interceptors.request.use(config => {
+  return config
+})
 /* 过滤响应 */
 axiosWrap.interceptors.response.use(
   result => {
@@ -28,6 +28,7 @@ axiosWrap.interceptors.response.use(
     if (result.status !== 200) {
       return Promise.reject(result)
     }
+    console.log(result.request.responseURL, '...........')
     console.log(result)
     return result.data
   },

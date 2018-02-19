@@ -1,19 +1,16 @@
-# Quasar App
+# Asch-wallet
 
-> A Quasar project
+Build on [Quasar](http://quasar-framework.org/)
 
-## Build Setup
+## Why 
 
-``` bash
-# install dependencies
-$ npm install
+- better UE and UI
+- cross platform (Win || Mac || Web || IOS || Android)
+- more powerful blocks explore
+- chat ? maybe 
 
-# serve with hot reload at localhost:8080
-$ quasar dev
+## How to build 
 
-# build for production with minification
-$ quasar build
+...
 
-# lint code
-$ quasar lint
-```
+WIP

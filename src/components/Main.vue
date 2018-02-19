@@ -83,6 +83,7 @@ import {
   Toast
 } from 'quasar'
 import { api } from '../utils/api'
+import { setCache, getCache } from '../utils/util'
 
 export default {
   name: 'Home',
@@ -122,10 +123,17 @@ export default {
         }
       }
       return conf
+    },
+    async refreshAccount() {
+      console.log('event refreshAccount...')
+      let res = await api.account({ address: this.user.account.address })
+      let user = this._.merge({}, this.user, res)
+      this.user = user
+      setCache('user', user)
     }
   },
   async mounted() {
-    let user = this.$route.params.user || this.$session.get.item('user') || null
+    let user = this.$route.params.user || getCache('user') || null
     // TODO
     if (!user) {
       console.log('no session data, please login...')
@@ -137,7 +145,14 @@ export default {
       this.user = { ...user, ...res }
     }
   },
-  beforeDestroy() {}
+  created() {
+    // register event
+    console.log('created main vue')
+    this.$q.events.$on('refreshAccount', this.refreshAccount)
+  },
+  beforeDestroy() {
+    this.$q.events.$off('refreshAccount', this.refreshAccount)
+  }
 }
 </script>
 
