@@ -21,13 +21,16 @@
         <q-input v-model="assets.strategy"  type="textarea"  :row="6" />
       </q-field>
       <q-field class="col-8" :label="$t('ALLOW_WRITEOFF')"  :label-width="3" >
-        
+        <q-radio v-model="assets.allowWriteoff" :val="0" color="faded" :label="notAllow" />
+      <q-radio v-model="assets.allowWriteoff" :val="1" color="positive" :label="allow" style="margin-left: 10px" />
       </q-field>
       <q-field class="col-8" :label="$t('ALLOW_WHITELIST')"  :label-width="3"  >
-        
+        <q-radio v-model="assets.allowWhitelist" :val="0" color="faded" :label="notAllow" />
+      <q-radio v-model="assets.allowWhitelist" :val="1" color="positive" :label="allow" style="margin-left: 10px" />
       </q-field>
       <q-field class="col-8" :label="$t('ALLOW_BLACKLIST')"  :label-width="3" >
-        
+        <q-radio v-model="assets.allowBlacklist" :val="0" color="faded" :label="notAllow" />
+      <q-radio v-model="assets.allowBlacklist" :val="1" color="positive" :label="allow" style="margin-left: 10px" />
       </q-field>
     </q-card-main>
     <q-card-separator />
@@ -42,8 +45,18 @@
 </template>
 
 <script>
-import { QField, QInput, QCard, QIcon, QCardTitle, QCardSeparator, QCardMain, QBtn } from 'quasar'
-import { api } from '../../utils/api'
+import {
+  QField,
+  QInput,
+  QCard,
+  QIcon,
+  QCardTitle,
+  QCardSeparator,
+  QCardMain,
+  QBtn,
+  QRadio
+} from 'quasar'
+import { api, translateErrMsg } from '../../utils/api'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { confirm, toastError } from '../../utils/util'
 import { createIssuer } from '../../utils/asch'
@@ -58,7 +71,8 @@ export default {
     QCardTitle,
     QCardSeparator,
     QCardMain,
-    QBtn
+    QBtn,
+    QRadio
   },
   data() {
     return {
@@ -69,9 +83,9 @@ export default {
         precision: '',
         strategy: '',
         writeoff: '',
-        allowWriteoff: '',
-        allowWhitelist: '',
-        allowBlacklist: ''
+        allowWriteoff: 0,
+        allowWhitelist: 0,
+        allowBlacklist: 0
       },
       issuer: {},
       hasIssuer: false
@@ -128,7 +142,10 @@ export default {
           async () => {
             let trans = createIssuer(name, desc, secret, account.secondPublicKey)
             let res = await api.broadcastTransaction(trans)
-            console.log(res)
+            if (res.success) {
+            } else {
+              translateErrMsg(res.error)
+            }
           }
         )
       }
@@ -143,6 +160,12 @@ export default {
     },
     secondPublicKey() {
       return this.user.account.secondPublicKey
+    },
+    allow() {
+      return this.$t('ALLOW')
+    },
+    notAllow() {
+      return this.$t('NOT_ALLOW')
     }
   },
   mounted() {

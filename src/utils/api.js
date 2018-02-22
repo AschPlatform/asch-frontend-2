@@ -37,7 +37,7 @@ const fetch = (url, data, method, postHeaders) => {
   // }
 
   // let realUrl = urls.server.caos + url
-  let realUrl = urls.server.local + url
+  let realUrl = urls.server[process.env.NODE_ENV] + url
   let type = method.toLowerCase()
   let res = {}
   if (type === 'get') {
@@ -139,7 +139,7 @@ api.uiaAssetListApi = params => {
 // 广播交易
 api.broadcastTransaction = trans => {
   return fetch(urls.postApi, { transaction: trans }, 'post', {
-    headers: { magic: urls.magic, version: '' }
+    headers: { magic: urls.magics[process.env.NODE_ENV], version: '' }
   })
 }
 
@@ -243,4 +243,4 @@ const postService = {
   }
 }
 
-export { api, postService }
+export { api, postService, translateErrMsg }

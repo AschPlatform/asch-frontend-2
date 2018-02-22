@@ -1,4 +1,4 @@
-import { Alert, Dialog, Toast, SessionStorage } from 'quasar'
+import { Alert, Dialog, Notify, SessionStorage } from 'quasar'
 
 export const alertMsg = (content, duration = 500) => {
   Alert.create({
@@ -32,8 +32,11 @@ export const confirm = (conf, cancel = () => {}, confirm = () => {}) => {
   })
 }
 export const toastError = message => {
-  Toast.create.warning(message)
+  Notify.create(message)
 }
+// export const toastInfo = message => {
+//   Notify.create.warning(message)
+// }
 
 export const setCache = (key, value) => {
   return SessionStorage.set(key, value)

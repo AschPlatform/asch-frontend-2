@@ -163,6 +163,7 @@ export default {
       })
       this.user = { ...user, ...res }
     }
+    console.log(process.env.NODE_ENV)
   },
   created() {
     // register event

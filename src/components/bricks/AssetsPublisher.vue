@@ -12,7 +12,7 @@
         <q-input @change="$v.issuer.desc.$touch" type="textarea" v-model="issuer.desc" clearable  :disable="!!user.issuer"/>
       </q-field>
       <q-field v-show="user.issuer || secondPublicKey" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
-        <q-input type="password" v-model="secondPwd"  />
+        <q-input @change="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
     </q-card-main>
     <q-card-separator />
@@ -28,7 +28,7 @@
 
 <script>
 import { QField, QInput, QCard, QIcon, QCardTitle, QCardSeparator, QCardMain, QBtn } from 'quasar'
-import { api } from '../../utils/api'
+import { api, translateErrMsg } from '../../utils/api'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { confirm, toastError } from '../../utils/util'
 import { createIssuer } from '../../utils/asch'
@@ -85,8 +85,7 @@ export default {
       const t = this.$t
       this.$v.issuer.$touch()
       const isValid = this.$v.issuer.$error
-      const secondPwd = this.secondPwd
-      const pwdValid = !secondPwdReg.test(secondPwd)
+      const pwdValid = this.pwdValid
       this.secondPwdError = pwdValid
       if (isValid || pwdValid) {
         toastError(t('ERR_PUBLISHER_NOT_EMPTY'))
@@ -97,20 +96,36 @@ export default {
         const { name, desc } = this.issuer
         console.log(secret)
         confirm(
-          { title: t('CONFIRM'), message: t('OPERATION_REQUIRES_FEE') + '100 XAS' },
+          {
+            title: t('CONFIRM'),
+            message: t('OPERATION_REQUIRES_FEE') + '100 XAS',
+            cancel: t('CANCEL'),
+            confirm: t('CONFIRM')
+          },
           () => {
             done()
           },
           async () => {
             let trans = createIssuer(name, desc, secret, account.secondPublicKey)
             let res = await api.broadcastTransaction(trans)
-            console.log(res)
+            if (res.success) {
+              this.hasIssuer = true
+              done()
+            } else {
+              translateErrMsg(res.error)
+              done()
+            }
           }
         )
       }
     },
     getSecond() {
       return this.secondPublicKey
+    },
+    validateSecondPwd(val) {
+      let isValid = this.pwdValid
+      this.secondPwdError = isValid
+      return isValid
     }
   },
   computed: {
@@ -119,6 +134,9 @@ export default {
     },
     secondPublicKey() {
       return this.user.account.secondPublicKey
+    },
+    pwdValid() {
+      return !secondPwdReg.test(this.secondPwd)
     }
   },
   mounted() {
