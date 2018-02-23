@@ -56,7 +56,10 @@
     <div class="row col shadow-1 trans-table">
       <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
         <div v-if="transData" class="col-12">
-          <q-table :data="transData.transactions" :columns="columns" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :visible-columns="visibleColumns" :title="$t('DAPP_TRANSACTION_RECORD')">
+          <q-table :data="transData.transactions" 
+          :columns="columns" row-key="id" :pagination.sync="pagination"
+           @request="request" :loading="loading" :filter="filter" 
+           :visible-columns="visibleColumns" :title="$t('DAPP_TRANSACTION_RECORD')">
   
             <!--  <template slot="top-left" slot-scope="props">
               <q-search
@@ -87,7 +90,7 @@
             </q-td>
   
             <q-td slot="body-cell-amount" slot-scope="props" :props="props">
-              {{getAmountNFee(props)}}
+              {{getAmountNFee(props.row)}}
             </q-td>
   
             <q-td slot="body-cell-senderId" class="table-address" slot-scope="props" :props="props">
@@ -135,7 +138,54 @@
       <br/>
       <q-btn
         color="primary"
-        @click="()=>{this.modalShow = false; this.accountInfo = {}}"
+        @click="()=>{
+          this.modalShow = false
+          this.accountInfo = {}
+         }"
+        label="Close"
+      />
+    </q-modal>
+    <q-modal minimized  v-model="modalInfoShow" content-css="padding: 20px">
+      <big>{{$t('DAPP_DETAIL')}}</big>
+      <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
+        <tbody class='info-tbody'>
+          <tr v-clipboard="row.id" @success="info('copy ID success...')">
+            <td >{{'ID'}}</td>
+            <td >{{row.id}}</td>
+          </tr>
+          <tr>
+            <td >{{$t('TYPE')}}</td>
+            <td >{{getTransType(row.type)}}</td>
+          </tr>
+          <tr  v-clipboard="row.senderId" @success="info('copy senderId success...')">
+            <td >{{$t('SENDER')}}</td>
+            <td >{{row.senderId}}</td>
+          </tr>
+          <tr v-clipboard="row.recipientId" @success="info('copy recipientId success...')">
+            <td >{{$t('RECIPIENT')}}</td>
+            <td >{{row.recipientId}}</td>
+          </tr>
+          <tr v-clipboard="this.formatTimestamp(row.timestamp)" @success="info('copy date success...')">
+            <td >{{$t('DATE')}}</td>
+            <td >{{this.formatTimestamp(row.timestamp)}}</td>
+          </tr>
+          <tr v-clipboard="getAmountNFee(row)" @success="info('copy amount success...')">
+            <td >{{this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')'}}</td>
+            <td >{{getAmountNFee(row)}}</td>
+          </tr>
+          <tr v-clipboard="row.message" @success="info('copy message success...')">
+            <td >{{$t('REMARK')}}</td>
+            <td >{{row.message}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+      <q-btn
+        color="primary"
+        @click="()=>{
+          this.modalInfoShow = false
+          this.row = {}
+          }"
         label="Close"
       />
     </q-modal>
@@ -175,14 +225,14 @@ export default {
           width: '70px',
           filter: true,
           format: value => {
-            return this.$t(transTypes[value])
+            return this.getTransType(value)
           }
         },
         {
           name: 'senderId',
           label: this.$t('SENDER'),
           field: 'senderId',
-          classes: 'text-center',
+          align: 'center',
           format: value => {
             let isMySelf = this.matchSelf(value)
             return isMySelf ? 'Me' : value
@@ -240,7 +290,9 @@ export default {
         address: '',
         publicKey: '',
         balance: ''
-      }
+      },
+      row: null,
+      modalInfoShow: false
     }
   },
   methods: {
@@ -255,7 +307,9 @@ export default {
       return fullTimestamp(timestamp)
     },
     getDataInfo(props) {
-      console.log(props)
+      let { row } = props
+      this.row = row
+      this.modalInfoShow = true
     },
     async getAccountInfo(address) {
       if (!address) return
@@ -301,7 +355,7 @@ export default {
       return res
     },
     getAmountNFee(data) {
-      const { amount, fee } = data.row
+      const { amount, fee } = data
       return `${convertFee(amount)}(${convertFee(fee)})`
     },
     matchSelf(address) {
@@ -309,6 +363,9 @@ export default {
     },
     resetTable() {
       this.pageNo = 1
+    },
+    getTransType(val) {
+      return this.$t(transTypes[val])
     }
   },
   mounted() {

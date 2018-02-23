@@ -6,26 +6,79 @@
     leave-active-class="animated fadeOut" 
      mode="out-in">
       <div v-if="balancesData" class="col-12 shadow-1">
-        <q-table :data="balancesData.balances" :config="tableConf" :columns="columns" @refresh="refresh" @rowclick="rowClick">
+        <q-table :data="balancesData.balances" :filter="filter" 
+        :columns="columns"  @request="request" :pagination.sync="pagination" 
+        :loading="loading" :title="$t('DAPP_TRANSACTION_RECORD')"
+        >
           
-          
-
-          <template slot="col-opt" slot-scope="cell">
-              <router-link :to="getTransferParams(cell)" >
-                          {{$t('TRANSFER')}}
-              </router-link>
+          <template slot="top-right" slot-scope="props">
+            <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
           </template>
 
-          <template slot="col-allowWriteoff" slot-scope="cell">
-            {{getAssetRule(cell.row)}}
-          </template>
+          <q-td slot="body-cell-info"  slot-scope="props" :props="props">
+              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" />
+
+          </q-td>
+
+          <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
+               <q-btn @click="getTransferParams(props)" icon="send" size="sm" flat color="primary" />
+          </q-td>
+
+          <q-td slot="body-cell-allowWriteoff"  slot-scope="props" :props="props">
+            {{getAssetRule(props.row)}}
+          </q-td>
 
 
         </q-table>
-        <q-pagination v-model="pageNo" :max="maxPage" />
-        <q-inner-loading :visible="loading" />
       </div>
       </transition>
+
+     <q-modal minimized  v-model="modalInfoShow" content-css="padding: 20px">
+      <big>{{$t('DAPP_DETAIL')}}</big>
+      <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
+        <tbody class='info-tbody'>
+          <tr v-clipboard="row.currency" @success="info('copy name success...')">
+            <td >{{$t('ASSET_NAME')}}</td>
+            <td >{{row.currency}}</td>
+          </tr>
+          <tr v-clipboard="row.balanceShow" @success="info('copy balance success...')">
+            <td >{{$t('BALANCE')}}</td>
+            <td >{{row.balanceShow}}</td>
+          </tr>
+          <tr  v-clipboard="row.maximumShow" @success="info('copy maximum success...')">
+            <td >{{$t('MAXIMUM')}}</td>
+            <td >{{row.maximumShow}}</td>
+          </tr>
+          <tr v-clipboard="row.precision" @success="info('copy precision success...')">
+            <td >{{$t('PRECISION')}}</td>
+            <td >{{row.precision}}</td>
+          </tr>
+          <tr v-clipboard="row.quantity" @success="info('copy quantity success...')">
+            <td >{{$t('QUANTITY')}}</td>
+            <td >{{row.quantityShow}}</td>
+          </tr>
+          <tr v-clipboard="row.writeoff?'normal':'writeoff'" @success="info('copy message success...')">
+            <td >{{$t('REMARK')}}</td>
+            <td >{{row.writeoff?'normal':'writeoff'}}</td>
+          </tr>
+          <tr>
+            <td >{{$t('ALLOW_WWB')}}</td>
+            <td >{{getAssetRule(row)}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+      <q-btn
+        color="primary"
+        @click="()=>{
+          this.modalInfoShow = false
+          this.row = {}
+          }"
+        label="Close"
+      />
+    </q-modal>
+
+
     </div>
 </template>
 
@@ -38,30 +91,19 @@ export default {
   data() {
     return {
       balancesData: null,
-      pageNo: 1,
-      limit: 20,
-      maxPage: 0,
-      loading: false,
-      tableConf: {
-        title: this.$t('ASSET_PROFILE'),
-        refresh: true,
-        noHeader: false,
-        columnPicker: true,
-        leftStickyColumns: 0,
-        rightStickyColumns: 1,
-        bodyStyle: {
-          maxHeight: '700px'
-        },
-        rowHeight: '35px',
-        responsive: false
-        // pagination: {
-        //   rowsPerPage: 15,
-        //   options: [5, 10, 15, 30, 50, 500]
-        // }
-        // selection: 'multiple'
+      pagination: {
+        page: 1,
+        rowsNumber: 0,
+        rowsPerPage: 1
       },
+      filter: '',
+      loading: false,
       columns: [
         {
+          name: 'info'
+        },
+        {
+          name: 'currency',
           label: this.$t('ASSET_NAME'),
           field: 'currency',
           width: '100px',
@@ -69,6 +111,7 @@ export default {
           filter: true
         },
         {
+          name: 'balance',
           label: this.$t('BALANCE'),
           field: 'balanceShow',
           width: '150px',
@@ -76,6 +119,7 @@ export default {
           filter: true
         },
         {
+          name: 'maximum',
           label: this.$t('MAXIMUM'),
           field: 'maximumShow',
           width: '250px',
@@ -83,14 +127,16 @@ export default {
           filter: true
         },
         {
+          name: 'precision',
           label: this.$t('PRECISION'),
           field: 'precision',
-          classes: 'text-center',
+          align: 'center',
           type: 'number',
           width: '80px',
           sort: true
         },
         {
+          name: 'quantity',
           label: this.$t('QUANTITY'),
           field: 'quantityShow',
           width: '150px',
@@ -98,39 +144,43 @@ export default {
           sort: true
         },
         {
+          name: 'writeoff',
           label: this.$t('CANCELLATION'),
           field: 'writeoff',
-          classes: 'text-center',
+          align: 'center',
           width: '80px',
           format: val => {
             return val === 0 ? 'normal' : 'writeoff'
           }
         },
         {
+          name: 'allowWriteoff',
           label: this.$t('ALLOW_WWB'),
           field: 'allowWriteoff',
-          classes: 'text-center',
+          align: 'center',
           width: '200px'
         },
         {
+          name: 'opt',
           label: this.$t('OPERATION'),
           field: 'opt',
-          classes: 'text-left',
+          align: 'left',
           width: '50px'
         }
-      ]
+      ],
+      row: {},
+      modalInfoShow: false
     }
   },
   methods: {
-    async refresh(done) {
-      this.resetTable()
-      await this.getBalances()
-      done()
+    async request(props) {
+      await this.getBalances(props.pagination, props.filter)
     },
-    async getBalances() {
+    async getBalances(pagination = {}, filter = '') {
       this.loading = true
-      let limit = this.limit
-      let pageNo = this.pageNo
+      if (pagination.page) this.pagination = pagination
+      let limit = this.pagination.rowsPerPage
+      let pageNo = this.pagination.page
       let res = await api.myBalances({
         address: this.user.account.address,
         limit: limit,
@@ -138,80 +188,30 @@ export default {
       })
       this.balancesData = res
       // set max
-      this.maxPage = Math.ceil(res.count / limit)
+      this.pagination.rowsNumber = res.count
       this.loading = false
       return res
     },
-    rowClick(row) {
-      const assetNameStr = this.$t('ASSET_NAME')
-      const balanceStr = this.$t('BALANCE')
-      const maximumStr = this.$t('MAXIMUM')
-      const precisionStr = this.$t('PRECISION')
-      const quantityStr = this.$t('QUANTITY')
-      const writeoffStr = this.$t('CANCELLATION')
-      const ruleStr = this.$t('ALLOW_WWB')
-      let tableStr = `<table class="q-table horizontal-separator highlight loose "><tbody>
-    <tr id='detail-addr' :v-clipboard="address" @success="info('copy success...')">
-      <td >${assetNameStr}</td>
-      <td >${row.currency}</td>
-    </tr>
-    <tr id='detail-pub' :v-clipboard="publicKey" @success="info('copy success...')">
-      <td >${balanceStr}</td>
-      <td >${row.balanceShow}</td>
-    </tr>
-    <tr id='detail-amount' :v-clipboard="balance" @success="info('copy success...')">
-      <td >${maximumStr}</td>
-      <td >${row.maximumShow}</td>
-    </tr>
-    <tr id='detail-amount' :v-clipboard="balance" @success="info('copy success...')">
-      <td >${precisionStr}</td>
-      <td >${row.precision}</td>
-    </tr>
-    <tr id='detail-amount' :v-clipboard="balance" @success="info('copy success...')">
-      <td >${quantityStr}</td>
-      <td >${row.quantityShow}</td>
-    </tr>
-    <tr id='detail-amount' :v-clipboard="balance" @success="info('copy success...')">
-      <td >${writeoffStr}</td>
-      <td >${row.allowWriteoff === 0 ? 'normal' : 'writeoff'}</td>
-      
-    </tr>
-    <tr id='detail-amount' :v-clipboard="balance" @success="info('copy success...')">
-      <td >${ruleStr}</td>
-      <td >${this.getAssetRule(row)}</td>
-    </tr>
-    <tbody></table>
-    `
-      this.$q.dialog({
-        title: this.$t('ACCOUNT_DETAIL'),
-        message: tableStr
-        // form: {
-        //   address: {
-        //     type: 'text',
-        //     label: addressStr,
-        //     disable: true,
-        //     model: address
-        //   },
-        //   publicKey: {
-        //     type: 'text',
-        //     label: publicKeyStr,
-        //     model: publicKey
-        //   },
-        //   amount: {
-        //     type: 'text',
-        //     label: balanceStr,
-        //     model: balance
-        //   }
-        // }
-      })
+    viewInfo(row) {
+      console.log(row)
+      this.row = row
+      this.modalInfoShow = true
     },
-    getTransferParams(cell) {
-      return { name: 'transfer', params: { user: this.user, data: cell } }
+    getTransferParams(props) {
+      return { name: 'transfer', params: { user: this.user, data: props } }
     },
-    getAssetRule(cell) {
-      return `${cell.allowWriteoff === 0 ? 'Y' : 'N'}/${cell.allowWhitelist === 0 ? 'Y' : 'N'}/${
-        cell.allowBlacklist === 0 ? 'Y' : 'N'
+    getAssetRule(props) {
+      return `${props.allowWriteoff === 0 ? 'Y' : 'N'}/${props.allowWhitelist === 0 ? 'Y' : 'N'}/${
+        props.allowBlacklist === 0 ? 'Y' : 'N'
       }`
+    },
+    info(message) {
+      this.$q.notify({
+        type: 'positive',
+        color: 'positive',
+        timeout: 2000,
+        message
+      })
     }
   },
   async mounted() {
