@@ -1,17 +1,14 @@
 const langsOpts = [
   {
     label: '中文简体',
-    icon: 'email',
     value: 'zh'
   },
   {
     label: 'English',
-    icon: 'chat',
     value: 'en'
   },
   {
     label: 'Deutsch',
-    icon: '',
     value: 'de'
   }
 ]

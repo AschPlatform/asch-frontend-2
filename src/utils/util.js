@@ -1,7 +1,7 @@
-import { Alert, Dialog, Notify, SessionStorage } from 'quasar'
+import { SessionStorage, Notify, Dialog } from 'quasar'
 
 export const alertMsg = (content, duration = 500) => {
-  Alert.create({
+  this.$q.notify({
     enter: 'bounceInRight',
     leave: 'bounceOutRight',
     color: 'red',

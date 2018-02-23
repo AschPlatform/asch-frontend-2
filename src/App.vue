@@ -1,18 +1,15 @@
 <template>
-  <!-- Don't drop "q-app" class -->
   <div id="q-app">
-    <q-transition appear enter="fadeIn" leave="fadeOut" mode="out-in" :duration="500">
+    <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="500">
       <router-view />
-    </q-transition>
-  
+    </transition>
   </div>
 </template>
 
 <script>
-/*
-   * Root component
-   */
-export default {}
+export default {
+  name: 'App'
+}
 </script>
 
 <style>
