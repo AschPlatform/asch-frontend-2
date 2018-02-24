@@ -36,7 +36,7 @@
     <q-card-separator />
     <q-card-main class="row col-12 justify-center ">
       <div class="row col-10 justify-end">
-        <q-btn loader big class="col-auto " color="primary" @click="submit">
+        <q-btn :loading="loading" big class="col-auto " color="primary" @click="submit">
           {{$t('SUBMIT')}}
         </q-btn>
       </div>
@@ -88,7 +88,7 @@ export default {
         allowBlacklist: 0
       },
       issuer: {},
-      hasIssuer: false
+      loading: false
     }
   },
   validations: {
@@ -118,26 +118,33 @@ export default {
     }
   },
   methods: {
-    submit(e, done) {
+    submit(e) {
+      this.loading = true
       const t = this.$t
       if (!this.user.issuer) {
         toastError(t('ERR_NO_PUBLISHER_REGISTERED_YET'))
-        done()
+        this.done()
         return
       }
       this.$v.assets.$touch()
       const isValid = this.$v.assets.$error
       if (isValid) {
         // toastError(t('ERR_PUBLISHER_NOT_EMPTY'))
-        done()
+        this.done()
       } else {
         const { secret, account } = this.user
         const { name, desc } = this.assets
         console.log(secret)
         confirm(
-          { title: t('CONFIRM'), message: t('OPERATION_REQUIRES_FEE') + '100 XAS' },
+          {
+            title: t('CONFIRM'),
+            message: t('OPERATION_REQUIRES_FEE') + '500 XAS',
+            cancel: t('CANCEL'),
+            confirm: t('CONFIRM')
+          },
           () => {
-            done()
+            this.done()
+            this.assets = this.default
           },
           async () => {
             let trans = createIssuer(name, desc, secret, account.secondPublicKey)
@@ -166,6 +173,22 @@ export default {
     },
     notAllow() {
       return this.$t('NOT_ALLOW')
+    },
+    done() {
+      this.loading = false
+    },
+    default() {
+      return {
+        name: '',
+        desc: '',
+        maximum: '',
+        precision: '',
+        strategy: '',
+        writeoff: '',
+        allowWriteoff: 0,
+        allowWhitelist: 0,
+        allowBlacklist: 0
+      }
     }
   },
   mounted() {

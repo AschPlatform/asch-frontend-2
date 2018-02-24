@@ -15,24 +15,25 @@ export const confirm = (conf, cancel = () => {}, confirm = () => {}) => {
   Dialog.create({
     title: conf.title || 'Confirm',
     message: conf.message,
-    buttons: [
-      {
-        label: conf.cancel || 'Disagree',
-        handler() {
-          cancel()
-        }
-      },
-      {
-        label: conf.confirm || 'Agree',
-        handler() {
-          confirm()
-        }
-      }
-    ]
+    ok: conf.confirm || 'Agree',
+    cancel: conf.cancel || 'Disagree'
   })
+    .then(() => {
+      confirm()
+    })
+    .catch(() => {
+      cancel()
+    })
 }
 export const toastError = message => {
-  Notify.create(message)
+  const type = 'negative'
+  const color = 'positive'
+  Notify.create({ message, type, color })
+}
+export const toastWarn = message => {
+  const type = 'warning'
+  const color = 'warning'
+  Notify.create({ message, type, color })
 }
 // export const toastInfo = message => {
 //   Notify.create.warning(message)

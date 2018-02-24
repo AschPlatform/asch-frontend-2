@@ -15,13 +15,9 @@
             <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
           </template>
 
-          <q-td slot="body-cell-info"  slot-scope="props" :props="props">
-              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" />
-
-          </q-td>
-
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-               <q-btn @click="getTransferParams(props)" icon="send" size="sm" flat color="primary" />
+              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" />
+              <q-btn @click="getTransferParams(props)" icon="send" size="sm" flat color="primary" />
           </q-td>
 
           <q-td slot="body-cell-allowWriteoff"  slot-scope="props" :props="props">
@@ -94,13 +90,17 @@ export default {
       pagination: {
         page: 1,
         rowsNumber: 0,
-        rowsPerPage: 1
+        rowsPerPage: 10
       },
       filter: '',
       loading: false,
       columns: [
         {
-          name: 'info'
+          name: 'opt',
+          label: this.$t('OPERATION'),
+          field: 'opt',
+          align: 'center',
+          width: '50px'
         },
         {
           name: 'currency',
@@ -159,13 +159,6 @@ export default {
           field: 'allowWriteoff',
           align: 'center',
           width: '200px'
-        },
-        {
-          name: 'opt',
-          label: this.$t('OPERATION'),
-          field: 'opt',
-          align: 'left',
-          width: '50px'
         }
       ],
       row: {},

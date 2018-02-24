@@ -11,14 +11,14 @@
       <q-field class="col-8" :label="$t('DESCRIBE')" :label-width="2" :error="$v.issuer.desc.$error" :row="5" :count="500" error-label="error">
         <q-input @change="$v.issuer.desc.$touch" type="textarea" v-model="issuer.desc" clearable  :disable="!!user.issuer"/>
       </q-field>
-      <q-field v-show="user.issuer || secondPublicKey" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+      <q-field v-show="!user.issuer && secondPublicKey" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
         <q-input @change="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
     </q-card-main>
     <q-card-separator />
     <q-card-main v-if="!user.issuer" class="row col-12 justify-center ">
       <div class="row col-10 justify-end">
-        <q-btn loader big class="col-auto " color="primary" @click="submit">
+        <q-btn :loading="loading" big class="col-auto " color="primary" @click="submit">
           {{$t('SUBMIT')}}
         </q-btn>
       </div>
@@ -30,7 +30,7 @@
 import { QField, QInput, QCard, QIcon, QCardTitle, QCardSeparator, QCardMain, QBtn } from 'quasar'
 import { api, translateErrMsg } from '../utils/api'
 import { required, maxLength } from 'vuelidate/lib/validators'
-import { confirm, toastError } from '../utils/util'
+import { confirm, toastWarn } from '../utils/util'
 import { createIssuer } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 
@@ -48,13 +48,13 @@ export default {
   },
   data() {
     return {
-      hasIssuer: false,
       issuer: {
         name: '',
         desc: ''
       },
-      secondPwd: '',
-      secondPwdError: false
+      secondPwd: null,
+      secondPwdError: false,
+      loading: false
     }
   },
   validations: {
@@ -71,30 +71,25 @@ export default {
     }
   },
   methods: {
-    async getIssuer() {
-      let res = await api.issuer({
-        address: this.user.account.address
-      })
-      if (res.success) {
-        this.user.issuer = true
-        this.issuer = res.issuer
-        // TODO
-      }
-    },
-    submit(e, done) {
+    submit(e) {
+      this.loading = true
       const t = this.$t
       this.$v.issuer.$touch()
       const isValid = this.$v.issuer.$error
-      const pwdValid = this.pwdValid
-      this.secondPwdError = pwdValid
+      let pwdValid = false
+      const { secondPublicKey } = this.user.account
+      if (secondPublicKey) {
+        pwdValid = this.pwdValid
+        this.secondPwdError = pwdValid
+      }
+
       if (isValid || pwdValid) {
-        toastError(t('ERR_PUBLISHER_NOT_EMPTY'))
-        done()
+        toastWarn(t('ERR_PUBLISHER_NOT_EMPTY'))
+        this.done()
       } else {
         this.secondPwdError = false
-        const { secret, account } = this.user
+        const { secret } = this.user
         const { name, desc } = this.issuer
-        console.log(secret)
         confirm(
           {
             title: t('CONFIRM'),
@@ -103,17 +98,21 @@ export default {
             confirm: t('CONFIRM')
           },
           () => {
-            done()
+            this.done()
           },
           async () => {
-            let trans = createIssuer(name, desc, secret, account.secondPublicKey)
+            let trans = createIssuer(name, desc, secret, this.secondPwd)
             let res = await api.broadcastTransaction(trans)
+            console.log(res)
             if (res.success) {
-              this.hasIssuer = true
-              done()
+              this.user.issuer = true
+              this.$root.$emit('getIssuer', issuer => {
+                this.issuer = issuer
+                this.done()
+              })
             } else {
-              translateErrMsg(res.error)
-              done()
+              translateErrMsg(this.$t, res.error)
+              this.done()
             }
           }
         )
@@ -126,6 +125,9 @@ export default {
       let isValid = this.pwdValid
       this.secondPwdError = isValid
       return isValid
+    },
+    done() {
+      this.loading = false
     }
   },
   computed: {

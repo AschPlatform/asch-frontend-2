@@ -45,7 +45,7 @@
         <q-card-separator />
         <q-card-main class="row col-10 justify-center ">
           <div v-if="registerStep==1" class="row col-10 justify-between">
-            <q-btn big class="col-auto " color="primary" @click="()=>registerStep=2">
+            <q-btn big class="col-auto " color="primary" @click="saveNext">
               {{$t('NEXT_STEP')}}
             </q-btn>
             <q-btn big outline class="col-aotu " color="primary" @click="saveNewSecret">
@@ -86,7 +86,7 @@ import { bip39 } from '../utils/validators'
 import { langsOpts } from '../utils/constants'
 import { getPub, getAddr, generateM } from '../utils/asch'
 import { api } from '../utils/api'
-import { toastError, setCache } from '../utils/util'
+import { toastError, setCache, removeCache } from '../utils/util'
 
 export default {
   components: {
@@ -106,13 +106,14 @@ export default {
     return {
       secret: '',
       remember: false,
-      lang: 'zh',
+      lang: '',
       langsOpts: langsOpts,
       isRegister: false,
       registerStep: 0,
       newSecret: '',
       confirmNewSecret: '',
-      loading: false
+      loading: false,
+      secretSaved: false
     }
   },
   validations: {
@@ -142,7 +143,7 @@ export default {
           user = data
           user.secret = this.secret
           user.publicKey = publicKey
-          this.remember ? setCache('user', user) : this.$session.remove('user')
+          this.remember ? setCache('user', user) : removeCache('user')
           // 是否登录的全局变量
           this.loading = false
           this.$router.push({
@@ -168,6 +169,13 @@ export default {
       this.registerStep = 1
       this.isRegister = true
     },
+    saveNext() {
+      if (this.secretSaved) {
+        this.registerStep = 2
+      } else {
+        toastError(this.$t('NEW_PWD_TIP_2'))
+      }
+    },
     saveNewSecret() {
       let secret = this.newSecret
       let publicKey = getPub(secret)
@@ -185,6 +193,7 @@ export default {
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
+      this.secretSaved = true
     },
     cleanRegister() {
       this.registerStep = 0
@@ -201,7 +210,9 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    this.lang = 'zh'
+  },
   watch: {
     lang(lang) {
       this.locale = this.$i18n.locale = lang
