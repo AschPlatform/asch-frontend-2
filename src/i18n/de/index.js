@@ -265,6 +265,7 @@ const lang = {
 
   // dialog
   OPERATION_REQUIRES_FEE: 'Diese Operation kostet eine Gebühr von',
+  REQUIRES_FEE: 'kostet eine Gebühr von',
 
   ALLOW_WWB: 'Writeoff/Whitelist/Blacklist erlauben',
   ALLOW_WRITEOFF: 'Writeoff erlauben',
@@ -272,7 +273,8 @@ const lang = {
   ALLOW_BLACKLIST: 'Blacklist erlauben',
   ALLOW: 'Erlauben',
   NOT_ALLOW: 'Nicht erlauben',
-
+  WRITEOFF: 'Abschreiben',
+  CANT_ROLLBACK: 'kann nicht zurückgesetzt werden',
   // Fragil set
   FRAGIL_PRE: 'Das Konto wird entsperrt sobald die Blockhöhe  ',
   FRAGIL_LAT: ' erreicht worden ist',

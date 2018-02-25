@@ -5,17 +5,17 @@
       <div slot="subtitle"> </div>
     </q-card-title>
     <q-card-main class="row col-12 justify-center ">
-      <q-field class="col-8" :label="$t('ASSET_NAME')" :label-width="3" :error="$v.assets.name.$error" error-label="error" :count="15">
-        <q-input @change="$v.assets.name.$touch" v-model="assets.name" clearable  />
+      <q-field class="col-8" :label="$t('ASSET_NAME')" :label-width="3" :error="$v.assets.name.$error" :error-label="$t('ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS')" :count="6">
+        <q-input @blur="$v.assets.name.$touch" upper-case v-model="assets.name" clearable />
       </q-field>
-      <q-field class="col-8" :label="$t('DESCRIBE')" :label-width="3" :error="$v.assets.desc.$error" :row="6" :count="500" error-label="error">
-        <q-input @change="$v.assets.desc.$touch" type="textarea" v-model="assets.desc" clearable  />
+      <q-field class="col-8" :label="$t('DESCRIBE')" :label-width="3" :error="$v.assets.desc.$error" :row="6" :count="500" :error-label="$t('ERR_MISSING_ASSET_DESCRIPTION')">
+        <q-input @blur="$v.assets.desc.$touch" type="textarea" v-model="assets.desc" clearable />
       </q-field>
       <q-field class="col-8" :label="$t('TOPLIMIT')" :label-width="3" :error="$v.assets.maximum.$error"  :error-label="$t('ERR_ASSET_TOPLIMIT_NOT_CORRECT')">
-        <q-input v-model="assets.maximum"  />
+        <q-input @blur="$v.assets.maximum.$touch" v-model="assets.maximum" :decimals="0" type="number" />
       </q-field>
       <q-field class="col-8" :label="$t('PRECISION')" :helper="$t('ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16')" :error="$v.assets.precision.$error" :label-width="3"  :error-label="$t('ERR_ASSET_PRECISION_NOT_CORRECT')">
-        <q-input v-model="assets.precision" :count="16" />
+        <q-input @blur="$v.assets.precision.$touch" v-model="assets.precision" :decimals="0" :step="1"  type="number"/>
       </q-field>
       <q-field class="col-8" :label="$t('STRATEGY')" :helper="$t('STRATEGY_WARNING')"  :label-width="3" >
         <q-input v-model="assets.strategy"  type="textarea"  :row="6" />
@@ -31,6 +31,9 @@
       <q-field class="col-8" :label="$t('ALLOW_BLACKLIST')"  :label-width="3" >
         <q-radio v-model="assets.allowBlacklist" :val="0" color="faded" :label="notAllow" />
       <q-radio v-model="assets.allowBlacklist" :val="1" color="positive" :label="allow" style="margin-left: 10px" />
+      </q-field>
+      <q-field v-show="secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+        <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
     </q-card-main>
     <q-card-separator />
@@ -57,9 +60,10 @@ import {
   QRadio
 } from 'quasar'
 import { api, translateErrMsg } from '../utils/api'
-import { required, maxLength } from 'vuelidate/lib/validators'
-import { confirm, toastError } from '../utils/util'
-import { createIssuer } from '../utils/asch'
+import { required, maxLength, between, numeric, minValue } from 'vuelidate/lib/validators'
+import { assetName, secondPwdReg } from '../utils/validators'
+import { confirm, toastError, toast } from '../utils/util'
+import { createAsset, dealBigNumber } from '../utils/asch'
 
 export default {
   props: ['userObj'],
@@ -82,12 +86,13 @@ export default {
         maximum: '',
         precision: '',
         strategy: '',
-        writeoff: '',
         allowWriteoff: 0,
         allowWhitelist: 0,
         allowBlacklist: 0
       },
-      issuer: {},
+      secondPwd: '',
+      secondPwdError: false,
+      issuer: null,
       loading: false
     }
   },
@@ -96,25 +101,31 @@ export default {
     assets: {
       name: {
         required,
-        maxLength: maxLength(15)
+        assetName: assetName()
       },
       desc: {
         required,
         maxLength: maxLength(500)
       },
       maximum: {
-        required
+        required,
+        numeric,
+        minValue: minValue(1)
       },
       precision: {
+        required,
+        numeric,
+        between: between(0, 16)
+      },
+      allowWriteoff: {
         required
       },
-      strategy: {},
-      writeoff: {
+      allowWhitelist: {
         required
       },
-      allowWriteoff: {},
-      allowWhitelist: {},
-      allowBlacklist: {}
+      allowBlacklist: {
+        required
+      }
     }
   },
   methods: {
@@ -126,15 +137,30 @@ export default {
         this.done()
         return
       }
+      let pwdValid = false
+      if (this.secondSignature) {
+        pwdValid = this.validateSecondPwd()
+      }
       this.$v.assets.$touch()
-      const isValid = this.$v.assets.$error
-      if (isValid) {
-        // toastError(t('ERR_PUBLISHER_NOT_EMPTY'))
+      const isValid = this.$v.assets.$invalid
+      if (isValid || pwdValid) {
         this.done()
       } else {
-        const { secret, account } = this.user
-        const { name, desc } = this.assets
-        console.log(secret)
+        const { secret, issuer } = this.user
+        const {
+          name,
+          desc,
+          maximum,
+          precision,
+          strategy,
+          allowWriteoff,
+          allowWhitelist,
+          allowBlacklist
+        } = this.assets
+
+        let assetName = issuer.name + '.' + name
+        let realMaximum = dealBigNumber(parseInt(maximum) * Math.pow(10, precision))
+
         confirm(
           {
             title: t('CONFIRM'),
@@ -144,38 +170,56 @@ export default {
           },
           () => {
             this.done()
-            this.assets = this.default
           },
           async () => {
-            let trans = createIssuer(name, desc, secret, account.secondPublicKey)
+            let trans = createAsset(
+              String(assetName),
+              String(desc),
+              String(realMaximum),
+              precision,
+              strategy,
+              allowWriteoff,
+              allowWhitelist,
+              allowBlacklist,
+              secret,
+              this.secondPwd
+            )
             let res = await api.broadcastTransaction(trans)
             if (res.success) {
+              this.assets = this.default
+              this.$v.assets.$reset()
+              this.secondPwd = ''
+              toast('succes...')
+              this.done()
             } else {
-              translateErrMsg(res.error)
+              translateErrMsg(this.$t, res.error)
+              this.done()
             }
           }
         )
       }
     },
-    getSecond() {
-      return this.secondPublicKey
+    validateSecondPwd(val) {
+      let isValid = this.pwdValid
+      this.secondPwdError = isValid
+      return isValid
+    },
+    done() {
+      this.loading = false
     }
   },
   computed: {
     user() {
       return this.userObj
     },
-    secondPublicKey() {
-      return this.user.account.secondPublicKey
+    secondSignature() {
+      return this.user.account.secondSignature
     },
     allow() {
       return this.$t('ALLOW')
     },
     notAllow() {
       return this.$t('NOT_ALLOW')
-    },
-    done() {
-      this.loading = false
     },
     default() {
       return {
@@ -189,6 +233,9 @@ export default {
         allowWhitelist: 0,
         allowBlacklist: 0
       }
+    },
+    pwdValid() {
+      return !secondPwdReg.test(this.secondPwd)
     }
   },
   mounted() {

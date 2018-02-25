@@ -6,13 +6,13 @@
     </q-card-title>
     <q-card-main class="row col-12 justify-center ">
       <q-field class="col-8" :label="$t('DAPP_NAME')" :label-width="2" :error="$v.issuer.name.$error" error-label="error" :count="15">
-        <q-input @change="$v.issuer.name.$touch" v-model="issuer.name" clearable :disable="!!user.issuer" />
+        <q-input @blur="$v.issuer.name.$touch" v-model="issuer.name" clearable :disable="!!user.issuer" />
       </q-field>
       <q-field class="col-8" :label="$t('DESCRIBE')" :label-width="2" :error="$v.issuer.desc.$error" :row="5" :count="500" error-label="error">
-        <q-input @change="$v.issuer.desc.$touch" type="textarea" v-model="issuer.desc" clearable  :disable="!!user.issuer"/>
+        <q-input @blur="$v.issuer.desc.$touch" type="textarea" v-model="issuer.desc" clearable  :disable="!!user.issuer"/>
       </q-field>
-      <q-field v-show="!user.issuer && secondPublicKey" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
-        <q-input @change="validateSecondPwd" type="password" v-model="secondPwd"  />
+      <q-field v-show="!user.issuer && secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+        <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
     </q-card-main>
     <q-card-separator />
@@ -77,8 +77,8 @@ export default {
       this.$v.issuer.$touch()
       const isValid = this.$v.issuer.$error
       let pwdValid = false
-      const { secondPublicKey } = this.user.account
-      if (secondPublicKey) {
+
+      if (this.secondSignature) {
         pwdValid = this.pwdValid
         this.secondPwdError = pwdValid
       }
@@ -103,7 +103,6 @@ export default {
           async () => {
             let trans = createIssuer(name, desc, secret, this.secondPwd)
             let res = await api.broadcastTransaction(trans)
-            console.log(res)
             if (res.success) {
               this.user.issuer = true
               this.$root.$emit('getIssuer', issuer => {
@@ -118,9 +117,6 @@ export default {
         )
       }
     },
-    getSecond() {
-      return this.secondPublicKey
-    },
     validateSecondPwd(val) {
       let isValid = this.pwdValid
       this.secondPwdError = isValid
@@ -134,8 +130,8 @@ export default {
     user() {
       return this.userObj
     },
-    secondPublicKey() {
-      return this.user.account.secondPublicKey
+    secondSignature() {
+      return this.user.account.secondSignature
     },
     pwdValid() {
       return !secondPwdReg.test(this.secondPwd)

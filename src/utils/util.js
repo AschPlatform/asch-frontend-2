@@ -25,9 +25,14 @@ export const confirm = (conf, cancel = () => {}, confirm = () => {}) => {
       cancel()
     })
 }
+export const toast = message => {
+  const type = 'positive'
+  const color = 'positive'
+  Notify.create({ message, type, color })
+}
 export const toastError = message => {
   const type = 'negative'
-  const color = 'positive'
+  const color = 'negative'
   Notify.create({ message, type, color })
 }
 export const toastWarn = message => {
@@ -35,9 +40,26 @@ export const toastWarn = message => {
   const color = 'warning'
   Notify.create({ message, type, color })
 }
-// export const toastInfo = message => {
-//   Notify.create.warning(message)
-// }
+export const toastInfo = message => {
+  const type = 'info'
+  const color = 'info'
+  Notify.create({ message, type, color })
+}
+export const prompt = (config, cb = () => {}, cbCancel = () => {}) => {
+  Dialog.create({
+    title: config.title || 'Prompt',
+    message: config.message || '',
+    prompt: config.prompt,
+    cancel: config.cancel || true,
+    color: config.color || 'primary'
+  })
+    .then(data => {
+      cb(data)
+    })
+    .catch(e => {
+      cbCancel(e)
+    })
+}
 
 export const setCache = (key, value) => {
   return SessionStorage.set(key, value)

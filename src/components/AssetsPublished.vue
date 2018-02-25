@@ -5,80 +5,166 @@
     enter-active-class="animated fadeIn"
     leave-active-class="animated fadeOut"
     mode="out-in">
-      <div v-if="balancesData" class="col-12 shadow-1">
-        <q-table :data="balancesData.balances" :config="tableConf" :columns="columns" @refresh="refresh" @rowclick="rowClick">
+      <div v-if="assetsData" class="col-12 shadow-1">
+        <q-table :data="assetsData.assets" :columns="columns" @request="request" :pagination.sync="pagination" 
+        :loading="loading" :title="$t('MY_ASSETS')">
           
-          
-
-          <template slot="col-opt" slot-scope="cell">
-              <router-link :to="getTransferParams(cell)" >
-                          {{$t('TRANSFER')}}
-              </router-link>
+         <template slot="top-right" slot-scope="props">
+            <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
           </template>
 
-          <template slot="col-allowWriteoff" slot-scope="cell">
-            {{getAssetRule(cell.row)}}
-          </template>
+          <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
+              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
+              </q-btn>
+              <q-btn @click="getTransferParams(props)" icon="send" size="sm" flat color="primary" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRANSFER')}}</q-tooltip>
+              </q-btn>
+              <q-btn @click="publish(props.row)" icon="publish" size="sm" flat color="primary" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_UIA_ISSUE')}}</q-tooltip>
+              </q-btn>
+              <q-fab flat color="orange" icon="settings" direction="right" size="sm" >
+                <q-tooltip slot="tooltip" anchor="top middle" self="bottom middle"  :offset="[0, 10]" >
+                  {{$t('TRS_TYPE_UIA_FLAGS')}}
+                </q-tooltip>
+                <q-fab-action color="primary" @click="changeModal(props.row)" icon="transform">
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.set')}}</q-tooltip>
+                </q-fab-action>
+                <q-fab-action color="primary" @click="addACL(props.row)" icon="add">
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.create')}}</q-tooltip>
+                </q-fab-action>
+                <q-fab-action color="primary" @click="removeACL(props.row)" icon="remove">
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.remove')}}</q-tooltip>
+                </q-fab-action>
+                <q-fab-action color="negative" @click="writeoff(props.row)" icon="delete">
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DELETE')}}</q-tooltip>
+                </q-fab-action>
+              </q-fab>
+          </q-td>
 
+          <q-td slot="body-cell-allowWriteoff"  slot-scope="props" :props="props">
+            {{getAssetRule(props.row)}}
+          </q-td>
 
         </q-table>
-        <q-pagination v-model="pageNo" :max="maxPage" />
-        <q-inner-loading :visible="loading" />
       </div>
       </transition>
+
+      <q-modal minimized  v-model="modalInfoShow" content-css="padding: 20px">
+      <big>{{$t('DAPP_DETAIL')}}</big>
+      <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
+        <tbody class='info-tbody'>
+          <tr v-clipboard="row.name" @success="info('copy name success...')">
+            <td >{{$t('ASSET_NAME')}}</td>
+            <td >{{row.name}}</td>
+          </tr>
+          <tr  v-clipboard="row.maximumShow" @success="info('copy maximum success...')">
+            <td >{{$t('MAXIMUM')}}</td>
+            <td >{{row.maximumShow}}</td>
+          </tr>
+          <tr v-clipboard="row.precision" @success="info('copy precision success...')">
+            <td >{{$t('PRECISION')}}</td>
+            <td >{{row.precision}}</td>
+          </tr>
+          <tr v-clipboard="row.quantity" @success="info('copy quantity success...')">
+            <td >{{$t('QUANTITY')}}</td>
+            <td >{{row.quantityShow}}</td>
+          </tr>
+          <tr v-clipboard="row.writeoff?'normal':'writeoff'" @success="info('copy message success...')">
+            <td >{{$t('REMARK')}}</td>
+            <td >{{row.writeoff?'normal':'writeoff'}}</td>
+          </tr>
+          <tr>
+            <td >{{$t('ALLOW_WWB')}}</td>
+            <td >{{getAssetRule(row)}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+      <q-btn
+        color="primary"
+        @click="()=>{
+          this.modalInfoShow = false
+          this.row = {}
+          }"
+        label="Close"
+      />
+    </q-modal>
+
+    <q-dialog
+      v-model="dialogShow"
+      stack-buttons
+      prevent-close
+      @ok="onOk"
+      @cancel="onCancel"
+    >
+      <!-- This or use "title" prop on <q-dialog> -->
+      <span slot="title">{{dialog.title}}</span>
+
+      <!-- This or use "message" prop on <q-dialog> -->
+      <span slot="message">{{dialog.message}}</span>
+
+      <div slot="body">
+        <div v-if="dialog.form == 2 ">
+
+        </div>
+        <div v-if="dialog.form == 3">
+
+        </div>
+        <q-field v-if="secondSignature"
+          helper="We need your name so we can send you to the movies."
+          :label="$t('TRS_TYPE_SECOND_PASSWORD')"
+          :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
+          :label-width="2"
+        >
+          <q-input v-model="name" type="password" />
+        </q-field>
+      </div>
+
+      <!-- <template slot="buttons" slot-scope="props">
+        <q-btn color="primary" label="Choose Superman" @click="choose(props.ok, 'Superman')" />
+        <q-btn color="black" label="Choose Batman" @click="choose(props.ok, 'Batman')" />
+        <q-btn color="negative" label="Choose Spiderman" @click="choose(props.ok, 'Spiderman')" />
+        <q-btn flat label="No thanks" @click="props.cancel" />
+      </template> -->
+    </q-dialog>
     </div>
 </template>
 
 <script>
 import { api } from '../utils/api'
+import { prompt, toast, toastWarn } from '../utils/util'
+import { createFlags } from '../utils/asch'
 
 export default {
   props: ['userObj'],
   components: {},
   data() {
     return {
-      balancesData: null,
-      pageNo: 1,
-      limit: 20,
-      maxPage: 0,
-      loading: false,
-      tableConf: {
-        title: this.$t('ASSET_PROFILE'),
-        refresh: true,
-        noHeader: false,
-        columnPicker: true,
-        leftStickyColumns: 0,
-        rightStickyColumns: 1,
-        bodyStyle: {
-          maxHeight: '700px'
-        },
-        rowHeight: '35px',
-        responsive: false
-        // pagination: {
-        //   rowsPerPage: 15,
-        //   options: [5, 10, 15, 30, 50, 500]
-        // }
-        // selection: 'multiple'
+      assetsData: null,
+      pagination: {
+        page: 1,
+        rowsNumber: 0,
+        rowsPerPage: 1
       },
+      filter: '',
+      loading: false,
       columns: [
         {
-          label: this.$t('ASSET_NAME'),
-          field: 'currency',
-          width: '100px',
-          type: 'string',
-          filter: true
+          name: 'opt',
+          label: this.$t('OPERATION'),
+          field: 'opt',
+          align: 'center'
         },
         {
-          label: this.$t('BALANCE'),
-          field: 'balanceShow',
-          width: '150px',
-          sort: true,
+          label: this.$t('ASSET_NAME'),
+          field: 'name',
+          type: 'string',
           filter: true
         },
         {
           label: this.$t('MAXIMUM'),
           field: 'maximumShow',
-          width: '250px',
           sort: true,
           filter: true
         },
@@ -87,151 +173,173 @@ export default {
           field: 'precision',
           classes: 'text-center',
           type: 'number',
-          width: '80px',
           sort: true
         },
         {
           label: this.$t('QUANTITY'),
           field: 'quantityShow',
-          width: '150px',
           filter: true,
           sort: true
         },
         {
           label: this.$t('CANCELLATION'),
           field: 'writeoff',
-          classes: 'text-center',
-          width: '80px',
+          align: 'center',
           format: val => {
             return val === 0 ? 'normal' : 'writeoff'
           }
         },
         {
+          name: 'allowWriteoff',
           label: this.$t('ALLOW_WWB'),
           field: 'allowWriteoff',
-          classes: 'text-center',
-          width: '200px'
-        },
-        {
-          label: this.$t('OPERATION'),
-          field: 'opt',
-          classes: 'text-left',
-          width: '50px'
+          align: 'center'
         }
-      ]
+      ],
+      modalInfoShow: false,
+      row: {},
+      secondPwd: '',
+      dialogShow: false,
+      dialog: {
+        title: '',
+        message: '',
+        form: 0 // 1 writeoff ; 2 publish ; 3 setting
+      }
     }
   },
+  // validations: {
+  //   form:{
+  //     writeoff: {
+
+  //         secondPwd: ''
+  //       },
+  //       publish: {
+  //         secondPwd: ''
+  //       },
+  //       setting: {
+  //         secondPwd: ''
+  //       }
+  //   }
+  // },
   methods: {
-    async refresh(done) {
-      this.resetTable()
-      await this.getBalances()
-      done()
+    async request(props) {
+      await this.getAssets(props.pagination, props.filter)
     },
-    async getAssets() {
+    async getAssets(pagination = {}, filter = '') {
       this.loading = true
-      let limit = this.limit
-      let pageNo = this.pageNo
+      if (pagination.page) this.pagination = pagination
+      let limit = this.pagination.rowsPerPage
+      let pageNo = this.pagination.page
       let res = await api.myAssets({
-        address: this.user.account.address,
+        name: this.user.issuer.name,
         limit: limit,
         offset: (pageNo - 1) * limit
       })
-      this.balancesData = res
+      this.assetsData = res
       // set max
-      this.maxPage = Math.ceil(res.count / limit)
+      this.pagination.rowsNumber = res.count
       this.loading = false
       return res
     },
-    rowClick(row) {
-      const assetNameStr = this.$t('ASSET_NAME')
-      const balanceStr = this.$t('BALANCE')
-      const maximumStr = this.$t('MAXIMUM')
-      const precisionStr = this.$t('PRECISION')
-      const quantityStr = this.$t('QUANTITY')
-      const writeoffStr = this.$t('CANCELLATION')
-      const ruleStr = this.$t('ALLOW_WWB')
-      let tableStr = `<table class="q-table horizontal-separator highlight loose "><tbody>
-    <tr id='detail-addr' :v-clipboard="address" @success="info('copy success...')">
-      <td >${assetNameStr}</td>
-      <td >${row.currency}</td>
-    </tr>
-    <tr id='detail-pub' :v-clipboard="publicKey" @success="info('copy success...')">
-      <td >${balanceStr}</td>
-      <td >${row.balanceShow}</td>
-    </tr>
-    <tr id='detail-amount' :v-clipboard="balance" @success="info('copy success...')">
-      <td >${maximumStr}</td>
-      <td >${row.maximumShow}</td>
-    </tr>
-    <tr id='detail-amount' :v-clipboard="balance" @success="info('copy success...')">
-      <td >${precisionStr}</td>
-      <td >${row.precision}</td>
-    </tr>
-    <tr id='detail-amount' :v-clipboard="balance" @success="info('copy success...')">
-      <td >${quantityStr}</td>
-      <td >${row.quantityShow}</td>
-    </tr>
-    <tr id='detail-amount' :v-clipboard="balance" @success="info('copy success...')">
-      <td >${writeoffStr}</td>
-      <td >${row.allowWriteoff === 0 ? 'normal' : 'writeoff'}</td>
-      
-    </tr>
-    <tr id='detail-amount' :v-clipboard="balance" @success="info('copy success...')">
-      <td >${ruleStr}</td>
-      <td >${this.getAssetRule(row)}</td>
-    </tr>
-    <tbody></table>
-    `
-      this.$q.dialog({
-        title: this.$t('ACCOUNT_DETAIL'),
-        message: tableStr
-        // form: {
-        //   address: {
-        //     type: 'text',
-        //     label: addressStr,
-        //     disable: true,
-        //     model: address
-        //   },
-        //   publicKey: {
-        //     type: 'text',
-        //     label: publicKeyStr,
-        //     model: publicKey
-        //   },
-        //   amount: {
-        //     type: 'text',
-        //     label: balanceStr,
-        //     model: balance
-        //   }
-        // }
-      })
+    viewInfo(row) {
+      this.row = row
+      this.modalInfoShow = true
     },
     getTransferParams(cell) {
       return { name: 'transfer', params: { user: this.user, data: cell } }
     },
-    getAssetRule(cell) {
-      return `${cell.allowWriteoff === 0 ? 'Y' : 'N'}/${cell.allowWhitelist === 0 ? 'Y' : 'N'}/${
-        cell.allowBlacklist === 0 ? 'Y' : 'N'
+    getAssetRule(props) {
+      return `${props.allowWriteoff === 1 ? 'Y' : 'N'}/${props.allowWhitelist === 1 ? 'Y' : 'N'}/${
+        props.allowBlacklist === 1 ? 'Y' : 'N'
       }`
+    },
+    writeoff(row) {
+      const t = this.$t
+      const issuer = this.user.issuer
+      const assetsName = issuer.name + '.' + row.name
+
+      this.dialog = {
+        title: t('WRITEOFF'),
+        message: `${t('WRITEOFF')} ${assetsName}, ${t('CANT_ROLLBACK')}, ${t(
+          'REQUIRES_FEE'
+        )} 0.1 XAS`,
+        form: 1
+      }
+      this.row = row
+      this.dialogShow = true
+    },
+    publish(row){
+      const t = this.$t
+      const issuer = this.user.issuer
+      const assetsName = issuer.name + '.' + row.name
+
+      this.dialog = {
+        title: t('TRS_TYPE_UIA_ISSUE'),
+        message: `${assetsName}, ${t('CANT_ROLLBACK')}, ${t(
+          'REQUIRES_FEE'
+        )} 0.1 XAS`,
+        form: 2
+      }
+      this.row = row
+      this.dialogShow = true
+    },
+    changeModal(row) {
+      const t = this.$t
+      const issuer = this.user.issuer
+      const assetsName = issuer.name + '.' + row.name
+
+      this.dialog = {
+        title: t('TRS_TYPE_UIA_FLAGS'),
+        message: `${assetsName} ${t('TRS_TYPE_UIA_FLAGS')}, ${t('CANT_ROLLBACK')}, ${t(
+          'REQUIRES_FEE'
+        )} 0.1 XAS`,
+        form: 3
+      }
+      this.row = row
+      this.dialogShow = true
+    },
+
+    addACL(row) {},
+    removeACL(row) {},
+    onOk() {
+      let formType = this.dialog.form
+    },
+    onCancel() {
+      this.dialogShow = false
+      this.dialog = this.dialogDefault
     }
   },
   async mounted() {
     if (this.user) {
-      this.getBalances()
+      this.getAssets()
     }
   },
   computed: {
     user() {
       return this.userObj
+    },
+    secondSignature() {
+      return this.user.account.secondSignature
+    },
+    pwdValid() {
+      return !secondPwdReg.test(this.secondPwd)
+    },
+    dialogDefault() {
+      return {
+        title: '',
+        message: '',
+        form: 0 // 1 writeoff ; 2 publish ; 3 setting
+      }
     }
   },
   watch: {
     userObj(val) {
       if (val) {
-        this.getBalances()
+        this.getAssets()
       }
     },
     pageNo(val) {
-      this.getBalances()
+      this.getAssets()
     }
   }
 }

@@ -280,6 +280,7 @@ const lang = {
 
   // dialog
   OPERATION_REQUIRES_FEE: 'This operation requires a fee of',
+  REQUIRES_FEE: 'requires a fee of',
 
   ALLOW_WWB: 'Allow Writeoff/Whitelist/Blacklist',
   ALLOW_WRITEOFF: 'Allow Writeoff',
@@ -287,6 +288,8 @@ const lang = {
   ALLOW_BLACKLIST: 'Allow Blacklist',
   ALLOW: 'Allow',
   NOT_ALLOW: 'Not Allow',
+  WRITEOFF: 'Writeoff',
+  CANT_ROLLBACK: 'can not rollback',
 
   // Fragil set
   FRAGIL_PRE: 'Account will be unlocked when the block height ',

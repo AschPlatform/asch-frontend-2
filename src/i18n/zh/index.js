@@ -35,7 +35,6 @@ const lang = {
   TRS_TYPE_UIA_ISSUE: '资产发行',
   TRS_TYPE_UIA_TRANSFER: '资产转账',
   TRS_TYPE_LOCK: '锁仓',
-
   // application
   DAPP_ICON: '图标',
   DAPP_NAME: '名称',
@@ -272,9 +271,11 @@ const lang = {
   ALLOW_BLACKLIST: '是否允许黑名单',
   ALLOW: '允许',
   NOT_ALLOW: '不允许',
-
+  WRITEOFF: '注销',
+  CANT_ROLLBACK: '该操作不可逆',
   // dialog
   OPERATION_REQUIRES_FEE: '该操作需要消耗手续费',
+  REQUIRES_FEE: '需要消耗手续费',
 
   // FRAGIL SET
   FRAGIL_PRE: '账户将在区块高度大于 ',

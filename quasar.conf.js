@@ -67,10 +67,12 @@ module.exports = function(ctx) {
         'QTd',
         'QSearch',
         'QTableColumns',
-        'QModal'
+        'QModal',
+        'QFab',
+        'QFabAction'
       ],
       directives: ['Ripple'],
-      plugins: ['Notify', 'SessionStorage','Dialog'],
+      plugins: ['Notify', 'SessionStorage', 'Dialog']
     },
     // animations: 'all' --- includes all animations
     animations: ['fadeIn', 'fadeOut'],

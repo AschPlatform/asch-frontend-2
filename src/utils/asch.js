@@ -1,9 +1,38 @@
 import AschJs from 'asch-js'
 import Bip39 from 'bip39'
+import { BigNumber } from 'bignumber.js'
 
 export const getPub = secret => AschJs.crypto.getKeys(secret).publicKey
 export const getAddr = secret => AschJs.crypto.getAddress(secret)
-export const createIssuer = (name, desc, secret, rpsecondPassword = '') => AschJs.uia.createIssuer(name, desc, secret, rpsecondPassword)
+export const createFlags = (currency, flagType, secret, secondPassword = '') =>
+  AschJs.uia.createFlags(currency, flagType, secret, secondPassword)
+export const createIssuer = (name, desc, secret, rpsecondPassword = '') =>
+  AschJs.uia.createIssuer(name, desc, secret, rpsecondPassword)
+export const createAsset = (
+  name,
+  desc,
+  realMaximum,
+  precision,
+  strategy,
+  allowWriteoff,
+  allowWhitelist,
+  allowBlacklist,
+  secret,
+  secondPassword = ''
+) =>
+  AschJs.uia.createAsset(
+    String(name),
+    String(desc),
+    String(realMaximum),
+    precision,
+    strategy,
+    allowWriteoff,
+    allowWhitelist,
+    allowBlacklist,
+    secret,
+    secondPassword
+  )
+
 export const generateM = () => Bip39.generateMnemonic()
 export const fullTimestamp = timestamp => AschJs.utils.format.fullTimestamp(timestamp)
 export const convertFee = (fee, precision = 8) => {
@@ -32,4 +61,9 @@ export const convertFee = (fee, precision = 8) => {
     fee = fee.slice(0, fee.length - 1)
   }
   return fee
+}
+export const dealBigNumber = num => {
+  let dealNumB = new BigNumber(num)
+  let dealNum = dealNumB.toFormat(0).toString()
+  return dealNum.replace(/,/g, '')
 }

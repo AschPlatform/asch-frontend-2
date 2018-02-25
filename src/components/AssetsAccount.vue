@@ -186,7 +186,6 @@ export default {
       return res
     },
     viewInfo(row) {
-      console.log(row)
       this.row = row
       this.modalInfoShow = true
     },
@@ -194,17 +193,9 @@ export default {
       return { name: 'transfer', params: { user: this.user, data: props } }
     },
     getAssetRule(props) {
-      return `${props.allowWriteoff === 0 ? 'Y' : 'N'}/${props.allowWhitelist === 0 ? 'Y' : 'N'}/${
-        props.allowBlacklist === 0 ? 'Y' : 'N'
+      return `${props.allowWriteoff === 1 ? 'Y' : 'N'}/${props.allowWhitelist === 1 ? 'Y' : 'N'}/${
+        props.allowBlacklist === 1 ? 'Y' : 'N'
       }`
-    },
-    info(message) {
-      this.$q.notify({
-        type: 'positive',
-        color: 'positive',
-        timeout: 2000,
-        message
-      })
     }
   },
   async mounted() {
