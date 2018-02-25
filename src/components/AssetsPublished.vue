@@ -52,34 +52,34 @@
 
       <q-modal minimized  v-model="modalInfoShow" content-css="padding: 20px">
       <big>{{$t('DAPP_DETAIL')}}</big>
-      <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
-        <tbody class='info-tbody'>
-          <tr v-clipboard="row.name" @success="info('copy name success...')">
-            <td >{{$t('ASSET_NAME')}}</td>
-            <td >{{row.name}}</td>
-          </tr>
-          <tr  v-clipboard="row.maximumShow" @success="info('copy maximum success...')">
-            <td >{{$t('MAXIMUM')}}</td>
-            <td >{{row.maximumShow}}</td>
-          </tr>
-          <tr v-clipboard="row.precision" @success="info('copy precision success...')">
-            <td >{{$t('PRECISION')}}</td>
-            <td >{{row.precision}}</td>
-          </tr>
-          <tr v-clipboard="row.quantity" @success="info('copy quantity success...')">
-            <td >{{$t('QUANTITY')}}</td>
-            <td >{{row.quantityShow}}</td>
-          </tr>
-          <tr v-clipboard="row.writeoff?'normal':'writeoff'" @success="info('copy message success...')">
-            <td >{{$t('REMARK')}}</td>
-            <td >{{row.writeoff?'normal':'writeoff'}}</td>
-          </tr>
-          <tr>
-            <td >{{$t('ALLOW_WWB')}}</td>
-            <td >{{getAssetRule(row)}}</td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="q-table horizontal-separator highlight loose ">
+          <tbody class='info-tbody'>
+            <tr v-clipboard="row.name" @success="info('copy name success...')">
+              <td >{{$t('ASSET_NAME')}}</td>
+              <td >{{row.name}}</td>
+            </tr>
+            <tr  v-clipboard="row.maximumShow" @success="info('copy maximum success...')">
+              <td >{{$t('MAXIMUM')}}</td>
+              <td >{{row.maximumShow}}</td>
+            </tr>
+            <tr v-clipboard="row.precision" @success="info('copy precision success...')">
+              <td >{{$t('PRECISION')}}</td>
+              <td >{{row.precision}}</td>
+            </tr>
+            <tr v-clipboard="row.quantity" @success="info('copy quantity success...')">
+              <td >{{$t('QUANTITY')}}</td>
+              <td >{{row.quantityShow}}</td>
+            </tr>
+            <tr v-clipboard="row.writeoff?'normal':'writeoff'" @success="info('copy message success...')">
+              <td >{{$t('REMARK')}}</td>
+              <td >{{row.writeoff?'normal':'writeoff'}}</td>
+            </tr>
+            <tr>
+              <td >{{$t('ALLOW_WWB')}}</td>
+              <td >{{getAssetRule(row)}}</td>
+            </tr>
+          </tbody>
+        </table>
       <br/>
       <q-btn
         color="primary"
@@ -93,7 +93,6 @@
 
     <q-dialog
       v-model="dialogShow"
-      stack-buttons
       prevent-close
       @ok="onOk"
       @cancel="onCancel"
@@ -106,13 +105,30 @@
 
       <div slot="body">
         <div v-if="dialog.form == 2 ">
-
+          <q-field 
+            :label="$t('ISSUE_NUMBER')"
+            :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
+            :label-width="2"
+          >
+            <q-input @blur="$v.issuerNum.$touch" v-model="form.issuerNum" error-label="error"
+            type="number" :decimals="0" :error="$v.issuerNum.$error"   />
+        </q-field>
         </div>
         <div v-if="dialog.form == 3">
-
+          <q-field 
+            :label="$t('TYPE')"
+            :label-width="2"
+          >
+            <q-input disable v-model="form.type" />
+        </q-field>
+        <q-field 
+            :label="$t('VALUE')"
+            :label-width="2"
+          >
+            <q-input disable v-model="ACLStr" />
+        </q-field>
         </div>
         <q-field v-if="secondSignature"
-          helper="We need your name so we can send you to the movies."
           :label="$t('TRS_TYPE_SECOND_PASSWORD')"
           :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
           :label-width="2"
@@ -121,20 +137,19 @@
         </q-field>
       </div>
 
-      <!-- <template slot="buttons" slot-scope="props">
-        <q-btn color="primary" label="Choose Superman" @click="choose(props.ok, 'Superman')" />
-        <q-btn color="black" label="Choose Batman" @click="choose(props.ok, 'Batman')" />
-        <q-btn color="negative" label="Choose Spiderman" @click="choose(props.ok, 'Spiderman')" />
-        <q-btn flat label="No thanks" @click="props.cancel" />
-      </template> -->
+      <template slot="buttons" slot-scope="props">
+          <q-btn  flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
+          <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
+      </template>
     </q-dialog>
     </div>
 </template>
 
 <script>
-import { api } from '../utils/api'
-import { prompt, toast, toastWarn } from '../utils/util'
-import { createFlags } from '../utils/asch'
+import { api, translateErrMsg } from '../utils/api'
+import { toast, toastWarn } from '../utils/util'
+import { createFlags, createIssue, dealBigNumber } from '../utils/asch'
+import { required, numeric, minValue, secondPwdReg } from 'vuelidate/lib/validators'
 
 export default {
   props: ['userObj'],
@@ -204,23 +219,20 @@ export default {
         title: '',
         message: '',
         form: 0 // 1 writeoff ; 2 publish ; 3 setting
+      },
+      form: {
+        issuerNum: 0,
+        type: 'ACL'
       }
     }
   },
-  // validations: {
-  //   form:{
-  //     writeoff: {
-
-  //         secondPwd: ''
-  //       },
-  //       publish: {
-  //         secondPwd: ''
-  //       },
-  //       setting: {
-  //         secondPwd: ''
-  //       }
-  //   }
-  // },
+  validations: {
+    issuerNum: {
+      required,
+      numeric,
+      minValue: minValue(1)
+    }
+  },
   methods: {
     async request(props) {
       await this.getAssets(props.pagination, props.filter)
@@ -268,16 +280,12 @@ export default {
       this.row = row
       this.dialogShow = true
     },
-    publish(row){
+    publish(row) {
       const t = this.$t
-      const issuer = this.user.issuer
-      const assetsName = issuer.name + '.' + row.name
 
       this.dialog = {
         title: t('TRS_TYPE_UIA_ISSUE'),
-        message: `${assetsName}, ${t('CANT_ROLLBACK')}, ${t(
-          'REQUIRES_FEE'
-        )} 0.1 XAS`,
+        message: `${row.name}, ${t('CANT_ROLLBACK')}, ${t('REQUIRES_FEE')} 0.1 XAS`,
         form: 2
       }
       this.row = row
@@ -285,12 +293,9 @@ export default {
     },
     changeModal(row) {
       const t = this.$t
-      const issuer = this.user.issuer
-      const assetsName = issuer.name + '.' + row.name
-
       this.dialog = {
         title: t('TRS_TYPE_UIA_FLAGS'),
-        message: `${assetsName} ${t('TRS_TYPE_UIA_FLAGS')}, ${t('CANT_ROLLBACK')}, ${t(
+        message: `${row.name} ${t('TRS_TYPE_UIA_FLAGS')}, ${t('CANT_ROLLBACK')}, ${t(
           'REQUIRES_FEE'
         )} 0.1 XAS`,
         form: 3
@@ -301,12 +306,83 @@ export default {
 
     addACL(row) {},
     removeACL(row) {},
-    onOk() {
+    async onOk() {
+      const t = this.$t
       let formType = this.dialog.form
+      if (formType === 1) {
+        // write off
+        if (this.secondSignature && this.pwdValid) {
+          toastWarn(t('ERR_TOAST_SECONDKEY_WRONG'))
+        } else {
+          const flagType = 2 // write off assets
+          let trans = createFlags(this.row.name, flagType, 1, this.user.secret, this.secondPwd)
+          let res = await api.broadcastTransaction(trans)
+          if (res.success) {
+            this.pagination = this.paginationDeafult
+            await this.getAssets()
+            toast(t('INF_OPERATION_SUCCEEDED'))
+            this.close()
+          } else {
+            translateErrMsg(t, res.error)
+            this.close()
+          }
+        }
+      } else if (formType === 2) {
+        if (this.secondSignature && this.pwdValid) {
+          toastWarn(t('ERR_TOAST_SECONDKEY_WRONG'))
+        } else {
+          let realAmount = dealBigNumber(
+            parseInt(this.issuerNum) * Math.pow(10, this.row.precision)
+          )
+
+          let trans = createIssue(this.row.name, realAmount, this.user.secret, this.secondPwd)
+          let res = await api.broadcastTransaction(trans)
+          if (res.success) {
+            this.pagination = this.paginationDeafult
+            await this.getAssets()
+            toast(t('INF_OPERATION_SUCCEEDED'))
+            this.close()
+          } else {
+            translateErrMsg(t, res.error)
+            this.close()
+          }
+        }
+      } else if (formType === 3) {
+        if (this.secondSignature && this.pwdValid) {
+          toastWarn(t('ERR_TOAST_SECONDKEY_WRONG'))
+        } else {
+          const flagType = 1 // change black/white modal
+          let trans = createFlags(
+            this.row.name,
+            flagType,
+            this.row.acl === 0 ? 1 : 0,
+            this.user.secret,
+            this.secondPwd
+          )
+          console.log(trans)
+          let res = await api.broadcastTransaction(trans)
+          if (res.success) {
+            this.pagination = this.paginationDeafult
+            await this.getAssets()
+            toast(t('INF_OPERATION_SUCCEEDED'))
+            this.close()
+          } else {
+            translateErrMsg(t, res.error)
+            this.close()
+          }
+        }
+      }
     },
     onCancel() {
       this.dialogShow = false
       this.dialog = this.dialogDefault
+    },
+    close() {
+      this.dialogShow = false
+      this.row = {}
+    },
+    info(msg) {
+      toast(msg)
     }
   },
   async mounted() {
@@ -330,6 +406,17 @@ export default {
         message: '',
         form: 0 // 1 writeoff ; 2 publish ; 3 setting
       }
+    },
+    paginationDeafult() {
+      return {
+        page: 1,
+        rowsNumber: 0,
+        rowsPerPage: 1
+      }
+    },
+    ACLStr() {
+      const acl = this.row.acl
+      return acl === 0 ? this.$t('WHITELIST') : this.$t('BLACKLIST')
     }
   },
   watch: {

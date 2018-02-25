@@ -16,8 +16,12 @@
           </template>
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" />
-              <q-btn @click="getTransferParams(props)" icon="send" size="sm" flat color="primary" />
+              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
+              </q-btn>
+              <q-btn @click="getTransferParams(props)" icon="send" size="sm" flat color="primary" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRANSFER')}}</q-tooltip>
+              </q-btn>
           </q-td>
 
           <q-td slot="body-cell-allowWriteoff"  slot-scope="props" :props="props">
@@ -80,6 +84,7 @@
 
 <script>
 import { api } from '../utils/api'
+import { toast } from '../utils/util'
 
 export default {
   props: ['userObj'],
@@ -196,6 +201,9 @@ export default {
       return `${props.allowWriteoff === 1 ? 'Y' : 'N'}/${props.allowWhitelist === 1 ? 'Y' : 'N'}/${
         props.allowBlacklist === 1 ? 'Y' : 'N'
       }`
+    },
+    info(msg) {
+      toast(msg)
     }
   },
   async mounted() {

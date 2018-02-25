@@ -4,10 +4,12 @@ import { BigNumber } from 'bignumber.js'
 
 export const getPub = secret => AschJs.crypto.getKeys(secret).publicKey
 export const getAddr = secret => AschJs.crypto.getAddress(secret)
-export const createFlags = (currency, flagType, secret, secondPassword = '') =>
-  AschJs.uia.createFlags(currency, flagType, secret, secondPassword)
-export const createIssuer = (name, desc, secret, rpsecondPassword = '') =>
-  AschJs.uia.createIssuer(name, desc, secret, rpsecondPassword)
+export const createFlags = (currency, flagType, flag, secret, secondPassword = '') =>
+  AschJs.uia.createFlags(currency, flagType, flag, secret, secondPassword)
+export const createIssuer = (name, desc, secret, secondPassword = '') =>
+  AschJs.uia.createIssuer(name, desc, secret, secondPassword)
+export const createIssue = (name, realAmount, secret, secondPassword = '') =>
+  AschJs.uia.createIssue(name, String(realAmount), secret, secondPassword)
 export const createAsset = (
   name,
   desc,

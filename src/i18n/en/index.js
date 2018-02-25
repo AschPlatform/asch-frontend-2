@@ -290,6 +290,8 @@ const lang = {
   NOT_ALLOW: 'Not Allow',
   WRITEOFF: 'Writeoff',
   CANT_ROLLBACK: 'can not rollback',
+  WHITELIST: 'Whitelist',
+  BLACKLIST: 'Blacklist',
 
   // Fragil set
   FRAGIL_PRE: 'Account will be unlocked when the block height ',

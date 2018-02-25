@@ -70,13 +70,19 @@
               />
 </template>-->
 
-<template slot="top-right" slot-scope="props">
-  <q-table-columns color="secondary" class="q-mr-sm" v-model="visibleColumns" :columns="columns" />
-  <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-</template>
+            <template slot="top-right" slot-scope="props">
+              <q-table-columns color="secondary" class="q-mr-sm" v-model="visibleColumns" :columns="columns" />
+              <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+            </template>
+
+            <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
+              <q-btn @click="getDataInfo(props)" icon="remove red eye" size="sm" flat color="primary" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
+              </q-btn>
+            </q-td>
 
             <q-td slot="body-cell-id" slot-scope="props" :props="props">
-              <div class="my-label text-grey-8" @click="getDataInfo(props)">
+              <div class="my-label text-grey-8" >
                 {{props.value.substring(0,7)}}
                 <q-tooltip>{{props.value}}</q-tooltip>
               </div>
@@ -212,6 +218,10 @@ export default {
         rowsPerPage: 10
       },
       columns: [
+        {
+          name: 'opt',
+          label: this.$t('OPERATION')
+        },
         {
           name: 'id',
           label: 'ID',

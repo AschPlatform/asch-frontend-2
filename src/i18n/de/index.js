@@ -275,6 +275,9 @@ const lang = {
   NOT_ALLOW: 'Nicht erlauben',
   WRITEOFF: 'Abschreiben',
   CANT_ROLLBACK: 'kann nicht zurückgesetzt werden',
+  WHITELIST: 'Whitelist',
+  BLACKLIST: 'Blacklist',
+
   // Fragil set
   FRAGIL_PRE: 'Das Konto wird entsperrt sobald die Blockhöhe  ',
   FRAGIL_LAT: ' erreicht worden ist',

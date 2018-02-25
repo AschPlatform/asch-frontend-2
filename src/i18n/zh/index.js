@@ -273,6 +273,8 @@ const lang = {
   NOT_ALLOW: '不允许',
   WRITEOFF: '注销',
   CANT_ROLLBACK: '该操作不可逆',
+  WHITELIST: '白名单',
+  BLACKLIST: '黑名单',
   // dialog
   OPERATION_REQUIRES_FEE: '该操作需要消耗手续费',
   REQUIRES_FEE: '需要消耗手续费',
