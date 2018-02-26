@@ -71,7 +71,7 @@
               <td >{{row.quantityShow}}</td>
             </tr>
             <tr v-clipboard="row.writeoff?'normal':'writeoff'" @success="info('copy message success...')">
-              <td >{{$t('REMARK')}}</td>
+              <td >{{$t('CANCELLATION')}}</td>
               <td >{{row.writeoff?'normal':'writeoff'}}</td>
             </tr>
             <tr>
@@ -107,10 +107,10 @@
         <div v-if="dialog.form == 2 ">
           <q-field 
             :label="$t('ISSUE_NUMBER')"
-            :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
-            :label-width="2"
+            error-label="error"
+            :label-width="4"
           >
-            <q-input @blur="$v.issuerNum.$touch" v-model="form.issuerNum" error-label="error"
+            <q-input :autofocus="true" @blur="$v.issuerNum.$touch" v-model="form.issuerNum" error-label="error"
             type="number" :decimals="0" :error="$v.issuerNum.$error"   />
         </q-field>
         </div>
@@ -160,7 +160,7 @@ export default {
       pagination: {
         page: 1,
         rowsNumber: 0,
-        rowsPerPage: 1
+        rowsPerPage: 10
       },
       filter: '',
       loading: false,
@@ -221,7 +221,7 @@ export default {
         form: 0 // 1 writeoff ; 2 publish ; 3 setting
       },
       form: {
-        issuerNum: 0,
+        issuerNum: '',
         type: 'ACL'
       }
     }
@@ -331,8 +331,11 @@ export default {
         if (this.secondSignature && this.pwdValid) {
           toastWarn(t('ERR_TOAST_SECONDKEY_WRONG'))
         } else {
+          this.$v.issuerNum.$touch()
+          if (this.$v.issuerNum.$error) {
+          }
           let realAmount = dealBigNumber(
-            parseInt(this.issuerNum) * Math.pow(10, this.row.precision)
+            parseInt(this.form.issuerNum) * Math.pow(10, this.row.precision)
           )
 
           let trans = createIssue(this.row.name, realAmount, this.user.secret, this.secondPwd)
@@ -384,6 +387,19 @@ export default {
     info(msg) {
       toast(msg)
     }
+    // formValid(type) {
+    //   let formWithPwd = this.secondSignature ? this.pwdValid : false
+    //   switch (type) {
+    //     case 1:
+    //       return formWithPwd
+    //     case 2:
+    //       return this.secondSignature
+    //         ? this.$v.issuerNum.$error || this.pwdValid
+    //         : this.$v.issuerNum.$error
+    //     case 3:
+    //       return formWithPwd
+    //   }
+    // }
   },
   async mounted() {
     if (this.user) {
