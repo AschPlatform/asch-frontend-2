@@ -75,19 +75,21 @@
               <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
             </template>
 
-            <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-              <q-btn @click="getDataInfo(props)" icon="remove red eye" size="sm" flat color="primary" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-              </q-btn>
-            </q-td>
+            
 
             <q-td slot="body-cell-id" slot-scope="props" :props="props">
-              <div class="my-label text-grey-8" >
+              <div class="my-label" >
                 {{props.value.substring(0,7)}}
                 <q-tooltip>{{props.value}}</q-tooltip>
               </div>
             </q-td>
   
+            <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
+              <q-btn @click="getDataInfo(props)" icon="remove red eye" size="sm" flat color="primary" >
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
+                </q-btn>
+            </q-td>
+
             <q-td slot="body-cell-message" slot-scope="props" :props="props">
               {{props.value}}
               <q-popover v-if="props.value" ref="popover-msg">
@@ -123,9 +125,9 @@
         </div>
       </transition>
     </div>
-    <q-modal minimized  v-model="modalShow" content-css="padding: 20px">
+    <q-modal no-backdrop-dismiss @hide="accountInfo = {}" minimized  v-model="modalShow" content-css="padding: 20px">
       <big>{{$t('ACCOUNT_DETAIL')}}</big>
-      <table v-if="modalShow" class="q-table horizontal-separator highlight loose ">
+      <table class="q-table horizontal-separator highlight loose ">
         <tbody class='info-tbody'>
           <tr id='detail-addr' v-clipboard="accountInfo.address" @success="info('copy address success...')">
             <td >{{$t('ADDRESS')}}</td>
@@ -144,14 +146,11 @@
       <br/>
       <q-btn
         color="primary"
-        @click="()=>{
-          this.modalShow = false
-          this.accountInfo = {}
-         }"
+        @click="()=> this.modalShow = false"
         label="Close"
       />
     </q-modal>
-    <q-modal minimized  v-model="modalInfoShow" content-css="padding: 20px">
+    <q-modal minimized no-backdrop-dismiss  v-model="modalInfoShow" content-css="padding: 20px">
       <big>{{$t('DAPP_DETAIL')}}</big>
       <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
         <tbody class='info-tbody'>
@@ -220,19 +219,20 @@ export default {
       columns: [
         {
           name: 'opt',
-          label: this.$t('OPERATION')
+          label: this.$t('OPERATION'),
+          field: 'opt',
+          align: 'center'
         },
         {
           name: 'id',
           label: 'ID',
-          field: 'id',
-          width: '100px'
+          field: 'id'
         },
         {
           name: 'type',
           label: this.$t('TYPE'),
           field: 'type',
-          width: '70px',
+          align: 'center',
           filter: true,
           format: value => {
             return this.getTransType(value)
@@ -246,8 +246,7 @@ export default {
           format: value => {
             let isMySelf = this.matchSelf(value)
             return isMySelf ? 'Me' : value
-          },
-          width: '100px'
+          }
         },
         {
           name: 'recipientId',
@@ -260,8 +259,7 @@ export default {
             }
             let isMySelf = this.matchSelf(value)
             return isMySelf ? 'Me' : value
-          },
-          width: '100px'
+          }
         },
         {
           name: 'timestamp',
@@ -271,7 +269,6 @@ export default {
           format: value => {
             return this.formatTimestamp(value)
           },
-          // sortable: true,
           type: 'number'
         },
         {
@@ -295,7 +292,16 @@ export default {
         }
       ],
       filter: '',
-      visibleColumns: ['id', 'type', 'senderId', 'recipientId', 'timestamp', 'amount', 'message'],
+      visibleColumns: [
+        'opt',
+        'id',
+        'type',
+        'senderId',
+        'recipientId',
+        'timestamp',
+        'amount',
+        'message'
+      ],
       accountInfo: {
         address: '',
         publicKey: '',

@@ -213,7 +213,7 @@ export default {
       return this.userObj
     },
     secondSignature() {
-      return this.user.account.secondSignature
+      return this.user ? this.user.account.secondSignature : null
     },
     allow() {
       return this.$t('ALLOW')

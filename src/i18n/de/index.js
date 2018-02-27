@@ -150,6 +150,9 @@ const lang = {
   NO_ASSET_RELATED_INFORMATION: 'Keine Informationen zu Assets vorhanden',
   STRATEGY_WARNING:
     'Falls du dir nicht sicher bist wie man dieses Feld befüllt, lasse es bitte leer',
+  CHANGE_ACL_MODAL: 'Veränderung ACL modal',
+  CHANGE_TO: 'ändern',
+
   // personal
   ACCOUNT_INFO: 'Konto',
   ACCOUNT_LOCK_TIP: 'Unlock after the blockheight reach this number',

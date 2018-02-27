@@ -146,6 +146,8 @@ const lang = {
   PUBLISHER_ALREADY_REGISTERED: '你已经注册了发行商',
   NO_ASSET_RELATED_INFORMATION: '没有资产相关信息',
   STRATEGY_WARNING: '如果不懂如何使用，不要随意设置该字段',
+  CHANGE_ACL_MODAL: '切换权限模式',
+  CHANGE_TO: '切换为',
   // personal
   ACCOUNT_INFO: '账户信息',
   ACCOUNT_LOCK_TIP: '在到达此高度后解锁',

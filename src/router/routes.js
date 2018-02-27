@@ -1,5 +1,7 @@
 function load(component, path = false) {
-  let comp = path ? () => import(`src/layouts/${component}.vue`) : () => import(`src/pages/${component}.vue`)
+  let comp = path
+    ? () => import(`src/layouts/${component}.vue`)
+    : () => import(`src/pages/${component}.vue`)
   return comp
 }
 
@@ -18,7 +20,44 @@ export default [
       {
         path: 'assets',
         name: 'assets',
-        component: load('Assets')
+        component: load('Assets'),
+        children: [
+          {
+            path: 'account',
+            name: 'account',
+            component: load('AssetsAccount')
+          },
+          {
+            path: 'publisher',
+            name: 'publisher',
+            component: load('AssetsPublisher')
+          },
+          {
+            path: 'addAssets',
+            name: 'addAssets',
+            component: load('AssetsRegister')
+          },
+          {
+            path: 'list',
+            name: 'list',
+            component: load('AssetsPublished')
+          },
+          {
+            path: 'records',
+            name: 'records',
+            component: load('AssetsRecords')
+          }
+        ]
+      },
+      {
+        path: 'addACL',
+        name: 'addAcl',
+        component: load('ACLEdit')
+      },
+      {
+        path: 'reduceACL',
+        name: 'reduceAcl',
+        component: load('ACLEdit')
       },
       {
         path: 'personal',

@@ -157,6 +157,9 @@ const lang = {
   PUBLISHER_ALREADY_REGISTERED: 'You have already registered this publisher',
   NO_ASSET_RELATED_INFORMATION: 'No asset related information',
   STRATEGY_WARNING: 'If you do not know how to use it, do not arbitrarily set this field',
+  CHANGE_ACL_MODAL: 'Change ACL modal',
+  CHANGE_TO: 'Change to',
+
   // personal
   ACCOUNT_INFO: 'Account Info',
   ACCOUNT_LOCK_TIP: 'Unlock after the blockheight reach this number',

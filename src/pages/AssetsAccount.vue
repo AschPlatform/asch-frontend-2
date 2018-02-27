@@ -19,7 +19,7 @@
               <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
               </q-btn>
-              <q-btn @click="getTransferParams(props)" icon="send" size="sm" flat color="primary" >
+              <q-btn v-if="props.row.writeoff == 0" @click="getTransferParams(props)" icon="send" size="sm" flat color="primary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRANSFER')}}</q-tooltip>
               </q-btn>
           </q-td>
@@ -33,7 +33,7 @@
       </div>
       </transition>
 
-     <q-modal minimized  v-model="modalInfoShow" content-css="padding: 20px">
+     <q-modal minimized no-backdrop-dismiss  v-model="modalInfoShow" content-css="padding: 20px">
       <big>{{$t('DAPP_DETAIL')}}</big>
       <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
         <tbody class='info-tbody'>

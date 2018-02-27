@@ -131,7 +131,7 @@ export default {
       return this.userObj
     },
     secondSignature() {
-      return this.user.account.secondSignature
+      return this.user ? this.user.account.secondSignature : null
     },
     pwdValid() {
       return !secondPwdReg.test(this.secondPwd)

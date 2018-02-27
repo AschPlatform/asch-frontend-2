@@ -14,6 +14,7 @@
           </template>
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
+            <div v-if="props.row.writeoff == 0">
               <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
               </q-btn>
@@ -28,18 +29,24 @@
                   {{$t('TRS_TYPE_UIA_FLAGS')}}
                 </q-tooltip>
                 <q-fab-action color="primary" @click="changeModal(props.row)" icon="transform">
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.set')}}</q-tooltip>
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CHANGE_ACL_MODAL')}}</q-tooltip>
                 </q-fab-action>
                 <q-fab-action color="primary" @click="addACL(props.row)" icon="add">
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.create')}}</q-tooltip>
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.create') + ACLStr(props.row.acl)}}</q-tooltip>
                 </q-fab-action>
                 <q-fab-action color="primary" @click="removeACL(props.row)" icon="remove">
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.remove')}}</q-tooltip>
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.remove') + ACLStr(props.row.acl)}}</q-tooltip>
                 </q-fab-action>
                 <q-fab-action color="negative" @click="writeoff(props.row)" icon="delete">
                   <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DELETE')}}</q-tooltip>
                 </q-fab-action>
               </q-fab>
+            </div>
+            <div v-else>
+              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
+              </q-btn>
+            </div>
           </q-td>
 
           <q-td slot="body-cell-allowWriteoff"  slot-scope="props" :props="props">
@@ -50,7 +57,7 @@
       </div>
       </transition>
 
-      <q-modal minimized  v-model="modalInfoShow" content-css="padding: 20px">
+      <q-modal minimized no-backdrop-dismiss   v-model="modalInfoShow" content-css="padding: 20px">
       <big>{{$t('DAPP_DETAIL')}}</big>
         <table class="q-table horizontal-separator highlight loose ">
           <tbody class='info-tbody'>
@@ -72,7 +79,7 @@
             </tr>
             <tr v-clipboard="row.writeoff?'normal':'writeoff'" @success="info('copy message success...')">
               <td >{{$t('CANCELLATION')}}</td>
-              <td >{{row.writeoff?'normal':'writeoff'}}</td>
+              <td >{{row.writeoff?'writeoff':'normal'}}</td>
             </tr>
             <tr>
               <td >{{$t('ALLOW_WWB')}}</td>
@@ -122,10 +129,10 @@
             <q-input disable v-model="form.type" />
         </q-field>
         <q-field 
-            :label="$t('VALUE')"
+            :label="$t('CHANGE_TO')"
             :label-width="2"
           >
-            <q-input disable v-model="ACLStr" />
+            <q-input disable :value="ACLStr(row.acl ? 0 : 1)" />
         </q-field>
         </div>
         <q-field v-if="secondSignature"
@@ -304,8 +311,12 @@ export default {
       this.dialogShow = true
     },
 
-    addACL(row) {},
-    removeACL(row) {},
+    addACL(row) {
+      this.$router.push({ name: 'addAcl', params: { user: this.user } })
+    },
+    removeACL(row) {
+      this.$router.push({ name: 'reduceAcl', params: { user: this.user } })
+    },
     async onOk() {
       const t = this.$t
       let formType = this.dialog.form
@@ -362,7 +373,6 @@ export default {
             this.user.secret,
             this.secondPwd
           )
-          console.log(trans)
           let res = await api.broadcastTransaction(trans)
           if (res.success) {
             this.pagination = this.paginationDeafult
@@ -386,6 +396,10 @@ export default {
     },
     info(msg) {
       toast(msg)
+    },
+    ACLStr(acl) {
+      const t = this.$t
+      return acl === 1 ? t('WHITELIST') : t('BLACKLIST')
     }
     // formValid(type) {
     //   let formWithPwd = this.secondSignature ? this.pwdValid : false
@@ -411,7 +425,7 @@ export default {
       return this.userObj
     },
     secondSignature() {
-      return this.user.account.secondSignature
+      return this.user ? this.user.account.secondSignature : null
     },
     pwdValid() {
       return !secondPwdReg.test(this.secondPwd)
@@ -427,12 +441,8 @@ export default {
       return {
         page: 1,
         rowsNumber: 0,
-        rowsPerPage: 1
+        rowsPerPage: 10
       }
-    },
-    ACLStr() {
-      const acl = this.row.acl
-      return acl === 0 ? this.$t('WHITELIST') : this.$t('BLACKLIST')
     }
   },
   watch: {
