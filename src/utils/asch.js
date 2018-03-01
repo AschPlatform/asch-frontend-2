@@ -10,30 +10,9 @@ export const createIssuer = (name, desc, secret, secondPassword = '') =>
   AschJs.uia.createIssuer(name, desc, secret, secondPassword)
 export const createIssue = (name, realAmount, secret, secondPassword = '') =>
   AschJs.uia.createIssue(name, String(realAmount), secret, secondPassword)
-export const createAsset = (
-  name,
-  desc,
-  realMaximum,
-  precision,
-  strategy,
-  allowWriteoff,
-  allowWhitelist,
-  allowBlacklist,
-  secret,
-  secondPassword = ''
-) =>
-  AschJs.uia.createAsset(
-    String(name),
-    String(desc),
-    String(realMaximum),
-    precision,
-    strategy,
-    allowWriteoff,
-    allowWhitelist,
-    allowBlacklist,
-    secret,
-    secondPassword
-  )
+export const createAcl = (currency, operator, flag, list, secret, secondPassword = '') =>
+  AschJs.uia.createAcl(currency, operator, flag, list, secret, secondPassword)
+export const createAsset = (name, desc, realMaximum, precision, strategy, allowWriteoff, allowWhitelist, allowBlacklist, secret, secondPassword = '') => AschJs.uia.createAsset(String(name), String(desc), String(realMaximum), precision, strategy, allowWriteoff, allowWhitelist, allowBlacklist, secret, secondPassword)
 
 export const generateM = () => Bip39.generateMnemonic()
 export const fullTimestamp = timestamp => AschJs.utils.format.fullTimestamp(timestamp)

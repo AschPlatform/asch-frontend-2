@@ -312,10 +312,10 @@ export default {
     },
 
     addACL(row) {
-      this.$router.push({ name: 'addAcl', params: { user: this.user } })
+      this.$router.push({ name: 'addAcl', params: { user: this.user, assets: row } })
     },
     removeACL(row) {
-      this.$router.push({ name: 'reduceAcl', params: { user: this.user } })
+      this.$router.push({ name: 'reduceAcl', params: { user: this.user, assets: row } })
     },
     async onOk() {
       const t = this.$t
