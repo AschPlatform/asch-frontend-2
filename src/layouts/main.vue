@@ -30,9 +30,9 @@
           <q-item-side icon="home" />
           <q-item-main :label="$t('HOME')" />
         </q-item>
-        <q-item item :to="getRouterConf('assets')">
+        <q-item item :to="getRouterConf('account')">
           <q-item-side icon="attach money" />
-          <q-item-main :label="$t('ASSET')" to="/assets" />
+          <q-item-main :label="$t('ASSET')"  />
         </q-item>
         <q-item item :to="getRouterConf('personal')">
           <q-item-side icon="person" />
@@ -131,7 +131,6 @@ export default {
   },
   async mounted() {
     let user = this.$route.params.user || getCache('user') || null
-    // TODO
     if (!user) {
       console.log('no session data, please login...')
       this.$router.push('/login')
@@ -144,12 +143,13 @@ export default {
         ...res
       }
     }
-    console.log(process.env.NODE_ENV)
   },
   created() {
     // register event
     this.$root.$on('refreshAccount', this.refreshAccount)
-    this.$root.$on('getIssuer', this.getIssuer)
+    this.$root.$on('getIssuer', () => {
+      this.user && this.user.account ? this.getIssuer() : console.log('not init yet..')
+    })
   },
   beforeDestroy() {
     this.$root.$off('refreshAccount', this.refreshAccount)
@@ -173,4 +173,6 @@ export default {
   position: absolute;
   transform-style: preserve-3d;
 }
+.q-field
+  margin-top 15px;
 </style>

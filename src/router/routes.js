@@ -51,12 +51,12 @@ export default [
       },
       {
         path: 'addACL',
-        name: 'addAcl',
+        name: 'addACL',
         component: load('ACLEdit')
       },
       {
         path: 'reduceACL',
-        name: 'reduceAcl',
+        name: 'reduceACL',
         component: load('ACLEdit')
       },
       {

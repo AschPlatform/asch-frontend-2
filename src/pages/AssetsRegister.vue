@@ -1,5 +1,5 @@
 <template>
-  <q-card class="row col shadow-1">
+  <q-card v-if="user" class="row col shadow-1">
     <q-card-title>
       {{user.issuer?$t('PUBLISHER_ALREADY_REGISTERED'):$t('REGISTERED_PUBLISHER')}}
       <div slot="subtitle"> </div>
@@ -245,7 +245,13 @@ export default {
   },
   watch: {
     userObj(val) {
-      this.issuer = val.issuer
+      if (val.issuer) {
+        this.issuer = val.issuer
+      } else {
+        this.$root.$emit('getIssuer', issuer => {
+          if (issuer) this.issuer = issuer
+        })
+      }
     }
   }
 }

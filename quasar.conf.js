@@ -72,7 +72,9 @@ module.exports = function(ctx) {
         'QFabAction',
         'QDialog',
         'QField',
-        'QInput'
+        'QInput',
+        'QChipsInput',
+        'QOptionGroup'
       ],
       directives: ['Ripple'],
       plugins: ['Notify', 'SessionStorage', 'Dialog']

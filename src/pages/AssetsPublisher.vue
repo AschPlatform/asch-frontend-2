@@ -1,10 +1,10 @@
 <template>
-  <q-card class="row col shadow-1">
+  <q-card v-if="user" class="row col shadow-1">
     <q-card-title>
-      {{user.issuer?$t('PUBLISHER_ALREADY_REGISTERED'):$t('REGISTERED_PUBLISHER')}}
+      {{user.issuer?$t('PUBLISHER_ALREADY_REGISTERED'):$t('ERR_NO_PUBLISHER_REGISTERED_YET')}}
       <div slot="subtitle"> </div>
     </q-card-title>
-    <q-card-main class="row col-12 justify-center ">
+    <q-card-main  class="row col-12 justify-center ">
       <q-field class="col-8" :label="$t('DAPP_NAME')" :label-width="2" :error="$v.issuer.name.$error" error-label="error" :count="15">
         <q-input @blur="$v.issuer.name.$touch" v-model="issuer.name" clearable :disable="!!user.issuer" />
       </q-field>
@@ -105,10 +105,7 @@ export default {
             let res = await api.broadcastTransaction(trans)
             if (res.success) {
               this.user.issuer = true
-              this.$root.$emit('getIssuer', issuer => {
-                this.issuer = issuer
-                this.done()
-              })
+              this.done()
             } else {
               translateErrMsg(this.$t, res.error)
               this.done()
@@ -138,14 +135,16 @@ export default {
     }
   },
   mounted() {
-    this.$root.$emit('getIssuer', issuer => {
-      this.issuer = issuer
-    })
+    if (this.userObj.issuer) this.issuer = this.userObj.issuer
   },
   watch: {
     userObj(val) {
-      if (val) {
+      if (val.issuer) {
         this.issuer = val.issuer
+      } else {
+        this.$root.$emit('getIssuer', issuer => {
+          if (issuer) this.issuer = issuer
+        })
       }
     }
   }

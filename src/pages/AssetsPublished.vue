@@ -5,8 +5,8 @@
     enter-active-class="animated fadeIn"
     leave-active-class="animated fadeOut"
     mode="out-in">
-      <div v-if="assetsData" class="col-12 shadow-1">
-        <q-table :data="assetsData.assets" :columns="columns" @request="request" :pagination.sync="pagination" 
+      <div class="col-12 shadow-1">
+        <q-table :data="assetsData?assetsData.assets:[]" :columns="columns" @request="request" :pagination.sync="pagination" 
         :loading="loading" :title="$t('MY_ASSETS')">
           
          <template slot="top-right" slot-scope="props">
@@ -55,6 +55,7 @@
 
         </q-table>
       </div>
+     
       </transition>
 
       <q-modal minimized no-backdrop-dismiss   v-model="modalInfoShow" content-css="padding: 20px">
@@ -312,10 +313,10 @@ export default {
     },
 
     addACL(row) {
-      this.$router.push({ name: 'addAcl', params: { user: this.user, assets: row } })
+      this.$router.push({ name: 'addACL', params: { user: this.user, assets: row } })
     },
     removeACL(row) {
-      this.$router.push({ name: 'reduceAcl', params: { user: this.user, assets: row } })
+      this.$router.push({ name: 'reduceACL', params: { user: this.user, assets: row } })
     },
     async onOk() {
       const t = this.$t
@@ -416,13 +417,11 @@ export default {
     // }
   },
   async mounted() {
-    if (this.user) {
-      this.getAssets()
-    }
+    if (this.user) this.getAssets()
   },
   computed: {
     user() {
-      return this.userObj
+      if (this.userObj) return this.userObj
     },
     secondSignature() {
       return this.user ? this.user.account.secondSignature : null
@@ -447,8 +446,13 @@ export default {
   },
   watch: {
     userObj(val) {
-      if (val) {
-        this.getAssets()
+      if (val) this.getAssets()
+      if (val.issuer) {
+        this.issuer = val.issuer
+      } else {
+        this.$root.$emit('getIssuer', issuer => {
+          if (issuer) this.issuer = issuer
+        })
       }
     },
     pageNo(val) {
