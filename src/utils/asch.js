@@ -4,6 +4,10 @@ import { BigNumber } from 'bignumber.js'
 
 export const getPub = secret => AschJs.crypto.getKeys(secret).publicKey
 export const getAddr = secret => AschJs.crypto.getAddress(secret)
+export const createLock = (lockHeight, secret, secondpassword) =>
+  AschJs.transaction.createLock(lockHeight, secret, secondpassword)
+export const signature = (secret, secondpassword = '') =>
+  AschJs.signature.createSignature(secret, secondpassword)
 export const createFlags = (currency, flagType, flag, secret, secondPassword = '') =>
   AschJs.uia.createFlags(currency, flagType, flag, secret, secondPassword)
 export const createIssuer = (name, desc, secret, secondPassword = '') =>
@@ -12,7 +16,30 @@ export const createIssue = (name, realAmount, secret, secondPassword = '') =>
   AschJs.uia.createIssue(name, String(realAmount), secret, secondPassword)
 export const createAcl = (currency, operator, flag, list, secret, secondPassword = '') =>
   AschJs.uia.createAcl(currency, operator, flag, list, secret, secondPassword)
-export const createAsset = (name, desc, realMaximum, precision, strategy, allowWriteoff, allowWhitelist, allowBlacklist, secret, secondPassword = '') => AschJs.uia.createAsset(String(name), String(desc), String(realMaximum), precision, strategy, allowWriteoff, allowWhitelist, allowBlacklist, secret, secondPassword)
+export const createAsset = (
+  name,
+  desc,
+  realMaximum,
+  precision,
+  strategy,
+  allowWriteoff,
+  allowWhitelist,
+  allowBlacklist,
+  secret,
+  secondPassword = ''
+) =>
+  AschJs.uia.createAsset(
+    String(name),
+    String(desc),
+    String(realMaximum),
+    precision,
+    strategy,
+    allowWriteoff,
+    allowWhitelist,
+    allowBlacklist,
+    secret,
+    secondPassword
+  )
 
 export const generateM = () => Bip39.generateMnemonic()
 export const fullTimestamp = timestamp => AschJs.utils.format.fullTimestamp(timestamp)

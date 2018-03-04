@@ -74,7 +74,8 @@ module.exports = function(ctx) {
         'QField',
         'QInput',
         'QChipsInput',
-        'QOptionGroup'
+        'QOptionGroup',
+        'QCollapsible'
       ],
       directives: ['Ripple'],
       plugins: ['Notify', 'SessionStorage', 'Dialog']

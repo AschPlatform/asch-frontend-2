@@ -15,9 +15,8 @@ export const assetName = () => {
   })
 }
 
-// export const secondPwd = secondPub => {
-//   return withParams({ type: 'secondPwd', secondPub }, value => {
-//     console.log(secondPub)
-//     return secondPub ? secondPwdReg.test(value) : true
-//   })
-// }
+export const secondPwd = secondPub => {
+  return withParams({ type: this.secondPwd }, value => {
+    return secondPwdReg.test(value)
+  })
+}

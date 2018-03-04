@@ -159,7 +159,7 @@ const translateErrMsg = (t, input) => {
       },
       { error: 'Asset not exists', key: 'ERR_TOAST_ASSET_NOTEXIST' },
       {
-        error: 'Insufficient asset balance',
+        error: 'Insufficient balance',
         key: 'ERR_TOAST_ASSET_INSUFFICIENT'
       },
       {
@@ -177,6 +177,10 @@ const translateErrMsg = (t, input) => {
       {
         error: 'timestamp',
         key: 'ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP'
+      },
+      {
+        error: 'Invalid lock height',
+        key: 'Invalid lock height'
       }
     ]
 
@@ -224,7 +228,7 @@ const postService = {
         // 失败返回
         // console.log('broadcastTransaction-fail',data);
         // 统一管理错误信息
-        translateErrMsg(data.error)
+        translateErrMsg(null, data.error)
         cb(null, data)
       })
       .error((data, status, headers, config) => {

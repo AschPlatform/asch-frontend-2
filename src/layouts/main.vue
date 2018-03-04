@@ -25,7 +25,7 @@
                   internal vue-router navigation
                 -->
       <q-list no-border link inset-delimiter>
-        <q-list-header>Essential Links</q-list-header>
+        <q-list-header> <img :src="logo" /> </q-list-header>
         <q-item item :to="getRouterConf('home')">
           <q-item-side icon="home" />
           <q-item-main :label="$t('HOME')" />
@@ -75,6 +75,7 @@
 <script>
 import { api } from '../utils/api'
 import { setCache, getCache, removeCache } from '../utils/util'
+import logo from '../assets/icon.png'
 const func = () => {}
 
 export default {
@@ -83,7 +84,8 @@ export default {
   data() {
     return {
       user: null,
-      showLeft: true
+      showLeft: true,
+      logo: logo
     }
   },
   computed: {},
@@ -142,6 +144,7 @@ export default {
         ...user,
         ...res
       }
+      console.log(user)
     }
   },
   created() {
@@ -173,6 +176,12 @@ export default {
   position: absolute;
   transform-style: preserve-3d;
 }
-.q-field
-  margin-top 15px;
+
+.q-field {
+  margin-top: 15px;
+}
+
+.card-table-container {
+  overflow-x: scroll;
+}
 </style>

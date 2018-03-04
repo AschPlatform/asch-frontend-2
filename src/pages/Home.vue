@@ -418,4 +418,8 @@ export default {
     cursor: text;
   }
 }
+
+.link-cursor {
+  cursor: point;
+}
 </style>

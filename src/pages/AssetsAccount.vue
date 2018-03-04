@@ -88,7 +88,6 @@ import { toast } from '../utils/util'
 
 export default {
   props: ['userObj'],
-  components: {},
   data() {
     return {
       balancesData: null,
