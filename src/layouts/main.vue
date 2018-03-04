@@ -129,6 +129,24 @@ export default {
       } else {
         cbErr()
       }
+    },
+    async getAssetsList(cbOk = func, cbErr = func) {
+      // get user issuer info
+      let res = await api.uiaAssetListApi({})
+      if (res.success) {
+        let assets = [{ key: 0, value: 'XAS', label: 'XAS' }].concat(
+          res.assets.map((item, idx) => {
+            return { key: idx + 1, label: item.name, value: item.name }
+          })
+        )
+
+        let user = this._.merge({}, this.user, { assets })
+        this.user = user
+        setCache('user', user)
+        cbOk(res)
+      } else {
+        cbErr()
+      }
     }
   },
   async mounted() {
@@ -150,12 +168,14 @@ export default {
   created() {
     // register event
     this.$root.$on('refreshAccount', this.refreshAccount)
+    this.$root.$on('getAssetsList', this.getAssetsList)
     this.$root.$on('getIssuer', () => {
       this.user && this.user.account ? this.getIssuer() : console.log('not init yet..')
     })
   },
   beforeDestroy() {
     this.$root.$off('refreshAccount', this.refreshAccount)
+    this.$root.$off('refreshAccount', this.getAssetsList)
     this.$root.$off('getIssuer', this.getIssuer)
   }
 }

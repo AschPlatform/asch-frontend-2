@@ -118,20 +118,20 @@
             error-label="error"
             :label-width="4"
           >
-            <q-input :autofocus="true" @blur="$v.issuerNum.$touch" v-model="form.issuerNum" error-label="error"
+            <q-input  @blur="$v.issuerNum.$touch" v-model="form.issuerNum" error-label="error"
             type="number" :decimals="0" :error="$v.issuerNum.$error"   />
         </q-field>
         </div>
         <div v-if="dialog.form == 3">
           <q-field 
             :label="$t('TYPE')"
-            :label-width="2"
+            :label-width="4"
           >
             <q-input disable v-model="form.type" />
         </q-field>
         <q-field 
-            :label="$t('CHANGE_TO')"
-            :label-width="2"
+          :label="$t('CHANGE_TO')"
+            :label-width="4"
           >
             <q-input disable :value="ACLStr(row.acl ? 0 : 1)" />
         </q-field>
@@ -139,9 +139,9 @@
         <q-field v-if="secondSignature"
           :label="$t('TRS_TYPE_SECOND_PASSWORD')"
           :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
-          :label-width="2"
+          :label-width="4"
         >
-          <q-input v-model="name" type="password" />
+          <q-input v-model="secondPwd" type="password" />
         </q-field>
       </div>
 
@@ -156,8 +156,9 @@
 <script>
 import { api, translateErrMsg } from '../utils/api'
 import { toast, toastWarn } from '../utils/util'
+import { secondPwdReg } from '../utils/validators'
 import { createFlags, createIssue, dealBigNumber } from '../utils/asch'
-import { required, numeric, minValue, secondPwdReg } from 'vuelidate/lib/validators'
+import { required, numeric, minValue } from 'vuelidate/lib/validators'
 
 export default {
   props: ['userObj'],

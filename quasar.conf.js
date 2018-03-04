@@ -1,6 +1,6 @@
 // Configuration for your app
 
-module.exports = function(ctx) {
+module.exports = ctx => {
   return {
     plugins: ['i18n', 'axios', 'vuelidate', 'clipboards', 'filters', 'tools'],
     css: ['app.styl'],
@@ -75,7 +75,8 @@ module.exports = function(ctx) {
         'QInput',
         'QChipsInput',
         'QOptionGroup',
-        'QCollapsible'
+        'QCollapsible',
+        'QSelect'
       ],
       directives: ['Ripple'],
       plugins: ['Notify', 'SessionStorage', 'Dialog']

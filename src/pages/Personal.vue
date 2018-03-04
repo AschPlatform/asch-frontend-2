@@ -1,7 +1,7 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <div class="layout-padding">
-    <q-list v-if="user" separator>
+    <q-list v-if="user.account" separator>
       <q-collapsible group="info" opened icon="account circle" :label="$t('ACCOUNT_INFO')">
         <q-card>
           <q-card-title>
