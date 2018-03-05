@@ -134,13 +134,7 @@ export default {
       // get user issuer info
       let res = await api.uiaAssetListApi({})
       if (res.success) {
-        let assets = [{ key: 0, value: 'XAS', label: 'XAS' }].concat(
-          res.assets.map((item, idx) => {
-            return { key: idx + 1, label: item.name, value: item.name }
-          })
-        )
-
-        let user = this._.merge({}, this.user, { assets })
+        let user = this._.merge({}, this.user, res)
         this.user = user
         setCache('user', user)
         cbOk(res)

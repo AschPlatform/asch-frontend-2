@@ -36,7 +36,7 @@ Router.beforeEach((to, from, next) => {
 
 Router.beforeEach((to, from, next) => {
   let user = to.params.user || from.params.user || SessionStorage.get.item('user')
-  if (to.path.indexOf('login') > 0 || user) {
+  if (to.path.indexOf('login') > 0 || user.account) {
     next({ params: { ...to.params, user: user } })
     return null
   } else {

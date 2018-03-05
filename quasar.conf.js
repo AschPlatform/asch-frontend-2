@@ -76,7 +76,8 @@ module.exports = ctx => {
         'QChipsInput',
         'QOptionGroup',
         'QCollapsible',
-        'QSelect'
+        'QSelect',
+        'QToggle'
       ],
       directives: ['Ripple'],
       plugins: ['Notify', 'SessionStorage', 'Dialog']

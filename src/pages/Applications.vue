@@ -1,16 +1,12 @@
 <template>
   <div class="tab-panel-container row ">
-    <transition  
-    appear
-    enter-active-class="animated fadeIn"
-    leave-active-class="animated fadeOut"
-    mode="out-in">
+    <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
       <div class="col-12 shadow-1">
-        <q-table :data="appsData?appsData.dapps:[]" :columns="columns" @request="request" :pagination.sync="pagination" 
-        :loading="loading" :title="$t('DAPP_LIST')">
-          
-         <template slot="top-right" slot-scope="props">
-            <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+        <q-table :data="appsData?appsData.dapps:[]" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DAPP_LIST')">
+  
+          <template slot="top-right" slot-scope="props">
+             <q-toggle v-model="installed" :label="$t('DAPP_INSTALL_LIST')" color="secondary" @change="(val)=>getDapps(null,null,val)" />
+              <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
           </template>
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
@@ -62,7 +58,12 @@
           <tbody class='info-tbody'>
             <tr v-for="b in dappBalances" :key="b.currency" >
               <td >{{b.currency}}</td>
-              <td >{{b.quantityShow | unit($t)}}</td>
+              <td >
+                {{b.quantityShow | unit($t)}} 
+                <!-- <q-btn @click="withDraw(b.currency)" icon="monetization on" size="sm" flat color="primary" >
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_WITHDRAWAL')}}</q-tooltip>
+                </q-btn> -->
+              </td>
               <td >{{b.balanceShow}}</td>
             </tr>
           </tbody>
@@ -85,45 +86,46 @@
       @cancel="onCancel"
     >
       <!-- This or use "title" prop on <q-dialog> -->
-      <span slot="title">{{$t('TRS_TYPE_DEPOSIT')}}</span>
+      <span slot="title">{{dialog.title}}</span>
+      <span slot="message">{{dialog.message}}</span>
 
       <div class="row" slot="body">
         <q-field 
           class="col-12"
-          error-label="error"
           :label-width="4">
           <q-select :float-label="$t('ERR_NO_DEPOSIT_COIN')" filter v-model="form.depositName" 
-          :options="assets" :error="$v.depositName.$error" error-label="error"/>
+          :options="assetsOpt" :disable="dialog.form==2" :error="$v.form.depositName.$error" error-label="error" />
         </q-field>
         <q-field 
-            error-label="error"
             :label-width="4"
             class="col-12"
           >
-            <q-input :float-label="$t('DEPOSIT_AMOUNT')"  @blur="$v.issuerNum.$touch" 
-            v-model="form.issuerNum" type="number" :decimals="0" :error="$v.issuerNum.$error" />
+            <q-input :float-label="$t('DEPOSIT_AMOUNT')"  @blur="$v.form.amount.$touch" 
+            v-model="form.amount" type="number" :decimals="0" :error="$v.form.amount.$error" error-label="error" />
         </q-field>
         <q-field v-if="secondSignature"
           class="col-12"
           :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
+          :error="secondPwdError"
           :label-width="2"
         >
-          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="secondPwd" type="password" />
+          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="secondPwd" type="password" @blur="validateSecondPwd" />
         </q-field>
       </div>
-      <template slot="buttons" slot-scope="props">
-          <q-btn  flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
-          <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
-      </template>
+<template slot="buttons" slot-scope="props">
+  <q-btn flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
+  <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
+</template>
     </q-dialog>
     </div>
 </template>
 
 <script>
 import { api, translateErrMsg } from '../utils/api'
-import { toast } from '../utils/util'
-import {} from '../utils/asch'
-import { required, numeric, minValue, secondPwdReg } from 'vuelidate/lib/validators'
+import { toast, toastWarn } from '../utils/util'
+import { createInTransfer } from '../utils/asch'
+import { required, minValue, numeric } from 'vuelidate/lib/validators'
+import { secondPwdReg } from '../utils/validators'
 import defaultIcon from '../assets/icon.png'
 export default {
   props: ['userObj'],
@@ -177,27 +179,32 @@ export default {
       modalInfoShow: false,
       row: {},
       secondPwd: '',
+      secondPwdError: false,
       dialogShow: false,
       dialog: {
         title: '',
-        message: ''
+        message: '',
+        form: 1 // 1 deposit; 2 withDraw
       },
-      defaultIcon: defaultIcon,
       dappBalances: [],
       form: {
         depositName: '',
-        issuerNum: ''
-      }
+        amount: null
+      },
+      installed: false,
+      defaultIcon: defaultIcon
     }
   },
   validations: {
-    issuerNum: {
-      required,
-      numeric,
-      minValue: minValue(1)
-    },
-    depositName: {
-      required
+    form: {
+      amount: {
+        required,
+        numeric,
+        minValue: minValue(1)
+      },
+      depositName: {
+        required
+      }
     }
   },
   methods: {
@@ -206,7 +213,7 @@ export default {
     },
     async getDapps(pagination = {}, filter = '', installed = false) {
       this.loading = true
-      if (pagination.page) this.pagination = pagination
+      if (pagination && pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
       let res = {}
@@ -223,7 +230,7 @@ export default {
       }
       this.appsData = res
       // set max
-      this.pagination.rowsNumber = res.count
+      this.pagination.rowsNumber = res.count.count || 0
       this.loading = false
       return res
     },
@@ -232,30 +239,71 @@ export default {
     //   this.modalInfoShow = true
     // }
     async viewBanlance(row) {
-      let res = await api.appBalance({ appId: row.transactionId })
+      let res = await api.appBalance({
+        appId: row.transactionId
+      })
       if (res.success === true) {
         this.dappBalances = res.balances.map(b => {
           // init XAS data
           if (b.currency === 'XAS') b.quantityShow = 100000000
+          return b
         })
         this.modalInfoShow = true
       } else {
         translateErrMsg(this.$t, res.error)
       }
     },
-    deposit(row) {
+    withDraw(name) {
       const t = this.$t
-
+      this.form.depositName = name
+      this.modalInfoShow = false
       this.dialog = {
-        title: t('TRS_TYPE_UIA_ISSUE'),
-        message: `${t('CANT_ROLLBACK')}, ${t('REQUIRES_FEE')} 0.1 XAS`,
+        title: t('TRS_TYPE_WITHDRAWAL'),
+        message: t('OPERATION_REQUIRES_FEE' + '0.1 XAS'),
         form: 2
+      }
+      this.dialogShow = true
+    },
+    async deposit(row) {
+      const t = this.$t
+      this.dialog = {
+        title: t('DAPP_DEPOSIT'),
+        message: t('DAPP_COIN_FEE'),
+        form: 1
       }
       this.row = row
       this.dialogShow = true
     },
     async onOk() {
-      
+      this.$v.form.$touch()
+      if (this.$v.form.$error || (this.secondSignature && this.secondPwdError)) {
+        toastWarn('error')
+        this.dialogShow = true
+        return
+      }
+      const { transactionId } = this.row
+      const assets = this.selectedAssets
+      let amount, trans
+      if (this.dialog.form === 1) {
+        amount = parseFloat((this.form.amount * Math.pow(10, assets.precision)).toFixed(0))
+        trans = createInTransfer(
+          transactionId,
+          this.form.depositName,
+          amount,
+          this.user.secret,
+          this.secondPwd
+        )
+      } else {
+        // TODO
+      }
+
+      let res = await api.broadcastTransaction(trans)
+      if (res.success === true) {
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
+      } else {
+        translateErrMsg(this.$t, res.error)
+      }
+      this.resetFrom()
     },
     onCancel() {
       this.dialogShow = false
@@ -267,6 +315,18 @@ export default {
     },
     info(msg) {
       toast(msg)
+    },
+    validateSecondPwd(val) {
+      let isValid = this.pwdValid
+      this.secondPwdError = isValid
+      return isValid
+    },
+    resetFrom() {
+      this.form = {
+        depositName: '',
+        amount: null
+      }
+      this.$v.$reset()
     }
   },
   async mounted() {
@@ -298,6 +358,39 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 10
       }
+    },
+    selectedAssets() {
+      let depositName = this.form.depositName
+      if (depositName === 'XAS') {
+        return {
+          precision: 10,
+          name: depositName
+        }
+      } else {
+        let obj = null
+        this.user.assets.forEach(a => {
+          if (a.name === depositName) obj = a
+        })
+        return obj
+      }
+    },
+    assetsOpt() {
+      let assets = [
+        {
+          key: 0,
+          value: 'XAS',
+          label: 'XAS'
+        }
+      ].concat(
+        this.user.assets.map((item, idx) => {
+          return {
+            key: idx + 1,
+            label: item.name,
+            value: item.name
+          }
+        })
+      )
+      return assets
     }
   },
   watch: {
@@ -308,6 +401,9 @@ export default {
     },
     pageNo(val) {
       this.getDapps()
+    },
+    installed(val) {
+      this.getDapps(null, null, val)
     }
   }
 }

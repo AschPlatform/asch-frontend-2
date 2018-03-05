@@ -4,6 +4,8 @@ import { BigNumber } from 'bignumber.js'
 
 export const getPub = secret => AschJs.crypto.getKeys(secret).publicKey
 export const getAddr = secret => AschJs.crypto.getAddress(secret)
+export const createInTransfer = (transactionId, currency, amount, secret, secondPassword = '') =>
+  AschJs.transfer.createInTransfer(transactionId, currency, amount, secret, secondPassword)
 export const createLock = (lockHeight, secret, secondpassword) =>
   AschJs.transaction.createLock(lockHeight, secret, secondpassword)
 export const signature = (secret, secondpassword = '') =>
