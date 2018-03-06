@@ -444,30 +444,34 @@ export default {
     },
     assetsOpt() {
       if (this.user && this.user.assets) {
-        let assets =
-          this.dialog.form === 1
-            ? [
-                {
-                  key: 0,
-                  value: 'XAS',
-                  label: 'XAS'
-                }
-              ].concat(
-                this.user.assets.map((item, idx) => {
-                  return {
-                    key: idx + 1,
-                    label: item.name,
-                    value: item.name
-                  }
-                })
-              )
-            : this.dappBalances.map((item, idx) => {
-                return {
-                  key: idx + 1,
-                  label: item.currency,
-                  value: item.currency
-                }
-              })
+        let assets = []
+        const formType = this.dialog.form
+        if (formType === 1) {
+          assets = [
+            {
+              key: 0,
+              value: 'XAS',
+              label: 'XAS'
+            }
+          ].concat(
+            this.user.assets.map((item, idx) => {
+              return {
+                key: idx + 1,
+                label: item.name,
+                value: item.name
+              }
+            })
+          )
+        } else {
+          assets = this.dappBalances.map((item, idx) => {
+            return {
+              key: idx + 1,
+              label: item.currency,
+              value: item.currency
+            }
+          })
+        }
+
         return assets
       } else {
         return []
