@@ -42,8 +42,10 @@ const fetch = (url, data, method, postHeaders) => {
   let res = {}
   if (type === 'get') {
     res = axios.get(realUrl + '?' + json2url(data))
-  } else {
+  } else if (type === 'post') {
     res = axios.post(realUrl, data, postHeaders)
+  } else if (type === 'put') {
+    res = axios.put(realUrl, data, postHeaders)
   }
   return res
 }
@@ -139,6 +141,13 @@ api.uiaAssetListApi = params => {
 // 广播交易
 api.broadcastTransaction = trans => {
   return fetch(urls.postApi, { transaction: trans }, 'post', {
+    headers: { magic: urls.magics[process.env.NODE_ENV], version: '' }
+  })
+}
+// 执行 DAPP 内部合约
+api.dappContract = (trans, appid) => {
+  let url = { url: `/api/dapps/${appid}//transactions/signed` }
+  return fetch(url, { transaction: trans }, 'put', {
     headers: { magic: urls.magics[process.env.NODE_ENV], version: '' }
   })
 }

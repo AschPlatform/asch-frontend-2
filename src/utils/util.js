@@ -68,5 +68,5 @@ export const getCache = key => {
   return SessionStorage.get.item(key)
 }
 export const removeCache = key => {
-  return SessionStorage.remove()
+  return SessionStorage.remove(key)
 }

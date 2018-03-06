@@ -4,6 +4,8 @@ import { BigNumber } from 'bignumber.js'
 
 export const getPub = secret => AschJs.crypto.getKeys(secret).publicKey
 export const getAddr = secret => AschJs.crypto.getAddress(secret)
+export const createInnerTransaction = (options, secret) =>
+  AschJs.dapp.createInnerTransaction(options, secret)
 export const createInTransfer = (transactionId, currency, amount, secret, secondPassword = '') =>
   AschJs.transfer.createInTransfer(transactionId, currency, amount, secret, secondPassword)
 export const createLock = (lockHeight, secret, secondpassword) =>
@@ -77,3 +79,5 @@ export const dealBigNumber = num => {
   let dealNum = dealNumB.toFormat(0).toString()
   return dealNum.replace(/,/g, '')
 }
+
+export const check58 = address => AschJs.crypto.isBase58CheckAddress(address)

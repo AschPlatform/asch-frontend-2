@@ -19,6 +19,17 @@
               <q-btn @click="download(props.row)" icon="file download" size="sm" flat color="primary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DOWNLOAD')}}</q-tooltip>
               </q-btn>
+              <q-fab v-if="installed" flat color="orange" icon="settings" direction="right" size="sm" >
+                <q-tooltip slot="tooltip" anchor="top middle" self="bottom middle"  :offset="[0, 10]" >
+                  {{$t('TRS_TYPE_UIA_FLAGS')}}
+                </q-tooltip>
+                <q-fab-action @click="withDraw(props.row)" icon="monetization on" size="sm"  color="primary" >
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_WITHDRAWAL')}}</q-tooltip>
+                </q-fab-action>
+                <q-fab-action @click="innerTrans(props.row)" icon="swap horiz" size="sm" color="primary" >
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_TRANSFER')}}</q-tooltip>
+                </q-fab-action>
+              </q-fab>
           </q-td>
 
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
@@ -60,9 +71,7 @@
               <td >{{b.currency}}</td>
               <td >
                 {{b.quantityShow | unit($t)}} 
-                <!-- <q-btn @click="withDraw(b.currency)" icon="monetization on" size="sm" flat color="primary" >
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_WITHDRAWAL')}}</q-tooltip>
-                </q-btn> -->
+                
               </td>
               <td >{{b.balanceShow}}</td>
             </tr>
@@ -93,15 +102,23 @@
         <q-field 
           class="col-12"
           :label-width="4">
-          <q-select :float-label="$t('ERR_NO_DEPOSIT_COIN')" filter v-model="form.depositName" 
-          :options="assetsOpt" :disable="dialog.form==2" :error="$v.form.depositName.$error" error-label="error" />
+          <q-select :float-label="$t('ASSET')" filter v-model="form.depositName" 
+          :options="assetsOpt"  :error="$v.form.depositName.$error" error-label="error" />
         </q-field>
         <q-field 
             :label-width="4"
             class="col-12"
           >
-            <q-input :float-label="$t('DEPOSIT_AMOUNT')"  @blur="$v.form.amount.$touch" 
+            <q-input :float-label="$t('AMOUNTS')"  @blur="$v.form.amount.$touch" 
             v-model="form.amount" type="number" :decimals="0" :error="$v.form.amount.$error" error-label="error" />
+        </q-field>
+        <q-field 
+            v-if="dialog.form==3"
+            :label-width="4"
+            class="col-12"
+          >
+            <q-input :float-label="$t('ADDRESS')"  @blur="validateAddr" 
+            v-model="form.address" :error="this.addressError" :error-label="$t('ERR_TOAST_ACCOUNT_INVALID_RECIPIENT')" />
         </q-field>
         <q-field v-if="secondSignature"
           class="col-12"
@@ -109,7 +126,7 @@
           :error="secondPwdError"
           :label-width="2"
         >
-          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="secondPwd" type="password" @blur="validateSecondPwd" />
+          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="form.secondPwd" type="password" @blur="validateSecondPwd" />
         </q-field>
       </div>
 <template slot="buttons" slot-scope="props">
@@ -123,7 +140,7 @@
 <script>
 import { api, translateErrMsg } from '../utils/api'
 import { toast, toastWarn } from '../utils/util'
-import { createInTransfer } from '../utils/asch'
+import { createInTransfer, createInnerTransaction, check58 } from '../utils/asch'
 import { required, minValue, numeric } from 'vuelidate/lib/validators'
 import { secondPwdReg } from '../utils/validators'
 import defaultIcon from '../assets/icon.png'
@@ -178,8 +195,7 @@ export default {
       ],
       modalInfoShow: false,
       row: {},
-      secondPwd: '',
-      secondPwdError: false,
+
       dialogShow: false,
       dialog: {
         title: '',
@@ -189,8 +205,12 @@ export default {
       dappBalances: [],
       form: {
         depositName: '',
-        amount: null
+        amount: null,
+        address: null,
+        secondPwd: ''
       },
+      addressError: false,
+      secondPwdError: false,
       installed: false,
       defaultIcon: defaultIcon
     }
@@ -230,7 +250,7 @@ export default {
       }
       this.appsData = res
       // set max
-      this.pagination.rowsNumber = res.count.count || 0
+      this.pagination.rowsNumber = res.count && res.count.count ? res.count.count : 0
       this.loading = false
       return res
     },
@@ -239,32 +259,53 @@ export default {
     //   this.modalInfoShow = true
     // }
     async viewBanlance(row) {
+      await this.getBalance(row)
+      this.modalInfoShow = true
+    },
+    async getBalance(row) {
       let res = await api.appBalance({
         appId: row.transactionId
       })
       if (res.success === true) {
-        this.dappBalances = res.balances.map(b => {
+        let balences = res.balances.map(b => {
           // init XAS data
           if (b.currency === 'XAS') b.quantityShow = 100000000
           return b
         })
-        this.modalInfoShow = true
+        this.dappBalances = balences
+        return balences
       } else {
         translateErrMsg(this.$t, res.error)
+        return []
       }
     },
-    withDraw(name) {
+    async innerTrans(row) {
+      await this.getBalance(row)
+      const t = this.$t
+      this.form.depositName = name
+      this.modalInfoShow = false
+      this.dialog = {
+        title: t('TRS_TYPE_TRANSFER'),
+        message: t('OPERATION_REQUIRES_FEE') + '0.1 XAS',
+        form: 3
+      }
+      this.row = row
+      this.dialogShow = true
+    },
+    async withDraw(row) {
+      await this.getBalance(row)
       const t = this.$t
       this.form.depositName = name
       this.modalInfoShow = false
       this.dialog = {
         title: t('TRS_TYPE_WITHDRAWAL'),
-        message: t('OPERATION_REQUIRES_FEE' + '0.1 XAS'),
+        message: t('OPERATION_REQUIRES_FEE') + '0.1 XAS',
         form: 2
       }
+      this.row = row
       this.dialogShow = true
     },
-    async deposit(row) {
+    deposit(row) {
       const t = this.$t
       this.dialog = {
         title: t('DAPP_DEPOSIT'),
@@ -283,21 +324,43 @@ export default {
       }
       const { transactionId } = this.row
       const assets = this.selectedAssets
-      let amount, trans
-      if (this.dialog.form === 1) {
-        amount = parseFloat((this.form.amount * Math.pow(10, assets.precision)).toFixed(0))
+      const form = this.dialog.form
+      let amount = parseFloat((this.form.amount * Math.pow(10, assets.precision)).toFixed(0))
+      let res, trans
+
+      if (form === 1) {
         trans = createInTransfer(
           transactionId,
           this.form.depositName,
           amount,
           this.user.secret,
-          this.secondPwd
+          this.form.secondPwd
         )
-      } else {
-        // TODO
+        res = await api.broadcastTransaction(trans)
+      } else if (form === 2) {
+        let type = 2 // 这里的type指的是合约标号，而非主链的交易类型
+        let options = {
+          fee: '10000000',
+          type: type,
+          args: `["${this.form.depositName}", "${amount}"]`
+        }
+        trans = createInnerTransaction(options, this.user.secret)
+        res = await api.dappContract(trans, this.row.transactionId)
+      } else if (form === 3) {
+        if (this.addressError) {
+          toastWarn(this.$t('ERR_RECIPIENT_ADDRESS_FORMAT'))
+          return
+        }
+        let type = 3 // 这里的type指的是合约标号，而非主链的交易类型
+        let options = {
+          fee: '10000000',
+          type: type,
+          args: `["${this.form.depositName}", "${amount}","${this.form.address}"]`
+        }
+        trans = createInnerTransaction(options, this.user.secret)
+        res = await api.dappContract(trans, this.row.transactionId)
       }
 
-      let res = await api.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
       } else {
@@ -327,6 +390,11 @@ export default {
         amount: null
       }
       this.$v.$reset()
+    },
+    validateAddr() {
+      let validated = check58(this.form.address)
+      this.addressError = !validated
+      return validated
     }
   },
   async mounted() {
@@ -338,10 +406,10 @@ export default {
       return this.userObj
     },
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.user && this.user.account ? this.user.account.secondSignature : null
     },
     pwdValid() {
-      return !secondPwdReg.test(this.secondPwd)
+      return !secondPwdReg.test(this.form.secondPwd)
     },
     assets() {
       return this.user.assets
@@ -375,22 +443,35 @@ export default {
       }
     },
     assetsOpt() {
-      let assets = [
-        {
-          key: 0,
-          value: 'XAS',
-          label: 'XAS'
-        }
-      ].concat(
-        this.user.assets.map((item, idx) => {
-          return {
-            key: idx + 1,
-            label: item.name,
-            value: item.name
-          }
-        })
-      )
-      return assets
+      if (this.user && this.user.assets) {
+        let assets =
+          this.dialog.form === 1
+            ? [
+                {
+                  key: 0,
+                  value: 'XAS',
+                  label: 'XAS'
+                }
+              ].concat(
+                this.user.assets.map((item, idx) => {
+                  return {
+                    key: idx + 1,
+                    label: item.name,
+                    value: item.name
+                  }
+                })
+              )
+            : this.dappBalances.map((item, idx) => {
+                return {
+                  key: idx + 1,
+                  label: item.currency,
+                  value: item.currency
+                }
+              })
+        return assets
+      } else {
+        return []
+      }
     }
   },
   watch: {
