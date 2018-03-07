@@ -13,9 +13,8 @@
           </q-card-title>
           <q-card-main class="column ">
             <big>
-                                      {{user.account.balance | fee}} XAS
-                                    </big>
-  
+              {{user.account.balance | fee}} XAS
+            </big>
             <q-btn id='addr-data' v-clipboard="user.account.address" @success="info('copy success...')" flat>
               {{user.account.address}}
             </q-btn>

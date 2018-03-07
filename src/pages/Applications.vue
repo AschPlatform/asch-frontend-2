@@ -39,7 +39,7 @@
             </div>
           </q-td>
           <q-td slot="body-cell-icon"  slot-scope="props" :props="props">
-            <img :src="props.row.icon" style="height:30px" :onerror="props.row.icon = defaultIcon">
+            <img :src="props.row.icon" style="height:56px" :onerror="props.row.icon = defaultIcon">
           </q-td>
           <q-td slot="body-cell-desc"  slot-scope="props" :props="props">
             <div class="my-label" >
@@ -168,7 +168,8 @@ export default {
           name: 'icon',
           label: this.$t('DAPP_ICON'),
           field: 'icon',
-          type: 'string'
+          type: 'string',
+          align: 'center'
         },
         {
           label: this.$t('DAPP_NAME'),
