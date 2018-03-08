@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-panel-container row  ">
+  <div class="layout-padding self-center ">
   
     <q-card class="row col-12" >
       <q-card-title class='col-12'>
@@ -36,25 +36,20 @@
     </q-card>
   
     <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-      <div class="col-12">
-        <q-table :data="blocks" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
+      <div class="col-12 ">
+        <q-table class="trans-table" :data="blocks" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
   
           <template slot="top-right" slot-scope="props">
             <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
           </template>
-
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
             <div class="my-label" >
               {{props.value.substring(0,7)}}
               <q-tooltip>{{props.value}}</q-tooltip>
             </div>
           </q-td>
-          
-          <q-td slot="body-cell-desc"  slot-scope="props" :props="props">
-            <div class="my-label" >
-              {{props.value.substring(0,20)}}
-              <q-tooltip>{{props.value}}</q-tooltip>
-            </div>
+          <q-td slot="body-cell-reward"  slot-scope="props" :props="props">
+            {{props.value | fee}}
           </q-td>
 
         </q-table>
@@ -240,7 +235,7 @@ export default {
       this.dialogShow = false
     },
     async onOk() {
-      let trans = createDelegate(this.form.delegateName, this.user.secret, this.secondPwd)
+      let trans = createDelegate(this.form.delegateName, this.user.secret, this.form.secondPwd)
       let res = await api.broadcastTransaction(trans)
       if (res.success === true) {
         this.resetForm()
