@@ -14,22 +14,18 @@
           </q-btn>
         </div>
       </q-card-title>
-      <q-card-main class="column ">
+      <q-card-main class="row col-12 ">
         <table v-if="delegate" class="q-table horizontal-separator highlight loose ">
           <tbody class='info-tbody'>
             <tr>
               <td >{{$t('TOTAL_EARNINGS')}}</td>
               <td >{{delegate.rewards}}</td>
-            </tr>
-            <tr>
-              <td >{{$t('RANKING')}}</td>
-              <td >{{delegate.rate}}</td>
-            </tr>
-            <tr>
               <td >{{$t('PRODUCTIVITY')}}</td>
               <td >{{delegate.productivity}}</td>
             </tr>
             <tr>
+              <td >{{$t('RANKING')}}</td>
+              <td >{{delegate.rate}}</td>
               <td >{{$t('APPROVAL')}}</td>
               <td >{{delegate.approval+'%'}}</td>
             </tr>
@@ -40,7 +36,7 @@
     </q-card>
   
     <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-      <div class="col-12 shadow-1">
+      <div class="col-12">
         <q-table :data="blocks" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
   
           <template slot="top-right" slot-scope="props">
@@ -53,17 +49,12 @@
               <q-tooltip>{{props.value}}</q-tooltip>
             </div>
           </q-td>
-          <q-td slot="body-cell-icon"  slot-scope="props" :props="props">
-            <img :src="props.row.icon" style="height:56px" :onerror="props.row.icon = defaultIcon">
-          </q-td>
+          
           <q-td slot="body-cell-desc"  slot-scope="props" :props="props">
             <div class="my-label" >
               {{props.value.substring(0,20)}}
               <q-tooltip>{{props.value}}</q-tooltip>
             </div>
-          </q-td>
-          <q-td slot="body-cell-category"  slot-scope="props" :props="props">
-            {{props.value | category($t)}}
           </q-td>
 
         </q-table>
@@ -80,7 +71,7 @@
     >
       <!-- This or use "title" prop on <q-dialog> -->
       <span slot="title">{{$t('REGISTER_DELEGATE')}}</span>
-      <span slot="message">{{$t('NEED_PAY')}}</span>
+      <span slot="message">{{$t('NEED_PAY')+' 100 XAS'}}</span>
 
       <div class="row" slot="body">
         <q-field 
@@ -108,8 +99,8 @@
 
 <script>
 import { api, translateErrMsg } from '../utils/api'
-import { toast, toastWarn } from '../utils/util'
-import { fullTimestamp, convertFee } from '../utils/asch'
+import { toast } from '../utils/util'
+import { fullTimestamp, createDelegate } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 
 export default {
@@ -226,7 +217,7 @@ export default {
     async refreshDelegateInfo() {
       this.refreshLoading = true
       await this.getDelegate()
-      this.refreshLoading = false
+      this._.delay(() => (this.refreshLoading = false), 2000)
     },
     init() {
       this.getDelegate()
@@ -245,9 +236,23 @@ export default {
       return isValid
     },
     onCancel() {
+      this.resetForm()
       this.dialogShow = false
     },
-    onOk() {}
+    async onOk() {
+      let trans = createDelegate(this.form.delegateName, this.user.secret, this.secondPwd)
+      let res = await api.broadcastTransaction(trans)
+      if (res.success === true) {
+        this.resetForm()
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
+      } else {
+        translateErrMsg(this.$t, res.error)
+      }
+    },
+    resetForm() {
+      this.form.delegateName = ''
+      this.form.secondPwd = ''
+    }
   },
   mounted() {
     if (this.user) {
