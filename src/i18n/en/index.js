@@ -195,7 +195,7 @@ const lang = {
   PRODUCED_NUMBER: 'Number of produced blocks',
   USERNAME: 'User Name',
   WEIGHT: 'Weight',
-  TOTAL_PEOPLES: 'Totally {{count}} people',
+  TOTAL_PEOPLES: 'Totally %{count} people',
 
   // model - account detail
   ACCOUNT_DETAIL: 'Account Detail',

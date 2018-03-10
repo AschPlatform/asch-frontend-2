@@ -59,7 +59,7 @@
       </transition>
 
       <q-modal minimized no-backdrop-dismiss   v-model="modalInfoShow" content-css="padding: 20px">
-      <big>{{$t('DAPP_DETAIL')}}</big>
+        <big>{{$t('DAPP_DETAIL')}}</big>
         <table class="q-table horizontal-separator highlight loose ">
           <tbody class='info-tbody'>
             <tr v-clipboard="row.name" @success="info('copy name success...')">

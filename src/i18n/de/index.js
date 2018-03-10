@@ -188,7 +188,7 @@ const lang = {
   PRODUCED_NUMBER: 'Produzierte Blöcke',
   USERNAME: 'Benutzername',
   WEIGHT: 'Gewichtung',
-  TOTAL_PEOPLES: 'Insgesamt {{count}} Personen',
+  TOTAL_PEOPLES: 'Insgesamt %{count} Personen',
 
   // model - account detail
   ACCOUNT_DETAIL: 'Kontodetails',

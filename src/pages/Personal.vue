@@ -51,7 +51,7 @@
           </q-card-main>
         </q-card>
       </q-collapsible>
-      <q-collapsible group="info" icon="vpn key" :label="$t('SECOND_PASSWORD')">
+      <q-collapsible group="info" icon="fingerprint" :label="$t('SECOND_PASSWORD')">
         <q-card>
           <q-card-title>
             {{$t('SET_SECOND_PASSWORD')}}
@@ -267,7 +267,8 @@ export default {
     }
   },
   watch: {
-    userObj(val) {},
+    userObj(val) {
+    },
     pageNo(val) {}
   }
 }

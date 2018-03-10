@@ -50,7 +50,7 @@
           <q-item-side icon="public" />
           <q-item-main :label="$t('BLOCKS')" />
         </q-item>
-        <q-item item :to="getRouterConf('vote')">
+        <q-item item :to="getRouterConf('delegates')">
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
         </q-item>
@@ -68,6 +68,34 @@
       <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="500">
         <router-view :userObj="user" />
       </transition>
+      <q-modal minimized no-backdrop-dismiss  v-model="accountShow" content-css="padding: 20px">
+      <big>{{$t('DAPP_DETAIL')}}</big>
+      <table class="q-table horizontal-separator highlight loose ">
+        <tbody class='info-tbody'>
+          <tr id='detail-addr' v-clipboard="accountInfo.address" @success="info('copy address success...')">
+            <td >{{$t('ADDRESS')}}</td>
+            <td >{{accountInfo.address}}</td>
+          </tr>
+          <tr id='detail-pub' v-clipboard="accountInfo.publicKey" @success="info('copy publicKey success...')">
+            <td >{{$t('PUBLIC_KEY')}}</td>
+            <td >{{accountInfo.publicKey}}</td>
+          </tr>
+          <tr id='detail-amount' v-clipboard="accountInfo.balance" @success="info('copy balance success...')">
+            <td >{{$t('BALANCE')}}</td>
+            <td >{{accountInfo.balance | fee}}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br/>
+        <q-btn
+          color="primary"
+          @click="()=>{
+            this.accountShow = false
+            this.row = {}
+            }"
+          :label="$t('label.close')"
+        />
+      </q-modal>
     </q-page-container>
   </q-layout>
 </template>
@@ -85,7 +113,9 @@ export default {
     return {
       user: null,
       showLeft: true,
-      logo: logo
+      logo: logo,
+      accountShow: false,
+      accountInfo: {}
     }
   },
   computed: {},
@@ -102,6 +132,14 @@ export default {
         }
       }
       return conf
+    },
+    async openAccountModal(account, cbOk = func, cbErr = func) {
+      let { address } = account
+      let res = await api.account({
+        address: address
+      })
+      this.accountInfo = res.account
+      this.accountShow = true
     },
     async refreshAccount(cb = func) {
       // refresh user balance
@@ -166,11 +204,13 @@ export default {
     this.$root.$on('getIssuer', () => {
       this.user && this.user.account ? this.getIssuer() : console.log('not init yet..')
     })
+    this.$root.$on('openAccountModal', this.openAccountModal)
   },
   beforeDestroy() {
     this.$root.$off('refreshAccount', this.refreshAccount)
     this.$root.$off('refreshAccount', this.getAssetsList)
     this.$root.$off('getIssuer', this.getIssuer)
+    this.$root.$off('openAccountModal', this.openAccountModal)
   }
 }
 </script>

@@ -152,6 +152,12 @@ api.dappContract = (trans, appid) => {
   })
 }
 
+// 查询 DAPP 内部余额
+api.dappMyBalance = (appid, address) => {
+  let url = { url: `/api/dapps/${appid}/balances/${address}` }
+  return fetch(url, {}, 'get')
+}
+
 const translateErrMsg = (t, input) => {
   // console.log('translateErrInner',language,input);
   // console.log(this)

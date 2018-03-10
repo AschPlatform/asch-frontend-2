@@ -183,7 +183,7 @@ const lang = {
   PRODUCED_NUMBER: '生产块数',
   USERNAME: '用户名',
   WEIGHT: '权重',
-  TOTAL_PEOPLES: '共{{count}}人',
+  TOTAL_PEOPLES: '共%{count}人',
 
   // model - account detail
   ACCOUNT_DETAIL: '账户详情',

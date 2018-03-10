@@ -10,7 +10,10 @@
           </template>
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-              <q-btn @click="viewBanlance(props.row)" icon="account balance wallet" size="sm" flat color="primary" >
+              <q-btn v-if="!installed" @click="viewAppBanlance(props.row)" icon="account balance wallet" size="sm" flat color="primary" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_BANLANCE_DETAIL')}}</q-tooltip>
+              </q-btn>
+              <q-btn v-if="installed" @click="viewMyBanlance(props.row)" icon="account balance wallet" size="sm" flat color="primary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_BANLANCE_DETAIL')}}</q-tooltip>
               </q-btn>
               <q-btn @click="deposit(props.row)" icon="shopping cart" size="sm" flat color="primary" >
@@ -39,7 +42,8 @@
             </div>
           </q-td>
           <q-td slot="body-cell-icon"  slot-scope="props" :props="props">
-            <img :src="props.row.icon" style="height:56px" :onerror="props.row.icon = defaultIcon">
+            <img v-if="props.row.icon" :src="props.row.icon" style="height:56px" :onerror="props.row.icon = null">
+            <div>{{'-'}}</div>
           </q-td>
           <q-td slot="body-cell-desc"  slot-scope="props" :props="props">
             <div class="my-label" >
@@ -60,13 +64,17 @@
       <big>{{$t('DAPP_DETAIL')}}</big>
         <table class="q-table horizontal-separator highlight loose ">
           <thead>
-            <tr>
+            <tr v-if="balanceType==0">
               <th>{{$t('DAPP_SUPPORT_COIN')}}</th>
               <th>{{$t('DAPP_COIN_CURRENT_QUANTITY')}}</th>
               <th>{{'DAPP'+$t('BALANCE')}}</th>
             </tr>
+            <tr v-if="balanceType==1">
+              <th>{{$t('DAPP_SUPPORT_COIN')}}</th>
+              <th>{{'DAPP'+$t('BALANCE')}}</th>
+            </tr>
           </thead>
-          <tbody class='info-tbody'>
+          <tbody v-if="balanceType==0" class='info-tbody'>
             <tr v-for="b in dappBalances" :key="b.currency" >
               <td >{{b.currency}}</td>
               <td >
@@ -76,6 +84,13 @@
               <td >{{b.balanceShow}}</td>
             </tr>
           </tbody>
+          <tbody v-if="balanceType==1" class='info-tbody'>
+            <tr v-for="b in dappBalances" :key="b.currency" >
+              <td >{{b.currency}}</td>
+              <td >{{b.balance | fee}}</td>
+            </tr>
+          </tbody>
+          
         </table>
       <br/>
       <q-btn
@@ -204,6 +219,7 @@ export default {
         form: 1 // 1 deposit; 2 withDraw
       },
       dappBalances: [],
+      balanceType: 0, // 0 dapp, 1 user
       form: {
         depositName: '',
         amount: null,
@@ -259,14 +275,25 @@ export default {
     //   this.row = row
     //   this.modalInfoShow = true
     // }
-    async viewBanlance(row) {
+    async viewAppBanlance(row) {
       await this.getBalance(row)
       this.modalInfoShow = true
     },
-    async getBalance(row) {
-      let res = await api.appBalance({
-        appId: row.transactionId
-      })
+    async viewMyBanlance(row) {
+      await this.getBalance(row, true)
+      this.modalInfoShow = true
+    },
+    async getBalance(row, userFlag = false) {
+      let res
+      if (!userFlag) {
+        res = await api.appBalance({
+          appId: row.transactionId
+        })
+        this.balanceType = 0
+      } else {
+        res = await api.dappMyBalance(row.transactionId, this.user.account.address)
+        this.balanceType = 1
+      }
       if (res.success === true) {
         let balences = res.balances.map(b => {
           // init XAS data
@@ -399,8 +426,10 @@ export default {
     }
   },
   async mounted() {
-    if (this.user) this.getDapps()
-    this.$root.$emit('getAssetsList')
+    if (this.user) {
+      this.getDapps()
+      this.$root.$emit('getAssetsList')
+    }
   },
   computed: {
     user() {
@@ -483,6 +512,7 @@ export default {
     userObj(val) {
       if (val) {
         this.getDapps()
+        if (!val.assets) this.$root.$emit('getAssetsList')
       }
     },
     pageNo(val) {

@@ -1,6 +1,6 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-    <q-tabs inverted align="justify">
+    <q-tabs inverted align="justify" class="tab-container">
       <q-route-tab default  name="account" to="account" exact slot="title" icon="web asset" :label="$t('ASSET_PROFILE')" />
       <q-route-tab name="publisher" to="publisher" slot="title" exact icon="business" :label="$t('REGISTERED_PUBLISHER')" />
       <q-route-tab name="assets" slot="title" to="addAssets" icon="assessment" :label="$t('REGISTERED_ASSETS')" />
@@ -22,21 +22,14 @@ export default {
   data() {
     return {}
   },
-  methods: {
-    async refresh(done) {
-      this.resetTable()
-      done()
-    }
-  },
+  methods: {},
   computed: {
     user() {
       return this.userObj
     }
   },
   mounted() {},
-  watch: {
-    userObj(val) {}
-  },
+  watch: {},
   created() {
     // register event
   },

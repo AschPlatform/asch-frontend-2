@@ -30,8 +30,8 @@
           </q-card-title>
           <q-card-main>
             <big>
-                                    {{user.latestBlock.height}}
-                                    </big>
+              {{user.latestBlock.height}}
+            </big>
             <p class="text-faded"></p>
   
           </q-card-main>

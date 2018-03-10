@@ -36,11 +36,16 @@
               {{props.value}}
             </div>
           </q-td>
+          <q-td slot="body-cell-numberOfTransactions"  slot-scope="props" :props="props">
+            <div class="text-primary" @click="()=>showTransInfo(props.row.id)" >
+              {{props.value}}
+            </div>
+          </q-td>
 
         </q-table>
       </div>
 
-      <q-modal minimized no-backdrop-dismiss  v-model="modalInfoShow" content-css="padding: 20px">
+      <q-modal minimized   v-model="modalInfoShow" content-css="padding: 20px">
       <big>{{$t('DAPP_DETAIL')}}</big>
       <table class="q-table horizontal-separator highlight loose ">
         <tbody v-if="type==1" class='info-tbody'>
@@ -103,7 +108,22 @@
             <td >{{$t('BALANCE')}}</td>
             <td >{{row.balance | fee}}</td>
           </tr>
-         
+        </tbody>
+        <tbody v-if="type==3" class='info-tbody'>
+          <tr>
+            <td>{{'ID'}}</td>
+            <td>{{$t('CONFIRMATIONS')}}</td>
+            <td>{{$t('AMOUNTS')}}</td>
+            <td>{{$t('FEES')}}</td>
+            <td>{{$t('DATE')}}</td>
+          </tr>
+          <tr v-for="trans in row" :key="trans.id">
+            <td >{{trans.id}}</td>
+            <td >{{trans.confirmations }}</td>
+            <td >{{trans.amount | fee}}</td>
+            <td >{{trans.fee }}</td>
+            <td >{{trans.timestamp | time}}</td>
+          </tr>
         </tbody>
       </table>
       <br/>
@@ -120,9 +140,9 @@
 </template>
 
 <script>
-import { api, translateErrMsg } from '../utils/api'
-import { toast } from '../utils/util'
-import { fullTimestamp, createDelegate } from '../utils/asch'
+import { api } from '../utils/api'
+// import { toast } from '../utils/util'
+import { fullTimestamp } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 
 export default {
@@ -269,6 +289,16 @@ export default {
         this.type = 2
         this.row = res.account
         this.modalInfoShow = true
+      }
+    },
+    async showTransInfo(blockId) {
+      let res = await api.transactions({
+        blockId: blockId
+      })
+      if (res.success === true) {
+        this.row = res.transactions
+        this.modalInfoShow = true
+        this.type = 3
       }
     }
   },
