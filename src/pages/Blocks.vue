@@ -17,7 +17,6 @@
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
             <div class="my-label text-primary" @click="()=>showBlockInfo(props.row.id)" >
               {{props.value.substring(0,7)}}
-              <q-tooltip>{{props.value}}</q-tooltip>
             </div>
           </q-td>
           

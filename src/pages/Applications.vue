@@ -144,10 +144,10 @@
           <q-input :float-label="$t('SECOND_PASSWORD')" v-model="form.secondPwd" type="password" @blur="validateSecondPwd" />
         </q-field>
       </div>
-<template slot="buttons" slot-scope="props">
-  <q-btn flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
-  <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
-</template>
+      <template slot="buttons" slot-scope="props">
+        <q-btn flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
+        <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
+      </template>
     </q-dialog>
     </div>
 </template>

@@ -3,6 +3,7 @@ import Bip39 from 'bip39'
 
 export const secondPwdReg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/
 export const assetNameReg = /^[A-Z]{3,6}$/
+export const addressReg = /^[0-9]{1,21}$/g
 // bip 39 validator
 export const bip39 = () => {
   return withParams({ type: this.bip39 }, value => {
@@ -15,8 +16,13 @@ export const assetName = () => {
   })
 }
 
-export const secondPwd = secondPub => {
+export const secondPwd = () => {
   return withParams({ type: this.secondPwd }, value => {
     return secondPwdReg.test(value)
+  })
+}
+export const address = () => {
+  return withParams({ type: this.address }, value => {
+    return addressReg.test(value)
   })
 }
