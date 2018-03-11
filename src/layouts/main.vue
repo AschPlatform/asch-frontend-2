@@ -54,7 +54,7 @@
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
         </q-item>
-        <q-item item tag="label">
+        <q-item item :to="getRouterConf('transfer')">
           <q-item-side icon="compare arrows" @click="$root.$emit('openTransactionDialog')"/>
           <q-item-main @click="$root.$emit('openTransactionDialog')" :label="$t('TRANSFER')" />
         </q-item>
@@ -100,7 +100,10 @@
         <big >{{$t('TRS_TYPE_TRANSFER')}}</big><br/>
         <span>{{$t('PAY_TIP')}}</span>
   
-        <div class=" col-8 " >
+        <div v-if="user && user.account" class=" col-8 " >
+          <!-- <q-field class="col-12">
+            <q-input disable :float-label="$t('SENDER')" v-model="user.account.address" />
+          </q-field> -->
           <q-field class="col-12">
             <q-input v-if="form.currency" disable :float-label="$t('DAPP_CATEGORY')" v-model="form.currency" />
           </q-field>
@@ -114,7 +117,7 @@
           </q-field>
   
           <q-field v-if="secondSignature" class="col-12">
-            <q-input :float-label="$t('SECOND_PASSWORD')" v-model="form.secondPwd" type="password" 
+            <q-input :float-label="$t('SECOND_PASSWORD')" v-model="secondPwd" type="password" 
             @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
           </q-field>
           <q-field class="col-12">
@@ -125,12 +128,11 @@
              @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" 
              :error-label="$t('ERR_INVALID_REMARK')" />
           </q-field>
-
         </div>
         <br/>
         <div class="row col-12 justify-between">
           <q-btn big class="col-auto"  color="primary" @click="send" :label="$t('SEND')" />
-          <q-btn big class="col-auto"  color="orange" @click="cancle" :label="$t('label.close')" />
+          <q-btn big class="col-auto"  color="orange" @click="cancel" :label="$t('label.close')" />
         </div>
     </q-modal>
 
@@ -140,9 +142,9 @@
           direction="up"
           color="primary"
         >
-          <q-fab-action @click="router.push('home')" color="blue" class="white" icon="home" />
-          <q-fab-action @click="router.push('account')" color="blue" class="white" icon="attach money" />
           <q-fab-action @click="openTransactionDialog" color="blue" class="white" icon="compare arrows" />
+          <q-fab-action @click="$router.push({name:'account'})" color="blue" class="white" icon="attach money" />
+          <q-fab-action @click="$router.push({name:'home'})" color="blue" class="white" icon="home" />
         </q-fab>
       </q-page-sticky>
     </q-page-container>
@@ -153,7 +155,7 @@
 <script>
 import { api, translateErrMsg } from '../utils/api'
 import { createTransaction, createTransfer } from '../utils/asch'
-import { setCache, getCache, removeCache, toast } from '../utils/util'
+import { setCache, getCache, removeCache, toast, toastWarn } from '../utils/util'
 import { address, secondPwd } from '../utils/validators'
 import { required, maxLength, numeric, minValue } from 'vuelidate/lib/validators'
 import { QPageSticky } from 'quasar'
@@ -195,11 +197,11 @@ export default {
         currency: '',
         receiver: '',
         amount: '',
-        secondPwd: '',
         fee: '0.1',
         remark: '',
         precision: 8
       },
+      secondPwd: '',
       transShow: false
     }
   },
@@ -235,6 +237,10 @@ export default {
         this.transShow = true
         return
       }
+      if (this.form.receiver === this.user.account.address) {
+        toastWarn($t('ERR_RECIPIENT_EQUAL_SENDER'))
+        return
+      }
       let trans
       let { currency, amount, receiver, remark, precision } = this.form
       amount = (amount * Math.pow(10, precision)).toFixed(0)
@@ -250,9 +256,10 @@ export default {
         this.resetForm()
       } else {
         translateErrMsg(this.$t, res.error)
+        this.transShow = false
       }
     },
-    cancle(){
+    cancel() {
       this.resetForm()
     },
     async openAccountModal(account, cbOk = func, cbErr = func) {
@@ -312,6 +319,8 @@ export default {
         fee: '0.1',
         remark: ''
       }
+      this.$v.form.$reset()
+      this.$v.secondPwd.$reset()
     }
   },
   async mounted() {
@@ -371,7 +380,7 @@ export default {
 }
 
 .q-field {
-  margin-top: 15px;
+  margin-top: 10px;
 }
 
 .card-table-container {

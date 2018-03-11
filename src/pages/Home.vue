@@ -1,23 +1,23 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <div v-if="user" class="layout-padding self-center">
-    <div class="row gutter-xs">
-      <div class="col-auto ">
+    <div class="row gutter-xs col-12">
+      <div class="col-auto">
         <q-card class="card-info" color="secondary ">
           <q-card-title>
             {{$t('BALANCE')}}
             <!-- add balance refresh -->
             <div slot="right" class="row items-center">
-              <q-btn :loading="refreshLoading" flat round icon="refresh" @click="refreshBalance" />
+              <q-btn size="xs" :loading="refreshLoading" flat round icon="refresh" @click="refreshBalance" />
             </div>
           </q-card-title>
-          <q-card-main class="column ">
-            <big>
-              {{user.account.balance | fee}} XAS
-            </big>
-            <q-btn id='addr-data' v-clipboard="user.account.address" @success="info('copy success...')" flat>
-              {{user.account.address}}
-            </q-btn>
+          <q-card-main >
+            <div class="justify-between">
+              <big>{{user.account.balance | fee}} XAS</big><q-btn size="xs" v-clipboard="user.account.address" @success="info('copy success...')" flat round icon="compare arrows" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_TRANSFER')}}</q-tooltip>
+              </q-btn>
+            </div>
+            <div>{{user.account.address}}<q-btn size="xs" v-clipboard="user.account.address" @success="info('copy success...')" flat round icon="content copy" /></div>
           </q-card-main>
   
         </q-card>

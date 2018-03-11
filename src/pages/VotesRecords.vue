@@ -22,17 +22,22 @@
             </q-btn>
           </template>
            
+          <q-td slot="body-cell-address"  slot-scope="props" :props="props">
+            <div class="text-primary" @click="viewAccountInfo(props.row)">
+              {{props.value}}
+            </div>
+          </q-td>
           <q-td slot="body-cell-username"  slot-scope="props" :props="props">
             <div>
               {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
             </div>
           </q-td>
-          <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
+          <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
             <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
               <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
             </q-btn>
             <q-icon color="positive" v-if="props.row.voted" name="icon-chrome" />
-          </q-td>
+          </q-td> -->
         </q-table>
       </div>
       </transition>
@@ -90,12 +95,12 @@ export default {
       filter: '',
       loading: false,
       columns: [
-        {
-          name: 'opt',
-          field: 'rate',
-          label: this.$t('OPERATION'),
-          align: 'center'
-        },
+        // {
+        //   name: 'opt',
+        //   field: 'rate',
+        //   label: this.$t('OPERATION'),
+        //   align: 'center'
+        // },
         {
           name: 'rate',
           label: this.$t('RANKING'),
