@@ -18,14 +18,8 @@ export const createInnerTransaction = (options, secret) =>
 export const createTransaction = (fromto, amount, message, secret, secondPassword = '') =>
   AschJs.transaction.createTransaction(fromto, amount, message, secret, secondPassword)
 
-export const createTransfer = (
-  currencyName,
-  amount,
-  fromto,
-  message,
-  secret,
-  secondPassword = ''
-) => AschJs.uia.createTransfer(currencyName, amount, fromto, message, secret, secondPassword)
+export const createTransfer = (currency, amount, fromto, message, secret, secondPassword = '') =>
+  AschJs.uia.createTransfer(currency, amount, fromto, message, secret, secondPassword)
 
 export const createInTransfer = (transactionId, currency, amount, secret, secondPassword = '') =>
   AschJs.transfer.createInTransfer(transactionId, currency, amount, secret, secondPassword)

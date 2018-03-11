@@ -77,7 +77,8 @@ module.exports = ctx => {
         'QOptionGroup',
         'QCollapsible',
         'QSelect',
-        'QToggle'
+        'QToggle',
+        'QAjaxBar'
       ],
       directives: ['Ripple'],
       plugins: ['Notify', 'SessionStorage', 'Dialog']

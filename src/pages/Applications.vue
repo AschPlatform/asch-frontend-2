@@ -271,10 +271,6 @@ export default {
       this.loading = false
       return res
     },
-    // viewInfo(row) {
-    //   this.row = row
-    //   this.modalInfoShow = true
-    // }
     async viewAppBanlance(row) {
       await this.getBalance(row)
       this.modalInfoShow = true
@@ -403,9 +399,6 @@ export default {
     close() {
       this.dialogShow = false
       this.row = {}
-    },
-    info(msg) {
-      toast(msg)
     },
     validateSecondPwd(val) {
       let isValid = this.pwdValid

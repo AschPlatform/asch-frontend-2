@@ -125,7 +125,7 @@ const lang = {
   SEND: 'Send',
   ALREADY_LOCKED: 'The transaction is rejected due to the account lock.',
   PAY_TIP:
-    'Please make sure you send XAS to the correct address. This operation cannot be cancelled.',
+    'Please make sure you send to the correct address. This operation cannot be cancelled.',
 
   // peers
   PEER_LIST: 'Peer List',

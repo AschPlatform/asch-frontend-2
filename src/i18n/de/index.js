@@ -117,7 +117,7 @@ const lang = {
   SEND: 'Senden',
   ALREADY_LOCKED: 'die Transaktion wird abgelehnt, da ihr Konto bereits gesperrt ist',
   PAY_TIP:
-    'Stelle sicher, dass du XAS an die richtige Adresse schickst. Diese Operation kann nicht rückgängig gemacht werden.',
+    'Stelle sicher, dass du an die richtige Adresse schickst. Diese Operation kann nicht rückgängig gemacht werden.',
 
   // peers
   PEER_LIST: 'Liste von Knoten',

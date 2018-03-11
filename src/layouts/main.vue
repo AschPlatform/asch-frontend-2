@@ -55,8 +55,8 @@
           <q-item-main :label="$t('VOTE')" />
         </q-item>
         <q-item item :to="getRouterConf('transfer')">
-          <q-item-side icon="compare arrows" @click="$root.$emit('openTransactionDialog')"/>
-          <q-item-main @click="$root.$emit('openTransactionDialog')" :label="$t('TRANSFER')" />
+          <q-item-side icon="compare arrows"/>
+          <q-item-main  :label="$t('TRANSFER')" />
         </q-item>
         <q-item item :to="getRouterConf('peers')">
           <q-item-side icon="blur on" />
@@ -70,121 +70,36 @@
       </transition>
 
       <!-- common component with event -->
-      <q-modal minimized no-backdrop-dismiss v-model="accountShow" content-css="padding: 20px">
-        <big>{{$t('DAPP_DETAIL')}}</big>
-        <table class="q-table horizontal-separator highlight loose ">
-          <tbody class='info-tbody'>
-            <tr disable v-clipboard="accountInfo.address" @success="info('copy address success...')">
-              <td>{{$t('ADDRESS')}}</td>
-              <td>{{accountInfo.address}}</td>
-            </tr>
-            <tr v-clipboard="accountInfo.publicKey" @success="info('copy publicKey success...')">
-              <td>{{$t('PUBLIC_KEY')}}</td>
-              <td>{{accountInfo.publicKey}}</td>
-            </tr>
-            <tr id='detail-amount' v-clipboard="accountInfo.balance" @success="info('copy balance success...')">
-              <td>{{$t('BALANCE')}}</td>
-              <td>{{accountInfo.balance | fee}}</td>
-            </tr>
-          </tbody>
-        </table>
-        <br/>
-        <q-btn color="primary" @click="()=>{
-              this.accountShow = false
-              this.row = {}
-              }" :label="$t('label.close')" />
-      </q-modal>
+    <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false"/>
   
-      <q-modal v-model="transShow" minimized no-backdrop-dismiss content-css="padding: 20px" >
-        <!-- This or use "title" prop on <q-dialog> -->
-        <big >{{$t('TRS_TYPE_TRANSFER')}}</big><br/>
-        <span>{{$t('PAY_TIP')}}</span>
-  
-        <div v-if="user && user.account" class=" col-8 " >
-          <!-- <q-field class="col-12">
-            <q-input disable :float-label="$t('SENDER')" v-model="user.account.address" />
-          </q-field> -->
-          <q-field class="col-12">
-            <q-input v-if="form.currency" disable :float-label="$t('DAPP_CATEGORY')" v-model="form.currency" />
-          </q-field>
-          <q-field class="col-12">
-            <q-input :float-label="$t('RECIPIENT')" @blur="$v.form.receiver.$touch" 
-            v-model="form.receiver" :error="$v.form.receiver.$error" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" />
-          </q-field>
-          <q-field class="col-12">
-            <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" 
-            v-model="form.amount" type="number" :decimals="0" :error="$v.form.amount.$error" :error-label="$t('ERR_AMOUNT_INVALID')" />
-          </q-field>
-  
-          <q-field v-if="secondSignature" class="col-12">
-            <q-input :float-label="$t('SECOND_PASSWORD')" v-model="secondPwd" type="password" 
-            @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
-          </q-field>
-          <q-field class="col-12">
-            <q-input disable :float-label="$t('FEES')" v-model="form.fee" />
-          </q-field>
-          <q-field class="col-12">
-            <q-input :float-label="$t('REMARK')" :helper="$t('REMARK_TIP')+'0 ~ 255'"
-             @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" 
-             :error-label="$t('ERR_INVALID_REMARK')" />
-          </q-field>
+    <q-modal v-model="transShow" minimized no-backdrop-dismiss content-css="padding: 20px" >
+        <trans-panel :showTitle="true" :assets="assets" :user="user">
+          <div slot="btns" slot-scope="props" class="row col-12 justify-between" >
+            <q-btn big class="col-auto"  color="primary" @click="transShow=false;props.send()" :label="$t('SEND')" />
+            <q-btn big class="col-auto"  color="orange" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
         </div>
-        <br/>
-        <div class="row col-12 justify-between">
-          <q-btn big class="col-auto"  color="primary" @click="send" :label="$t('SEND')" />
-          <q-btn big class="col-auto"  color="orange" @click="cancel" :label="$t('label.close')" />
-        </div>
+        </trans-panel>
     </q-modal>
 
-      <q-page-sticky position="bottom-right" :offset="[18, 18]">
-        <q-fab
-          icon="format list bulleted"
-          direction="up"
-          color="primary"
-        >
-          <q-fab-action @click="openTransactionDialog" color="blue" class="white" icon="compare arrows" />
-          <q-fab-action @click="$router.push({name:'account'})" color="blue" class="white" icon="attach money" />
-          <q-fab-action @click="$router.push({name:'home'})" color="blue" class="white" icon="home" />
-        </q-fab>
-      </q-page-sticky>
+    <float-menu :router="$router" />
+      
     </q-page-container>
-       
+     <q-ajax-bar ref="bar" position="top" color="orange" />  
   </q-layout>
 </template>
 
 <script>
-import { api, translateErrMsg } from '../utils/api'
-import { createTransaction, createTransfer } from '../utils/asch'
-import { setCache, getCache, removeCache, toast, toastWarn } from '../utils/util'
-import { address, secondPwd } from '../utils/validators'
-import { required, maxLength, numeric, minValue } from 'vuelidate/lib/validators'
-import { QPageSticky } from 'quasar'
-
+import { api } from '../utils/api'
+import { setCache, getCache, removeCache } from '../utils/util'
+import FloatMenu from '../components/FloatMenu'
+import TransPanel from '../components/TransPanel'
+import AccountInfo from '../components/AccountInfo'
 import logo from '../assets/icon.png'
 const func = () => {}
 
 export default {
   name: 'Home',
-  components: { QPageSticky },
-  validations: {
-    form: {
-      amount: {
-        required,
-        numeric,
-        minValue: minValue(1)
-      },
-      receiver: {
-        required,
-        address: address()
-      },
-      remark: {
-        maxLength: maxLength(255)
-      }
-    },
-    secondPwd: {
-      secondPwd: secondPwd()
-    }
-  },
+  components: { FloatMenu, TransPanel, AccountInfo },
   data() {
     return {
       user: null,
@@ -192,16 +107,7 @@ export default {
       logo: logo,
       accountShow: false,
       accountInfo: {},
-      form: {
-        from: '',
-        currency: '',
-        receiver: '',
-        amount: '',
-        fee: '0.1',
-        remark: '',
-        precision: 8
-      },
-      secondPwd: '',
+      assets: null,
       transShow: false
     }
   },
@@ -220,47 +126,8 @@ export default {
       return conf
     },
     async openTransactionDialog(assets = null, cbOk = func, cbErr = func) {
-      if (assets) {
-        this.form.currency = assets.currency
-        this.form.precision = assets.precision
-      }
+      this.assets = assets
       this.transShow = true
-    },
-    async send() {
-      this.$v.form.$touch()
-      let invlaidPwd = false
-      if (this.secondSignature) {
-        this.$v.secondPwd.$touch()
-        invlaidPwd = this.$v.secondPwd.$error
-      }
-      if (invlaidPwd || this.$v.form.$error) {
-        this.transShow = true
-        return
-      }
-      if (this.form.receiver === this.user.account.address) {
-        toastWarn($t('ERR_RECIPIENT_EQUAL_SENDER'))
-        return
-      }
-      let trans
-      let { currency, amount, receiver, remark, precision } = this.form
-      amount = (amount * Math.pow(10, precision)).toFixed(0)
-      receiver = String(receiver)
-      if (currency) {
-        trans = createTransfer(currency, amount, receiver, remark, this.user.secret, this.secondPwd)
-      } else {
-        trans = createTransaction(receiver, amount, remark, this.user.secret, this.secondPwd)
-      }
-      let res = api.broadcastTransaction(trans)
-      if (res.success === true) {
-        toast(this.$t('INF_TRANSFER_SUCCESS'))
-        this.resetForm()
-      } else {
-        translateErrMsg(this.$t, res.error)
-        this.transShow = false
-      }
-    },
-    cancel() {
-      this.resetForm()
     },
     async openAccountModal(account, cbOk = func, cbErr = func) {
       let { address } = account
@@ -309,18 +176,10 @@ export default {
         cbErr()
       }
     },
-    resetForm() {
-      this.transShow = false
-      this.form = {
-        currency: 'XAS',
-        receiver: '',
-        amount: '',
-        secondPwd: '',
-        fee: '0.1',
-        remark: ''
-      }
-      this.$v.form.$reset()
-      this.$v.secondPwd.$reset()
+    showAjaxBar() {
+      let bar = this.$refs.bar
+      bar.start()
+      this._.delay(() => bar.stop(), 10000)
     }
   },
   async mounted() {
@@ -353,12 +212,15 @@ export default {
     })
     this.$root.$on('openAccountModal', this.openAccountModal)
     this.$root.$on('openTransactionDialog', this.openTransactionDialog)
+    this.$root.$on('showAjaxBar', this.showAjaxBar)
   },
   beforeDestroy() {
     this.$root.$off('refreshAccount', this.refreshAccount)
     this.$root.$off('refreshAccount', this.getAssetsList)
     this.$root.$off('getIssuer', this.getIssuer)
     this.$root.$off('openAccountModal', this.openAccountModal)
+    this.$root.$off('openTransactionDialog', this.openTransactionDialog)
+    this.$root.$off('showAjaxBar', this.showAjaxBar)
   }
 }
 </script>

@@ -9,9 +9,7 @@
 
         <template slot="top-right" slot-scope="props">
           <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-          <q-btn :loading="loading" flat round icon="refresh" @click="refresh">
-            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.refresh')}}</q-tooltip>
-          </q-btn>
+          <q-btn :loading="loading" flat round icon="refresh" @click="refresh" />
         </template>
 
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
