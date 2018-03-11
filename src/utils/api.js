@@ -2,7 +2,6 @@ import axios from './axiosWrap'
 import { urls } from './constants'
 import { toastError, getCurrentSeverUrl } from './util'
 
-const selectedServerUrl = getCurrentSeverUrl()
 // import nodeService from './servers'
 
 const json2url = json => {
@@ -37,9 +36,8 @@ const fetch = (url, data, method, postHeaders) => {
   //     server = nodeService.getCurrentServer()
   //   }
   // }
-
+  let selectedServerUrl = getCurrentSeverUrl()
   // let realUrl = urls.server.caos + url
-
   let realUrl = !selectedServerUrl
     ? urls.server[process.env.NODE_ENV] + url
     : selectedServerUrl + url

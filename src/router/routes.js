@@ -110,6 +110,11 @@ export default [
         path: 'applications',
         name: 'applications',
         component: load('Applications')
+      },
+      {
+        path: 'about',
+        name: 'about',
+        component: load('About')
       }
     ]
   },

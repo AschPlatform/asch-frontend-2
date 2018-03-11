@@ -6,12 +6,8 @@
         {{$t('DELEGATE_INFO')}}
         <span slot="subtitle">{{delegate?delegate.username:''}}{{`(${forgingEnabled?$t('FORGING_ENABLE'):$t('FORGING_DISABLE')})`}}</span>
         <div slot="right" class="items-center">
-          <q-btn v-if="!delegate" flat round icon="assignment" @click="registerDelegate">
-            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DELEGATE_REGISTER')}}</q-tooltip>
-          </q-btn>
-          <q-btn :loading="refreshLoading" flat round icon="refresh" @click="refreshDelegateInfo">
-            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.refresh')}}</q-tooltip>
-          </q-btn>
+          <q-btn v-if="!delegate" flat round icon="assignment" @click="registerDelegate"/>
+          <q-btn :loading="refreshLoading" flat round icon="refresh" @click="refreshDelegateInfo"/>
         </div>
       </q-card-title>
       <q-card-main class="row col-12 ">

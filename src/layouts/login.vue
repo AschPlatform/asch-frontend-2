@@ -233,7 +233,6 @@ export default {
           label: server.ip,
           value: server
         }
-        // if (currentServer && currentServer.ip === server.ip) opt.rightIcon = 'check circle'
         return opt
       })
     }
@@ -246,7 +245,9 @@ export default {
       })
     },
     serverUrl(server) {
-      setCache('currentServer', server)
+      if (server) {
+        setCache('currentServer', server)
+      }
     }
   }
 }

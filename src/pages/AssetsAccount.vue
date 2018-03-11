@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-panel-container row ">
+  <q-page class="tab-panel-container row ">
     <transition 
     appear
     enter-active-class="animated fadeIn"
@@ -79,7 +79,7 @@
     </q-modal>
 
 
-    </div>
+    </q-page>
 </template>
 
 <script>

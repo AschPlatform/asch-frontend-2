@@ -9,7 +9,8 @@
         <q-input v-if="currency" disable :float-label="$t('DAPP_CATEGORY')" v-model="currency" />
       </q-field>
       <q-field class="col-12">
-        <q-input :float-label="$t('RECIPIENT')" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" />
+        <q-input v-if="authorAddr" :float-label="$t('RECIPIENT')" @blur="$v.form.receiver.$touch" v-model="authorAddr"  />
+        <q-input v-else :float-label="$t('RECIPIENT')" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" />
       </q-field>
       <q-field class="col-12">
         <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="1" :error="$v.form.amount.$error" :error-label="$t('ERR_AMOUNT_INVALID')" />
@@ -39,7 +40,7 @@ import { address, secondPwd } from '../utils/validators'
 import { required, maxLength, minValue } from 'vuelidate/lib/validators'
 
 export default {
-  props: ['user', 'assets', 'showTitle'],
+  props: ['user', 'assets', 'showTitle', 'address'],
   data() {
     return {
       form: {
@@ -133,6 +134,7 @@ export default {
       this.$v.secondPwd.$reset()
     }
   },
+  mounted() {},
   computed: {
     secondSignature() {
       return this.user ? this.user.account.secondSignature : null
@@ -143,6 +145,9 @@ export default {
       } else {
         return ''
       }
+    },
+    authorAddr() {
+      return this.address
     }
   }
 }

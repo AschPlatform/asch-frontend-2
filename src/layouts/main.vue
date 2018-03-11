@@ -62,7 +62,7 @@
         </q-item>
         <q-item item :to="getRouterConf('about')">
           <q-item-side icon="info" />
-          <q-item-main label="" />
+          <q-item-main label="about" />
         </q-item>
       </q-list>
     </q-layout-drawer>
@@ -75,7 +75,7 @@
     <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false"/>
   
     <q-modal v-model="transShow" minimized no-backdrop-dismiss content-css="padding: 20px" >
-        <trans-panel :showTitle="true" :assets="assets" :user="user">
+        <trans-panel :showTitle="true" :assets="assets" :user="user" :address="address">
           <div slot="btns" slot-scope="props" class="row col-12 justify-between" >
             <q-btn big class="col-auto"  color="primary" @click="transShow=false;props.send()" :label="$t('SEND')" />
             <q-btn big class="col-auto"  color="orange" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
@@ -110,7 +110,8 @@ export default {
       accountShow: false,
       accountInfo: {},
       assets: null,
-      transShow: false
+      transShow: false,
+      address: ''
     }
   },
   methods: {
@@ -127,11 +128,12 @@ export default {
       }
       return conf
     },
-    async openTransactionDialog(assets = null, cbOk = func, cbErr = func) {
+    async openTransactionDialog(assets = null, address = '') {
       this.assets = assets
+      this.address = address
       this.transShow = true
     },
-    async openAccountModal(address, cbOk = func, cbErr = func) {
+    async openAccountModal(address) {
       let res = await api.account({
         address: address
       })
@@ -146,7 +148,7 @@ export default {
       })
       let user = this._.merge({}, this.user, res)
       this.user = user
-      if(getCache('user'))setCache('user', user)
+      if (getCache('user')) setCache('user', user)
       this._.delay(() => cb(), 1500) // delay refresh
     },
     async getIssuer(cbOk = func, cbErr = func) {
@@ -158,7 +160,7 @@ export default {
         this.user.issuer = res.issuer
         let user = this._.merge({}, this.user, res)
         this.user = user
-        if(getCache('user'))setCache('user', user)
+        if (getCache('user')) setCache('user', user)
         cbOk(res)
         // TODO
       } else {
@@ -171,7 +173,7 @@ export default {
       if (res.success) {
         let user = this._.merge({}, this.user, res)
         this.user = user
-        if(getCache('user'))setCache('user', user)
+        if (getCache('user')) setCache('user', user)
         cbOk(res)
       } else {
         cbErr()
@@ -237,5 +239,4 @@ export default {
 .q-field {
   margin-top: 10px;
 }
-
 </style>

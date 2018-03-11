@@ -1,0 +1,107 @@
+<template>
+  <q-page padding class="flex flex-center">
+    <q-card inline class="q-ma-sm col-6">
+      <q-item>
+        <q-item-side :avatar="avatar" />
+        <q-item-main>
+          <q-item-tile label>Caos</q-item-tile>
+          <q-item-tile sublabel>Javascript developer at Asch</q-item-tile>
+        </q-item-main>
+      </q-item>
+      <q-card-actions>
+        <q-btn color="positive" flat @click="vote">Vote</q-btn>
+        <q-btn color="secondary" flat @click="star">Star</q-btn>
+        <q-btn color="orange" flat @click="donate">Donate</q-btn>
+      </q-card-actions>
+    </q-card>
+  </q-page>
+</template>
+
+<style>
+
+</style>
+
+<script>
+import avatar from '../assets/caos.jpg'
+import { api, translateErrMsg } from '../utils/api'
+import { createVote } from '../utils/asch'
+import { toast } from '../utils/util'
+import {
+  QCard,
+  QCardTitle,
+  QCardMain,
+  QCardSeparator,
+  QCardActions,
+  QItemTile,
+  openURL
+} from 'quasar'
+export default {
+  props: ['userObj'],
+  components: { QCard, QCardTitle, QCardMain, QCardSeparator, QCardActions, QItemTile },
+  data() {
+    return {
+      avatar: avatar,
+      secondPwd: '',
+      delegate: null,
+      publicKey: '4394d8bd88ccaf972ede118934728590a8f31d3390372850464b11d930c31766',
+      address: 'A6JYoorqrmdrPMzFtUoR6ADmjUVNswiK6v'
+    }
+  },
+  methods: {
+    vote() {
+      let dialogConf = {
+        title: 'Thanks',
+        message: `Vote me directly or vote with others ? \n peer name: ${
+          this.delegate.username
+        } at rank ${this.delegate.rate}`,
+        ok: 'Vote',
+        cancel: 'Later'
+      }
+      if (this.secondSignature) {
+        dialogConf.prompt = {
+          model: '',
+          type: 'password'
+        }
+      }
+      this.$q
+        .dialog(dialogConf)
+        .then(async (data) => {
+          let trans = createVote(['+' + this.publicKey], this.user.secret, data)
+          let res = await api.broadcastTransaction(trans)
+          if (res.success === true) {
+            toast(this.$t('INF_VOTE_SUCCESS') + ' Thx ;-)')
+          } else {
+            translateErrMsg(this.$t, res.error + ' ;-(')
+          }
+        })
+        .catch(() => {})
+    },
+    star() {
+      openURL('https://github.com/CaosBad/asch-wallet')
+    },
+    donate() {
+      this.$root.$emit('openTransactionDialog', {}, this.address)
+    },
+    async getForgingStatus() {
+      let res = await api.blockforging({
+        publicKey: this.publicKey
+      })
+      if (res.success === true) {
+        this.delegate = res.delegate
+      }
+      return res
+    }
+  },
+  mounted() {
+    this.getForgingStatus()
+  },
+  computed: {
+    user() {
+      return this.userObj
+    },
+    secondSignature() {
+      return this.user ? this.user.account.secondSignature : null
+    }
+  }
+}
+</script>
