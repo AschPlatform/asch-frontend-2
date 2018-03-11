@@ -1,9 +1,9 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
     <q-tabs inverted align="justify"  class="tab-container">
-      <q-route-tab default  name="delegates" to="delegates" exact slot="title" icon="people outline" :label="$t('DELEGATE_LIST')" />
-      <q-route-tab name="voteRecords" to="voteRecords" slot="title" exact icon="people" :label="$t('VOTE_RECORD')" />
-      <q-route-tab name="supporters" slot="title" to="supporters" icon="face" :label="$t('MY_VOTERS')" />
+      <q-route-tab default  name="delegates" :to="routerConfig('delegates')"  slot="title" icon="people outline" :label="$t('DELEGATE_LIST')" />
+      <q-route-tab name="voteRecords" :to="routerConfig('voteRecords')" slot="title"  icon="people" :label="$t('VOTE_RECORD')" />
+      <q-route-tab name="supporters" slot="title" :to="routerConfig('supporters')" icon="face" :label="$t('MY_VOTERS')" />
       <router-view :userObj="user" />
     </q-tabs>
 </template>
@@ -20,6 +20,16 @@ export default {
     QRouteTab
   },
   mounted() {},
+  methods: {
+    routerConfig(name) {
+      return {
+        name: name,
+        params: {
+          user: this.user
+        }
+      }
+    }
+  },
   computed: {
     user() {
       return this.userObj
@@ -30,5 +40,4 @@ export default {
 </script>
 
 <style lang="stylus">
-
 </style>

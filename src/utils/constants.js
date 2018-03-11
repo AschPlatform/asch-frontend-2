@@ -13,6 +13,45 @@ const langsOpts = [
   }
 ]
 
+const officialPeers = [
+  {
+    ip: '107.191.41.208',
+    port: 80
+  },
+  {
+    ip: '45.76.98.139',
+    port: 80
+  },
+  {
+    ip: '45.63.27.97',
+    port: 80
+  },
+  {
+    ip: '45.76.99.134',
+    port: 80
+  },
+  {
+    ip: '104.238.180.37',
+    port: 80
+  },
+  {
+    ip: '45.32.254.236',
+    port: 80
+  },
+  {
+    ip: '108.61.181.76',
+    port: 80
+  },
+  {
+    ip: '222.161.26.230',
+    port: 9999
+  },
+  {
+    ip: '222.161.26.231',
+    port: 9999
+  }
+]
+
 const urls = {
   server: {
     development: 'http://localhost:4096',
@@ -160,4 +199,4 @@ const transTypes = [
 ]
 transTypes[100] = 'TRS_TYPE_LOCK'
 
-export { urls, langsOpts, transTypes }
+export { urls, langsOpts, transTypes, officialPeers }

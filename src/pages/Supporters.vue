@@ -92,7 +92,7 @@ export default {
       return res
     },
     viewAccountInfo(row) {
-      this.$root.$emit('openAccountModal', row)
+      this.$root.$emit('openAccountModal', row.address)
     }
   },
   async mounted() {

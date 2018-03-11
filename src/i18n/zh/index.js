@@ -86,6 +86,7 @@ const lang = {
   TRANSFER: '转账',
   PEERS: '节点',
   ASSET: '资产',
+  ABOUT: '关于',
 
   // home
   BALANCE: '余额',

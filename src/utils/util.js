@@ -70,3 +70,12 @@ export const getCache = key => {
 export const removeCache = key => {
   return SessionStorage.remove(key)
 }
+export const getCurrentSeverUrl = () => {
+  let currentServer = getCache('currentServer')
+  if (currentServer) {
+    let { ip, port } = currentServer
+    return 'http://' + ip + ':' + port
+  } else {
+    return false
+  }
+}

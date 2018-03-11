@@ -92,20 +92,6 @@
           </tr>
           
         </tbody>
-        <tbody v-if="type==2" class='info-tbody'>
-          <tr >
-            <td >{{$t('ADDRESS')}}</td>
-            <td >{{row.address }}</td>
-          </tr>
-          <tr >
-            <td >{{$t('PUBLIC_KEY')}}</td>
-            <td >{{row.publicKey}}</td>
-          </tr>
-          <tr >
-            <td >{{$t('BALANCE')}}</td>
-            <td >{{row.balance | fee}}</td>
-          </tr>
-        </tbody>
         <tbody v-if="type==3" class='info-tbody'>
           <tr>
             <td>{{'ID'}}</td>
@@ -279,14 +265,7 @@ export default {
       }
     },
     async showAccountInfo(address) {
-      let res = await api.account({
-        address: address
-      })
-      if (res.success === true) {
-        this.type = 2
-        this.row = res.account
-        this.modalInfoShow = true
-      }
+      this.$root.$emit('openAccountModal', address)
     },
     async showTransInfo(blockId) {
       let res = await api.transactions({

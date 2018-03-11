@@ -170,7 +170,7 @@ export default {
       return res
     },
     viewAccountInfo(row) {
-      this.$root.$emit('openAccountModal', row)
+      this.$root.$emit('openAccountModal', row.address)
     },
     info(msg) {
       toast(msg)

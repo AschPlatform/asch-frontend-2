@@ -87,6 +87,7 @@ const lang = {
   TRANSFER: 'Überweisen',
   PEERS: 'Knoten',
   ASSET: 'Assets',
+  ABOUT: 'über',
 
   // home
   BALANCE: 'Saldo',

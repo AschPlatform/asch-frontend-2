@@ -144,10 +144,6 @@ export default {
         return ''
       }
     }
-  },
-  mounted() {},
-  watch: {
-    userObj(val) {}
   }
 }
 </script>

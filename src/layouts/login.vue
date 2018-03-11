@@ -1,69 +1,77 @@
 <template>
   <q-layout>
-    <div class="main-page layout-padding row justify-center ">
-      <div class="main-logo  self-center" />
-      <q-card v-if="!isRegister" class="login-panel col-lg-9 col-xs-10 ">
-        <q-card-title>
-          {{$t('LOGIN')}}
-        </q-card-title>
-        <q-card-main class="row col-10 justify-center ">
-          <q-field class="col-10" :helper="$t('INPUT_PASSWORD')" :error="$v.secret.$error" :error-label="$t('ERR_VIOLATE_BIP39')">
-            <q-input @change="$v.secret.$touch" type="password" v-model="secret" @keyup.enter="login" clearable />
-          </q-field>
-          <div class="row col-10 justify-between">
-            <q-select class="col-auto " chips color="secondary" v-model="lang" :options="langsOpts" />
-            <q-checkbox class="col-auto " v-model="remember">{{$t('KEEP_SESSION')}}</q-checkbox>
-          </div>
-        </q-card-main>
-        <q-card-separator />
-        <q-card-main class="row col-10 justify-center ">
-          <div class="row col-10 justify-between">
-            <q-btn big outline class="col-aotu " color="primary" @click="newUser">
-              {{$t('NEW_ACCOUNT')}}
-            </q-btn>
-            <q-btn :loading="loading" big class="col-auto " color="primary" @click="login">
+    <q-page-container>
+      <q-page padding class="row justify-center">
+        <div class="main-page layout-padding row justify-center ">
+            <div class="main-logo" />
+          <q-card v-if="!isRegister" class="login-panel col-12 ">
+            <q-card-title>
               {{$t('LOGIN')}}
-            </q-btn>
-          </div>
-        </q-card-main>
-      </q-card>
-      <q-card v-else class="register-panel col-lg-9 col-xs-10 ">
-        <q-card-title>
-          {{$t('STEP') + `${registerStep}/2`}}{{registerStep==1?$t('CREATE_MASTER_PASSWORD'):$t('CONFIRM_PASSWORD')}}
-          <span slot="subtitle">{{registerStep===1?$t('NEW_PASSWORD'):$t('INPUT_PASSWORD_AGAIN')}}</span>
-        </q-card-title>
-        <q-card-main v-if="registerStep==1" class="row col-10 justify-center ">
-          <q-field class="col-10" :helper="$t('NEW_PWD_TIP_1')">
-            <q-input type="textarea" v-model="newSecret" disable :min-rows="5" />
-          </q-field>
-        </q-card-main>
-        <q-card-main v-if="registerStep==2" class="row col-10 justify-center ">
-          <q-field class="col-10" :helper="$t('NEW_PWD_TIP_2')">
-            <q-input type="textarea" v-model="confirmNewSecret" :min-rows="5" clearable />
-          </q-field>
-        </q-card-main>
-        <q-card-separator />
-        <q-card-main class="row col-10 justify-center ">
-          <div v-if="registerStep==1" class="row col-10 justify-between">
-            <q-btn big class="col-auto " color="primary" @click="saveNext">
-              {{$t('NEXT_STEP')}}
-            </q-btn>
-            <q-btn big outline class="col-aotu " color="primary" @click="saveNewSecret">
-              {{$t('SAVE_PASSWORD')}}
-            </q-btn>
-          </div>
-          <div v-else class="row col-10 justify-between">
-            <q-btn big class="col-auto " color="primary" @click="verifyNewSecret">
-              {{$t('CONFIRM')}}
-            </q-btn>
-            <q-btn big outline class="col-aotu " color="primary" @click="cleanRegister">
-              {{$t('CANCEL')}}
-            </q-btn>
-          </div>
-        </q-card-main>
-      </q-card>
+              <div slot="right">
+                <q-select style="width:125px" separator radio float-label="server" class="col" v-model="serverUrl" :options="serverOpts" />
+              </div>
+            </q-card-title>
+            <q-card-main class="row col-10 justify-center ">
+              <q-field class="col-10" :error="$v.secret.$error" :error-label="$t('ERR_VIOLATE_BIP39')">
+                <q-input :float-label="$t('INPUT_PASSWORD')" @change="$v.secret.$touch" type="password" v-model="secret" @keyup.enter="login" clearable />
+              </q-field>
+              <div class="row col-11 justify-between options-panel">
+                <q-select class="col-auto " chips color="secondary" v-model="lang" :options="langsOpts" />
+                <q-checkbox class="col-auto " v-model="remember">{{$t('KEEP_SESSION')}}</q-checkbox>
+              </div>
   
-    </div>
+            </q-card-main>
+            <q-card-separator />
+            <q-card-main class="row col-10 justify-center ">
+              <div class="row col-10 justify-between">
+                <q-btn big outline class="col-aotu " color="primary" @click="newUser">
+                  {{$t('NEW_ACCOUNT')}}
+                </q-btn>
+                <q-btn :loading="loading" big class="col-auto " color="primary" @click="login">
+                  {{$t('LOGIN')}}
+                </q-btn>
+              </div>
+            </q-card-main>
+          </q-card>
+          <q-card v-else class="register-panel col-lg-9 col-xs-10 ">
+            <q-card-title>
+              {{$t('STEP') + `${registerStep}/2`}}{{registerStep==1?$t('CREATE_MASTER_PASSWORD'):$t('CONFIRM_PASSWORD')}}
+              <span slot="subtitle">{{registerStep===1?$t('NEW_PASSWORD'):$t('INPUT_PASSWORD_AGAIN')}}</span>
+            </q-card-title>
+            <q-card-main v-if="registerStep==1" class="row col-10 justify-center ">
+              <q-field class="col-10" :helper="$t('NEW_PWD_TIP_1')">
+                <q-input type="textarea" v-model="newSecret" disable :min-rows="5" />
+              </q-field>
+            </q-card-main>
+            <q-card-main v-if="registerStep==2" class="row col-10 justify-center ">
+              <q-field class="col-10" :helper="$t('NEW_PWD_TIP_2')">
+                <q-input type="textarea" v-model="confirmNewSecret" :min-rows="5" clearable />
+              </q-field>
+            </q-card-main>
+            <q-card-separator />
+            <q-card-main class="row col-10 justify-center ">
+              <div v-if="registerStep==1" class="row col-10 justify-between">
+                <q-btn big class="col-auto " color="primary" @click="saveNext">
+                  {{$t('NEXT_STEP')}}
+                </q-btn>
+                <q-btn big outline class="col-aotu " color="primary" @click="saveNewSecret">
+                  {{$t('SAVE_PASSWORD')}}
+                </q-btn>
+              </div>
+              <div v-else class="row col-10 justify-between">
+                <q-btn big class="col-auto " color="primary" @click="verifyNewSecret">
+                  {{$t('CONFIRM')}}
+                </q-btn>
+                <q-btn big outline class="col-aotu " color="primary" @click="cleanRegister">
+                  {{$t('CANCEL')}}
+                </q-btn>
+              </div>
+            </q-card-main>
+          </q-card>
+        </div>
+      </q-page>
+  
+    </q-page-container>
   </q-layout>
 </template>
 
@@ -83,7 +91,7 @@ import {
 } from 'quasar'
 import { required } from 'vuelidate/lib/validators'
 import { bip39 } from '../utils/validators'
-import { langsOpts } from '../utils/constants'
+import { langsOpts, officialPeers } from '../utils/constants'
 import { getPub, getAddr, generateM } from '../utils/asch'
 import { api } from '../utils/api'
 import { toastError, setCache, removeCache } from '../utils/util'
@@ -113,7 +121,8 @@ export default {
       newSecret: '',
       confirmNewSecret: '',
       loading: false,
-      secretSaved: false
+      secretSaved: false,
+      serverUrl: ''
     }
   },
   validations: {
@@ -122,7 +131,6 @@ export default {
       bip39: bip39()
     }
   },
-  computed: {},
   methods: {
     async login(e, done) {
       this.loading = true
@@ -184,7 +192,9 @@ export default {
       const link = document.createElement('a')
       link.setAttribute('target', '_blank')
       if (Blob !== undefined) {
-        let blob = new Blob([txt], { type: 'text/plain' })
+        let blob = new Blob([txt], {
+          type: 'text/plain'
+        })
         link.setAttribute('href', URL.createObjectURL(blob))
       } else {
         link.setAttribute('href', 'data:text/plain,' + encodeURIComponent(txt))
@@ -213,12 +223,30 @@ export default {
   mounted() {
     this.lang = 'zh'
   },
+  created() {
+    removeCache('currentServer')
+  },
+  computed: {
+    serverOpts() {
+      return officialPeers.map(server => {
+        let opt = {
+          label: server.ip,
+          value: server
+        }
+        // if (currentServer && currentServer.ip === server.ip) opt.rightIcon = 'check circle'
+        return opt
+      })
+    }
+  },
   watch: {
     lang(lang) {
       this.locale = this.$i18n.locale = lang
       import(`src/i18n/${lang}`).then(lang => {
         this.$q.i18n.set(lang.default)
       })
+    },
+    serverUrl(server) {
+      setCache('currentServer', server)
     }
   }
 }
@@ -226,14 +254,19 @@ export default {
 
 <style lang="stylus" scoped>
 .login-panel {
-  height: auto;
-  margin-top: 10%;
+  height: 260px;
+  margin-top: 5%;
 }
 
 .main-logo {
-  background: url('../assets/icon.png') no-repeat;
+  background: url('../assets/logo.png') no-repeat;
+  background-size: 100%;
   width: 300px;
   height: 77px;
   margin: auto;
+}
+
+.options-panel {
+  margin-top: 10px;
 }
 </style>

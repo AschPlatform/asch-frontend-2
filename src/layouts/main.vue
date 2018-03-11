@@ -8,8 +8,6 @@
         </q-btn>
   
         <q-toolbar-title>
-          Asch
-          <div slot="subtitle"></div>
         </q-toolbar-title>
         <q-btn flat @click="logout">
           <q-icon name="power settings new" />
@@ -25,7 +23,7 @@
                     internal vue-router navigation
                   -->
       <q-list no-border link inset-delimiter>
-        <q-list-header> <img :src="logo" /> </q-list-header>
+        <q-list-header><div class="menu-logo" /> </q-list-header>
         <q-item item :to="getRouterConf('home')">
           <q-item-side icon="home" />
           <q-item-main :label="$t('HOME')" />
@@ -62,9 +60,13 @@
           <q-item-side icon="blur on" />
           <q-item-main :label="$t('PEERS')" />
         </q-item>
+        <q-item item :to="getRouterConf('about')">
+          <q-item-side icon="info" />
+          <q-item-main label="" />
+        </q-item>
       </q-list>
     </q-layout-drawer>
-    <q-page-container>
+    <q-page-container >
       <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="500">
         <router-view :userObj="user" />
       </transition>
@@ -81,7 +83,7 @@
         </trans-panel>
     </q-modal>
 
-    <float-menu :router="$router" />
+    <float-menu :router="$router" :userObj="user" />
       
     </q-page-container>
      <q-ajax-bar ref="bar" position="top" color="orange" />  
@@ -94,7 +96,7 @@ import { setCache, getCache, removeCache } from '../utils/util'
 import FloatMenu from '../components/FloatMenu'
 import TransPanel from '../components/TransPanel'
 import AccountInfo from '../components/AccountInfo'
-import logo from '../assets/icon.png'
+import logo from '../assets/logo.png'
 const func = () => {}
 
 export default {
@@ -129,8 +131,7 @@ export default {
       this.assets = assets
       this.transShow = true
     },
-    async openAccountModal(account, cbOk = func, cbErr = func) {
-      let { address } = account
+    async openAccountModal(address, cbOk = func, cbErr = func) {
       let res = await api.account({
         address: address
       })
@@ -145,7 +146,7 @@ export default {
       })
       let user = this._.merge({}, this.user, res)
       this.user = user
-      setCache('user', user)
+      if(getCache('user'))setCache('user', user)
       this._.delay(() => cb(), 1500) // delay refresh
     },
     async getIssuer(cbOk = func, cbErr = func) {
@@ -157,7 +158,7 @@ export default {
         this.user.issuer = res.issuer
         let user = this._.merge({}, this.user, res)
         this.user = user
-        setCache('user', user)
+        if(getCache('user'))setCache('user', user)
         cbOk(res)
         // TODO
       } else {
@@ -170,7 +171,7 @@ export default {
       if (res.success) {
         let user = this._.merge({}, this.user, res)
         this.user = user
-        setCache('user', user)
+        if(getCache('user'))setCache('user', user)
         cbOk(res)
       } else {
         cbErr()
@@ -226,26 +227,15 @@ export default {
 </script>
 
 <style lang="stylus">
-.logo-container {
-  width: 255px;
-  height: 242px;
-  perspective: 800px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-}
-
-.logo {
-  position: absolute;
-  transform-style: preserve-3d;
+.menu-logo {
+  background: url('../assets/logo.png') no-repeat;
+  background-size: 100%;
+  width: 260px;
+  height: 77px;
 }
 
 .q-field {
   margin-top: 10px;
 }
 
-.card-table-container {
-  overflow-x: scroll;
-}
 </style>

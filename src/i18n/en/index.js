@@ -95,6 +95,7 @@ const lang = {
   TRANSFER: 'Transfer',
   PEERS: 'Peers',
   ASSET: 'Asset',
+  ABOUT: 'About',
 
   // home
   BALANCE: 'Balance',
