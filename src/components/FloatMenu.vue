@@ -4,6 +4,7 @@
       <q-fab-action @click="openTrans" color="blue" class="white" icon="compare arrows" />
       <q-fab-action @click="router.push({name:'account',params:{user: user}})" color="blue" class="white" icon="attach money" />
       <q-fab-action @click="router.push({name:'home',params:{user: user}})" color="blue" class="white" icon="home" />
+      <q-fab-action @click="channelShow=true" color="orange" class="white" icon="message" />
     </q-fab>
   </q-page-sticky>
 </template>
@@ -18,7 +19,9 @@ export default {
     QPageSticky
   },
   data() {
-    return {}
+    return {
+      channelShow: false
+    }
   },
   methods: {
     openTrans() {
@@ -28,6 +31,15 @@ export default {
   computed: {
     user() {
       return this.userObj
+    }
+  },
+  watch: {
+    channelShow(val) {
+      if (val) {
+        window.CHPlugin.show()
+      } else {
+        window.CHPlugin.hide()
+      }
     }
   }
 }

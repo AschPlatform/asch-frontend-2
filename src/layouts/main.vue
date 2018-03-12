@@ -83,7 +83,7 @@
         </trans-panel>
     </q-modal>
 
-    <float-menu :router="$router" :userObj="user" />
+    <float-menu v-if="this.showFloatBtns" :router="$router" :userObj="user" />
       
     </q-page-container>
      <q-ajax-bar ref="bar" position="top" color="orange" />  
@@ -111,6 +111,7 @@ export default {
       accountInfo: {},
       assets: null,
       transShow: false,
+      showFloatBtns: true,
       address: ''
     }
   },
@@ -183,6 +184,9 @@ export default {
       let bar = this.$refs.bar
       bar.start()
       this._.delay(() => bar.stop(), 10000)
+    },
+    changeFloatBtn() {
+      this.showFloatBtns = !this.showFloatBtns
     }
   },
   async mounted() {
@@ -198,7 +202,7 @@ export default {
         ...user,
         ...res
       }
-      // console.log(user)
+      window.CHPlugin.checkIn()
     }
   },
   computed: {
@@ -216,6 +220,7 @@ export default {
     this.$root.$on('openAccountModal', this.openAccountModal)
     this.$root.$on('openTransactionDialog', this.openTransactionDialog)
     this.$root.$on('showAjaxBar', this.showAjaxBar)
+    this.$root.$on('changeFloatBtn', this.changeFloatBtn)
   },
   beforeDestroy() {
     this.$root.$off('refreshAccount', this.refreshAccount)
@@ -224,6 +229,7 @@ export default {
     this.$root.$off('openAccountModal', this.openAccountModal)
     this.$root.$off('openTransactionDialog', this.openTransactionDialog)
     this.$root.$off('showAjaxBar', this.showAjaxBar)
+    this.$root.$off('changeFloatBtn', this.changeFloatBtn)
   }
 }
 </script>
@@ -238,5 +244,9 @@ export default {
 
 .q-field {
   margin-top: 10px;
+}
+
+#ch-plugin-launcher {
+  display: none;
 }
 </style>

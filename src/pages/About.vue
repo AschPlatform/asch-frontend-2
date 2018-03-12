@@ -8,10 +8,11 @@
           <q-item-tile sublabel>Javascript developer at Asch</q-item-tile>
         </q-item-main>
       </q-item>
-      <q-card-actions>
-        <q-btn color="positive" flat @click="vote">Vote</q-btn>
-        <q-btn color="secondary" flat @click="star">Star</q-btn>
-        <q-btn color="orange" flat @click="donate">Donate</q-btn>
+      <q-card-actions >
+        <q-btn class="col-auto" color="positive" flat @click="vote">Vote</q-btn>
+        <q-btn class="col-auto" color="secondary" flat @click="star">Star</q-btn>
+        <q-btn class="col-auto" color="orange" flat @click="donate">Donate</q-btn>
+        <q-btn class="col-auto" color="orange" flat @click="contract">Contract</q-btn>
       </q-card-actions>
     </q-card>
   </q-page>
@@ -43,6 +44,7 @@ export default {
       avatar: avatar,
       secondPwd: '',
       delegate: null,
+      channelShow: false,
       publicKey: '4394d8bd88ccaf972ede118934728590a8f31d3390372850464b11d930c31766',
       address: 'A6JYoorqrmdrPMzFtUoR6ADmjUVNswiK6v'
     }
@@ -65,7 +67,7 @@ export default {
       }
       this.$q
         .dialog(dialogConf)
-        .then(async (data) => {
+        .then(async data => {
           let trans = createVote(['+' + this.publicKey], this.user.secret, data)
           let res = await api.broadcastTransaction(trans)
           if (res.success === true) {
@@ -90,6 +92,9 @@ export default {
         this.delegate = res.delegate
       }
       return res
+    },
+    contract() {
+      this.channelShow = !this.channelShow
     }
   },
   mounted() {
@@ -102,6 +107,22 @@ export default {
     secondSignature() {
       return this.user ? this.user.account.secondSignature : null
     }
+  },
+  watch: {
+    channelShow(val) {
+      if (val) {
+        window.CHPlugin.show()
+      } else {
+        window.CHPlugin.hide()
+      }
+    }
   }
 }
 </script>
+
+<style lang="stylus">
+#ch-plugin-launcher {
+  display: none;
+}
+</style>
+

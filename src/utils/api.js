@@ -149,7 +149,7 @@ api.broadcastTransaction = trans => {
 }
 // 执行 DAPP 内部合约
 api.dappContract = (trans, appid) => {
-  let url = { url: `/api/dapps/${appid}//transactions/signed` }
+  let url = { url: `/api/dapps/${appid}/transactions/signed` }
   return fetch(url, { transaction: trans }, 'put', {
     headers: { magic: urls.magics[process.env.NODE_ENV], version: '' }
   })

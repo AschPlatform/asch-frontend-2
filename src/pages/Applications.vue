@@ -5,7 +5,7 @@
         <q-table :data="appsData?appsData.dapps:[]" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DAPP_LIST')">
   
           <template slot="top-right" slot-scope="props">
-             <q-toggle v-model="installed" :label="$t('DAPP_INSTALL_LIST')" color="secondary" @change="(val)=>getDapps(null,null,val)" />
+             <q-toggle v-model="installed" :label="$t('DAPP_INSTALL_LIST')" color="secondary" @change="(val)=>console.log(val)" />
               <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
           </template>
 
@@ -246,7 +246,7 @@ export default {
   },
   methods: {
     async request(props) {
-      await this.getDapps(props.pagination, props.filter)
+      await this.getDapps(props.pagination, props.filter, this.installed)
     },
     async getDapps(pagination = {}, filter = '', installed = false) {
       this.loading = true
@@ -512,7 +512,9 @@ export default {
       this.getDapps()
     },
     installed(val) {
-      this.getDapps(null, null, val)
+      if (val) {
+        this.getDapps(null, null, true)
+      }
     }
   }
 }
