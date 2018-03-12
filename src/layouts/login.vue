@@ -254,6 +254,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.main-page {
+  margin-top: 0;
+}
+
 .login-panel {
   height: 260px;
   margin-top: 5%;

@@ -8,22 +8,17 @@ module.exports = {
     browser: true
   },
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
-  extends: [
-    'standard'
-  ],
+  extends: ['standard'],
   // required to lint *.vue files
-  plugins: [
-    'html',
-    'import'
-  ],
+  plugins: ['html', 'import'],
   globals: {
-    'cordova': true,
-    'DEV': true,
-    'PROD': true,
-    '__THEME': true
+    cordova: true,
+    DEV: true,
+    PROD: true,
+    __THEME: true
   },
   // add your custom rules here
-  'rules': {
+  rules: {
     // allow paren-less arrow functions
     'arrow-parens': 0,
     'one-var': 0,
@@ -35,10 +30,13 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     // 'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
-    "space-before-function-paren": ["error", {
-      "anonymous": "always",
-      "named": "never",
-      "asyncArrow": "always"
-  }],
+    'space-before-function-paren': [
+      'error',
+      {
+        anonymous: 'always',
+        named: 'never',
+        asyncArrow: 'always'
+      }
+    ]
   }
 }
