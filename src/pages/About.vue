@@ -12,7 +12,7 @@
         <q-btn class="col-auto" color="positive" flat @click="vote">Vote</q-btn>
         <q-btn class="col-auto" color="secondary" flat @click="star">Star</q-btn>
         <q-btn class="col-auto" color="orange" flat @click="donate">Donate</q-btn>
-        <q-btn class="col-auto" color="orange" flat @click="contract">Contract</q-btn>
+        <q-btn class="col-auto" color="orange" flat @click="contact">Contact</q-btn>
       </q-card-actions>
     </q-card>
   </q-page>
@@ -93,7 +93,7 @@ export default {
       }
       return res
     },
-    contract() {
+    contact() {
       this.channelShow = !this.channelShow
     }
   },
@@ -121,8 +121,6 @@ export default {
 </script>
 
 <style lang="stylus">
-#ch-plugin-launcher {
-  display: none;
-}
+
 </style>
 
