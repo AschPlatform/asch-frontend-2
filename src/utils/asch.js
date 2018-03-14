@@ -4,7 +4,7 @@ import { BigNumber } from 'bignumber.js'
 
 export const getPub = secret => AschJs.crypto.getKeys(secret).publicKey
 
-export const getAddr = secret => AschJs.crypto.getAddress(secret)
+export const getAddr = publicKey => AschJs.crypto.getAddress(publicKey)
 
 export const createVote = (voteContent, secret, secondpassword) =>
   AschJs.vote.createVote(voteContent, secret, secondpassword)
