@@ -16,39 +16,48 @@ const langsOpts = [
 const officialPeers = [
   {
     ip: '107.191.41.208',
-    port: 80
+    port: 80,
+    local: 'US'
   },
   {
     ip: '45.76.98.139',
-    port: 80
+    port: 80,
+    local: 'JP'
   },
   {
     ip: '45.63.27.97',
-    port: 80
+    port: 80,
+    local: 'US'
   },
   {
     ip: '45.76.99.134',
-    port: 80
+    port: 80,
+    local: 'JP'
   },
   {
     ip: '104.238.180.37',
-    port: 80
+    port: 80,
+    local: 'US'
   },
   {
     ip: '45.32.254.236',
-    port: 80
+    port: 80,
+    local: 'JP'
   },
   {
     ip: '108.61.181.76',
-    port: 80
+    port: 80,
+    local: 'JP'
   },
   {
     ip: '222.161.26.230',
-    port: 9999
+    port: 9999,
+    local: 'CN'
   },
   {
     ip: '222.161.26.231',
-    port: 9999
+    port: 9999,
+    local: 'CN'
   }
 ]
 

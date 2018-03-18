@@ -42,8 +42,7 @@
             </div>
           </q-td>
           <q-td slot="body-cell-icon"  slot-scope="props" :props="props">
-            <img v-if="props.row.icon" :src="props.row.icon" style="height:56px" :onerror="props.row.icon = null">
-            <div>{{'-'}}</div>
+            <img v-if="props.row.icon" :src="props.row.icon" style="height:40px" :onerror="props.row.icon = defaultIcon">
           </q-td>
           <q-td slot="body-cell-desc"  slot-scope="props" :props="props">
             <div class="my-label" >
@@ -158,7 +157,7 @@ import { toast, toastWarn } from '../utils/util'
 import { createInTransfer, createInnerTransaction, check58 } from '../utils/asch'
 import { required, minValue, numeric } from 'vuelidate/lib/validators'
 import { secondPwdReg } from '../utils/validators'
-import defaultIcon from '../assets/icon.png'
+import defaultIcon from '../assets/dapps.png'
 export default {
   props: ['userObj'],
   components: {},
@@ -416,6 +415,9 @@ export default {
       let validated = check58(this.form.address)
       this.addressError = !validated
       return validated
+    },
+    noError(props) {
+      props.value = defaultIcon
     }
   },
   async mounted() {

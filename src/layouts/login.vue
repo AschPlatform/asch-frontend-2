@@ -231,7 +231,8 @@ export default {
       return officialPeers.map(server => {
         let opt = {
           label: server.ip,
-          value: server
+          value: server,
+          stamp: server.local
         }
         return opt
       })

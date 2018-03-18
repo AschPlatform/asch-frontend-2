@@ -8,12 +8,48 @@
           <q-item-tile sublabel>Javascript developer at Asch</q-item-tile>
         </q-item-main>
       </q-item>
-      <q-card-actions >
+      <q-card-actions>
         <q-btn class="col-auto" color="positive" flat @click="vote">Vote</q-btn>
         <q-btn class="col-auto" color="secondary" flat @click="star">Star</q-btn>
         <q-btn class="col-auto" color="orange" flat @click="donate">Donate</q-btn>
         <q-btn class="col-auto" color="orange" flat @click="contact">Contact</q-btn>
       </q-card-actions>
+      <q-card-separator/>
+      
+    </q-card>
+    <q-card>
+      <q-card-main>
+        <q-timeline color="primary">
+      <q-timeline-entry heading>
+        Road Map
+      </q-timeline-entry>
+  
+      <q-timeline-entry title="Start project" subtitle="2018-01" side="right" icon="lightbulb outline">
+        <div>
+          Plan to build a DApps platform and make Asch wallet more easy to use .
+        </div>
+      </q-timeline-entry>
+      <q-timeline-entry title="Enhance wallet UI" subtitle="2018-02" side="left" icon="battery charging full">
+        <div>
+          Use new framework develop Asch wallet that can run on PC and mobile platform, open source on github.
+        </div>
+      </q-timeline-entry>
+      <q-timeline-entry title="Release beta" subtitle="2018-03-13" side="right" icon="flag">
+        <div>
+          Web wallet Release, start beta test, and use channel plugin to collect bugs.
+        </div>
+      </q-timeline-entry>
+      <q-timeline-entry title="New DApp new feature" subtitle="now" side="left" color="orange" icon="bug report">
+        <div>
+          New Dapp is developing, frontend page will build in new wallet, before release the new Dapp, Asch wallet will 
+        </div>
+      </q-timeline-entry>
+      <q-timeline-entry title="..." subtitle="future" side="right" color="positive" icon="mood">
+        <div>
+        </div>
+      </q-timeline-entry>
+    </q-timeline>
+      </q-card-main>
     </q-card>
   </q-page>
 </template>
@@ -34,11 +70,22 @@ import {
   QCardSeparator,
   QCardActions,
   QItemTile,
-  openURL
+  openURL,
+  QTimeline,
+  QTimelineEntry
 } from 'quasar'
 export default {
   props: ['userObj'],
-  components: { QCard, QCardTitle, QCardMain, QCardSeparator, QCardActions, QItemTile },
+  components: {
+    QCard,
+    QCardTitle,
+    QCardMain,
+    QCardSeparator,
+    QCardActions,
+    QItemTile,
+    QTimeline,
+    QTimelineEntry
+  },
   data() {
     return {
       avatar: avatar,
@@ -121,6 +168,5 @@ export default {
 </script>
 
 <style lang="stylus">
-
 </style>
 
