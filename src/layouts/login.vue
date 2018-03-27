@@ -93,8 +93,8 @@ import { required } from 'vuelidate/lib/validators'
 import { bip39 } from '../utils/validators'
 import { langsOpts, officialPeers } from '../utils/constants'
 import { getPub, getAddr, generateM } from '../utils/asch'
-import { api } from '../utils/api'
 import { toastError, setCache, removeCache } from '../utils/util'
+import { mapActions } from 'vuex'
 
 export default {
   components: {
@@ -132,6 +132,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['login']),
     async login(e, done) {
       this.loading = true
       const t = this.$t
@@ -144,7 +145,7 @@ export default {
       let publicKey = getPub(this.secret)
       let user = {}
       try {
-        let data = await api.login({
+        let data = await this.login({
           publicKey: publicKey
         })
         if (data.success === true) {
