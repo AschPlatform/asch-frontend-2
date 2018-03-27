@@ -3,6 +3,17 @@
   <div v-if="user" class="layout-padding self-center">
     <div class="row gutter-xs col-12">
       <div class="col-lg-6 col-auto col-sm-12 col-xs-12">
+        <q-card>
+          <q-card-main class="row">
+            <div class="col-6">
+              <jdenticon  :address="user.account.address" :size="60" />
+            </div>
+            <div  class="col-6">
+              <q-btn size="xs" flat round icon="refresh" @click="$root.$emit('openTransactionDialog')" />
+              <q-btn size="xs" flat round icon="refresh" @click="receive" />
+            </div>
+          </q-card-main>
+        </q-card>
         <q-card class="card-info" color="primary ">
           <q-card-title>
             {{$t('BALANCE')}}
@@ -13,61 +24,59 @@
           </q-card-title>
           <q-card-main >
             <div class="justify-between">
-              <big>{{user.account.balance | fee}} XAS</big><q-btn @click="$root.$emit('openTransactionDialog')" size="xs"  flat round icon="compare arrows" >
+              <big>{{user.account.balance | fee}} XAS</big>
+              <q-btn @click="$root.$emit('openTransactionDialog')" size="xs"  flat round icon="compare arrows" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_TRANSFER')}}</q-tooltip>
               </q-btn>
             </div>
-            <div>{{user.account.address}}<q-btn size="xs" v-clipboard="user.account.address" @success="info('copy success...')" flat round icon="content copy" /></div>
-          </q-card-main>
-  
-        </q-card>
-      </div>
-      <div class="col">
-        <q-card class="card-info" color="primary">
-          <q-card-title>
-            {{$t('LATEST_BLOCK_HEIGHT')}}
-            <span slot="subtitle">{{user.latestBlock.timestamp | time}}</span>
-          </q-card-title>
-          <q-card-main>
-            <big>
-              {{user.latestBlock.height}}
-            </big>
-            <p class="text-faded"></p>
-  
-          </q-card-main>
-        </q-card>
-      </div>
-      <div class="col">
-        <q-card class="card-info" color="primary">
-          <q-card-title>
-            {{$t('VERSION_INFO')}}
-            <span slot="subtitle">{{user.version.build}}</span>
-          </q-card-title>
-          <q-card-main>
-            <big>
-                            {{user.version.version}}
-                          </big>
+            <div>{{address}}<q-btn size="xs" v-clipboard="address||''" @success="info('copy success...')" flat round icon="content copy" /></div>
           </q-card-main>
         </q-card>
       </div>
     </div>
   
     <div class="row col shadow-1 trans-table">
-      <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-        <div v-if="transData" class="col-12">
+      <div class="col-4">
+        <q-card class="card-info" color="primary ">
+          <q-card-title>
+            {{$t('BALANCE')}}
+          </q-card-title>
+           <q-card-main >
+             {{userInfo.account.balance | fee}}
+             {{$t('MAIN_ASSET')+'XAS'}}
+             <div>  
+             {{address}}
+              <q-btn v-clipboard="address" @success="info('copy senderId success...')" size="xs"  flat round icon="compare arrows" />
+             </div>
+             <div @click="showAddrQr">
+               <vue-qr :text="address"></vue-qr>
+             </div>
+           </q-card-main>
+          <q-card-main >
+            <q-list highlight>
+              <q-item v-for="(balance,idx) in  balances" :key="idx">
+                <q-item-side>
+                  <q-item-tile avatar>
+                    <img :src="null">
+                  </q-item-tile>
+                </q-item-side>
+                <q-item-main :label="balance.currency" />
+                <q-item-side right>
+                  <q-item-tile >
+                    {{balance.balance | fee(balance.precision)}}
+                  </q-item-tile>
+                </q-item-side>
+              </q-item>
+            </q-list>
+            <q-btn @click="assets" flat :label="$t('SEE_ALL_ASSETS')" icon="compare arrows" />
+          </q-card-main>
+        </q-card>
+      </div>
+        <div v-if="transData" class="col-7">
           <q-table :data="transData.transactions" 
           :columns="columns" row-key="id" :pagination.sync="pagination"
            @request="request" :loading="loading" :filter="filter" 
            :visible-columns="visibleColumns" :title="$t('DAPP_TRANSACTION_RECORD')">
-  
-            <!--  <template slot="top-left" slot-scope="props">
-              <q-search
-                hide-underline
-                color="secondary"
-                v-model="filter"
-                class="col-8"
-              />
-</template>-->
 
             <template slot="top-right" slot-scope="props">
               <q-table-columns color="primary" class="q-mr-sm" v-model="visibleColumns" :columns="columns" />
@@ -122,7 +131,6 @@
   
           </q-table>
         </div>
-      </transition>
     </div>
     <q-modal minimized no-backdrop-dismiss  v-model="modalInfoShow" content-css="padding: 20px">
       <big>{{$t('DAPP_DETAIL')}}</big>
@@ -175,10 +183,16 @@
 import { api } from '../utils/api'
 import { transTypes } from '../utils/constants'
 import { fullTimestamp, convertFee } from '../utils/asch'
+import Jdenticon from '../components/Jdenticon'
+import VueQr from 'vue-qr'
+import { mapGetters } from 'vuex'
 
 export default {
   props: ['userObj'],
-  components: {},
+  components: {
+    VueQr,
+    Jdenticon
+  },
   data() {
     return {
       transData: null,
@@ -275,11 +289,6 @@ export default {
         'amount',
         'message'
       ],
-      accountInfo: {
-        address: '',
-        publicKey: '',
-        balance: ''
-      },
       row: null,
       modalInfoShow: false
     }
@@ -342,6 +351,12 @@ export default {
     },
     getTransType(val) {
       return this.$t(transTypes[val])
+    },
+    assets() {
+      this.$router.push('assets')
+    },
+    showAddrQr() {
+      this.$root.$emit('showQRCodeModal', this.address)
     }
   },
   mounted() {
@@ -350,12 +365,16 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['userInfo', 'balances']),
     user() {
-      return this.userObj
+      return this.userInfo
+    },
+    address() {
+      return this.userInfo && this.userInfo.account && this.userInfo.account.address
     }
   },
   watch: {
-    userObj(val) {
+    userInfo(val) {
       if (val) {
         this.getTrans()
       }

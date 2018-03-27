@@ -125,8 +125,7 @@ const lang = {
   // transfer/pay
   SEND: 'Send',
   ALREADY_LOCKED: 'The transaction is rejected due to the account lock.',
-  PAY_TIP:
-    'Please make sure you send to the correct address. This operation cannot be cancelled.',
+  PAY_TIP: 'Please make sure you send to the correct address. This operation cannot be cancelled.',
 
   // peers
   PEER_LIST: 'Peer List',
@@ -331,7 +330,7 @@ const lang = {
   CLICK_TO_SHOW: 'Click to show',
   QRCODE_CLOSE: 'Click to close',
 
-  // quasar i18n
+  // ==============  quasar i18n  =================
 
   lang: 'en-us',
   label: {

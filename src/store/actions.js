@@ -10,9 +10,11 @@ export default {
     return api.account({ address })
   },
   refreshAccounts: ({ commit, state }) => {
-    api.account({ address: state.userInfo.address }).then(res => {
+    return api.account({ address: state.userInfo.address }).then(res => {
       if (res.success) {
-        commit('updateUserInfo', res)
+        commit('updateUserInfo', res.account)
+        commit('setLatestBlock', res.latestBlock)
+        commit('setVersion', res.version)
       }
     })
   },
@@ -59,7 +61,11 @@ export default {
     return api.forgingStatus(params)
   },
   myBalances: ({ commit }, params) => {
-    return api.myBalances(params)
+    return api.myBalances(params).then(res => {
+      if (res.success) {
+        commit('setBalances', res.balances)
+      }
+    })
   },
   myAssets: ({ commit }, params) => {
     return api.myAssets(params)

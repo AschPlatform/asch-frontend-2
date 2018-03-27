@@ -7,8 +7,11 @@
           <q-icon name="menu" />
         </q-btn>
   
-        <q-toolbar-title>
+        <q-toolbar-title v-if="latestBlock">
+          {{$t('LATEST_BLOCK_HEIGHT')+': '+latestBlock.height}}
+          {{latestBlock.timestamp | time}}
         </q-toolbar-title>
+
         <q-btn flat @click="logout">
           <q-icon name="power settings new" />
         </q-btn>
@@ -60,10 +63,6 @@
           <q-item-side icon="blur on" />
           <q-item-main :label="$t('PEERS')" />
         </q-item>
-        <q-item item :to="getRouterConf('about')">
-          <q-item-side icon="info" />
-          <q-item-main label="about" />
-        </q-item>
       </q-list>
     </q-layout-drawer>
     <q-page-container >
@@ -83,6 +82,7 @@
         </trans-panel>
     </q-modal>
 
+    <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText"/>
     <float-menu v-if="this.showFloatBtns" :router="$router" :userObj="user" />
       
     </q-page-container>
@@ -96,12 +96,15 @@ import { setCache, getCache, removeCache } from '../utils/util'
 import FloatMenu from '../components/FloatMenu'
 import TransPanel from '../components/TransPanel'
 import AccountInfo from '../components/AccountInfo'
+import CodeModal from '../components/QRCodeModal'
+import { mapGetters, mapActions } from 'vuex'
+
 import logo from '../assets/logo.png'
 const func = () => {}
 
 export default {
   name: 'Home',
-  components: { FloatMenu, TransPanel, AccountInfo },
+  components: { FloatMenu, TransPanel, AccountInfo, CodeModal },
   data() {
     return {
       user: null,
@@ -112,10 +115,13 @@ export default {
       assets: null,
       transShow: false,
       showFloatBtns: true,
-      address: ''
+      address: '',
+      QRCodeShow: false,
+      QRCodeText: ''
     }
   },
   methods: {
+    ...mapActions(['login', 'refreshAccounts', 'account']),
     logout() {
       removeCache('user')
       this.$router.push('/login')
@@ -187,10 +193,14 @@ export default {
     },
     changeFloatBtn() {
       this.showFloatBtns = !this.showFloatBtns
+    },
+    showQRCodeModal(content) {
+      this.QRCodeShow = true
+      this.QRCodeText = content
     }
   },
   async mounted() {
-    let user = this.$route.params.user || getCache('user') || null
+    let user = this.userInfo || getCache('user') || null
     if (!user) {
       console.log('no session data, please login...')
       this.$router.push('/login')
@@ -202,10 +212,11 @@ export default {
         ...user,
         ...res
       }
-      window.CHPlugin.checkIn()
+      // window.CHPlugin.checkIn()
     }
   },
   computed: {
+    ...mapGetters(['latestBlock', 'version', 'userInfo']),
     secondSignature() {
       return this.user ? this.user.account.secondSignature : null
     }
@@ -221,6 +232,7 @@ export default {
     this.$root.$on('openTransactionDialog', this.openTransactionDialog)
     this.$root.$on('showAjaxBar', this.showAjaxBar)
     this.$root.$on('changeFloatBtn', this.changeFloatBtn)
+    this.$root.$on('showQRCodeModal', this.showQRCodeModal)
   },
   beforeDestroy() {
     this.$root.$off('refreshAccount', this.refreshAccount)
@@ -230,6 +242,7 @@ export default {
     this.$root.$off('openTransactionDialog', this.openTransactionDialog)
     this.$root.$off('showAjaxBar', this.showAjaxBar)
     this.$root.$off('changeFloatBtn', this.changeFloatBtn)
+    this.$root.$off('showQRCodeModal', this.showQRCodeModal)
   }
 }
 </script>

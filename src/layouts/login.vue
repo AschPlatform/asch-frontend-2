@@ -31,7 +31,7 @@
                 <q-btn big outline class="col-aotu " color="primary" @click="newUser">
                   {{$t('NEW_ACCOUNT')}}
                 </q-btn>
-                <q-btn :loading="loading" big class="col-auto " color="primary" @click="loginFunc">
+                <q-btn :loading="loading" big class="col-auto " color="primary" @click="userLogin">
                   {{$t('LOGIN')}}
                 </q-btn>
               </div>
@@ -93,7 +93,7 @@ import { bip39 } from '../utils/validators'
 import { langsOpts, officialPeers } from '../utils/constants'
 import { getPub, getAddr, generateM } from '../utils/asch'
 import { toastError, toast, setCache, removeCache } from '../utils/util'
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   components: {
@@ -133,7 +133,8 @@ export default {
   },
   methods: {
     ...mapActions(['login']),
-    async loginFunc(e, done) {
+    ...mapMutations(['setUserInfo']),
+    async userLogin(e, done) {
       this.loading = true
       const t = this.$t
       this.$v.secret.$touch()
@@ -153,6 +154,7 @@ export default {
           user.secret = this.secret
           user.publicKey = publicKey
           this.remember ? setCache('user', user) : removeCache('user')
+          this.setUserInfo(user)
           // 是否登录的全局变量
           this.loading = false
           this.$router.push({
@@ -166,7 +168,6 @@ export default {
           this.loading = false
         }
       } catch (e) {
-        console.log(e)
         toastError(t('ERR_SERVER_ERROR'))
         this.loading = false
       } finally {
