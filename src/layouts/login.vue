@@ -8,18 +8,22 @@
             <q-card-title>
               {{$t('LOGIN')}}
               <div slot="right">
-                <q-select style="width:125px" separator radio float-label="server" class="col" v-model="serverUrl" :options="serverOpts" />
+                <!-- <q-select style="width:125px" separator radio float-label="server" class="col" v-model="serverUrl" :options="serverOpts" /> -->
+                <q-select class="col-auto " chips color="secondary" v-model="lang" :options="langsOpts" />
               </div>
             </q-card-title>
             <q-card-main class="row col-10 justify-center ">
               <q-field class="col-10" :error="$v.secret.$error" :error-label="$t('ERR_VIOLATE_BIP39')">
                 <q-input :float-label="$t('INPUT_PASSWORD')" @change="$v.secret.$touch" type="password" v-model="secret" @keyup.enter="login" clearable />
               </q-field>
-              <div class="row col-11 justify-between options-panel">
-                <q-select class="col-auto " chips color="secondary" v-model="lang" :options="langsOpts" />
+              <div class="row col-10 justify-between options-panel">
+                <!-- <q-select class="col-auto " chips color="secondary" v-model="lang" :options="langsOpts" /> -->
+                <div inline style="line-height: 44px;" class="q-mr-md">{{$t('CHOSE_SERVER')}}:</div>
+                <q-select style="width:125px" separator radio float-label="server" class="col" v-model="serverUrl" :options="serverOpts" />
+              </div>
+              <div class="row col-10">
                 <q-checkbox class="col-auto " v-model="remember">{{$t('KEEP_SESSION')}}</q-checkbox>
               </div>
-  
             </q-card-main>
             <q-card-separator />
             <q-card-main class="row col-10 justify-center ">
@@ -35,35 +39,30 @@
           </q-card>
           <q-card v-else class="register-panel col-lg-9 col-xs-10 ">
             <q-card-title>
-              {{$t('STEP') + `${registerStep}/2`}}{{registerStep==1?$t('CREATE_MASTER_PASSWORD'):$t('CONFIRM_PASSWORD')}}
-              <span slot="subtitle">{{registerStep===1?$t('NEW_PASSWORD'):$t('INPUT_PASSWORD_AGAIN')}}</span>
+              {{$t('CREATE_MASTER_PASSWORD')}}
             </q-card-title>
             <q-card-main v-if="registerStep==1" class="row col-10 justify-center ">
-              <q-field class="col-10" :helper="$t('NEW_PWD_TIP_1')">
-                <q-input type="textarea" v-model="newSecret" disable :min-rows="5" />
+              <q-field :label="$t('NEW_PASSWORD')" class="col-10" label-width="2" :helper="$t('CREATE_TIP1')">
+                <q-input type="textarea" class="" v-model="newSecret" disable :min-rows="5" />
+                <q-btn color="primary" v-clipboard="newSecret" class="float-right"  flat round icon="content copy" @click="jumpOut('Copied')"/>
               </q-field>
-            </q-card-main>
-            <q-card-main v-if="registerStep==2" class="row col-10 justify-center ">
-              <q-field class="col-10" :helper="$t('NEW_PWD_TIP_2')">
+              <q-field :label="$t('CONFIRM_PASSWORD')" class="col-10" label-width="2" :helper="$t('CREATE_TIP2')">
                 <q-input type="textarea" v-model="confirmNewSecret" :min-rows="5" clearable />
               </q-field>
             </q-card-main>
             <q-card-separator />
+            <q-card-main>
+              <q-checkbox v-model="selection" val="one" :label="$t('READ_TIP1')" />
+              <br><br>
+              <q-checkbox v-model="selection" val="two" :label="$t('READ_TIP2')" />
+              <br><br>
+              <q-checkbox v-model="selection" val="three" :label="$t('READ_TIP3')" />
+            </q-card-main>
+            <q-card-separator />
             <q-card-main class="row col-10 justify-center ">
-              <div v-if="registerStep==1" class="row col-10 justify-between">
-                <q-btn big class="col-auto " color="primary" @click="saveNext">
-                  {{$t('NEXT_STEP')}}
-                </q-btn>
-                <q-btn big outline class="col-aotu " color="primary" @click="saveNewSecret">
-                  {{$t('SAVE_PASSWORD')}}
-                </q-btn>
-              </div>
-              <div v-else class="row col-10 justify-between">
+              <div v-if="registerStep==1" class="row col-10 justify-center">
                 <q-btn big class="col-auto " color="primary" @click="verifyNewSecret">
-                  {{$t('CONFIRM')}}
-                </q-btn>
-                <q-btn big outline class="col-aotu " color="primary" @click="cleanRegister">
-                  {{$t('CANCEL')}}
+                  {{$t('CREATE')}}
                 </q-btn>
               </div>
             </q-card-main>
@@ -93,7 +92,7 @@ import { required } from 'vuelidate/lib/validators'
 import { bip39 } from '../utils/validators'
 import { langsOpts, officialPeers } from '../utils/constants'
 import { getPub, getAddr, generateM } from '../utils/asch'
-import { toastError, setCache, removeCache } from '../utils/util'
+import { toastError, toast, setCache, removeCache } from '../utils/util'
 import { mapActions, mapMutations } from 'vuex'
 
 export default {
@@ -122,7 +121,8 @@ export default {
       confirmNewSecret: '',
       loading: false,
       secretSaved: false,
-      serverUrl: ''
+      serverUrl: '',
+      selection: []
     }
   },
   validations: {
@@ -179,13 +179,6 @@ export default {
       this.registerStep = 1
       this.isRegister = true
     },
-    saveNext() {
-      if (this.secretSaved) {
-        this.registerStep = 2
-      } else {
-        toastError(this.$t('NEW_PWD_TIP_2'))
-      }
-    },
     saveNewSecret() {
       let secret = this.newSecret
       let publicKey = getPub(secret)
@@ -215,11 +208,19 @@ export default {
     },
     verifyNewSecret() {
       let valid = this.newSecret === this.confirmNewSecret
-      if (valid) {
-        this.cleanRegister()
+      let validKnow = this.selection.length === 3
+      if (validKnow) {
+        if (valid) {
+          this.cleanRegister()
+        } else {
+          toastError(this.$t('ERR_PASSWORD_NOT_EQUAL'))
+        }
       } else {
-        toastError(this.$t('ERR_PASSWORD_NOT_EQUAL'))
+        toastError(this.$t('ERR_READ_ALL'))
       }
+    },
+    jumpOut(msg) {
+      toast(msg)
     }
   },
   mounted() {
