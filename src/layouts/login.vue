@@ -27,7 +27,7 @@
                 <q-btn big outline class="col-aotu " color="primary" @click="newUser">
                   {{$t('NEW_ACCOUNT')}}
                 </q-btn>
-                <q-btn :loading="loading" big class="col-auto " color="primary" @click="login">
+                <q-btn :loading="loading" big class="col-auto " color="primary" @click="userLogin">
                   {{$t('LOGIN')}}
                 </q-btn>
               </div>
@@ -93,8 +93,8 @@ import { required } from 'vuelidate/lib/validators'
 import { bip39 } from '../utils/validators'
 import { langsOpts, officialPeers } from '../utils/constants'
 import { getPub, getAddr, generateM } from '../utils/asch'
-import { api } from '../utils/api'
 import { toastError, setCache, removeCache } from '../utils/util'
+import { mapActions, mapMutations} from 'vuex'
 
 export default {
   components: {
@@ -132,7 +132,9 @@ export default {
     }
   },
   methods: {
-    async login(e, done) {
+    ...mapActions(['login']),
+    ...mapMutations(['setUserInfo']),
+    async userLogin(e, done) {
       this.loading = true
       const t = this.$t
       this.$v.secret.$touch()
@@ -144,7 +146,7 @@ export default {
       let publicKey = getPub(this.secret)
       let user = {}
       try {
-        let data = await api.login({
+        let data = await this.login({
           publicKey: publicKey
         })
         if (data.success === true) {
@@ -152,6 +154,7 @@ export default {
           user.secret = this.secret
           user.publicKey = publicKey
           this.remember ? setCache('user', user) : removeCache('user')
+          this.setUserInfo(user)
           // 是否登录的全局变量
           this.loading = false
           this.$router.push({

@@ -316,7 +316,6 @@ const lang = {
   CLICK_TO_SHOW: 'Klicke zum anzeigen',
   QRCODE_CLOSE: 'Klicke zum schließen',
 
-  
   // ==============  quasar i18n  =================
 
   label: {

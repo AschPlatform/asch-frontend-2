@@ -1,4 +1,6 @@
 export default {
   userInfo: null,
-  isLogin: false
+  isLogin: false,
+  latestBlock: {},
+  version: {}
 }

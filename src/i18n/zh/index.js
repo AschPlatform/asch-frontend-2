@@ -314,6 +314,11 @@ const lang = {
   CLICK_TO_SHOW: '点击获取',
   QRCODE_CLOSE: '点击二维码关闭',
 
+  // ============== new add =================
+
+  MAIN_ASSET: '主资产',
+  SEE_ALL_ASSETS: '查看全部资产',
+  TRANSFER_TIP: '钱包转账为不可逆，请务必核对收款地址',
   // ==============  quasar i18n  =================
 
   lang: 'zh-hans',

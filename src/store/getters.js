@@ -6,6 +6,15 @@ const getters = {
   },
   loginFlag: state => {
     return state.isLogin
+  },
+  latestBlock: state => {
+    return state.latestBlock
+  },
+  version: state => {
+    return state.version
+  },
+  balances: state => {
+    return state.balances
   }
 }
 
