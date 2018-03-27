@@ -100,7 +100,7 @@ const lang = {
   LOGIN: '登录',
   NEW_ACCOUNT: '新账户',
   STEP: '步骤',
-  CREATE_MASTER_PASSWORD: '创建主密码',
+  CREATE_MASTER_PASSWORD: '创建钱包',
   NEW_PASSWORD: '新的主密码',
   NEW_PWD_TIP_1: '系统为您生成了足够安全的新密码，下一步将会要求您重复输入以确认密码',
   NEXT_STEP: '下一步',
@@ -111,6 +111,13 @@ const lang = {
     '请确保您已安全保存主密码，如果您失去您的主密码，您的帐户将永远无法再打开，您将失去您所有的XAS',
   CONFIRM: '确认',
   CANCEL: '返回',
+  CREATE: '创建',
+  CREATE_TIP1: '(密码由浏览器本地生成，请妥善备份保存)',
+  CREATE_TIP2: '(复制或输入上面的主密码)',
+  READ_TIP1: '我理解如果我丢失了密码，我将永远无法访问我的资产',
+  READ_TIP2: '我理解如果我忘记或丢失了密码，将没有任何人能够帮助我恢复',
+  READ_TIP3: '我已经写下了或者用其它方式保存了我的密码',
+  CHOSE_SERVER: '选择服务器',
 
   // transfer/pay
   SEND: '发送',
@@ -259,6 +266,7 @@ const lang = {
   ERR_TOAST_ACCOUNT_ALREADY_LOCKED: '已经锁仓',
   ERR_TOAST_ACCOUNT_INVALID_RECIPIENT: '接受地址错误',
   ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP: '时间戳错误',
+  ERR_READ_ALL: '请仔细阅读并勾选须知',
   // toast info
   INF_REGISTER_SUCCESS: '注册成功',
   INF_DELETE_SUCCESS: '删除成功',
