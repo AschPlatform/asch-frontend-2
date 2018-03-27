@@ -94,7 +94,7 @@ import { bip39 } from '../utils/validators'
 import { langsOpts, officialPeers } from '../utils/constants'
 import { getPub, getAddr, generateM } from '../utils/asch'
 import { toastError, setCache, removeCache } from '../utils/util'
-import { mapActions, mapMutations} from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   components: {
