@@ -6,7 +6,7 @@ const filters = {
     return t(value)
   },
   fee: (fee, precision = 8) => {
-    return convertFee(fee)
+    return convertFee(fee, precision)
   },
   time: value => {
     return AschJs.utils.format.fullTimestamp(value)

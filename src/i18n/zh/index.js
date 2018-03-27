@@ -86,6 +86,7 @@ const lang = {
   TRANSFER: '转账',
   PEERS: '节点',
   ASSET: '资产',
+  ABOUT: '关于',
 
   // home
   BALANCE: '余额',
@@ -114,7 +115,7 @@ const lang = {
   // transfer/pay
   SEND: '发送',
   ALREADY_LOCKED: '您已经锁仓，此行为被拒绝',
-  PAY_TIP: '请确保您正在发送XAS给正确的地址，本操作无法撤消',
+  PAY_TIP: '请确保您发送到正确的地址，本操作无法撤消',
 
   // peers
   PEER_LIST: '节点列表',
@@ -183,7 +184,7 @@ const lang = {
   PRODUCED_NUMBER: '生产块数',
   USERNAME: '用户名',
   WEIGHT: '权重',
-  TOTAL_PEOPLES: '共{{count}}人',
+  TOTAL_PEOPLES: '共%{count}人',
 
   // model - account detail
   ACCOUNT_DETAIL: '账户详情',

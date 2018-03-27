@@ -95,6 +95,7 @@ const lang = {
   TRANSFER: 'Transfer',
   PEERS: 'Peers',
   ASSET: 'Asset',
+  ABOUT: 'About',
 
   // home
   BALANCE: 'Balance',
@@ -125,7 +126,7 @@ const lang = {
   SEND: 'Send',
   ALREADY_LOCKED: 'The transaction is rejected due to the account lock.',
   PAY_TIP:
-    'Please make sure you send XAS to the correct address. This operation cannot be cancelled.',
+    'Please make sure you send to the correct address. This operation cannot be cancelled.',
 
   // peers
   PEER_LIST: 'Peer List',
@@ -195,7 +196,7 @@ const lang = {
   PRODUCED_NUMBER: 'Number of produced blocks',
   USERNAME: 'User Name',
   WEIGHT: 'Weight',
-  TOTAL_PEOPLES: 'Totally {{count}} people',
+  TOTAL_PEOPLES: 'Totally %{count} people',
 
   // model - account detail
   ACCOUNT_DETAIL: 'Account Detail',

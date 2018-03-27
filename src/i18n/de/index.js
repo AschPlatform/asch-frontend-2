@@ -87,6 +87,7 @@ const lang = {
   TRANSFER: 'Überweisen',
   PEERS: 'Knoten',
   ASSET: 'Assets',
+  ABOUT: 'über',
 
   // home
   BALANCE: 'Saldo',
@@ -117,7 +118,7 @@ const lang = {
   SEND: 'Senden',
   ALREADY_LOCKED: 'die Transaktion wird abgelehnt, da ihr Konto bereits gesperrt ist',
   PAY_TIP:
-    'Stelle sicher, dass du XAS an die richtige Adresse schickst. Diese Operation kann nicht rückgängig gemacht werden.',
+    'Stelle sicher, dass du an die richtige Adresse schickst. Diese Operation kann nicht rückgängig gemacht werden.',
 
   // peers
   PEER_LIST: 'Liste von Knoten',
@@ -188,7 +189,7 @@ const lang = {
   PRODUCED_NUMBER: 'Produzierte Blöcke',
   USERNAME: 'Benutzername',
   WEIGHT: 'Gewichtung',
-  TOTAL_PEOPLES: 'Insgesamt {{count}} Personen',
+  TOTAL_PEOPLES: 'Insgesamt %{count} Personen',
 
   // model - account detail
   ACCOUNT_DETAIL: 'Kontodetails',

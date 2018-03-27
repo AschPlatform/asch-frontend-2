@@ -1,6 +1,7 @@
 import axios from './axiosWrap'
 import { urls } from './constants'
-import { toastError } from './util'
+import { toastError, getCurrentSeverUrl } from './util'
+
 // import nodeService from './servers'
 
 const json2url = json => {
@@ -35,15 +36,19 @@ const fetch = (url, data, method, postHeaders) => {
   //     server = nodeService.getCurrentServer()
   //   }
   // }
-
+  let selectedServerUrl = getCurrentSeverUrl()
   // let realUrl = urls.server.caos + url
-  let realUrl = urls.server[process.env.NODE_ENV] + url
+  let realUrl = !selectedServerUrl
+    ? urls.server[process.env.NODE_ENV] + url
+    : selectedServerUrl + url
   let type = method.toLowerCase()
   let res = {}
   if (type === 'get') {
     res = axios.get(realUrl + '?' + json2url(data))
-  } else {
+  } else if (type === 'post') {
     res = axios.post(realUrl, data, postHeaders)
+  } else if (type === 'put') {
+    res = axios.put(realUrl, data, postHeaders)
   }
   return res
 }
@@ -141,6 +146,19 @@ api.broadcastTransaction = trans => {
   return fetch(urls.postApi, { transaction: trans }, 'post', {
     headers: { magic: urls.magics[process.env.NODE_ENV], version: '' }
   })
+}
+// 执行 DAPP 内部合约
+api.dappContract = (trans, appid) => {
+  let url = { url: `/api/dapps/${appid}/transactions/signed` }
+  return fetch(url, { transaction: trans }, 'put', {
+    headers: { magic: urls.magics[process.env.NODE_ENV], version: '' }
+  })
+}
+
+// 查询 DAPP 内部余额
+api.dappMyBalance = (appid, address) => {
+  let url = { url: `/api/dapps/${appid}/balances/${address}` }
+  return fetch(url, {}, 'get')
 }
 
 const translateErrMsg = (t, input) => {

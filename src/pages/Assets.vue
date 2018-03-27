@@ -1,11 +1,11 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-    <q-tabs inverted align="justify">
-      <q-route-tab default  name="account" to="account" exact slot="title" icon="web asset" :label="$t('ASSET_PROFILE')" />
-      <q-route-tab name="publisher" to="publisher" slot="title" exact icon="business" :label="$t('REGISTERED_PUBLISHER')" />
-      <q-route-tab name="assets" slot="title" to="addAssets" icon="assessment" :label="$t('REGISTERED_ASSETS')" />
-      <q-route-tab name="myAssets" slot="title" to="list"  icon="publish" :label="$t('MY_ASSETS')" />
-      <q-route-tab name="records" slot="title" to="records"  icon="note" :label="$t('OPERATION_RECORD')" />
+    <q-tabs inverted align="justify" class="tab-container">
+      <q-route-tab default  name="account" :to="routerConfig('account')"  slot="title" icon="web asset" :label="$t('ASSET_PROFILE')" />
+      <q-route-tab name="publisher" :to="routerConfig('publisher')" slot="title"  icon="business" :label="$t('REGISTERED_PUBLISHER')" />
+      <q-route-tab name="assets" slot="title" :to="routerConfig('addAssets')" icon="assessment" :label="$t('REGISTERED_ASSETS')" />
+      <q-route-tab name="myAssets" slot="title" :to="routerConfig('list')"  icon="publish" :label="$t('MY_ASSETS')" />
+      <q-route-tab name="records" slot="title" :to="routerConfig('records')"  icon="note" :label="$t('OPERATION_RECORD')" />
       <router-view :userObj="user" />
     </q-tabs>
 </template>
@@ -23,9 +23,13 @@ export default {
     return {}
   },
   methods: {
-    async refresh(done) {
-      this.resetTable()
-      done()
+    routerConfig(name) {
+      return {
+        name: name,
+        params: {
+          user: this.user
+        }
+      }
     }
   },
   computed: {
@@ -34,9 +38,7 @@ export default {
     }
   },
   mounted() {},
-  watch: {
-    userObj(val) {}
-  },
+  watch: {},
   created() {
     // register event
   },

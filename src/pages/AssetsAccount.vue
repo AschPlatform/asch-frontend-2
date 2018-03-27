@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-panel-container row ">
+  <q-page class="tab-panel-container row ">
     <transition 
     appear
     enter-active-class="animated fadeIn"
@@ -79,7 +79,7 @@
     </q-modal>
 
 
-    </div>
+    </q-page>
 </template>
 
 <script>
@@ -194,7 +194,7 @@ export default {
       this.modalInfoShow = true
     },
     getTransferParams(props) {
-      return { name: 'transfer', params: { user: this.user, data: props } }
+      this.$root.$emit('openTransactionDialog', props.row)
     },
     getAssetRule(props) {
       return `${props.allowWriteoff === 1 ? 'Y' : 'N'}/${props.allowWhitelist === 1 ? 'Y' : 'N'}/${

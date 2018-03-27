@@ -1,45 +1,44 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <div v-if="user" class="layout-padding self-center">
-    <div class="row gutter-xs">
-      <div class="col-auto ">
-        <q-card class="card-info" color="secondary ">
+    <div class="row gutter-xs col-12">
+      <div class="col-lg-6 col-auto col-sm-12 col-xs-12">
+        <q-card class="card-info" color="primary ">
           <q-card-title>
             {{$t('BALANCE')}}
             <!-- add balance refresh -->
             <div slot="right" class="row items-center">
-              <q-btn :loading="refreshLoading" flat round icon="refresh" @click="refreshBalance" />
+              <q-btn size="xs" :loading="refreshLoading" flat round icon="refresh" @click="refreshBalance" />
             </div>
           </q-card-title>
-          <q-card-main class="column ">
-            <big>
-                                      {{user.account.balance | fee}} XAS
-                                    </big>
-  
-            <q-btn id='addr-data' v-clipboard="user.account.address" @success="info('copy success...')" flat>
-              {{user.account.address}}
-            </q-btn>
+          <q-card-main >
+            <div class="justify-between">
+              <big>{{user.account.balance | fee}} XAS</big><q-btn @click="$root.$emit('openTransactionDialog')" size="xs"  flat round icon="compare arrows" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_TRANSFER')}}</q-tooltip>
+              </q-btn>
+            </div>
+            <div>{{user.account.address}}<q-btn size="xs" v-clipboard="user.account.address" @success="info('copy success...')" flat round icon="content copy" /></div>
           </q-card-main>
   
         </q-card>
       </div>
       <div class="col">
-        <q-card class="card-info" color="secondary">
+        <q-card class="card-info" color="primary">
           <q-card-title>
             {{$t('LATEST_BLOCK_HEIGHT')}}
             <span slot="subtitle">{{user.latestBlock.timestamp | time}}</span>
           </q-card-title>
           <q-card-main>
             <big>
-                                    {{user.latestBlock.height}}
-                                    </big>
+              {{user.latestBlock.height}}
+            </big>
             <p class="text-faded"></p>
   
           </q-card-main>
         </q-card>
       </div>
       <div class="col">
-        <q-card class="card-info" color="secondary">
+        <q-card class="card-info" color="primary">
           <q-card-title>
             {{$t('VERSION_INFO')}}
             <span slot="subtitle">{{user.version.build}}</span>
@@ -71,7 +70,7 @@
 </template>-->
 
             <template slot="top-right" slot-scope="props">
-              <q-table-columns color="secondary" class="q-mr-sm" v-model="visibleColumns" :columns="columns" />
+              <q-table-columns color="primary" class="q-mr-sm" v-model="visibleColumns" :columns="columns" />
               <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
             </template>
 
@@ -125,31 +124,6 @@
         </div>
       </transition>
     </div>
-    <q-modal no-backdrop-dismiss @hide="accountInfo = {}" minimized  v-model="modalShow" content-css="padding: 20px">
-      <big>{{$t('ACCOUNT_DETAIL')}}</big>
-      <table class="q-table horizontal-separator highlight loose ">
-        <tbody class='info-tbody'>
-          <tr id='detail-addr' v-clipboard="accountInfo.address" @success="info('copy address success...')">
-            <td >{{$t('ADDRESS')}}</td>
-            <td >{{accountInfo.address}}</td>
-          </tr>
-          <tr id='detail-pub' v-clipboard="accountInfo.publicKey" @success="info('copy publicKey success...')">
-            <td >{{$t('PUBLIC_KEY')}}</td>
-            <td >{{accountInfo.publicKey}}</td>
-          </tr>
-          <tr id='detail-amount' v-clipboard="accountInfo.balance" @success="info('copy balance success...')">
-            <td >{{$t('BALANCE')}}</td>
-            <td >{{accountInfo.balance}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <br/>
-      <q-btn
-        color="primary"
-        @click="()=> this.modalShow = false"
-        label="Close"
-      />
-    </q-modal>
     <q-modal minimized no-backdrop-dismiss  v-model="modalInfoShow" content-css="padding: 20px">
       <big>{{$t('DAPP_DETAIL')}}</big>
       <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
@@ -210,7 +184,6 @@ export default {
       transData: null,
       loading: false,
       refreshLoading: false,
-      modalShow: false,
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -328,20 +301,7 @@ export default {
       this.modalInfoShow = true
     },
     async getAccountInfo(address) {
-      if (!address) return
-      let res = await api.account({
-        address: address
-      })
-
-      let { publicKey, balance } = res.account
-      balance = convertFee(balance)
-      this.accountInfo = {
-        publicKey,
-        balance,
-        address
-      }
-
-      this.modalShow = true
+      this.$root('openAccountModal', address)
     },
     info(message) {
       this.$q.notify({

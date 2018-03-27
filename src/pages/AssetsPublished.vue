@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-panel-container row ">
+  <q-page class="tab-panel-container row ">
     <transition  
     appear
     enter-active-class="animated fadeIn"
@@ -59,7 +59,7 @@
       </transition>
 
       <q-modal minimized no-backdrop-dismiss   v-model="modalInfoShow" content-css="padding: 20px">
-      <big>{{$t('DAPP_DETAIL')}}</big>
+        <big>{{$t('DAPP_DETAIL')}}</big>
         <table class="q-table horizontal-separator highlight loose ">
           <tbody class='info-tbody'>
             <tr v-clipboard="row.name" @success="info('copy name success...')">
@@ -150,7 +150,7 @@
           <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
       </template>
     </q-dialog>
-    </div>
+    </q-page>
 </template>
 
 <script>

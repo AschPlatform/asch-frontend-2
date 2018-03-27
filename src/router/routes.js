@@ -77,7 +77,24 @@ export default [
       {
         path: 'vote',
         name: 'vote',
-        component: load('Vote')
+        component: load('Vote'),
+        children: [
+          {
+            path: 'delegates',
+            name: 'delegates',
+            component: load('Delegates')
+          },
+          {
+            path: 'voteRecords',
+            name: 'voteRecords',
+            component: load('VotesRecords')
+          },
+          {
+            path: 'supporters',
+            name: 'supporters',
+            component: load('Supporters')
+          }
+        ]
       },
       {
         path: 'transfer',
@@ -93,6 +110,11 @@ export default [
         path: 'applications',
         name: 'applications',
         component: load('Applications')
+      },
+      {
+        path: 'about',
+        name: 'about',
+        component: load('About')
       }
     ]
   },

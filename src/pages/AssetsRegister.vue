@@ -26,7 +26,7 @@
       </q-field>
       <q-field class="col-8" :label="$t('ALLOW_WHITELIST')"  :label-width="3"  >
         <q-radio v-model="assets.allowWhitelist" :val="0" color="faded" :label="notAllow" />
-      <q-radio v-model="assets.allowWhitelist" :val="1" color="positive" :label="allow" style="margin-left: 10px" />
+        <q-radio v-model="assets.allowWhitelist" :val="1" color="positive" :label="allow" style="margin-left: 10px" />
       </q-field>
       <q-field class="col-8" :label="$t('ALLOW_BLACKLIST')"  :label-width="3" >
         <q-radio v-model="assets.allowBlacklist" :val="0" color="faded" :label="notAllow" />
