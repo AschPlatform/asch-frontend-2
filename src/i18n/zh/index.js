@@ -314,7 +314,8 @@ const lang = {
   CLICK_TO_SHOW: '点击获取',
   QRCODE_CLOSE: '点击二维码关闭',
 
-  // quasar i18n
+  // ==============  quasar i18n  =================
+
   lang: 'zh-hans',
   label: {
     clear: '清空',

@@ -165,7 +165,6 @@ export default {
           this.loading = false
         }
       } catch (e) {
-        console.log(e)
         toastError(t('ERR_SERVER_ERROR'))
         this.loading = false
       } finally {
