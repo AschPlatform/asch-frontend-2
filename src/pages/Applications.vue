@@ -254,9 +254,7 @@ export default {
       this.row = row
       this.dialogShow = true
     },
-    async onOk() {
-      
-    },
+    async onOk() {},
     onCancel() {
       this.dialogShow = false
       this.dialog = this.dialogDefault
