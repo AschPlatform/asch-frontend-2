@@ -21,18 +21,23 @@
                 <div inline style="line-height: 44px;" class="q-mr-md">{{$t('CHOSE_SERVER')}}:</div>
                 <q-select style="width:125px" separator radio float-label="server" class="col" v-model="serverUrl" :options="serverOpts" />
               </div>
-              <div class="row col-10">
+              <div class="row col-10 q-mt-lg">
                 <q-checkbox class="col-auto " v-model="remember">{{$t('KEEP_SESSION')}}</q-checkbox>
               </div>
             </q-card-main>
             <q-card-separator />
             <q-card-main class="row col-10 justify-center ">
-              <div class="row col-10 justify-between">
-                <q-btn big outline class="col-aotu " color="primary" @click="newUser">
-                  {{$t('NEW_ACCOUNT')}}
-                </q-btn>
-                <q-btn :loading="loading" big class="col-auto " color="primary" @click="userLogin">
+              <div class="row col-10 justify-center">
+                <q-btn :loading="loading" big class="col-10" color="primary" @click="userLogin">
                   {{$t('LOGIN')}}
+                </q-btn>
+              </div>
+            </q-card-main>
+            <q-card-separator />
+            <q-card-main class="row col-10 justify-center ">
+              <div class="row col-10 justify-center">
+                <q-btn big outline class="col-10" color="primary" @click="newUser">
+                  {{$t('NEW_ACCOUNT')}}
                 </q-btn>
               </div>
             </q-card-main>
@@ -263,7 +268,6 @@ export default {
 }
 
 .login-panel {
-  height: 260px;
   margin-top: 5%;
 }
 
