@@ -35,18 +35,6 @@ Router.beforeEach((to, from, next) => {
 */
 // add hook verify cookie
 
-// Router.beforeEach((to, from, next) => {
-//   console.log(this, store, 'come from router funcs')
-//   let user = to.params.user || from.params.user || SessionStorage.get.item('user')
-//   if (to.path.indexOf('login') > 0 || user) {
-//     next({ params: { ...to.params, user: user } })
-//     return null
-//   } else {
-//     next({ path: '/login', replace: true })
-//     return null
-//   }
-// })
-
 Router.beforeEach((to, from, next) => {
   let user = store.state.isLogin || SessionStorage.get.item('user')
   if (to.path.indexOf('login') > 0 || user) {

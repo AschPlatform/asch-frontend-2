@@ -78,7 +78,7 @@ api.blocks = params => {
 api.blockforging = params => {
   return fetch(urls.blockforgingApi, params, 'get')
 }
-//  入围候选人
+// 受托人列表
 api.delegates = params => {
   return fetch(urls.delegatesApi, params, 'get')
 }

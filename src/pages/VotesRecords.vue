@@ -5,8 +5,8 @@
     enter-active-class="animated fadeIn"
     leave-active-class="animated fadeOut" 
      mode="out-in">
-      <div v-if="delegates" class="col-12 shadow-1">
-        <q-table :data="delegates" :filter="filter" color="primary"
+      <div v-if="delegatesData" class="col-12 shadow-1">
+        <q-table no-data-label="HELL!" :data="delegatesData" :filter="filter" color="primary"
         selection="multiple" :selected.sync="selected" row-key="address"
         :columns="columns"  @request="request" :pagination.sync="pagination" 
         :loading="loading"
@@ -80,12 +80,13 @@
 import { api, translateErrMsg } from '../utils/api'
 import { toast } from '../utils/util'
 import { createVote } from '../utils/asch'
+import { mapGetters } from 'vuex'
 
 export default {
   props: ['userObj'],
   data() {
     return {
-      delegates: null,
+      delegatesData: null,
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -154,16 +155,23 @@ export default {
     },
     async getDelegates(pagination = {}, filter = '') {
       this.loading = true
+      console.log('in the getDele')
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
+      console.log('inner datas:', this.pagination, limit, pageNo)
       let res = await api.myvotes({
         address: this.user.account.address,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
       })
-      this.delegates = res.delegates
+      console.log('get res:', res)
+      if (res.success) {
+        this.delegatesData = res.delegates
+      } else {
+        this.delegatesData = []
+      }
       // set max
       this.pagination.rowsNumber = res.totalCount
       this.loading = false
@@ -197,13 +205,16 @@ export default {
     }
   },
   async mounted() {
+    console.log(this.user)
     if (this.user) {
       this.getDelegates()
     }
+    console.log(this, 'come from the vR page')
   },
   computed: {
+    ...mapGetters(['userInfo']),
     user() {
-      return this.userObj
+      return this.userInfo
     },
     secondSignature() {
       return this.user ? this.user.account.secondSignature : null

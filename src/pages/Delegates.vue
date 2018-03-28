@@ -1,52 +1,47 @@
 <template>
   <div class="tab-panel-container row ">
-    <transition 
-    appear
-    enter-active-class="animated fadeIn"
-    leave-active-class="animated fadeOut" 
-     mode="out-in">
-      <div v-if="delegates" class="col-12 shadow-1">
-        <q-table :data="delegates" :filter="filter" color="primary"
-        selection="multiple" :selected.sync="selected" row-key="address"
-        :columns="columns"  @request="request" :pagination.sync="pagination" 
-        :loading="loading" :title="$t('TOTAL_PEOPLES',{count:pagination.rowsNumber})"
-        >
-        
-          <template slot="top-right" slot-scope="props">
-            <q-btn v-if="selected.length" color="positive" flat round  icon="thumb up" @click="vote" >
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
-            </q-btn>
-            <q-btn flat round  icon="refresh" color="primary" @click="refresh" >
-            </q-btn>
-            <q-btn flat round  color="primary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
-            </q-btn>
-          </template>
-           
-          <q-td slot="body-cell-address"  slot-scope="props" :props="props">
-            <div class="text-primary" @click="viewAccountInfo(props.row)">
-              {{props.value}}
-            </div>
-          </q-td>
-          <q-td slot="body-cell-username"  slot-scope="props" :props="props">
-            <div>
-              {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
-            </div>
-          </q-td>
-          <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-            <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-            </q-btn>
-            <q-icon color="positive" v-if="props.row.voted" name="icon-chrome" />
-          </q-td> -->
-        </q-table>
-      </div>
-      </transition>
-      <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
+    <div v-if="delegates" class="col-12 shadow-1">
+      <q-table :data="delegates" :filter="filter" color="primary"
+      selection="multiple" :selected.sync="selected" row-key="address"
+      :columns="columns"  @request="request" :pagination.sync="pagination" 
+      :loading="loading" :title="$t('TOTAL_PEOPLES',{count:pagination.rowsNumber})"
+      >
+      
+        <template slot="top-right" slot-scope="props">
+          <q-btn v-if="selected.length" color="positive" flat round  icon="thumb up" @click="vote" >
+            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
+          </q-btn>
+          <q-btn flat round  icon="refresh" color="primary" @click="refresh" >
+          </q-btn>
+          <q-btn flat round  color="primary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
+          </q-btn>
+        </template>
+          
+        <q-td slot="body-cell-address"  slot-scope="props" :props="props">
+          <div class="text-primary" @click="viewAccountInfo(props.row)">
+            {{props.value}}
+          </div>
+        </q-td>
+        <q-td slot="body-cell-username"  slot-scope="props" :props="props">
+          <div>
+            {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
+          </div>
+        </q-td>
+        <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
+          <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
+            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
+          </q-btn>
+          <q-icon color="positive" v-if="props.row.voted" name="icon-chrome" />
+        </q-td> -->
+      </q-table>
+    </div>
+    <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
 
-      <span slot="title">{{$t('VOTE_TITLE')}}</span>
-      <span slot="message">{{$t('VOTE_TIP')}}
-        <br/>
-        {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}</span>
+    <span slot="title">{{$t('VOTE_TITLE')}}</span>
+    <span slot="message">{{$t('VOTE_TIP')}}
+      <br/>
+      {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
+    </span>
       <div slot="body">
         <q-field v-if="secondSignature"
           :label="$t('TRS_TYPE_SECOND_PASSWORD')"
@@ -73,13 +68,14 @@
         <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
       </template>
     </q-dialog>
-    </div>
+  </div>
 </template>
 
 <script>
-import { api, translateErrMsg } from '../utils/api'
+import { translateErrMsg } from '../utils/api'
 import { toast } from '../utils/util'
 import { createVote } from '../utils/asch'
+import { mapActions } from 'vuex'
 
 export default {
   props: ['userObj'],
@@ -145,6 +141,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['delegates', 'broadcastTransaction']),
     refresh() {
       this.pagination = this.paginationDeafult
       this.getDelegates()
@@ -157,7 +154,7 @@ export default {
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
-      let res = await api.delegates({
+      let res = await this.delegates({
         address: this.user.account.address,
         orderBy: 'rate:asc',
         limit: limit,
@@ -181,7 +178,7 @@ export default {
         return
       }
       let trans = createVote(this.selectedDelegate, this.user.secret, this.secondPwd)
-      let res = await api.broadcastTransaction(trans)
+      let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_VOTE_SUCCESS'))
       } else {
