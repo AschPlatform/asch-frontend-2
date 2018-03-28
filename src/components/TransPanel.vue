@@ -33,11 +33,12 @@
 </template>
 
 <script>
-import { api, translateErrMsg } from '../utils/api'
+import { translateErrMsg } from '../utils/api'
 import { toastWarn, toast } from '../utils/util'
 import { createTransaction, createTransfer } from '../utils/asch'
 import { address, secondPwd } from '../utils/validators'
 import { required, maxLength, minValue } from 'vuelidate/lib/validators'
+import { mapActions } from 'vuex'
 
 export default {
   props: ['user', 'assets', 'showTitle', 'address'],
@@ -73,6 +74,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['broadcastTransaction']),
     async send() {
       this.$v.form.$touch()
       let invlaidPwd = false
@@ -108,7 +110,7 @@ export default {
           this.secondPwd
         )
       }
-      let res = await api.broadcastTransaction(trans)
+      let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_TRANSFER_SUCCESS'))
         this.resetForm()

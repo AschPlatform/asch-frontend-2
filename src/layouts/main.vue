@@ -121,7 +121,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['login', 'refreshAccounts', 'account']),
+    ...mapActions(['login', 'refreshAccounts', 'account', 'uiaAssetListApi', 'issuer']),
     logout() {
       removeCache('user')
       this.$router.push('/login')
@@ -141,7 +141,7 @@ export default {
       this.transShow = true
     },
     async openAccountModal(address) {
-      let res = await api.account({
+      let res = await this.account({
         address: address
       })
       this.accountInfo = res.account
@@ -150,7 +150,7 @@ export default {
     async refreshAccount(cb = func) {
       // refresh user balance
       console.log('event refreshAccount...')
-      let res = await api.account({
+      let res = await this.account({
         address: this.user.account.address
       })
       let user = this._.merge({}, this.user, res)
@@ -160,7 +160,7 @@ export default {
     },
     async getIssuer(cbOk = func, cbErr = func) {
       // get user issuer info
-      let res = await api.issuer({
+      let res = await this.issuer({
         address: this.user.account.address
       })
       if (res.success) {
@@ -176,7 +176,7 @@ export default {
     },
     async getAssetsList(cbOk = func, cbErr = func) {
       // get user issuer info
-      let res = await api.uiaAssetListApi({})
+      let res = await this.uiaAssetListApi({})
       if (res.success) {
         let user = this._.merge({}, this.user, res)
         this.user = user
@@ -205,7 +205,7 @@ export default {
       console.log('no session data, please login...')
       this.$router.push('/login')
     } else {
-      let res = await api.login({
+      let res = await this.login({
         publicKey: user.account.publicKey
       })
       this.user = {

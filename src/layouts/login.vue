@@ -232,6 +232,7 @@ export default {
     this.lang = 'zh'
   },
   created() {
+    console.log(this.$store)
     removeCache('currentServer')
   },
   computed: {
