@@ -2,34 +2,16 @@
   <!-- if you want automatic padding use "layout-padding" class -->
   <div v-if="user" class="layout-padding self-center">
     <div class="row gutter-xs col-12">
-      <div class="col-lg-6 col-auto col-sm-12 col-xs-12">
+      <div class="col-12 col-auto  col-xs-12">
         <q-card>
           <q-card-main class="row">
             <div class="col-6">
               <jdenticon  :address="user.account.address" :size="60" />
             </div>
             <div  class="col-6">
-              <q-btn size="xs" flat round icon="refresh" @click="$root.$emit('openTransactionDialog')" />
-              <q-btn size="xs" flat round icon="refresh" @click="receive" />
+              <q-btn size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat   @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
+              <q-btn size="xs" :label="$t('RECEIVE')"  flat   @click="receive" />
             </div>
-          </q-card-main>
-        </q-card>
-        <q-card class="card-info" color="primary ">
-          <q-card-title>
-            {{$t('BALANCE')}}
-            <!-- add balance refresh -->
-            <div slot="right" class="row items-center">
-              <q-btn size="xs" :loading="refreshLoading" flat round icon="refresh" @click="refreshBalance" />
-            </div>
-          </q-card-title>
-          <q-card-main >
-            <div class="justify-between">
-              <big>{{user.account.balance | fee}} XAS</big>
-              <q-btn @click="$root.$emit('openTransactionDialog')" size="xs"  flat round icon="compare arrows" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_TRANSFER')}}</q-tooltip>
-              </q-btn>
-            </div>
-            <div>{{address}}<q-btn size="xs" v-clipboard="address" @success="info('copy success...')" flat round icon="content copy" /></div>
           </q-card-main>
         </q-card>
       </div>
@@ -72,7 +54,7 @@
           </q-card-main>
         </q-card>
       </div>
-        <div v-if="transData" class="col-7">
+        <div v-if="transData" class="col-8">
           <q-table :data="transData.transactions" 
           :columns="columns" row-key="id" :pagination.sync="pagination"
            @request="request" :loading="loading" :filter="filter" 
@@ -186,12 +168,38 @@ import { fullTimestamp, convertFee } from '../utils/asch'
 import Jdenticon from '../components/Jdenticon'
 import VueQr from 'vue-qr'
 import { mapGetters } from 'vuex'
+import {
+  QCard,
+  QCardMain,
+  QCardTitle,
+  QModal,
+  QTable,
+  QTd,
+  QBtn,
+  QList,
+  QItem,
+  QItemMain,
+  QItemSide,
+  QItemTile
+} from 'quasar'
 
 export default {
   props: ['userObj'],
   components: {
     VueQr,
-    Jdenticon
+    Jdenticon,
+    QCard,
+    QCardMain,
+    QCardTitle,
+    QModal,
+    QTable,
+    QTd,
+    QBtn,
+    QList,
+    QItem,
+    QItemMain,
+    QItemSide,
+    QItemTile
   },
   data() {
     return {
@@ -357,7 +365,8 @@ export default {
     },
     showAddrQr() {
       this.$root.$emit('showQRCodeModal', this.address)
-    }
+    },
+    receive() {}
   },
   mounted() {
     if (this.user) {
@@ -370,7 +379,7 @@ export default {
       return this.userInfo
     },
     address() {
-      return this.userInfo && this.userInfo.account ? this.userInfo.account.address : ''
+      return this.userInfo && this.userInfo.account ? this.userInfo.account.address : 'nothing'
     }
   },
   watch: {

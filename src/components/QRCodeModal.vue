@@ -1,22 +1,20 @@
 <template>
   <q-dialog
     v-model="show"
-    stack-buttons
     prevent-close
-    @ok="onOk"
-    @cancel="onCancel"
   >
     <span v-if="title" slot="title">{{title}}</span>
 
     <span v-if="message" slot="message">{{message}}</span>
 
     <div slot="body">
-      <vue-qr :text="text" />
+      <div class="row justify-center"> 
+        <vue-qr :text="text || ''" />
+      </div>
     </div>
 
     <template slot="buttons" slot-scope="props">
-      <q-btn color="negative" label="Choose Spiderman" @click="choose(props.ok, 'Spiderman')" />
-      <q-btn flat label="No thanks" @click="props.cancel" />
+            <q-btn flat :label="$t('label.close')" @click="close" />
     </template>
   </q-dialog>
 </template>
@@ -30,17 +28,12 @@ export default {
     VueQr
   },
   data() {
-    return {
-      // model for Dialog example
-      customDialogModel: false,
-      name: ''
-    }
+    return {}
   },
   methods: {
-    // when props.ok() gets called
-    onOk(data) {},
-
-    // when props.cancel() gets called
+    close(data) {
+      this.$emit('close')
+    },
     onCancel() {}
   }
 }
