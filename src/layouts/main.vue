@@ -167,9 +167,9 @@ export default {
       'myBalances'
     ]),
     ...mapMutations(['setUserInfo']),
-
     logout() {
       removeCache('user')
+      this.setUserIsLogin(false)
       this.$router.push('/login')
     },
     getRouterConf(name) {

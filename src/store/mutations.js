@@ -1,5 +1,8 @@
 export default {
   // user information / can set null
+  setUserIsLogin: (state, bool) => {
+    state.isLogin = bool
+  },
   setUserInfo: (state, userInfo) => {
     state.userInfo = userInfo
   },
