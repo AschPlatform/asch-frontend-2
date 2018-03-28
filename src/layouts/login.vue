@@ -138,7 +138,7 @@ export default {
   },
   methods: {
     ...mapActions(['login']),
-    ...mapMutations(['setUserInfo']),
+    ...mapMutations(['setUserInfo', 'updateUserInfo']),
     async userLogin(e, done) {
       this.loading = true
       const t = this.$t
@@ -159,7 +159,7 @@ export default {
           user.secret = this.secret
           user.publicKey = publicKey
           this.remember ? setCache('user', user) : removeCache('user')
-          this.setUserInfo(user)
+          this.updateUserInfo(user)
           // 是否登录的全局变量
           this.loading = false
           this.$router.push({
