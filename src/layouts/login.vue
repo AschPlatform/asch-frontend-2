@@ -14,7 +14,7 @@
             </q-card-title>
             <q-card-main class="row col-10 justify-center ">
               <q-field class="col-10" :error="$v.secret.$error" :error-label="$t('ERR_VIOLATE_BIP39')">
-                <q-input :float-label="$t('INPUT_PASSWORD')" @change="$v.secret.$touch" type="password" v-model="secret" @keyup.enter="login" clearable />
+                <q-input :float-label="$t('INPUT_PASSWORD')" @change="$v.secret.$touch" type="password" v-model="secret" @keyup.enter="userLogin" clearable />
               </q-field>
               <div class="row col-10 justify-between options-panel">
                 <!-- <q-select class="col-auto " chips color="secondary" v-model="lang" :options="langsOpts" /> -->

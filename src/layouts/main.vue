@@ -96,7 +96,7 @@ import FloatMenu from '../components/FloatMenu'
 import TransPanel from '../components/TransPanel'
 import AccountInfo from '../components/AccountInfo'
 import CodeModal from '../components/QRCodeModal'
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 
 import logo from '../assets/logo.png'
 const func = () => {}
@@ -121,9 +121,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['setUserIsLogin']),
     ...mapActions(['refreshAccounts', 'account', 'login', 'uiaAssetListApi', 'issuer']),
     logout() {
       removeCache('user')
+      this.setUserIsLogin(false)
       this.$router.push('/login')
     },
     getRouterConf(name) {

@@ -24,6 +24,7 @@ export default {
         commit('updateUserInfo', res)
         commit('setLatestBlock', res.latestBlock)
         commit('setVersion', res.version)
+        commit('setUserIsLogin', true)
         return res
       }
     })
