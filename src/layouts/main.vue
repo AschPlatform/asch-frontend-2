@@ -91,7 +91,6 @@
 </template>
 
 <script>
-import { api } from '../utils/api'
 import { setCache, getCache, removeCache } from '../utils/util'
 import FloatMenu from '../components/FloatMenu'
 import TransPanel from '../components/TransPanel'
@@ -117,11 +116,12 @@ export default {
       showFloatBtns: true,
       address: '',
       QRCodeShow: false,
-      QRCodeText: ''
+      QRCodeText: '',
+      intervalNum: -1
     }
   },
   methods: {
-    ...mapActions(['login', 'refreshAccounts', 'account']),
+    ...mapActions(['refreshAccounts', 'account', 'login', 'uiaAssetListApi', 'issuer']),
     logout() {
       removeCache('user')
       this.$router.push('/login')
@@ -141,7 +141,7 @@ export default {
       this.transShow = true
     },
     async openAccountModal(address) {
-      let res = await api.account({
+      let res = await this.account({
         address: address
       })
       this.accountInfo = res.account
@@ -150,8 +150,8 @@ export default {
     async refreshAccount(cb = func) {
       // refresh user balance
       console.log('event refreshAccount...')
-      let res = await api.account({
-        address: this.user.account.address
+      let res = await this.account({
+        address: this.address
       })
       let user = this._.merge({}, this.user, res)
       this.user = user
@@ -160,7 +160,7 @@ export default {
     },
     async getIssuer(cbOk = func, cbErr = func) {
       // get user issuer info
-      let res = await api.issuer({
+      let res = await this.issuer({
         address: this.user.account.address
       })
       if (res.success) {
@@ -176,7 +176,7 @@ export default {
     },
     async getAssetsList(cbOk = func, cbErr = func) {
       // get user issuer info
-      let res = await api.uiaAssetListApi({})
+      let res = await this.uiaAssetListApi({})
       if (res.success) {
         let user = this._.merge({}, this.user, res)
         this.user = user
@@ -202,16 +202,15 @@ export default {
   async mounted() {
     let user = this.userInfo || getCache('user') || null
     if (!user) {
+      debugger
       console.log('no session data, please login...')
       this.$router.push('/login')
     } else {
-      let res = await api.login({
-        publicKey: user.account.publicKey
+      debugger
+      await this.login({
+        publicKey: user.publicKey
       })
-      this.user = {
-        ...user,
-        ...res
-      }
+      this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
       // window.CHPlugin.checkIn()
     }
   },
@@ -235,6 +234,7 @@ export default {
     this.$root.$on('showQRCodeModal', this.showQRCodeModal)
   },
   beforeDestroy() {
+    clearInterval(this.intervalNum)
     this.$root.$off('refreshAccount', this.refreshAccount)
     this.$root.$off('refreshAccount', this.getAssetsList)
     this.$root.$off('getIssuer', this.getIssuer)

@@ -10,16 +10,23 @@ export default {
     return api.account({ address })
   },
   refreshAccounts: ({ commit, state }) => {
-    return api.account({ address: state.userInfo.address }).then(res => {
+    return api.account({ address: state.userInfo.account.address }).then(res => {
       if (res.success) {
-        commit('updateUserInfo', res.account)
+        commit('updateUserInfo', res)
         commit('setLatestBlock', res.latestBlock)
         commit('setVersion', res.version)
       }
     })
   },
   login: ({ commit }, params) => {
-    return api.login(params)
+    return api.login(params).then(res => {
+      if (res.success) {
+        commit('updateUserInfo', res)
+        commit('setLatestBlock', res.latestBlock)
+        commit('setVersion', res.version)
+        return res
+      }
+    })
   },
   account: ({ commit }, params) => {
     return api.account(params)

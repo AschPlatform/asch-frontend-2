@@ -29,7 +29,7 @@
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_TRANSFER')}}</q-tooltip>
               </q-btn>
             </div>
-            <div>{{address}}<q-btn size="xs" v-clipboard="address||''" @success="info('copy success...')" flat round icon="content copy" /></div>
+            <div>{{address}}<q-btn size="xs" v-clipboard="address" @success="info('copy success...')" flat round icon="content copy" /></div>
           </q-card-main>
         </q-card>
       </div>
@@ -327,8 +327,8 @@ export default {
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
       let res = await api.transactions({
-        recipientId: this.user.account.address,
-        senderPublicKey: this.user.account.publicKey,
+        recipientId: this.address,
+        senderPublicKey: this.userInfo.publicKey,
         orderBy: 't_timestamp:desc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -344,7 +344,7 @@ export default {
       return `${convertFee(amount)}(${convertFee(fee)})`
     },
     matchSelf(address) {
-      return this.user.account.address === address
+      return this.address === address
     },
     resetTable() {
       this.pageNo = 1
@@ -370,7 +370,7 @@ export default {
       return this.userInfo
     },
     address() {
-      return this.userInfo && this.userInfo.account && this.userInfo.account.address
+      return this.userInfo && this.userInfo.account ? this.userInfo.account.address : ''
     }
   },
   watch: {
