@@ -105,5 +105,15 @@ export default {
   },
   dappMyBalance: ({ commit }, params) => {
     return api.dappMyBalance(params)
+  },
+  // open cross asset address
+  openAddress: ({ commit }, params) => {
+    return null
+  },
+  withdrawAsset: ({ commit }, params) => {
+    return null
+  },
+  getMoreAssets: ({ commit }, params) => {
+    return null
   }
 }

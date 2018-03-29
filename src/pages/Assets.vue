@@ -1,30 +1,49 @@
 <template>
-    <q-page padding>
-      <big>
-        {{$t('ASSET_PROFILE')}}
-      </big>
-      <q-card  >
-          <q-card-title>
-            {{$t('X_ASSETS')}}
-          </q-card-title>
-           <q-card-main class="row gutter-xs">
-             <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="innerTransfer"/>
-           </q-card-main>
+  <q-page padding>
+    <big>
+      {{$t('ASSET_PROFILE')}}
+    </big>
+    <q-card  >
+        <q-card-title>
+          {{$t('X_ASSETS')}}
+        </q-card-title>
+          <q-card-main class="row gutter-xs">
+            <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="innerTransfer" @open="open"/>
+          </q-card-main>
+      </q-card>
+    <q-card  >
+      <q-card-title>
+        {{$t('CROSS_ASSETS')}}
+      </q-card-title>
+        <q-card-main class="row gutter-xs">
+        <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='outer' :asset="balance" @transfer="innerTransfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open"/>
+        <q-card class="col-4" >
+          <q-card-main>
+            <div @click="moreAssets" >
+              {{$t('MORE_ASSETS')}}
+            </div>
+          </q-card-main>
         </q-card>
-      <q-card  >
-          <q-card-title>
-            {{$t('CROSS_ASSETS')}}
-          </q-card-title>
-           <q-card-main class="row gutter-xs">
-            <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='outer' :asset="balance" @transfer="innerTransfer"  @deposit="deposit"  @withdraw="withdraw"/>
-           </q-card-main>
-        </q-card>
-    </q-page>
+        </q-card-main>
+    </q-card>
+
+    <deposit-modal :user="userInfo" :assets="innerBalance" :asset="asset" :show="depositPanelShow" :haveAdd="true" @close="depositPanelShow=false" />
+
+    <withdraw-modal :user="userInfo" :assets="innerBalance" :asset="asset" :show="withdrawPanelShow" :haveAdd="true" @close="withdrawPanelShow=false" />
+
+    <more-asset-modal :show="moreAssetsModalShow" :assets="innerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset"/>
+    <asset-detail-modal :show="assetDetailModalShow" :asset="asset" @close="assetDetailModalShow=false" :userInfo="userInfo" />
+
+  </q-page>
 </template>
 
 <script>
 import { QPage, QCard, QCardMain, QCardTitle } from 'quasar'
 import AssetsPanel from '../components/AssetsPanel'
+import DepositModal from '../components/DepositModal'
+import WithdrawModal from '../components/WithdrawModal'
+import MoreAssetModal from '../components/MoreAssetModal'
+import AssetDetailModal from '../components/AssetDetailModal'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -34,7 +53,11 @@ export default {
     QPage,
     QCard,
     QCardMain,
-    QCardTitle
+    QCardTitle,
+    DepositModal,
+    WithdrawModal,
+    MoreAssetModal,
+    AssetDetailModal
   },
   data() {
     return {
@@ -46,7 +69,12 @@ export default {
         rowsPerPage: 10
       },
       filter: '',
-      loading: false
+      loading: false,
+      depositPanelShow: false,
+      withdrawPanelShow: false,
+      moreAssetsModalShow: false,
+      assetDetailModalShow: false,
+      asset: {}
     }
   },
   methods: {
@@ -74,10 +102,27 @@ export default {
       this.$root.$emit('openTransactionDialog', asset)
     },
     deposit(asset) {
+      this.depositPanelShow = true
+      this.asset = asset
+      console.log('deposit', asset)
+    },
+    depositNewAsset(asset) {
+      this.moreAssetsModalShow = false
+      this.depositPanelShow = true
+      this.asset = asset
       console.log('deposit', asset)
     },
     withdraw(asset) {
+      this.withdrawPanelShow = true
+      this.asset = asset
       console.log('withdraw', asset)
+    },
+    moreAssets() {
+      this.moreAssetsModalShow = true
+    },
+    open(asset) {
+      this.asset = asset
+      this.assetDetailModalShow = true
     }
   },
   mounted() {
