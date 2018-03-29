@@ -1,15 +1,18 @@
 <template>
 <q-card class="col-4">
   <q-card-main>
-    <q-item>
-      <q-item-side v-if="asset.url" :avatar="asset.url" />
-      <q-item-main>
-        <q-item-tile label>{{asset.currency}}</q-item-tile>
-      </q-item-main>
-      <q-item-side right>
-        {{asset.balance | fee(asset.precision)}}
-      </q-item-side>
-    </q-item>
+    <div @click="open">
+      <q-item>
+        <q-item-side v-if="asset.url" :avatar="asset.url" />
+        <q-item-main>
+          <q-item-tile label>{{asset.currency}}</q-item-tile>
+        </q-item-main>
+        <q-item-side right>
+          {{asset.balance | fee(asset.precision)}}
+        </q-item-side>
+      </q-item>
+    </div>
+    
       <q-card-actions v-if="type=='inner'">
       <q-btn flat  :label="$t('TRS_TYPE_TRANSFER')" @click="transfer(asset)" />
     </q-card-actions>
@@ -23,24 +26,27 @@
   
 </template>
 <script>
-import { QCard, QCardMain, QList, QItem, QItemSide, QItemTile, QCardActions, QBtn } from 'quasar'
+import { QCard, QCardMain, QItem, QItemSide, QItemTile, QCardActions, QBtn } from 'quasar'
 
 export default {
   name: 'AssetPanel',
   props: ['asset', 'type'],
-  components: { QCard, QCardMain, QList, QItem, QItemSide, QItemTile, QCardActions, QBtn },
+  components: { QCard, QCardMain, QItem, QItemSide, QItemTile, QCardActions, QBtn },
   data() {
     return {}
   },
   methods: {
-    transfer(asset) {
-      this.$emit('transfer', asset)
+    transfer() {
+      this.$emit('transfer', this.asset)
     },
-    deposit(asset) {
-      this.$emit('deposit', asset)
+    deposit() {
+      this.$emit('deposit', this.asset)
     },
-    withdraw(asset) {
-      this.$emit('withdraw', asset)
+    withdraw() {
+      this.$emit('withdraw', this.asset)
+    },
+    open() {
+      this.$emit('open', this.asset)
     }
   },
   computed: {}
