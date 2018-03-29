@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card class="q-px-sm">
     <q-card-title>
     {{!isGonnaSet ? this.$t('VOTE_DELEGATE') : this.$t('VOTE_SET')}}
     </q-card-title>

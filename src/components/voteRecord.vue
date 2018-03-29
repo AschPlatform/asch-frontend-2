@@ -55,6 +55,10 @@
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
             <div @click="viewAccountInfo(props.row)" class="text-primary">{{props.value}}</div>
           </q-td>
+
+          <q-td slot="body-cell-weight"  slot-scope="props" :props="props">
+            <div>{{props.value.toFixed(3)}}</div>
+          </q-td>
         </q-table>
     </q-tab-pane>
     <q-dialog v-model="VR.dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
