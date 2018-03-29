@@ -17,6 +17,11 @@ export default {
     iconSize() {
       return this.size ? this.size : 30
     }
+  },
+  watch: {
+    address(val) {
+      Jdenticon()
+    }
   }
 }
 </script>

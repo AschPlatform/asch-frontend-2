@@ -14,7 +14,16 @@ const getters = {
     return state.version
   },
   balances: state => {
-    return state.balances
+    let balances = state.balances
+    return balances
+  },
+  balancesMap: state => {
+    let balances = state.balances
+    let balancesMap = {}
+    balances.map(balance => {
+      balancesMap[balance.currency] = balance
+    })
+    return balancesMap
   }
 }
 

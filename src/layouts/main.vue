@@ -35,13 +35,25 @@
           <q-item-side icon="attach money" />
           <q-item-main :label="$t('ASSET')" />
         </q-item>
-        <q-item item :to="getRouterConf('personal')">
-          <q-item-side icon="person" />
-          <q-item-main :label="$t('PERSONAL')" />
+         <q-item item :to="getRouterConf('transfer')">
+          <q-item-side icon="compare arrows"/>
+          <q-item-main  :label="$t('TRANSFER')" />
+        </q-item>
+         <q-item item :to="getRouterConf('proposal')">
+          <q-item-side icon="compare arrows"/>
+          <q-item-main  :label="$t('PROPOSAL')" />
+        </q-item>
+         <q-item item :to="getRouterConf('council')">
+          <q-item-side icon="compare arrows"/>
+          <q-item-main  :label="$t('COUNCIL')" />
         </q-item>
         <q-item item :to="getRouterConf('applications')">
           <q-item-side icon="apps" />
           <q-item-main :label="$t('APPLICATIONS')" />
+        </q-item>
+        <q-item item :to="getRouterConf('personal')">
+          <q-item-side icon="person" />
+          <q-item-main :label="$t('PERSONAL')" />
         </q-item>
         <q-item item :to="getRouterConf('forging')">
           <q-item-side icon="gavel" />
@@ -54,10 +66,6 @@
         <q-item item :to="getRouterConf('delegates')">
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
-        </q-item>
-        <q-item item :to="getRouterConf('transfer')">
-          <q-item-side icon="compare arrows"/>
-          <q-item-main  :label="$t('TRANSFER')" />
         </q-item>
         <q-item item :to="getRouterConf('peers')">
           <q-item-side icon="blur on" />
@@ -74,9 +82,9 @@
     <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false"/>
   
     <q-modal v-model="transShow" minimized no-backdrop-dismiss content-css="padding: 20px" >
-        <trans-panel :showTitle="true" :assets="assets" :user="user" :address="address">
+        <trans-panel :showTitle="true" :assets="assets"  :asset="asset" :user="userInfo">
           <div slot="btns" slot-scope="props" class="row col-12 justify-between" >
-            <q-btn big class="col-auto"  color="primary" @click="transShow=false;props.send()" :label="$t('SEND')" />
+            <q-btn big class="col-auto"  color="primary" @click="sendTrans(props.send)" :label="$t('SEND')" />
             <q-btn big class="col-auto"  color="orange" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
         </div>
         </trans-panel>
@@ -97,13 +105,50 @@ import TransPanel from '../components/TransPanel'
 import AccountInfo from '../components/AccountInfo'
 import CodeModal from '../components/QRCodeModal'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
+import {
+  QLayout,
+  QPageContainer,
+  QPage,
+  QLayoutHeader,
+  QLayoutFooter,
+  QLayoutDrawer,
+  QModal,
+  QBtn,
+  QList,
+  QItem,
+  QItemMain,
+  QItemSide,
+  QItemTile,
+  QToolbar,
+  QToolbarTitle
+} from 'quasar'
 
 import logo from '../assets/logo.png'
 const func = () => {}
 
 export default {
   name: 'Home',
-  components: { FloatMenu, TransPanel, AccountInfo, CodeModal },
+  components: {
+    FloatMenu,
+    TransPanel,
+    AccountInfo,
+    CodeModal,
+    QLayout,
+    QPageContainer,
+    QPage,
+    QLayoutHeader,
+    QLayoutFooter,
+    QLayoutDrawer,
+    QModal,
+    QBtn,
+    QList,
+    QItem,
+    QItemMain,
+    QItemSide,
+    QItemTile,
+    QToolbar,
+    QToolbarTitle
+  },
   data() {
     return {
       user: null,
@@ -111,7 +156,7 @@ export default {
       logo: logo,
       accountShow: false,
       accountInfo: {},
-      assets: null,
+      asset: null,
       transShow: false,
       showFloatBtns: true,
       address: '',
@@ -121,8 +166,15 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['setUserIsLogin']),
-    ...mapActions(['refreshAccounts', 'account', 'login', 'uiaAssetListApi', 'issuer']),
+    ...mapActions([
+      'refreshAccounts',
+      'account',
+      'login',
+      'uiaAssetListApi',
+      'issuer',
+      'myBalances'
+    ]),
+    ...mapMutations(['setUserInfo']),
     logout() {
       removeCache('user')
       this.setUserIsLogin(false)
@@ -137,9 +189,8 @@ export default {
       }
       return conf
     },
-    async openTransactionDialog(assets = null, address = '') {
-      this.assets = assets
-      this.address = address
+    async openTransactionDialog(asset = null) {
+      this.asset = asset
       this.transShow = true
     },
     async openAccountModal(address) {
@@ -199,27 +250,52 @@ export default {
     showQRCodeModal(content) {
       this.QRCodeShow = true
       this.QRCodeText = content
+    },
+    async sendTrans(send) {
+      let flag = await send()
+      if (flag) {
+        this.transShow = false
+      }
     }
   },
   async mounted() {
     let user = this.userInfo || getCache('user') || null
     if (!user) {
-      debugger
       console.log('no session data, please login...')
       this.$router.push('/login')
     } else {
-      debugger
-      await this.login({
+      let res = await this.login({
         publicKey: user.publicKey
       })
+      let userInfo = this._.merge({}, user, res)
+      this.setUserInfo(userInfo)
       this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
       // window.CHPlugin.checkIn()
     }
+    this.myBalances({
+      address: this.userInfo.account.address
+    })
   },
   computed: {
-    ...mapGetters(['latestBlock', 'version', 'userInfo']),
+    ...mapGetters(['latestBlock', 'version', 'userInfo', 'balances']),
     secondSignature() {
       return this.user ? this.user.account.secondSignature : null
+    },
+    assets() {
+      if (this.userInfo) {
+        let balances = this.balances
+        let account = this.userInfo.account
+        let XASAsset = {
+          currency: 'XAS',
+          precision: 8,
+          balance: account.balance
+        }
+        // balances.unshift()
+        let assets = [XASAsset].concat(balances)
+        return assets
+      } else {
+        return []
+      }
     }
   },
   created() {

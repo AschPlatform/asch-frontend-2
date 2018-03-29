@@ -73,6 +73,7 @@ export default {
       if (res.success) {
         commit('setBalances', res.balances)
       }
+      return res
     })
   },
   myAssets: ({ commit }, params) => {

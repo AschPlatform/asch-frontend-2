@@ -15,6 +15,14 @@ export const createDelegate = (userName, secret, secondpassword = '') =>
 export const createInnerTransaction = (options, secret) =>
   AschJs.dapp.createInnerTransaction(options, secret)
 
+export const createTrans = (currency, amount, fromto, message, secret, secondPassword = '') => {
+  if (currency === 'XAS') {
+    return AschJs.transaction.createTransaction(fromto, Number(amount), message, secret, secondPassword)
+  } else {
+    return AschJs.uia.createTransfer(currency, amount, fromto, message, secret, secondPassword)
+  }
+}
+
 export const createTransaction = (fromto, amount, message, secret, secondPassword = '') =>
   AschJs.transaction.createTransaction(fromto, amount, message, secret, secondPassword)
 
