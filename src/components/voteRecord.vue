@@ -57,6 +57,39 @@
           </q-td>
         </q-table>
     </q-tab-pane>
+    <q-dialog v-model="VR.dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
+
+      <span slot="title">{{$t('DELETE_VOTE_TITLE')}}</span>
+      <span slot="message">{{$t('DELETE_VOTE_TIP')}}
+        <br/>
+        {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}</span>
+      <div slot="body">
+        <q-field v-if="secondSignature"
+          :label="$t('TRS_TYPE_SECOND_PASSWORD')"
+          :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
+          :label-width="4"
+        >
+          <q-input v-model="secondPwd" type="password" />
+        </q-field>
+        <table class="q-table horizontal-separator highlight loose ">
+          <tbody class='info-tbody'>
+             <tr>
+              <td >{{$t('DAPP_NAME')}}</td>
+              <td >{{$t('ADDRESS')}}</td>
+            </tr>
+            <tr v-for="delegate in VR.selected" :key="delegate.address">
+              <td >{{delegate.username}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
+              <td >{{delegate.address}} </td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      <template slot="buttons" slot-scope="props">
+        <q-btn  flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
+        <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
+      </template>
+    </q-dialog>
+    <slot name="voteDelegate"></slot>
   </q-tabs>
 </template>
 
@@ -94,11 +127,11 @@ export default {
             label: this.$t('ADDRESS'),
             align: 'center'
           },
-          {
-            label: this.$t('USERNAME'),
-            field: 'username',
-            align: 'center'
-          },
+          // {
+          //   label: this.$t('USERNAME'),
+          //   field: 'username',
+          //   align: 'center'
+          // },
           {
             name: 'weight',
             label: this.$t('WEIGHT'),
@@ -242,7 +275,7 @@ export default {
     },
     async onOk() {
       if (this.selectedDelegate.length === 0) {
-        this.selected = []
+        this.VR.selected = []
         return
       }
       let trans = createVote(this.selectedDelegate, this.user.secret, this.secondPwd)
@@ -258,7 +291,7 @@ export default {
       this.secondPwd = ''
     },
     repeal() {
-      this.dialogShow = true
+      this.VR.dialogShow = true
     }
   },
   async mounted() {
@@ -283,12 +316,15 @@ export default {
       }
     },
     selectedDelegate() {
-      let selected = this.selected.filter(d => {
+      let selected = this.VR.selected.filter(d => {
         return !d.voted
       })
       return selected.map(delegate => {
         return '-' + delegate.publicKey
       })
+    },
+    secondSignature() {
+      return this.user ? this.user.account.secondSignature : null
     }
   },
   watch: {

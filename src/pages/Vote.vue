@@ -84,7 +84,9 @@
       <router-view :userObj="userObj"></router-view>
     </q-tabs> -->
     <!-- this should review -->
-    <vote-record class="col-5"></vote-record>
+    <vote-record class="col-5">
+      <my-vote-delegate slot="voteDelegate" :isSetDelegate="isSetDelegate"></my-vote-delegate>
+    </vote-record>
     <!-- <router-view class="col-5" :userObj="userObj"></router-view> -->
   </q-page>
 </template>
@@ -96,6 +98,7 @@ import { toast } from '../utils/util'
 import { createVote } from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
 import voteRecord from '../components/voteRecord'
+import myVoteDelegate from '../components/myVoteDelegate'
 
 export default {
   props: ['userObj'],
@@ -167,7 +170,8 @@ export default {
     QPage,
     QTab,
     QTabPane,
-    voteRecord
+    voteRecord,
+    myVoteDelegate
   },
   methods: {
     ...mapActions(['delegates', 'broadcastTransaction']),
@@ -259,6 +263,10 @@ export default {
       return selected.map(delegate => {
         return '+' + delegate.publicKey
       })
+    },
+    // TODO: below are gonna
+    isSetDelegate() {
+      return false
     }
   },
   watch: {}

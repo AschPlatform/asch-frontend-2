@@ -339,6 +339,10 @@ const lang = {
   DEPOSIT_TIP:
     '请将 %{currency}充值到上述地址，该地址仅支持接收 %{currency}，如果需要转入其他 token，请切换到相对应的 token 获取转入地址 钱包收款地址',
   OPEN_ADDR: '开通',
+  VOTE_DELEGATE: '票权代理人',
+  VOTE_CANCEL: '撤销代理人',
+  VOTE_SET: '设置代理人',
+  VOTE_DELEGATE_TIP: '请输入用户昵称或钱包地址',
 
   // ==============  quasar i18n  =================
 
