@@ -343,6 +343,12 @@ const lang = {
   VOTE_CANCEL: '撤销代理人',
   VOTE_SET: '设置代理人',
   VOTE_DELEGATE_TIP: '请输入用户昵称或钱包地址',
+  ALL_BLOCKS: '全部区块',
+  NOT_DELEGATE: '您还不是受托人',
+  CHECK: '查看',
+  MY_FORGING: '我生产的区块',
+  // DELEGATE_REGISTER: '注册成为受托人',
+  // DELEGATE_INFO: '',
 
   // ==============  quasar i18n  =================
 

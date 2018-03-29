@@ -1,8 +1,8 @@
 <template>
-  <div class="layout-padding self-center ">
-    <div class="col-12">
-      <big></big>
-      <q-table :data="blocks" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
+  <q-page padding class="self-center row">
+    <div class="col-8">
+      <big>{{$t('ALL_BLOCKS')}}</big>
+      <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
         <template slot="top-left" slot-scope="props">
             <q-search hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
         </template>
@@ -41,7 +41,30 @@
 
         </q-table>
       </div>
+      <div class="col-4">
+        <q-card inline class="q-px-sm">
+          <q-card-title>
+          {{$t('DELEGATE_INFO')}}
+          </q-card-title>
+          <q-card-separator />
+          <q-card-main align="center">
+            <span class="block">{{$t('NOT_DELEGATE')}}</span>
+            <q-btn color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
+          </q-card-main>
+        </q-card>
+        <q-card inline class="q-px-sm">
+          <q-card-title>
+          {{$t('MY_FORGING')}}
+          </q-card-title>
+          <q-card-separator />
+          <q-card-main align="center">
+            <span>{{$t('NOT_DELEGATE')}}</span>
+            <q-btn v-if="this.isDelegate" color="primary" @click="action">{{$t('CHECK')}}</q-btn>
+          </q-card-main>
+        </q-card>
+      </div>
 
+      <!-- below are modals -->
       <q-modal minimized   v-model="modalInfoShow" content-css="padding: 20px">
       <big>{{$t('DAPP_DETAIL')}}</big>
       <table class="q-table horizontal-separator highlight loose ">
@@ -119,22 +142,27 @@
         :label="$t('label.close')"
       />
     </q-modal>
-    </div>
+  </q-page>
 </template>
 
 <script>
-import { api } from '../utils/api'
+import { QTable, QPage } from 'quasar'
+// import { api } from '../utils/api'
 // import { toast } from '../utils/util'
 import { fullTimestamp } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   props: ['userObj'],
-  components: {},
+  components: {
+    QTable,
+    QPage
+  },
   data() {
     return {
       delegate: null,
-      blocks: [],
+      blocksData: [],
       forgingEnabled: false,
       pagination: {
         page: 1,
@@ -196,10 +224,13 @@ export default {
       ],
       modalInfoShow: false,
       row: {},
-      type: 0
+      type: 0,
+      // is this user delegate
+      isDelegate: false
     }
   },
   methods: {
+    ...mapActions(['blocks', 'blockDetail', 'blockforging', 'forgingStatus', 'transactions']),
     async refresh() {
       await this.getBlocks(this.defaultPage, '')
     },
@@ -216,24 +247,24 @@ export default {
         offset: (pageNo - 1) * limit,
         orderBy: 'height:desc'
       }
-      let res = await api.blocks(condition)
-      this.blocks = res.blocks
+      let res = await this.blocks(condition)
+      this.blocksData = res.blocks
       // set max
       this.pagination.rowsNumber = res.count
       this.loading = false
       return res
     },
     async getBlockDetail() {
-      let res = await api.blockDetail({
+      let res = await this.blockDetail({
         height: this.filter
       })
       this.pagination.rowsNumber = 1
-      this.blocks = [res.block]
+      this.blocksData = [res.block]
       this.loading = false
       return res
     },
     async getDelegate() {
-      let res = await api.blockforging({
+      let res = await this.blockforging({
         publicKey: this.publicKey
       })
       if (res.success === true) {
@@ -242,7 +273,7 @@ export default {
       return res
     },
     async getForgingStatus() {
-      let res = await api.forgingStatus({
+      let res = await this.forgingStatus({
         publicKey: this.publicKey
       })
       if (res.success === true) {
@@ -257,7 +288,7 @@ export default {
       return fullTimestamp(timestamp)
     },
     async showBlockInfo(id) {
-      let res = await api.blockDetail({ id })
+      let res = await this.blockDetail({ id })
       if (res.success === true) {
         this.row = res.block
         this.modalInfoShow = true
@@ -268,7 +299,7 @@ export default {
       this.$root.$emit('openAccountModal', address)
     },
     async showTransInfo(blockId) {
-      let res = await api.transactions({
+      let res = await this.transactions({
         blockId: blockId
       })
       if (res.success === true) {
@@ -284,8 +315,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['userInfo']),
     user() {
-      return this.userObj
+      return this.userInfo
     },
     publicKey() {
       if (this.user) return this.user.account.publicKey
@@ -302,10 +334,13 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 20
       }
+    },
+    btnInfo() {
+      return this.isDelegate ? this.$t('CHECK') : this.$t('DELEGATE_REGISTER')
     }
   },
   watch: {
-    userObj(val) {
+    userInfo(val) {
       if (val && val.account.publicKey) {
         this.init()
       }
