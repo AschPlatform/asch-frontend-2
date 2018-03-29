@@ -21,11 +21,13 @@
 
 <script>
 import VueQr from 'vue-qr'
+import { QDialog } from 'quasar'
 
 export default {
   props: ['show', 'text', 'title', 'message'],
   components: {
-    VueQr
+    VueQr,
+    QDialog
   },
   data() {
     return {}

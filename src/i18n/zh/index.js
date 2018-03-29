@@ -333,6 +333,12 @@ const lang = {
   WITHDRAW: '提现',
   DEPOSIT: '充值',
   AVAILABLE_BALANCE: '可用转账余额',
+  PROPOSAL: '提案',
+  COUNCIL: '理事会',
+  DEPOSIT_NO_ADDR_TIP: '你尚未开通 %{currency} 钱包收款地址',
+  DEPOSIT_TIP:
+    '请将 %{currency}充值到上述地址，该地址仅支持接收 %{currency}，如果需要转入其他 token，请切换到相对应的 token 获取转入地址 钱包收款地址',
+  OPEN_ADDR: '开通',
 
   // ==============  quasar i18n  =================
 

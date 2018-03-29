@@ -102,6 +102,16 @@ export default [
         component: load('Transfer')
       },
       {
+        path: 'proposal',
+        name: 'proposal',
+        component: load('Proposal')
+      },
+      {
+        path: 'council',
+        name: 'council',
+        component: load('Council')
+      },
+      {
         path: 'peers',
         name: 'peers',
         component: load('Peers')

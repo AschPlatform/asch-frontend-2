@@ -18,7 +18,7 @@
     </div>
   
     <div class="row col shadow-1 trans-table">
-      <div class="col-4">
+      <div class="col-5">
         <q-card class="card-info" color="primary ">
           <q-card-title>
             {{$t('BALANCE')}}
@@ -30,8 +30,8 @@
              {{address}}
               <q-btn v-clipboard="address" @success="info('copy senderId success...')" size="xs"  flat round icon="compare arrows" />
              </div>
-             <div @click="showAddrQr">
-               <vue-qr :text="address"></vue-qr>
+             <div class="row justify-center" @click="showAddrQr">
+               <vue-qr :size="100" :text="address"></vue-qr>
              </div>
            </q-card-main>
           <q-card-main >
@@ -54,7 +54,7 @@
           </q-card-main>
         </q-card>
       </div>
-        <div v-if="transData" class="col-8">
+        <div v-if="transData" class="col-7">
           <q-table :data="transData.transactions" 
           :columns="columns" row-key="id" :pagination.sync="pagination"
            @request="request" :loading="loading" :filter="filter" 

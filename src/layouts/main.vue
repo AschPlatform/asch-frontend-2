@@ -35,13 +35,25 @@
           <q-item-side icon="attach money" />
           <q-item-main :label="$t('ASSET')" />
         </q-item>
-        <q-item item :to="getRouterConf('personal')">
-          <q-item-side icon="person" />
-          <q-item-main :label="$t('PERSONAL')" />
+         <q-item item :to="getRouterConf('transfer')">
+          <q-item-side icon="compare arrows"/>
+          <q-item-main  :label="$t('TRANSFER')" />
+        </q-item>
+         <q-item item :to="getRouterConf('proposal')">
+          <q-item-side icon="compare arrows"/>
+          <q-item-main  :label="$t('PROPOSAL')" />
+        </q-item>
+         <q-item item :to="getRouterConf('council')">
+          <q-item-side icon="compare arrows"/>
+          <q-item-main  :label="$t('COUNCIL')" />
         </q-item>
         <q-item item :to="getRouterConf('applications')">
           <q-item-side icon="apps" />
           <q-item-main :label="$t('APPLICATIONS')" />
+        </q-item>
+        <q-item item :to="getRouterConf('personal')">
+          <q-item-side icon="person" />
+          <q-item-main :label="$t('PERSONAL')" />
         </q-item>
         <q-item item :to="getRouterConf('forging')">
           <q-item-side icon="gavel" />
@@ -54,10 +66,6 @@
         <q-item item :to="getRouterConf('delegates')">
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
-        </q-item>
-        <q-item item :to="getRouterConf('transfer')">
-          <q-item-side icon="compare arrows"/>
-          <q-item-main  :label="$t('TRANSFER')" />
         </q-item>
         <q-item item :to="getRouterConf('peers')">
           <q-item-side icon="blur on" />
@@ -74,7 +82,7 @@
     <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false"/>
   
     <q-modal v-model="transShow" minimized no-backdrop-dismiss content-css="padding: 20px" >
-        <trans-panel :showTitle="true" :assets="assets"  :asset="asset" :user="userInfo" :address="address">
+        <trans-panel :showTitle="true" :assets="assets"  :asset="asset" :user="userInfo">
           <div slot="btns" slot-scope="props" class="row col-12 justify-between" >
             <q-btn big class="col-auto"  color="primary" @click="sendTrans(props.send)" :label="$t('SEND')" />
             <q-btn big class="col-auto"  color="orange" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
