@@ -1,17 +1,18 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <q-page class="row">
-    <q-tabs inverted align="left"  class="tab-container col-7 shadow-1">
-      <q-tab default  name="delegates"  slot="title" icon="people outline" :label="$t('DELEGATE_LIST')" />
+  <q-page class="row gutter-xs">
+    <!-- <q-tabs inverted align="left"  class="tab-container col-7 shadow-1"> -->
+      <!-- <q-tab default  name="delegates"  slot="title" icon="people outline" :label="$t('DELEGATE_LIST')" /> -->
       <!-- <q-route-tab name="voteRecords" :to="routerConfig('voteRecords')" slot="title"  icon="people" :label="$t('VOTE_RECORD')" />
       <q-route-tab name="supporters" slot="title" :to="routerConfig('supporters')" icon="face" :label="$t('MY_VOTERS')" /> -->
       <!-- <router-view :userObj="user" /> -->
-      <div class="tab-panel-container row ">
-        <div v-if="delegatesData" class="col-12 shadow-1">
+      <!-- <div class="tab-panel-container row "> -->
+        <div v-if="delegatesData" class="col-7 shadow-1">
           <q-table :data="delegatesData" :filter="filter" color="primary"
           selection="multiple" :selected.sync="selected" row-key="address"
           :columns="columns"  @request="request" :pagination.sync="pagination" 
-          :loading="loading" :title="$t('TOTAL_PEOPLES',{count:pagination.rowsNumber})"
+          :loading="loading" :title="$t('DELEGATE_LIST')"
+          :rows-per-page-options="[15]"
           >
           
             <template slot="top-right" slot-scope="props">
@@ -75,8 +76,8 @@
             <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
           </template>
         </q-dialog>
-      </div>
-    </q-tabs>
+      <!-- </div> -->
+    <!-- </q-tabs> -->
     <!-- <q-tabs inverted class="tab-container col-4 shadow-1" align="justify">
       <q-route-tab name="voteRecords" :to="routerConfig('voteRecords')" slot="title"  icon="people" :label="$t('VOTE_RECORD')" />
       <q-route-tab name="supporters" slot="title" :to="routerConfig('supporters')" icon="face" :label="$t('MY_VOTERS')" />
@@ -105,7 +106,7 @@ export default {
       pagination: {
         page: 1,
         rowsNumber: 0,
-        rowsPerPage: 10
+        rowsPerPage: 15
       },
       selected: [],
       filter: '',

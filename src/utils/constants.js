@@ -63,7 +63,8 @@ const officialPeers = [
 
 const urls = {
   server: {
-    development: 'http://localhost:4096',
+    // development: 'http://localhost:4096',
+    development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192',
     // dev: 'http://localhost:4096',
     // dev2: 'http://testnet.asch.cn:4096',

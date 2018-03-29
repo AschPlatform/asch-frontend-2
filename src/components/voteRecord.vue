@@ -1,5 +1,5 @@
 <template>
-  <q-tabs inverted class="tab-container col-4 shadow-1" align="justify">
+  <q-tabs no-pane-border inverted class="tab-container shadow-1" align="justify">
     <q-tab default name="voteRecords" slot="title"  icon="people" :label="$t('VOTE_RECORD')" />
     <q-tab name="supporters" slot="title" icon="face" :label="$t('MY_VOTERS')" />
     <!-- target -->
@@ -8,7 +8,7 @@
        <q-table :no-data-label="$t('table.noData')" :data="VR.delegatesData" :filter="VR.filter" color="primary"
         selection="multiple" :selected.sync="VR.selected" row-key="address"
         :columns="VR.columns"  @request="requestVR" :pagination.sync="VR.pagination" 
-        :loading="VR.loading"
+        :loading="VR.loading" :rows-per-page-options="[10]"
         >
         
           <template slot="top-right" slot-scope="props">
@@ -61,11 +61,11 @@
 </template>
 
 <script>
-import { api, translateErrMsg } from '../utils/api'
+import { translateErrMsg } from '../utils/api'
 import { QTabs, QTab, QTabPane } from 'quasar'
 import { toast } from '../utils/util'
-import { createVote } from '../utils/asch'
-import { mapGetters } from 'vuex'
+import { createVote, createDelegate } from '../utils/asch'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   props: ['userObj'],
@@ -119,7 +119,7 @@ export default {
         pagination: {
           page: 1,
           rowsNumber: 0,
-          rowsPerPage: 40
+          rowsPerPage: 10
         },
         selected: [],
         filter: '',
@@ -131,12 +131,12 @@ export default {
           //   label: this.$t('OPERATION'),
           //   align: 'center'
           // },
-          {
-            name: 'rate',
-            label: this.$t('RANKING'),
-            field: 'rate',
-            align: 'center'
-          },
+          // {
+          //   name: 'rate',
+          //   label: this.$t('RANKING'),
+          //   field: 'rate',
+          //   align: 'center'
+          // },
           {
             name: 'username',
             label: this.$t('DELEGATE'),
@@ -147,24 +147,24 @@ export default {
             name: 'address',
             label: this.$t('ADDRESS'),
             field: 'address'
-          },
-          {
-            name: 'productivity',
-            label: this.$t('PRODUCTIVITY'),
-            field: 'productivity'
-          },
-          {
-            name: 'producedblocks',
-            label: this.$t('PRODUCED_BLOCKS'),
-            field: 'producedblocks',
-            align: 'center',
-            type: 'number'
-          },
-          {
-            name: 'approval',
-            label: this.$t('APPROVAL'),
-            field: 'approval'
           }
+          // {
+          //   name: 'productivity',
+          //   label: this.$t('PRODUCTIVITY'),
+          //   field: 'productivity'
+          // },
+          // {
+          //   name: 'producedblocks',
+          //   label: this.$t('PRODUCED_BLOCKS'),
+          //   field: 'producedblocks',
+          //   align: 'center',
+          //   type: 'number'
+          // },
+          // {
+          //   name: 'approval',
+          //   label: this.$t('APPROVAL'),
+          //   field: 'approval'
+          // }
         ],
         dialogShow: false,
         dialog: {
@@ -176,6 +176,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['votetome', 'myvotes', 'broadcastTransaction']),
     // come from SP PAGE
     refreshSP() {
       this.SP.pagination = this.paginationDeafult
@@ -189,7 +190,7 @@ export default {
       if (pagination.page) this.pagination = pagination
       let limit = this.SP.pagination.rowsPerPage
       let pageNo = this.SP.pagination.page
-      let res = await api.votetome({
+      let res = await this.votetome({
         publicKey: this.user.account.publicKey,
         orderBy: 'rate:asc',
         limit: limit,
@@ -219,7 +220,7 @@ export default {
       let limit = this.VR.pagination.rowsPerPage
       let pageNo = this.VR.pagination.page
       console.log('inner datas:', this.pagination, limit, pageNo)
-      let res = await api.myvotes({
+      let res = await this.myvotes({
         address: this.user.account.address,
         orderBy: 'rate:asc',
         limit: limit,
@@ -245,7 +246,7 @@ export default {
         return
       }
       let trans = createVote(this.selectedDelegate, this.user.secret, this.secondPwd)
-      let res = await api.broadcastTransaction(trans)
+      let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_VOTE_SUCCESS'))
       } else {
@@ -265,6 +266,9 @@ export default {
       this.getSupporters()
       this.getDelegates()
     }
+    let trans = createDelegate('killbill', 'someone manual strong movie roof episode eight spatial brown soldier soup motor', undefined)
+    let res = await this.broadcastTransaction(trans)
+    console.log(res)
   },
   computed: {
     ...mapGetters(['userInfo']),
