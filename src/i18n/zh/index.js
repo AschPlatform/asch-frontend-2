@@ -346,16 +346,22 @@ const lang = {
   ALL_BLOCKS: '全部区块',
   NOT_DELEGATE: '您还不是受托人',
   CHECK: '查看',
-  MY_FORGING: '我生产的区块',
+  MY_FORGING: '区块生产概况',
   // DELEGATE_REGISTER: '注册成为受托人',
   // DELEGATE_INFO: '',
   MORE_ASSETS: '获取更多资产',
   ASSET_DETAIL: '{currency} 详情',
   OVER_VIEW: '概括',
   ISSUER: '发行商',
+  DELEGATE_POLLRATE: '得票率',
+  DELEGATE_RANK: '当前排名',
+  DELEGATE_TITLE: '注册成为受托人',
+  I_AGREE: '我同意',
+  DELEGATE_VOTERATE: '生产率',
   APP_CENTER: '应用中心',
   CREATE_MY_DAPP: '创建我的应用',
   LOAD_MORE: '加载更多',
+  MY_BLOCKS: '我生产的区块',
 
   // ==============  quasar i18n  =================
 

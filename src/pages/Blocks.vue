@@ -1,7 +1,7 @@
 <template>
-  <q-page padding class="self-center row">
+  <q-page padding class="self-center row gutter-md">
     <div class="col-8">
-      <big>{{$t('ALL_BLOCKS')}}</big>
+      <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
       <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
         <template slot="top-left" slot-scope="props">
             <q-search hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
@@ -42,24 +42,29 @@
         </q-table>
       </div>
       <div class="col-4">
-        <q-card inline class="q-px-sm">
+        <q-card class="q-px-sm">
           <q-card-title>
           {{$t('DELEGATE_INFO')}}
           </q-card-title>
           <q-card-separator />
-          <q-card-main align="center">
+          <q-card-main align="center" v-if="!this.isDelegate">
             <span class="block">{{$t('NOT_DELEGATE')}}</span>
-            <q-btn color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
+            <q-btn color="primary" @click="regisDelegate">{{$t('DELEGATE_REGISTER')}}</q-btn>
+          </q-card-main>
+          <q-card-main align="center" v-else>
+            <span class="block">{{delegate.username}}</span>
+            <span class="block">{{$t('DELEGATE_POLLRATE')+':'+delegate.approval+'%'}}</span>
+            <span class="block">{{$t('DELEGATE_RANK')+':'+delegate.rate}}</span>
           </q-card-main>
         </q-card>
-        <q-card inline class="q-px-sm">
+        <q-card class="q-px-sm" v-if="this.isDelegate">
           <q-card-title>
           {{$t('MY_FORGING')}}
           </q-card-title>
           <q-card-separator />
           <q-card-main align="center">
-            <span>{{$t('NOT_DELEGATE')}}</span>
-            <q-btn v-if="this.isDelegate" color="primary" @click="action">{{$t('CHECK')}}</q-btn>
+            <q-btn @click="changeData" flat text-color="primary">{{delegate.producedblocks}}</q-btn>
+            <span class="block">{{$t('DELEGATE_VOTERATE')+':'+delegate.productivity+'%'}}</span>
           </q-card-main>
         </q-card>
       </div>
@@ -142,22 +147,58 @@
         :label="$t('label.close')"
       />
     </q-modal>
+
+    <!-- below are register dialog -->
+    <q-dialog
+      v-model="dialogShow"
+      prevent-close
+      @ok="onOk"
+      @cancel="onCancel"
+    >
+      <!-- This or use "title" prop on <q-dialog> -->
+      <span slot="title">{{$t('REGISTER_DELEGATE')}}</span>
+      <span slot="message">{{$t('NEED_PAY')+' 100 XAS'}}</span>
+
+      <div class="row" slot="body">
+        <q-field 
+            class="col-12"
+          >
+            <q-input :float-label="$t('DELEGATE_NAME')"  
+            v-model="form.delegateName"  />
+        </q-field>
+        <q-field v-if="secondSignature"
+          class="col-12"
+          :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
+          :error="secondPwdError"
+          :label-width="2"
+        >
+          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="form.secondPwd" type="password" @blur="validateSecondPwd" />
+        </q-field>
+      </div>
+      <template slot="buttons" slot-scope="props">
+        <q-btn flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
+        <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
+      </template>
+    </q-dialog>
+    <register-modal :show="isModalShow" @confirm="callRegisterDialog" @cancel="closeModal"></register-modal>
   </q-page>
 </template>
 
 <script>
 import { QTable, QPage } from 'quasar'
-// import { api } from '../utils/api'
-// import { toast } from '../utils/util'
-import { fullTimestamp } from '../utils/asch'
+import { translateErrMsg } from '../utils/api'
+import { toast } from '../utils/util'
+import { fullTimestamp, createDelegate } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
+import registerModal from '../components/RegisterDelegateModal'
 
 export default {
   props: ['userObj'],
   components: {
     QTable,
-    QPage
+    QPage,
+    registerModal
   },
   data() {
     return {
@@ -226,11 +267,18 @@ export default {
       row: {},
       type: 0,
       // is this user delegate
-      isDelegate: false
+      isDelegate: false,
+      dialogShow: false,
+      isModalShow: false,
+      form: {
+        delegateName: '',
+        secondPwd: ''
+      },
+      isOwn: false
     }
   },
   methods: {
-    ...mapActions(['blocks', 'blockDetail', 'blockforging', 'forgingStatus', 'transactions']),
+    ...mapActions(['blocks', 'blockDetail', 'blockforging', 'forgingStatus', 'transactions', 'broadcastTransaction']),
     async refresh() {
       await this.getBlocks(this.defaultPage, '')
     },
@@ -239,13 +287,27 @@ export default {
     },
     async getBlocks(pagination = {}, filter = '') {
       this.loading = true
-      if (pagination && pagination.page) this.pagination = pagination
-      let limit = this.pagination.rowsPerPage
-      let pageNo = this.pagination.page
-      let condition = {
-        limit: limit,
-        offset: (pageNo - 1) * limit,
-        orderBy: 'height:desc'
+      let condition = []
+      // is own judge
+      if (!this.isOwn) {
+        if (pagination && pagination.page) this.pagination = pagination
+        let limit = this.pagination.rowsPerPage
+        let pageNo = this.pagination.page
+        condition = {
+          limit: limit,
+          offset: (pageNo - 1) * limit,
+          orderBy: 'height:desc'
+        }
+      } else {
+        if (pagination && pagination.page) this.pagination = pagination
+        let limit = this.pagination.rowsPerPage
+        let pageNo = this.pagination.page
+        condition = {
+          generatorPublicKey: this.publicKey,
+          limit: limit,
+          offset: (pageNo - 1) * limit,
+          orderBy: 'height:desc'
+        }
       }
       let res = await this.blocks(condition)
       this.blocksData = res.blocks
@@ -269,6 +331,7 @@ export default {
       })
       if (res.success === true) {
         this.delegate = res.delegate
+        this.isDelegate = true
       }
       return res
     },
@@ -283,6 +346,7 @@ export default {
     },
     init() {
       this.getBlocks()
+      this.getDelegate()
     },
     formatTimestamp(timestamp) {
       return fullTimestamp(timestamp)
@@ -307,6 +371,36 @@ export default {
         this.modalInfoShow = true
         this.type = 3
       }
+    },
+    async regisDelegate() {
+      this.isModalShow = true
+    },
+    async onOk() {
+      let trans = createDelegate(this.form.delegateName, this.user.secret, this.form.secondPwd)
+      let res = await this.broadcastTransaction(trans)
+      if (res.success === true) {
+        this.resetForm()
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
+      } else {
+        translateErrMsg(this.$t, res.error)
+      }
+    },
+    onCancel() {
+      // this.resetForm()
+      this.dialogShow = false
+    },
+    // modal funcs
+    callRegisterDialog() {
+      this.closeModal()
+      this.dialogShow = true
+    },
+    closeModal() {
+      console.log('should something happen')
+      this.isModalShow = false
+    },
+    changeData() {
+      this.isOwn = !this.isOwn
+      this.getBlocks()
     }
   },
   mounted() {
@@ -334,9 +428,6 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 20
       }
-    },
-    btnInfo() {
-      return this.isDelegate ? this.$t('CHECK') : this.$t('DELEGATE_REGISTER')
     }
   },
   watch: {

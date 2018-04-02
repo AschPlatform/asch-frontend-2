@@ -101,7 +101,7 @@
 import { translateErrMsg } from '../utils/api'
 import { QTabs, QTab, QTabPane } from 'quasar'
 import { toast } from '../utils/util'
-import { createVote, createDelegate } from '../utils/asch'
+import { createVote } from '../utils/asch'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -116,7 +116,7 @@ export default {
     return {
       SP: {
         // below are come from support
-        delegates: null,
+        delegates: [],
         pagination: {
           page: 1,
           rowsNumber: 0,
@@ -131,11 +131,6 @@ export default {
             label: this.$t('ADDRESS'),
             align: 'center'
           },
-          // {
-          //   label: this.$t('USERNAME'),
-          //   field: 'username',
-          //   align: 'center'
-          // },
           {
             name: 'weight',
             label: this.$t('WEIGHT'),
@@ -152,7 +147,7 @@ export default {
         supports: []
       },
       VR: {
-        delegatesData: null,
+        delegatesData: [],
         pagination: {
           page: 1,
           rowsNumber: 0,
@@ -263,9 +258,11 @@ export default {
         limit: limit,
         offset: (pageNo - 1) * limit
       })
+      console.log('res', res)
       console.log('get res:', res)
       if (res.success) {
         this.VR.delegatesData = res.delegates
+        console.log(this)
       } else {
         this.VR.delegatesData = []
       }
@@ -298,14 +295,13 @@ export default {
       this.VR.dialogShow = true
     }
   },
-  async mounted() {
+  mounted() {
     if (this.user) {
       this.getSupporters()
+      console.log('get sP')
       this.getDelegates()
+      console.log('get vr')
     }
-    let trans = createDelegate('killbill', 'someone manual strong movie roof episode eight spatial brown soldier soup motor', undefined)
-    let res = await this.broadcastTransaction(trans)
-    console.log(res)
   },
   computed: {
     ...mapGetters(['userInfo']),
@@ -332,9 +328,10 @@ export default {
     }
   },
   watch: {
-    userObj(val) {
+    userInfo(val) {
       if (val) {
         this.getSupporters()
+        this.getDelegates()
       }
     },
     pageNo(val) {

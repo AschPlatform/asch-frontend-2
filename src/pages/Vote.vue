@@ -1,13 +1,7 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <q-page class="row gutter-xs">
-    <!-- <q-tabs inverted align="left"  class="tab-container col-7 shadow-1"> -->
-      <!-- <q-tab default  name="delegates"  slot="title" icon="people outline" :label="$t('DELEGATE_LIST')" /> -->
-      <!-- <q-route-tab name="voteRecords" :to="routerConfig('voteRecords')" slot="title"  icon="people" :label="$t('VOTE_RECORD')" />
-      <q-route-tab name="supporters" slot="title" :to="routerConfig('supporters')" icon="face" :label="$t('MY_VOTERS')" /> -->
-      <!-- <router-view :userObj="user" /> -->
-      <!-- <div class="tab-panel-container row "> -->
-        <div v-if="delegatesData" class="col-7 shadow-1">
+        <div class="col-7 shadow-1">
           <q-table :data="delegatesData" :filter="filter" color="primary"
           selection="multiple" :selected.sync="selected" row-key="address"
           :columns="columns"  @request="request" :pagination.sync="pagination" 
@@ -35,12 +29,6 @@
                 {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
               </div>
             </q-td>
-            <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-              <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-              </q-btn>
-              <q-icon color="positive" v-if="props.row.voted" name="icon-chrome" />
-            </q-td> -->
           </q-table>
         </div>
         <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
@@ -76,13 +64,6 @@
             <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
           </template>
         </q-dialog>
-      <!-- </div> -->
-    <!-- </q-tabs> -->
-    <!-- <q-tabs inverted class="tab-container col-4 shadow-1" align="justify">
-      <q-route-tab name="voteRecords" :to="routerConfig('voteRecords')" slot="title"  icon="people" :label="$t('VOTE_RECORD')" />
-      <q-route-tab name="supporters" slot="title" :to="routerConfig('supporters')" icon="face" :label="$t('MY_VOTERS')" />
-      <router-view :userObj="userObj"></router-view>
-    </q-tabs> -->
     <!-- this should review -->
     <vote-record class="col-5">
       <my-vote-delegate slot="voteDelegate" :isSetDelegate="isSetDelegate"></my-vote-delegate>
@@ -105,7 +86,7 @@ export default {
   data() {
     return {
       // below are original data from supporters
-      delegatesData: null,
+      delegatesData: [],
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -115,12 +96,6 @@ export default {
       filter: '',
       loading: false,
       columns: [
-        // {
-        //   name: 'opt',
-        //   field: 'rate',
-        //   label: this.$t('OPERATION'),
-        //   align: 'center'
-        // },
         {
           name: 'rate',
           label: this.$t('RANKING'),
@@ -235,7 +210,7 @@ export default {
       this.dialogShow = true
     }
   },
-  async mounted() {
+  mounted() {
     if (this.user) {
       this.getDelegates()
     }
@@ -269,7 +244,13 @@ export default {
       return false
     }
   },
-  watch: {}
+  watch: {
+    userInfo(val) {
+      if (val && val.account.publicKey) {
+        this.getDelegates()
+      }
+    }
+  }
 }
 </script>
 

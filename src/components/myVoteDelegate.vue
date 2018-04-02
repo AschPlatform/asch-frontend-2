@@ -4,8 +4,8 @@
     {{!isGonnaSet ? this.$t('VOTE_DELEGATE') : this.$t('VOTE_SET')}}
     </q-card-title>
     <q-card-separator />
-    <q-card-main align="center" v-if="!isGonnaSet">
-      <q-input clearable :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
+    <q-card-main align="center" v-if="isGonnaSet">
+      <q-input clearable :value="setName" :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
       <q-btn color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
     </q-card-main>
     <q-card-main align="center" v-else>
@@ -21,7 +21,8 @@ import { QCard, QCardTitle, QCardMain, QCardSeparator, QBtn, QInput } from 'quas
 export default {
   data() {
     return {
-      isGonnaSet: false
+      isGonnaSet: false,
+      setName: null
     }
   },
   props: ['isSetDelegate', 'delegateName'],

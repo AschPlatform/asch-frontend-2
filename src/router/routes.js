@@ -64,11 +64,11 @@ export default [
         name: 'personal',
         component: load('Personal')
       },
-      {
-        path: 'forging',
-        name: 'forging',
-        component: load('Forging')
-      },
+      // {
+      //   path: 'forging',
+      //   name: 'forging',
+      //   component: load('Forging')
+      // },
       {
         path: 'blocks',
         name: 'blocks',

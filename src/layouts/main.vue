@@ -55,10 +55,10 @@
           <q-item-side icon="person" />
           <q-item-main :label="$t('PERSONAL')" />
         </q-item>
-        <q-item item :to="getRouterConf('forging')">
+        <!-- <q-item item :to="getRouterConf('forging')">
           <q-item-side icon="gavel" />
           <q-item-main :label="$t('FORGING')" />
-        </q-item>
+        </q-item> -->
         <q-item item :to="getRouterConf('blocks')">
           <q-item-side icon="public" />
           <q-item-main :label="$t('BLOCKS')" />

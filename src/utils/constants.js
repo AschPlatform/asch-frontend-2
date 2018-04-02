@@ -102,7 +102,7 @@ const urls = {
     mock: '/data/blockchain/blocks.json',
     url: '/api/blocks'
   },
-  // 受托人的基本信息
+  // 受托人的基本信息 include myself params => publicKey
   blockforgingApi: {
     mock: '/data/blockforging/delegates.json',
     url: '/api/delegates/get'

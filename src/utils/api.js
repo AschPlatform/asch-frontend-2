@@ -70,7 +70,7 @@ api.transactions = params => {
 api.myvotes = params => {
   return fetch(urls.myvotesApi, params, 'get')
 }
-// 获取最新区块
+// 获取最新区块 params => generatorPublicKey
 api.blocks = params => {
   return fetch(urls.blocksApi, params, 'get')
 }
