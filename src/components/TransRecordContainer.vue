@@ -234,13 +234,17 @@ export default {
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
-      let res = await this.transactions({
+      let condition = {
         recipientId: this.userInfo.account.address,
-        senderPublicKey: this.userInfo.publicKey,
+        senderPublicKey: this.userInfo.account.publicKey,
         orderBy: 't_timestamp:desc',
         limit: limit,
         offset: (pageNo - 1) * limit
-      })
+      }
+      if (this.currency) {
+        condition.currency = this.currency
+      }
+      let res = await this.transactions(condition)
       this.trans = res.transactions
       // set max
       this.pagination.rowsNumber = res.count
@@ -256,7 +260,7 @@ export default {
       this.modalInfoShow = true
     },
     async getAccountInfo(address) {
-      this.$root('openAccountModal', address)
+      this.$root.$emit('openAccountModal', address)
     },
     matchSelf(address) {
       return this.address === address
@@ -267,6 +271,9 @@ export default {
     getTransType(val) {
       return this.$t(transTypes[val])
     }
+  },
+  mounted() {
+    this.getTrans()
   },
   watch: {
     userInfo(val) {

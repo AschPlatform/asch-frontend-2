@@ -49,7 +49,7 @@
             <q-card-main v-if="registerStep==1" class="row col-10 justify-center ">
               <q-field :label="$t('NEW_PASSWORD')" class="col-10" label-width="2" :helper="$t('CREATE_TIP1')">
                 <q-input type="textarea" class="" v-model="newSecret" disable :min-rows="5" />
-                <q-btn color="primary" v-clipboard="newSecret" class="float-right"  flat round icon="content copy" @click="jumpOut('Copied')"/>
+                <q-btn color="primary" v-clipboard="newSecret || 'no data' " class="float-right"  flat round icon="content copy" @click="jumpOut('Copied')"/>
               </q-field>
               <q-field :label="$t('CONFIRM_PASSWORD')" class="col-10" label-width="2" :helper="$t('CREATE_TIP2')">
                 <q-input type="textarea" v-model="confirmNewSecret" :min-rows="5" clearable />

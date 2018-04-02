@@ -9,17 +9,17 @@
               <jdenticon  :address="user.account.address" :size="60" />
             </div>
             <div  class="col-6">
-              <q-btn size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat   @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
-              <q-btn size="xs" :label="$t('RECEIVE')"  flat   @click="receive" />
+              <q-btn size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat  @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
+              <q-btn size="xs" :label="$t('RECEIVE')"  flat   @click="showAddrQr" />
             </div>
           </q-card-main>
         </q-card>
       </div>
     </div>
   
-    <div class="row col shadow-1 trans-table">
-      <div class="col-5">
-        <q-card class="card-info" color="primary ">
+    <div class="row col shadow-1 ">
+      <div class="col-5 balance-panel" >
+        <q-card >
           <q-card-title>
             {{$t('BALANCE')}}
           </q-card-title>
@@ -28,7 +28,7 @@
              {{$t('MAIN_ASSET')+'XAS'}}
              <div>  
              {{address}}
-              <q-btn v-clipboard="address" @success="info('copy senderId success...')" size="xs"  flat round icon="compare arrows" />
+              <q-btn v-clipboard="address || 'no data'" @success="info('copy senderId success...')" size="xs"  flat round icon="compare arrows" />
              </div>
              <div class="row justify-center" @click="showAddrQr">
                <vue-qr :size="100" :text="address"></vue-qr>
@@ -65,6 +65,7 @@
 <script>
 import Jdenticon from '../components/Jdenticon'
 import TransRecordContainer from '../components/TransRecordContainer'
+import { toast } from '../utils/util'
 import VueQr from 'vue-qr'
 import { mapGetters } from 'vuex'
 import {
@@ -117,14 +118,13 @@ export default {
     assets() {
       this.$router.push('assets')
     },
+    info(msg) {
+      toast(msg)
+    },
     // get transactions
     receive() {}
   },
-  mounted() {
-    if (this.user) {
-      this.getTrans()
-    }
-  },
+  mounted() {},
   computed: {
     ...mapGetters(['userInfo', 'balances']),
     user() {
@@ -139,17 +139,7 @@ export default {
 </script>
 
 <style lang="stylus">
-.card-info {
-  height: 150px;
-}
-
-.info-tbody {
-  tr {
-    cursor: text;
-  }
-}
-
-.link-cursor {
-  cursor: point;
+.balance-panel {
+  min-height: 200px;
 }
 </style>

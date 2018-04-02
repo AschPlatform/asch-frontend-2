@@ -123,7 +123,8 @@ import { required, sameAs } from 'vuelidate/lib/validators'
 import { secondPwd, secondPwdReg } from '../utils/validators'
 import { toastWarn, toast, toastError } from '../utils/util'
 import { signature, createLock } from '../utils/asch'
-import { api, translateErrMsg } from '../utils/api'
+import { translateErrMsg } from '../utils/api'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   props: ['userObj'],
@@ -157,6 +158,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['broadcastTransaction']),
     async setLock() {
       if (this.lockError) {
         return
@@ -166,7 +168,7 @@ export default {
         return
       }
       let trans = createLock(this.lockHeight, this.user.secret, this.secondPwd)
-      let res = await api.broadcastTransaction(trans)
+      let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         console.log(res)
         toast(this.$t('INF_POSITIONLOCK_SET_SUCCESS'))
@@ -183,7 +185,7 @@ export default {
         toastWarn(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
       } else {
         let trans = signature(this.user.secret, this.password)
-        let res = await api.broadcastTransaction(trans)
+        let res = await this.broadcastTransaction(trans)
         if (res.success === true) {
           toast(this.$t('INF_SECND_PASSWORD_SET_SUCCESS'))
           this.seted = true
@@ -251,8 +253,9 @@ export default {
     console.log(this.$route.params.user)
   },
   computed: {
+    ...mapGetters(['userInfo']),
     user() {
-      return this.userObj
+      return this.userInfo
     },
     secondSignature() {
       return this.user ? this.user.account.secondSignature : null
@@ -267,8 +270,7 @@ export default {
     }
   },
   watch: {
-    userObj(val) {
-    },
+    userObj(val) {},
     pageNo(val) {}
   }
 }

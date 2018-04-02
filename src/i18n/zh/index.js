@@ -353,6 +353,9 @@ const lang = {
   ASSET_DETAIL: '{currency} 详情',
   OVER_VIEW: '概括',
   ISSUER: '发行商',
+  APP_CENTER: '应用中心',
+  CREATE_MY_DAPP: '创建我的应用',
+  LOAD_MORE: '加载更多',
 
   // ==============  quasar i18n  =================
 

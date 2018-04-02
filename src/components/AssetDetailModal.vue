@@ -10,7 +10,7 @@
           <q-btn flat :label="$t('label.close')" @click="close"/>
         </q-toolbar>
         <div class="row layout-padding">
-          <q-card class="col-6">
+          <!-- <q-card class="col-6">
             <q-card-title>
               {{$t('BALANCE')}}
             </q-card-title>
@@ -20,8 +20,11 @@
             <q-card-actions>
               <q-btn flat :label="$t('TRS_TYPE_TRANSFER')" @click="transfer" />
             </q-card-actions>
-          </q-card>
-          <q-card class="col-6">
+          </q-card> -->
+          
+          <assets-panel type='inner' :asset="asset" @transfer="transfer"/>
+          <assets-panel type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw"/>
+          <q-card class="col-4">
             <q-card-main>
               <table>
                 <tr>
@@ -39,10 +42,17 @@
               </table>
             </q-card-main>
           </q-card>
+          <q-card class="col-4">
+            <q-card-main>
+              <p>
+                desc
+              </p>
+            </q-card-main>
+          </q-card>
 
         </div>
         <div>
-          <trans-record-container :userInfo="userInfo" />
+          <trans-record-container :userInfo="userInfo" :currency="asset.currency" />
         </div>
    </q-modal-layout>
   </q-modal>
@@ -50,6 +60,7 @@
 <script>
 import { mapActions } from 'vuex'
 import TransRecordContainer from '../components/TransRecordContainer'
+import AssetsPanel from './AssetsPanel'
 
 import {
   QModal,
@@ -69,7 +80,6 @@ import {
 import { secondPwd } from '../utils/validators'
 import { required, minValue } from 'vuelidate/lib/validators'
 import { toast } from '../utils/util'
-import { convertFee } from '../utils/asch'
 
 export default {
   name: 'AssetDetailModal',
@@ -88,7 +98,8 @@ export default {
     QItemTile,
     QCardActions,
     QBtn,
-    TransRecordContainer
+    TransRecordContainer,
+    AssetsPanel
   },
   data() {
     return {
@@ -106,7 +117,8 @@ export default {
       },
       receiver: {
         required
-      }
+      },
+      params: null
     },
     secondPwd: {
       secondPwd: secondPwd()
@@ -127,19 +139,21 @@ export default {
     info(msg) {
       toast(msg)
     },
-    assetsInfo(asset) {
-      let balance = convertFee(asset.balance, asset.precision)
-      return `${asset.currency}   ${balance}   `
+    transfer(asset) {
+      this.$root.$emit('openTransactionDialog', asset)
     },
     deposit(asset) {
       this.$emit('deposit', asset)
+      this.close()
     },
-    transfer() {
-      this.$root.$emit('openTransactionDialog', this.asset)
+    withdraw(asset) {
+      this.$emit('withdraw', asset)
+      this.close()
     }
   },
   computed: {},
-  watch: {}
+  watch: {
+  }
 }
 </script>
 <style lang="stylus" scoped>

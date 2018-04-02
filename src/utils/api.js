@@ -156,7 +156,7 @@ api.dappContract = (trans, appid) => {
 }
 
 // 查询 DAPP 内部余额
-api.dappMyBalance = (appid, address) => {
+api.dappMyBalance = ({ appid, address }) => {
   let url = { url: `/api/dapps/${appid}/balances/${address}` }
   return fetch(url, {}, 'get')
 }

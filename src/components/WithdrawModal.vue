@@ -20,7 +20,7 @@
           <q-input :float-label="$t('SECOND_PASSWORD')" v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
         </q-field>
         <div class="row justify-between">
-          <q-btn color="primary" @click="withdraw" :label="$t('TRS_TYPE_TRANSFER')"/>
+          <q-btn color="primary" @click="withdraw" :label="$t('WITHDRAW')"/>
           <q-btn color="primary" @click="close" :label="$t('label.close')"/>
         </div>
       </div>
