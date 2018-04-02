@@ -385,6 +385,21 @@ const lang = {
     '锁仓后，该部分额度将无法用于投票/转账在内的日常消耗，请根据实际情况预留出投票/转账等需要用到的额度',
   SET_UNLOCK_TIME: '选择时间',
   REGISTER_AGENT_FEE: '注册成为代理人，将消耗 100 XAS',
+  proposal: {
+    No: '提案编号',
+    INITIATOR: '发起人',
+    TYPE: '类型',
+    PERIOD: '公投周期',
+    DETAIL: '提案描述',
+    APPROVE: '赞成票数',
+    OPERATION: '操作',
+    TIP_VOTE: '投票',
+    TIP_PASS: '投票已通过',
+    TIP_REJECT: '投票未通过',
+    TITLE_ALL: '全部提案',
+    TITLE_PROCESS: '进行中的提案',
+    TITLE_DONE: '已结束的提案'
+  },
 
   // ==============  quasar i18n  =================
 
