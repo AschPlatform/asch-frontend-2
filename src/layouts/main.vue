@@ -174,7 +174,7 @@ export default {
       'issuer',
       'myBalances'
     ]),
-    ...mapMutations(['setUserInfo']),
+    ...mapMutations(['setUserInfo', 'setUserIsLogin']),
     logout() {
       removeCache('user')
       this.setUserIsLogin(false)
@@ -206,7 +206,7 @@ export default {
       let res = await this.account({
         address: this.address
       })
-      let user = this._.merge({}, this.user, res)
+      let user = this._.merge({}, this.userInfo, res)
       this.user = user
       if (getCache('user')) setCache('user', user)
       this._.delay(() => cb(), 1500) // delay refresh
@@ -218,7 +218,7 @@ export default {
       })
       if (res.success) {
         this.user.issuer = res.issuer
-        let user = this._.merge({}, this.user, res)
+        let user = this._.merge({}, this.userInfo, res)
         this.user = user
         if (getCache('user')) setCache('user', user)
         cbOk(res)
@@ -231,7 +231,7 @@ export default {
       // get user issuer info
       let res = await this.uiaAssetListApi({})
       if (res.success) {
-        let user = this._.merge({}, this.user, res)
+        let user = this._.merge({}, this.userInfo, res)
         this.user = user
         if (getCache('user')) setCache('user', user)
         cbOk(res)
@@ -279,7 +279,7 @@ export default {
   computed: {
     ...mapGetters(['latestBlock', 'version', 'userInfo', 'balances']),
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.userInfo ? this.userInfo.account.secondSignature : null
     },
     assets() {
       if (this.userInfo) {
@@ -301,7 +301,6 @@ export default {
   created() {
     // register event
     this.$root.$on('refreshAccount', this.refreshAccount)
-    this.$root.$on('getAssetsList', this.getAssetsList)
     this.$root.$on('getIssuer', () => {
       this.user && this.user.account ? this.getIssuer() : console.log('not init yet..')
     })
@@ -314,7 +313,6 @@ export default {
   beforeDestroy() {
     clearInterval(this.intervalNum)
     this.$root.$off('refreshAccount', this.refreshAccount)
-    this.$root.$off('refreshAccount', this.getAssetsList)
     this.$root.$off('getIssuer', this.getIssuer)
     this.$root.$off('openAccountModal', this.openAccountModal)
     this.$root.$off('openTransactionDialog', this.openTransactionDialog)

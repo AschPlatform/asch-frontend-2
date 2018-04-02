@@ -358,6 +358,9 @@ const lang = {
   DELEGATE_TITLE: '注册成为受托人',
   I_AGREE: '我同意',
   DELEGATE_VOTERATE: '生产率',
+  APP_CENTER: '应用中心',
+  CREATE_MY_DAPP: '创建我的应用',
+  LOAD_MORE: '加载更多',
 
   // ==============  quasar i18n  =================
 

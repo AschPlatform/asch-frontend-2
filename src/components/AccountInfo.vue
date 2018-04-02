@@ -3,15 +3,15 @@
     <big>{{$t('DAPP_DETAIL')}}</big>
     <table class="q-table horizontal-separator highlight loose ">
       <tbody class='info-tbody'>
-        <tr disable v-clipboard="account.address" @success="info('copy address success...')">
+        <tr disable v-clipboard="account.address || 'no data'" @success="info('copy address success...')">
           <td>{{$t('ADDRESS')}}</td>
           <td>{{account.address}}</td>
         </tr>
-        <tr v-clipboard="account.publicKey" @success="info('copy publicKey success...')">
+        <tr v-clipboard="account.publicKey || 'no data'" @success="info('copy publicKey success...')">
           <td>{{$t('PUBLIC_KEY')}}</td>
           <td>{{account.publicKey}}</td>
         </tr>
-        <tr id='detail-amount' v-clipboard="account.balance" @success="info('copy balance success...')">
+        <tr id='detail-amount' v-clipboard="account.balance || 'no data'" @success="info('copy balance success...')">
           <td>{{$t('BALANCE')}}</td>
           <td>{{account.balance | fee}}</td>
         </tr>
