@@ -1,5 +1,5 @@
 <template>
-  <q-modal content-classes="row justify-center" v-model="show" maximized>
+  <q-modal content-classes="row justify-center" v-model="show" maximized :no-esc-dismiss="true">
     <q-modal-layout>
         <q-toolbar slot="header">
           <q-toolbar-title>

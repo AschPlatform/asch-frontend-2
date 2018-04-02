@@ -27,7 +27,7 @@
         </q-card-main>
     </q-card>
 
-  <deposit-modal :user="userInfo" :assets="innerBalance" :asset="asset" 
+    <deposit-modal :user="userInfo" :assets="innerBalance" :asset="asset" 
       :show="depositPanelShow" :haveAdd="true" @close="depositPanelShow=false" />
     <withdraw-modal :user="userInfo" :assets="innerBalance" :asset="asset" 
       :show="withdrawPanelShow" :haveAdd="true" @close="withdrawPanelShow=false" />

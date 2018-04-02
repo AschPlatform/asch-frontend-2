@@ -77,6 +77,7 @@ export const createAsset = (
 
 export const generateM = () => Bip39.generateMnemonic()
 export const fullTimestamp = timestamp => AschJs.utils.format.fullTimestamp(timestamp)
+// export const beginTimestamp = () => AschJs.utils.slots.beginEpochTime()
 export const convertFee = (fee, precision = 8) => {
   if (!fee) {
     return 0

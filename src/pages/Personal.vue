@@ -1,61 +1,72 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <q-page padding >
-    <q-card>
+    <q-card v-if="user">
       <q-card-title>
         {{$t('PERSONAL')}}
       </q-card-title>
       <q-card-main class="row col-12 justify-center">
         <div class="row justify-center ">
           <jdenticon class="self-center" :address="address" :size="60" />
-          <div class="col-12 self-center" >
-            {{address}} <q-btn v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="refresh" />
+          <div class="col-12 text-center">
+            {{$t('HELLO')+','}}<a class="text-blue" v-if="!userNickname"  :label="$t('SET_NICKNAME')"  @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <p v-else>{{nickname}}</p>
+          </div>
+          <div class="col-12 text-center" >
+            {{address}} <q-btn v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
             <div class="row justify-center" @click="showAddrQr">
-               <vue-qr :size="100" :text="address"></vue-qr>
+               <vue-qr :size="70" :text="address"></vue-qr>
             </div>
           </div>
           
         </div>
-        <table class="q-table bordered highlight responsive ">
-          <tbody class='info-tbody'>
-            <tr>
-              <td>{{$t('TOTAL')+$t('BALANCE')}}</td>
-              <td>{{user.account.balance | fee}} {{' XAS'}}</td>
-            </tr>
-            <tr>
-              <td>{{$t('ADDRESS')}}</td>
-              <td>{{user.account.address}}</td>
-            </tr>
-            <tr>
-              <td>{{$t('SECOND_PASSWORD')}}</td>
-              <td>{{secondSignature?$t('ALREADY_SET'):$t('NOT_SET')}}</td>
-            </tr>
-            <tr>
-              <td>{{$t('POSITIONLOCK_INFO')}}</td>
-              <td>{{lockState?$t('ERR_TOAST_ACCOUNT_ALREADY_LOCKED'):$t('NOT_SET_BLOCKHEIGHT')}}</td>
-            </tr>
-            <tr>
-              <td>{{$t('PUBLIC_KEY')}}</td>
-              <td>{{user.account.publicKey}}</td>
-            </tr>
-            <tr>
-              <td>{{$t('QRCODE')}}</td>
-              <td>
-                <q-btn icon="open with" flat @click="()=>showQrcode('secret')">
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CLICK_TO_SHOW')}}</q-tooltip>
-                </q-btn>
-              </td>
-            </tr>
-            <tr>
-              <td>{{$t('QRCODE_ADDRESS')}}</td>
-              <td>
-                <q-btn icon="open with" flat @click="()=>showQrcode('address')">
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CLICK_TO_SHOW')}}</q-tooltip>
-                </q-btn>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="row col-12 justify-center">
+          <table class="q-table bordered highlight responsive ">
+            <tbody class='info-tbody'>
+              <tr>
+                <td>{{$t('SECOND_PASSWORD')}}</td>
+                <td>
+                  <span v-if="secondSignature">
+                    {{$t('ALREADY_SET')}}
+                  </span>
+                  <a v-else class="text-blue" @click="secondPwdShow=true">
+                    {{$t('SET_NOW')}}
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>{{$t('PUBLIC_KEY')}}</td>
+                <td>{{user.account.publicKey}} 
+                  <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
+                </td>
+              </tr>
+              <tr>
+                <td>{{$t('LOCK_POSITION_CONF')}}</td>
+                <td>
+                  <div v-if="lockInfo">
+                    <span>
+                      {{$t('LOCK_DETAIL',{amount:this.lockInfo.amount,date:this.lockInfo.time})}}
+                    </span>
+                    <a class="text-blue" @click="editLock">{{$t('EDIT')}}</a>
+                    <a v-if="this.lockInfo.expire" class="text-blue" @click="unlock">{{$t('UNLOCK')}}</a>
+                  </div>
+                  <a v-else class="text-blue" @click="lockPanelShow=true">
+                    {{$t('SET_NOW')}}
+                  </a>
+                </td>
+              </tr>
+              <tr>
+                <td>{{$t('AGENT_INFO')}}</td>
+                <td>
+                  <span v-if="isAgent">
+                  </span>
+                    <a v-else class="text-blue" @click="userAgreementShow=true">
+                    {{$t('REGISTER_AGENT')}}
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </q-card-main>
     </q-card>
     <q-dialog v-model="dialogShow" >
@@ -64,20 +75,113 @@
         <vue-qr :text="qrValue"></vue-qr>
       </div>
     </q-dialog>
-  
+
+    <q-dialog v-model="secondPwdShow" >
+      <span slot="title">{{$t('SET_SECOND_PASSWORD')}}</span>
+      <div slot="body" class="row justify-center" >
+        <q-field class="col-8" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
+          <q-input @blur="$v.password.$touch" type="password" v-model="password" />
+        </q-field>
+        <q-field class="col-8" :label="$t('CONFIRM')" :label-width="2" :error="$v.confirmPassword.$error" :error-label="$t('ERR_TWO_INPUTS_NOT_EQUAL')">
+          <q-input @blur="$v.confirmPassword.$touch" type="password" v-model="confirmPassword" />
+        </q-field>
+      </div>
+       <template slot="buttons" slot-scope="props">
+        <q-btn class="col-3 self-lef" color="primary" flat @click="setPwd(props.ok)">
+          {{$t('SUBMIT')}}
+        </q-btn>
+        <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
+      </template>
+    </q-dialog>
+
+    <q-dialog v-model="nicknameFormShow" >
+      <span slot="title">{{$t('SET_NICKNAME')}}</span>
+      <div slot="body" class="row justify-center" >
+        <q-field class="col-10" :label="$t('NICKNAME')" :label-width="4" :error="$v.nickname.$error" :error-label="$t('ERR_NICKNAME')" :helper="$t('NICKNAME_TIP')">
+          <q-input @blur="$v.nickname.$touch"  v-model="nickname" />
+
+        </q-field>
+        <table class="q-table bordered  responsive ">
+          <tbody>
+            <tr>
+              <td>{{$t('CHAR_NUM')}}</td>
+              <td>{{$t('PRICE')}}</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>100 XAS</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td>80 XAS</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td>40 XAS</td>
+            </tr>
+            <tr>
+              <td>6-10</td>
+              <td>20 XAS</td>
+            </tr>
+            <tr>
+              <td>11-20</td>
+              <td>0.1 XAS</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <template slot="buttons" slot-scope="props">
+        <q-btn class="col-3 self-lef" color="primary" flat @click="setNickname(props.ok)">
+          {{$t('SUBMIT')}}
+        </q-btn>
+        <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
+      </template>
+    </q-dialog>
+
+    <q-dialog v-model="lockPanelShow" >
+      <span slot="title">{{$t('LOCK_POSITION_CONF')}}</span>
+      <div slot="body" class="row justify-center" >
+        <q-field class="col-10" :label="$t('NUM')" :label-width="4" :error="numError" :helper="numLimit">
+          <q-input @blur="validateNum" type="number" :decimals="2" v-model="num" />
+        </q-field>
+         <q-field class="col-10" :label="$t('TIME')" :label-width="4" :error="$v.time.$error" 
+         :error-label="$t('ERR_NICKNAME')" :helper="$t('UNLOCK_TIPS')">
+          <q-datetime
+          v-model="time"
+          :min="today"
+          popover
+          :float-label="$t('SET_UNLOCK_TIME')"
+          type="datetime" 
+          format24h
+        />
+        </q-field>
+        
+      </div>
+      <template slot="buttons" slot-scope="props">
+        <q-btn class="col-3 self-lef" color="primary" flat @click="editLock(props.ok)">
+          {{$t('SUBMIT')}}
+        </q-btn>
+        <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
+      </template>
+    </q-dialog>
+  <user-agreement-modal :show="userAgreementShow" @confirm="registerAgent" @cancel="userAgreementShow=false" :tips="$t('REGISTER_AGENT_FEE')" />
   </q-page>
 </template>
 
 <script>
 import VueQr from 'vue-qr'
 import { required, sameAs } from 'vuelidate/lib/validators'
-import { secondPwd, secondPwdReg } from '../utils/validators'
+import { secondPwd, secondPwdReg, nicknameReg } from '../utils/validators'
 import { toastWarn, toast, toastError } from '../utils/util'
-import { signature, createLock } from '../utils/asch'
+import { signature, createLock, convertFee, fullTimestamp } from '../utils/asch'
 import { translateErrMsg } from '../utils/api'
 import { mapActions, mapGetters } from 'vuex'
-import { QPage, QCard, QcardTitle } from 'quasar'
+import { QPage, QCard, QCardTitle, QCardMain, QDialog, QDatetime, date } from 'quasar'
 import Jdenticon from '../components/Jdenticon'
+import UserAgreementModal from '../components/UserAgreementModal'
+
+let today = new Date()
+today = date.addToDate(today, { days: 7 })
 
 export default {
   props: ['userObj'],
@@ -85,8 +189,12 @@ export default {
     VueQr,
     QPage,
     QCard,
-    QcardTitle,
-    Jdenticon
+    QCardTitle,
+    QCardMain,
+    Jdenticon,
+    QDialog,
+    QDatetime,
+    UserAgreementModal
   },
   data() {
     return {
@@ -102,7 +210,17 @@ export default {
       secondPwd: '',
       secondPwdError: false,
       tip: this.$t('ACCOUNT_LOCK_TIP'),
-      locked: false
+      locked: false,
+      // new field
+      nickname: '',
+      secondPwdShow: false,
+      nicknameFormShow: false,
+      lockPanelShow: false,
+      userAgreementShow: false,
+      num: '',
+      time: '',
+      today,
+      numError: false
     }
   },
   validations: {
@@ -111,11 +229,17 @@ export default {
       secondPwd: secondPwd()
     },
     confirmPassword: {
+      required,
       sameAsPassword: sameAs('password')
-    }
+    },
+    nickname: {
+      required
+    },
+    num: {},
+    time: {}
   },
   methods: {
-    ...mapActions(['broadcastTransaction']),
+    ...mapActions(['broadcastTransaction', 'setName']),
     async setLock() {
       if (this.lockError) {
         return
@@ -135,17 +259,20 @@ export default {
         translateErrMsg(this.$t, res.error)
       }
     },
-    async setPwd() {
-      this.$v.$touch()
-      const isValid = this.$v.$error
+    async setPwd(done) {
+      this.$v.password.$touch()
+      this.$v.confirmPassword.$touch()
+      const isValid = this.$v.password.$error || this.$v.confirmPassword.$error
       if (isValid) {
         toastWarn(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
       } else {
         let trans = signature(this.user.secret, this.password)
         let res = await this.broadcastTransaction(trans)
+
         if (res.success === true) {
           toast(this.$t('INF_SECND_PASSWORD_SET_SUCCESS'))
           this.seted = true
+          done()
         } else {
           translateErrMsg(this.$t, res.error)
         }
@@ -209,11 +336,36 @@ export default {
     },
     showAddrQr() {
       this.$root.$emit('showQRCodeModal', this.address)
-    }
+    },
+    setNickname(done) {
+      this.$v.nickname.$touch()
+      if (this.$v.nickname.$error && !nicknameReg.test(this.nickname)) {
+        toastError(this.$t('ERR_NICKNAME'))
+      } else {
+        // this.setName()
+      }
+    },
+    registerAgent() {
+      this.userAgreementShow = true
+    },
+    editLock(done) {
+      let unlockTimestamp = date.formatDate(this.time, 'X')
+      let { height, timestamp } = this.latestBlock
+      let beginTime = new Date(fullTimestamp(timestamp))
+      beginTime = date.formatDate(beginTime, 'X')
+      let higher = Math.floor((unlockTimestamp - beginTime) / 10)
+      console.log(height + higher)
+    },
+    validateNum() {
+      let amount = convertFee(this.user.account.balance)
+      this.numError = this.num >= amount
+      return !this.num >= amount
+    },
+    unlock() {}
   },
   async mounted() {},
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userInfo', 'latestBlock']),
     user() {
       return this.userInfo
     },
@@ -230,6 +382,24 @@ export default {
     },
     address() {
       return this.userInfo && this.userInfo.account ? this.userInfo.account.address : 'nothing'
+    },
+    userNickname() {
+      return ''
+    },
+    isAgent() {
+      return false
+    },
+    lockInfo() {
+      return ''
+    },
+    numLimit() {
+      if (this.user) {
+        let amount = convertFee(this.user.account.balance)
+        const t = this.$t
+        return amount > 1 ? `${t('BALANCE')}: ${amount}, ${t('HIGHEST_LOCK')}: ${amount - 1}` : ''
+      } else {
+        return ''
+      }
     }
   },
   watch: {
