@@ -361,6 +361,7 @@ const lang = {
   APP_CENTER: '应用中心',
   CREATE_MY_DAPP: '创建我的应用',
   LOAD_MORE: '加载更多',
+  MY_BLOCKS: '我生产的区块',
 
   // ==============  quasar i18n  =================
 

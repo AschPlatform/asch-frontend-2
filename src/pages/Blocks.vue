@@ -1,7 +1,7 @@
 <template>
   <q-page padding class="self-center row gutter-md">
     <div class="col-8">
-      <big>{{$t('ALL_BLOCKS')}}</big>
+      <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
       <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
         <template slot="top-left" slot-scope="props">
             <q-search hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
