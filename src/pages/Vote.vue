@@ -7,7 +7,7 @@
       <q-route-tab name="supporters" slot="title" :to="routerConfig('supporters')" icon="face" :label="$t('MY_VOTERS')" /> -->
       <!-- <router-view :userObj="user" /> -->
       <!-- <div class="tab-panel-container row "> -->
-        <div v-if="delegatesData" class="col-7 shadow-1">
+        <div class="col-7 shadow-1">
           <q-table :data="delegatesData" :filter="filter" color="primary"
           selection="multiple" :selected.sync="selected" row-key="address"
           :columns="columns"  @request="request" :pagination.sync="pagination" 
@@ -105,7 +105,7 @@ export default {
   data() {
     return {
       // below are original data from supporters
-      delegatesData: null,
+      delegatesData: [],
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -235,7 +235,7 @@ export default {
       this.dialogShow = true
     }
   },
-  async mounted() {
+  mounted() {
     if (this.user) {
       this.getDelegates()
     }
@@ -269,7 +269,13 @@ export default {
       return false
     }
   },
-  watch: {}
+  watch: {
+    userInfo(val) {
+      if (val && val.account.publicKey) {
+        this.getDelegates()
+      }
+    },
+  }
 }
 </script>
 
