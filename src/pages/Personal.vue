@@ -1,112 +1,63 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <div class="layout-padding">
-    <q-list v-if="user.account" separator>
-      <q-collapsible group="info" opened icon="account circle" :label="$t('ACCOUNT_INFO')">
-        <q-card>
-          <q-card-title>
-            {{$t('BASIC_INFO')}}
-          </q-card-title>
-          <q-card-main class="row col-12 card-table-container">
-            <table class="q-table bordered highlight responsive ">
-              <tbody class='info-tbody'>
-                <tr>
-                  <td>{{$t('TOTAL')+$t('BALANCE')}}</td>
-                  <td>{{user.account.balance | fee}} {{' XAS'}}</td>
-                </tr>
-                <tr>
-                  <td>{{$t('ADDRESS')}}</td>
-                  <td>{{user.account.address}}</td>
-                </tr>
-                <tr>
-                  <td>{{$t('SECOND_PASSWORD')}}</td>
-                  <td>{{secondSignature?$t('ALREADY_SET'):$t('NOT_SET')}}</td>
-                </tr>
-                <tr>
-                  <td>{{$t('POSITIONLOCK_INFO')}}</td>
-                  <td>{{lockState?$t('ERR_TOAST_ACCOUNT_ALREADY_LOCKED'):$t('NOT_SET_BLOCKHEIGHT')}}</td>
-                </tr>
-                <tr>
-                  <td>{{$t('PUBLIC_KEY')}}</td>
-                  <td>{{user.account.publicKey}}</td>
-                </tr>
-                <tr>
-                  <td>{{$t('QRCODE')}}</td>
-                  <td>
-                    <q-btn icon="open with" flat @click="()=>showQrcode('secret')">
-                      <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CLICK_TO_SHOW')}}</q-tooltip>
-                    </q-btn>
-                  </td>
-                </tr>
-                <tr>
-                  <td>{{$t('QRCODE_ADDRESS')}}</td>
-                  <td>
-                    <q-btn icon="open with" flat @click="()=>showQrcode('address')">
-                      <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CLICK_TO_SHOW')}}</q-tooltip>
-                    </q-btn>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </q-card-main>
-        </q-card>
-      </q-collapsible>
-      <q-collapsible group="info" icon="fingerprint" :label="$t('SECOND_PASSWORD')">
-        <q-card>
-          <q-card-title>
-            {{$t('SET_SECOND_PASSWORD')}}
-          </q-card-title>
-          <q-card-main v-if="secondSignature || seted">
-            {{$t('ALREADY_SET_TPI')}}
-          </q-card-main>
-          <div v-else>
-            <q-card-main class="row justify-center">
-              <q-field class="col-8" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
-                <q-input @blur="$v.password.$touch" type="password" v-model="password" />
-              </q-field>
-              <q-field class="col-8" :label="$t('CONFIRM')" :label-width="2" :error="$v.confirmPassword.$error" :error-label="$t('ERR_TWO_INPUTS_NOT_EQUAL')">
-                <q-input @blur="$v.confirmPassword.$touch" type="password" v-model="confirmPassword" />
-              </q-field>
-  
-            </q-card-main>
-            <q-card-separator />
-            <q-card-main class="row justify-center">
-              <q-btn class="col-3 self-lef" color="primary" flat @click="setPwd">
-                {{$t('SUBMIT')}}
-              </q-btn>
-            </q-card-main>
+  <q-page padding >
+    <q-card>
+      <q-card-title>
+        {{$t('PERSONAL')}}
+      </q-card-title>
+      <q-card-main class="row col-12 justify-center">
+        <div class="row justify-center ">
+          <jdenticon class="self-center" :address="address" :size="60" />
+          <div class="col-12 self-center" >
+            {{address}} <q-btn v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="refresh" />
+            <div class="row justify-center" @click="showAddrQr">
+               <vue-qr :size="100" :text="address"></vue-qr>
+            </div>
           </div>
-  
-        </q-card>
-      </q-collapsible>
-      <q-collapsible group="info" icon="lock" :label="$t('TRS_TYPE_LOCK')">
-        <q-card>
-          <q-card-title>
-            {{$t('LOCK_POSITION_TITLE')}}
-          </q-card-title>
-          <q-card-main v-if="lockState || locked">
-            {{$t('ALREADY_SET_POSITIONLOCK')}}
-          </q-card-main>
-          <div v-else>
-            <q-card-main class="row justify-center">
-              <q-field class="col-8" :label="$t('HEIGHT')" :label-width="3" :error="lockError" :helper="tip">
-                <q-input @input="validateLockHeight" type="number" v-model="lockHeight" :decimals="0" />
-              </q-field>
-              <q-field v-show="secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
-                <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd" />
-              </q-field>
-            </q-card-main>
-            <q-card-separator />
-            <q-card-main class="row justify-center">
-              <q-btn class="col-3 " color="primary" flat @click="setLock">
-                {{$t('SUBMIT')}}
-              </q-btn>
-            </q-card-main>
-          </div>
-  
-        </q-card>
-      </q-collapsible>
-    </q-list>
+          
+        </div>
+        <table class="q-table bordered highlight responsive ">
+          <tbody class='info-tbody'>
+            <tr>
+              <td>{{$t('TOTAL')+$t('BALANCE')}}</td>
+              <td>{{user.account.balance | fee}} {{' XAS'}}</td>
+            </tr>
+            <tr>
+              <td>{{$t('ADDRESS')}}</td>
+              <td>{{user.account.address}}</td>
+            </tr>
+            <tr>
+              <td>{{$t('SECOND_PASSWORD')}}</td>
+              <td>{{secondSignature?$t('ALREADY_SET'):$t('NOT_SET')}}</td>
+            </tr>
+            <tr>
+              <td>{{$t('POSITIONLOCK_INFO')}}</td>
+              <td>{{lockState?$t('ERR_TOAST_ACCOUNT_ALREADY_LOCKED'):$t('NOT_SET_BLOCKHEIGHT')}}</td>
+            </tr>
+            <tr>
+              <td>{{$t('PUBLIC_KEY')}}</td>
+              <td>{{user.account.publicKey}}</td>
+            </tr>
+            <tr>
+              <td>{{$t('QRCODE')}}</td>
+              <td>
+                <q-btn icon="open with" flat @click="()=>showQrcode('secret')">
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CLICK_TO_SHOW')}}</q-tooltip>
+                </q-btn>
+              </td>
+            </tr>
+            <tr>
+              <td>{{$t('QRCODE_ADDRESS')}}</td>
+              <td>
+                <q-btn icon="open with" flat @click="()=>showQrcode('address')">
+                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CLICK_TO_SHOW')}}</q-tooltip>
+                </q-btn>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </q-card-main>
+    </q-card>
     <q-dialog v-model="dialogShow" >
       <span slot="title">{{type=='secret'?$t('QRCODE'):$t('QRCODE_ADDRESS')}}</span>
       <div slot="body" class="row justify-center" @click="dialogShow=false">
@@ -114,7 +65,7 @@
       </div>
     </q-dialog>
   
-  </div>
+  </q-page>
 </template>
 
 <script>
@@ -125,11 +76,17 @@ import { toastWarn, toast, toastError } from '../utils/util'
 import { signature, createLock } from '../utils/asch'
 import { translateErrMsg } from '../utils/api'
 import { mapActions, mapGetters } from 'vuex'
+import { QPage, QCard, QcardTitle } from 'quasar'
+import Jdenticon from '../components/Jdenticon'
 
 export default {
   props: ['userObj'],
   components: {
-    VueQr
+    VueQr,
+    QPage,
+    QCard,
+    QcardTitle,
+    Jdenticon
   },
   data() {
     return {
@@ -246,12 +203,15 @@ export default {
         this.lockError = true
         this.tip = r
       }
+    },
+    info(msg) {
+      toast(msg)
+    },
+    showAddrQr() {
+      this.$root.$emit('showQRCodeModal', this.address)
     }
   },
-  async mounted() {
-    this.userInfo = this.$route.params.user
-    console.log(this.$route.params.user)
-  },
+  async mounted() {},
   computed: {
     ...mapGetters(['userInfo']),
     user() {
@@ -267,6 +227,9 @@ export default {
     },
     pwdValid() {
       return !secondPwdReg.test(this.secondPwd)
+    },
+    address() {
+      return this.userInfo && this.userInfo.account ? this.userInfo.account.address : 'nothing'
     }
   },
   watch: {

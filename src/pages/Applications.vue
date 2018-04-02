@@ -219,13 +219,13 @@ export default {
       this.pagination.page += 1
       await this.getDapps()
     },
-    async getDapps(pagination = {}, filter = '', installed = false) {
+    async getDapps(pagination = {}, filter = '') {
       this.loading = true
       if (pagination && pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
       let res = {}
-      if (installed) {
+      if (this.installed) {
         res = await this.appInstalled({
           limit: limit,
           offset: (pageNo - 1) * limit
@@ -415,7 +415,7 @@ export default {
   async mounted() {
     if (this.user) {
       this.getDapps()
-      this.$root.$emit('getAssetsList')
+      // this.$root.$emit('getAssetsList')
     }
   },
   computed: {
@@ -500,7 +500,7 @@ export default {
     userInfo(val) {
       if (val) {
         this.getDapps()
-        if (!val.assets) this.$root.$emit('getAssetsList')
+        // if (!val.assets) this.$root.$emit('getAssetsList')
       }
     },
     pageNo(val) {
