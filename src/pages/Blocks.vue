@@ -65,7 +65,6 @@
           <q-card-main align="center">
             <q-btn @click="changeData" flat text-color="primary">{{delegate.producedblocks}}</q-btn>
             <span class="block">{{$t('DELEGATE_VOTERATE')+':'+delegate.productivity+'%'}}</span>
-            <!-- <q-btn v-if="this.isDelegate" color="primary" @click="action">{{$t('CHECK')}}</q-btn> -->
           </q-card-main>
         </q-card>
       </div>

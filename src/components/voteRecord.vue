@@ -131,11 +131,6 @@ export default {
             label: this.$t('ADDRESS'),
             align: 'center'
           },
-          // {
-          //   label: this.$t('USERNAME'),
-          //   field: 'username',
-          //   align: 'center'
-          // },
           {
             name: 'weight',
             label: this.$t('WEIGHT'),

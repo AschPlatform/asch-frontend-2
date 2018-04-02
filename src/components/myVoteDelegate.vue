@@ -4,7 +4,7 @@
     {{!isGonnaSet ? this.$t('VOTE_DELEGATE') : this.$t('VOTE_SET')}}
     </q-card-title>
     <q-card-separator />
-    <q-card-main align="center" v-if="!isGonnaSet">
+    <q-card-main align="center" v-if="isGonnaSet">
       <q-input clearable :value="setName" :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
       <q-btn color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
     </q-card-main>
