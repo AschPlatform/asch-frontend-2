@@ -1,5 +1,5 @@
 <template>
-  <q-modal content-classes="row justify-center" v-model="show" maximized>
+  <q-modal content-classes="row justify-center" v-model="show" maximized :no-esc-dismiss="true">
     <div class="col-6">
       <h4>{{$t('WITHDRAW')}}</h4>
       <div  class="row justify-center">

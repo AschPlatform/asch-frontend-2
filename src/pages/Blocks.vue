@@ -180,7 +180,7 @@
         <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
       </template>
     </q-dialog>
-    <register-modal :show="isModalShow" @confirm="callRegisterDialog" @cancel="closeModal"></register-modal>
+    <user-agreement-modal :show="isModalShow" @confirm="callRegisterDialog" @cancel="closeModal" />
   </q-page>
 </template>
 
@@ -191,14 +191,14 @@ import { toast } from '../utils/util'
 import { fullTimestamp, createDelegate } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
-import registerModal from '../components/RegisterDelegateModal'
+import UserAgreementModal from '../components/UserAgreementModal'
 
 export default {
   props: ['userObj'],
   components: {
     QTable,
     QPage,
-    registerModal
+    UserAgreementModal
   },
   data() {
     return {
@@ -278,7 +278,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['blocks', 'blockDetail', 'blockforging', 'forgingStatus', 'transactions', 'broadcastTransaction']),
+    ...mapActions([
+      'blocks',
+      'blockDetail',
+      'blockforging',
+      'forgingStatus',
+      'transactions',
+      'broadcastTransaction'
+    ]),
     async refresh() {
       await this.getBlocks(this.defaultPage, '')
     },

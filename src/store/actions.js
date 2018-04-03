@@ -115,5 +115,8 @@ export default {
   },
   getMoreAssets: ({ commit }, params) => {
     return null
+  },
+  setName: ({ commit }, params) => {
+    return null
   }
 }

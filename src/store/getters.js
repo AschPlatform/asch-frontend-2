@@ -10,6 +10,7 @@ const getters = {
   latestBlock: state => {
     return state.latestBlock
   },
+
   version: state => {
     return state.version
   },
