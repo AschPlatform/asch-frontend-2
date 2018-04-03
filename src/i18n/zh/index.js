@@ -375,7 +375,23 @@ const lang = {
     TIP_REJECT: '投票未通过',
     TITLE_ALL: '全部提案',
     TITLE_PROCESS: '进行中的提案',
-    TITLE_DONE: '已结束的提案'
+    TITLE_DONE: '已结束的提案',
+    LAUNCH: '发起新提案',
+    SELECT_P_TITLE: '提案标题',
+    SELECT_P_TYPE: '提案类型',
+    SELECT_P_COUNCIL: '选择理事会',
+    SELECT_NEWCOUNCIL: '新增理事会',
+    SELECT_REMOVECOUNCIL: '撤销理事会',
+    SELECT_CHANGEPERIOD: '更改周期',
+    SELECT_CHANGEMEMBER: '更改成员'
+  },
+  LAUNCH_MODAL: {
+    MEMBER_NUMBER: '成员数量',
+    PERIOD: '任职周期',
+    PERSON: '名',
+    BRIEF: '简要描述',
+    BRIEF_TIP: '请输入简要描述',
+    DAY: '天'
   },
 
   // ==============  quasar i18n  =================
