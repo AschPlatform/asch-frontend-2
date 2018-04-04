@@ -86,12 +86,14 @@
     <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false"/>
   
     <q-modal content-classes="layout-padding" v-model="transShow" maximized no-backdrop-dismiss content-css="padding: 20px" >
+      <div class="col-8">
         <trans-panel :showTitle="true" :assets="assets"  :asset="asset" :user="userInfo">
           <div slot="btns" slot-scope="props" class="row col-12 justify-between" >
             <q-btn big class="col-auto"  color="primary" @click="sendTrans(props.send)" :label="$t('SEND')" />
             <q-btn big class="col-auto"  color="orange" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
         </div>
         </trans-panel>
+      </div>
     </q-modal>
 
     <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText"/>

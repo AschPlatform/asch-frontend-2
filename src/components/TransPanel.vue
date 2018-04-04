@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12" v-if="asset">
+  <div class="col-10" v-if="asset">
     <div v-if="showTitle">
       <big>{{$t('TRS_TYPE_TRANSFER')}}</big><br/>
       <span>{{$t('PAY_TIP')}}</span>
