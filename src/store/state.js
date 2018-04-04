@@ -3,5 +3,6 @@ export default {
   isLogin: false,
   latestBlock: {},
   version: {},
-  balances: []
+  balances: [],
+  issuer: null
 }

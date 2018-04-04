@@ -1,8 +1,8 @@
 <template>
-  <q-modal content-classes="row justify-center layout-padding" v-model="show" maximized>
-    <q-card inline class="col-8" style="height:auto;">
+  <q-modal content-classes="layout-padding" v-model="show" maximized>
+    <q-card class="col-12" >
       <q-card-title>
-        {{$t('DELEGATE_TITLE')}}
+        {{title}}
       </q-card-title>
       <q-card-separator />
       <q-card-main class="q-px-lg">
@@ -42,7 +42,7 @@ export default {
       checked: false
     }
   },
-  props: ['show', 'content', 'tips'],
+  props: ['show', 'title', 'content', 'tips'],
   components: {
     QModal,
     QCard,

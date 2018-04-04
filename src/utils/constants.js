@@ -63,8 +63,8 @@ const officialPeers = [
 
 const urls = {
   server: {
-    // development: 'http://localhost:4096',
-    development: 'http://39.106.250.196:4096',
+    development: 'http://localhost:4096',
+    // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192',
     // dev: 'http://localhost:4096',
     // dev2: 'http://testnet.asch.cn:4096',
@@ -97,7 +97,7 @@ const urls = {
     mock: '/data/vote/delegates.json',
     url: '/api/accounts/delegates'
   },
-  //  获取我的投票列表借口
+  //  获取区块数据接口
   blocksApi: {
     mock: '/data/blockchain/blocks.json',
     url: '/api/blocks'

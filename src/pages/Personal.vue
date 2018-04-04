@@ -164,7 +164,7 @@
         <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
       </template>
     </q-dialog>
-  <user-agreement-modal :show="userAgreementShow" @confirm="registerAgent" @cancel="userAgreementShow=false" :tips="$t('REGISTER_AGENT_FEE')" />
+  <user-agreement-modal :show="userAgreementShow" @confirm="registerAgent" @cancel="userAgreementShow=false" :tips="$t('REGISTER_AGENT')+$t('COST_FEE',{num:100})" />
   </q-page>
 </template>
 

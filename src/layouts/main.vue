@@ -67,6 +67,10 @@
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
         </q-item>
+        <q-item item :to="getRouterConf('issuer')">
+          <q-item-side icon="blur on" />
+          <q-item-main :label="$t('TRS_TYPE_UIA_ISSUE')" />
+        </q-item>
         <q-item item :to="getRouterConf('peers')">
           <q-item-side icon="blur on" />
           <q-item-main :label="$t('PEERS')" />
@@ -81,7 +85,7 @@
       <!-- common component with event -->
     <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false"/>
   
-    <q-modal v-model="transShow" minimized no-backdrop-dismiss content-css="padding: 20px" >
+    <q-modal content-classes="layout-padding" v-model="transShow" maximized no-backdrop-dismiss content-css="padding: 20px" >
         <trans-panel :showTitle="true" :assets="assets"  :asset="asset" :user="userInfo">
           <div slot="btns" slot-scope="props" class="row col-12 justify-between" >
             <q-btn big class="col-auto"  color="primary" @click="sendTrans(props.send)" :label="$t('SEND')" />
@@ -174,7 +178,7 @@ export default {
       'issuer',
       'myBalances'
     ]),
-    ...mapMutations(['setUserInfo', 'setUserIsLogin']),
+    ...mapMutations(['updateUserInfo', 'setUserIsLogin']),
     logout() {
       removeCache('user')
       this.setUserIsLogin(false)
@@ -268,7 +272,7 @@ export default {
         publicKey: user.publicKey
       })
       let userInfo = this._.merge({}, user, res)
-      this.setUserInfo(userInfo)
+      this.updateUserInfo(userInfo)
       this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
       // window.CHPlugin.checkIn()
     }
