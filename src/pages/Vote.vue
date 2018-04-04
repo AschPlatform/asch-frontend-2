@@ -214,7 +214,6 @@ export default {
     if (this.user) {
       this.getDelegates()
     }
-    console.log(this, 'user in vote')
   },
   computed: {
     ...mapGetters(['userInfo']),

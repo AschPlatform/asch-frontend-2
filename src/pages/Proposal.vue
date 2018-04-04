@@ -1,9 +1,17 @@
 <template>
   <q-page class="layout-padding">
-    <q-tabs inverted>
-      <q-tab default slot="title" :label="$t('proposal.TITLE_ALL')" />
+    <q-btn-group outline>
+      <q-btn flat color="primary" :label="$t('proposal.TITLE_ALL')" />
+      <q-btn flat color="primary" :label="$t('proposal.TITLE_PROCESS')" />
+      <q-btn flat color="primary" :label="$t('proposal.TITLE_DONE')" />
+    </q-btn-group>
+    <q-btn-group class="float-right">
+      <q-btn size="sm" color="primary" :label="$t('proposal.LAUNCH')"></q-btn>
+    </q-btn-group>
+      <!-- <q-tab default slot="title" :label="$t('proposal.TITLE_ALL')" />
       <q-tab slot="title" :label="$t('proposal.TITLE_PROCESS')" />
       <q-tab slot="title" :label="$t('proposal.TITLE_DONE')" />
+      <q-btn size="sm" flat slot="top-right" class="float-right">Launch</q-btn> -->
       <!-- tab pane content -->
       <q-table :data="proposalDetail" :columns="columns" row-key="no" :pagination.sync="pagination">
         <q-td slot="body-cell-detail" slot-scope="props" :props="props">
@@ -18,7 +26,6 @@
           </q-btn>
         </q-td>
       </q-table>
-    </q-tabs>
 
     <!-- modal area -->
     <launch-modal :show="isLaunchShow"></launch-modal>
@@ -28,9 +35,7 @@
 <script>
 import {
   QPage,
-  QTabs,
-  QTab,
-  QTabPane,
+  QBtnGroup,
   QTable,
   QTd,
   QBtn,
@@ -43,9 +48,7 @@ export default {
   name: 'Proposal',
   components: {
     QPage,
-    QTabs,
-    QTab,
-    QTabPane,
+    QBtnGroup,
     QTable,
     QTd,
     QBtn,
@@ -125,7 +128,8 @@ export default {
         }
       ],
       // modal set
-      isLaunchShow: false
+      isLaunchShow: false,
+      btnStatus: 1
     }
   },
   methods: {
