@@ -120,6 +120,11 @@ export default [
         path: 'applications',
         name: 'applications',
         component: load('Applications')
+      },
+      {
+        path: 'issuer',
+        name: 'issuer',
+        component: load('Issuer')
       }
     ]
   },

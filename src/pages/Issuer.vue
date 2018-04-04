@@ -1,16 +1,11 @@
 <template>
   <q-page class="tab-panel-container row ">
-    <transition  
-    appear
-    enter-active-class="animated fadeIn"
-    leave-active-class="animated fadeOut"
-    mode="out-in">
-      <div class="col-12 shadow-1">
+      <div class="col-8 shadow-1">
         <q-table :data="assetsData?assetsData.assets:[]" :columns="columns" @request="request" :pagination.sync="pagination" 
         :loading="loading" :title="$t('MY_ASSETS')">
           
          <template slot="top-right" slot-scope="props">
-            <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+            <q-btn flat :label="$t('REGISTERED_ASSETS')" color="primary"  @click="assetRegister" />
           </template>
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
@@ -18,7 +13,7 @@
               <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
               </q-btn>
-              <q-btn @click="getTransferParams(props)" icon="send" size="sm" flat color="primary" >
+              <q-btn @click="transferAsset(props)" icon="send" size="sm" flat color="primary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRANSFER')}}</q-tooltip>
               </q-btn>
               <q-btn @click="publish(props.row)" icon="publish" size="sm" flat color="primary" >
@@ -55,26 +50,47 @@
 
         </q-table>
       </div>
+      <div class="col-4">
+        <q-card>
+          <q-card-title>
+            {{$t('ISSUER')}}
+          </q-card-title>
+          <q-card-main>
+            <div v-if="issuer">
+              <p>
+                {{issuer.name}}
+              </p>
+              <p>
+                {{issuer.desc}}
+              </p>
+            </div>
+            <div class="text-center" v-else>
+              {{$t('NO_ISSUER_INFO')}}
+              <a class="text-blue" @click="issuerRegister" >{{$t('REGISTERED_PUBLISHER')}}</a>
+            </div>
+          </q-card-main>
+        </q-card>
+        <assets-records :userObj="userInfo" />
+      </div>
      
-      </transition>
 
       <q-modal minimized no-backdrop-dismiss   v-model="modalInfoShow" content-css="padding: 20px">
         <big>{{$t('DAPP_DETAIL')}}</big>
         <table class="q-table horizontal-separator highlight loose ">
           <tbody class='info-tbody'>
-            <tr v-clipboard="row.name" @success="info('copy name success...')">
+            <tr v-clipboard="row.name || 'no data'" @success="info('copy name success...')">
               <td >{{$t('ASSET_NAME')}}</td>
               <td >{{row.name}}</td>
             </tr>
-            <tr  v-clipboard="row.maximumShow" @success="info('copy maximum success...')">
+            <tr  v-clipboard="row.maximumShow || 'no data'" @success="info('copy maximum success...')">
               <td >{{$t('MAXIMUM')}}</td>
               <td >{{row.maximumShow}}</td>
             </tr>
-            <tr v-clipboard="row.precision" @success="info('copy precision success...')">
+            <tr v-clipboard="row.precision || 'no data'" @success="info('copy precision success...')">
               <td >{{$t('PRECISION')}}</td>
               <td >{{row.precision}}</td>
             </tr>
-            <tr v-clipboard="row.quantity" @success="info('copy quantity success...')">
+            <tr v-clipboard="row.quantity || 'no data'" @success="info('copy quantity success...')">
               <td >{{$t('QUANTITY')}}</td>
               <td >{{row.quantityShow}}</td>
             </tr>
@@ -150,19 +166,41 @@
           <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
       </template>
     </q-dialog>
+
+      <user-agreement-modal :show="userAgreementShow" @confirm="confirm" @cancel="userAgreementShow=false" :title="agreement.title" :tips="agreement.tips" :content="agreement.content" />
+      <asset-issuer-modal :show="registerIssuerModalShow" @close="registerIssuerModalShow=false" :issuerInfo="issuer" />
+      <asset-register-modal :show="registerAssetModalShow" @close="registerAssetModalShow=false" />
     </q-page>
 </template>
 
 <script>
-import { api, translateErrMsg } from '../utils/api'
+import { translateErrMsg } from '../utils/api'
 import { toast, toastWarn } from '../utils/util'
 import { secondPwdReg } from '../utils/validators'
 import { createFlags, createIssue, dealBigNumber } from '../utils/asch'
 import { required, numeric, minValue } from 'vuelidate/lib/validators'
+import { mapActions, mapGetters } from 'vuex'
+import { QPage, QModal, QTable, QFabAction, QBtn, QTooltip, QDialog } from 'quasar'
+import UserAgreementModal from '../components/UserAgreementModal'
+import AssetRegisterModal from '../components/AssetRegisterModal'
+import AssetIssuerModal from '../components/AssetIssuerModal'
+import AssetsRecords from '../components/AssetsRecords'
 
 export default {
   props: ['userObj'],
-  components: {},
+  components: {
+    QPage,
+    QModal,
+    QTable,
+    QFabAction,
+    QBtn,
+    QTooltip,
+    QDialog,
+    UserAgreementModal,
+    AssetRegisterModal,
+    AssetIssuerModal,
+    AssetsRecords
+  },
   data() {
     return {
       assetsData: null,
@@ -232,7 +270,16 @@ export default {
       form: {
         issuerNum: '',
         type: 'ACL'
-      }
+      },
+      agreement: {
+        title: '',
+        tips: '',
+        content: '',
+        type: 0 // 1 issuer  2 asset
+      },
+      registerAssetModalShow: false,
+      registerIssuerModalShow: false,
+      userAgreementShow: false
     }
   },
   validations: {
@@ -243,6 +290,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getIssuer', 'myAssets', 'broadcastTransaction']),
     async request(props) {
       await this.getAssets(props.pagination, props.filter)
     },
@@ -251,8 +299,8 @@ export default {
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
-      let res = await api.myAssets({
-        name: this.user.issuer.name,
+      let res = await this.myAssets({
+        name: this.issuer.name,
         limit: limit,
         offset: (pageNo - 1) * limit
       })
@@ -266,8 +314,8 @@ export default {
       this.row = row
       this.modalInfoShow = true
     },
-    getTransferParams(cell) {
-      return { name: 'transfer', params: { user: this.user, data: cell } }
+    transferAsset(cell) {
+      this.$root.$emit('openTransactionDialog', cell)
     },
     getAssetRule(props) {
       return `${props.allowWriteoff === 1 ? 'Y' : 'N'}/${props.allowWhitelist === 1 ? 'Y' : 'N'}/${
@@ -276,7 +324,7 @@ export default {
     },
     writeoff(row) {
       const t = this.$t
-      const issuer = this.user.issuer
+      const issuer = this.issuer
       const assetsName = issuer.name + '.' + row.name
 
       this.dialog = {
@@ -328,8 +376,8 @@ export default {
           toastWarn(t('ERR_TOAST_SECONDKEY_WRONG'))
         } else {
           const flagType = 2 // write off assets
-          let trans = createFlags(this.row.name, flagType, 1, this.user.secret, this.secondPwd)
-          let res = await api.broadcastTransaction(trans)
+          let trans = createFlags(this.row.name, flagType, 1, this.userInfo.secret, this.secondPwd)
+          let res = await this.broadcastTransaction(trans)
           if (res.success) {
             this.pagination = this.paginationDeafult
             await this.getAssets()
@@ -351,8 +399,8 @@ export default {
             parseInt(this.form.issuerNum) * Math.pow(10, this.row.precision)
           )
 
-          let trans = createIssue(this.row.name, realAmount, this.user.secret, this.secondPwd)
-          let res = await api.broadcastTransaction(trans)
+          let trans = createIssue(this.row.name, realAmount, this.userInfo.secret, this.secondPwd)
+          let res = await this.broadcastTransaction(trans)
           if (res.success) {
             this.pagination = this.paginationDeafult
             await this.getAssets()
@@ -372,10 +420,10 @@ export default {
             this.row.name,
             flagType,
             this.row.acl === 0 ? 1 : 0,
-            this.user.secret,
+            this.userInfo.secret,
             this.secondPwd
           )
-          let res = await api.broadcastTransaction(trans)
+          let res = await this.broadcastTransaction(trans)
           if (res.success) {
             this.pagination = this.paginationDeafult
             await this.getAssets()
@@ -402,6 +450,42 @@ export default {
     ACLStr(acl) {
       const t = this.$t
       return acl === 1 ? t('WHITELIST') : t('BLACKLIST')
+    },
+    assetRegister() {
+      const t = this.$t
+      if (!this.issuer) {
+        toast(t('ERR_NO_PUBLISHER_REGISTERED_YET'))
+      } else {
+        this.agreement = {
+          title: t('REGISTERED_PUBLISHER'),
+          tips: t('REGISTERED_PUBLISHER') + t('COST_FEE', { num: 100 }),
+          content: t('AGREEMENT_ASSET_CONTENT'),
+          type: 2
+        }
+        this.userAgreementShow = true
+      }
+    },
+    issuerRegister() {
+      const t = this.$t
+      this.agreement = {
+        title: t('REGISTERED_ASSETS'),
+        tips: t('TRS_TYPE_UIA_ASSET') + t('COST_FEE', { num: 500 }),
+        content: t('AGREEMENT_ISSUER_CONTENT'),
+        type: 1
+      }
+      this.userAgreementShow = true
+    },
+    confirm() {
+      this.userAgreementShow = false
+      if (this.agreement.type === 2) {
+        this.registerAssetModalShow = true
+      } else if (this.agreement.type === 1) {
+        this.registerIssuerModalShow = true
+      }
+    },
+    async initData() {
+      await this.getIssuer({ address: this.userInfo.account.address })
+      await this.getAssets()
     }
     // formValid(type) {
     //   let formWithPwd = this.secondSignature ? this.pwdValid : false
@@ -418,14 +502,14 @@ export default {
     // }
   },
   async mounted() {
-    if (this.user) this.getAssets()
+    if (this.userInfo) {
+      this.initData()
+    }
   },
   computed: {
-    user() {
-      if (this.userObj) return this.userObj
-    },
+    ...mapGetters(['userInfo', 'issuer']),
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.userInfo ? this.userInfo.account.secondSignature : null
     },
     pwdValid() {
       return !secondPwdReg.test(this.secondPwd)
@@ -446,14 +530,9 @@ export default {
     }
   },
   watch: {
-    userObj(val) {
-      if (val) this.getAssets()
-      if (val.issuer) {
-        this.issuer = val.issuer
-      } else {
-        this.$root.$emit('getIssuer', issuer => {
-          if (issuer) this.issuer = issuer
-        })
+    userInfo(val) {
+      if (val) {
+        this.initData()
       }
     },
     pageNo(val) {

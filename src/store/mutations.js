@@ -17,5 +17,8 @@ export default {
   },
   setBalances: (state, balances) => {
     state.balances = balances
+  },
+  setIssuer: (state, issuer) => {
+    state.issuer = issuer
   }
 }

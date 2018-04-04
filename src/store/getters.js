@@ -25,6 +25,9 @@ const getters = {
       balancesMap[balance.currency] = balance
     })
     return balancesMap
+  },
+  issuer: state => {
+    return state.issuer
   }
 }
 

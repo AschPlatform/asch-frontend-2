@@ -384,7 +384,8 @@ const lang = {
   UNLOCK_TIPS:
     '锁仓后，该部分额度将无法用于投票/转账在内的日常消耗，请根据实际情况预留出投票/转账等需要用到的额度',
   SET_UNLOCK_TIME: '选择时间',
-  REGISTER_AGENT_FEE: '注册成为代理人，将消耗 100 XAS',
+  NO_ISSUER_INFO: '您还不是发行商',
+  COST_FEE: '将消耗 {num} XAS',
   proposal: {
     No: '提案编号',
     INITIATOR: '发起人',
@@ -516,7 +517,11 @@ const lang = {
     size6: '非常大',
     size7: '超级大',
     defaultFont: '默认字体'
-  }
+  },
+
+  // agreement
+  AGREEMENT_ASSET_CONTENT: '',
+  AGREEMENT_ISSUER_CONTENT: ''
 }
 
 export default lang

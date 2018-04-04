@@ -79,8 +79,11 @@ export default {
   myAssets: ({ commit }, params) => {
     return api.myAssets(params)
   },
-  issuer: ({ commit }, params) => {
-    return api.issuer(params)
+  getIssuer: ({ commit, state }, params) => {
+    return api.issuer(params).then(res => {
+      commit('setIssuer', res.issuer)
+      return res
+    })
   },
   assetAcl: ({ commit }, params) => {
     return api.assetAcl(params)
