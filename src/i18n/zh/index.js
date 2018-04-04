@@ -406,7 +406,9 @@ const lang = {
     SELECT_NEWCOUNCIL: '新增理事会',
     SELECT_REMOVECOUNCIL: '撤销理事会',
     SELECT_CHANGEPERIOD: '更改周期',
-    SELECT_CHANGEMEMBER: '更改成员'
+    SELECT_CHANGEMEMBER: '更改成员',
+    SELECT_P_PERIOD: '公投周期',
+    BTN_LAUNCH: '发起'
   },
   LAUNCH_MODAL: {
     MEMBER_NUMBER: '成员数量',
@@ -414,7 +416,9 @@ const lang = {
     PERSON: '名',
     BRIEF: '简要描述',
     BRIEF_TIP: '请输入简要描述',
-    DAY: '天'
+    DAY: '天',
+    REMOVE_COUNCIL: '我提议撤销理事会',
+    REMOVE_REASON: '撤销原因'
   },
 
   // ==============  quasar i18n  =================

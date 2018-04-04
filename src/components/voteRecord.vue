@@ -247,22 +247,17 @@ export default {
     },
     async getDelegates(pagination = {}, filter = '') {
       this.loading = true
-      console.log('in the getDele')
       if (pagination.page) this.VR.pagination = pagination
       let limit = this.VR.pagination.rowsPerPage
       let pageNo = this.VR.pagination.page
-      console.log('inner datas:', this.pagination, limit, pageNo)
       let res = await this.myvotes({
         address: this.user.account.address,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
       })
-      console.log('res', res)
-      console.log('get res:', res)
       if (res.success) {
         this.VR.delegatesData = res.delegates
-        console.log(this)
       } else {
         this.VR.delegatesData = []
       }
@@ -298,9 +293,7 @@ export default {
   mounted() {
     if (this.user) {
       this.getSupporters()
-      console.log('get sP')
       this.getDelegates()
-      console.log('get vr')
     }
   },
   computed: {

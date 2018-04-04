@@ -15,14 +15,24 @@
             <q-select v-model="p_type" :options="councilList" :placeholder="$t('proposal.SELECT_P_COUNCIL')"/>
           </q-field>
         </div>
+        <div class="row">
+          <q-field :label-width="4"  :label="$t('proposal.SELECT_P_PERIOD')" class="col-3">
+            <q-datetime min="2018-04-05" v-model="p_time_start"/>
+          </q-field>
+          <span class="self-center col-1">至</span>
+          <q-field class="col-3 q-ml-xl">
+            <q-datetime v-model="p_time_end"/>
+          </q-field>
+        </div>
         <q-card-separator class="q-my-lg" />
-        <transition
+        <transition-group
           appear
           enter-active-class="animated fadeIn"
           leave-active-class="animated fadeOut"
         >
 
-        <q-card-main>
+        <q-card-main key="content">
+          <!-- below is new page -->
           <div v-show="this.p_type === 'new'" id="new" class="">
             <div class="row">
               <q-field class="block col-2" label-width="8" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
@@ -45,8 +55,33 @@
               </q-field>
             </div>
           </div>
+
+          <!-- below is remove page -->
+          <div v-show="this.p_type === 'remove'" id="remove">
+            <div class="row">
+              <q-field class="block col-5" label-width="4" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL')">
+                <q-select v-model="councilList" :options="councilList"></q-select>
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="col-9" label-width="2" :label="$t('LAUNCH_MODAL.REMOVE_REASON')">
+                <q-input type="textarea" v-model="NEW.brief" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+              </q-field>
+            </div>
+          </div>
         </q-card-main>
-        </transition>
+
+        <q-card-main v-show="this.p_type !== null" key="agreement">
+          <q-checkbox v-model="NEW.agreement" val="one" :label="$t('READ_TIP1')" />
+          <br><br>
+          <q-checkbox v-model="NEW.agreement" val="two" :label="$t('READ_TIP2')" />
+          <br><br>
+          <q-checkbox v-model="NEW.agreement" val="three" :label="$t('READ_TIP3')" />
+          <div class="row justify-center">
+            <q-btn color="primary" size="md" :label="$t('proposal.BTN_LAUNCH')"></q-btn>
+          </div>
+        </q-card-main>
+        </transition-group>
       </q-card>
   </q-modal>
 </template>
@@ -60,7 +95,9 @@ import {
   QCardMain,
   QCardTitle,
   QCardSeparator,
-  QSelect
+  QSelect,
+  QCheckbox,
+  QDatetime
 } from 'quasar'
 
 export default {
@@ -70,6 +107,8 @@ export default {
     return {
       p_type: null,
       p_title: null,
+      p_time_start: null,
+      p_time_end: null,
       proposalType: [
         {
           label: this.$t('proposal.SELECT_NEWCOUNCIL'),
@@ -103,7 +142,11 @@ export default {
         memberNumber: null,
         selected: [],
         period: null,
-        brief: null
+        brief: null,
+        agreement: []
+      },
+      REMOVE: {
+
       }
     }
   },
@@ -115,7 +158,9 @@ export default {
     QCardMain,
     QCardTitle,
     QCardSeparator,
-    QSelect
+    QSelect,
+    QCheckbox,
+    QDatetime
   }
 }
 </script>
