@@ -408,17 +408,27 @@ const lang = {
     SELECT_CHANGEPERIOD: '更改周期',
     SELECT_CHANGEMEMBER: '更改成员',
     SELECT_P_PERIOD: '公投周期',
-    BTN_LAUNCH: '发起'
+    BTN_LAUNCH: '发起',
+    SELECT_MEMBER_ACTION: '理事会成员操作',
+    SELECT_MEMBER_ADD: '添加成员',
+    SELECT_MEMBER_DELETE: '移除成员',
+    SELECT_MEMBER_INSTEAD: '替换成员'
   },
   LAUNCH_MODAL: {
     MEMBER_NUMBER: '成员数量',
+    MEMBER_MEMBER: '成员信息',
     PERIOD: '任职周期',
     PERSON: '名',
     BRIEF: '简要描述',
     BRIEF_TIP: '请输入简要描述',
     DAY: '天',
     REMOVE_COUNCIL: '我提议撤销理事会',
-    REMOVE_REASON: '撤销原因'
+    REMOVE_REASON: '撤销原因',
+    PERIOD_REASON: '任职周期更改原因',
+    READ_TIP1: '自觉遵守《社区自治用户协议书》',
+    READ_TIP2: '发布提案将消耗 100 XAS',
+    INSTEAD_PRE: '由',
+    INSTEAD_POST: '替换为'
   },
 
   // ==============  quasar i18n  =================
