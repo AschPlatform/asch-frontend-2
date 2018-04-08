@@ -161,6 +161,98 @@ api.dappMyBalance = ({ appid, address }) => {
   return fetch(url, {}, 'get')
 }
 
+const api2 = {}
+
+// 账户查询
+api2.accounts = params => {
+  return fetch(urls.accounts, params, 'get')
+}
+
+// 获取交易列表
+api2.transactions = params => {
+  return fetch(urls.transactions, params, 'get')
+}
+
+// 根据 tid 获取交易详情
+api2.transaction = params => {
+  return fetch(urls.transaction, params, 'get')
+}
+
+// 获取理事会列表
+api2.councils = params => {
+  return fetch(urls.councils, params, 'get')
+}
+
+// 根据名称获取理事会详情
+api2.council = params => {
+  return fetch(urls.council, params, 'get')
+}
+
+// 获取提案列表
+api2.proposals = params => {
+  return fetch(urls.proposals, params, 'get')
+}
+
+// 根据 tid 获取提案详情
+api2.proposal = params => {
+  return fetch(urls.proposal, params, 'get')
+}
+
+// 获取所有跨链充值记录
+api2.deposits = params => {
+  return fetch(urls.deposits, params, 'get')
+}
+
+// 获取指定币种的跨链充值记录
+api2.currencyDeposits = params => {
+  return fetch(urls.currencyDeposits, params, 'get')
+}
+
+// 获取指定地址的跨链充值记录
+api2.myDeposits = params => {
+  return fetch(urls.myDeposits, params, 'get')
+}
+
+// 获取指定地址指定币种的跨链充值记录
+api2.myCurrencyDeposits = params => {
+  return fetch(urls.myCurrencyDeposits, params, 'get')
+}
+
+// 获取所有跨链提现记录
+api2.withdrawals = params => {
+  return fetch(urls.withdrawals, params, 'get')
+}
+
+// 获取指定币种的跨链提现记录
+api2.currencyWithdrawals = params => {
+  return fetch(urls.currencyWithdrawals, params, 'get')
+}
+
+// 获取指定地址的跨链提现记录
+api2.myWithdrawals = params => {
+  return fetch(urls.myWithdrawals, params, 'get')
+}
+
+// 获取指定地址指定币种的跨链提现记录
+api2.myCurrencyWithdrawals = params => {
+  return fetch(urls.myCurrencyWithdrawals, params, 'get')
+}
+
+// 获取支持的所有跨链资产列表
+api2.currencies = params => {
+  return fetch(urls.currencies, params, 'get')
+}
+
+// 获取指定名称的跨链资产详情
+api2.currency = params => {
+  return fetch(urls.currency, params, 'get')
+}
+
+// 获取指定跨链币种的充值地址
+api2.address = params => {
+  return fetch(urls.address, params, 'get')
+}
+
 const translateErrMsg = (t, input) => {
   // console.log('translateErrInner',language,input);
   // console.log(this)
@@ -266,4 +358,4 @@ const postService = {
   }
 }
 
-export { api, postService, translateErrMsg }
+export { api, api2, postService, translateErrMsg }
