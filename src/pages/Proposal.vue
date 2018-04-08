@@ -6,7 +6,7 @@
       <q-btn flat color="primary" :label="$t('proposal.TITLE_DONE')" />
     </q-btn-group>
     <q-btn-group class="float-right">
-      <q-btn size="sm" color="primary" :label="$t('proposal.LAUNCH')"></q-btn>
+      <q-btn size="sm" color="primary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
     </q-btn-group>
       <!-- <q-tab default slot="title" :label="$t('proposal.TITLE_ALL')" />
       <q-tab slot="title" :label="$t('proposal.TITLE_PROCESS')" />
@@ -21,14 +21,15 @@
           </q-popover>
         </q-td>
         <q-td slot="body-cell-operation" slot-scope="props" :props="props">
-          <q-btn flat color="primary" @click="callModal">
+          <q-btn flat color="primary" @click="callShowModal">
             {{operationBtn(props.value)}}
           </q-btn>
         </q-td>
       </q-table>
 
     <!-- modal area -->
-    <launch-modal :show="isLaunchShow"></launch-modal>
+    <launch-modal :show="isLaunchShow" @hide="callOffModal"></launch-modal>
+    <show-modal :show="isDetailShow" @hide="callOffModal"></show-modal>
   </q-page>
 </template>
 
@@ -43,6 +44,7 @@ import {
   QTooltip
 } from 'quasar'
 import launchModal from '../components/LaunchProposalModal'
+import showModal from '../components/ShowProposalModal'
 
 export default {
   name: 'Proposal',
@@ -54,7 +56,8 @@ export default {
     QBtn,
     QPopover,
     QTooltip,
-    launchModal
+    launchModal,
+    showModal
   },
   data() {
     return {
@@ -129,6 +132,7 @@ export default {
       ],
       // modal set
       isLaunchShow: false,
+      isDetailShow: false,
       btnStatus: 1
     }
   },
@@ -166,6 +170,13 @@ export default {
     },
     callModal() {
       this.isLaunchShow = true
+    },
+    callShowModal() {
+      this.isDetailShow = true
+    },
+    callOffModal() {
+      this.isLaunchShow = false
+      this.isDetailShow = false
     }
   },
   computed: {

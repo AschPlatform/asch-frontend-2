@@ -1,31 +1,31 @@
 <template>
   <q-modal v-model="show" maximized no-esc-dismiss>
       <q-card class="layout-padding q-mx-xl q-my-xl">
-        <q-card-title>{{$t('proposal.LAUNCH')}}
+        <q-card-title>{{$t('proposal.SHOW')}}
           <q-btn color="warning" slot="right" class="row items-center" @click="hideModal">
             <q-icon name="place" /> {{$t('CANCEL')}}
           </q-btn>
         </q-card-title>
         <div class="row ">
           <q-field :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8">
-            <q-input v-model="p_title" />
+            <q-input readonly hide-underline v-model="p_title" />
           </q-field>
         </div>
         <div class="row">
           <q-field :label-width="3"  :label="$t('proposal.SELECT_P_TYPE')" class="col-4">
-            <q-select v-model="p_type" :options="proposalType"/>
-          </q-field>
-          <q-field class="col-4 q-ml-lg">
-            <q-select v-model="p_selected" :options="councilList" :placeholder="$t('proposal.SELECT_P_COUNCIL')"/>
+            <q-input readonly hide-underline v-model="p_title" />
+            <!-- <q-select v-model="p_type" :options="proposalType"/> -->
           </q-field>
         </div>
         <div class="row">
           <q-field :label-width="4"  :label="$t('proposal.SELECT_P_PERIOD')" class="col-3">
-            <q-datetime min="2018-04-05" v-model="p_time_start"/>
+            <!-- <q-datetime min="2018-04-05" v-model="p_time_start"/> -->
+            <q-input readonly hide-underline v-model="p_title" />
           </q-field>
           <span class="self-center col-1">至</span>
           <q-field class="col-3 q-ml-xl">
-            <q-datetime v-model="p_time_end"/>
+            <!-- <q-datetime v-model="p_time_end"/> -->
+            <q-input readonly hide-underline v-model="p_title" />
           </q-field>
         </div>
         <q-card-separator class="q-my-lg" />
@@ -124,12 +124,9 @@
           </div>
         </q-card-main>
 
-        <q-card-main v-show="this.p_type !== null" key="agreement">
-          <q-checkbox v-model="NEW.agreement" val="one" :label="$t('LAUNCH_MODAL.READ_TIP1')" />
-          <br><br>
-          <q-checkbox v-model="NEW.agreement" val="two" :label="$t('LAUNCH_MODAL.READ_TIP2')" />
+        <q-card-main key="agreement">
           <div class="row justify-center">
-            <q-btn color="primary" size="md" :label="$t('proposal.BTN_LAUNCH')"></q-btn>
+            <q-btn color="primary" size="md" :label="$t('proposal.BTN_VOTE')"></q-btn>
           </div>
         </q-card-main>
         </transition-group>
