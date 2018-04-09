@@ -39,7 +39,7 @@
 <script>
 import { translateErrMsg } from '../utils/api'
 import { toastWarn, toast } from '../utils/util'
-import { createTrans } from '../utils/asch'
+import asch from '../utils/asch-v2'
 import { address, secondPwd } from '../utils/validators'
 import { required, maxLength, minValue } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
@@ -101,14 +101,19 @@ export default {
 
       let { amount, receiver, remark } = this.form
       amount = (amount * Math.pow(10, this.precision)).toFixed(0)
-      let trans = createTrans(
-        this.form.currency,
-        amount,
-        receiver,
-        remark,
-        this.user.secret,
-        this.secondPwd
-      )
+      let trans = {}
+      if (this.form.currency === 'XAS') {
+        trans = asch.transferXAS(amount, receiver, remark, this.user.secret, this.secondPwd)
+      } else {
+        trans = asch.transferAsset(
+          this.form.currency,
+          amount,
+          receiver,
+          remark,
+          this.user.secret,
+          this.secondPwd
+        )
+      }
 
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {

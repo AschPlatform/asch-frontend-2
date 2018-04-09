@@ -1,4 +1,5 @@
-import AschJs from 'asch-js'
+import AschJS from 'asch-js-v2'
+// TODO 替换为更新后的 asch-js 库
 // const exFunc = (conf)=>{
 //   let {type,fee=10000000,args=[],secondSecret=''}
 //   return AschJS.transaction.createTransactionEx({
@@ -9,7 +10,7 @@ import AschJs from 'asch-js'
 //     secondSecret
 //   })
 // }
-export default {
+const asch = {
   // 转账 XAS  TODO
   transferXAS: (amount, recipientId, message, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx({
@@ -90,7 +91,7 @@ export default {
     })
   },
   // 取消投票代理
-  repealAgent: (secret, secondPwd = '') => {
+  repealAgent: (agent, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx({
       type: 9,
       fee: 10000000,
@@ -162,13 +163,14 @@ export default {
     })
   },
   // 资产转账
-  transferAsset: (symbol, amount, recipientId, secret, secondPwd = '') => {
+  transferAsset: (symbol, amount, recipientId, message, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx({
       type: 103,
       fee: 10000000,
       args: [symbol, amount, recipientId],
       secret,
-      secondSecret: secondPwd
+      secondSecret: secondPwd,
+      message
     })
   },
   // 注册 dapp
@@ -197,7 +199,7 @@ export default {
     return AschJS.transaction.createTransactionEx({
       type: 201,
       fee: 10000000,
-      args: [dappId, origin, to],
+      args: [dappId, origin, key],
       secret,
       secondSecret: secondPwd
     })
@@ -293,3 +295,4 @@ export default {
     })
   }
 }
+export default asch

@@ -158,7 +158,7 @@
         
       </div>
       <template slot="buttons" slot-scope="props">
-        <q-btn class="col-3 self-lef" color="primary" flat @click="editLock(props.ok)">
+        <q-btn class="col-3 self-lef" color="primary" flat @click="setLock(props.ok)">
           {{$t('SUBMIT')}}
         </q-btn>
         <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
@@ -173,7 +173,8 @@ import VueQr from 'vue-qr'
 import { required, sameAs } from 'vuelidate/lib/validators'
 import { secondPwd, secondPwdReg, nicknameReg } from '../utils/validators'
 import { toastWarn, toast, toastError } from '../utils/util'
-import { signature, createLock, convertFee, fullTimestamp } from '../utils/asch'
+import { convertFee, fullTimestamp } from '../utils/asch'
+import asch from '../utils/asch-v2'
 import { translateErrMsg } from '../utils/api'
 import { mapActions, mapGetters } from 'vuex'
 import { QPage, QCard, QCardTitle, QCardMain, QDialog, QDatetime, date } from 'quasar'
@@ -248,7 +249,7 @@ export default {
         toastError(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
         return
       }
-      let trans = createLock(this.lockHeight, this.user.secret, this.secondPwd)
+      let trans = asch.setLock(this.lockHeight, this.amount, this.user.secret, this.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         console.log(res)
@@ -266,7 +267,7 @@ export default {
       if (isValid) {
         toastWarn(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
       } else {
-        let trans = signature(this.user.secret, this.password)
+        let trans = asch.setsecondPassword(this.password, this.user.secret)
         let res = await this.broadcastTransaction(trans)
 
         if (res.success === true) {

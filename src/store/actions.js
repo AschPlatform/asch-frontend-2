@@ -7,10 +7,10 @@ import { api, api2 } from '../utils/api'
 export default {
   // get user infomation (balances / nick) / update
   getUserInfo: ({ commit }, address) => {
-    return api.account({ address })
+    return api.getAccountsInfo({ address })
   },
   refreshAccounts: ({ commit, state }) => {
-    return api.account({ address: state.userInfo.account.address }).then(res => {
+    return api2.accounts({ address: state.userInfo.account.address }).then(res => {
       if (res.success) {
         commit('updateUserInfo', res)
         commit('setLatestBlock', res.latestBlock)

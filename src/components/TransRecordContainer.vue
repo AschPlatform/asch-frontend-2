@@ -213,7 +213,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['transactions']),
+    ...mapActions(['getTransactions']),
     info(message) {
       this.$q.notify({
         type: 'positive',
@@ -235,16 +235,16 @@ export default {
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
       let condition = {
-        recipientId: this.userInfo.account.address,
-        senderPublicKey: this.userInfo.account.publicKey,
-        orderBy: 't_timestamp:desc',
+        // TODO 参数 bug
+        // senderId: this.userInfo.account.address,
+        // orderBy: 't_timestamp:desc',
         limit: limit,
         offset: (pageNo - 1) * limit
       }
       if (this.currency) {
         condition.currency = this.currency
       }
-      let res = await this.transactions(condition)
+      let res = await this.getTransactions(condition)
       this.trans = res.transactions
       // set max
       this.pagination.rowsNumber = res.count
