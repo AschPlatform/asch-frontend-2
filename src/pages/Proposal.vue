@@ -140,20 +140,16 @@ export default {
     async getProposals(pagination = {}, filter = '') {
       this.loading = true
       if (pagination.page) this.pagination = pagination
-      // let limit = this.pagination.rowsPerPage
-      // let pageNo = this.pagination.page
-      // let condition = {
-      // params
-      // recipientId: this.userInfo.account.address,
-      // senderPublicKey: this.userInfo.account.publicKey,
-      // orderBy: 't_timestamp:desc',
-      // limit: limit,
-      // offset: (pageNo - 1) * limit
-      // }
-      // let res = await this.getProposal(condition)
-      // this.proposalDetail = res.proposalDetail
-      // this.loading = false
-      // return res
+      let limit = this.pagination.rowsPerPage
+      let pageNo = this.pagination.page
+      let condition = {
+        limit: limit,
+        offset: (pageNo - 1) * limit
+      }
+      let res = await this.getProposal(condition)
+      this.proposalDetail = res.proposals
+      this.loading = false
+      return res
     },
     async request(props) {
       await this.getProposals(props.pagination, props.filter)
