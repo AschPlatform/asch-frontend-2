@@ -121,5 +121,12 @@ export default {
   },
   setName: ({ commit }, params) => {
     return null
+  },
+  // preset of the proposals funcs
+  getAllProposals: ({ commit }, params) => {
+    return null
+  },
+  getProposal: ({ commit }, params) => {
+    return null
   }
 }

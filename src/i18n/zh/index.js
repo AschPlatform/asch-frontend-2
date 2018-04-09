@@ -433,6 +433,26 @@ const lang = {
     INSTEAD_PRE: '由',
     INSTEAD_POST: '替换为'
   },
+  DETAIL_MODAL: {
+    MEMBER_CHIPS_PRE: '投票成员名单',
+    MEMBER_NUMBER: '成员数量',
+    MEMBER_MEMBER: '成员信息',
+    PERIOD: '任职周期',
+    PERSON: '名',
+    BRIEF: '简要描述',
+    BRIEF_TIP: '请输入简要描述',
+    DAY: '天',
+    REMOVE_COUNCIL: '我提议撤销理事会',
+    REMOVE_REASON: '撤销原因',
+    PERIOD_REASON: '任职周期更改原因',
+    INSTEAD_PRE: '由',
+    INSTEAD_POST: '替换为',
+    PERIOD_TITLE: '我提议修改当前理事会成员任职周期由{pre}替换为{post}',
+    ADD_TITLE: '我提议增加如下受托人成为新的理事会成员',
+    REMOVE_TITLE: '我提议撤销如下理事会成员',
+    INSTEAD_TITLE_PRE: '我提议撤销如下理事会成员',
+    INSTEAD_TITLE_POST: '增加如下受托人成为新的理事会成员'
+  },
 
   // ==============  quasar i18n  =================
 
