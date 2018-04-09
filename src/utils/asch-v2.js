@@ -51,7 +51,7 @@ const asch = {
     })
   },
   // 锁仓
-  unock: (secret, secondPwd = '') => {
+  unLock: (secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx({
       type: 5,
       fee: 10000000,
