@@ -2,7 +2,7 @@
 export const someAction = (state) => {
 }
 */
-import { api } from '../utils/api'
+import { api, api2 } from '../utils/api'
 
 export default {
   // get user infomation (balances / nick) / update
@@ -122,11 +122,57 @@ export default {
   setName: ({ commit }, params) => {
     return null
   },
-  // preset of the proposals funcs
-  getAllProposals: ({ commit }, params) => {
-    return null
+
+  // v2 api
+  getAccountsInfo: ({ commit }, params) => {
+    return api2.accounts(params)
+  },
+  getTransactions: ({ commit }, params) => {
+    return api2.transactions(params)
+  },
+  getTransaction: ({ commit }, params) => {
+    return api2.transaction(params)
+  },
+  getCouncils: ({ commit }, params) => {
+    return api2.councils(params)
+  },
+  getCouncil: ({ commit }, params) => {
+    return api2.council(params)
+  },
+  getProposals: ({ commit }, params) => {
+    return api2.proposals(params)
   },
   getProposal: ({ commit }, params) => {
-    return null
+    return api2.proposal(params)
+  },
+  getDeposits: ({ commit }, params) => {
+    return api2.deposits(params)
+  },
+  getCurrencyDeposits: ({ commit }, params) => {
+    return api2.currencyDeposits(params)
+  },
+  getMyDeposits: ({ commit }, params) => {
+    return api2.getMyDeposits(params)
+  },
+  getMyCurrencyDeposits: ({ commit }, params) => {
+    return api2.myCurrencyDeposits(params)
+  },
+  getWithdrawals: ({ commit }, params) => {
+    return api2.withdrawals(params)
+  },
+  getCurrencyWithdrawals: ({ commit }, params) => {
+    return api2.currencyWithdrawals(params)
+  },
+  getMyWithdrawals: ({ commit }, params) => {
+    return api2.myWithdrawals(params)
+  },
+  getMyCurrencyWithdrawals: ({ commit }, params) => {
+    return api2.myCurrencyWithdrawals(params)
+  },
+  getCurrencies: ({ commit }, params) => {
+    return api2.currencies(params)
+  },
+  getAddress: ({ commit }, params) => {
+    return api2.currency(params)
   }
 }

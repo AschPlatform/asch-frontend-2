@@ -183,6 +183,82 @@ const urls = {
     mock: '',
     url: '/api/uia/assets'
   },
+  // ===== 1.4  v2 api ======
+  v2: {
+    // 账户查询
+    accounts: {
+      url: '/api/v2/accounts/:address'
+    },
+    // 获取交易列表
+    transactions: {
+      url: '/api/v2/transactions'
+    },
+    // 根据 tid 获取交易详情
+    transaction: {
+      url: '/api/v2/transactions/:tid'
+    },
+    // 获取理事会列表
+    councils: {
+      url: '/api/v2/councils'
+    },
+    // 根据名称获取理事会详情
+    council: {
+      url: '/api/v2/councils/:name'
+    },
+    // 获取提案列表
+    proposals: {
+      url: '/api/v2/proposals'
+    },
+    // 根据 tid 获取提案详情
+    proposal: {
+      url: '/api/v2/proposals/:tid'
+    },
+    // 获取所有跨链充值记录
+    deposits: {
+      url: '/api/v2/gateway/deposits'
+    },
+    // 获取指定币种的跨链充值记录
+    currencyDeposits: {
+      url: '/api/v2/gateway/deposits/:currency'
+    },
+    // 获取指定地址的跨链充值记录
+    myDeposits: {
+      url: '/api/v2/gateway/deposits/my/:address'
+    },
+    // 获取指定地址指定币种的跨链充值记录
+    myCurrencyDeposits: {
+      url: '/api/v2/gateway/deposits/my/:address/:currency'
+    },
+    // 获取所有跨链提现记录
+    withdrawals: {
+      url: '/api/v2/gateway/withdrawals'
+    },
+    // 获取指定币种的跨链提现记录
+    currencyWithdrawals: {
+      url: '/api/v2/gateway/withdrawals/:currency'
+    },
+    // 获取指定地址的跨链提现记录
+    myWithdrawals: {
+      url: '/api/v2/gateway/withdrawals/my/:address'
+    },
+    // 获取指定地址指定币种的跨链提现记录
+    myCurrencyWithdrawals: {
+      url: '/api/v2/gateway/withdrawals/my/:address/:currency'
+    },
+    // 获取支持的所有跨链资产列表
+    currencies: {
+      url: '/api/v2/gateway/currencies'
+    },
+    // 获取指定名称的跨链资产详情
+    currency: {
+      url: '/api/v2/gateway/currencies/:name'
+    },
+    // 获取指定跨链币种的充值地址
+    address: {
+      url: '/api/v2/gateway/address/:sender/:currency'
+    }
+  },
+
   // 区分 local 与 mainnet 的请求头参数
   magics: {
     development: '594fe0f3',
