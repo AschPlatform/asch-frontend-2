@@ -1,19 +1,19 @@
 <template>
-    <q-card inline class="col-3">
-      <q-card-title align="center">
-        ETH转账处理组
-      </q-card-title>
-      <q-card-main inline align="center" class="shadow-1 cardSet">
-        （正式成员：7 人）
-        <br>
-        成立时间：2018/03/31
-      </q-card-main>
-      <q-card-actions align="center">
-        <q-btn inverted color="primary" @click="calCouncilDetail">
-            {{$t('CHECK')}}
-        </q-btn>
-      </q-card-actions>
-    </q-card>
+  <q-card inline class="col-3">
+    <q-card-title align="center">
+      {{item.name}}
+    </q-card-title>
+    <q-card-main inline align="center" class="layout-padding shadow-1 cardSet">
+      {{$t('COUNCIL_PAGE.MODAL_TITLE', {number: item.members.length})}}
+      <br>
+      {{$t('STARTTIME')}}
+    </q-card-main>
+    <q-card-actions align="center">
+      <q-btn inverted color="primary" @click="calCouncilDetail">
+        {{$t('CHECK')}}
+      </q-btn>
+    </q-card-actions>
+  </q-card>
 </template>
 
 <script>
@@ -26,6 +26,7 @@ export default {
       isModalShow: false
     }
   },
+  props: ['item'],
   components: {
     QCardMain,
     QPage,
@@ -36,6 +37,10 @@ export default {
   },
   methods: {
     calCouncilDetail() {
+      this.$emit('callModal', {
+        status: true,
+        item: this.item
+      })
     }
   }
 }

@@ -453,6 +453,13 @@ const lang = {
     INSTEAD_TITLE_PRE: '我提议撤销如下理事会成员',
     INSTEAD_TITLE_POST: '增加如下受托人成为新的理事会成员'
   },
+  COUNCIL_PAGE: {
+    MODAL_TITLE: '共{number}人',
+    MEMBER: '成员',
+    ADDRESS: '地址',
+    OPERATION: '操作',
+    STARTTIME: '成立时间'
+  },
 
   // ==============  quasar i18n  =================
 
