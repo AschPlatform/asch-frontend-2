@@ -174,5 +174,11 @@ export default {
   },
   getAddress: ({ commit }, params) => {
     return api2.currency(params)
+  },
+  getAgentVotes: ({ commit }, params) => {
+    return api2.currency(params)
+  },
+  getAgentSupporters: ({ commit }, params) => {
+    return api2.currency(params)
   }
 }

@@ -285,7 +285,7 @@ export default {
   computed: {
     ...mapGetters(['latestBlock', 'version', 'userInfo', 'balances']),
     secondSignature() {
-      return this.userInfo ? this.userInfo.account.secondSignature : null
+      return this.userInfo ? this.userInfo.account.secondPublicKey : null
     },
     assets() {
       if (this.userInfo) {

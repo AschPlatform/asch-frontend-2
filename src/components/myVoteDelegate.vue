@@ -4,28 +4,37 @@
     {{!isGonnaSet ? this.$t('VOTE_DELEGATE') : this.$t('VOTE_SET')}}
     </q-card-title>
     <q-card-separator />
-    <q-card-main align="center" v-if="isGonnaSet">
-      <q-input clearable :value="setName" :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
-      <q-btn color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
+    <q-card-main class="row" v-if="isGonnaSet">
+      <q-input class="col-12" clearable v-model="agentName" :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
+      <q-input class="col-12" v-if="secondSignature" v-model="secondPwd" type="password" :float-label="$t('TRS_TYPE_SECOND_PASSWORD')"></q-input>
+      <q-btn v-if="!isGonnaSet" color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
+     <div class="col-12 justify-between">
+       <br />
+        <q-btn color="primary" @click="setAgent">{{$t('SUBMIT')}}</q-btn>
+        <q-btn color="primary" @click="isGonnaSet=false">{{$t('CANCEL')}}</q-btn>
+     </div>
     </q-card-main>
     <q-card-main align="center" v-else>
-      <span>{{isSetDelegate ? delegateName : ''}}</span>
+      <span v-if="agentName">{{agentName}}<a class="text-blue" @click="openDetailModal">{{$t('AGENT_DETAIL')}}</a></span>
       <q-btn color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
+      <p v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:user.account.weight})}}</p>
     </q-card-main>
   </q-card>
 </template>
 
 <script>
 import { QCard, QCardTitle, QCardMain, QCardSeparator, QBtn, QInput } from 'quasar'
-
+import { toastWarn } from '../utils/util'
+import { nicknameReg, secondPwdReg } from '../utils/validators'
 export default {
   data() {
     return {
       isGonnaSet: false,
-      setName: null
+      agentName: '',
+      secondPwd: ''
     }
   },
-  props: ['isSetDelegate', 'delegateName'],
+  props: ['user'],
   components: {
     QCard,
     QCardTitle,
@@ -36,28 +45,54 @@ export default {
   },
   methods: {
     action() {
-      this.isSetDelegate ? this.cancelDelegate() : this.setDelegate()
-      this.isGonnaSet = !this.isGonnaSet
+      if (!this.isLocked) {
+        toastWarn(this.$t('PLEASE_LOCK'))
+        return
+      }
+      // this.isSetAgent ? this.cancelAgent() : this.setAgent()
+      this.isGonnaSet = true
     },
-    cancelDelegate() {
-      // TODO CANCEL DELEGATE
+    cancelAgent() {
+      this.$emit('repealAgent')
     },
     // TODO SET DELEGATE
-    setDelegate() {}
+    setAgent() {
+      if (!nicknameReg.test(this.agentName)) {
+        toastWarn(this.$t('ERR_NICKNAME'))
+        return
+      }
+      if (this.secondSignature && !secondPwdReg.test(this.secondPwd)) {
+        toastWarn(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
+        return
+      }
+      this.$emit('setAgent', this.agentName, () => {
+        this.isGonnaSet = false
+      })
+    }
   },
   computed: {
-    // TODO set card state
     btnInfo() {
-      if (this.isSetDelegate) {
+      if (this.isSetAgent) {
         return 'VOTE_CANCEL'
       } else {
         return 'VOTE_SET'
       }
+    },
+    isSetAgent() {
+      return this.user && this.user.account ? this.user.account.isAgent === 1 : false
+    },
+    agentName() {
+      return this.user && this.user.account ? this.user.account.agent : ''
+    },
+    isLocked() {
+      return this.user && this.user.account ? this.user.account.isLocked === 1 : false
+    },
+    secondSignature() {
+      return this.user ? this.user.account.secondPublicKey : null
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-
 </style>

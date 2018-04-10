@@ -15,21 +15,23 @@
           <q-btn flat :label="$t('label.close')" @click="close"/>
         </q-toolbar>
         <div class="row layout-padding">
-          <q-card class="col-4" v-for="(asset,idx) in assets" :key="idx">
+
+          <q-card class="col-4" v-for="(currency,idx) in currencies" :key="idx">
             <q-card-main>
               <q-item>
                 <q-item-side>
                   <q-item-tile avatar>
-                    <img :src="asset.url">
+                    <img :src="currency.url">
                   </q-item-tile>
                 </q-item-side>
-                <q-item-main :label="assetsInfo(asset)" />
+                <q-item-main :label="assetsInfo(currency)" />
                 <q-item-side right>
-                  <q-btn flat :label="$t('DAPP_DEPOSIT')" @click="deposit(asset)" />
+                  <q-btn flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
                 </q-item-side>
               </q-item>
             </q-card-main>
           </q-card>
+          
         </div>
    </q-modal-layout>
   </q-modal>
@@ -58,7 +60,7 @@ import { convertFee } from '../utils/asch'
 
 export default {
   name: 'DepositModal',
-  props: ['assets', 'show'],
+  props: ['show'],
   components: {
     QModal,
     QModalLayout,
@@ -76,7 +78,8 @@ export default {
   },
   data() {
     return {
-      filter: ''
+      filter: '',
+      currencies: []
     }
   },
   validations: {
@@ -96,13 +99,19 @@ export default {
       secondPwd: secondPwd()
     }
   },
-  mounted() {},
+  mounted() {
+    this.getData()
+  },
   methods: {
     ...mapActions(['getMoreAssets']),
     async getData() {
       // TODO
-      let res = await this.getMoreAssets()
-      this.close()
+      let res = await this.getCurrencies(
+        
+      )
+      if (res.success === true) {
+        this.currencies = res.currencies
+      }
       return res
     },
     close() {

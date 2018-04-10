@@ -66,10 +66,6 @@ const urls = {
     development: 'http://localhost:4096',
     // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192',
-    // dev: 'http://localhost:4096',
-    // dev2: 'http://testnet.asch.cn:4096',
-    // dev3: 'http://101.200.123.124:4097',
-    // dev4: 'http://192.168.2.179:4096',
     production: 'http://39.106.182.193:8192'
   },
   // 登录接口

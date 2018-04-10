@@ -509,7 +509,7 @@ export default {
   computed: {
     ...mapGetters(['userInfo', 'issuer']),
     secondSignature() {
-      return this.userInfo ? this.userInfo.account.secondSignature : null
+      return this.userInfo ? this.userInfo.account.secondPublicKey : null
     },
     pwdValid() {
       return !secondPwdReg.test(this.secondPwd)

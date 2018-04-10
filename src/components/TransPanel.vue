@@ -149,7 +149,7 @@ export default {
   computed: {
     ...mapGetters(['balancesMap']),
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.user ? this.user.account.secondPublicKey : null
     },
     assetsOpt() {
       return this.assets.map(asset => {

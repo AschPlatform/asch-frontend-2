@@ -15,7 +15,7 @@ export const confirm = (conf, cancel = () => {}, confirm = () => {}) => {
   Dialog.create({
     title: conf.title || 'Confirm',
     message: conf.message,
-    ok: conf.confirm || 'Agree',
+    confirm: conf.confirm || 'Agree',
     cancel: conf.cancel || 'Disagree'
   })
     .then(() => {

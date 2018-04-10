@@ -31,8 +31,7 @@
       :show="depositPanelShow" :haveAdd="true" @close="depositPanelShow=false" />
     <withdraw-modal :user="userInfo" :assets="innerBalance" :asset="asset" 
       :show="withdrawPanelShow" :haveAdd="true" @close="withdrawPanelShow=false" />
-    <more-asset-modal :show="moreAssetsModalShow" :assets="innerBalance" 
-      @close="moreAssetsModalShow=false" @deposit="depositNewAsset"/>
+    <more-asset-modal :show="moreAssetsModalShow" @close="moreAssetsModalShow=false" @deposit="depositNewAsset"/>
     <asset-detail-modal :show="assetDetailModalShow" :asset="asset" 
       @close="assetDetailModalShow=false" :userInfo="userInfo"
       @transfer="transfer" @deposit="deposit"  @withdraw="withdraw"  />

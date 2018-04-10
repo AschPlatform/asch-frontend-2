@@ -33,12 +33,12 @@
                   </a>
                 </td>
               </tr>
-              <tr>
+              <!-- <tr>
                 <td>{{$t('PUBLIC_KEY')}}</td>
                 <td>{{user.account.publicKey}} 
                   <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
                 </td>
-              </tr>
+              </tr> -->
               <tr>
                 <td>{{$t('LOCK_POSITION_CONF')}}</td>
                 <td>
@@ -58,10 +58,21 @@
                 <td>{{$t('AGENT_INFO')}}</td>
                 <td>
                   <span v-if="isAgent">
+
                   </span>
                     <a v-else class="text-blue" @click="userAgreementShow=true">
                     {{$t('REGISTER_AGENT')}}
                   </a>
+                </td>
+              </tr>
+              <tr>
+                <td>{{$t('GATEWAY_CANDIDATE')}}</td>
+                <td>
+                  <div @click="jump2Doc">
+                    <a class="text-blue" >
+                      {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE')}}
+                    </a>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -99,7 +110,9 @@
       <div slot="body" class="row justify-center" >
         <q-field class="col-10" :label="$t('NICKNAME')" :label-width="4" :error="$v.nickname.$error" :error-label="$t('ERR_NICKNAME')" :helper="$t('NICKNAME_TIP')">
           <q-input @blur="$v.nickname.$touch"  v-model="nickname" />
-
+        </q-field>
+         <q-field v-show="secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+          <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
         </q-field>
         <table class="q-table bordered  responsive ">
           <tbody>
@@ -155,10 +168,12 @@
           format24h
         />
         </q-field>
-        
+        <q-field v-show="secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+          <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
+        </q-field>
       </div>
       <template slot="buttons" slot-scope="props">
-        <q-btn class="col-3 self-lef" color="primary" flat @click="setLock(props.ok)">
+        <q-btn class="col-3 self-lef" color="primary" flat @click="editLock(props.ok)">
           {{$t('SUBMIT')}}
         </q-btn>
         <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
@@ -172,12 +187,12 @@
 import VueQr from 'vue-qr'
 import { required, sameAs } from 'vuelidate/lib/validators'
 import { secondPwd, secondPwdReg, nicknameReg } from '../utils/validators'
-import { toastWarn, toast, toastError } from '../utils/util'
+import { toastWarn, toast, toastError, prompt } from '../utils/util'
 import { convertFee, fullTimestamp } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { translateErrMsg } from '../utils/api'
 import { mapActions, mapGetters } from 'vuex'
-import { QPage, QCard, QCardTitle, QCardMain, QDialog, QDatetime, date } from 'quasar'
+import { QPage, QCard, QCardTitle, QCardMain, QDialog, QDatetime, date, openURL } from 'quasar'
 import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
@@ -241,25 +256,25 @@ export default {
   },
   methods: {
     ...mapActions(['broadcastTransaction', 'setName']),
-    async setLock() {
-      if (this.lockError) {
-        return
-      }
-      if (this.secondSignature && this.isValid) {
-        toastError(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
-        return
-      }
-      let trans = asch.setLock(this.lockHeight, this.amount, this.user.secret, this.secondPwd)
-      let res = await this.broadcastTransaction(trans)
-      if (res.success === true) {
-        console.log(res)
-        toast(this.$t('INF_POSITIONLOCK_SET_SUCCESS'))
-        this.locked = true
-      } else {
-        console.log(res)
-        translateErrMsg(this.$t, res.error)
-      }
-    },
+    // async setLock() {
+    //   if (this.lockError) {
+    //     return
+    //   }
+    //   if (this.secondSignature) {
+    //     toastError(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
+    //     return
+    //   }
+    //   let trans = asch.setLock(this.lockHeight, this.amount, this.user.secret, this.secondPwd)
+    //   let res = await this.broadcastTransaction(trans)
+    //   if (res.success === true) {
+    //     console.log(res)
+    //     toast(this.$t('INF_POSITIONLOCK_SET_SUCCESS'))
+    //     this.locked = true
+    //   } else {
+    //     console.log(res)
+    //     translateErrMsg(this.$t, res.error)
+    //   }
+    // },
     async setPwd(done) {
       this.$v.password.$touch()
       this.$v.confirmPassword.$touch()
@@ -268,8 +283,9 @@ export default {
         toastWarn(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
       } else {
         let trans = asch.setsecondPassword(this.password, this.user.secret)
+        console.log(trans)
         let res = await this.broadcastTransaction(trans)
-
+        console.log(res)
         if (res.success === true) {
           toast(this.$t('INF_SECND_PASSWORD_SET_SUCCESS'))
           this.seted = true
@@ -338,31 +354,94 @@ export default {
     showAddrQr() {
       this.$root.$emit('showQRCodeModal', this.address)
     },
-    setNickname(done) {
+    async setNickname(done) {
       this.$v.nickname.$touch()
       if (this.$v.nickname.$error && !nicknameReg.test(this.nickname)) {
         toastError(this.$t('ERR_NICKNAME'))
       } else {
-        // this.setName()
+        let trans = asch.setName(this.nickname, this.user.secret, this.secondPwd)
+        let res = await this.broadcastTransaction(trans)
+        if (res.success) {
+          toast(this.$t('INF_OPERATION_SUCCEEDED'))
+        } else {
+          toastError(res.error, this.$t)
+        }
       }
     },
-    registerAgent() {
-      this.userAgreementShow = true
+    async registerAgent(flag = true) {
+      const t = this.$t
+      if (this.secondSignature && flag) {
+        prompt(
+          {
+            title: t('REGISTER_AGENT'),
+            message: t('ACCOUNT_TYPE2_HINT'),
+            prompt: {
+              model: '',
+              type: 'password' // optional
+            }
+          },
+          data => {
+            this.secondPwd = data
+            this.registerAgent(false)
+          }
+        )
+      }
+      if (this.secondSignature && this.pwdValid) {
+        toastError(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
+        return
+      }
+      let trans = asch.registerAgent(this.user.secret, this.secondPwd)
+      let res = await this.broadcastTransaction(trans)
+      if (res.success) {
+        toast(t('INF_OPERATION_SUCCEEDED'))
+      } else {
+        translateErrMsg(res.error, t)
+      }
+      this.userAgreementShow = false
     },
-    editLock(done) {
+    async editLock(done) {
+      if (this.secondSignature && this.pwdValid) {
+        toastError(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
+        return
+      }
       let unlockTimestamp = date.formatDate(this.time, 'X')
       let { height, timestamp } = this.latestBlock
       let beginTime = new Date(fullTimestamp(timestamp))
       beginTime = date.formatDate(beginTime, 'X')
       let higher = Math.floor((unlockTimestamp - beginTime) / 10)
-      console.log(height + higher)
+      let amount = this.num * Math.pow(10, 8)
+      let trans = asch.setLock(height + higher, amount, this.user.secret, this.secondPwd)
+      let res = await this.broadcastTransaction(trans)
+      if (res.success === true) {
+        toast(this.$t('INF_POSITIONLOCK_SET_SUCCESS'))
+        this.locked = true
+      } else {
+        translateErrMsg(this.$t, res.error)
+      }
     },
     validateNum() {
       let amount = convertFee(this.user.account.balance)
       this.numError = this.num >= amount
       return !this.num >= amount
     },
-    unlock() {}
+    async unlock() {
+      let lockHeight = this.user.account.lockHeight
+      let height = this.latestBlock.height
+      if (height <= lockHeight) {
+        toast('HEIGHT_NOT_ARRIVE')
+      } else {
+        let trans = asch.unlock()
+        let res = await this.broadcastTransaction(trans)
+        if (res.success === true) {
+          toast('INF_OPERATION_SUCCEEDED')
+        } else {
+          translateErrMsg(res.error, this.$t)
+        }
+      }
+    },
+    jump2Doc() {
+      openURL('https://github.com/AschPlatform/asch/tree/master/docs')
+    }
   },
   async mounted() {},
   computed: {
@@ -371,7 +450,7 @@ export default {
       return this.userInfo
     },
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.user ? this.user.account.secondPublicKey : null
     },
     lockState() {
       if (this.user && this.user.account) {
