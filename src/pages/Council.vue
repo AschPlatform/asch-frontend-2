@@ -6,7 +6,7 @@
       </div>
 
       <!-- CouncilModal -->
-      <council-modal :item="activeItem" :show="isModalShow"></council-modal>
+      <council-modal :item="activeItem" :show="isModalShow" @callModal="switchModal"></council-modal>
   </q-page>
 </template>
 <script>
