@@ -57,6 +57,8 @@
 
 <script>
 import { QModal, QTabs, QTab, QTable, QBtn, QTd, QCard, QCardTitle, QCardMain } from 'quasar'
+import { mapActions } from 'vuex'
+
 export default {
   props: ['user'],
   components: {
@@ -66,7 +68,9 @@ export default {
     QTable,
     QBtn,
     QTd,
-    QCard, QCardTitle, QCardMain
+    QCard,
+    QCardTitle,
+    QCardMain
   },
   data() {
     return {
@@ -131,7 +135,7 @@ export default {
   },
   computed: {
     dynamicCol() {
-      if (selectedTab === 'records') {
+      if (this.selectedTab === 'records') {
         return [
           {
             name: 'delegate',

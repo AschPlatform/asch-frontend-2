@@ -1,23 +1,23 @@
 <template>
   <q-page padding class="self-center row gutter-md">
     <div class="col-8">
-      <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
       <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
         <template slot="top-left" slot-scope="props">
-            <q-search hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
+          <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
         </template>
-
         <template slot="top-right" slot-scope="props">
-          <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+          <q-search hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
           <q-btn :loading="loading" flat round icon="refresh" @click="refresh" />
         </template>
 
+        <!-- <template slot="top-right" slot-scope="props">
+          <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+        </template> -->
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
             <div class="my-label text-primary" @click="()=>showBlockInfo(props.row.id)" >
               {{props.value.substring(0,7)}}
             </div>
           </q-td>
-          
           <q-td slot="body-cell-height"  slot-scope="props" :props="props">
             <div class="text-primary" @click="()=>showBlockInfo(props.row.id)" >
               {{props.value }}
@@ -38,7 +38,6 @@
               {{props.value}}
             </div>
           </q-td>
-
         </q-table>
       </div>
       <div class="col-4">
@@ -175,10 +174,10 @@
           <q-input :float-label="$t('SECOND_PASSWORD')" v-model="form.secondPwd" type="password" @blur="validateSecondPwd" />
         </q-field>
       </div>
-      <template slot="buttons" slot-scope="props">
-        <q-btn flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
-        <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
-      </template>
+<template slot="buttons" slot-scope="props">
+  <q-btn flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
+  <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
+</template>
     </q-dialog>
     <user-agreement-modal :show="isModalShow" @confirm="callRegisterDialog" @cancel="closeModal" />
   </q-page>
@@ -187,7 +186,7 @@
 <script>
 import { QTable, QPage } from 'quasar'
 import { translateErrMsg } from '../utils/api'
-import { toast } from '../utils/util'
+import { toast, toastInfo } from '../utils/util'
 import { fullTimestamp, createDelegate } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
@@ -359,7 +358,9 @@ export default {
       return fullTimestamp(timestamp)
     },
     async showBlockInfo(id) {
-      let res = await this.blockDetail({ id })
+      let res = await this.blockDetail({
+        id
+      })
       if (res.success === true) {
         this.row = res.block
         this.modalInfoShow = true
@@ -380,6 +381,10 @@ export default {
       }
     },
     async regisDelegate() {
+      if (!this.user.account.name) {
+        toastInfo(this.$t('PLEASE_SET_NAME'))
+        return null
+      }
       this.isModalShow = true
     },
     async onOk() {

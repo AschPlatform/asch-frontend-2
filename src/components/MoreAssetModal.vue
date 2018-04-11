@@ -106,9 +106,7 @@ export default {
     ...mapActions(['getMoreAssets']),
     async getData() {
       // TODO
-      let res = await this.getCurrencies(
-        
-      )
+      let res = await this.getCurrencies()
       if (res.success === true) {
         this.currencies = res.currencies
       }

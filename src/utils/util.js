@@ -28,22 +28,22 @@ export const confirm = (conf, cancel = () => {}, confirm = () => {}) => {
 export const toast = message => {
   const type = 'positive'
   const color = 'positive'
-  Notify.create({ message, type, color })
+  Notify.create({ message, type, color, position: 'top', timeout: 1500 })
 }
 export const toastError = message => {
   const type = 'negative'
   const color = 'negative'
-  Notify.create({ message, type, color })
+  Notify.create({ message, type, color, position: 'top', timeout: 1500 })
 }
 export const toastWarn = message => {
   const type = 'warning'
   const color = 'warning'
-  Notify.create({ message, type, color })
+  Notify.create({ message, type, color, position: 'top', timeout: 1500 })
 }
 export const toastInfo = message => {
   const type = 'info'
   const color = 'info'
-  Notify.create({ message, type, color })
+  Notify.create({ message, type, color, position: 'top', timeout: 1500 })
 }
 export const prompt = (config, cb = () => {}, cbCancel = () => {}) => {
   Dialog.create({

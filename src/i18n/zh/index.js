@@ -190,7 +190,6 @@ const lang = {
   DELEGATE: '受托人',
   PRODUCED_NUMBER: '生产块数',
   USERNAME: '用户名',
-  WEIGHT: '权重',
   TOTAL_PEOPLES: '共%{count}人',
 
   // model - account detail
@@ -389,7 +388,7 @@ const lang = {
   COST_FEE: '将消耗 {num} XAS',
   GATEWAY_CANDIDATE: '网关候选人',
   HOW_TO_BE: '如何成为',
-  PLEASE_LOCK: '请先锁仓再进行操作',
+  PLEASE_LOCK: '请先锁仓',
   AGENT_DETAIL: '代理详情',
   AUTHOR_AMOUNT: '授权代理额度 {amunt} XAS',
   AGENT_VOTE_DETAIL: '票权代理情况',
@@ -402,6 +401,8 @@ const lang = {
   VOTED_DELEGATE: '投票对象',
   VOTE_WEIGHT: '票权',
   VOTE_TIME: '投票时间',
+  AGENT_WEIGHT: '代理权重',
+  PLEASE_SET_NAME: '请先设置昵称',
   proposal: {
     No: '提案编号',
     INITIATOR: '发起人',
