@@ -24,13 +24,19 @@
                 {{props.value}}
               </div>
             </q-td>
-            <q-td slot="body-cell-username"  slot-scope="props" :props="props">
+            <q-td slot="body-cell-username" slot-scope="props" :props="props">
               <div>
                 {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
               </div>
             </q-td>
           </q-table>
         </div>
+
+        <div class="col-5">
+          <vote-record />
+          <my-vote-delegate slot="voteDelegate" :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetailModalShow = true" />
+        </div>
+
         <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
 
         <span slot="title">{{$t('VOTE_TITLE')}}</span>
@@ -65,9 +71,8 @@
           </template>
         </q-dialog>
     <!-- this should review -->
-    <vote-record class="col-5">
-      <my-vote-delegate slot="voteDelegate" :isSetDelegate="isSetDelegate"></my-vote-delegate>
-    </vote-record>
+    
+    <agent-detail-modal :agent="user.account.agent" :show="agentDetailModal" />
     <!-- <router-view class="col-5" :userObj="userObj"></router-view> -->
   </q-page>
 </template>
@@ -77,12 +82,24 @@ import { QTabs, QRouteTab, QPage, QTab, QTabPane } from 'quasar'
 import { translateErrMsg } from '../utils/api'
 import { toast } from '../utils/util'
 import { createVote } from '../utils/asch'
+import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
 import voteRecord from '../components/voteRecord'
 import myVoteDelegate from '../components/myVoteDelegate'
+import AgentDetailModal from '../components/AgentDetailModal'
 
 export default {
   props: ['userObj'],
+  components: {
+    QTabs,
+    QRouteTab,
+    QPage,
+    QTab,
+    QTabPane,
+    voteRecord,
+    myVoteDelegate,
+    AgentDetailModal
+  },
   data() {
     return {
       // below are original data from supporters
@@ -136,17 +153,9 @@ export default {
         title: '',
         message: ''
       },
-      secondPwd: ''
+      secondPwd: '',
+      agentDetailModal: true
     }
-  },
-  components: {
-    QTabs,
-    QRouteTab,
-    QPage,
-    QTab,
-    QTabPane,
-    voteRecord,
-    myVoteDelegate
   },
   methods: {
     ...mapActions(['delegates', 'broadcastTransaction']),
@@ -208,6 +217,24 @@ export default {
     },
     vote() {
       this.dialogShow = true
+    },
+    async setAgent(name, cb = () => {}) {
+      let trans = asch.setAgent(name)
+      let res = await this.broadcastTransaction(trans)
+      if (res.success) {
+        toast('INF_OPERATION_SUCCEEDED')
+      } else {
+        translateErrMsg(res.error, this.$t)
+      }
+    },
+    async repealAgent() {
+      let trans = asch.repealAgent(name)
+      let res = await this.broadcastTransaction(trans)
+      if (res.success) {
+        toast('INF_OPERATION_SUCCEEDED')
+      } else {
+        translateErrMsg(res.error, this.$t)
+      }
     }
   },
   mounted() {
@@ -221,7 +248,7 @@ export default {
       return this.userInfo
     },
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.user ? this.user.account.secondPublicKey : null
     },
     paginationDeafult() {
       return {

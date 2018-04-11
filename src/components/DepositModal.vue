@@ -74,7 +74,7 @@ export default {
   },
   computed: {
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : ''
+      return this.user ? this.user.account.secondPublicKey : ''
     },
     assetsOpt() {
       return this.assets.map(asset => {

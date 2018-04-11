@@ -317,7 +317,7 @@ export default {
       })
     },
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.user ? this.user.account.secondPublicKey : null
     }
   },
   watch: {

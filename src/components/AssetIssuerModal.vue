@@ -146,7 +146,7 @@ export default {
       return this.userInfo
     },
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.user ? this.user.account.secondPublicKey : null
     },
     pwdValid() {
       return !secondPwdReg.test(this.secondPwd)

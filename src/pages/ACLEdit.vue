@@ -193,7 +193,7 @@ export default {
       return this.userObj
     },
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.user ? this.user.account.secondPublicKey : null
     },
     editType() {
       let type = this.$route.name === 'addACL' ? 1 : 0
