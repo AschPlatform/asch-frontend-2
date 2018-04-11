@@ -24,7 +24,7 @@
             {{$t('BALANCE')}}
           </q-card-title>
            <q-card-main >
-             {{userInfo.account.balance | fee}}
+             {{userInfo.account.xas | fee}}
              {{$t('MAIN_ASSET')+'XAS'}}
              <div>  
              {{address}}

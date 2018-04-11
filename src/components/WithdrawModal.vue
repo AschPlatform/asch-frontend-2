@@ -37,7 +37,7 @@ import { required, minValue } from 'vuelidate/lib/validators'
 import { toast } from '../utils/util'
 
 export default {
-  name: 'DepositPanel',
+  name: 'WithdrawModal',
   props: ['user', 'assets', 'asset', 'show', 'haveAdd'],
   components: { QField, QInput },
   data() {
@@ -120,9 +120,11 @@ export default {
   },
   watch: {
     currency(val) {
-      if (val) {
+      if (val && this.assetsMap[val]) {
         this.balance = this.assetsMap[val].balance
         this.precision = this.assetsMap[val].precision
+      } else {
+        return ''
       }
     },
     asset(val) {

@@ -85,7 +85,7 @@
       <!-- common component with event -->
     <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false"/>
   
-    <q-modal content-classes="layout-padding" v-model="transShow" maximized no-backdrop-dismiss content-css="padding: 20px" >
+    <q-modal content-classes="layout-padding" v-model="transShow" maximized no-backdrop-dismiss content-css="padding: 50px" >
       <div class="col-8">
         <trans-panel :showTitle="true" :assets="assets"  :asset="asset" :user="userInfo">
           <div slot="btns" slot-scope="props" class="row col-12 justify-between" >
@@ -294,7 +294,7 @@ export default {
         let XASAsset = {
           currency: 'XAS',
           precision: 8,
-          balance: account.balance
+          balance: account.xas
         }
         // balances.unshift()
         let assets = [XASAsset].concat(balances)

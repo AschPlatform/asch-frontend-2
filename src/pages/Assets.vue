@@ -3,15 +3,16 @@
     <big>
       {{$t('ASSET_PROFILE')}}
     </big>
-    <q-card  >
+    <q-card >
         <q-card-title>
           {{$t('X_ASSETS')}}
         </q-card-title>
           <q-card-main class="row gutter-xs">
+            <assets-panel :asset="xasBalance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open" type="inner"/>
             <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"/>
           </q-card-main>
       </q-card>
-    <q-card  >
+    <q-card >
       <q-card-title>
         {{$t('CROSS_ASSETS')}}
       </q-card-title>
@@ -136,6 +137,15 @@ export default {
     ...mapGetters(['userInfo']),
     user() {
       return this.userInfo
+    },
+    xasBalance() {
+      let currency = {
+        currency: 'XAS',
+        precision: 8,
+        balance: this.user.account.xas,
+        url: ''
+      }
+      return currency
     }
   },
 

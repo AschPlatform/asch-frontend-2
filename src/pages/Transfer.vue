@@ -44,7 +44,7 @@ export default {
         let XASAsset = {
           currency: 'XAS',
           precision: 8,
-          balance: account.balance
+          balance: account.xas
         }
         // balances.unshift()
         let assets = [XASAsset].concat(balances)
