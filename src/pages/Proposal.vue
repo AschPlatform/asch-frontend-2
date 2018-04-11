@@ -13,7 +13,12 @@
       <q-tab slot="title" :label="$t('proposal.TITLE_DONE')" />
       <q-btn size="sm" flat slot="top-right" class="float-right">Launch</q-btn> -->
       <!-- tab pane content -->
-      <q-table :data="proposalDetail" :columns="columns" row-key="no" :pagination.sync="pagination">
+      <q-table :data="proposalDetail"
+      :columns="columns"
+      row-key="no"
+      :pagination.sync="pagination"
+      @request="request"
+      >
         <q-td slot="body-cell-detail" slot-scope="props" :props="props">
           {{props.value.substring(0,20) + '...'}}
           <q-popover v-if="props.value" ref="popover-msg">
@@ -43,6 +48,7 @@ import {
   QPopover,
   QTooltip
 } from 'quasar'
+import { mapActions } from 'vuex'
 import launchModal from '../components/LaunchProposalModal'
 import showModal from '../components/ShowProposalModal'
 
@@ -137,7 +143,8 @@ export default {
     }
   },
   methods: {
-    async getProposals(pagination = {}, filter = '') {
+    ...mapActions(['getProposals']),
+    async getProposalsFunc(pagination = {}, filter = '') {
       this.loading = true
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
@@ -146,13 +153,14 @@ export default {
         limit: limit,
         offset: (pageNo - 1) * limit
       }
-      let res = await this.getProposal(condition)
+      let res = await this.getProposals(condition)
       this.proposalDetail = res.proposals
       this.loading = false
+      console.log('got it', res)
       return res
     },
     async request(props) {
-      await this.getProposals(props.pagination, props.filter)
+      await this.getProposalsFunc(props.pagination, props.filter)
     },
     operationBtn(val) {
       switch (val) {
@@ -176,6 +184,9 @@ export default {
     }
   },
   computed: {
+  },
+  mounted() {
+    this.getProposalsFunc()
   }
 }
 </script>

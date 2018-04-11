@@ -212,7 +212,7 @@
           </div>
         </q-card-main>
 
-        <q-card-main v-show="this.p_type !== null" key="agreement">
+        <q-card-main v-show="this.first_type !== null" key="agreement">
           <q-checkbox v-model="NEW.agreement" val="one" :label="$t('LAUNCH_MODAL.READ_TIP1')" />
           <br><br>
           <q-checkbox v-model="NEW.agreement" val="two" :label="$t('LAUNCH_MODAL.READ_TIP2')" />
