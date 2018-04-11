@@ -11,7 +11,7 @@
       <!-- <q-tab default slot="title" :label="$t('proposal.TITLE_ALL')" />
       <q-tab slot="title" :label="$t('proposal.TITLE_PROCESS')" />
       <q-tab slot="title" :label="$t('proposal.TITLE_DONE')" />
-      <q-btn size="sm" flat slot="top-right" class="float-right">Launch</q-btn> -->
+      <q-btn size="sm" flat slot="top-right" clas+s="float-right">Launch</q-btn> -->
       <!-- tab pane content -->
       <q-table :data="proposalDetail"
       :columns="columns"
@@ -19,14 +19,20 @@
       :pagination.sync="pagination"
       @request="request"
       >
-        <q-td slot="body-cell-detail" slot-scope="props" :props="props">
+        <q-td slot="body-cell-desc" slot-scope="props" :props="props">
           {{props.value.substring(0,20) + '...'}}
           <q-popover v-if="props.value" ref="popover-msg">
             <div class="light-paragraph">{{props.value}}</div>
           </q-popover>
         </q-td>
+        <q-td slot="body-cell-tid" slot-scope="props" :props="props">
+          {{props.value.substring(0, 7)}}
+          <q-popover v-if="props.value" ref="popover-msg">
+            <div class="light-paragraph">{{props.value}}</div>
+          </q-popover>
+        </q-td>
         <q-td slot="body-cell-operation" slot-scope="props" :props="props">
-          <q-btn flat color="primary" @click="callShowModal">
+          <q-btn flat :label="$t('proposal.OPERATION')" color="primary" @click="callShowModal">
             {{operationBtn(props.value)}}
           </q-btn>
         </q-td>
@@ -75,23 +81,23 @@ export default {
         rowsPerPage: 10
       },
       proposalDetail: [
-        {
-          'no': 1,
-          'initiator': 'A-Z',
-          'type': 'sell',
-          'period': '2016/03/01-2019/09/09',
-          'approve': '99',
-          'detail': 'here should be the detail, and you all should mind that',
-          'operation': 0
-        }
+        // {
+        //   'no': 1,
+        //   'initiator': 'A-Z',
+        //   'type': 'sell',
+        //   'period': '2016/03/01-2019/09/09',
+        //   'approve': '99',
+        //   'detail': 'here should be the detail, and you all should mind that',
+        //   'operation': 0
+        // }
       ],
       columns: [
         {
-          name: 'no',
+          name: 'tid',
           required: true,
           label: this.$t('proposal.No'),
           align: 'center',
-          field: 'no'
+          field: 'tid'
         },
         {
           name: 'initiator',
@@ -101,11 +107,11 @@ export default {
           field: 'initiator'
         },
         {
-          name: 'type',
+          name: 'topic',
           required: true,
           label: this.$t('proposal.TYPE'),
           align: 'center',
-          field: 'type'
+          field: 'topic'
         },
         {
           name: 'period',
@@ -115,11 +121,11 @@ export default {
           field: 'period'
         },
         {
-          name: 'detail',
+          name: 'desc',
           required: true,
           label: this.$t('proposal.DETAIL'),
           align: 'center',
-          field: 'detail'
+          field: 'desc'
         },
         {
           name: 'approve',
