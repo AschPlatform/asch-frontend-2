@@ -6,17 +6,20 @@
             <q-icon name="place" /> {{$t('CANCEL')}}
           </q-btn>
         </q-card-title>
-        <div class="row ">
+        <div class="row">
           <q-field :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8">
             <q-input v-model="p_title" />
           </q-field>
         </div>
         <div class="row">
           <q-field :label-width="3"  :label="$t('proposal.SELECT_P_TYPE')" class="col-4">
-            <q-select v-model="p_type" :options="proposalType"/>
+            <q-select v-model="first_type" :options="proposalType"/>
           </q-field>
-          <q-field class="col-4 q-ml-lg">
+          <q-field class="col-4 q-ml-lg" v-show="this.first_type === 'change'">
             <q-select v-model="p_selected" :options="councilList" :placeholder="$t('proposal.SELECT_P_COUNCIL')"/>
+          </q-field>
+          <q-field class="col-4 q-ml-lg" v-show="this.first_type === 'change_n'">
+            <q-select v-model="p_selected" :options="netList" :placeholder="$t('proposal.SELECT_P_NET')"/>
           </q-field>
         </div>
         <div class="row">
@@ -28,28 +31,68 @@
             <q-datetime v-model="p_time_end"/>
           </q-field>
         </div>
-        <q-card-separator class="q-my-lg" />
+        <q-card-separator class="q-my-lg"/>
         <transition-group
           appear
           enter-active-class="animated fadeIn"
           leave-active-class="animated fadeOut"
         >
 
-        <q-card-main key="content">
+        <q-card-main key="content" class="row">
+          <q-field v-show="this.first_type !== 'new' && this.first_type !== 'new_n' && this.first_type !== null && this.first_type !== null"
+          :label-width="3"
+          :label="$t('proposal.SELECT_P_TYPE')"
+          class="col-4">
+            <q-select v-model="second_type" :options="this.first_type === 'change' ? proposalType_sec : proposalType_sec_n"/>
+          </q-field>
           <!-- below is new page -->
-          <div v-show="this.p_type === 'new'" id="new" class="">
+          <div v-show="this.first_type === 'new'" id="new" class="col-8">
+            <div class="row">
+              <q-field class="block col-6" label-width="4" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
+                <q-input min=5 max=33 type="number" v-model="NEW.memberNumber" :suffix="$t('LAUNCH_MODAL.PERSON')"></q-input>
+              </q-field>
+            </div>
+            <div class="">
+              <q-field class="col-8" label-width="2" :label="$t('LAUNCH_MODAL.MEMBER_MEMBER')">
+                <q-select chips multiple filter v-model="NEW.selected" :options="NEW.memberList"></q-select>
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="col-6" label-width="4" :label="$t('LAUNCH_MODAL.PERIOD')">
+                <q-input type="number" v-model="NEW.period" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
+              </q-field>
+            </div>
+            <div class="">
+              <q-field class="col-8" label-width="2" :label="$t('LAUNCH_MODAL.BRIEF')">
+                <q-input type="textarea" v-model="NEW.brief" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+              </q-field>
+            </div>
+          </div>
+
+          <!-- below is net new page -->
+          <div class="col-12" v-show="this.first_type === 'new_n'" id="new">
+            <div class="row">
+              <q-field class="block col-5" label-width="3" :label="$t('LAUNCH_MODAL.NET_NAME')">
+                <q-input type="text" v-model="NEW.memberNumber"></q-input>
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="block col-5" label-width="3" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
+                <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" type="text" v-model="NEW.memberNumber"></q-input>
+              </q-field>
+            </div>
             <div class="row">
               <q-field class="block col-2" label-width="8" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
                 <q-input min=5 max=33 type="number" v-model="NEW.memberNumber" :suffix="$t('LAUNCH_MODAL.PERSON')"></q-input>
               </q-field>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <q-field class="col-8" label-width="2" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
                 <q-select chips multiple filter v-model="NEW.selected" :options="NEW.memberList"></q-select>
               </q-field>
-            </div>
+            </div> -->
             <div class="row">
-              <q-field class="col-2" label-width="8" :label="$t('LAUNCH_MODAL.PERIOD')">
+              <q-field class="col-2" label-width="8" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
                 <q-input type="number" v-model="NEW.period" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
               </q-field>
             </div>
@@ -60,22 +103,67 @@
             </div>
           </div>
 
-          <!-- below is remove page -->
-          <div v-show="this.p_type === 'remove'" id="remove">
+          <!-- below is net init page -->
+          <div class="col-12" v-show="this.second_type === 'init' && this.first_type === 'change_n'" id="init">
             <div class="row">
-              <q-field class="col-9" label-width="2" :label="$t('LAUNCH_MODAL.REMOVE_REASON')">
+              <q-field class="col-8" label-width="2" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
+                <q-select chips multiple filter v-model="NEW.selected" :options="NEW.memberList"></q-select>
+              </q-field>
+            </div>
+          </div>
+
+          <!-- below is net period page -->
+          <div class="col-12" v-show="this.second_type === 'period_n' && this.first_type === 'change_n'" id="remove">
+            <div class="row">
+              <q-field :label-width="4"  :label="$t('LAUNCH_MODAL.NET_PERIOD')" class="col-3">
+                <q-input :suffix="$t('LAUNCH_MODAL.DAY')" type="number" v-model="PERIOD.pre"/>
+              </q-field>
+              <span class="self-center q-ml-lg">{{$t('LAUNCH_MODAL.INSTEAD_POST')}}</span>
+              <q-field class="col-3 q-ml-xl">
+                <q-input :suffix="$t('LAUNCH_MODAL.DAY')" type="number" v-model="PERIOD.post"/>
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="col-9" label-width="2" :label="$t('LAUNCH_MODAL.PERIOD_REASON')">
+                <q-input type="textarea" v-model="PERIOD.brief" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+              </q-field>
+            </div>
+          </div>
+
+          <!-- below is net member page -->
+          <div class="col-12" v-show="this.second_type === 'member_n' && this.first_type === 'change_n'" id="remove">
+            <!-- instead members -->
+            <div class="row">
+              <q-field class="col-4" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_PRE')">
+                <q-select chips multiple filter v-model="MEMBER.instead_pre" :options="MEMBER.memberList"></q-select>
+              </q-field>
+              <q-field class="col-4" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_POST')">
+                <q-select chips multiple filter v-model="MEMBER.instead_post" :options="delegateList"></q-select>
+              </q-field>
+            </div>
+            <div class="row justify-around q-my-lg">
+              <q-chips-input color="primary" :prefix="$t('LAUNCH_MODAL.INSTEAD_PRE')" class="col-5" inverted readonly v-model="MEMBER.show_pre" disable/>
+              <q-icon size="33px" name="keyboard arrow right" />
+              <q-chips-input color="primary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="MEMBER.show_post" disable/>
+            </div>
+          </div>
+
+          <!-- below is remove page -->
+          <div class="col-12" v-show="this.second_type === 'remove' && this.first_type === 'change'" id="remove">
+            <div class="">
+              <q-field class="" label-width="1" :label="$t('LAUNCH_MODAL.REMOVE_REASON')">
                 <q-input type="textarea" v-model="REMOVE.brief" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
             </div>
           </div>
 
           <!-- below is period page -->
-          <div v-show="this.p_type === 'period'" id="remove">
+          <div class="col-12" v-show="this.second_type === 'period' && this.first_type === 'change'" id="remove">
             <div class="row">
               <q-field :label-width="4"  :label="$t('proposal.SELECT_P_PERIOD')" class="col-3">
                 <q-input :suffix="$t('LAUNCH_MODAL.DAY')" type="number" v-model="PERIOD.pre"/>
               </q-field>
-              <span class="self-center col-1">TO</span>
+              <span class="self-center q-ml-lg">{{$t('LAUNCH_MODAL.INSTEAD_POST')}}</span>
               <q-field class="col-3 q-ml-xl">
                 <q-input :suffix="$t('LAUNCH_MODAL.DAY')" type="number" v-model="PERIOD.post"/>
               </q-field>
@@ -88,7 +176,7 @@
           </div>
 
           <!-- below is member page -->
-          <div v-show="this.p_type === 'member'" id="remove">
+          <div class="col-12" v-show="this.second_type === 'member' && this.first_type === 'change'" id="remove">
             <div class="row">
               <q-field :label-width="4"  :label="$t('proposal.SELECT_MEMBER_ACTION')" class="col-3">
                 <q-select v-model="MEMBER.type_selected" :options="MEMBER.type"/>
@@ -157,7 +245,11 @@ export default {
   props: ['show'],
   data() {
     return {
-      p_type: null,
+      // normal proposal
+      first_type: null,
+      second_type: null,
+      // net proposal
+      p_type_n: null,
       p_title: null,
       p_time_start: null,
       p_time_end: null,
@@ -167,6 +259,28 @@ export default {
           label: this.$t('proposal.SELECT_NEWCOUNCIL'),
           value: 'new'
         },
+        {
+          label: this.$t('proposal.SELECT_CHANGECOUNCIL'),
+          value: 'change'
+        },
+        {
+          label: this.$t('proposal.SELECT_NEWNET'),
+          value: 'new_n'
+        },
+        {
+          label: this.$t('proposal.SELECT_CHANGENET'),
+          value: 'change_n'
+        }
+        // {
+        //   label: this.$t('proposal.SELECT_NETPERIOD'),
+        //   value: 'period_n'
+        // },
+        // {
+        //   label: this.$t('proposal.SELECT_NETMEMBER'),
+        //   value: 'member_n'
+        // }
+      ],
+      proposalType_sec: [
         {
           label: this.$t('proposal.SELECT_REMOVECOUNCIL'),
           value: 'remove'
@@ -180,7 +294,22 @@ export default {
           value: 'member'
         }
       ],
+      proposalType_sec_n: [
+        {
+          label: this.$t('proposal.SELECT_NETPERIOD'),
+          value: 'period_n'
+        },
+        {
+          label: this.$t('proposal.SELECT_INITNET'),
+          value: 'init'
+        },
+        {
+          label: this.$t('proposal.SELECT_NETMEMBER'),
+          value: 'member_n'
+        }
+      ],
       councilList: [],
+      netList: [],
       delegateList: [],
       NEW: {
         memberList: [

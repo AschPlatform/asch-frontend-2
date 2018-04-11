@@ -405,7 +405,9 @@ const lang = {
     SELECT_P_TITLE: '提案标题',
     SELECT_P_TYPE: '提案类型',
     SELECT_P_COUNCIL: '选择理事会',
+    SELECT_P_NET: '选择网关',
     SELECT_NEWCOUNCIL: '新增理事会',
+    SELECT_CHANGECOUNCIL: '更改理事会',
     SELECT_REMOVECOUNCIL: '撤销理事会',
     SELECT_CHANGEPERIOD: '更改周期',
     SELECT_CHANGEMEMBER: '更改成员',
@@ -415,12 +417,21 @@ const lang = {
     SELECT_MEMBER_ACTION: '理事会成员操作',
     SELECT_MEMBER_ADD: '添加成员',
     SELECT_MEMBER_DELETE: '移除成员',
-    SELECT_MEMBER_INSTEAD: '替换成员'
+    SELECT_MEMBER_INSTEAD: '替换成员',
+    SELECT_NEWNET: '新增网关',
+    SELECT_CHANGENET: '更改网关',
+    SELECT_INITNET: '网关初始化',
+    SELECT_NETPERIOD: '更新最低更新频率',
+    SELECT_NETMEMBER: '更新成员'
   },
   LAUNCH_MODAL: {
     MEMBER_NUMBER: '成员数量',
     MEMBER_MEMBER: '成员信息',
+    NET_NAME: '网关名字',
+    NET_CURRENCY: '默认币种',
     PERIOD: '任职周期',
+    PERIOD_NET: '最低更新频率',
+    NET_NEW_LABEL: '(至少填写一种默认币种，且必须是全部大写字母)',
     PERSON: '名',
     BRIEF: '简要描述',
     BRIEF_TIP: '请输入简要描述',
@@ -431,7 +442,8 @@ const lang = {
     READ_TIP1: '自觉遵守《社区自治用户协议书》',
     READ_TIP2: '发布提案将消耗 100 XAS',
     INSTEAD_PRE: '由',
-    INSTEAD_POST: '替换为'
+    INSTEAD_POST: '替换为',
+    NET_PERIOD: '网关最低更新频率参数'
   },
   DETAIL_MODAL: {
     MEMBER_CHIPS_PRE: '投票成员名单',
