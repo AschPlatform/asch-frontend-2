@@ -122,7 +122,7 @@ export default {
         {
           name: 'username',
           label: this.$t('DELEGATE'),
-          field: 'username',
+          field: 'name',
           type: 'string'
         },
         {
