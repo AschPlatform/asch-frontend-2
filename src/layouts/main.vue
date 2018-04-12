@@ -174,11 +174,11 @@ export default {
   methods: {
     ...mapActions([
       'refreshAccounts',
-      'account',
+      'getAccountsInfo',
       'login',
       'uiaAssetListApi',
       'issuer',
-      'myBalances'
+      'getBalances'
     ]),
     ...mapMutations(['updateUserInfo', 'setUserIsLogin']),
     logout() {
@@ -200,7 +200,7 @@ export default {
       this.transShow = true
     },
     async openAccountModal(address) {
-      let res = await this.account({
+      let res = await this.getAccountsInfo({
         address: address
       })
       this.accountInfo = res.account
@@ -278,7 +278,7 @@ export default {
       this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
       // window.CHPlugin.checkIn()
     }
-    this.myBalances({
+    this.getBalances({
       address: this.userInfo.account.address
     })
   },

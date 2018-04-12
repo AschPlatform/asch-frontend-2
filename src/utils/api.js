@@ -252,6 +252,35 @@ api2.currency = params => {
 api2.address = params => {
   return fetch(urls.v2.address, params, 'get')
 }
+// 获取账户余额
+api2.balances = params => {
+  return fetch(urls.v2.balances, params, 'get')
+}
+// 获取指定币种账户余额
+api2.balance = params => {
+  return fetch(urls.v2.balance, params, 'get')
+}
+// 获取所有发行商
+api2.issuers = params => {
+  return fetch(urls.v2.issuers, params, 'get')
+}
+// 获取指定发行商
+api2.issuer = params => {
+  return fetch(urls.v2.issuer, params, 'get')
+}
+
+// 获取所有资产
+api2.issuer = params => {
+  return fetch(urls.v2.issuer, params, 'get')
+}
+// 获取指定账户发行的资产
+api2.issuer = params => {
+  return fetch(urls.v2.issuer, params, 'get')
+}
+// 获取指定资产详情
+api2.issuer = params => {
+  return fetch(urls.v2.issuer, params, 'get')
+}
 
 const translateErrMsg = (t, input) => {
   // console.log('translateErrInner',language,input);

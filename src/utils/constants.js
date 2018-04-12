@@ -211,47 +211,75 @@ const urls = {
     },
     // 获取所有跨链充值记录
     deposits: {
-      url: '/api/v2/gateway/deposits'
+      url: '/api/v2/gateways/deposits'
     },
     // 获取指定币种的跨链充值记录
     currencyDeposits: {
-      url: '/api/v2/gateway/deposits/:currency'
+      url: '/api/v2/gateways/deposits/:currency'
     },
     // 获取指定地址的跨链充值记录
     myDeposits: {
-      url: '/api/v2/gateway/deposits/my/:address'
+      url: '/api/v2/gateways/deposits/my/:address'
     },
     // 获取指定地址指定币种的跨链充值记录
     myCurrencyDeposits: {
-      url: '/api/v2/gateway/deposits/my/:address/:currency'
+      url: '/api/v2/gateways/deposits/my/:address/:currency'
     },
     // 获取所有跨链提现记录
     withdrawals: {
-      url: '/api/v2/gateway/withdrawals'
+      url: '/api/v2/gateways/withdrawals'
     },
     // 获取指定币种的跨链提现记录
     currencyWithdrawals: {
-      url: '/api/v2/gateway/withdrawals/:currency'
+      url: '/api/v2/gateways/withdrawals/:currency'
     },
     // 获取指定地址的跨链提现记录
     myWithdrawals: {
-      url: '/api/v2/gateway/withdrawals/my/:address'
+      url: '/api/v2/gateways/withdrawals/my/:address'
     },
     // 获取指定地址指定币种的跨链提现记录
     myCurrencyWithdrawals: {
-      url: '/api/v2/gateway/withdrawals/my/:address/:currency'
+      url: '/api/v2/gateways/withdrawals/my/:address/:currency'
     },
     // 获取支持的所有跨链资产列表
     currencies: {
-      url: '/api/v2/gateway/currencies'
+      url: '/api/v2/gateways/currencies'
     },
     // 获取指定名称的跨链资产详情
     currency: {
-      url: '/api/v2/gateway/currencies/:name'
+      url: '/api/v2/gateways/currencies/:name'
     },
     // 获取指定跨链币种的充值地址
     address: {
-      url: '/api/v2/gateway/address/:sender/:currency'
+      url: '/api/v2/gateways/address/:sender/:currency'
+    },
+    // 获取账户余额
+    balances: {
+      url: '/api/v2/balances/:address'
+    },
+    // 获取指定币种账户余额
+    balance: {
+      url: '/api/v2/balances/:address/:currency'
+    },
+    // 获取所有发行商
+    issuers: {
+      url: '/api/v2/uia/issuers'
+    },
+    // 获取指定发行商
+    issuer: {
+      url: '/api/v2/uia/issuers/:address'
+    },
+    // 获取所有资产
+    assets: {
+      url: '/api/v2/uia/assets'
+    },
+    // 获取指定账户发行的资产
+    addressAsset: {
+      url: '/api/v2/uia/issuers/:address/assets'
+    },
+    // 获取指定资产详情
+    asset: {
+      url: '/api/v2/uia/assets/:name'
     }
   },
 

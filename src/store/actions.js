@@ -79,12 +79,12 @@ export default {
   myAssets: ({ commit }, params) => {
     return api.myAssets(params)
   },
-  getIssuer: ({ commit, state }, params) => {
-    return api.issuer(params).then(res => {
-      commit('setIssuer', res.issuer)
-      return res
-    })
-  },
+  // getIssuer: ({ commit, state }, params) => {
+  //   return api.issuer(params).then(res => {
+  //     commit('setIssuer', res.issuer)
+  //     return res
+  //   })
+  // },
   assetAcl: ({ commit }, params) => {
     return api.assetAcl(params)
   },
@@ -172,9 +172,34 @@ export default {
   getCurrencies: ({ commit }, params) => {
     return api2.currencies(params)
   },
-  getAddress: ({ commit }, params) => {
-    return api2.currency(params)
+  getBalances: ({ commit }, params) => {
+    return api2.balances(params).then(res => {
+      if (res.success) {
+        commit('setBalances', res.balances)
+      }
+      return res
+    })
   },
+
+  getBalance: ({ commit }, params) => {
+    return api2.balance(params)
+  },
+  getIssuers: ({ commit }, params) => {
+    return api2.issuers(params)
+  },
+  getIssuer: ({ commit }, params) => {
+    return api2.issuer(params)
+  },
+  getAssets: ({ commit }, params) => {
+    return api2.assets(params)
+  },
+  getAddressAsset: ({ commit }, params) => {
+    return api2.addressAsset(params)
+  },
+  getAsset: ({ commit }, params) => {
+    return api2.asset(params)
+  },
+
   getAgentVotes: ({ commit }, params) => {
     return api2.currency(params)
   },

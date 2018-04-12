@@ -236,8 +236,8 @@ export default {
       let pageNo = this.pagination.page
       let condition = {
         // TODO 参数 bug
-        // senderId: this.userInfo.account.address,
-        // orderBy: 't_timestamp:desc',
+        senderId: this.userInfo.account.address,
+        orderBy: 't_timestamp:desc',
         limit: limit,
         offset: (pageNo - 1) * limit
       }

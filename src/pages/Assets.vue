@@ -10,6 +10,7 @@
           <q-card-main class="row gutter-xs">
             <assets-panel :asset="xasBalance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open" type="inner"/>
             <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"/>
+            <q-btn v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
           </q-card-main>
       </q-card>
     <q-card >
@@ -18,6 +19,7 @@
       </q-card-title>
         <q-card-main class="row gutter-xs">
         <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open"/>
+        <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
         <q-card class="col-4" >
           <q-card-main>
             <div @click="moreAssets" >
@@ -66,7 +68,12 @@ export default {
     return {
       innerBalance: [],
       outerBalance: [],
-      pagination: {
+      innerPagination: {
+        page: 1,
+        rowsNumber: 0,
+        rowsPerPage: 10
+      },
+      outerPagination: {
         page: 1,
         rowsNumber: 0,
         rowsPerPage: 10
@@ -81,14 +88,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['myBalances']),
+    ...mapActions(['getBalances', 'getCurrencies']),
     // TODO
-    async getBalances(pagination = {}, filter = '') {
+    async getInner(pagination = {}, filter = '') {
       this.loading = true
-      if (pagination.page) this.pagination = pagination
-      let limit = this.pagination.rowsPerPage
-      let pageNo = this.pagination.page
-      let res = await this.myBalances({
+      if (pagination.page) this.innerPagination = pagination
+      let limit = this.innerPagination.rowsPerPage
+      let pageNo = this.innerPagination.page
+      let res = await this.getBalances({
         address: this.user.account.address,
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -96,7 +103,25 @@ export default {
       if (res.success) {
         this.innerBalance = res.balances
         // set max
-        this.pagination.rowsNumber = res.count
+        this.innerPagination.rowsNumber = res.count
+        this.loading = false
+      }
+      return res
+    },
+    async getOuter(pagination = {}, filter = '') {
+      this.loading = true
+      if (pagination.page) this.innerPagination = pagination
+      let limit = this.outerPagination.rowsPerPage
+      let pageNo = this.outerPagination.page
+      let res = await this.getBalances({
+        address: this.user.account.address,
+        limit: limit,
+        offset: (pageNo - 1) * limit
+      })
+      if (res.success) {
+        this.outerBalance = res.balances
+        // set max
+        this.outerPagination.rowsNumber = res.count
         this.loading = false
       }
       return res
@@ -126,11 +151,14 @@ export default {
     open(asset) {
       this.asset = asset
       this.assetDetailModalShow = true
-    }
+    },
+    loadMoreInner() {},
+    loadMoreOuter() {}
   },
   mounted() {
     if (this.user) {
-      this.getBalances()
+      this.getInner()
+      this.getOuter()
     }
   },
   computed: {
@@ -138,11 +166,14 @@ export default {
     user() {
       return this.userInfo
     },
+    balance() {
+      return this.user && this.user.account ? this.user.account.xas : 0
+    },
     xasBalance() {
       let currency = {
         currency: 'XAS',
         precision: 8,
-        balance: this.user.account.xas,
+        balance: this.balance,
         url: ''
       }
       return currency
@@ -152,11 +183,13 @@ export default {
   watch: {
     userInfo(val) {
       if (val) {
-        this.getBalances()
+        this.getInner()
+        this.getOuter()
       }
     },
     pageNo(val) {
-      this.getBalances()
+      this.getInner()
+      this.getOuter()
     }
   }
   // register event

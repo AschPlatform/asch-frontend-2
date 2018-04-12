@@ -83,8 +83,8 @@
 </template>
 
 <script>
-import { api } from '../utils/api'
 import { toast } from '../utils/util'
+import { mapActions } from 'vuex'
 
 export default {
   props: ['userObj'],
@@ -170,6 +170,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getBalances']),
+
     async request(props) {
       await this.getBalances(props.pagination, props.filter)
     },
@@ -178,7 +180,7 @@ export default {
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
-      let res = await api.myBalances({
+      let res = await this.getBalances({
         address: this.user.account.address,
         limit: limit,
         offset: (pageNo - 1) * limit

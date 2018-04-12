@@ -79,7 +79,12 @@ export default {
   data() {
     return {
       filter: '',
-      currencies: []
+      currencies: [],
+      pagination: {
+        page: 1,
+        rowsNumber: 0,
+        rowsPerPage: 10
+      }
     }
   },
   validations: {
@@ -103,12 +108,18 @@ export default {
     this.getData()
   },
   methods: {
-    ...mapActions(['getMoreAssets']),
+    ...mapActions(['getCurrencies']),
     async getData() {
       // TODO
-      let res = await this.getCurrencies()
+      let limit = this.pagination.rowsPerPage
+      let pageNo = this.pagination.page
+      let res = await this.getCurrencies({
+        limit: limit,
+        offset: (pageNo - 1) * limit
+      })
       if (res.success === true) {
         this.currencies = res.currencies
+        this.pagination.rowsNumber = res.count
       }
       return res
     },
@@ -120,7 +131,7 @@ export default {
     },
     assetsInfo(asset) {
       let balance = convertFee(asset.balance, asset.precision)
-      return `${asset.currency}   ${balance}   `
+      return `${asset.symbol}  ${balance}   `
     },
     deposit(asset) {
       this.$emit('deposit', asset)

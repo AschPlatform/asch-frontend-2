@@ -3,7 +3,7 @@
     <q-modal-layout>
         <q-toolbar slot="header">
           <q-toolbar-title>
-           {{$t('ASSET_DETAIL',{currency:asset.currency})}}
+           {{$t('ASSET_DETAIL',{currency:asset.symbol})}}
           </q-toolbar-title>
         </q-toolbar>
         <q-toolbar slot="footer">
