@@ -3,7 +3,7 @@
     <q-page-container>
       <q-page padding class="row justify-center">
         <div class="main-page layout-padding row justify-center ">
-            <div class="main-logo" />
+          <div class="main-logo" />
           <q-card v-if="!isRegister" class="login-panel col-12 ">
             <q-card-title>
               {{$t('LOGIN')}}
@@ -49,7 +49,7 @@
             <q-card-main v-if="registerStep==1" class="row col-10 justify-center ">
               <q-field :label="$t('NEW_PASSWORD')" class="col-10" label-width="2" :helper="$t('CREATE_TIP1')">
                 <q-input type="textarea" class="" v-model="newSecret" disable :min-rows="5" />
-                <q-btn color="primary" v-clipboard="newSecret || 'no data' " class="float-right"  flat round icon="content copy" @click="jumpOut('Copied')"/>
+                <q-btn color="primary" v-clipboard="newSecret || 'no data' " class="float-right" flat round icon="content copy" @click="jumpOut('Copied')" />
               </q-field>
               <q-field :label="$t('CONFIRM_PASSWORD')" class="col-10" label-width="2" :helper="$t('CREATE_TIP2')">
                 <q-input type="textarea" v-model="confirmNewSecret" :min-rows="5" clearable />
@@ -137,8 +137,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['login']),
-    ...mapMutations(['setUserInfo', 'updateUserInfo']),
+    ...mapActions(['getAccountsInfo']),
+    ...mapMutations(['setUserInfo', 'updateUserInfo', 'setUserIsLogin']),
     async userLogin(e, done) {
       this.loading = true
       const t = this.$t
@@ -149,10 +149,11 @@ export default {
         return
       }
       let publicKey = getPub(this.secret)
+      let address = getAddr(publicKey)
       let user = {}
       try {
-        let data = await this.login({
-          publicKey: publicKey
+        let data = await this.getAccountsInfo({
+          address
         })
         if (data.success === true) {
           user = data
@@ -160,8 +161,8 @@ export default {
           user.publicKey = publicKey
           this.remember ? setCache('user', user) : removeCache('user')
           this.updateUserInfo(user)
-          // 是否登录的全局变量
           this.loading = false
+          this.setUserIsLogin(true)
           this.$router.push({
             name: 'home',
             params: {

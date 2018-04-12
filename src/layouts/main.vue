@@ -175,9 +175,6 @@ export default {
     ...mapActions([
       'refreshAccounts',
       'getAccountsInfo',
-      'login',
-      'uiaAssetListApi',
-      'issuer',
       'getBalances'
     ]),
     ...mapMutations(['updateUserInfo', 'setUserIsLogin']),
@@ -270,8 +267,8 @@ export default {
       console.log('no session data, please login...')
       this.$router.push('/login')
     } else {
-      let res = await this.login({
-        publicKey: user.publicKey
+      let res = await this.getAccountsInfo({
+        address: user.account.address
       })
       let userInfo = this._.merge({}, user, res)
       this.updateUserInfo(userInfo)

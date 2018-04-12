@@ -237,7 +237,7 @@ export default {
       let condition = {
         // TODO 参数 bug
         senderId: this.userInfo.account.address,
-        orderBy: 't_timestamp:desc',
+        orderBy: 'timestamp:desc',
         limit: limit,
         offset: (pageNo - 1) * limit
       }
