@@ -1,6 +1,6 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <q-page class="row gutter-xs">
+  <q-page class="row gutter-xs layout-padding">
         <div class="col-7 shadow-1">
           <q-table :data="delegatesData" :filter="filter" color="primary"
           selection="multiple" :selected.sync="selected" row-key="address"
