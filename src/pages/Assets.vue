@@ -13,7 +13,7 @@
             <q-btn v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
           </q-card-main>
       </q-card>
-    <!-- <q-card >
+    <q-card >
       <q-card-title>
         {{$t('CROSS_ASSETS')}}
       </q-card-title>
@@ -28,10 +28,10 @@
           </q-card-main>
         </q-card>
         </q-card-main>
-    </q-card> -->
+    </q-card>
 
     <deposit-modal :user="userInfo" :assets="innerBalance" :asset="asset" 
-      :show="depositPanelShow" :haveAdd="true" @close="depositPanelShow=false" />
+      :show="depositPanelShow" :haveAdd="false" @close="depositPanelShow=false" />
     <withdraw-modal :user="userInfo" :assets="innerBalance" :asset="asset" 
       :show="withdrawPanelShow" :haveAdd="true" @close="withdrawPanelShow=false" />
     <more-asset-modal :show="moreAssetsModalShow" @close="moreAssetsModalShow=false" @deposit="depositNewAsset"/>

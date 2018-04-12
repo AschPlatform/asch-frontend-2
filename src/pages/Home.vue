@@ -55,7 +55,7 @@
         </q-card>
       </div>
         <div class="col-7">
-          <trans-record-container :userInfo="userInfo" />
+          <trans-record-container  :userInfo="userInfo" />
         </div>
     </div>
     

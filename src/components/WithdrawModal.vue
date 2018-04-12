@@ -50,7 +50,9 @@ export default {
         fee: '0.1',
         remark: '',
         currency: ''
-      }
+      },
+      balance: '',
+      precision: 0
     }
   },
   validations: {

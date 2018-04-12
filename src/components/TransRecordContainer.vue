@@ -1,15 +1,17 @@
 <template>
-<div>
-
-  <q-table :data="trans" 
-    :columns="columns" row-key="id" :pagination.sync="pagination"
-    @request="request" :loading="loading" :filter="filter" 
-    :visible-columns="visibleColumns" :title="$t('DAPP_TRANSACTION_RECORD')">
-
-    <template slot="top-right" slot-scope="props">
-      <q-table-columns color="primary" class="q-mr-sm" v-model="visibleColumns" :columns="columns" />
-      <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-    </template>
+  <div>
+  
+    <q-table :data="trans" :columns="columns" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="$t('DAPP_TRANSACTION_RECORD')">
+  
+      <template slot="top-right" slot-scope="props">
+        <q-btn-toggle v-model="type"
+    toggle-color="primary"
+    :options="[
+      {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},
+      {label: $t('TRS_TYPE_TRANSFER_RECORD'), value: 2},
+    ]" />
+        <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+</template>
 
     
 
@@ -103,16 +105,23 @@
     </q-modal>
 </div>
 </template>
+
 <script>
 import { fullTimestamp, convertFee } from '../utils/asch'
-import { QTable, QTd, QTableColumns, QTooltip } from 'quasar'
+import { QTable, QTd, QTableColumns, QTooltip, QBtnToggle } from 'quasar'
 import { transTypes } from '../utils/constants'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'TransTableContainer',
   props: ['userInfo', 'currency'],
-  components: { QTable, QTd, QTableColumns, QTooltip },
+  components: {
+    QTable,
+    QTd,
+    QTableColumns,
+    QTooltip,
+    QBtnToggle
+  },
   data() {
     return {
       trans: [],
@@ -122,94 +131,11 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 10
       },
-      columns: [
-        {
-          name: 'opt',
-          label: this.$t('OPERATION'),
-          field: 'opt',
-          align: 'center'
-        },
-        {
-          name: 'id',
-          label: 'ID',
-          field: 'id'
-        },
-        {
-          name: 'type',
-          label: this.$t('TYPE'),
-          field: 'type',
-          align: 'center',
-          filter: true,
-          format: value => {
-            return this.getTransType(value)
-          }
-        },
-        {
-          name: 'senderId',
-          label: this.$t('SENDER'),
-          field: 'senderId',
-          align: 'center',
-          format: value => {
-            let isMySelf = this.matchSelf(value)
-            return isMySelf ? 'Me' : value
-          }
-        },
-        {
-          name: 'recipientId',
-          label: this.$t('RECIPIENT'),
-          field: 'recipientId',
-          align: 'center',
-          format: value => {
-            if (value === '') {
-              return 'SYSTEM'
-            }
-            let isMySelf = this.matchSelf(value)
-            return isMySelf ? 'Me' : value
-          }
-        },
-        {
-          name: 'timestamp',
-          label: this.$t('DATE'),
-          field: 'timestamp',
-          width: '180px',
-          format: value => {
-            return this.formatTimestamp(value)
-          },
-          type: 'number'
-        },
-        {
-          name: 'amount',
-          label: this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')',
-          field: 'amount',
-          filter: true,
-          classes: 'text-right',
-          // sortable: true,
-          type: 'number',
-          width: '100px'
-        },
-        {
-          name: 'message',
-          label: this.$t('REMARK'),
-          field: 'message',
-          filter: true,
-          // sortable: true,
-          type: 'string',
-          width: '120px'
-        }
-      ],
+      columns: this.dynamicCol,
       filter: '',
-      visibleColumns: [
-        'opt',
-        'id',
-        'type',
-        'senderId',
-        'recipientId',
-        'timestamp',
-        'amount',
-        'message'
-      ],
       row: null,
-      modalInfoShow: false
+      modalInfoShow: false,
+      type: 1
     }
   },
   methods: {
@@ -244,7 +170,12 @@ export default {
       if (this.currency) {
         condition.currency = this.currency
       }
-      let res = await this.getTransactions(condition)
+      let res
+      if (this.type === 1) {
+        res = await this.getTransactions(condition)
+      } else {
+        res = await this.getTransactions(condition)
+      }
       this.trans = res.transactions
       // set max
       this.pagination.rowsNumber = res.count
@@ -275,6 +206,163 @@ export default {
   mounted() {
     this.getTrans()
   },
+  computed: {
+    dynamicCol() {
+      if (this.type === 1) {
+        return [
+          {
+            name: 'opt',
+            label: this.$t('OPERATION'),
+            field: 'opt',
+            align: 'center'
+          },
+          {
+            name: 'id',
+            label: 'ID',
+            field: 'id'
+          },
+          {
+            name: 'type',
+            label: this.$t('TYPE'),
+            field: 'type',
+            align: 'center',
+            filter: true,
+            format: value => {
+              return this.getTransType(value)
+            }
+          },
+          {
+            name: 'senderId',
+            label: this.$t('SENDER'),
+            field: 'senderId',
+            align: 'center',
+            format: value => {
+              let isMySelf = this.matchSelf(value)
+              return isMySelf ? 'Me' : value
+            }
+          },
+          {
+            name: 'recipientId',
+            label: this.$t('RECIPIENT'),
+            field: 'recipientId',
+            align: 'center',
+            format: value => {
+              if (value === '') {
+                return 'SYSTEM'
+              }
+              let isMySelf = this.matchSelf(value)
+              return isMySelf ? 'Me' : value
+            }
+          },
+          {
+            name: 'timestamp',
+            label: this.$t('DATE'),
+            field: 'timestamp',
+            width: '180px',
+            format: value => {
+              return this.formatTimestamp(value)
+            },
+            type: 'number'
+          },
+          {
+            name: 'amount',
+            label: this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')',
+            field: 'amount',
+            filter: true,
+            classes: 'text-right',
+            // sortable: true,
+            type: 'number',
+            width: '100px'
+          },
+          {
+            name: 'message',
+            label: this.$t('REMARK'),
+            field: 'message',
+            filter: true,
+            // sortable: true,
+            type: 'string',
+            width: '120px'
+          }
+        ]
+      } else {
+        return [
+          {
+            name: 'opt',
+            label: this.$t('OPERATION'),
+            field: 'opt',
+            align: 'center'
+          },
+          {
+            name: 'id',
+            label: 'ID',
+            field: 'id'
+          },
+          {
+            name: 'type',
+            label: this.$t('TYPE'),
+            field: 'type',
+            align: 'center',
+            filter: true,
+            format: value => {
+              return this.getTransType(value)
+            }
+          },
+          {
+            name: 'senderId',
+            label: this.$t('SENDER'),
+            field: 'senderId',
+            align: 'center',
+            format: value => {
+              let isMySelf = this.matchSelf(value)
+              return isMySelf ? 'Me' : value
+            }
+          },
+          {
+            name: 'recipientId',
+            label: this.$t('RECIPIENT'),
+            field: 'recipientId',
+            align: 'center',
+            format: value => {
+              if (value === '') {
+                return 'SYSTEM'
+              }
+              let isMySelf = this.matchSelf(value)
+              return isMySelf ? 'Me' : value
+            }
+          },
+          {
+            name: 'timestamp',
+            label: this.$t('DATE'),
+            field: 'timestamp',
+            width: '180px',
+            format: value => {
+              return this.formatTimestamp(value)
+            },
+            type: 'number'
+          },
+          {
+            name: 'amount',
+            label: this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')',
+            field: 'amount',
+            filter: true,
+            classes: 'text-right',
+            // sortable: true,
+            type: 'number',
+            width: '100px'
+          },
+          {
+            name: 'message',
+            label: this.$t('REMARK'),
+            field: 'message',
+            filter: true,
+            // sortable: true,
+            type: 'string',
+            width: '120px'
+          }
+        ]
+      }
+    }
+  },
   watch: {
     userInfo(val) {
       this.getTrans()
@@ -282,6 +370,7 @@ export default {
   }
 }
 </script>
+
 <style lang="stylus" scoped>
 .trans-table {
   margin-top: 3%;

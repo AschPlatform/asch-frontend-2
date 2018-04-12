@@ -20,6 +20,7 @@ const lang = {
 
   // transaction type filter
   TRS_TYPE_TRANSFER: '转账',
+  TRS_TYPE_TRANSFER_RECORD: '转账',
   TRS_TYPE_SECOND_PASSWORD: '二级密码',
   TRS_TYPE_DELEGATE: '受托人',
   TRS_TYPE_VOTE: '投票',

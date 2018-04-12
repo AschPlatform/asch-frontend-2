@@ -26,9 +26,7 @@ export default {
     TransPanel
   },
   data() {
-    return {
-      asset: { currency: 'XAS', precision: 8 }
-    }
+    return {}
   },
   methods: {},
   mounted() {},
@@ -40,17 +38,17 @@ export default {
     assets() {
       if (this.userInfo) {
         let balances = this.balances
-        let account = this.userInfo.account
-        let XASAsset = {
-          currency: 'XAS',
-          precision: 8,
-          balance: account.xas
-        }
-        // balances.unshift()
-        let assets = [XASAsset].concat(balances)
+        let assets = [this.asset].concat(balances)
         return assets
       } else {
         return []
+      }
+    },
+    asset() {
+      return {
+        currency: 'XAS',
+        precision: 8,
+        balance: this.user && this.user.account ? this.user.account.xas : 0
       }
     }
   },

@@ -174,7 +174,7 @@ api2.transactions = params => {
 }
 
 // 根据 tid 获取交易详情
-api2.transactions = params => {
+api2.transaction = params => {
   return fetch(urls.v2.transaction, params, 'get')
 }
 

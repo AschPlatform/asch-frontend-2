@@ -44,7 +44,6 @@ export default {
     async getAllCouncils() {
       let context = {}
       let result = await this.getCouncils(context)
-      debugger
       if (result.success) {
         this.councils = result.councils
       }

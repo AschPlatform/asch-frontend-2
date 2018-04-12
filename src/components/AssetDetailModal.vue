@@ -22,8 +22,8 @@
             </q-card-actions>
           </q-card> -->
           
-          <assets-panel type='inner' :asset="asset" @transfer="transfer"/>
-          <assets-panel type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw"/>
+          <assets-panel v-if="isCross" type='inner' :asset="asset" @transfer="transfer"/>
+          <assets-panel v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw"/>
           <q-card class="col-4">
             <q-card-main>
               <table>
@@ -151,7 +151,15 @@ export default {
       this.close()
     }
   },
-  computed: {},
+  computed: {
+    isCross() {
+      if (this.asset.symbol) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   watch: {}
 }
 </script>

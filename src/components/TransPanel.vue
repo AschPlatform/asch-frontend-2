@@ -143,7 +143,10 @@ export default {
   },
   mounted() {
     if (this.asset) {
-      this.form.currency = this.asset.currency
+      let { currency, precision, balance } = this.asset
+      this.form.currency = currency
+      this.balance = balance
+      this.precision = precision
     }
   },
   computed: {
