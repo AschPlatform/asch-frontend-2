@@ -18,7 +18,7 @@
         {{$t('CROSS_ASSETS')}}
       </q-card-title>
         <q-card-main class="row gutter-xs">
-        <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open"/>
+        <assets-panel v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open"/>
         <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
         <q-card class="col-4" >
           <q-card-main>
@@ -98,6 +98,7 @@ export default {
       let res = await this.getBalances({
         address: this.user.account.address,
         limit: limit,
+        flag: 2,
         offset: (pageNo - 1) * limit
       })
       if (res.success) {
@@ -116,6 +117,7 @@ export default {
       let res = await this.getBalances({
         address: this.user.account.address,
         limit: limit,
+        flag: 3,
         offset: (pageNo - 1) * limit
       })
       if (res.success) {

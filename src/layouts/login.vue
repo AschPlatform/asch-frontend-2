@@ -170,7 +170,6 @@ export default {
             }
           })
         } else {
-          
           toastError(t('ERR_SERVER_ERROR'))
           this.loading = false
         }

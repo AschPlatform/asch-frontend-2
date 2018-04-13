@@ -9,7 +9,7 @@
         <div class="row justify-center ">
           <jdenticon class="self-center" :address="address" :size="60" />
           <div class="col-12 text-center">
-            {{$t('HELLO')+','}}<a class="text-blue" v-if="!userNickname"  :label="$t('SET_NICKNAME')"  @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <p v-else>{{nickname}}</p>
+            {{$t('HELLO')+','}}<a class="text-blue" v-if="!userNickname"  :label="$t('SET_NICKNAME')"  @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else>{{userNickname}}</span>
           </div>
           <div class="col-12 text-center" >
             {{address}} <q-btn v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
@@ -44,9 +44,9 @@
                 <td>
                   <div v-if="lockInfo">
                     <span>
-                      {{$t('LOCK_DETAIL',{amount:this.lockInfo.amount,date:this.lockInfo.time})}}
+                      {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
                     </span>
-                    <a class="text-blue" @click="editLock">{{$t('EDIT')}}</a>
+                    <a class="text-blue" @click="lockPanelShow=true">{{$t('EDIT')}}</a>
                     <a v-if="this.lockInfo.expire" class="text-blue" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
                   <a v-else class="text-blue" @click="lockPanelShow=true">
@@ -58,7 +58,7 @@
                 <td>{{$t('AGENT_INFO')}}</td>
                 <td>
                   <span v-if="isAgent">
-
+                    {{$t('IS_AGENT')}}
                   </span>
                     <a v-else class="text-blue" @click="userAgreementShow=true">
                     {{$t('REGISTER_AGENT')}}
@@ -111,7 +111,7 @@
         <q-field class="col-10" :label="$t('NICKNAME')" :label-width="4" :error="$v.nickname.$error" :error-label="$t('ERR_NICKNAME')" :helper="$t('NICKNAME_TIP')">
           <q-input @blur="$v.nickname.$touch"  v-model="nickname" />
         </q-field>
-         <q-field v-show="secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+         <q-field v-show="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="4"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
           <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
         </q-field>
         <table class="q-table bordered  responsive ">
@@ -168,7 +168,7 @@
           format24h
         />
         </q-field>
-        <q-field v-show="secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+        <q-field v-show="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="4"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
           <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
         </q-field>
       </div>
@@ -197,7 +197,7 @@ import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
 let today = new Date()
-today = date.addToDate(today, { days: 7 })
+today = date.addToDate(today, { days: 31 })
 
 export default {
   props: ['userObj'],
@@ -370,7 +370,8 @@ export default {
     },
     async registerAgent(flag = true) {
       const t = this.$t
-      if (this.secondSignature && flag) {
+      let secondFlag = this.secondSignature && flag
+      if (secondFlag) {
         prompt(
           {
             title: t('REGISTER_AGENT'),
@@ -385,6 +386,7 @@ export default {
             this.registerAgent(false)
           }
         )
+        return
       }
       if (this.secondSignature && this.pwdValid) {
         toastError(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
@@ -415,6 +417,7 @@ export default {
       if (res.success === true) {
         toast(this.$t('INF_POSITIONLOCK_SET_SUCCESS'))
         this.locked = true
+        this.lockPanelShow = false
       } else {
         translateErrMsg(this.$t, res.error)
       }
@@ -428,7 +431,7 @@ export default {
       let lockHeight = this.user.account.lockHeight
       let height = this.latestBlock.height
       if (height <= lockHeight) {
-        toast('HEIGHT_NOT_ARRIVE')
+        toastError(this.$t('HEIGHT_NOT_ARRIVE'))
       } else {
         let trans = asch.unlock()
         let res = await this.broadcastTransaction(trans)
@@ -441,6 +444,9 @@ export default {
     },
     jump2Doc() {
       openURL('https://github.com/AschPlatform/asch/tree/master/docs')
+    },
+    convertFee(value) {
+      return convertFee(value)
     }
   },
   async mounted() {},
@@ -464,13 +470,25 @@ export default {
       return this.userInfo && this.userInfo.account ? this.userInfo.account.address : 'nothing'
     },
     userNickname() {
-      return ''
+      return this.user.account.name
     },
     isAgent() {
-      return false
+      return this.user.account.isAgent
     },
     lockInfo() {
-      return ''
+      if (this.user.account.isLocked) {
+        let { timestamp, height } = this.latestBlock
+        let lockHeight = this.user.account.lockHeight
+        let diff = lockHeight - height
+        timestamp = timestamp + diff * 10
+        let lockInfo = {}
+        lockInfo.amount = this.user.account.weight
+        lockInfo.time = fullTimestamp(timestamp) // TODO
+        lockInfo.expire = height > lockHeight
+        return lockInfo
+      } else {
+        return null
+      }
     },
     numLimit() {
       if (this.user) {

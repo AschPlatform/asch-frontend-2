@@ -6,7 +6,8 @@
     toggle-color="primary"
     :options="[
       {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},
-      {label: $t('TRS_TYPE_TRANSFER_RECORD'), value: 2},
+      {label: $t('DEPOSIT')+$t('RECORD'), value: 2},
+      {label: $t('WITHDRAW')+$t('RECORD'), value: 3}
     ]" />
         <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
 </template>
@@ -35,6 +36,10 @@
       {{getAmountNFee(props.row)}}
     </q-td>
 
+    <q-td slot="body-cell-crossAmount" slot-scope="props" :props="props">
+      {{props.value | fee(props.row.percision)}}
+    </q-td>
+
     <q-td slot="body-cell-senderId" class="table-address" slot-scope="props" :props="props">
       <a @click="getAccountInfo(props.row.senderId)">
               {{matchSelf(props.value)?'Me':props.value}}
@@ -54,51 +59,6 @@
       <div v-else>SYSTEM</div>
     </q-td>
   </q-table>
-
-  <q-modal minimized no-backdrop-dismiss  v-model="modalInfoShow" content-css="padding: 20px">
-      <big>{{$t('DAPP_DETAIL')}}</big>
-      <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
-        <tbody class='info-tbody'>
-          <tr v-clipboard="row.id" @success="info('copy ID success...')">
-            <td >{{'ID'}}</td>
-            <td >{{row.id}}</td>
-          </tr>
-          <tr>
-            <td >{{$t('TYPE')}}</td>
-            <td >{{getTransType(row.type)}}</td>
-          </tr>
-          <tr  v-clipboard="row.senderId" @success="info('copy senderId success...')">
-            <td >{{$t('SENDER')}}</td>
-            <td >{{row.senderId}}</td>
-          </tr>
-          <tr v-clipboard="row.recipientId" @success="info('copy recipientId success...')">
-            <td >{{$t('RECIPIENT')}}</td>
-            <td >{{row.recipientId}}</td>
-          </tr>
-          <tr v-clipboard="this.formatTimestamp(row.timestamp)" @success="info('copy date success...')">
-            <td >{{$t('DATE')}}</td>
-            <td >{{this.formatTimestamp(row.timestamp)}}</td>
-          </tr>
-          <tr v-clipboard="getAmountNFee(row)" @success="info('copy amount success...')">
-            <td >{{this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')'}}</td>
-            <td >{{getAmountNFee(row)}}</td>
-          </tr>
-          <tr v-clipboard="row.message" @success="info('copy message success...')">
-            <td >{{$t('REMARK')}}</td>
-            <td >{{row.message}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <br/>
-      <q-btn
-        color="primary"
-        @click="()=>{
-          this.modalInfoShow = false
-          this.row = {}
-          }"
-        label="Close"
-      />
-    </q-modal>
 </div>
 </template>
 
@@ -106,11 +66,11 @@
 import { fullTimestamp, convertFee } from '../utils/asch'
 import { QTable, QTd, QTableColumns, QTooltip, QBtnToggle } from 'quasar'
 import { transTypes } from '../utils/constants'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  name: 'TransTableContainer',
-  props: ['userInfo', 'currency'],
+  name: 'AssetRecordContainer',
+  props: ['currency'],
   components: {
     QTable,
     QTd,
@@ -135,7 +95,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getTransactions']),
+    ...mapActions(['getTransactions', 'getMyCurrencyDeposits', 'getMyCurrencyWithdrawals']),
     info(message) {
       this.$q.notify({
         type: 'positive',
@@ -152,6 +112,7 @@ export default {
       await this.getTrans(props.pagination, props.filter)
     },
     async getTrans(pagination = {}, filter = '') {
+      // TODO
       this.loading = true
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
@@ -169,10 +130,23 @@ export default {
       let res
       if (this.type === 1) {
         res = await this.getTransactions(condition)
-      } else {
-        res = await this.getTransactions(condition)
+        this.trans = res.transactions
+      } else if (this.type === 2) {
+        condition = this._.merge({}, condition, {
+          address: this.userInfo.account.address,
+          currency: this.currency
+        })
+        res = await this.getMyCurrencyDeposits(condition)
+        this.trans = res.deposits
+      } else if (this.type === 3) {
+        condition = this._.merge({}, condition, {
+          address: this.userInfo.account.address,
+          currency: this.currency
+        })
+        res = await this.getMyCurrencyWithdrawals(condition)
+        this.trans = res.deposits
       }
-      this.trans = res.transactions
+
       // set max
       this.pagination.rowsNumber = res.count
       this.loading = false
@@ -206,10 +180,9 @@ export default {
       }
     }
   },
-  mounted() {
-    this.getTrans()
-  },
+  mounted() {},
   computed: {
+    ...mapGetters(['userInfo']),
     dynamicCol() {
       if (this.type === 1) {
         return [
@@ -288,79 +261,52 @@ export default {
           }
         ]
       } else {
+        // CROSS
         return [
+          // {
+          //   name: 'tid',
+          //   label: 'TID',
+          //   field: 'tid'
+          // },
+          // {
+          //   name: 'oid',
+          //   label: 'OID',
+          //   field: 'oid'
+          // },
           {
-            name: 'opt',
-            label: this.$t('OPERATION'),
-            field: 'opt',
+            name: 'crossAmount',
+            label: this.$t('AMOUNT'),
+            field: 'amount',
             align: 'center'
           },
           {
-            name: 'id',
-            label: 'ID',
-            field: 'id'
+            name: 'address',
+            label: this.$t('ADDRESS'),
+            field: 'address',
+            align: 'center'
           },
           {
-            name: 'type',
-            label: this.$t('TYPE'),
-            field: 'type',
-            align: 'center',
-            filter: true,
-            format: value => {
-              return this.getTransType(value)
-            }
+            name: 'confirmations',
+            label: this.$t('CONFIRMATIONS'),
+            field: 'confirmations',
+            align: 'center'
           },
           {
-            name: 'senderId',
-            label: this.$t('SENDER'),
-            field: 'senderId',
+            name: 'processed',
+            label: this.$t('PROCESSED'),
+            field: 'processed',
             align: 'center',
             format: value => {
-              let isMySelf = this.matchSelf(value)
-              return isMySelf ? 'Me' : value
-            }
-          },
-          {
-            name: 'recipientId',
-            label: this.$t('RECIPIENT'),
-            field: 'recipientId',
-            align: 'center',
-            format: value => {
-              if (value === '') {
-                return 'SYSTEM'
-              }
-              let isMySelf = this.matchSelf(value)
-              return isMySelf ? 'Me' : value
+              return value === 1 ? this.$t('PROCESS') : this.$t('DONE')
             }
           },
           {
             name: 'timestamp',
             label: this.$t('DATE'),
             field: 'timestamp',
-            width: '180px',
             format: value => {
               return this.formatTimestamp(value)
-            },
-            type: 'number'
-          },
-          {
-            name: 'amount',
-            label: this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')',
-            field: 'amount',
-            filter: true,
-            classes: 'text-right',
-            // sortable: true,
-            type: 'number',
-            width: '100px'
-          },
-          {
-            name: 'message',
-            label: this.$t('REMARK'),
-            field: 'message',
-            filter: true,
-            // sortable: true,
-            type: 'string',
-            width: '120px'
+            }
           }
         ]
       }

@@ -20,7 +20,7 @@ const lang = {
 
   // transaction type filter
   TRS_TYPE_TRANSFER: '转账',
-  TRS_TYPE_TRANSFER_RECORD: '转账',
+  TRS_TYPE_TRANSFER_RECORD: '转账记录',
   TRS_TYPE_SECOND_PASSWORD: '二级密码',
   TRS_TYPE_DELEGATE: '受托人',
   TRS_TYPE_VOTE: '投票',
@@ -324,6 +324,7 @@ const lang = {
 
   // ============== new add =================
 
+  RECORD: '记录',
   MAIN_ASSET: '主资产',
   SEE_ALL_ASSETS: '查看全部资产',
   TRANSFER_TIP: '钱包转账为不可逆，请务必核对收款地址',
@@ -376,6 +377,7 @@ const lang = {
   HIGHEST_LOCK: '最高可锁仓',
   LOCK_DETAIL: '已锁仓额度：{amount} XAS 锁仓截止时间: {date}',
   AGENT_INFO: '代理人身份',
+  IS_AGENT: '已经是代理人',
   REGISTER_AGENT: '注册成为代理人',
   EDIT: '修改',
   UNLOCK: '解锁',
@@ -384,7 +386,7 @@ const lang = {
   UNLOCK_TIPS:
     '锁仓后，该部分额度将无法用于投票/转账在内的日常消耗，请根据实际情况预留出投票/转账等需要用到的额度',
   SET_UNLOCK_TIME: '选择时间',
-  HEIGHT_NOT_ARRIVE: '高度未到达',
+  HEIGHT_NOT_ARRIVE: '未到解锁时间',
   NO_ISSUER_INFO: '您还不是发行商',
   COST_FEE: '将消耗 {num} XAS',
   GATEWAY_CANDIDATE: '网关候选人',
@@ -404,6 +406,9 @@ const lang = {
   VOTE_TIME: '投票时间',
   AGENT_WEIGHT: '代理权重',
   PLEASE_SET_NAME: '请先设置昵称',
+  PROCESSED: '完成情况',
+  DONE: '完成',
+  PROCESS: '进行中',
   proposal: {
     No: '提案编号',
     INITIATOR: '发起人',

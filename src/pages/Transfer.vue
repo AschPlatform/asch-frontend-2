@@ -45,10 +45,14 @@ export default {
       }
     },
     asset() {
-      return {
-        currency: 'XAS',
-        precision: 8,
-        balance: this.user && this.user.account ? this.user.account.xas : 0
+      if (this.user) {
+        return {
+          currency: 'XAS',
+          precision: 8,
+          balance: this.user.account.xas
+        }
+      } else {
+        return null
       }
     }
   },

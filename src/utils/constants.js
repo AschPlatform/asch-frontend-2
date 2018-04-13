@@ -314,6 +314,7 @@ const urls = {
   }
 }
 
+// TODO
 const transTypes = [
   'TRS_TYPE_TRANSFER',
   'TRS_TYPE_SECOND_PASSWORD',

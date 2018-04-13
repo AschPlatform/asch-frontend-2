@@ -114,7 +114,6 @@ export default {
           this.secondPwd
         )
       }
-
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_TRANSFER_SUCCESS'))
@@ -130,7 +129,6 @@ export default {
     },
     resetForm() {
       this.form = {
-        currency: '',
         receiver: '',
         amount: '',
         secondPwd: '',
