@@ -36,6 +36,11 @@
             {{operationBtn(props.value)}}
           </q-btn>
         </q-td>
+        <q-td slot="body-cell-period" slot-scope="props" :props="props">
+          <!-- <q-btn flat :label="$t('proposal.OPERATION')" color="primary"> -->
+            {{props.value | jparse('updateInterval', true)}}
+          <!-- </q-btn> -->
+        </q-td>
       </q-table>
 
     <!-- modal area -->
@@ -45,6 +50,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import {
   QPage,
   QBtnGroup,
@@ -118,7 +124,7 @@ export default {
           required: true,
           label: this.$t('proposal.PERIOD'),
           align: 'center',
-          field: 'period'
+          field: 'content'
         },
         {
           name: 'desc',
@@ -127,13 +133,13 @@ export default {
           align: 'center',
           field: 'desc'
         },
-        {
-          name: 'approve',
-          required: true,
-          label: this.$t('proposal.APPROVE'),
-          align: 'center',
-          field: 'approve'
-        },
+        // {
+        //   name: 'approve',
+        //   required: true,
+        //   label: this.$t('proposal.APPROVE'),
+        //   align: 'center',
+        //   field: 'approve'
+        // },
         {
           name: 'operation',
           required: true,
