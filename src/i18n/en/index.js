@@ -159,6 +159,7 @@ const lang = {
   STRATEGY_WARNING: 'If you do not know how to use it, do not arbitrarily set this field',
   CHANGE_ACL_MODAL: 'Change ACL modal',
   CHANGE_TO: 'Change to',
+  COPY_SUCCESS: 'copy success',
 
   // personal
   ACCOUNT_INFO: 'Account Info',
