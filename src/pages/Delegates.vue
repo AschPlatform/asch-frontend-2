@@ -22,10 +22,11 @@
             {{props.value}}
           </div>
         </q-td>
-        <q-td slot="body-cell-username"  slot-scope="props" :props="props">
-          <div>
-            {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
-          </div>
+        <q-td slot="body-cell-nickname"  slot-scope="props" :props="props">
+          <!-- <div> -->
+            {{props.value}}
+            <!-- <q-icon v-if="props.row.voted" name="check circle" color="positive"/> -->
+          <!-- </div> -->
         </q-td>
         <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
           <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
@@ -57,7 +58,7 @@
               <td >{{$t('ADDRESS')}}</td>
             </tr>
             <tr v-for="delegate in selected" :key="delegate.address">
-              <td >{{delegate.username}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
+              <td >{{delegate.name}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
               <td >{{delegate.address}} </td>
             </tr>
           </tbody>
@@ -104,9 +105,9 @@ export default {
           align: 'center'
         },
         {
-          name: 'username',
+          name: 'nickname',
           label: this.$t('DELEGATE'),
-          field: 'username',
+          field: 'name',
           type: 'string'
         },
         {

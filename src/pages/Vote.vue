@@ -1,6 +1,6 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <q-page class="row gutter-xs">
+  <q-page class="row gutter-xs layout-padding">
         <div class="col-7 shadow-1">
           <q-table :data="delegatesData" :filter="filter" color="primary"
           selection="multiple" :selected.sync="selected" row-key="address"
@@ -59,7 +59,7 @@
                   <td >{{$t('ADDRESS')}}</td>
                 </tr>
                 <tr v-for="delegate in selected" :key="delegate.address">
-                  <td >{{delegate.username}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
+                  <td >{{delegate.name}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
                   <td >{{delegate.address}} </td>
                 </tr>
               </tbody>
@@ -80,8 +80,8 @@
 <script>
 import { QTabs, QRouteTab, QPage, QTab, QTabPane } from 'quasar'
 import { translateErrMsg } from '../utils/api'
-import { toast } from '../utils/util'
-import { createVote } from '../utils/asch'
+import { toast, toastWarn } from '../utils/util'
+// import { createVote } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
 import voteRecord from '../components/voteRecord'
@@ -122,7 +122,7 @@ export default {
         {
           name: 'username',
           label: this.$t('DELEGATE'),
-          field: 'username',
+          field: 'name',
           type: 'string'
         },
         {
@@ -203,7 +203,7 @@ export default {
         this.selected = []
         return
       }
-      let trans = createVote(this.selectedDelegate, this.user.secret, this.secondPwd)
+      let trans = asch.voteDelegate(this.selectedDelegate, this.user.secret, this.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_VOTE_SUCCESS'))
@@ -216,6 +216,10 @@ export default {
       this.secondPwd = ''
     },
     vote() {
+      if (this.user.account.isLocked === 0) {
+        toastWarn(this.$t('PLEASE_LOCK'))
+        return
+      }
       this.dialogShow = true
     },
     async setAgent(name, cb = () => {}) {

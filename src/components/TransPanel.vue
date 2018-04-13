@@ -169,7 +169,7 @@ export default {
   },
   watch: {
     'form.currency'(val) {
-      if (val) {
+      if (val && this.assetsMap[val]) {
         this.balance = this.assetsMap[val].balance
         this.precision = this.assetsMap[val].precision
       }

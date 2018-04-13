@@ -233,13 +233,37 @@ const urls = {
     currencyWithdrawals: {
       url: '/api/v2/gateways/withdrawals/:currency'
     },
-    // 获取指定地址的跨链提现记录
+    // 获取指定地址的跨链提现记录 ?
     myWithdrawals: {
       url: '/api/v2/gateways/withdrawals/my/:address'
     },
     // 获取指定地址指定币种的跨链提现记录
     myCurrencyWithdrawals: {
-      url: '/api/v2/gateways/withdrawals/my/:address/:currency'
+      url: '/api/v2/gateways/withdrawals/:address/:currency'
+    },
+    // 获取所有网关
+    gateways: {
+      url: '/api/v2/gateways/'
+    },
+    // 获取指定网关的验证者
+    gateValidators: {
+      url: '/api/v2/gateways/:name/validators'
+    },
+    // 获取指定网关的支持币种
+    gateCurrencies: {
+      url: '/api/v2/gateways/:name/currencies'
+    },
+    // 获取指定用户地址的所有网关账户
+    gateAccountAddr: {
+      url: '/api/v2/gateways/accounts/:address'
+    },
+    // 获取指定用户地址指定币种的所有充值记录
+    gateAccountDeposits: {
+      url: '/api/v2/gateways/deposits/:address/:currency'
+    },
+    // 获取指定用户地址指定币种的所有提现记录
+    gateAccountWithdrawals: {
+      url: '/api/v2/gateways/withdrawals/:address/:currency'
     },
     // 获取支持的所有跨链资产列表
     currencies: {

@@ -140,8 +140,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['login']),
-    ...mapMutations(['setUserInfo', 'updateUserInfo']),
+    ...mapActions(['getAccountsInfo']),
+    ...mapMutations(['setUserInfo', 'updateUserInfo', 'setUserIsLogin']),
     async userLogin(e, done) {
       this.loading = true
       const t = this.$t
@@ -152,10 +152,11 @@ export default {
         return
       }
       let publicKey = getPub(this.secret)
+      let address = getAddr(publicKey)
       let user = {}
       try {
-        let data = await this.login({
-          publicKey: publicKey
+        let data = await this.getAccountsInfo({
+          address
         })
         if (data.success === true) {
           user = data
@@ -163,8 +164,8 @@ export default {
           user.publicKey = publicKey
           this.remember ? setCache('user', user) : removeCache('user')
           this.updateUserInfo(user)
-          // 是否登录的全局变量
           this.loading = false
+          this.setUserIsLogin(true)
           this.$router.push({
             name: 'home',
             params: {

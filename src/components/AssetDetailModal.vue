@@ -3,7 +3,7 @@
     <q-modal-layout>
         <q-toolbar slot="header">
           <q-toolbar-title>
-           {{$t('ASSET_DETAIL',{currency:asset.symbol})}}
+           {{$t('ASSET_DETAIL',{currency:asset.currency})}}
           </q-toolbar-title>
         </q-toolbar>
         <q-toolbar slot="footer">
@@ -152,8 +152,7 @@ export default {
     }
   },
   computed: {},
-  watch: {
-  }
+  watch: {}
 }
 </script>
 <style lang="stylus" scoped>
