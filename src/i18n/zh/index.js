@@ -118,6 +118,7 @@ const lang = {
   READ_TIP2: '我理解如果我忘记或丢失了密码，将没有任何人能够帮助我恢复',
   READ_TIP3: '我已经写下了或者用其它方式保存了我的密码',
   CHOSE_SERVER: '选择服务器',
+  COPY_SUCCESS: '复制成功',
 
   // transfer/pay
   SEND: '发送',
