@@ -7,28 +7,28 @@
           </q-btn>
         </q-card-title>
         <div class="row">
-          <q-field :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8">
-            <q-input v-model="p_title" />
+          <q-field :error-label="$t('ERR.ERR_5_30')" :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8">
+            <q-input v-model="p_title" @focus="$v.p_title.$reset()" @blur="$v.p_title.$touch()" :error="$v.p_title.$error"/>
           </q-field>
         </div>
         <div class="row">
-          <q-field :label-width="3"  :label="$t('proposal.SELECT_P_TYPE')" class="col-4">
-            <q-select v-model="first_type" :options="proposalType"/>
+          <q-field :label-width="3" :error-label="$t('ERR.ERR_REQUIRE_TYPE')" :label="$t('proposal.SELECT_P_TYPE')" class="col-4">
+            <q-select v-model="first_type" :options="proposalType" @blur="$v.first_type.$touch()" :error="$v.first_type.$error"/>
           </q-field>
-          <q-field class="col-4 q-ml-lg" v-show="this.first_type === 'change'">
-            <q-select v-model="p_selected" :options="councilList" :placeholder="$t('proposal.SELECT_P_COUNCIL')"/>
+          <q-field class="col-4 q-ml-lg" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change'">
+            <q-select v-model="p_selected" :options="councilList" @blur="$v.p_selected.$touch()" :error="$v.p_selected.$error" :placeholder="$t('proposal.SELECT_P_COUNCIL')"/>
           </q-field>
-          <q-field class="col-4 q-ml-lg" v-show="this.first_type === 'change_n'">
-            <q-select v-model="p_selected" :options="netList" :placeholder="$t('proposal.SELECT_P_NET')"/>
+          <q-field class="col-4 q-ml-lg" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change_n'">
+            <q-select v-model="p_selected" :options="netList" @blur="$v.p_selected.$touch()" :error="$v.p_selected.$error" :placeholder="$t('proposal.SELECT_P_NET')"/>
           </q-field>
         </div>
         <div class="row">
-          <q-field :label-width="4"  :label="$t('proposal.SELECT_P_PERIOD')" class="col-3">
-            <q-datetime min="2018-04-05" v-model="p_time_start"/>
+          <q-field :label-width="4" :error-label="$t('ERR.ERR_REQUIRE_TIME')"  :label="$t('proposal.SELECT_P_PERIOD')" class="col-3">
+            <q-datetime min="2018-04-05" v-model="p_time_start" @blur="$v.p_time_start.$touch()" :error="$v.p_time_start.$error"/>
           </q-field>
-          <span class="self-center col-1">至</span>
-          <q-field class="col-3 q-ml-xl">
-            <q-datetime v-model="p_time_end"/>
+          <span class="self-center col-1" align="center">至</span>
+          <q-field class="col-3 q-ml-xl" :error-label="$t('ERR.ERR_REQUIRE_TIME')">
+            <q-datetime v-model="p_time_end" @blur="$v.p_time_end.$touch()" :error="$v.p_time_end.$error"/>
           </q-field>
         </div>
         <q-card-separator class="q-my-lg"/>
@@ -42,19 +42,20 @@
           <q-field v-show="this.first_type !== 'new' && this.first_type !== 'new_n' && this.first_type !== null && this.first_type !== null"
           :label-width="3"
           :label="$t('proposal.SELECT_P_TYPE')"
-          class="col-4">
-            <q-select v-model="second_type" :options="this.first_type === 'change' ? proposalType_sec : proposalType_sec_n"/>
+          class="col-4"
+          :error-label="$t('ERR.ERR_REQUIRE_DETAIL')">
+            <q-select v-model="second_type" @input="logthis" :error="$v.second_type.test" :options="this.first_type === 'change' ? proposalType_sec : proposalType_sec_n"/>
           </q-field>
           <!-- below is new page -->
           <div v-show="this.first_type === 'new'" id="new" class="col-8">
             <div class="row">
-              <q-field class="block col-6" label-width="4" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-                <q-input min=5 max=33 type="number" v-model="NEW.memberNumber" :suffix="$t('LAUNCH_MODAL.PERSON')"></q-input>
+              <q-field class="block col-6" label-width="4" :error-label="$t('ERR.ERR_REQUIRE_NUMBER')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
+                <q-input min=7 max=33 type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :suffix="$t('LAUNCH_MODAL.PERSON')"></q-input>
               </q-field>
             </div>
             <div class="">
-              <q-field class="col-8" label-width="2" :label="$t('LAUNCH_MODAL.MEMBER_MEMBER')">
-                <q-select chips multiple filter v-model="NEW.selected" :options="NEW.memberList"></q-select>
+              <q-field class="col-8" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_MEMBER')">
+                <q-select chips multiple filter v-model="NEW.selected" @blur="$v.NEW.selected.$touch()" :error="$v.NEW.selected.ifEnough" :options="NEW.memberList"></q-select>
               </q-field>
             </div>
             <div class="row">
@@ -239,21 +240,24 @@ import {
   QDatetime,
   QChipsInput
 } from 'quasar'
+import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
 
 export default {
   name: 'LaunchProposalModal',
   props: ['show'],
   data() {
     return {
-      // normal proposal
+      // overall setting
+      p_title: null,
       first_type: null,
       second_type: null,
-      // net proposal
-      p_type_n: null,
-      p_title: null,
       p_time_start: null,
       p_time_end: null,
       p_selected: {},
+      P_CHANGE_TYPE: null,
+      // net proposal
+      p_type_n: null,
+      // options for total
       proposalType: [
         {
           label: this.$t('proposal.SELECT_NEWCOUNCIL'),
@@ -362,6 +366,65 @@ export default {
       }
     }
   },
+  validations: {
+    p_title: {
+      required,
+      maxLength: maxLength(30),
+      minLength: minLength(5)
+    },
+    first_type: {
+      required
+    },
+    p_selected: {
+      required: () => {
+        if (this.first_type === 'change' || this.first_type === 'change_n') {
+          return true
+        }
+        return false
+      }
+    },
+    p_time_start: {
+      required
+    },
+    p_time_end: {
+      required
+    },
+    second_type: {
+      test: (val) => {
+        if (this.first_type !== 'new' && this.first_type !== 'new_n' && this.first_type !== null && this.first_type !== null) {
+          console.log(this.$v)
+          if (val === null) {
+            return true
+          }
+          return false
+        }
+        return false
+      }
+    },
+    NEW: {
+      memberNumber: {
+        required,
+        minValue: minValue(7),
+        maxValue: maxValue(33)
+      },
+      selected: {
+        required,
+        ifEnough(val) {
+          // to see whether should use the
+          console.log(this.NEW.memberNumber, val.length)
+          if (this.NEW.memberNumber !== val.length && !this.$v.NEW.memberNumber.$dirty) {
+            return true
+          }
+          return false
+        }
+        // maxLength: maxLength(this.NEW.memberNumber),
+        // minLength: minLength(this.NEW.memberNumber)
+      },
+      period: null,
+      brief: null,
+      agreement: []
+    }
+  },
   components: {
     QField,
     QModal,
@@ -375,9 +438,16 @@ export default {
     QDatetime,
     QChipsInput
   },
+  mounted() {
+    this.logthis()
+  },
   methods: {
     hideModal() {
       this.$emit('hide')
+    },
+    logthis() {
+      debugger
+      console.log(this.$v)
     }
   }
 }
