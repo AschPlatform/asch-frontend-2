@@ -73,7 +73,7 @@
       <big>{{$t('DAPP_DETAIL')}}</big>
       <table class="q-table horizontal-separator highlight loose ">
         <tbody v-if="type==1" class='info-tbody'>
-          <tr v-clipboard="row.id" @success="info('copy ID success...')">
+          <tr v-clipboard="row.id || 'no data'" @success="info('copy ID success...')">
             <td >{{'ID'}}</td>
             <td >{{row.id}}</td>
           </tr>
@@ -81,7 +81,7 @@
             <td >{{'VERSION'}}</td>
             <td >{{row.version}}</td>
           </tr>
-          <tr v-clipboard="this.formatTimestamp(row.timestamp)" @success="info('copy date success...')">
+          <tr v-clipboard="this.formatTimestamp(row.timestamp) || 'no data'" @success="info('copy date success...')">
             <td >{{$t('DATE')}}</td>
             <td >{{this.formatTimestamp(row.timestamp)}}</td>
           </tr>

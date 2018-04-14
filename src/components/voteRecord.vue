@@ -223,16 +223,18 @@ export default {
       let limit = this.SP.pagination.rowsPerPage
       let pageNo = this.SP.pagination.page
       let res = await this.votetome({
-        publicKey: this.user.account.publicKey,
+        publicKey: this.user.publicKey,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
       })
-      this.SP.supports = res.accounts
-      // set max
-      this.SP.pagination.rowsNumber = res.accounts.length
-      this.SP.loading = false
-      return res
+      if (res.success) {
+        this.SP.supports = res.accounts
+        // set max
+        this.SP.pagination.rowsNumber = res.accounts.length
+        this.SP.loading = false
+        return res
+      }
     },
     viewAccountInfo(row) {
       this.$root.$emit('openAccountModal', row.address)

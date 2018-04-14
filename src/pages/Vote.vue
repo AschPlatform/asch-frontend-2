@@ -72,7 +72,7 @@
         </q-dialog>
     <!-- this should review -->
     
-    <agent-detail-modal :agent="user.account.agent" :show="agentDetailModal" />
+    <agent-detail-modal :user="userInfo" :show="agentDetailModal" @close="agentDetailModal=false" />
     <!-- <router-view class="col-5" :userObj="userObj"></router-view> -->
   </q-page>
 </template>
@@ -89,7 +89,7 @@ import myVoteDelegate from '../components/myVoteDelegate'
 import AgentDetailModal from '../components/AgentDetailModal'
 
 export default {
-  props: ['userObj'],
+  props: [],
   components: {
     QTabs,
     QRouteTab,
@@ -154,7 +154,7 @@ export default {
         message: ''
       },
       secondPwd: '',
-      agentDetailModal: true
+      agentDetailModal: false
     }
   },
   methods: {
@@ -181,7 +181,7 @@ export default {
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
       let res = await this.delegates({
-        address: this.user.account.address,
+        address: this.userInfo.account.address,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -216,7 +216,7 @@ export default {
       this.secondPwd = ''
     },
     vote() {
-      if (this.user.account.isLocked === 0) {
+      if (this.userInfo.account.isLocked === 0) {
         toastWarn(this.$t('PLEASE_LOCK'))
         return
       }
@@ -242,17 +242,14 @@ export default {
     }
   },
   mounted() {
-    if (this.user) {
+    if (this.userInfo) {
       this.getDelegates()
     }
   },
   computed: {
     ...mapGetters(['userInfo']),
-    user() {
-      return this.userInfo
-    },
     secondSignature() {
-      return this.user ? this.user.account.secondPublicKey : null
+      return this.userInfo ? this.userInfo.account.secondPublicKey : null
     },
     paginationDeafult() {
       return {
@@ -276,7 +273,7 @@ export default {
   },
   watch: {
     userInfo(val) {
-      if (val && val.account.publicKey) {
+      if (val) {
         this.getDelegates()
       }
     }

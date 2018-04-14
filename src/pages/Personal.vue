@@ -49,7 +49,7 @@
                     <a class="text-blue" @click="lockPanelShow=true">{{$t('EDIT')}}</a>
                     <a v-if="this.lockInfo.expire" class="text-blue" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
-                  <a v-else class="text-blue" @click="lockPanelShow=true">
+                <a v-else class="text-blue" @click="lockPanelShow=true">
                     {{$t('SET_NOW')}}
                   </a>
                 </td>

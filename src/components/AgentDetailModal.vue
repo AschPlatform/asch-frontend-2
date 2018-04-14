@@ -1,19 +1,25 @@
 
 <template>
-  <q-modal content-classes="row justify-center" v-model="show" maximized :no-esc-dismiss="true">
-    <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1" align="justify">
-      <q-tab default name="supporters" slot="title"  icon="people" :label="$t('AGENT_VOTE_DETAIL')" />
-      <q-tab name="records" slot="title" icon="face" :label="$t('AGENT_VOTE_RECORDS')" />
-    </q-tabs>
-    <div calss="col-8">
-       <!-- come from VR page -->
-       <q-table :no-data-label="$t('table.noData')" :data="datas" :filter="filter" color="primary"
-        :columns="dynamicCol"  @request="request" :pagination.sync="pagination" row-key="id"
-        :loading="loading" :rows-per-page-options="[10]"
-        >
-          <template slot="top-right" slot-scope="props">
-            <q-btn flat round  icon="refresh" color="primary" @click="refreshVR" />
-          </template>
+  <q-modal content-classes="row col-12 justify-center" v-model="show" maximized :no-esc-dismiss="true">
+    <q-modal-layout>
+      <q-toolbar slot="header">
+        <q-toolbar-title>
+          {{$t('VOTE_DELEGATE_DETAIL')}}
+        </q-toolbar-title>
+      </q-toolbar>
+      <q-toolbar slot="footer">
+        <q-btn flat :label="$t('label.close')" @click="$emit('close')" />
+      </q-toolbar>
+      <div class="row col-12">
+        <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1 col-9 " align="justify">
+          <q-tab default name="supporters" slot="title" icon="people" :label="$t('AGENT_VOTE_DETAIL')" />
+          <q-tab name="records" slot="title" icon="face" :label="$t('AGENT_VOTE_RECORDS')" />
+          <div>
+            <!-- come from VR page -->
+            <q-table :no-data-label="$t('table.noData')" :data="datas" :filter="filter" color="primary" :columns="dynamicCol" @request="request" :pagination.sync="pagination" row-key="id" :loading="loading" :rows-per-page-options="[10]">
+              <template slot="top-right" slot-scope="props">
+                  <q-btn flat round  icon="refresh" color="primary" @click="refresh" />
+        </template>
            
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
             <div class="text-primary" @click="viewAccountInfo(props.row)">
@@ -33,6 +39,7 @@
           </q-td> -->
         </q-table>
     </div>
+    </q-tabs>
     <div class="col-3">
       <q-card>
         <q-card-title>
@@ -40,27 +47,45 @@
         </q-card-title>
         <q-card-main>
           <div>
-            {{user.account.agent}}
+            {{userInfo.account.agent}}
           </div>
           <div>
-            {{$t('AGENT_WEIGHT')}}({{user.account.agentWeightRatio}})%
+            {{$t('AGENT_WEIGHT')}}({{userInfo.account.agentWeightRatio}})%
           </div>
           <div>
-            ({{user.account.agentWeight}})
+            ({{userInfo.account.agentWeight}})
           </div>
           
         </q-card-main>
       </q-card>
     </div>
+        </div>
+     
+    
+    </q-modal-layout>
   </q-modal>
 </template>
 
 <script>
-import { QModal, QTabs, QTab, QTable, QBtn, QTd, QCard, QCardTitle, QCardMain } from 'quasar'
-import { mapActions } from 'vuex'
+import {
+  QModal,
+  QTabs,
+  QTab,
+  QTable,
+  QBtn,
+  QTd,
+  QCard,
+  QCardTitle,
+  QCardMain,
+  QTabPane,
+  QModalLayout,
+  QToolbar,
+  QToolbarTitle
+} from 'quasar'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  props: ['user'],
+  props: ['user', 'show'],
   components: {
     QModal,
     QTabs,
@@ -70,7 +95,11 @@ export default {
     QTd,
     QCard,
     QCardTitle,
-    QCardMain
+    QCardMain,
+    QTabPane,
+    QModalLayout,
+    QToolbar,
+    QToolbarTitle
   },
   data() {
     return {
@@ -95,7 +124,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['']),
+    ...mapActions(['getAgentSupporters', 'getAgentVotes']),
     refresh() {
       this.pagination = this.paginationDeafult
       this.getDatas()
@@ -110,16 +139,16 @@ export default {
       let pageNo = this.pagination.page
       let res = {}
       if (this.selectedTab === 'records') {
-        res = await this.votetome({
-          publicKey: this.user.account.publicKey,
+        res = await this.getAgentVotes({
+          publicKey: this.userInfo.publicKey,
           orderBy: 'rate:desc',
           limit: limit,
           offset: (pageNo - 1) * limit
         })
         this.datas = res.records
       } else {
-        res = await this.votetome({
-          publicKey: this.user.account.publicKey,
+        res = await this.getAgentSupporters({
+          publicKey: this.userInfo.publicKey,
           orderBy: 'rate:desc',
           limit: limit,
           offset: (pageNo - 1) * limit
@@ -134,6 +163,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['userInfo']),
     dynamicCol() {
       if (this.selectedTab === 'records') {
         return [

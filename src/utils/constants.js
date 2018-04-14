@@ -304,6 +304,14 @@ const urls = {
     // 获取指定资产详情
     asset: {
       url: '/api/v2/uia/assets/:name'
+    },
+    // 获取指定资产详情
+    agents: {
+      url: '/api/v2/agents'
+    },
+    // 获取指定资产详情
+    agentsSupporter: {
+      url: '/api/v2/:name/clienteles'
     }
   },
 

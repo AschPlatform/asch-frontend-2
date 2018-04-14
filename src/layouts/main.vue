@@ -98,7 +98,7 @@
 
     <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText"/>
     <float-menu v-if="this.showFloatBtns" :router="$router" :userObj="user" />
-      
+    <trans-info-modal :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false"/>  
     </q-page-container>
      <q-ajax-bar ref="bar" position="top" color="orange" />  
   </q-layout>
@@ -110,6 +110,7 @@ import FloatMenu from '../components/FloatMenu'
 import TransPanel from '../components/TransPanel'
 import AccountInfo from '../components/AccountInfo'
 import CodeModal from '../components/QRCodeModal'
+import TransInfoModal from '../components/TransInfoModal'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import {
   QLayout,
@@ -153,7 +154,8 @@ export default {
     QItemSide,
     QItemTile,
     QToolbar,
-    QToolbarTitle
+    QToolbarTitle,
+    TransInfoModal
   },
   data() {
     return {
@@ -168,7 +170,9 @@ export default {
       address: '',
       QRCodeShow: false,
       QRCodeText: '',
-      intervalNum: -1
+      intervalNum: -1,
+      trans: null,
+      transInfoModalShow: false
     }
   },
   methods: {
@@ -227,6 +231,13 @@ export default {
         cbErr()
       }
     },
+
+    async openTransInfoModal(trans) {
+      // get user issuer info
+      this.trans = trans
+      this.transInfoModalShow = true
+    },
+
     showAjaxBar() {
       let bar = this.$refs.bar
       bar.start()
@@ -295,6 +306,7 @@ export default {
     this.$root.$on('getIssuer', () => {
       this.user && this.user.account ? this.getIssuer() : console.log('not init yet..')
     })
+    this.$root.$on('showTransInfoModal', this.openTransInfoModal)
     this.$root.$on('openAccountModal', this.openAccountModal)
     this.$root.$on('openTransactionDialog', this.openTransactionDialog)
     this.$root.$on('showAjaxBar', this.showAjaxBar)
@@ -309,6 +321,7 @@ export default {
     this.$root.$off('showAjaxBar', this.showAjaxBar)
     this.$root.$off('changeFloatBtn', this.changeFloatBtn)
     this.$root.$off('showQRCodeModal', this.showQRCodeModal)
+    this.$root.$off('showTransInfoModal', this.openTransInfoModal)
   }
 }
 </script>
