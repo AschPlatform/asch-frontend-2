@@ -274,12 +274,8 @@ api2.issuer = params => {
   return fetch(urls.v2.issuer, params, 'get')
 }
 // 获取指定账户发行的资产
-api2.issuer = params => {
-  return fetch(urls.v2.issuer, params, 'get')
-}
-// 获取指定资产详情
-api2.issuer = params => {
-  return fetch(urls.v2.issuer, params, 'get')
+api2.agentsSupporter = params => {
+  return fetch(urls.v2.agentsSupporter, params, 'get')
 }
 
 const translateErrMsg = (t, input) => {

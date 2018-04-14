@@ -10,7 +10,7 @@
       <q-toolbar slot="footer">
         <q-btn flat :label="$t('label.close')" @click="$emit('close')" />
       </q-toolbar>
-      <div class="row col-12">
+      <div v-if="userInfo" class="row col-12">
         <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1 col-9 " align="justify">
           <q-tab default name="supporters" slot="title" icon="people" :label="$t('AGENT_VOTE_DETAIL')" />
           <q-tab name="records" slot="title" icon="face" :label="$t('AGENT_VOTE_RECORDS')" />
@@ -130,7 +130,7 @@ export default {
       this.getDatas()
     },
     async request(props) {
-      await this.getDatas(props.pagination, props.filter)
+      if (this.userInfo) await this.getDatas(props.pagination, props.filter)
     },
     async getDatas(pagination = {}, filter = '') {
       this.loading = true
@@ -148,7 +148,7 @@ export default {
         this.datas = res.records
       } else {
         res = await this.getAgentSupporters({
-          publicKey: this.userInfo.publicKey,
+          name: this.userInfo.account.agent,
           orderBy: 'rate:desc',
           limit: limit,
           offset: (pageNo - 1) * limit
@@ -160,6 +160,11 @@ export default {
       this.pagination.rowsNumber = res.accounts.length
       this.loading = false
       return res
+    }
+  },
+  mounted() {
+    if (this.userInfo) {
+      this.getDatas()
     }
   },
   computed: {

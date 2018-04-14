@@ -234,6 +234,8 @@ export default {
         this.SP.pagination.rowsNumber = res.accounts.length
         this.SP.loading = false
         return res
+      } else {
+        this.SP.loading = false
       }
     },
     viewAccountInfo(row) {
