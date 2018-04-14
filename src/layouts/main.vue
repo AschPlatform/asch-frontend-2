@@ -172,12 +172,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions([
-      'refreshAccounts',
-      'getAccountsInfo',
-      'getBalances'
-    ]),
-    ...mapMutations(['updateUserInfo', 'setUserIsLogin']),
+    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances', 'setUserIsLogin']),
+    ...mapMutations(['updateUserInfo', 'setUserInfo', 'setVersion', 'setLatestBlock']),
     logout() {
       removeCache('user')
       this.setUserIsLogin(false)
@@ -202,17 +198,6 @@ export default {
       })
       this.accountInfo = res.account
       this.accountShow = true
-    },
-    async refreshAccount(cb = func) {
-      // refresh user balance
-      console.log('event refreshAccount...')
-      let res = await this.account({
-        address: this.address
-      })
-      let user = this._.merge({}, this.userInfo, res)
-      this.user = user
-      if (getCache('user')) setCache('user', user)
-      this._.delay(() => cb(), 1500) // delay refresh
     },
     async getIssuer(cbOk = func, cbErr = func) {
       // get user issuer info
@@ -270,14 +255,18 @@ export default {
       let res = await this.getAccountsInfo({
         address: user.account.address
       })
-      let userInfo = this._.merge({}, user, res)
-      this.updateUserInfo(userInfo)
-      this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
-      // window.CHPlugin.checkIn()
+      if (res.success) {
+        let userInfo = this._.merge({}, user, res)
+        this.setUserInfo(userInfo)
+        this.setLatestBlock(res.latestBlock)
+        this.setVersion(res.version)
+        this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
+        // window.CHPlugin.checkIn()
+      }
+      await this.getBalances({
+        address: this.userInfo.account.address
+      })
     }
-    this.getBalances({
-      address: this.userInfo.account.address
-    })
   },
   computed: {
     ...mapGetters(['latestBlock', 'version', 'userInfo', 'balances']),
@@ -303,7 +292,6 @@ export default {
   },
   created() {
     // register event
-    this.$root.$on('refreshAccount', this.refreshAccount)
     this.$root.$on('getIssuer', () => {
       this.user && this.user.account ? this.getIssuer() : console.log('not init yet..')
     })
@@ -315,7 +303,6 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.intervalNum)
-    this.$root.$off('refreshAccount', this.refreshAccount)
     this.$root.$off('getIssuer', this.getIssuer)
     this.$root.$off('openAccountModal', this.openAccountModal)
     this.$root.$off('openTransactionDialog', this.openTransactionDialog)

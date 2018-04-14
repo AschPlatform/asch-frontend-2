@@ -34,7 +34,7 @@
 
         <div class="col-5">
           <vote-record />
-          <my-vote-delegate slot="voteDelegate" :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetailModalShow = true" />
+          <my-vote-delegate :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetailModalShow = true" />
         </div>
 
         <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">

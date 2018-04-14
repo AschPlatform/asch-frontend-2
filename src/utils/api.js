@@ -174,7 +174,7 @@ api2.transactions = params => {
 }
 
 // 根据 tid 获取交易详情
-api2.transactions = params => {
+api2.transaction = params => {
   return fetch(urls.v2.transaction, params, 'get')
 }
 
@@ -213,9 +213,9 @@ api2.myDeposits = params => {
   return fetch(urls.v2.myDeposits, params, 'get')
 }
 
-// 获取指定地址指定币种的跨链充值记录
+// 获取指定地址指定币种的跨链充值记录 +
 api2.myCurrencyDeposits = params => {
-  return fetch(urls.v2.myCurrencyDeposits, params, 'get')
+  return fetch(urls.v2.gateAccountDeposits, params, 'get')
 }
 
 // 获取所有跨链提现记录
@@ -233,9 +233,9 @@ api2.myWithdrawals = params => {
   return fetch(urls.v2.myWithdrawals, params, 'get')
 }
 
-// 获取指定地址指定币种的跨链提现记录
+// 获取指定地址指定币种的跨链提现记录 +
 api2.myCurrencyWithdrawals = params => {
-  return fetch(urls.v2.myCurrencyWithdrawals, params, 'get')
+  return fetch(urls.v2.gateAccountWithdrawals, params, 'get')
 }
 
 // 获取支持的所有跨链资产列表

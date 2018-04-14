@@ -1,4 +1,5 @@
 import AschJS from 'asch-js-v2'
+import store from '../store/index'
 // TODO 替换为更新后的 asch-js 库
 // const exFunc = (conf)=>{
 //   let {type,fee=10000000,args=[],secondSecret=''}
@@ -10,6 +11,15 @@ import AschJS from 'asch-js-v2'
 //     secondSecret
 //   })
 // }
+
+// TODO
+const convertSecondPwd = pwd => {
+  let address = store.state.userInfo.account.address
+  let key = pwd + address
+  let keyPair = AschJS.crypto.getKeys(key)
+  return keyPair.publicKey
+}
+
 const asch = {
   // 转账 XAS  TODO
   transferXAS: (amount, recipientId, message, secret, secondPwd = '') => {
@@ -29,7 +39,7 @@ const asch = {
       fee: 10000000,
       args: [name],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 设置二级密码

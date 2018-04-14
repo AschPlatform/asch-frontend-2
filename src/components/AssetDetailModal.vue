@@ -22,8 +22,8 @@
             </q-card-actions>
           </q-card> -->
           
-          <assets-panel type='inner' :asset="asset" @transfer="transfer"/>
-          <assets-panel type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw"/>
+          <assets-panel v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"/>
+          <assets-panel v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw"/>
           <q-card class="col-4">
             <q-card-main>
               <table>
@@ -52,14 +52,14 @@
 
         </div>
         <div>
-          <trans-record-container :userInfo="userInfo" :currency="asset.currency" />
+          <asset-record-container :userInfo="userInfo" :currency="asset.currency" />
         </div>
    </q-modal-layout>
   </q-modal>
 </template>
 <script>
-import { mapActions } from 'vuex'
-import TransRecordContainer from '../components/TransRecordContainer'
+import { mapActions, mapGetters } from 'vuex'
+import AssetRecordContainer from '../components/AssetRecordContainer'
 import AssetsPanel from './AssetsPanel'
 
 import {
@@ -83,7 +83,7 @@ import { toast } from '../utils/util'
 
 export default {
   name: 'AssetDetailModal',
-  props: ['asset', 'show', 'userInfo'],
+  props: ['asset', 'show'],
   components: {
     QModal,
     QModalLayout,
@@ -98,7 +98,7 @@ export default {
     QItemTile,
     QCardActions,
     QBtn,
-    TransRecordContainer,
+    AssetRecordContainer,
     AssetsPanel
   },
   data() {
@@ -124,9 +124,14 @@ export default {
       secondPwd: secondPwd()
     }
   },
-  mounted() {},
+  async mounted() {
+    console.log(this.asset)
+    if (this.isCross) {
+      // let res = await this.getAsset()
+    }
+  },
   methods: {
-    ...mapActions(['getMoreAssets']),
+    ...mapActions(['getMoreAssets', 'getAsset']),
     async getData() {
       // TODO
       let res = await this.getMoreAssets()
@@ -151,7 +156,16 @@ export default {
       this.close()
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['userInfo']),
+    isCross() {
+      if (this.asset.symbol) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
   watch: {}
 }
 </script>
