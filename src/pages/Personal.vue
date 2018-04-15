@@ -1,77 +1,106 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <q-page padding >
-    <q-card v-if="user">
+  <q-page padding>
+    <q-card class="no-shadow" v-if="user">
       <q-card-title>
         {{$t('PERSONAL')}}
       </q-card-title>
       <q-card-main class="row col-12 justify-center">
-        <div class="row justify-center ">
-          <jdenticon class="self-center" :address="address" :size="60" />
-          <div class="col-12 text-center">
-            {{$t('HELLO')+','}}<a class="text-blue" v-if="!userNickname"  :label="$t('SET_NICKNAME')"  @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else>{{userNickname}}</span>
+        <div class="personal-top row justify-left shadow-2">
+          <div class="personal-head-portrait">
+            <jdenticon class="personal-head-canvas self-center" :address="address" :size="60" />
           </div>
-          <div class="col-12 text-center" >
-            {{address}} <q-btn v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
-            <div class="row justify-center" @click="showAddrQr">
-               <vue-qr :size="70" :text="address"></vue-qr>
+          <div class="  text-left row justify-left">
+            <div>
+              <span class="text-black font-22 vertical-align-middle">
+                  {{$t('HELLO')}}
+                  </span>
+              <a class="set-nickname bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else>{{userNickname}}</span>
+            </div>
+            <div class="col-12 text-three">
+              {{address}}
+              <q-btn class="text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
             </div>
           </div>
-          
+          <span class="right-line"></span>
+          <div class="personal-qr text-left">
+            <div class="row justify-center" @click="showAddrQr">
+              <vue-qr class="personal-qr-container" :size="103" :text="address"></vue-qr>
+            </div>
+          </div>
+  
         </div>
-        <div class="row col-12 justify-center">
+        <div class="personal-bottom shadow-2 row col-12 justify-left">
+          <div class="personal-bottom-title">
+            <i class="material-icons">email</i>
+            <span>
+            {{$t('MESSAGE_DETAILS')}}
+            </span>
+          </div>
           <table class="q-table bordered highlight responsive ">
             <tbody class='info-tbody'>
               <tr>
-                <td>{{$t('SECOND_PASSWORD')}}</td>
+                <td class="bottom-left-link text-three font-18">
+                  <span class="left-ball"></span>
+                  {{$t('SECOND_PASSWORD')}}
+                  </td>
                 <td>
                   <span v-if="secondSignature">
-                    {{$t('ALREADY_SET')}}
-                  </span>
-                  <a v-else class="text-blue" @click="secondPwdShow=true">
-                    {{$t('SET_NOW')}}
-                  </a>
+                              {{$t('ALREADY_SET')}}
+                            </span>
+                  <a v-else class="text-secondary" @click="secondPwdShow=true">
+                              {{$t('SET_NOW')}}
+                            </a>
                 </td>
               </tr>
               <!-- <tr>
-                <td>{{$t('PUBLIC_KEY')}}</td>
-                <td>{{user.account.publicKey}} 
-                  <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
-                </td>
-              </tr> -->
+                          <td>{{$t('PUBLIC_KEY')}}</td>
+                          <td>{{user.account.publicKey}} 
+                            <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
+                          </td>
+                        </tr> -->
               <tr>
-                <td>{{$t('LOCK_POSITION_CONF')}}</td>
+                <td class="bottom-left-link text-three font-18">
+                  <span class="left-ball"></span>
+                  {{$t('LOCK_POSITION_CONF')}}
+                  </td>
                 <td>
                   <div v-if="lockInfo">
                     <span>
-                      {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
-                    </span>
-                    <a class="text-blue" @click="lockPanelShow=true">{{$t('EDIT')}}</a>
+                                {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
+                              </span>
+                    <a class="text-secondary" @click="lockPanelShow=true">{{$t('EDIT')}}</a>
                     <a v-if="this.lockInfo.expire" class="text-blue" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
-                <a v-else class="text-blue" @click="lockPanelShow=true">
-                    {{$t('SET_NOW')}}
-                  </a>
+                  <a v-else class="text-secondary" @click="lockPanelShow=true">
+                              {{$t('SET_NOW')}}
+                            </a>
                 </td>
               </tr>
               <tr>
-                <td>{{$t('AGENT_INFO')}}</td>
+                <td class="bottom-left-link text-three font-18">
+                  <span class="left-ball"></span>
+                  {{$t('AGENT_INFO')}}
+                  </td>
                 <td>
                   <span v-if="isAgent">
-                    {{$t('IS_AGENT')}}
-                  </span>
-                    <a v-else class="text-blue" @click="userAgreementShow=true">
-                    {{$t('REGISTER_AGENT')}}
-                  </a>
+                              {{$t('IS_AGENT')}}
+                            </span>
+                  <a v-else class="text-black" @click="userAgreementShow=true">
+                              {{$t('REGISTER_AGENT')}}
+                            </a>
                 </td>
               </tr>
               <tr>
-                <td>{{$t('GATEWAY_CANDIDATE')}}</td>
+                <td class="bottom-left-link text-three font-18">
+                  <span class="left-ball"></span>
+                  {{$t('GATEWAY_CANDIDATE')}}
+                  </td>
                 <td>
                   <div @click="jump2Doc">
-                    <a class="text-blue" >
-                      {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE')}}
-                    </a>
+                    <a class="text-black">
+                                {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
+                              </a>
                   </div>
                 </td>
               </tr>
@@ -80,16 +109,16 @@
         </div>
       </q-card-main>
     </q-card>
-    <q-dialog v-model="dialogShow" >
+    <q-dialog v-model="dialogShow">
       <span slot="title">{{type=='secret'?$t('QRCODE'):$t('QRCODE_ADDRESS')}}</span>
       <div slot="body" class="row justify-center" @click="dialogShow=false">
         <vue-qr :text="qrValue"></vue-qr>
       </div>
     </q-dialog>
-
-    <q-dialog v-model="secondPwdShow" >
+  
+    <q-dialog v-model="secondPwdShow">
       <span slot="title">{{$t('SET_SECOND_PASSWORD')}}</span>
-      <div slot="body" class="row justify-center" >
+      <div slot="body" class="row justify-center">
         <q-field class="col-8" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
           <q-input @blur="$v.password.$touch" type="password" v-model="password" />
         </q-field>
@@ -97,12 +126,12 @@
           <q-input @blur="$v.confirmPassword.$touch" type="password" v-model="confirmPassword" />
         </q-field>
       </div>
-       <template slot="buttons" slot-scope="props">
-        <q-btn class="col-3 self-lef" color="primary" flat @click="setPwd(props.ok)">
-          {{$t('SUBMIT')}}
-        </q-btn>
-        <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
-      </template>
+      <template slot="buttons" slot-scope="props">
+                  <q-btn class="col-3 self-lef" color="primary" flat @click="setPwd(props.ok)">
+                    {{$t('SUBMIT')}}
+                  </q-btn>
+                  <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
+</template>
     </q-dialog>
 
     <q-dialog v-model="nicknameFormShow" >
@@ -143,12 +172,12 @@
           </tbody>
         </table>
       </div>
-      <template slot="buttons" slot-scope="props">
-        <q-btn class="col-3 self-lef" color="primary" flat @click="setNickname(props.ok)">
-          {{$t('SUBMIT')}}
-        </q-btn>
-        <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
-      </template>
+<template slot="buttons" slot-scope="props">
+  <q-btn class="col-3 self-lef" color="primary" flat @click="setNickname(props.ok)">
+    {{$t('SUBMIT')}}
+  </q-btn>
+  <q-btn :label="$t('label.cancel')" flat @click="props.cancel()" />
+</template>
     </q-dialog>
 
     <q-dialog v-model="lockPanelShow" >
@@ -172,12 +201,12 @@
           <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
         </q-field>
       </div>
-      <template slot="buttons" slot-scope="props">
-        <q-btn class="col-3 self-lef" color="primary" flat @click="editLock(props.ok)">
-          {{$t('SUBMIT')}}
-        </q-btn>
-        <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
-      </template>
+<template slot="buttons" slot-scope="props">
+  <q-btn class="col-3 self-lef" color="primary" flat @click="editLock(props.ok)">
+    {{$t('SUBMIT')}}
+  </q-btn>
+  <q-btn :label="$t('label.cancel')" flat @click="props.cancel()" />
+</template>
     </q-dialog>
   <user-agreement-modal :show="userAgreementShow" @confirm="registerAgent" @cancel="userAgreementShow=false" :tips="$t('REGISTER_AGENT')+$t('COST_FEE',{num:100})" />
   </q-page>
@@ -197,7 +226,9 @@ import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
 let today = new Date()
-today = date.addToDate(today, { days: 31 })
+today = date.addToDate(today, {
+  days: 31
+})
 
 export default {
   props: ['userObj'],
@@ -507,6 +538,94 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
+.personal-top {
+  padding: 28px 30px;
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 28px;
+}
 
+.personal-head-portrait {
+  width: 116px;
+  margin-right: 40px;
+}
+
+.personal-head-canvas {
+  width: 100%;
+}
+
+.self-center {
+  border-radius: 50%;
+}
+
+.set-nickname {
+  width: 110px;
+  padding: 2px 8px;
+  border-radius: 15px;
+  font-size: 16px;
+  color: #ffffff;
+  cursor: pointer;
+  vertical-align: text-top;
+}
+
+.right-line {
+  width: 2px;
+  height: 68px;
+  background: #dddddd;
+  margin-top: 26px;
+}
+
+.personal-qr {
+  width: 103px;
+  height: 100px;
+  margin-left: 60px;
+}
+
+.personal-qr-container {
+  width: 100%;
+  height: 100%;
+}
+
+.personal-qr-container img {
+  width: 100%;
+}
+
+.personal-bottom {
+  padding: 30px 0;
+}
+
+.personal-bottom a {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.personal-bottom-title {
+  margin-left: 22px;
+}
+
+.personal-bottom-title i {
+  color: #43aea8;
+  vertical-align: text-bottom;
+  font-size: 22px;
+  margin-right: 10px;
+}
+
+.personal-bottom-title span {
+  color: #000000;
+  font-size: 22px;
+}
+
+.left-ball {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #858c96;
+  display: inline-block;
+  vertical-align: sub;
+  margin-right: 10px;
+}
+
+.bottom-left-link
+  width 20%
 </style>
