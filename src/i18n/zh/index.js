@@ -455,6 +455,7 @@ const lang = {
     MEMBER_MEMBER: '成员信息',
     NET_NAME: '网关名字',
     NET_CURRENCY: '默认币种',
+    NET_CURRENCY_TIP: '至少填写一种默认币种，且必须是全部大写字母，多个币种用","隔开',
     PERIOD: '任职周期',
     PERIOD_NET: '最低更新频率',
     NET_NEW_LABEL: '(至少填写一种默认币种，且必须是全部大写字母)',
@@ -497,6 +498,18 @@ const lang = {
     ADDRESS: '地址',
     OPERATION: '操作',
     STARTTIME: '成立时间'
+  },
+  ERR: {
+    ERR_5_30: '请输入5-30个字符',
+    ERR_3_15: '请输入3-15个字符',
+    ERR_1_30: '请输入1-30之间的数字',
+    ERR_50_1000: '请输入50-1000个字符',
+    ERR_REQUIRE_TYPE: '请选择提案类型',
+    ERR_REQUIRE_CONTENT: '请选择内容',
+    ERR_REQUIRE_TIME: '请选择时间',
+    ERR_REQUIRE_DETAIL: '请选择提案详情',
+    ERR_REQUIRE_NUMBER: '成员应在7-33人之间',
+    ERR_REQUIRE_MEMBER: '请提名候选人'
   },
 
   // ==============  quasar i18n  =================

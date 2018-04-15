@@ -1,3 +1,4 @@
+/* eslint-disable */
 import AschJs from 'asch-js'
 import { convertFee } from './asch'
 
@@ -73,6 +74,15 @@ const filters = {
         i.recipientId
     }
     return filters.time(i.timestamp) + ' ' + content
+  },
+  jparse: (value, arg, isHeight) => {
+    debugger
+    // Transfer to
+    const obj = eval('(' + value + ')')
+    if (isHeight) {
+      return Number(obj[arg]) / 8640
+    }
+    return obj[arg]
   }
 }
 export default filters
