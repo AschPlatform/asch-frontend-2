@@ -1,5 +1,5 @@
 <template>
-  <q-card >
+  <q-card class="q-p-lg">
     <q-card-title>
       {{$t('TRS_TYPE_TRANSFER')}}
       <div slot="subtitle">{{$t('PAY_TIP')}}</div>

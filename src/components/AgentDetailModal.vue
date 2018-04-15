@@ -163,7 +163,7 @@ export default {
     }
   },
   mounted() {
-    if (this.userInfo) {
+    if (this.userInfo && this.userInfo.agent) {
       this.getDatas()
     }
   },

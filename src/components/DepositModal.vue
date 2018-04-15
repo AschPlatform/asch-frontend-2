@@ -2,7 +2,7 @@
   <q-modal content-classes="row justify-center" v-model="show" maximized :no-esc-dismiss="true">
     <div class="col-6">
       <h4>{{$t('DEPOSIT')}}</h4>
-      <div v-if="haveAdd" class="row justify-center">
+      <div v-if="hasAdd" class="row justify-center">
         <vue-qr :size="200" :text="address || 'no data'"></vue-qr>
         <br />
         <div class="col-12 justify-center" >{{address}} <q-btn v-clipboard="address || 'no data'" @success="info('copy success...')" flat icon='file' round/></div>
@@ -29,7 +29,11 @@
         :label-width="4">
         <q-input v-model="secondPwd" type="password" />
       </q-field>
-      <q-btn rounded :label="$t('OPEN_ADDR')" @click="openAddr" />
+      <br />
+      <div class="row justify-around">
+        <q-btn rounded color="primary" :label="$t('OPEN_ADDR')" @click="openAddr" />
+        <q-btn rounded :label="$t('CANCEL')" @click="$emit('close')" />
+      </div>
     </div>
     
       
@@ -42,11 +46,12 @@ import { mapActions } from 'vuex'
 import { QField, QInput } from 'quasar'
 import VueQr from 'vue-qr'
 import { secondPwdReg } from '../utils/validators'
-import { toast } from '../utils/util'
+import { toast, toastInfo, translateErrMsg } from '../utils/util'
+import asch from '../utils/asch-v2'
 
 export default {
   name: 'DepositPanel',
-  props: ['user', 'assets', 'asset', 'show', 'haveAdd'],
+  props: ['user', 'assets', 'asset', 'show'],
   components: { QField, QInput, VueQr },
   data() {
     return {
@@ -54,16 +59,26 @@ export default {
       secondPwd: ''
     }
   },
-  mounted() {},
+  mounted() {
+    if (this.asset) {
+      this.currency = this.asset.symbol
+    }
+  },
   methods: {
-    ...mapActions(['openAddress']),
+    ...mapActions(['broadcastTransaction']),
     async openAddr() {
-      console.log('openaddr')
       if (this.secondSignature && !secondPwdReg.test(this.secondPwd)) {
+        toastInfo(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
         return null
       }
-      await this.openAddress()
-      this.close()
+      let trans = asch.openGatewayAccount(this.asset.gateway, this.user.secret, this.secondPwd)
+      let res = await this.broadcastTransaction(trans)
+      if (res.success) {
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
+        this.close()
+      } else {
+        translateErrMsg(this.$t, res.error)
+      }
     },
     close() {
       this.$emit('close')
@@ -77,28 +92,39 @@ export default {
       return this.user ? this.user.account.secondPublicKey : ''
     },
     assetsOpt() {
-      return this.assets.map(asset => {
+      let arr = this.assets.map(asset => {
         return {
-          label: asset.currency,
-          value: asset.currency
+          label: asset.symbol,
+          value: asset.symbol
         }
       })
+      if (this.asset && !this.asset.hasAdd) {
+        arr.push({ label: this.asset.symbol, value: this.asset.symbol })
+      }
+      return arr
     },
     assetsMap() {
       let assetsMap = {}
       this.assets.forEach(asset => {
-        assetsMap[asset.currency] = asset
+        assetsMap[asset.symbol] = asset
       })
       return assetsMap
     },
     address() {
       let asset = this.assetsMap[this.currency]
       return asset ? asset.address : null
+    },
+    hasAdd() {
+      if (this.asset) {
+        return this.asset.hasAdd
+      } else {
+        return false
+      }
     }
   },
   watch: {
     asset(val) {
-      this.currency = val.currency
+      this.currency = val.symbol
     }
   }
 }

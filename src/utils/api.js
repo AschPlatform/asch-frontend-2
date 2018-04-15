@@ -1,6 +1,6 @@
 import axios from './axiosWrap'
 import { urls } from './constants'
-import { toastError, getCurrentSeverUrl } from './util'
+import { getCurrentSeverUrl } from './util'
 
 // import nodeService from './servers'
 
@@ -268,73 +268,34 @@ api2.issuers = params => {
 api2.issuer = params => {
   return fetch(urls.v2.issuer, params, 'get')
 }
+// 获取用户发行资产
+api2.addressAssets = params => {
+  return fetch(urls.v2.addressAssets, params, 'get')
+}
 
 // 获取所有资产
 api2.issuer = params => {
   return fetch(urls.v2.issuer, params, 'get')
 }
-// 获取指定账户发行的资产
+// 获取代理人委托人列表
 api2.agentsSupporter = params => {
   return fetch(urls.v2.agentsSupporter, params, 'get')
 }
-
-const translateErrMsg = (t, input) => {
-  // console.log('translateErrInner',language,input);
-  // console.log(this)
-  if (typeof input === 'string') {
-    input = input.split(':')[0]
-    var translateMap = [
-      {
-        error: 'Failed to verify second signature',
-        key: 'ERR_TOAST_SECONDKEY_WRONG'
-      },
-      {
-        error: 'Invalid transaction amount',
-        key: 'ERR_TOAST_SECONDKEY_WRONG'
-      },
-      { error: 'Asset not exists', key: 'ERR_TOAST_ASSET_NOTEXIST' },
-      {
-        error: 'Insufficient balance',
-        key: 'ERR_TOAST_ASSET_INSUFFICIENT'
-      },
-      {
-        error: 'Voting limit exceeded. Maximum is 33 votes per transaction',
-        key: 'ERR_TOAST_VOTE_LIMIT'
-      },
-      {
-        error: 'Account is locked',
-        key: 'ERR_TOAST_ACCOUNT_ALREADY_LOCKED'
-      },
-      {
-        error: 'Invalid recipient',
-        key: 'ERR_TOAST_ACCOUNT_INVALID_RECIPIENT'
-      },
-      {
-        error: 'timestamp',
-        key: 'ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP'
-      },
-      {
-        error: 'Invalid lock height',
-        key: 'Invalid lock height'
-      }
-    ]
-
-    for (var idx = 0; idx < translateMap.length; idx++) {
-      if (input.indexOf(translateMap[idx].error) > -1) {
-        toastError(t(translateMap[idx].key))
-        // console.log(translateMap[idx].chinese);
-        return
-      }
-    }
-    toastError(input)
-  }
+// 获取转账记录
+api2.getTransfers = params => {
+  return fetch(urls.v2.transfers, params, 'get')
+}
+// 获取指定账户发行的资产
+api2.addressAsset = params => {
+  return fetch(urls.v2.addressAsset, params, 'get')
 }
 
-const canRetry = ret => {
-  // return ret.error && /blockchain/.test(ret.error.toLowerCase()) && !nodeService.isStaticServer()
-  return false
-}
+// const canRetry = ret => {
+//   // return ret.error && /blockchain/.test(ret.error.toLowerCase()) && !nodeService.isStaticServer()
+//   return false
+// }
 
+/**
 const postService = {
   postWithRetry: (trans, countDown, cb) => {
     let retryOrCallbak = data => {
@@ -382,5 +343,6 @@ const postService = {
     return api.broadcastTransaction(trans)
   }
 }
+*/
 
-export { api, api2, postService, translateErrMsg }
+export { api, api2 }

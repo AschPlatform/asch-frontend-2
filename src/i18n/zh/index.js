@@ -411,6 +411,7 @@ const lang = {
   PROCESSED: '完成情况',
   DONE: '完成',
   PROCESS: '进行中',
+  AGENT_CAN_NOT_BE_DELEGATE: '代理人不能成为受托人',
   proposal: {
     No: '提案编号',
     INITIATOR: '发起人',

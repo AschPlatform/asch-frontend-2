@@ -122,8 +122,7 @@
 </template>
 
 <script>
-import { translateErrMsg } from '../utils/api'
-import { toast, toastWarn } from '../utils/util'
+import { toast, toastWarn, translateErrMsg } from '../utils/util'
 import { createInTransfer, createInnerTransaction, check58 } from '../utils/asch'
 import { required, minValue, numeric } from 'vuelidate/lib/validators'
 import { secondPwdReg } from '../utils/validators'

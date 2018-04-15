@@ -65,8 +65,8 @@
 
 <script>
 import { createAcl } from '../utils/asch'
-import { api, translateErrMsg } from '../utils/api'
-import { toast, toastError } from '../utils/util'
+import { api } from '../utils/api'
+import { toast, toastError, translateErrMsg } from '../utils/util'
 import { secondPwdReg } from '../utils/validators'
 
 export default {

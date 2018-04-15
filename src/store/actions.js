@@ -109,13 +109,6 @@ export default {
   dappMyBalance: ({ commit }, params) => {
     return api.dappMyBalance(params)
   },
-  // open cross asset address
-  openAddress: ({ commit }, params) => {
-    return null
-  },
-  withdrawAsset: ({ commit }, params) => {
-    return null
-  },
   getMoreAssets: ({ commit }, params) => {
     return null
   },
@@ -193,8 +186,8 @@ export default {
   getAssets: ({ commit }, params) => {
     return api2.assets(params)
   },
-  getAddressAsset: ({ commit }, params) => {
-    return api2.addressAsset(params)
+  getAddressAssets: ({ commit }, params) => {
+    return api2.addressAssets(params)
   },
   getAsset: ({ commit }, params) => {
     return api2.asset(params)
@@ -205,5 +198,8 @@ export default {
   },
   getAgentSupporters: ({ commit }, params) => {
     return api2.agentsSupporter(params)
+  },
+  getTransfers: ({ commit }, params) => {
+    return api2.getTransfers(params)
   }
 }

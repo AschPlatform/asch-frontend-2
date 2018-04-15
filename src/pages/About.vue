@@ -60,9 +60,9 @@
 
 <script>
 import avatar from '../assets/caos.jpg'
-import { api, translateErrMsg } from '../utils/api'
+import { api } from '../utils/api'
 import { createVote } from '../utils/asch'
-import { toast } from '../utils/util'
+import { toast, translateErrMsg } from '../utils/util'
 import {
   QCard,
   QCardTitle,

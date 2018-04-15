@@ -185,8 +185,7 @@
 
 <script>
 import { QTable, QPage } from 'quasar'
-import { translateErrMsg } from '../utils/api'
-import { toast, toastInfo } from '../utils/util'
+import { toast, toastInfo, translateErrMsg } from '../utils/util'
 import { fullTimestamp, createDelegate } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
@@ -341,15 +340,6 @@ export default {
       }
       return res
     },
-    async getForgingStatus() {
-      let res = await this.forgingStatus({
-        publicKey: this.publicKey
-      })
-      if (res.success === true) {
-        this.forgingEnabled = res.enabled
-      }
-      return res
-    },
     init() {
       this.getBlocks()
       this.getDelegate()
@@ -385,6 +375,10 @@ export default {
         toastInfo(this.$t('PLEASE_SET_NAME'))
         return null
       }
+      if (this.user.account.isAgent) {
+        toastInfo(this.$t('AGENT_CAN_NOT_BE_DELEGATE'))
+        return null
+      }
       this.isModalShow = true
     },
     async onOk() {
@@ -416,7 +410,7 @@ export default {
     }
   },
   mounted() {
-    if (this.user) {
+    if (this.userInfo) {
       this.init()
     }
   },
@@ -444,7 +438,7 @@ export default {
   },
   watch: {
     userInfo(val) {
-      if (val && val.account.publicKey) {
+      if (val) {
         this.init()
       }
     },
