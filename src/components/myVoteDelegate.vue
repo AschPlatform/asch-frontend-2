@@ -70,9 +70,10 @@ export default {
       })
     }
   },
+  mounted() {},
   computed: {
     btnInfo() {
-      if (this.isSetAgent) {
+      if (this.agentName) {
         return 'VOTE_CANCEL'
       } else {
         return 'VOTE_SET'

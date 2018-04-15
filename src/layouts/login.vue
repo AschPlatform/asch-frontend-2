@@ -166,12 +166,7 @@ export default {
           this.updateUserInfo(user)
           this.loading = false
           this.setUserIsLogin(true)
-          this.$router.push({
-            name: 'home',
-            params: {
-              user: user
-            }
-          })
+          this.$router.push('home')
         } else {
           toastError(t('ERR_SERVER_ERROR'))
           this.loading = false

@@ -12,7 +12,7 @@
 </template>
 
     <q-td slot="body-cell-id" slot-scope="props" :props="props">
-      <div class="my-label" >
+      <div v-if="props.value" class="my-label" >
         {{props.value.substring(0,7)}}
         <q-tooltip>{{props.value}}</q-tooltip>
       </div>
@@ -92,7 +92,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getTransactions']),
+    ...mapActions(['getTransactions', 'getTransfers']),
     info(message) {
       this.$q.notify({
         type: 'positive',
@@ -126,10 +126,13 @@ export default {
       let res
       if (this.type === 1) {
         res = await this.getTransactions(condition)
+        this.trans = res.transactions
       } else {
-        res = await this.getTransactions(condition)
+        condition.ownerId = condition.senderId
+        res = await this.getTransfers(condition)
+        this.trans = res.transfers
       }
-      this.trans = res.transactions
+
       // set max
       this.pagination.rowsNumber = res.count
       this.loading = false
@@ -146,7 +149,7 @@ export default {
       this.$root.$emit('openAccountModal', address)
     },
     matchSelf(address) {
-      return this.address === address
+      return this.userInfo.account.address === address
     },
     resetTable() {
       this.pageNo = 1
@@ -252,19 +255,11 @@ export default {
             align: 'center'
           },
           {
-            name: 'id',
-            label: 'ID',
-            field: 'id'
-          },
-          {
-            name: 'type',
-            label: this.$t('TYPE'),
-            field: 'type',
-            align: 'center',
+            name: 'currency',
+            label: this.$t('ASSET'),
+            field: 'currency',
             filter: true,
-            format: value => {
-              return this.getTransType(value)
-            }
+            type: 'number'
           },
           {
             name: 'senderId',
@@ -299,15 +294,14 @@ export default {
             },
             type: 'number'
           },
+
           {
             name: 'amount',
             label: this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')',
             field: 'amount',
             filter: true,
-            classes: 'text-right',
             // sortable: true,
-            type: 'number',
-            width: '100px'
+            type: 'number'
           },
           {
             name: 'message',

@@ -28,9 +28,9 @@
 
 <script>
 import { QField, QInput, QCard, QIcon, QCardTitle, QCardSeparator, QCardMain, QBtn } from 'quasar'
-import { api, translateErrMsg } from '../utils/api'
+import { api } from '../utils/api'
 import { required, maxLength } from 'vuelidate/lib/validators'
-import { confirm, toastWarn } from '../utils/util'
+import { confirm, toastWarn, translateErrMsg } from '../utils/util'
 import { createIssuer } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 

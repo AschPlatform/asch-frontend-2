@@ -7,10 +7,10 @@
         <q-card-title>
           {{$t('X_ASSETS')}}
         </q-card-title>
-          <q-card-main class="row gutter-xs">
-            <assets-panel :asset="xasBalance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open" type="inner"/>
-            <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"/>
-            <q-btn v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
+          <q-card-main class="row">
+              <assets-panel :asset="xasBalance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open" type="inner"/>
+              <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"/>
+              <q-btn v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
           </q-card-main>
       </q-card>
     <q-card >
@@ -30,15 +30,16 @@
         </q-card-main>
     </q-card>
 
-    <deposit-modal :user="userInfo" :assets="innerBalance" :asset="asset" 
-      :show="depositPanelShow" :haveAdd="false" @close="depositPanelShow=false" />
-    <withdraw-modal :user="userInfo" :assets="innerBalance" :asset="asset" 
-      :show="withdrawPanelShow" :haveAdd="true" @close="withdrawPanelShow=false" />
-    <more-asset-modal :show="moreAssetsModalShow" @close="moreAssetsModalShow=false" @deposit="depositNewAsset"/>
+    <deposit-modal :user="userInfo" :assets="outerBalance" :asset="asset" 
+      :show="depositPanelShow"  @close="depositPanelShow=false" />
+
+    <withdraw-modal :user="userInfo" :assets="outerBalance" :asset="asset" 
+      :show="withdrawPanelShow"  @close="withdrawPanelShow=false" />
     <asset-detail-modal :show="assetDetailModalShow" :asset="asset" 
       @close="assetDetailModalShow=false" :userInfo="userInfo"
       @transfer="transfer" @deposit="deposit"  @withdraw="withdraw"  />
 
+    <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset"/>
   </q-page>
 </template>
 
@@ -133,6 +134,7 @@ export default {
     },
     deposit(asset) {
       this.depositPanelShow = true
+      asset.haveAdd = true // mark as have address asset
       this.asset = asset
       console.log('deposit', asset)
     },

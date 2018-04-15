@@ -79,8 +79,7 @@
 
 <script>
 import { QTabs, QRouteTab, QPage, QTab, QTabPane } from 'quasar'
-import { translateErrMsg } from '../utils/api'
-import { toast, toastWarn } from '../utils/util'
+import { toast, toastWarn, translateErrMsg } from '../utils/util'
 // import { createVote } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
@@ -228,7 +227,7 @@ export default {
       if (res.success) {
         toast('INF_OPERATION_SUCCEEDED')
       } else {
-        translateErrMsg(res.error, this.$t)
+        translateErrMsg(this.$t, res.error)
       }
     },
     async repealAgent() {
@@ -237,7 +236,7 @@ export default {
       if (res.success) {
         toast('INF_OPERATION_SUCCEEDED')
       } else {
-        translateErrMsg(res.error, this.$t)
+        translateErrMsg(this.$t, res.error)
       }
     }
   },

@@ -59,10 +59,10 @@ import {
   QBtn,
   QRadio
 } from 'quasar'
-import { api, translateErrMsg } from '../utils/api'
+import { api } from '../utils/api'
 import { required, maxLength, between, numeric, minValue } from 'vuelidate/lib/validators'
 import { assetName, secondPwdReg } from '../utils/validators'
-import { confirm, toastError, toast } from '../utils/util'
+import { confirm, toastError, toast, translateErrMsg } from '../utils/util'
 import { createAsset, dealBigNumber } from '../utils/asch'
 
 export default {

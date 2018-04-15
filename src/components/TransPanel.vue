@@ -37,8 +37,7 @@
 </template>
 
 <script>
-import { translateErrMsg } from '../utils/api'
-import { toastWarn, toast } from '../utils/util'
+import { toastWarn, toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
 import { address, secondPwd } from '../utils/validators'
 import { required, maxLength, minValue } from 'vuelidate/lib/validators'

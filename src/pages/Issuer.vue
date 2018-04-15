@@ -1,7 +1,7 @@
 <template>
   <q-page class="tab-panel-container row ">
       <div class="col-8 shadow-1">
-        <q-table :data="assetsData?assetsData.assets:[]" :columns="columns" @request="request" :pagination.sync="pagination" 
+        <q-table :data="assets" :columns="columns" @request="request" :pagination.sync="pagination" 
         :loading="loading" :title="$t('MY_ASSETS')">
           
          <template slot="top-right" slot-scope="props">
@@ -174,8 +174,7 @@
 </template>
 
 <script>
-import { translateErrMsg } from '../utils/api'
-import { toast, toastWarn } from '../utils/util'
+import { toast, toastWarn, translateErrMsg } from '../utils/util'
 import { secondPwdReg } from '../utils/validators'
 import { createFlags, createIssue, dealBigNumber } from '../utils/asch'
 import { required, numeric, minValue } from 'vuelidate/lib/validators'
@@ -203,7 +202,7 @@ export default {
   },
   data() {
     return {
-      assetsData: null,
+      assets: [],
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -290,7 +289,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getIssuer', 'myAssets', 'broadcastTransaction']),
+    ...mapActions(['getIssuer', 'getAddressAssets', 'broadcastTransaction']),
     async request(props) {
       await this.getAssets(props.pagination, props.filter)
     },
@@ -299,16 +298,20 @@ export default {
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
-      let res = await this.myAssets({
-        name: this.issuer.name,
+      let res = await this.getAddressAssets({
+        address: this.userInfo.account.address,
         limit: limit,
         offset: (pageNo - 1) * limit
       })
-      this.assetsData = res
-      // set max
-      this.pagination.rowsNumber = res.count
-      this.loading = false
-      return res
+      if (res.success && res.assets) {
+        this.assets = res.assets
+        // set max
+        this.pagination.rowsNumber = res.count
+        this.loading = false
+        return res
+      } else {
+        this.loading = false
+      }
     },
     viewInfo(row) {
       this.row = row

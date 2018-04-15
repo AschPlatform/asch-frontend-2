@@ -176,8 +176,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances', 'setUserIsLogin']),
-    ...mapMutations(['updateUserInfo', 'setUserInfo', 'setVersion', 'setLatestBlock']),
+    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances']),
+    ...mapMutations([
+      'updateUserInfo',
+      'setUserInfo',
+      'setVersion',
+      'setLatestBlock',
+      'setUserIsLogin'
+    ]),
     logout() {
       removeCache('user')
       this.setUserIsLogin(false)
