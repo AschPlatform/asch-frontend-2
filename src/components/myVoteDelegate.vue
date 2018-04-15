@@ -5,7 +5,7 @@
     </q-card-title>
     <q-card-separator />
     <q-card-main class="row" v-if="isGonnaSet">
-      <q-input class="col-12" clearable v-model="agentName" :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
+      <q-input class="col-12" clearable v-model="agent" :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
       <q-input class="col-12" v-if="secondSignature" v-model="secondPwd" type="password" :float-label="$t('TRS_TYPE_SECOND_PASSWORD')"></q-input>
       <q-btn v-if="!isGonnaSet" color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
      <div class="col-12 justify-between">
@@ -15,7 +15,7 @@
      </div>
     </q-card-main>
     <q-card-main align="center" v-else>
-      <span v-if="agentName">{{agentName}}<a class="text-blue" @click="openDetailModal">{{$t('AGENT_DETAIL')}}</a></span>
+      <span v-if="agentName">{{agentName}}<a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a></span>
       <q-btn color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
       <p v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:user.account.weight})}}</p>
     </q-card-main>
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       isGonnaSet: false,
-      agentName: '',
+      agent: '',
       secondPwd: ''
     }
   },
@@ -57,7 +57,7 @@ export default {
     },
     // TODO SET DELEGATE
     setAgent() {
-      if (!nicknameReg.test(this.agentName)) {
+      if (!nicknameReg.test(this.agent)) {
         toastWarn(this.$t('ERR_NICKNAME'))
         return
       }
@@ -65,7 +65,7 @@ export default {
         toastWarn(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
         return
       }
-      this.$emit('setAgent', this.agentName, () => {
+      this.$emit('setAgent', this.agent, () => {
         this.isGonnaSet = false
       })
     }

@@ -55,50 +55,7 @@
     </q-td>
   </q-table>
 
-  <q-modal minimized no-backdrop-dismiss  v-model="modalInfoShow" content-css="padding: 20px">
-      <big>{{$t('DAPP_DETAIL')}}</big>
-      <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
-        <tbody class='info-tbody'>
-          <tr v-clipboard="row.id" @success="info('copy ID success...')">
-            <td >{{'ID'}}</td>
-            <td >{{row.id}}</td>
-          </tr>
-          <tr>
-            <td >{{$t('TYPE')}}</td>
-            <td >{{getTransType(row.type)}}</td>
-          </tr>
-          <tr  v-clipboard="row.senderId" @success="info('copy senderId success...')">
-            <td >{{$t('SENDER')}}</td>
-            <td >{{row.senderId}}</td>
-          </tr>
-          <tr v-clipboard="row.recipientId" @success="info('copy recipientId success...')">
-            <td >{{$t('RECIPIENT')}}</td>
-            <td >{{row.recipientId}}</td>
-          </tr>
-          <tr v-clipboard="this.formatTimestamp(row.timestamp)" @success="info('copy date success...')">
-            <td >{{$t('DATE')}}</td>
-            <td >{{this.formatTimestamp(row.timestamp)}}</td>
-          </tr>
-          <tr v-clipboard="getAmountNFee(row)" @success="info('copy amount success...')">
-            <td >{{this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')'}}</td>
-            <td >{{getAmountNFee(row)}}</td>
-          </tr>
-          <tr v-clipboard="row.message" @success="info('copy message success...')">
-            <td >{{$t('REMARK')}}</td>
-            <td >{{row.message}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <br/>
-      <q-btn
-        color="primary"
-        @click="()=>{
-          this.modalInfoShow = false
-          this.row = {}
-          }"
-        label="Close"
-      />
-    </q-modal>
+  
 </div>
 </template>
 
@@ -183,8 +140,7 @@ export default {
     },
     getDataInfo(props) {
       let { row } = props
-      this.row = row
-      this.modalInfoShow = true
+      this.$root.$emit('showTransInfoModal', row)
     },
     async getAccountInfo(address) {
       this.$root.$emit('openAccountModal', address)

@@ -37,27 +37,27 @@
       <big>{{$t('DAPP_DETAIL')}}</big>
       <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
         <tbody class='info-tbody'>
-          <tr v-clipboard="row.currency" @success="info('copy name success...')">
+          <tr v-clipboard="row.currency  || 'no data'" @success="info('copy name success...')">
             <td >{{$t('ASSET_NAME')}}</td>
             <td >{{row.currency}}</td>
           </tr>
-          <tr v-clipboard="row.balanceShow" @success="info('copy balance success...')">
+          <tr v-clipboard="row.balanceShow  || 'no data'" @success="info('copy balance success...')">
             <td >{{$t('BALANCE')}}</td>
             <td >{{row.balanceShow}}</td>
           </tr>
-          <tr  v-clipboard="row.maximumShow" @success="info('copy maximum success...')">
+          <tr  v-clipboard="row.maximumShow || 'no data'" @success="info('copy maximum success...')">
             <td >{{$t('MAXIMUM')}}</td>
             <td >{{row.maximumShow}}</td>
           </tr>
-          <tr v-clipboard="row.precision" @success="info('copy precision success...')">
+          <tr v-clipboard="row.precision || 'no data'" @success="info('copy precision success...')">
             <td >{{$t('PRECISION')}}</td>
             <td >{{row.precision}}</td>
           </tr>
-          <tr v-clipboard="row.quantity" @success="info('copy quantity success...')">
+          <tr v-clipboard="row.quantity || 'no data'" @success="info('copy quantity success...')">
             <td >{{$t('QUANTITY')}}</td>
             <td >{{row.quantityShow}}</td>
           </tr>
-          <tr v-clipboard="row.writeoff?'normal':'writeoff'" @success="info('copy message success...')">
+          <tr v-clipboard="row.writeoff?'normal':'writeoff' || 'no data'" @success="info('copy message success...')">
             <td >{{$t('REMARK')}}</td>
             <td >{{row.writeoff?'normal':'writeoff'}}</td>
           </tr>

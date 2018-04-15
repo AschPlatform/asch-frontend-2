@@ -201,12 +201,9 @@ export default {
   },
 
   getAgentVotes: ({ commit }, params) => {
-    return api2.currency(params)
+    return api.myvotes(params)
   },
   getAgentSupporters: ({ commit }, params) => {
-    return api2.currency(params)
-  },
-
-  // post api
-  postProposal: () => {}
+    return api2.agentsSupporter(params)
+  }
 }

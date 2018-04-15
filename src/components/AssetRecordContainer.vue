@@ -13,7 +13,7 @@
 </template>
 
     <q-td slot="body-cell-id" slot-scope="props" :props="props">
-      <div class="my-label" >
+      <div v-if="props.value" class="my-label" >
         {{props.value.substring(0,7)}}
         <q-tooltip>{{props.value}}</q-tooltip>
       </div>

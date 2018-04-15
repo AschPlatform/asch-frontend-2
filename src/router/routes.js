@@ -13,7 +13,7 @@ export default [
     name: 'main',
     children: [
       {
-        path: 'home',
+        path: '/',
         name: 'home',
         component: load('Home')
       },
