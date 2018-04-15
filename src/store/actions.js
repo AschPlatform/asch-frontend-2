@@ -205,5 +205,8 @@ export default {
   },
   getAgentSupporters: ({ commit }, params) => {
     return api2.currency(params)
-  }
+  },
+
+  // post api
+  postProposal: () => {}
 }
