@@ -18,7 +18,6 @@
       </q-toolbar>
     </q-layout-header>
   
-  
     <q-layout-drawer v-model="showLeft" side="left">
       <!--
                     Use <q-item> component
@@ -97,7 +96,7 @@
     </q-modal>
 
     <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText"/>
-    <float-menu v-if="this.showFloatBtns" :router="$router" :userObj="user" />
+    <!-- <float-menu v-if="this.showFloatBtns" :router="$router" :userObj="user" /> -->
     <trans-info-modal :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false"/>  
     </q-page-container>
      <q-ajax-bar ref="bar" position="top" color="orange" />  
