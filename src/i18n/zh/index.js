@@ -468,6 +468,7 @@ const lang = {
     REMOVE_COUNCIL: '我提议撤销理事会',
     REMOVE_REASON: '撤销原因',
     PERIOD_REASON: '任职周期更改原因',
+    INIT_REASON: '网关初始化原因',
     READ_TIP1: '自觉遵守《社区自治用户协议书》',
     READ_TIP2: '发布提案将消耗 100 XAS',
     INSTEAD_PRE: '由',

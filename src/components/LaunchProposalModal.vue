@@ -13,13 +13,13 @@
         </div>
         <div class="row">
           <q-field :label-width="3" :error-label="$t('ERR.ERR_REQUIRE_TYPE')" :label="$t('proposal.SELECT_P_TYPE')" class="col-4">
-            <q-select v-model="first_type" :options="proposalType" @blur="$v.first_type.$touch()" :error="$v.first_type.$error"/>
+            <q-select v-model="first_type" :options="proposalType" @change="detectChange" @blur="$v.first_type.$touch()" :error="$v.first_type.$error"/>
           </q-field>
           <q-field class="col-4 q-ml-lg" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change'">
             <q-select v-model="p_selected" :options="councilList" @blur="$v.p_selected.$touch()" :error="$v.p_selected.$error" :placeholder="$t('proposal.SELECT_P_COUNCIL')"/>
           </q-field>
           <q-field class="col-4 q-ml-lg" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change_n'">
-            <q-select v-model="p_selected" :options="netList" @blur="$v.p_selected.$touch()" :error="$v.p_selected.$error" :placeholder="$t('proposal.SELECT_P_NET')"/>
+            <q-select v-model="p_selected" :options="netList" @change="val => {console.log(val)}" @blur="$v.p_selected.$touch()" :error="$v.p_selected.isSelected" :placeholder="$t('proposal.SELECT_P_NET')"/>
           </q-field>
         </div>
         <div class="row">
@@ -65,7 +65,7 @@
             </div>
             <div class="">
               <q-field class="col-8" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
-                <q-input type="textarea" v-model="NEW.brief" @blur="$v.NEW.brief.$touch()" :error="$v.NEW.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
             </div>
           </div>
@@ -109,7 +109,7 @@
             </div>
             <div class="row">
               <q-field class="col-8" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
-                <q-input type="textarea" v-model="NEW.brief" @blur="$v.NEW.brief.$touch()" :error="$v.NEW.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
             </div>
           </div>
@@ -118,7 +118,12 @@
           <div class="col-12" v-show="this.second_type === 'init' && this.first_type === 'change_n'" id="init">
             <div class="row">
               <q-field class="col-8" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-                <q-select chips multiple filter v-model="INIT.selected" @blur="$v.INIT.selected.$touch()" :error="$v.INIT.selected.ifEnough" :options="NEW.memberList"></q-select>
+                <q-select chips multiple filter v-model="INIT.selected" @input="detectChange" @blur="$v.INIT.selected.$touch()" :error="$v.INIT.selected.ifEnough" :options="delegateList"></q-select>
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="col-9" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.INIT_REASON')">
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
             </div>
           </div>
@@ -136,7 +141,7 @@
             </div>
             <div class="row">
               <q-field class="col-9" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.PERIOD_REASON')">
-                <q-input type="textarea" v-model="PERIOD.brief" @blur="$v.PERIOD.brief.$touch()" :error="$v.PERIOD.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
             </div>
           </div>
@@ -163,7 +168,7 @@
           <div class="col-12" v-show="this.second_type === 'remove' && this.first_type === 'change'" id="remove">
             <div class="">
               <q-field class="" label-width="1" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.REMOVE_REASON')">
-                <q-input type="textarea" v-model="REMOVE.brief" @blur="$v.REMOVE.brief.$touch()" :error="$v.REMOVE.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
             </div>
           </div>
@@ -181,7 +186,7 @@
             </div>
             <div class="row">
               <q-field class="col-9" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.PERIOD_REASON')">
-                <q-input type="textarea" v-model="PERIOD.brief" @blur="$v.PERIOD.post.$touch()" :error="$v.PERIOD.post.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.PERIOD.post.$touch()" :error="$v.PERIOD.post.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
             </div>
           </div>
@@ -265,7 +270,7 @@ export default {
       second_type: null,
       p_time_start: null,
       p_time_end: null,
-      p_selected: {},
+      p_selected: null,
       P_CHANGE_TYPE: null,
       // net proposal
       p_type_n: null,
@@ -329,6 +334,7 @@ export default {
       councilList: [],
       netList: [],
       delegateList: [],
+      brief: null,
       NEW: {
         memberList: [
           {
@@ -343,7 +349,6 @@ export default {
         memberNumber: null,
         selected: [],
         period: null,
-        brief: null,
         agreement: [],
         // NET SCOPE
         name: null,
@@ -355,12 +360,10 @@ export default {
         selected: []
       },
       REMOVE: {
-        brief: null
       },
       PERIOD: {
         pre: null,
-        post: null,
-        brief: null
+        post: null
       },
       MEMBER: {
         type: [
@@ -398,9 +401,13 @@ export default {
       required
     },
     p_selected: {
-      required: () => {
+      isSelected() {
+        debugger
         if (this.first_type === 'change' || this.first_type === 'change_n') {
-          return true
+          if (this.p_selected === null && this.$v.p_selected.$dirty !== false) {
+            return true
+          }
+          return false
         }
         return false
       }
@@ -410,6 +417,11 @@ export default {
     },
     p_time_end: {
       required
+    },
+    brief: {
+      required,
+      minLength: minLength(50),
+      maxLength: maxLength(1000)
     },
     second_type: {
       test(val) {
@@ -432,7 +444,6 @@ export default {
         required,
         ifEnough(val) {
           // to see whether should use the
-          console.log(this.NEW.memberNumber, val.length, this.$v)
           if (this.NEW.memberNumber !== val.length && this.$v.NEW.selected.$dirty !== false) {
             return true
           }
@@ -443,11 +454,6 @@ export default {
         required,
         minValue: minValue(1),
         maxValue: maxValue(30)
-      },
-      brief: {
-        required,
-        minLength: minLength(50),
-        maxLength: maxLength(1000)
       },
       // NET SCOPE
       name: {
@@ -475,11 +481,6 @@ export default {
         required,
         minValue: minValue(1),
         maxValue: maxValue(30)
-      },
-      brief: {
-        required,
-        minLength: minLength(50),
-        maxLength: maxLength(1000)
       }
     },
     MEMBER: {
@@ -488,11 +489,6 @@ export default {
       }
     },
     REMOVE: {
-      brief: {
-        required,
-        minLength: minLength(50),
-        maxLength: maxLength(1000)
-      }
     }
   },
   components: {
@@ -511,7 +507,7 @@ export default {
   mounted() {
   },
   methods: {
-    ...mapActions(['postProposal']),
+    ...mapActions(['postProposal', 'getAllGateways', 'gatewayDelegates']),
     hideModal() {
       this.$emit('hide')
     },
@@ -524,7 +520,7 @@ export default {
       let content = {}
       if (this.first_type === 'new_n') {
         // launch a new gateway
-        this.p_desc = this.NEW.brief
+        this.p_desc = this.brief
         debugger
         content = {
           name: this.NEW.name,
@@ -542,8 +538,9 @@ export default {
           this.p_desc = ''
           content = {
             // TODO need get gateway detail & members detail
-            gateway: this.p_selected.symbol,
-            members: this.INIT.selected
+            gateway: this.p_selected.name,
+            members: this.INIT.selected,
+            desc: this.brief
           }
         } else if (this.second_type === 'period_n') {
           // this.p_desc = this.PERIOD.brief
@@ -553,10 +550,10 @@ export default {
           //   to: this.PERIOD.post
           // }
         } else {
-          this.p_desc = this.MEMBER.brief
+          this.p_desc = this.brief
           content = {
             // TODO need getway member list
-            gateway: this.p_selected.symbol,
+            gateway: this.p_selected.name,
             from: this.MEMBER.instead_pre,
             to: this.MEMBER.instead_post
           }
@@ -565,15 +562,57 @@ export default {
       return JSON.stringify(content)
     },
     launchProposal() {
-      console.log(this.p_time_start, this.p_time_end, this.endHeight)
       let obj = {}
       obj.content = this.compileContent()
       obj.title = this.p_title
-      obj.desc = this.p_desc
+      obj.desc = this.brief
       obj.topic = this.countedType
       obj.endHeight = this.endHeight
       debugger
       this.postProposal(obj)
+    },
+    // select component change func
+    detectChange() {
+      console.log('changed')
+    },
+    // info get funcs
+    async getAllGate() {
+      let res = await this.getAllGateways()
+      debugger
+      let ls = []
+      this._.each(res.gateways, function (o) {
+        return ls.push({
+          label: o.name,
+          value: o
+        })
+      })
+      this.netList = ls
+      console.log(this.netList)
+    },
+    async getAllDelegates(name, isJoin) {
+      let res = await this.gatewayDelegates({
+        name: this.p_selected.name
+      })
+      let ls = []
+      if (isJoin) {
+        console.log('gonna adjust delegated')
+        this._.each(res.validators, function (o) {
+          if (o.elected === 1) {
+            return ls.push({
+              label: o.address,
+              value: o.address
+            })
+          }
+        })
+      } else {
+        this._.each(res.validators, function (o) {
+          return ls.push({
+            label: o.address,
+            value: o.address
+          })
+        })
+      }
+      this.delegateList = ls
     }
   },
   computed: {
@@ -600,6 +639,21 @@ export default {
     },
     countedInterval() {
       return Number(this.NEW.period) * 8640
+    }
+  },
+  watch: {
+    first_type(val) {
+      if (val === 'change_n') {
+        this.getAllGate()
+      }
+    },
+    second_type(val) {
+      if (val === 'init') {
+        console.log('gonna get all delegates')
+        this.getAllDelegates(this.p_selected, true)
+      } else if (val === 'member') {
+        this.getAllDelegates(this.p_selected, false)
+      }
     }
   }
 }

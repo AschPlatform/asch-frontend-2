@@ -204,6 +204,15 @@ export default {
   getTransfers: ({ commit }, params) => {
     return api2.getTransfers(params)
   },
+
+  // about gateway
+  getAllGateways: ({ commit }, params) => {
+    return api2.gateways(params)
+  },
+  // get all delegates of one gateway
+  gatewayDelegates: ({ commit }, params) => {
+    return api2.gatewayDelegates(params)
+  },
   // api2 post actions
   postProposal: ({ commit }, params) => {
     const secret = getCache('user').secret
