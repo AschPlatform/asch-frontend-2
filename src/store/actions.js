@@ -168,12 +168,13 @@ export default {
     return api2.currencies(params)
   },
   getBalances: ({ commit }, params) => {
-    return api2.balances(params).then(res => {
-      if (res.success) {
-        commit('setBalances', res.balances)
-      }
-      return res
-    })
+    // return api2.balances(params).then(res => {
+    //   if (res.success) {
+    //     commit('setBalances', res.balances)
+    //   }
+    //   return res
+    // })
+    return api2.balances(params)
   },
 
   getBalance: ({ commit }, params) => {

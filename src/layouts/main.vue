@@ -182,7 +182,8 @@ export default {
       'setUserInfo',
       'setVersion',
       'setLatestBlock',
-      'setUserIsLogin'
+      'setUserIsLogin',
+      'setBalances'
     ]),
     logout() {
       removeCache('user')
@@ -199,7 +200,12 @@ export default {
       return conf
     },
     async openTransactionDialog(asset = null) {
-      this.asset = asset
+      if (asset) {
+        // asset.symbol = asset.name
+        this.asset = asset
+      } else {
+        this.asset = { currency: 'XAS', precision: 8, balance: this.userInfo.account.xas }
+      }
       this.transShow = true
     },
     async openAccountModal(address) {
@@ -280,9 +286,6 @@ export default {
         this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
         // window.CHPlugin.checkIn()
       }
-      await this.getBalances({
-        address: this.userInfo.account.address
-      })
     }
   },
   computed: {
