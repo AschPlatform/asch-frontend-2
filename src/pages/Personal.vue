@@ -6,11 +6,11 @@
         {{$t('PERSONAL')}}
       </q-card-title>
       <q-card-main class="row col-12 justify-center">
-        <div class="personal-top row justify-left shadow-2">
-          <div class="personal-head-portrait">
+        <div class="personal-top col-12 row justify-left shadow-2">
+          <div class="personal-head-portrait col-1">
             <jdenticon class="personal-head-canvas self-center" :address="address" :size="60" />
           </div>
-          <div class="  text-left row justify-left">
+          <div class="col-7 col-md-7 col-lg-6 col-xl-5 text-left row justify-left">
             <div>
               <span class="text-black font-22 vertical-align-middle">
                   {{$t('HELLO')}}
@@ -22,8 +22,8 @@
               <q-btn class="text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
             </div>
           </div>
-          <span class="right-line"></span>
-          <div class="personal-qr text-left">
+          <div class="personal-qr col-3 row justify-left text-left">
+            <span class="right-line"></span>
             <div class="row justify-center" @click="showAddrQr">
               <vue-qr class="personal-qr-container" :size="103" :text="address"></vue-qr>
             </div>
@@ -541,7 +541,7 @@ export default {
 .personal-top {
   padding: 28px 30px;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 6px;
   margin-bottom: 28px;
 }
 
@@ -569,16 +569,17 @@ export default {
 }
 
 .right-line {
+  display: inline-block;
   width: 2px;
   height: 68px;
-  background: #dddddd;
-  margin-top: 26px;
+  background: #ddd;
+  margin-top: 18px;
+  margin-right: 30px;
 }
 
 .personal-qr {
   width: 103px;
   height: 100px;
-  margin-left: 60px;
 }
 
 .personal-qr-container {
@@ -592,6 +593,7 @@ export default {
 
 .personal-bottom {
   padding: 30px 0;
+  border-radius: 6px;
 }
 
 .personal-bottom a {
@@ -625,6 +627,7 @@ export default {
   margin-right: 10px;
 }
 
-.bottom-left-link
-  width 20%
+.bottom-left-link {
+  width: 20%;
+}
 </style>
