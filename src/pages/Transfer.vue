@@ -12,6 +12,7 @@
          {{$t('PAY_TIP')}}
            </span>
       </q-card-title>
+      <span class="transfer-title-line"></span>
       <q-card-main class="row justify-left">
         <div class="col-10">
           <trans-panel class="col-12" :assets="assets" :asset="asset" :user="user">
@@ -87,5 +88,13 @@ export default {
 .transfer-accounts-btn {
   width: 50%;
   max-width: 400px;
+}
+
+.transfer-title-line {
+  display: block;
+  width: calc(100% - 40px);
+  height: 1px;
+  background: #dddddd;
+  margin-left: 10px;
 }
 </style>
