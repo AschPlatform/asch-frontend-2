@@ -76,9 +76,9 @@ const filters = {
     return filters.time(i.timestamp) + ' ' + content
   },
   jparse: (value, arg, isHeight) => {
-    debugger
     // Transfer to
-    const obj = eval('(' + value + ')')
+    // const obj = eval('(' + value + ')')
+    const obj = JSON.parse(value)
     if (isHeight) {
       return Number(obj[arg]) / 8640
     }

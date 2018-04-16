@@ -29,7 +29,7 @@
 
 <script>
 import TransPanel from '../components/TransPanel'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   props: ['userObj'],
@@ -39,21 +39,14 @@ export default {
   data() {
     return {}
   },
-  methods: {},
-  mounted() {},
+  methods: {
+    ...mapActions(['getBalance'])
+  },
+  async mounted() {},
   computed: {
     ...mapGetters(['userInfo', 'balances']),
     user() {
       return this.userInfo
-    },
-    assets() {
-      if (this.userInfo) {
-        let balances = this.balances
-        let assets = [this.asset].concat(balances)
-        return assets
-      } else {
-        return []
-      }
     },
     asset() {
       if (this.user) {
