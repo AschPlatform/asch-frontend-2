@@ -7,10 +7,10 @@
           <td>{{$t('ADDRESS')}}</td>
           <td>{{account.address}}</td>
         </tr>
-        <!-- <tr v-clipboard="account.publicKey || 'no data'" @success="info('copy publicKey success...')">
+        <tr >
           <td>{{$t('PUBLIC_KEY')}}</td>
           <td>{{account.publicKey}}</td>
-        </tr> -->
+        </tr>
         <tr id='detail-amount' v-clipboard="account.balance || 'no data'" @success="info('copy balance success...')">
           <td>{{$t('BALANCE')}}</td>
           <td>{{account.xas | fee}}</td>
