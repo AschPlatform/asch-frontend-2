@@ -255,11 +255,11 @@ const asch = {
     })
   },
   // 发起提案
-  createProposal: (title, desc, topic, content, secret, secondPwd = '') => {
+  createProposal: (title, desc, topic, content, endHeight, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx({
       type: 300,
       fee: 10000000,
-      args: [title, desc, topic, content],
+      args: [title, desc, topic, content, endHeight],
       secret,
       secondSecret: secondPwd
     })
@@ -305,4 +305,4 @@ const asch = {
     })
   }
 }
-export default asch
+export { asch }

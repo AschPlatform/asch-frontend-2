@@ -2,7 +2,9 @@
 export const someAction = (state) => {
 }
 */
-import { api, api2 } from '../utils/api'
+import { api, api2, postService } from '../utils/api'
+import { asch } from '../utils/asch-v2'
+import { getCache } from '../utils/util'
 
 export default {
   // get user infomation (balances / nick) / update
@@ -205,5 +207,21 @@ export default {
   },
   getAgentSupporters: ({ commit }, params) => {
     return api2.agentsSupporter(params)
+  },
+
+  // api2 post actions
+  postProposal: ({ commit }, params) => {
+    const secret = getCache('user').secret
+    console.log(secret)
+    let trans = asch.createProposal(params.title,
+      params.desc,
+      params.topic,
+      params.content,
+      params.endHeight,
+      secret,
+      params.secondPwd || ''
+    )
+    console.log(trans, 'here came the crafted trans')
+    postService.post(trans)
   }
 }

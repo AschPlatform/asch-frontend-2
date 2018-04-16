@@ -44,7 +44,7 @@
           :label="$t('proposal.SELECT_P_TYPE')"
           class="col-4"
           :error-label="$t('ERR.ERR_REQUIRE_DETAIL')">
-            <q-select v-model="second_type" @input="logthis" :error="$v.second_type.test" :options="this.first_type === 'change' ? proposalType_sec : proposalType_sec_n"/>
+            <q-select v-model="second_type" :error="$v.second_type.test" :options="this.first_type === 'change' ? proposalType_sec : proposalType_sec_n"/>
           </q-field>
           <!-- below is new page -->
           <div v-show="this.first_type === 'new'" id="new" class="col-8">
@@ -74,12 +74,22 @@
           <div class="col-12" v-show="this.first_type === 'new_n'" id="new">
             <div class="row">
               <q-field class="block col-5" label-width="3" :error-label="$t('ERR.ERR_3_15')" :label="$t('LAUNCH_MODAL.NET_NAME')">
-                <q-input type="text" v-model="NEW.name" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.name.$error"></q-input>
+                <q-input type="text" v-model="NEW.name" @blur="$v.NEW.name.$touch()" :error="$v.NEW.name.$error"></q-input>
               </q-field>
             </div>
             <div class="row">
               <q-field class="block col-5" label-width="3" :error-label="$t('LAUNCH_MODAL.NET_CURRENCY_TIP')" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
-                <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" type="text" v-model="NEW.currency" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.name.$error"></q-input>
+                <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" upper-case type="text" v-model="NEW.currency" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.currency.$error"></q-input>
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="block col-5" label-width="3" :error-label="$t('LAUNCH_MODAL.PRECISION_TIP')" :label="$t('PRECISION')">
+                <q-input :float-label="$t('PRECISION')" upper-case type="number" v-model="NEW.currencyPrecision" @blur="$v.NEW.currencyPrecision.$touch()" :error="$v.NEW.currencyPrecision.$error"></q-input>
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="block col-5" label-width="3" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.CURRENCY_BRIEF')">
+                <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" upper-case type="text" v-model="NEW.currencyBrief" @blur="$v.NEW.currencyBrief.$touch()" :error="$v.NEW.currencyBrief.$error"></q-input>
               </q-field>
             </div>
             <div class="row">
@@ -108,7 +118,7 @@
           <div class="col-12" v-show="this.second_type === 'init' && this.first_type === 'change_n'" id="init">
             <div class="row">
               <q-field class="col-8" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-                <q-select chips multiple filter v-model="NEW.selected" @blur="$v.NEW.selected.$touch()" :error="$v.NEW.selected.ifEnough" :options="NEW.memberList"></q-select>
+                <q-select chips multiple filter v-model="INIT.selected" @blur="$v.INIT.selected.$touch()" :error="$v.INIT.selected.ifEnough" :options="NEW.memberList"></q-select>
               </q-field>
             </div>
           </div>
@@ -126,7 +136,7 @@
             </div>
             <div class="row">
               <q-field class="col-9" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.PERIOD_REASON')">
-                <q-input type="textarea" v-model="PERIOD.brief" @blur="$v.PERIOD.post.$touch()" :error="$v.PERIOD.post.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="PERIOD.brief" @blur="$v.PERIOD.brief.$touch()" :error="$v.PERIOD.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
             </div>
           </div>
@@ -218,7 +228,7 @@
           <br><br>
           <q-checkbox v-model="NEW.agreement" val="two" :label="$t('LAUNCH_MODAL.READ_TIP2')" />
           <div class="row justify-center">
-            <q-btn color="primary" size="md" :label="$t('proposal.BTN_LAUNCH')"></q-btn>
+            <q-btn color="primary" size="md" @click="launchProposal" :label="$t('proposal.BTN_LAUNCH')"></q-btn>
           </div>
         </q-card-main>
         </transition-group>
@@ -241,6 +251,7 @@ import {
   QChipsInput
 } from 'quasar'
 import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'LaunchProposalModal',
@@ -259,14 +270,15 @@ export default {
       p_type_n: null,
       // options for total
       proposalType: [
-        {
-          label: this.$t('proposal.SELECT_NEWCOUNCIL'),
-          value: 'new'
-        },
-        {
-          label: this.$t('proposal.SELECT_CHANGECOUNCIL'),
-          value: 'change'
-        },
+        // protential of council options
+        // {
+        //   label: this.$t('proposal.SELECT_NEWCOUNCIL'),
+        //   value: 'new'
+        // },
+        // {
+        //   label: this.$t('proposal.SELECT_CHANGECOUNCIL'),
+        //   value: 'change'
+        // },
         {
           label: this.$t('proposal.SELECT_NEWNET'),
           value: 'new_n'
@@ -299,10 +311,11 @@ export default {
         }
       ],
       proposalType_sec_n: [
-        {
-          label: this.$t('proposal.SELECT_NETPERIOD'),
-          value: 'period_n'
-        },
+        // protential canceled
+        // {
+        //   label: this.$t('proposal.SELECT_NETPERIOD'),
+        //   value: 'period_n'
+        // },
         {
           label: this.$t('proposal.SELECT_INITNET'),
           value: 'init'
@@ -333,7 +346,12 @@ export default {
         agreement: [],
         // NET SCOPE
         name: null,
-        currency: null
+        currency: null,
+        currencyBrief: null,
+        currencyPrecision: null
+      },
+      INIT: {
+        selected: []
       },
       REMOVE: {
         brief: null
@@ -393,9 +411,8 @@ export default {
       required
     },
     second_type: {
-      test: (val) => {
-        if (this.first_type !== 'new' && this.first_type !== 'new_n' && this.first_type !== null && this.first_type !== null) {
-          console.log(this.$v)
+      test(val) {
+        if (this.first_type !== 'new' && this.first_type !== 'new_n' && this.first_type !== null && this.first_type !== null && this.$v.second_type.$dirty !== false) {
           if (val === null) {
             return true
           }
@@ -439,6 +456,17 @@ export default {
       },
       currency: {
         required
+      },
+      currencyPrecision: {
+        required
+      },
+      currencyBrief: {
+        required
+      }
+    },
+    INIT: {
+      selected: {
+        required
       }
     },
     PERIOD: {
@@ -480,15 +508,83 @@ export default {
     QChipsInput
   },
   mounted() {
-    this.logthis()
   },
   methods: {
+    ...mapActions(['postProposal']),
     hideModal() {
       this.$emit('hide')
     },
-    logthis() {
-      debugger
-      console.log(this.$v)
+    initInfo() {},
+    countedInterval(val) {
+      return val * 8640
+    },
+    // compile the proposal content
+    compileContent() {
+      let content = {}
+      if (this.first_type === 'new_n') {
+        // launch a new gateway
+        this.p_desc = this.NEW.currencyBrief
+        content = {
+          name: this.NEW.name,
+          desc: this.NEW.brief,
+          updateInterval: this.countedInterval(this.NEW.period),
+          minimumMembers: this.NEW.memberNumber,
+          currency: {
+            symbol: this.NEW.currency,
+            desc: this.NEW.currencyBrief,
+            precision: this.NEW.currencyPrecision
+          }
+        }
+      } else if (this.first_type === 'change_n') {
+        if (this.second_type === 'init') {
+          this.p_desc = ''
+          content = {
+            // TODO need get gateway detail & members detail
+            gateway: this.p_selected.symbol,
+            members: this.INIT.selected
+          }
+        } else if (this.second_type === 'period_n') {
+          // this.p_desc = this.PERIOD.brief
+          // content = {
+          //   field: 'updateInterval',
+          //   from: this.PERIOD.pre,
+          //   to: this.PERIOD.post
+          // }
+        } else {
+          this.p_desc = this.MEMBER.brief
+          content = {
+            // TODO need getway member list
+            gateway: this.p_selected.symbol,
+            from: this.MEMBER.instead_pre,
+            to: this.MEMBER.instead_post
+          }
+        }
+      }
+      return JSON.stringify(content)
+    },
+    launchProposal() {
+      let obj = {}
+      obj.title = this.p_title
+      obj.desc = this.p_desc
+      obj.topic = this.countedType
+      obj.content = this.compileContent()
+      this.postProposal(obj)
+    }
+  },
+  computed: {
+    countedType() {
+      if (this.first_type === 'new_n') {
+        return 'gateway_register'
+      } else if (this.first_type === 'change_n') {
+        switch (this.second_type) {
+          case 'init':
+            return 'gateway_init'
+          case 'period_n':
+            return 'gateway_period'
+          case 'member_n':
+            return 'gateway_member'
+        }
+      }
     }
   }
 }

@@ -469,7 +469,10 @@ const lang = {
     READ_TIP2: '发布提案将消耗 100 XAS',
     INSTEAD_PRE: '由',
     INSTEAD_POST: '替换为',
-    NET_PERIOD: '网关最低更新频率参数'
+    NET_PERIOD: '网关最低更新频率参数',
+    PRECISION_TIP: '需要填写精度',
+    CURRENCY_BRIEF: '该币种介绍',
+    CURRENCY_BRIEF_TIP: '需要填写该币种介绍'
   },
   DETAIL_MODAL: {
     MEMBER_CHIPS_PRE: '投票成员名单',
