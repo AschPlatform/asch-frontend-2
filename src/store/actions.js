@@ -3,6 +3,8 @@ export const someAction = (state) => {
 }
 */
 import { api, api2 } from '../utils/api'
+import asch from '../utils/asch-v2'
+import { getCache } from '../utils/util'
 
 export default {
   // get user infomation (balances / nick) / update
@@ -202,5 +204,29 @@ export default {
   },
   getTransfers: ({ commit }, params) => {
     return api2.getTransfers(params)
+  },
+
+  // about gateway
+  getAllGateways: ({ commit }, params) => {
+    return api2.gateways(params)
+  },
+  // get all delegates of one gateway
+  gatewayDelegates: ({ commit }, params) => {
+    return api2.gatewayDelegates(params)
+  },
+  // api2 post actions
+  postProposal: ({ commit }, params) => {
+    const secret = getCache('user').secret
+    console.log(secret)
+    let trans = asch.createProposal(params.title,
+      params.desc,
+      params.topic,
+      params.content,
+      params.endHeight,
+      secret,
+      params.secondPwd || ''
+    )
+    console.log(trans, 'here came the crafted trans')
+    api.broadcastTransaction(trans)
   }
 }

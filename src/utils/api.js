@@ -289,6 +289,14 @@ api2.getTransfers = params => {
 api2.addressAsset = params => {
   return fetch(urls.v2.addressAsset, params, 'get')
 }
+// 获取所有网关
+api2.gateways = params => {
+  return fetch(urls.v2.gateways, params, 'get')
+}
+// 获取某网关所有候选人
+api2.gatewayDelegates = params => {
+  return fetch(urls.v2.gateValidators, params, 'get')
+}
 
 // const canRetry = ret => {
 //   // return ret.error && /blockchain/.test(ret.error.toLowerCase()) && !nodeService.isStaticServer()
