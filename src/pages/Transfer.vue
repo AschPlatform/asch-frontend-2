@@ -1,6 +1,8 @@
 <template>
   <q-card class="q-p-lg">
     <q-card-title>
+      <i class="material-icons">&#xE22B;</i>
+      <i class="material-icons">border_color</i>
       {{$t('TRS_TYPE_TRANSFER')}}
       <div slot="subtitle">{{$t('PAY_TIP')}}</div>
     </q-card-title>
