@@ -76,7 +76,6 @@ const filters = {
     return filters.time(i.timestamp) + ' ' + content
   },
   jparse: (value, arg, isHeight) => {
-    debugger
     // Transfer to
     const obj = eval('(' + value + ')')
     if (isHeight) {

@@ -176,7 +176,7 @@
 <script>
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
 import { secondPwdReg } from '../utils/validators'
-import { createFlags, createIssue, dealBigNumber } from '../utils/asch'
+import { createFlags, createIssue, dealBigNumber, fullTimestamp } from '../utils/asch'
 import { required, numeric, minValue } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
 import { QPage, QModal, QTable, QFabAction, QBtn, QTooltip, QDialog } from 'quasar'
@@ -223,12 +223,12 @@ export default {
           type: 'string',
           filter: true
         },
-        {
-          label: this.$t('MAXIMUM'),
-          field: 'maximumShow',
-          sort: true,
-          filter: true
-        },
+        // {
+        //   label: this.$t('MAXIMUM'),
+        //   field: 'maximumShow',
+        //   sort: true,
+        //   filter: true
+        // },
         {
           label: this.$t('PRECISION'),
           field: 'precision',
@@ -236,25 +236,34 @@ export default {
           type: 'number',
           sort: true
         },
+        // {
+        //   label: this.$t('QUANTITY'),
+        //   field: 'quantityShow',
+        //   filter: true,
+        //   sort: true
+        // },
+        // {
+        //   label: this.$t('CANCELLATION'),
+        //   field: 'writeoff',
+        //   align: 'center',
+        //   format: val => {
+        //     return val === 0 ? 'normal' : 'writeoff'
+        //   }
+        // },
+        // {
+        //   name: 'allowWriteoff',
+        //   label: this.$t('ALLOW_WWB'),
+        //   field: 'allowWriteoff',
+        //   align: 'center'
+        // }
         {
-          label: this.$t('QUANTITY'),
-          field: 'quantityShow',
-          filter: true,
-          sort: true
-        },
-        {
-          label: this.$t('CANCELLATION'),
-          field: 'writeoff',
+          name: 'timestamp',
+          label: this.$t('DATE'),
+          field: 't_timestamp',
           align: 'center',
-          format: val => {
-            return val === 0 ? 'normal' : 'writeoff'
+          format: value => {
+            return fullTimestamp(value)
           }
-        },
-        {
-          name: 'allowWriteoff',
-          label: this.$t('ALLOW_WWB'),
-          field: 'allowWriteoff',
-          align: 'center'
         }
       ],
       modalInfoShow: false,

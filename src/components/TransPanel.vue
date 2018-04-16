@@ -41,12 +41,12 @@ import { toastWarn, toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
 import { address, secondPwd } from '../utils/validators'
 import { required, maxLength, minValue } from 'vuelidate/lib/validators'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
 import { QField, QInput } from 'quasar'
 
 export default {
-  props: ['user', 'assets', 'asset', 'showTitle'],
+  props: ['user', 'asset', 'showTitle'],
   components: { Jdenticon, QField, QInput },
   data() {
     return {
@@ -82,7 +82,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['broadcastTransaction']),
+    ...mapActions(['broadcastTransaction', 'getBalances']),
+    ...mapMutations(['setBalances']),
     async send() {
       this.$v.form.$touch()
       let invlaidPwd = false
@@ -136,6 +137,12 @@ export default {
       }
       this.$v.form.$reset()
       this.$v.secondPwd.$reset()
+    },
+    async refreshBalances() {
+      let res = await this.getBalances({ address: this.user.account.address })
+      if (res.success) {
+        this.setBalances(res.balances)
+      }
     }
   },
   mounted() {
@@ -147,23 +154,25 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['balancesMap']),
+    ...mapGetters(['balances', 'userInfo']),
     secondSignature() {
       return this.user ? this.user.account.secondPublicKey : null
     },
     assetsOpt() {
-      return this.assets.map(asset => {
+      let arr = this.balances.map(asset => {
         return {
           label: asset.currency,
           value: asset.currency
         }
       })
+      return [{ label: 'XAS', value: 'XAS' }].concat(arr)
     },
     assetsMap() {
       let assetsMap = {}
-      this.assets.forEach(asset => {
+      this.balances.forEach(asset => {
         assetsMap[asset.currency] = asset
       })
+      assetsMap['XAS'] = { name: 'XAS', precision: 8, balance: this.userInfo.account.xas }
       return assetsMap
     }
   },
@@ -176,6 +185,9 @@ export default {
     },
     asset(val) {
       this.form.currency = val.currency
+    },
+    user(val) {
+      this.refreshBalances()
     }
   }
 }

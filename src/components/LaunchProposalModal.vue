@@ -487,7 +487,6 @@ export default {
       this.$emit('hide')
     },
     logthis() {
-      debugger
       console.log(this.$v)
     }
   }

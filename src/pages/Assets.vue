@@ -8,9 +8,9 @@
           {{$t('X_ASSETS')}}
         </q-card-title>
           <q-card-main class="row">
-              <assets-panel :asset="xasBalance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open" type="inner"/>
-              <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"/>
-              <q-btn v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
+            <assets-panel :asset="xasBalance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open" type="inner"/>
+            <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"/>
+            <q-btn v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
           </q-card-main>
       </q-card>
     <q-card >
@@ -135,8 +135,8 @@ export default {
     deposit(asset) {
       this.depositPanelShow = true
       asset.haveAdd = true // mark as have address asset
+      asset.symbol = asset.name // mark as have address asset
       this.asset = asset
-      console.log('deposit', asset)
     },
     depositNewAsset(asset) {
       this.moreAssetsModalShow = false
