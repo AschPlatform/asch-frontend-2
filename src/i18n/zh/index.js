@@ -125,7 +125,7 @@ const lang = {
   // transfer/pay
   SEND: '发送',
   ALREADY_LOCKED: '您已经锁仓，此行为被拒绝',
-  PAY_TIP: '请确保您发送到正确的地址，本操作无法撤消',
+  PAY_TIP: '  *请确保您发送到正确的地址，本操作无法撤消',
 
   // peers
   PEER_LIST: '节点列表',
@@ -325,7 +325,7 @@ const lang = {
   QRCODE_CLOSE: '点击二维码关闭',
 
   // ============== new add =================
-
+  RECIPIENT_NAME_ADDRESS: '请输入需要转账的账户名或者钱包地址',
   RECORD: '记录',
   MAIN_ASSET: '主资产',
   SEE_ALL_ASSETS: '查看全部资产',
@@ -335,7 +335,7 @@ const lang = {
   CROSS_ASSETS: '跨链资产',
   WITHDRAW: '提现',
   DEPOSIT: '充值',
-  AVAILABLE_BALANCE: '可用转账余额',
+  AVAILABLE_BALANCE: '*可用转账余额：',
   PROPOSAL: '提案',
   COUNCIL: '理事会',
   DEPOSIT_NO_ADDR_TIP: '你尚未开通 {currency} 钱包收款地址',
