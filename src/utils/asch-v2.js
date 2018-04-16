@@ -143,11 +143,11 @@ const asch = {
   },
 
   // 注册发行商 TODO
-  registerIssuer: (desc, secret, secondPwd = '') => {
+  registerIssuer: (name, desc, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx({
       type: 100,
       fee: 10000000,
-      args: [desc],
+      args: [name, desc],
       secret,
       secondSecret: secondPwd
     })
@@ -284,10 +284,30 @@ const asch = {
       secondSecret: secondPwd
     })
   },
+  // 网关注册候选人
+  registerGateway: (gateway, publicKey, desc, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx({
+      type: 401,
+      fee: 10000000,
+      args: [gateway, publicKey, desc],
+      secret,
+      secondSecret: secondPwd
+    })
+  },
+  // 网关开户
+  openGatewayAccount: (gateway, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx({
+      type: 402,
+      fee: 10000000,
+      args: [gateway],
+      secret,
+      secondSecret: secondPwd
+    })
+  },
   // 网关充值
   depositGateway: (address, currency, amount, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx({
-      type: 400,
+      type: 402,
       fee: 10000000,
       args: [address, currency, amount],
       secret,
@@ -297,7 +317,7 @@ const asch = {
   // 网关提现
   withdrawGateway: (address, currency, amount, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx({
-      type: 401,
+      type: 403,
       fee: 10000000,
       args: [address, currency, amount],
       secret,
@@ -305,4 +325,4 @@ const asch = {
     })
   }
 }
-export { asch }
+export default asch

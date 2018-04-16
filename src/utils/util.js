@@ -79,3 +79,59 @@ export const getCurrentSeverUrl = () => {
     return false
   }
 }
+
+export const translateErrMsg = (t, input) => {
+  // console.log('translateErrInner',language,input);
+  // console.log(this)
+  if (typeof input === 'string') {
+    input = input.split(':')[0]
+    var translateMap = [
+      {
+        error: 'Failed to verify second signature',
+        key: 'ERR_TOAST_SECONDKEY_WRONG'
+      },
+      {
+        error: 'Invalid transaction amount',
+        key: 'ERR_TOAST_SECONDKEY_WRONG'
+      },
+      { error: 'Asset not exists', key: 'ERR_TOAST_ASSET_NOTEXIST' },
+      {
+        error: 'Insufficient balance',
+        key: 'ERR_TOAST_ASSET_INSUFFICIENT'
+      },
+      {
+        error: 'Voting limit exceeded. Maximum is 33 votes per transaction',
+        key: 'ERR_TOAST_VOTE_LIMIT'
+      },
+      {
+        error: 'Account is locked',
+        key: 'ERR_TOAST_ACCOUNT_ALREADY_LOCKED'
+      },
+      {
+        error: 'Invalid recipient',
+        key: 'ERR_TOAST_ACCOUNT_INVALID_RECIPIENT'
+      },
+      {
+        error: 'timestamp',
+        key: 'ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP'
+      },
+      {
+        error: 'Invalid lock height',
+        key: 'Invalid lock height'
+      },
+      {
+        error: 'Currency not supported',
+        key: 'Currency not supported'
+      }
+    ]
+
+    for (var idx = 0; idx < translateMap.length; idx++) {
+      if (input.indexOf(translateMap[idx].error) > -1) {
+        toastError(t(translateMap[idx].key))
+        // console.log(translateMap[idx].chinese);
+        return
+      }
+    }
+    toastError(input)
+  }
+}

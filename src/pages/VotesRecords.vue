@@ -77,10 +77,9 @@
 </template>
 
 <script>
-import { api, translateErrMsg } from '../utils/api'
-import { toast } from '../utils/util'
+import { toast, translateErrMsg } from '../utils/util'
 import { createVote } from '../utils/asch'
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   props: ['userObj'],
@@ -146,6 +145,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['myvotes', 'broadcastTransaction']),
     refresh() {
       this.pagination = this.paginationDeafult
       this.getDelegates()
@@ -160,7 +160,7 @@ export default {
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
       console.log('inner datas:', this.pagination, limit, pageNo)
-      let res = await api.myvotes({
+      let res = await this.myvotes({
         address: this.user.account.address,
         orderBy: 'rate:asc',
         limit: limit,
@@ -189,7 +189,7 @@ export default {
         return
       }
       let trans = createVote(this.selectedDelegate, this.user.secret, this.secondPwd)
-      let res = await api.broadcastTransaction(trans)
+      let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_VOTE_SUCCESS'))
       } else {

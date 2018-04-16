@@ -298,7 +298,7 @@ const urls = {
       url: '/api/v2/uia/assets'
     },
     // 获取指定账户发行的资产
-    addressAsset: {
+    addressAssets: {
       url: '/api/v2/uia/issuers/:address/assets'
     },
     // 获取指定资产详情
@@ -312,6 +312,10 @@ const urls = {
     // 获取指定资产详情
     agentsSupporter: {
       url: '/api/v2/:name/clienteles'
+    },
+    // 获取转账记录
+    transfers: {
+      url: '/api/v2/transfers'
     }
   },
 

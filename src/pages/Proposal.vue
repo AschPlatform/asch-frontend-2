@@ -167,6 +167,7 @@ export default {
       }
       let res = await this.getProposals(condition)
       this.proposalDetail = res.proposals
+      this.pagination.rowsNumber = res.count
       this.loading = false
       console.log('got it', res)
       return res

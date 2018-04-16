@@ -7,9 +7,9 @@
           </q-toolbar-title>
         </q-toolbar>
 
-        <q-toolbar slot="header">
+        <!-- <q-toolbar slot="header">
           <q-search class="full-width" inverted v-model="filter" color="none" />
-        </q-toolbar>
+        </q-toolbar> -->
 
         <q-toolbar slot="footer">
           <q-btn flat :label="$t('label.close')" @click="close"/>
@@ -60,7 +60,7 @@ import { convertFee } from '../utils/asch'
 
 export default {
   name: 'DepositModal',
-  props: ['show'],
+  props: ['show', ''],
   components: {
     QModal,
     QModalLayout,
@@ -118,7 +118,7 @@ export default {
         offset: (pageNo - 1) * limit
       })
       if (res.success === true) {
-        this.currencies = res.currencies
+        this.currencies = res.currencies.filter(asset => !this.assetMap[asset.symbol])
         this.pagination.rowsNumber = res.count
       }
       return res
@@ -137,7 +137,17 @@ export default {
       this.$emit('deposit', asset)
     }
   },
-  computed: {},
+  computed: {
+    assetMap() {
+      let assetMap = {}
+      if (this.assets && this.asset.length) {
+        this.assets.forEach(asset => {
+          assetMap[asset.symbol] = asset
+        })
+      }
+      return assetMap
+    }
+  },
   watch: {
     filter(val) {
       if (val) {

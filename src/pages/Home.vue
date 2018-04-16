@@ -35,7 +35,7 @@
              </div>
            </q-card-main>
           <q-card-main >
-            <q-list highlight>
+            <q-list v-if="balances.length" highlight>
               <q-item v-for="(balance,idx) in  balances" :key="idx">
                 <q-item-side>
                   <q-item-tile avatar>

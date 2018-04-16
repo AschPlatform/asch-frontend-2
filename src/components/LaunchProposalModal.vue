@@ -252,6 +252,7 @@ import {
 } from 'quasar'
 import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
 import { mapActions } from 'vuex'
+import { getCache } from '../utils/util'
 
 export default {
   name: 'LaunchProposalModal',
@@ -515,19 +516,20 @@ export default {
       this.$emit('hide')
     },
     initInfo() {},
-    countedInterval(val) {
-      return val * 8640
-    },
+    // countedInterval(val) {
+    //   return val * 8640
+    // },
     // compile the proposal content
     compileContent() {
       let content = {}
       if (this.first_type === 'new_n') {
         // launch a new gateway
-        this.p_desc = this.NEW.currencyBrief
+        this.p_desc = this.NEW.brief
+        debugger
         content = {
           name: this.NEW.name,
-          desc: this.NEW.brief,
-          updateInterval: this.countedInterval(this.NEW.period),
+          desc: this.NEW.currencyBrief,
+          updateInterval: this.countedInterval,
           minimumMembers: this.NEW.memberNumber,
           currency: {
             symbol: this.NEW.currency,
@@ -563,11 +565,14 @@ export default {
       return JSON.stringify(content)
     },
     launchProposal() {
+      console.log(this.p_time_start, this.p_time_end, this.endHeight)
       let obj = {}
+      obj.content = this.compileContent()
       obj.title = this.p_title
       obj.desc = this.p_desc
       obj.topic = this.countedType
-      obj.content = this.compileContent()
+      obj.endHeight = this.endHeight
+      debugger
       this.postProposal(obj)
     }
   },
@@ -585,6 +590,16 @@ export default {
             return 'gateway_member'
         }
       }
+    },
+    endHeight() {
+      let currentHeight = getCache('user').latestBlock.height
+      let pre = new Date(this.p_time_start).getTime()
+      let post = new Date(this.p_time_end).getTime()
+      let shift = (post - pre) / 10000
+      return currentHeight + shift
+    },
+    countedInterval() {
+      return Number(this.NEW.period) * 8640
     }
   }
 }

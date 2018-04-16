@@ -2,8 +2,8 @@
 export const someAction = (state) => {
 }
 */
-import { api, api2, postService } from '../utils/api'
-import { asch } from '../utils/asch-v2'
+import { api, api2 } from '../utils/api'
+import asch from '../utils/asch-v2'
 import { getCache } from '../utils/util'
 
 export default {
@@ -111,13 +111,6 @@ export default {
   dappMyBalance: ({ commit }, params) => {
     return api.dappMyBalance(params)
   },
-  // open cross asset address
-  openAddress: ({ commit }, params) => {
-    return null
-  },
-  withdrawAsset: ({ commit }, params) => {
-    return null
-  },
   getMoreAssets: ({ commit }, params) => {
     return null
   },
@@ -195,8 +188,8 @@ export default {
   getAssets: ({ commit }, params) => {
     return api2.assets(params)
   },
-  getAddressAsset: ({ commit }, params) => {
-    return api2.addressAsset(params)
+  getAddressAssets: ({ commit }, params) => {
+    return api2.addressAssets(params)
   },
   getAsset: ({ commit }, params) => {
     return api2.asset(params)
@@ -208,7 +201,9 @@ export default {
   getAgentSupporters: ({ commit }, params) => {
     return api2.agentsSupporter(params)
   },
-
+  getTransfers: ({ commit }, params) => {
+    return api2.getTransfers(params)
+  },
   // api2 post actions
   postProposal: ({ commit }, params) => {
     const secret = getCache('user').secret
@@ -222,6 +217,6 @@ export default {
       params.secondPwd || ''
     )
     console.log(trans, 'here came the crafted trans')
-    postService.post(trans)
+    api.broadcastTransaction(trans)
   }
 }

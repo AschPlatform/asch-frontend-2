@@ -6,8 +6,7 @@
          row-key="ip" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PEER_LIST')">
   
           <template slot="top-right" slot-scope="props">
-              <q-btn flat round  color="primary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-              <q-toggle v-model="official" label="official" color="primary" />
+              <q-toggle v-model="official" color="primary"  />
           </template>
            
           <q-td slot="body-cell-ip"  slot-scope="props" :props="props">

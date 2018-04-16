@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { toast } from '../utils/util'
 export default {
   props: ['show', 'account'],
   data() {
@@ -31,6 +32,9 @@ export default {
   methods: {
     close() {
       this.$emit('close')
+    },
+    info(msg) {
+      toast(msg)
     }
   },
   computed: {},

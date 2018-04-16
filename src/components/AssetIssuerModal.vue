@@ -38,10 +38,9 @@ import {
   QBtn,
   QModal
 } from 'quasar'
-import { translateErrMsg } from '../utils/api'
 import { required, maxLength } from 'vuelidate/lib/validators'
-import { confirm, toastWarn } from '../utils/util'
-import { createIssuer } from '../utils/asch'
+import { confirm, toastWarn, translateErrMsg } from '../utils/util'
+import asch from '../utils/asch-v2'
 import { secondPwdReg } from '../utils/validators'
 import { mapActions, mapGetters } from 'vuex'
 
@@ -114,7 +113,7 @@ export default {
             this.done()
           },
           async () => {
-            let trans = createIssuer(name, desc, secret, this.secondPwd)
+            let trans = asch.registerIssuer(name, desc, secret, this.secondPwd)
             let res = await this.broadcastTransaction(trans)
             if (res.success) {
               this.user.issuer = true

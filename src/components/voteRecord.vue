@@ -98,9 +98,8 @@
 </template>
 
 <script>
-import { translateErrMsg } from '../utils/api'
 import { QTabs, QTab, QTabPane } from 'quasar'
-import { toast } from '../utils/util'
+import { toast, translateErrMsg } from '../utils/util'
 import { createVote } from '../utils/asch'
 import { mapGetters, mapActions } from 'vuex'
 
@@ -234,6 +233,8 @@ export default {
         this.SP.pagination.rowsNumber = res.accounts.length
         this.SP.loading = false
         return res
+      } else {
+        this.SP.loading = false
       }
     },
     viewAccountInfo(row) {

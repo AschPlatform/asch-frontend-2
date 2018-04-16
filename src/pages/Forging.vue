@@ -89,8 +89,8 @@
 </template>
 
 <script>
-import { api, translateErrMsg } from '../utils/api'
-import { toast } from '../utils/util'
+import { api } from '../utils/api'
+import { toast, translateErrMsg } from '../utils/util'
 import { fullTimestamp, createDelegate } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 

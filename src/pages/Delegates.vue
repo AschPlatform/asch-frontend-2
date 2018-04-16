@@ -73,8 +73,7 @@
 </template>
 
 <script>
-import { translateErrMsg } from '../utils/api'
-import { toast } from '../utils/util'
+import { toast, translateErrMsg } from '../utils/util'
 import { createVote } from '../utils/asch'
 import { mapActions } from 'vuex'
 

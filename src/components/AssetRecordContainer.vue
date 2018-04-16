@@ -2,7 +2,7 @@
   <div>
     <q-table :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
       <template slot="top-right" slot-scope="props">
-        <q-btn-toggle v-model="type" outline
+        <q-btn-toggle v-if="isCross" v-model="type" outline
     toggle-color="primary"
     :options="[
       {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},
@@ -70,7 +70,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'AssetRecordContainer',
-  props: ['currency'],
+  props: ['currency', 'isCross'],
   components: {
     QTable,
     QTd,
@@ -95,7 +95,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getTransactions', 'getMyCurrencyDeposits', 'getMyCurrencyWithdrawals']),
+    ...mapActions(['getTransfers', 'getMyCurrencyDeposits', 'getMyCurrencyWithdrawals']),
     info(message) {
       this.$q.notify({
         type: 'positive',
@@ -119,7 +119,7 @@ export default {
       let pageNo = this.pagination.page
       let condition = {
         // TODO 参数 bug
-        senderId: this.userInfo.account.address,
+        ownerId: this.userInfo.account.address,
         orderBy: 'timestamp:desc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -129,22 +129,30 @@ export default {
       }
       let res
       if (this.type === 1) {
-        res = await this.getTransactions(condition)
-        this.trans = res.transactions
+        res = await this.getTransfers(condition)
+        this.trans = res.transfers
       } else if (this.type === 2) {
-        condition = this._.merge({}, condition, {
+        condition = {
           address: this.userInfo.account.address,
           currency: this.currency
-        })
+        }
         res = await this.getMyCurrencyDeposits(condition)
-        this.trans = res.deposits
+        if (res.success && res.deposits) {
+          this.trans = res.deposits
+        } else {
+          this.trans = []
+        }
       } else if (this.type === 3) {
-        condition = this._.merge({}, condition, {
+        condition = {
           address: this.userInfo.account.address,
           currency: this.currency
-        })
+        }
         res = await this.getMyCurrencyWithdrawals(condition)
-        this.trans = res.deposits
+        if (res.success && res.withdrawals) {
+          this.trans = res.withdrawals
+        } else {
+          this.trans = []
+        }
       }
 
       // set max
@@ -164,7 +172,7 @@ export default {
       this.$root.$emit('openAccountModal', address)
     },
     matchSelf(address) {
-      return this.address === address
+      return this.userInfo.account.address === address
     },
     resetTable() {
       this.pageNo = 1
@@ -180,7 +188,9 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() {
+    if (this.userInfo) this.getTrans()
+  },
   computed: {
     ...mapGetters(['userInfo']),
     dynamicCol() {
@@ -192,21 +202,21 @@ export default {
             field: 'opt',
             align: 'center'
           },
-          {
-            name: 'id',
-            label: 'ID',
-            field: 'id'
-          },
-          {
-            name: 'type',
-            label: this.$t('TYPE'),
-            field: 'type',
-            align: 'center',
-            filter: true,
-            format: value => {
-              return this.getTransType(value)
-            }
-          },
+          // {
+          //   name: 'id',
+          //   label: 'ID',
+          //   field: 'id'
+          // },
+          // {
+          //   name: 'type',
+          //   label: this.$t('TYPE'),
+          //   field: 'type',
+          //   align: 'center',
+          //   filter: true,
+          //   format: value => {
+          //     return this.getTransType(value)
+          //   }
+          // },
           {
             name: 'senderId',
             label: this.$t('SENDER'),

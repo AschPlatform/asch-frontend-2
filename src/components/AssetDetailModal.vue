@@ -24,12 +24,24 @@
           
           <assets-panel v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"/>
           <assets-panel v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw"/>
-          <q-card class="col-4">
+          <q-card v-if="address">
+            <q-card-main>
+              <p>{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
+              <div>
+                {{address}} 
+                <q-btn v-clipboard="address || 'no data'" @success="info('copy senderId success...')" size="xs"  flat round icon="compare arrows" />
+              </div>
+               <div class="row justify-center" @click="showAddrQr">
+               <vue-qr :size="100" :text="address"></vue-qr>
+             </div>
+            </q-card-main>
+          </q-card>
+          <q-card v-if="asset.asset" class="col-4">
             <q-card-main>
               <table>
                 <tr>
                   <td>{{$t('ISSUER')}}</td>
-                  <td>{{asset.issuerName}}</td>
+                  <td>{{asset.asset.issuerName}}</td>
                 </tr>
                 <tr>
                   <td>{{$t('DAPP_COIN_TOTAL_AMOUNT')}}</td>
@@ -42,17 +54,18 @@
               </table>
             </q-card-main>
           </q-card>
-          <q-card class="col-4">
+
+          <q-card v-if="asset.asset" class="col-4">
             <q-card-main>
               <p>
-                desc
+                {{asset.asset.desc}}
               </p>
             </q-card-main>
           </q-card>
 
         </div>
         <div>
-          <asset-record-container :userInfo="userInfo" :currency="asset.currency" />
+          <asset-record-container :isCross="isCross" :currency="asset.currency" />
         </div>
    </q-modal-layout>
   </q-modal>
@@ -61,6 +74,7 @@
 import { mapActions, mapGetters } from 'vuex'
 import AssetRecordContainer from '../components/AssetRecordContainer'
 import AssetsPanel from './AssetsPanel'
+import VueQr from 'vue-qr'
 
 import {
   QModal,
@@ -99,7 +113,8 @@ export default {
     QCardActions,
     QBtn,
     AssetRecordContainer,
-    AssetsPanel
+    AssetsPanel,
+    VueQr
   },
   data() {
     return {
@@ -125,9 +140,8 @@ export default {
     }
   },
   async mounted() {
-    console.log(this.asset)
     if (this.isCross) {
-      // let res = await this.getAsset()
+      await this.getAsset()
     }
   },
   methods: {
@@ -154,6 +168,9 @@ export default {
     withdraw(asset) {
       this.$emit('withdraw', asset)
       this.close()
+    },
+    showAddrQr() {
+      this.$root.$emit('showQRCodeModal', this.address)
     }
   },
   computed: {
@@ -164,6 +181,9 @@ export default {
       } else {
         return false
       }
+    },
+    address() {
+      return this.asset && this.asset.address ? this.asset.address : ''
     }
   },
   watch: {}
