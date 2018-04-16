@@ -1,22 +1,6 @@
 <template>
   <q-page class="assets-container">
-    <!-- <big>
-          {{$t('ASSET_PROFILE')}}
-        </big> -->
-    <!-- <q-card class="assets-container-top no-shadow">
-      {{$t('ASSET_PROFILE')}}
-    </big> --> -->
     <q-card class="assets-container-top no-shadow">
-        <q-card-title>
-          {{$t('X_ASSETS')}}
-        </q-card-title>
-          <q-card-main class="row">
-            <assets-panel :asset="xasBalance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open" type="inner"/>
-            <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"/>
-            <q-btn v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
-          </q-card-main>
-      </q-card>
-    <q-card >
       <q-card-title>
         <i class="material-icons vertical-align-middle text-secondary font-22">person</i>
         <span class="font-22 text-tertiary">
