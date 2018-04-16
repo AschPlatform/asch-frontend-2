@@ -1,45 +1,48 @@
 <template>
-  <q-page padding>
+  <q-page class="assets-container">
     <!-- <big>
-      {{$t('ASSET_PROFILE')}}
-    </big> -->
-    <q-card >
-        <q-card-title>
-          {{$t('X_ASSETS')}}
-        </q-card-title>
-          <q-card-main class="row">
-              <assets-panel :asset="xasBalance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open" type="inner"/>
-              <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"/>
-              <q-btn v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
-          </q-card-main>
-      </q-card>
-    <q-card >
+          {{$t('ASSET_PROFILE')}}
+        </big> -->
+    <q-card class="assets-container-top no-shadow">
       <q-card-title>
-        {{$t('CROSS_ASSETS')}}
+        <i class="material-icons vertical-align-middle text-secondary font-22">person</i>
+        <span class="font-22 text-tertiary">
+             {{$t('X_ASSETS')}}
+              </span>
       </q-card-title>
-        <q-card-main class="row gutter-xs">
-        <assets-panel v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer"  @deposit="deposit"  @withdraw="withdraw"  @open="open"/>
-        <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
-        <q-card class="col-4" >
-          <q-card-main>
-            <div @click="moreAssets" >
-              {{$t('MORE_ASSETS')}}
-            </div>
-          </q-card-main>
-        </q-card>
-        </q-card-main>
+      <q-card-main class="row justify-left">
+        <assets-panel class="assets-panel-container" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" />
+        <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open" />
+        <q-btn v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
+      </q-card-main>
     </q-card>
-
-    <deposit-modal :user="userInfo" :assets="outerBalance" :asset="asset" 
-      :show="depositPanelShow"  @close="depositPanelShow=false" />
-
-    <withdraw-modal :user="userInfo" :assets="outerBalance" :asset="asset" 
-      :show="withdrawPanelShow"  @close="withdrawPanelShow=false" />
-    <asset-detail-modal :show="assetDetailModalShow" :asset="asset" 
-      @close="assetDetailModalShow=false" :userInfo="userInfo"
-      @transfer="transfer" @deposit="deposit"  @withdraw="withdraw"  />
-
-    <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset"/>
+    <q-card class="assets-container-bottom no-shadow">
+      <q-card-title>
+        <i class="material-icons vertical-align-middle text-secondary font-22">person</i>
+        <span>
+           {{$t('CROSS_ASSETS')}}
+          </span>
+  
+      </q-card-title>
+      <q-card-main class="row justify-left">
+        <assets-panel v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" />
+        <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
+        <q-card class="col-3 shadow-2 more-assets-container">
+          <div class="more-assets-btn row justify-center items-center" @click="moreAssets">
+            <span>
+               {{$t('MORE_ASSETS')}}
+            </span>
+          </div>
+        </q-card>
+      </q-card-main>
+    </q-card>
+  
+    <deposit-modal :user="userInfo" :assets="outerBalance" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
+  
+    <withdraw-modal :user="userInfo" :assets="outerBalance" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
+    <asset-detail-modal :show="assetDetailModalShow" :asset="asset" @close="assetDetailModalShow=false" :userInfo="userInfo" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
+  
+    <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
   </q-page>
 </template>
 
@@ -201,5 +204,39 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.assets-container {
+  background: #e7ebee;
+}
 
+.assets-container-top {
+  padding: 30px 20px 0 20px;
+}
+
+.assets-container-bottom {
+  padding: 0px 20px;
+}
+
+.assets-panel-container {
+  // padding 0 20px
+}
+
+.more-assets-container {
+  padding: 30px;
+  min-width: 300px;
+  cursor: pointer;
+  background: #ffffff;
+  margin: 30px;
+}
+
+.more-assets {
+  height: 100%;
+  background: #ffffff;
+  margin-top: -15px;
+  height: calc(100% + 30px);
+}
+
+.more-assets-btn {
+  width: 100%;
+  height: 100%;
+}
 </style>

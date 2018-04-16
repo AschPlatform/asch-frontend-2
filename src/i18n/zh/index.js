@@ -331,7 +331,7 @@ const lang = {
   SEE_ALL_ASSETS: '查看全部资产',
   TRANSFER_TIP: '钱包转账为不可逆，请务必核对收款地址',
   RECEIVE: '收款',
-  X_ASSETS: '链内资产',
+  X_ASSETS: 'Asch链内资产',
   CROSS_ASSETS: '跨链资产',
   WITHDRAW: '提现',
   DEPOSIT: '充值',
