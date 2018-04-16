@@ -9,7 +9,7 @@ const lang = {
   PRODUCER: '生产者',
   TRANSACTIONS: '交易',
   AMOUNTS: '金额',
-  FEES: '费用',
+  FEES: '手续费',
   REWARDS: '奖励',
   TYPE: '类型',
   SENDER: '发送者',

@@ -15,8 +15,8 @@
       <q-card-main class="row justify-left">
         <div class="col-10">
           <trans-panel class="col-12" :assets="assets" :asset="asset" :user="user">
-            <div class="col-6" slot="btns" slot-scope="props">
-              <q-btn big class="12" color="secondary" @click="props.send" :label="$t('TRS_TYPE_TRANSFER')" />
+            <div class="col-12" slot="btns" slot-scope="props">
+              <q-btn big class="transfer-accounts-btn" color="secondary" @click="props.send" :label="$t('TRS_TYPE_TRANSFER')" />
             </div>
           </trans-panel>
         </div>
@@ -84,5 +84,8 @@ export default {
   display: inline-block;
 }
 
-
+.transfer-accounts-btn {
+  width: 50%;
+  max-width: 400px;
+}
 </style>

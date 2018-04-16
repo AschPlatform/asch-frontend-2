@@ -14,7 +14,7 @@
          <q-select
           v-model="form.currency"
           :options="assetsOpt" />
-          <p class="text-secondary" v-if="form.currency" >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
+          <p class="text-secondary font-12" v-if="form.currency" >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
       </q-field>
       <q-field class="col-12" :label="$t('AMOUNTS')+':'" :label-width="1">
         <q-input  @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="1" :error="$v.form.amount.$error" :error-label="$t('ERR_AMOUNT_INVALID')" />
@@ -28,7 +28,7 @@
       <q-field class="col-12" :label="$t('REMARK')+':'" :label-width="1">
         <q-input :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" :error-label="$t('ERR_INVALID_REMARK')" />
       </q-field>
-      <div class="panelBtn">
+      <div class="panelBtn col-6">
         <slot name="btns" :send="send" :cancel="cancel" />
       </div>
     </div>
@@ -53,7 +53,7 @@ export default {
         from: '',
         receiver: '',
         amount: '',
-        fee: '0.1',
+        fee: '0.1 XAS',
         remark: '',
         currency: ''
       },
@@ -183,5 +183,15 @@ export default {
 <style lang="stylus">
 .panelBtn {
   margin-top: 30px;
+}
+
+.q-field-label {
+  color: #333333 !important;
+  font-size: 16px;
+}
+
+.q-input-target {
+  color: #999999 !important;
+  font-size: 16px;
 }
 </style>
