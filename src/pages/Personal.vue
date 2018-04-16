@@ -541,7 +541,7 @@ export default {
 .personal-top {
   padding: 28px 30px;
   width: 100%;
-  border-radius: 5px;
+  border-radius: 6px;
   margin-bottom: 28px;
 }
 
@@ -592,6 +592,7 @@ export default {
 
 .personal-bottom {
   padding: 30px 0;
+  border-radius: 6px;
 }
 
 .personal-bottom a {
