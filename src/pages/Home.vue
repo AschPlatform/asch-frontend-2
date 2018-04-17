@@ -26,8 +26,9 @@
       </div>
     </div>
   
-    <div class="home-bottom bg-white no-border row col shadow-1 ">
+    <div class="home-bottom no-border row col no-shadow">
       <div class="home-bottom-left col-4 balance-panel">
+        <div class="home-bottom-left-container bg-white shadow-1">
         <q-card class="no-shadow">
           <q-card-title>
             <i class="material-icons font-24 vertical-align-middle text-secondary">email</i>
@@ -72,8 +73,9 @@
             <q-btn class="home-all-btn q-hoverable bg-secondary text-white q-btn-rounded" color="secondary" @click="assets" flat :label="$t('SEE_ALL_ASSETS')" />
           </q-card-main>
         </q-card>
+        </div>
       </div>
-      <div class="col-8">
+      <div class="col-8 bg-white">
         <trans-record-container :userInfo="userInfo" />
       </div>
     </div>
@@ -191,7 +193,11 @@ export default {
 }
 
 .home-bottom-left {
-  padding: 20px;
+  padding-right: 20px;
+}
+
+.home-bottom-left-container {
+  height: 100%;
 }
 
 .qr-right-container {
