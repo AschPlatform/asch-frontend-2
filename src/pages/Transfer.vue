@@ -1,5 +1,5 @@
 <template>
-  <q-card class="transfer-container no-shadow q-p-lg">
+  <q-card class="transfer-container  no-shadow q-p-lg">
     <div class="transfer-content shadow-2">
       <q-card-title>
         <span class="text-tertiary font-22">
@@ -67,6 +67,7 @@ export default {
 <style lang="stylus" scoped>
 .transfer-container {
   padding: 40px;
+  background #ffffff
 }
 
 .transfer-content {

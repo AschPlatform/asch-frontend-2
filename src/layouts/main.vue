@@ -76,7 +76,7 @@
           <q-item-main :label="$t('COUNCIL')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('gateway')">
-          <q-item-side icon="" />
+          <q-item-side icon="apps" />
           <q-item-main :label="$t('GATEWAY')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('applications')">
