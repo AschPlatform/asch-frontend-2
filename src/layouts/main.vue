@@ -234,7 +234,7 @@ export default {
     async openTransactionDialog(asset = null) {
       if (asset) {
         // asset.symbol = asset.name
-        this.asset = asset
+        this.asset = this._.merge({}, asset)
       } else {
         this.asset = {
           currency: 'XAS',
@@ -304,6 +304,8 @@ export default {
         this.transShow = false
       }
     }
+    // showAssetDetailModal(asset){
+    // }
   },
   async mounted() {
     let user = this.userInfo || getCache('user') || null
@@ -357,6 +359,7 @@ export default {
     this.$root.$on('showAjaxBar', this.showAjaxBar)
     this.$root.$on('changeFloatBtn', this.changeFloatBtn)
     this.$root.$on('showQRCodeModal', this.showQRCodeModal)
+    // this.$root.$on('showAssetDetailModal', this.showAssetDetailModal)
   },
   beforeDestroy() {
     clearInterval(this.intervalNum)
@@ -367,6 +370,7 @@ export default {
     this.$root.$off('changeFloatBtn', this.changeFloatBtn)
     this.$root.$off('showQRCodeModal', this.showQRCodeModal)
     this.$root.$off('showTransInfoModal', this.openTransInfoModal)
+    // this.$root.$off('showAssetDetailModal', this.showAssetDetailModal)
   }
 }
 </script>

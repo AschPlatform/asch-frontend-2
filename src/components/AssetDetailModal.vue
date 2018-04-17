@@ -24,7 +24,7 @@
           
           <assets-panel v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"/>
           <assets-panel v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw"/>
-          <q-card v-if="address">
+          <q-card v-if="isCross && address">
             <q-card-main>
               <p>{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
               <div>
@@ -36,20 +36,20 @@
              </div>
             </q-card-main>
           </q-card>
-          <q-card v-if="asset.asset" class="col-4">
+          <q-card v-if="assetDetail" class="col-4">
             <q-card-main>
               <table>
                 <tr>
                   <td>{{$t('ISSUER')}}</td>
-                  <td>{{asset.asset.issuerName}}</td>
+                  <td>{{assetDetail.issuerId}}</td>
                 </tr>
                 <tr>
                   <td>{{$t('DAPP_COIN_TOTAL_AMOUNT')}}</td>
-                  <td>{{asset.quantityShow}}</td>
+                  <td>{{assetDetail.maximum |fee(assetDetail.precision)}}</td>
                 </tr>
                 <tr>
                   <td>{{$t('DAPP_COIN_CURRENT_QUANTITY')}}</td>
-                  <td>{{asset.maximumShow}}</td>
+                  <td>{{assetDetail.quantity ||fee(assetDetail.precision) }}</td>
                 </tr>
               </table>
             </q-card-main>
@@ -184,6 +184,9 @@ export default {
     },
     address() {
       return this.asset && this.asset.address ? this.asset.address : ''
+    },
+    assetDetail() {
+      return this.asset.asset
     }
   },
   watch: {}

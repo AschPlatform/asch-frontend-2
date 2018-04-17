@@ -46,11 +46,12 @@
                 <q-item-side right>
                   <q-item-tile >
                     {{balance.balance | fee(balance.precision)}}
+                    <q-btn flat round icon="arrow forward" @click="$router.push({name:'assets',params:{asset:balance}})" />
                   </q-item-tile>
                 </q-item-side>
               </q-item>
             </q-list>
-            <q-btn @click="assets" flat :label="$t('SEE_ALL_ASSETS')" icon="compare arrows" />
+            <q-btn @click="assets" flat size="xs" :label="$t('SEE_ALL_ASSETS')" icon="compare arrows" />
           </q-card-main>
         </q-card>
       </div>
