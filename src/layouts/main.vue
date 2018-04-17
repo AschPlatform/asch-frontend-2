@@ -48,10 +48,10 @@
   
     <q-layout-drawer class="bg-seven" v-model="showLeft" side="left">
       <!--
-                        Use <q-item> component
-                        instead of <q-item> for
-                        internal vue-router navigation
-                      -->
+                          Use <q-item> component
+                          instead of <q-item> for
+                          internal vue-router navigation
+                        -->
       <q-list no-border link inset-delimiter>
         <q-list-header>
           <div class="menu-logo" /> </q-list-header>
@@ -75,6 +75,10 @@
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('COUNCIL')" />
         </q-item>
+        <q-item class="list-item-container" item :to="getRouterConf('gateway')">
+          <q-item-side icon="" />
+          <q-item-main :label="$t('GATEWAY')" />
+        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('applications')">
           <q-item-side icon="apps" />
           <q-item-main :label="$t('APPLICATIONS')" />
@@ -84,9 +88,9 @@
           <q-item-main :label="$t('PERSONAL')" />
         </q-item>
         <!-- <q-item item :to="getRouterConf('forging')">
-              <q-item-side icon="gavel" />
-              <q-item-main :label="$t('FORGING')" />
-            </q-item> -->
+                <q-item-side icon="gavel" />
+                <q-item-main :label="$t('FORGING')" />
+              </q-item> -->
         <q-item class="list-item-container" item :to="getRouterConf('blocks')">
           <q-item-side icon="public" />
           <q-item-main :label="$t('BLOCKS')" />
@@ -424,11 +428,11 @@ export default {
   border-bottom: 1px solid #2c3411;
 }
 
-.q-item.active, .q-item.router-link-active, .q-item:focus{
-    color: #ffffff;
+.q-item.active, .q-item.router-link-active, .q-item:focus {
+  color: #ffffff;
 }
 
-.q-item.active i, .q-item.router-link-active i, .q-item:focus i{
-    color: #ffffff;
+.q-item.active i, .q-item.router-link-active i, .q-item:focus i {
+  color: #ffffff;
 }
 </style>

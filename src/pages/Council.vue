@@ -1,6 +1,6 @@
 <template>
   <q-page padding class="">
-      <h5>全部理事会</h5>
+      <h5>{{$t('COUNCILS')}}</h5>
       <div class="row">
         <council-snippet v-for="(item, idx) in councils" :item="item" :key="idx" @callModal="switchModal"></council-snippet>
       </div>
@@ -16,7 +16,7 @@ import councilModal from '../components/CouncilModal'
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'Council',
+  name: 'Gateway',
   data() {
     return {
       councils: [],

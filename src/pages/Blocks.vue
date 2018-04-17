@@ -265,7 +265,7 @@ export default {
       row: {},
       type: 0,
       // is this user delegate
-      isDelegate: false,
+      // isDelegate: false,
       dialogShow: false,
       isModalShow: false,
       form: {
@@ -336,7 +336,7 @@ export default {
       })
       if (res.success === true) {
         this.delegate = res.delegate
-        this.isDelegate = true
+        // this.isDelegate = true
       }
       return res
     },
@@ -420,7 +420,7 @@ export default {
       return this.userInfo
     },
     publicKey() {
-      if (this.user) return this.user.account.publicKey
+      if (this.user) return this.user.publicKey
     },
     secondSignature() {
       return this.user && this.user.account ? this.user.account.secondPublicKey : null
@@ -434,7 +434,8 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 20
       }
-    }
+    },
+    isDelegate() {}
   },
   watch: {
     userInfo(val) {
