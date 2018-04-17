@@ -1,86 +1,115 @@
 <template>
   <q-layout ref="layout" view="lHh Lpr fff">
-    <q-layout-header>
+    <q-layout-header class="no-shadow">
   
-      <q-toolbar>
+      <q-toolbar class="head-top row justify-between bg-white">
         <q-btn flat @click="showLeft=!showLeft">
-          <q-icon name="menu" />
+          <q-icon name="menu" class="text-faded" />
         </q-btn>
-  
-        <q-toolbar-title v-if="latestBlock">
-          {{$t('LATEST_BLOCK_HEIGHT')+': '+latestBlock.height}} {{latestBlock.timestamp | time}}
-        </q-toolbar-title>
   
         <q-btn flat @click="logout">
-          <q-icon name="power settings new" />
+          <q-icon name="power settings new" class="text-faded" />
         </q-btn>
+  
       </q-toolbar>
+      <div class="head-bottom row justify-left col-12">
+        <div class="col-3">
+          <p class="font-22 text-black">
+            {{$t('VERSION_INFO')}}
+          </p>
+          <p>
+            <i class="font-16 text-secondary"> Asch Wallet </i>
+            <span class="font-16 text-six">V1.4.0</span>
+          </p>
+        </div>
+        <div class="col-3">
+          <p class="font-22 text-black">
+            {{$t(' TIME')}}
+          </p>
+          <p>
+            <span class="font-16 text-secondary">{{latestBlock.timestamp | time}}</span>
+          </p>
+        </div>
+        <div class="col-3" v-if="latestBlock">
+          <p class="font-22 text-black">
+            {{$t(' LATEST_BLOCK_HEIGHT')}}
+          </p>
+          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+        </div>
+        <div class="col-3" v-if="latestBlock">
+          <p class="font-60 text-secondary">{{latestBlock.height}}</p>
+        </div>
+      </div>
     </q-layout-header>
   
-    <q-layout-drawer v-model="showLeft" side="left">
+    <q-layout-drawer class="bg-seven" v-model="showLeft" side="left">
       <!--
-                      Use <q-item> component
-                      instead of <q-item> for
-                      internal vue-router navigation
-                    -->
+                          Use <q-item> component
+                          instead of <q-item> for
+                          internal vue-router navigation
+                        -->
       <q-list no-border link inset-delimiter>
         <q-list-header>
           <div class="menu-logo" /> </q-list-header>
-        <q-item item :to="getRouterConf('home')">
+        <q-item class="list-item-container" item :to="getRouterConf('home')">
           <q-item-side icon="home" />
           <q-item-main :label="$t('HOME')" />
         </q-item>
-        <q-item item :to="getRouterConf('account')">
+        <q-item class="list-item-container" item :to="getRouterConf('account')">
           <q-item-side icon="attach money" />
           <q-item-main :label="$t('ASSET')" />
         </q-item>
-        <q-item item :to="getRouterConf('transfer')">
+        <q-item class="list-item-container" item :to="getRouterConf('transfer')">
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('TRANSFER')" />
         </q-item>
-        <q-item item :to="getRouterConf('proposal')">
+        <q-item class="list-item-container" item :to="getRouterConf('proposal')">
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('PROPOSAL')" />
         </q-item>
-        <q-item item :to="getRouterConf('council')">
+        <q-item class="list-item-container" item :to="getRouterConf('council')">
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('COUNCIL')" />
         </q-item>
-        <q-item item :to="getRouterConf('gateway')">
+        <q-item class="list-item-container" item :to="getRouterConf('gateway')">
           <q-item-side icon="" />
           <q-item-main :label="$t('GATEWAY')" />
         </q-item>
-        <q-item item :to="getRouterConf('applications')">
+        <q-item class="list-item-container" item :to="getRouterConf('applications')">
           <q-item-side icon="apps" />
           <q-item-main :label="$t('APPLICATIONS')" />
         </q-item>
-        <q-item item :to="getRouterConf('personal')">
+        <q-item class="list-item-container" item :to="getRouterConf('personal')">
           <q-item-side icon="person" />
           <q-item-main :label="$t('PERSONAL')" />
         </q-item>
         <!-- <q-item item :to="getRouterConf('forging')">
-            <q-item-side icon="gavel" />
-            <q-item-main :label="$t('FORGING')" />
-          </q-item> -->
-        <q-item item :to="getRouterConf('blocks')">
+                <q-item-side icon="gavel" />
+                <q-item-main :label="$t('FORGING')" />
+              </q-item> -->
+        <q-item class="list-item-container" item :to="getRouterConf('blocks')">
           <q-item-side icon="public" />
           <q-item-main :label="$t('BLOCKS')" />
         </q-item>
-        <q-item item :to="getRouterConf('delegates')">
+        <q-item class="list-item-container" item :to="getRouterConf('delegates')">
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
         </q-item>
-        <q-item item :to="getRouterConf('issuer')">
+        <q-item class="list-item-container" item :to="getRouterConf('issuer')">
           <q-item-side icon="blur on" />
           <q-item-main :label="$t('TRS_TYPE_UIA_ISSUE')" />
         </q-item>
-        <q-item item :to="getRouterConf('peers')">
+        <q-item class="list-item-container" item :to="getRouterConf('peers')">
           <q-item-side icon="blur on" />
           <q-item-main :label="$t('PEERS')" />
         </q-item>
       </q-list>
     </q-layout-drawer>
-    <q-page-container>
+    <q-page-container class="all-page-container">
       <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="500">
         <router-view :userObj="user" />
       </transition>
@@ -343,6 +372,11 @@ export default {
 </script>
 
 <style lang="stylus">
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 .menu-logo {
   background: url('../assets/logo.png') no-repeat;
   background-size: 100%;
@@ -356,5 +390,49 @@ export default {
 
 #ch-plugin-launcher {
   display: none;
+}
+
+.head-top {
+  border-bottom: 2px solid #eaeceb;
+}
+
+.head-bottom {
+  padding: 30px;
+  background: #ffffff;
+}
+
+.height-icon {
+  margin-right: -9px;
+}
+
+.all-page-container {
+  background: #e7ebee;
+}
+
+.q-layout-drawer {
+  background: #252d3a;
+}
+
+.list-item-container:hover i {
+  color: #ffffff;
+}
+
+.list-item-container:hover {
+  color: #ffffff;
+}
+
+.list-item-container {
+  height: 70px;
+  color: #5c636e;
+  font-size: 18px;
+  border-bottom: 1px solid #2c3411;
+}
+
+.q-item.active, .q-item.router-link-active, .q-item:focus {
+  color: #ffffff;
+}
+
+.q-item.active i, .q-item.router-link-active i, .q-item:focus i {
+  color: #ffffff;
 }
 </style>

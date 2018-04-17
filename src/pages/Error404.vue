@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .error-page {
   .error-code {
     height: 50vh;

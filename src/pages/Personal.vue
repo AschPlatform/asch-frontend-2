@@ -86,7 +86,7 @@
                   <span v-if="isAgent">
                               {{$t('IS_AGENT')}}
                             </span>
-                  <a v-else class="text-black" @click="userAgreementShow=true">
+                  <a v-else class="text-secondary" @click="userAgreementShow=true">
                               {{$t('REGISTER_AGENT')}}
                             </a>
                 </td>
@@ -98,7 +98,7 @@
                   </td>
                 <td>
                   <div @click="jump2Doc">
-                    <a class="text-black">
+                    <a class="text-secondary">
                                 {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
                               </a>
                   </div>

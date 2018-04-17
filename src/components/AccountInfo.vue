@@ -45,3 +45,6 @@ export default {
   mounted() {}
 }
 </script>
+<style lang="stylus" scoped>
+
+</style>
