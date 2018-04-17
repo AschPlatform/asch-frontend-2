@@ -9,7 +9,7 @@ const lang = {
   PRODUCER: '生产者',
   TRANSACTIONS: '交易',
   AMOUNTS: '金额',
-  FEES: '费用',
+  FEES: '手续费',
   REWARDS: '奖励',
   TYPE: '类型',
   SENDER: '发送者',
@@ -125,7 +125,7 @@ const lang = {
   // transfer/pay
   SEND: '发送',
   ALREADY_LOCKED: '您已经锁仓，此行为被拒绝',
-  PAY_TIP: '请确保您发送到正确的地址，本操作无法撤消',
+  PAY_TIP: '  *请确保您发送到正确的地址，本操作无法撤消',
 
   // peers
   PEER_LIST: '节点列表',
@@ -325,17 +325,17 @@ const lang = {
   QRCODE_CLOSE: '点击二维码关闭',
 
   // ============== new add =================
-
+  RECIPIENT_NAME_ADDRESS: '请输入需要转账的账户名或者钱包地址',
   RECORD: '记录',
   MAIN_ASSET: '主资产',
   SEE_ALL_ASSETS: '查看全部资产',
   TRANSFER_TIP: '钱包转账为不可逆，请务必核对收款地址',
   RECEIVE: '收款',
-  X_ASSETS: '链内资产',
+  X_ASSETS: 'Asch链内资产',
   CROSS_ASSETS: '跨链资产',
   WITHDRAW: '提现',
   DEPOSIT: '充值',
-  AVAILABLE_BALANCE: '可用转账余额',
+  AVAILABLE_BALANCE: '*可用转账余额：',
   PROPOSAL: '提案',
   COUNCIL: '理事会',
   DEPOSIT_NO_ADDR_TIP: '你尚未开通 {currency} 钱包收款地址',
@@ -422,6 +422,7 @@ const lang = {
     DETAIL: '提案描述',
     APPROVE: '赞成票数',
     OPERATION: '操作',
+    STATUS: '状态',
     TIP_VOTE: '投票',
     TIP_PASS: '投票已通过',
     TIP_REJECT: '投票未通过',

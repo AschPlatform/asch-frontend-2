@@ -1,19 +1,12 @@
 <template>
   <q-page class="tab-panel-container row ">
-    <transition 
-    appear
-    enter-active-class="animated fadeIn"
-    leave-active-class="animated fadeOut" 
-     mode="out-in">
+    <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
       <div v-if="balancesData" class="col-12 shadow-1">
-        <q-table :data="balancesData.balances" :filter="filter" 
-        :columns="columns"  @request="request" :pagination.sync="pagination" 
-        :loading="loading" :title="$t('DAPP_TRANSACTION_RECORD')"
-        >
-          
+        <q-table :data="balancesData.balances" :filter="filter" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DAPP_TRANSACTION_RECORD')">
+  
           <template slot="top-right" slot-scope="props">
-            <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-          </template>
+              <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+</template>
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
               <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
@@ -230,7 +223,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 pd-5 {
   padding: 5%;
 }

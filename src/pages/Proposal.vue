@@ -31,8 +31,11 @@
             <div class="light-paragraph">{{props.value}}</div>
           </q-popover>
         </q-td>
-        <q-td slot="body-cell-operation" slot-scope="props" :props="props">
-          <q-btn flat :label="$t('proposal.OPERATION')" color="primary" @click="callShowModal">
+        <q-td slot="body-cell-topic" slot-scope="props" :props="props">
+          {{transGate(props.value)}}
+        </q-td>
+        <q-td slot="body-cell-activated" slot-scope="props" :props="props">
+          <q-btn flat color="primary" @click="callShowModal">
             {{operationBtn(props.value)}}
           </q-btn>
         </q-td>
@@ -141,11 +144,11 @@ export default {
         //   field: 'approve'
         // },
         {
-          name: 'operation',
+          name: 'activated',
           required: true,
-          label: this.$t('proposal.OPERATION'),
+          label: this.$t('proposal.STATUS'),
           align: 'center',
-          field: 'operation'
+          field: 'activated'
         }
       ],
       // modal set
@@ -183,6 +186,14 @@ export default {
           return this.$t('proposal.TIP_PASS')
         case 2:
           return this.$t('proposal.TIP_REJECT')
+      }
+    },
+    transGate(val) {
+      switch (val) {
+        case 'gateway_register':
+          return this.$t('proposal.SELECT_NEWNET')
+        case 'gateway_init':
+          return this.$t('proposal.SELECT_INITNET')
       }
     },
     callModal() {

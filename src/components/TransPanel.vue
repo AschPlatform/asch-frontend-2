@@ -5,31 +5,30 @@
       <span>{{$t('PAY_TIP')}}</span>
     </div>
     <div v-if="user && user.account" >
-      <q-field class="col-12">
-        <jdenticon  :address="form.receiver" :size="50" />
-        <q-input :float-label="$t('RECIPIENT')" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" />
+      <q-field class="col-12 text-four" :label="$t('RECIPIENT')+':'" :label-width="1">
+        <!-- <jdenticon  :address="form.receiver" :size="50" /> -->
+        <q-input class="col-8" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" :placeholder="$t('RECIPIENT_NAME_ADDRESS')"/>
       </q-field>
-      <q-field class="col-12">
+      <q-field class="col-12" :label="$t('DAPP_CATEGORY')+':'" :label-width="1">
         <!-- <q-input v-if="currency" disable :float-label="$t('DAPP_CATEGORY')" v-model="currency" /> -->
          <q-select
           v-model="form.currency"
-          :float-label="$t('DAPP_CATEGORY')"
           :options="assetsOpt" />
-          <p v-if="form.currency" >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
+          <p class="text-secondary font-12" v-if="form.currency" >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
       </q-field>
-      <q-field class="col-12">
-        <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="1" :error="$v.form.amount.$error" :error-label="$t('ERR_AMOUNT_INVALID')" />
+      <q-field class="col-12" :label="$t('AMOUNTS')+':'" :label-width="1">
+        <q-input  @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="1" :error="$v.form.amount.$error" :error-label="$t('ERR_AMOUNT_INVALID')" />
       </q-field>
       <q-field v-if="secondSignature" class="col-12">
         <q-input :float-label="$t('SECOND_PASSWORD')" v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
       </q-field>
-      <q-field class="col-12">
-        <q-input disable :float-label="$t('FEES')" v-model="form.fee" />
+      <q-field class="col-12" :label="$t('FEES')+':'" :label-width="1">
+        <q-input disable  v-model="form.fee" />
       </q-field>
-      <q-field class="col-12">
-        <q-input :float-label="$t('REMARK')" :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" :error-label="$t('ERR_INVALID_REMARK')" />
+      <q-field class="col-12" :label="$t('REMARK')+':'" :label-width="1">
+        <q-input :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" :error-label="$t('ERR_INVALID_REMARK')" />
       </q-field>
-      <div class="panelBtn">
+      <div class="panelBtn col-6">
         <slot name="btns" :send="send" :cancel="cancel" />
       </div>
     </div>
@@ -54,7 +53,7 @@ export default {
         from: '',
         receiver: '',
         amount: '',
-        fee: '0.1',
+        fee: '0.1 XAS',
         remark: '',
         currency: ''
       },
@@ -196,5 +195,15 @@ export default {
 <style lang="stylus">
 .panelBtn {
   margin-top: 30px;
+}
+
+.q-field-label {
+  color: #333333 !important;
+  font-size: 16px;
+}
+
+.q-input-target {
+  color: #999999 !important;
+  font-size: 16px;
 }
 </style>
