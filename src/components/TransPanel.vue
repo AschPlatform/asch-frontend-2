@@ -192,7 +192,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .panelBtn {
   margin-top: 30px;
 }

@@ -337,7 +337,10 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 pd-5 {
   padding: 5%;
 }
+</style>
+
+

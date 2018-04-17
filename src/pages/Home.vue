@@ -138,7 +138,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .balance-panel {
   min-height: 200px;
 }
