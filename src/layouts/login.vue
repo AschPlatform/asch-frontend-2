@@ -230,8 +230,8 @@ export default {
   mounted() {
     this.lang = 'zh'
     import(`src/i18n/zh`).then(lang => {
-        this.$q.i18n.set(lang.default)
-      })
+      this.$q.i18n.set(lang.default)
+    })
   },
   created() {
     console.log(this.$store)
