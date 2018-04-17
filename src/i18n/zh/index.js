@@ -422,6 +422,7 @@ const lang = {
     DETAIL: '提案描述',
     APPROVE: '赞成票数',
     OPERATION: '操作',
+    STATUS: '状态',
     TIP_VOTE: '投票',
     TIP_PASS: '投票已通过',
     TIP_REJECT: '投票未通过',

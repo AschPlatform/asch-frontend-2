@@ -7,13 +7,17 @@
           <td>{{$t('ADDRESS')}}</td>
           <td>{{account.address}}</td>
         </tr>
-        <tr >
-          <td>{{$t('PUBLIC_KEY')}}</td>
-          <td>{{account.publicKey}}</td>
+        <tr v-if="account.name">
+          <td>{{$t('NICKNAME')}}</td>
+          <td>{{account.name}}</td>
         </tr>
-        <tr id='detail-amount' v-clipboard="account.balance || 'no data'" @success="info('copy balance success...')">
+        <tr v-clipboard="account.balance || 'no data'" @success="info('copy balance success...')">
           <td>{{$t('BALANCE')}}</td>
           <td>{{account.xas | fee}}</td>
+        </tr>
+        <tr v-if="account.isLocked">
+          <td>{{$t('LOCK_POSITION')}}{{$t('HEIGHT')}}</td>
+          <td>{{account.lockHeight}}</td>
         </tr>
       </tbody>
     </table>
