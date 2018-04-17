@@ -20,12 +20,16 @@ const lang = {
 
   // transaction type filter
   TRS_TYPE_TRANSFER: '转账',
+  TRS_TYPE_NICKNAME: '设置昵称',
   TRS_TYPE_TRANSFER_RECORD: '转账记录',
   TRS_TYPE_SECOND_PASSWORD: '二级密码',
   TRS_TYPE_DELEGATE: '受托人',
   TRS_TYPE_VOTE: '投票',
   TRS_TYPE_MULTISIGNATURE: '多重签名',
   TRS_TYPE_DAPP: '注册应用',
+  TRS_TYPE_UPDATE_DAPP_DELEGATE: '更新dapp记账人',
+  TRS_TYPE_ADD_DAPP_DELEGATE: '添加dapp记账人',
+  TRS_TYPE_DEL_DAPP_DELEGATE: '删除dapp记账人',
   TRS_TYPE_DEPOSIT: '应用充值',
   TRS_TYPE_WITHDRAWAL: '应用提现',
   TRS_TYPE_STORAGE: '存储',
@@ -36,6 +40,24 @@ const lang = {
   TRS_TYPE_UIA_ISSUE: '资产发行',
   TRS_TYPE_UIA_TRANSFER: '资产转账',
   TRS_TYPE_LOCK: '锁仓',
+  TRS_TYPE_UNLOCK: '解锁',
+  TRS_TYPE_MULTI_ACCOUNT: '设置多签账户',
+  TRS_TYPE_REGISTER_AGENT: '注册为代理人',
+  TRS_TYPE_SET_AGENT: '设置投票代理人',
+  TRS_TYPE_REPEAL_AGENT: '取消投票代理',
+  TRS_TYPE_ACTIVATE_DELEGATE: '激活提案',
+  TRS_TYPE_REPEAL_VOTE: '受托人投票',
+
+  TRS_TYPE_LAUNCH_PROPOSAL: '发起提案',
+  TRS_TYPE_VOTE_PROPOSAL: '对提案投票',
+  TRS_TYPE_ACTIVATE_PROPOSAL: '激活提案',
+
+  TRS_TYPE_REGISTER_GATEWAY: '网关候选人注册',
+  TRS_TYPE_OPEN_GATEWAY_ACCOUNT: '网关开户',
+  TRS_TYPE_GATEWAY_DEPOSIT: '网关充值',
+  TRS_TYPE_GATEWAY_WITHDRAW: '网关提现',
+  TRS_TYPE_GATEWAY_WITHDRAW_CONFIRM: '网关提现确认',
+
   // application
   DAPP_ICON: '图标',
   DAPP_NAME: '名称',
