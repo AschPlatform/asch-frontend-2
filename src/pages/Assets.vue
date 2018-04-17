@@ -10,7 +10,7 @@
       <q-card-main class="row justify-left">
         <assets-panel class="assets-panel-container" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" />
         <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open" />
-        <q-btn v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
+        <q-btn class="load-more-btn col-3 bg-white text-black"  v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
       </q-card-main>
     </q-card>
     <q-card class="assets-container-bottom no-shadow">
@@ -222,6 +222,7 @@ export default {
 .more-assets-container {
   padding: 30px;
   min-width: 300px;
+  height: 173px;
   cursor: pointer;
   background: #ffffff;
   margin: 30px;
@@ -237,5 +238,12 @@ export default {
 .more-assets-btn {
   width: 100%;
   height: 100%;
+}
+
+.load-more-btn {
+  height: 173px;
+  margin-left: 30px;
+  margin-top: 15px;
+  min-width: 300px;
 }
 </style>
