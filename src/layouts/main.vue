@@ -423,4 +423,12 @@ export default {
   font-size: 18px;
   border-bottom: 1px solid #2c3411;
 }
+
+.q-item.active, .q-item.router-link-active, .q-item:focus{
+    color: #ffffff;
+}
+
+.q-item.active i, .q-item.router-link-active i, .q-item:focus i{
+    color: #ffffff;
+}
 </style>
