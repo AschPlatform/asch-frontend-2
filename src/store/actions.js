@@ -207,18 +207,19 @@ export default {
   },
 
   // about gateway
-  getAllGateways: ({ commit }, params) => {
+  getGateways: ({ commit }, params) => {
     return api2.gateways(params)
   },
   // get all delegates of one gateway
-  gatewayDelegates: ({ commit }, params) => {
+  getGatewayDelegates: ({ commit }, params) => {
     return api2.gatewayDelegates(params)
   },
   // api2 post actions
   postProposal: ({ commit }, params) => {
     const secret = getCache('user').secret
     console.log(secret)
-    let trans = asch.createProposal(params.title,
+    let trans = asch.createProposal(
+      params.title,
       params.desc,
       params.topic,
       params.content,

@@ -156,7 +156,9 @@ export default {
       this.asset = asset
       this.assetDetailModalShow = true
     },
-    loadMoreInner() {},
+    loadMoreInner() {
+      // TODO
+    },
     loadMoreOuter() {}
   },
   mounted() {

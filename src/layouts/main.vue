@@ -46,6 +46,10 @@
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('COUNCIL')" />
         </q-item>
+        <q-item item :to="getRouterConf('gateway')">
+          <q-item-side icon="" />
+          <q-item-main :label="$t('GATEWAY')" />
+        </q-item>
         <q-item item :to="getRouterConf('applications')">
           <q-item-side icon="apps" />
           <q-item-main :label="$t('APPLICATIONS')" />
@@ -104,22 +108,41 @@
 </template>
 
 <script>
-  import {
-    setCache,
-    getCache,
-    removeCache
-  } from '../utils/util'
-  import FloatMenu from '../components/FloatMenu'
-  import TransPanel from '../components/TransPanel'
-  import AccountInfo from '../components/AccountInfo'
-  import CodeModal from '../components/QRCodeModal'
-  import TransInfoModal from '../components/TransInfoModal'
-  import {
-    mapGetters,
-    mapActions,
-    mapMutations
-  } from 'vuex'
-  import {
+import { setCache, getCache, removeCache } from '../utils/util'
+import FloatMenu from '../components/FloatMenu'
+import TransPanel from '../components/TransPanel'
+import AccountInfo from '../components/AccountInfo'
+import CodeModal from '../components/QRCodeModal'
+import TransInfoModal from '../components/TransInfoModal'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
+import {
+  QLayout,
+  QPageContainer,
+  QPage,
+  QLayoutHeader,
+  QLayoutFooter,
+  QLayoutDrawer,
+  QModal,
+  QBtn,
+  QList,
+  QItem,
+  QItemMain,
+  QItemSide,
+  QItemTile,
+  QToolbar,
+  QToolbarTitle
+} from 'quasar'
+
+import logo from '../assets/logo.png'
+const func = () => {}
+
+export default {
+  name: 'Home',
+  components: {
+    FloatMenu,
+    TransPanel,
+    AccountInfo,
+    CodeModal,
     QLayout,
     QPageContainer,
     QPage,
@@ -134,216 +157,189 @@
     QItemSide,
     QItemTile,
     QToolbar,
-    QToolbarTitle
-  } from 'quasar'
-  
-  import logo from '../assets/logo.png'
-  const func = () => {}
-  
-  export default {
-    name: 'Home',
-    components: {
-      FloatMenu,
-      TransPanel,
-      AccountInfo,
-      CodeModal,
-      QLayout,
-      QPageContainer,
-      QPage,
-      QLayoutHeader,
-      QLayoutFooter,
-      QLayoutDrawer,
-      QModal,
-      QBtn,
-      QList,
-      QItem,
-      QItemMain,
-      QItemSide,
-      QItemTile,
-      QToolbar,
-      QToolbarTitle,
-      TransInfoModal
-    },
-    data() {
-      return {
-        user: null,
-        showLeft: true,
-        logo: logo,
-        accountShow: false,
-        accountInfo: {},
-        asset: null,
-        transShow: false,
-        showFloatBtns: true,
-        address: '',
-        QRCodeShow: false,
-        QRCodeText: '',
-        intervalNum: -1,
-        trans: null,
-        transInfoModalShow: false
-      }
-    },
-    methods: {
-      ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances']),
-      ...mapMutations([
-        'updateUserInfo',
-        'setUserInfo',
-        'setVersion',
-        'setLatestBlock',
-        'setUserIsLogin',
-        'setBalances'
-      ]),
-      logout() {
-        removeCache('user')
-        this.setUserIsLogin(false)
-        this.$router.push('/login')
-      },
-      getRouterConf(name) {
-        const conf = {
-          name: name,
-          params: {
-            user: this.user
-          }
-        }
-        return conf
-      },
-      async openTransactionDialog(asset = null) {
-        if (asset) {
-          // asset.symbol = asset.name
-          this.asset = asset
-        } else {
-          this.asset = {
-            currency: 'XAS',
-            precision: 8,
-            balance: this.userInfo.account.xas
-          }
-        }
-        this.transShow = true
-      },
-      async openAccountModal(address) {
-        let res = await this.getAccountsInfo({
-          address: address
-        })
-        this.accountInfo = res.account
-        this.accountShow = true
-      },
-      async getIssuer(cbOk = func, cbErr = func) {
-        // get user issuer info
-        let res = await this.issuer({
-          address: this.user.account.address
-        })
-        if (res.success) {
-          this.user.issuer = res.issuer
-          let user = this._.merge({}, this.userInfo, res)
-          this.user = user
-          if (getCache('user')) setCache('user', user)
-          cbOk(res)
-          // TODO
-        } else {
-          cbErr()
-        }
-      },
-      async getAssetsList(cbOk = func, cbErr = func) {
-        // get user issuer info
-        let res = await this.uiaAssetListApi({})
-        if (res.success) {
-          let user = this._.merge({}, this.userInfo, res)
-          this.user = user
-          if (getCache('user')) setCache('user', user)
-          cbOk(res)
-        } else {
-          cbErr()
-        }
-      },
-  
-      async openTransInfoModal(trans) {
-        // get user issuer info
-        this.trans = trans
-        this.transInfoModalShow = true
-      },
-  
-      showAjaxBar() {
-        let bar = this.$refs.bar
-        bar.start()
-        this._.delay(() => bar.stop(), 10000)
-      },
-      changeFloatBtn() {
-        this.showFloatBtns = !this.showFloatBtns
-      },
-      showQRCodeModal(content) {
-        this.QRCodeShow = true
-        this.QRCodeText = content
-      },
-      async sendTrans(send) {
-        let flag = await send()
-        if (flag) {
-          this.transShow = false
-        }
-      }
-    },
-    async mounted() {
-      let user = this.userInfo || getCache('user') || null
-      if (!user) {
-        console.log('no session data, please login...')
-        this.$router.push('/login')
-      } else {
-        let res = await this.getAccountsInfo({
-          address: user.account.address
-        })
-        if (res.success) {
-          let userInfo = this._.merge({}, user, res)
-          this.setUserInfo(userInfo)
-          this.setLatestBlock(res.latestBlock)
-          this.setVersion(res.version)
-          this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
-          // window.CHPlugin.checkIn()
-        }
-      }
-    },
-    computed: {
-      ...mapGetters(['latestBlock', 'version', 'userInfo', 'balances']),
-      secondSignature() {
-        return this.userInfo ? this.userInfo.account.secondPublicKey : null
-      },
-      assets() {
-        if (this.userInfo) {
-          let balances = this.balances
-          let account = this.userInfo.account
-          let XASAsset = {
-            currency: 'XAS',
-            precision: 8,
-            balance: account.xas
-          }
-          // balances.unshift()
-          let assets = [XASAsset].concat(balances)
-          return assets
-        } else {
-          return []
-        }
-      }
-    },
-    created() {
-      // register event
-      this.$root.$on('getIssuer', () => {
-        this.user && this.user.account ? this.getIssuer() : console.log('not init yet..')
-      })
-      this.$root.$on('showTransInfoModal', this.openTransInfoModal)
-      this.$root.$on('openAccountModal', this.openAccountModal)
-      this.$root.$on('openTransactionDialog', this.openTransactionDialog)
-      this.$root.$on('showAjaxBar', this.showAjaxBar)
-      this.$root.$on('changeFloatBtn', this.changeFloatBtn)
-      this.$root.$on('showQRCodeModal', this.showQRCodeModal)
-    },
-    beforeDestroy() {
-      clearInterval(this.intervalNum)
-      this.$root.$off('getIssuer', this.getIssuer)
-      this.$root.$off('openAccountModal', this.openAccountModal)
-      this.$root.$off('openTransactionDialog', this.openTransactionDialog)
-      this.$root.$off('showAjaxBar', this.showAjaxBar)
-      this.$root.$off('changeFloatBtn', this.changeFloatBtn)
-      this.$root.$off('showQRCodeModal', this.showQRCodeModal)
-      this.$root.$off('showTransInfoModal', this.openTransInfoModal)
+    QToolbarTitle,
+    TransInfoModal
+  },
+  data() {
+    return {
+      user: null,
+      showLeft: true,
+      logo: logo,
+      accountShow: false,
+      accountInfo: {},
+      asset: null,
+      transShow: false,
+      showFloatBtns: true,
+      address: '',
+      QRCodeShow: false,
+      QRCodeText: '',
+      intervalNum: -1,
+      trans: null,
+      transInfoModalShow: false
     }
+  },
+  methods: {
+    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances']),
+    ...mapMutations([
+      'updateUserInfo',
+      'setUserInfo',
+      'setVersion',
+      'setLatestBlock',
+      'setUserIsLogin',
+      'setBalances'
+    ]),
+    logout() {
+      removeCache('user')
+      this.setUserIsLogin(false)
+      this.$router.push('/login')
+    },
+    getRouterConf(name) {
+      const conf = {
+        name: name,
+        params: {
+          user: this.user
+        }
+      }
+      return conf
+    },
+    async openTransactionDialog(asset = null) {
+      if (asset) {
+        // asset.symbol = asset.name
+        this.asset = asset
+      } else {
+        this.asset = {
+          currency: 'XAS',
+          precision: 8,
+          balance: this.userInfo.account.xas
+        }
+      }
+      this.transShow = true
+    },
+    async openAccountModal(address) {
+      let res = await this.getAccountsInfo({
+        address: address
+      })
+      this.accountInfo = res.account
+      this.accountShow = true
+    },
+    async getIssuer(cbOk = func, cbErr = func) {
+      // get user issuer info
+      let res = await this.issuer({
+        address: this.user.account.address
+      })
+      if (res.success) {
+        this.user.issuer = res.issuer
+        let user = this._.merge({}, this.userInfo, res)
+        this.user = user
+        if (getCache('user')) setCache('user', user)
+        cbOk(res)
+        // TODO
+      } else {
+        cbErr()
+      }
+    },
+    async getAssetsList(cbOk = func, cbErr = func) {
+      // get user issuer info
+      let res = await this.uiaAssetListApi({})
+      if (res.success) {
+        let user = this._.merge({}, this.userInfo, res)
+        this.user = user
+        if (getCache('user')) setCache('user', user)
+        cbOk(res)
+      } else {
+        cbErr()
+      }
+    },
+
+    async openTransInfoModal(trans) {
+      // get user issuer info
+      this.trans = trans
+      this.transInfoModalShow = true
+    },
+
+    showAjaxBar() {
+      let bar = this.$refs.bar
+      bar.start()
+      this._.delay(() => bar.stop(), 10000)
+    },
+    changeFloatBtn() {
+      this.showFloatBtns = !this.showFloatBtns
+    },
+    showQRCodeModal(content) {
+      this.QRCodeShow = true
+      this.QRCodeText = content
+    },
+    async sendTrans(send) {
+      let flag = await send()
+      if (flag) {
+        this.transShow = false
+      }
+    }
+  },
+  async mounted() {
+    let user = this.userInfo || getCache('user') || null
+    if (!user) {
+      console.log('no session data, please login...')
+      this.$router.push('/login')
+    } else {
+      let res = await this.getAccountsInfo({
+        address: user.account.address
+      })
+      if (res.success) {
+        let userInfo = this._.merge({}, user, res)
+        this.setUserInfo(userInfo)
+        this.setLatestBlock(res.latestBlock)
+        this.setVersion(res.version)
+        this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
+        // window.CHPlugin.checkIn()
+      }
+    }
+  },
+  computed: {
+    ...mapGetters(['latestBlock', 'version', 'userInfo', 'balances']),
+    secondSignature() {
+      return this.userInfo ? this.userInfo.account.secondPublicKey : null
+    },
+    assets() {
+      if (this.userInfo) {
+        let balances = this.balances
+        let account = this.userInfo.account
+        let XASAsset = {
+          currency: 'XAS',
+          precision: 8,
+          balance: account.xas
+        }
+        // balances.unshift()
+        let assets = [XASAsset].concat(balances)
+        return assets
+      } else {
+        return []
+      }
+    }
+  },
+  created() {
+    // register event
+    this.$root.$on('getIssuer', () => {
+      this.user && this.user.account ? this.getIssuer() : console.log('not init yet..')
+    })
+    this.$root.$on('showTransInfoModal', this.openTransInfoModal)
+    this.$root.$on('openAccountModal', this.openAccountModal)
+    this.$root.$on('openTransactionDialog', this.openTransactionDialog)
+    this.$root.$on('showAjaxBar', this.showAjaxBar)
+    this.$root.$on('changeFloatBtn', this.changeFloatBtn)
+    this.$root.$on('showQRCodeModal', this.showQRCodeModal)
+  },
+  beforeDestroy() {
+    clearInterval(this.intervalNum)
+    this.$root.$off('getIssuer', this.getIssuer)
+    this.$root.$off('openAccountModal', this.openAccountModal)
+    this.$root.$off('openTransactionDialog', this.openTransactionDialog)
+    this.$root.$off('showAjaxBar', this.showAjaxBar)
+    this.$root.$off('changeFloatBtn', this.changeFloatBtn)
+    this.$root.$off('showQRCodeModal', this.showQRCodeModal)
+    this.$root.$off('showTransInfoModal', this.openTransInfoModal)
   }
+}
 </script>
 
 <style lang="stylus">

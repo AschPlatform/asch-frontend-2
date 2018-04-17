@@ -112,6 +112,11 @@ export default [
         component: load('Council')
       },
       {
+        path: 'gateway',
+        name: 'gateway',
+        component: load('Gateway')
+      },
+      {
         path: 'peers',
         name: 'peers',
         component: load('Peers')

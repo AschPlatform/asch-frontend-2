@@ -414,6 +414,13 @@ const lang = {
   DONE: '完成',
   PROCESS: '进行中',
   AGENT_CAN_NOT_BE_DELEGATE: '代理人不能成为受托人',
+  COUNCIL_MEMBER: '理事会成员',
+  COUNCILS: '全部理事会',
+  GATEWAY_MEMBER: '网关成员',
+  GATEWAY: '网关',
+  CREATE_TIME: '创建时间',
+  ELECTED: '当选状态',
+  UPDATE_LIMIT: '最低更新频率',
   proposal: {
     No: '提案编号',
     INITIATOR: '发起人',
