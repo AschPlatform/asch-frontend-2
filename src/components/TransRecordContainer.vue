@@ -5,10 +5,9 @@
         <q-btn-toggle v-model="type" outline
     toggle-color="primary"
     :options="[
-      {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},
       {label: $t('TRS_TYPE_TRANSFER_RECORD'), value: 2},
-    ]" />
-        <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+      {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},]" />
+        <!-- <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" /> -->
 </template>
 
     <q-td slot="body-cell-id" slot-scope="props" :props="props">
@@ -88,7 +87,7 @@ export default {
       filter: '',
       row: null,
       modalInfoShow: false,
-      type: 1
+      type: 2
     }
   },
   methods: {
@@ -172,12 +171,12 @@ export default {
     dynamicCol() {
       if (this.type === 1) {
         return [
-          {
-            name: 'opt',
-            label: this.$t('OPERATION'),
-            field: 'opt',
-            align: 'center'
-          },
+          // {
+          //   name: 'opt',
+          //   label: this.$t('OPERATION'),
+          //   field: 'opt',
+          //   align: 'center'
+          // },
           {
             name: 'id',
             label: 'ID',
@@ -193,29 +192,29 @@ export default {
               return this.getTransType(value)
             }
           },
-          {
-            name: 'senderId',
-            label: this.$t('SENDER'),
-            field: 'senderId',
-            align: 'center',
-            format: value => {
-              let isMySelf = this.matchSelf(value)
-              return isMySelf ? 'Me' : value
-            }
-          },
-          {
-            name: 'recipientId',
-            label: this.$t('RECIPIENT'),
-            field: 'recipientId',
-            align: 'center',
-            format: value => {
-              if (value === '') {
-                return 'SYSTEM'
-              }
-              let isMySelf = this.matchSelf(value)
-              return isMySelf ? 'Me' : value
-            }
-          },
+          // {
+          //   name: 'senderId',
+          //   label: this.$t('SENDER'),
+          //   field: 'senderId',
+          //   align: 'center',
+          //   format: value => {
+          //     let isMySelf = this.matchSelf(value)
+          //     return isMySelf ? 'Me' : value
+          //   }
+          // },
+          // {
+          //   name: 'recipientId',
+          //   label: this.$t('RECIPIENT'),
+          //   field: 'recipientId',
+          //   align: 'center',
+          //   format: value => {
+          //     if (value === '') {
+          //       return 'SYSTEM'
+          //     }
+          //     let isMySelf = this.matchSelf(value)
+          //     return isMySelf ? 'Me' : value
+          //   }
+          // },
           {
             name: 'timestamp',
             label: this.$t('DATE'),
@@ -227,24 +226,23 @@ export default {
             type: 'number'
           },
           {
-            name: 'amount',
-            label: this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')',
-            field: 'amount',
+            name: 'fee',
+            label: this.$t('FEES'),
+            field: 'fee',
             filter: true,
-            classes: 'text-right',
-            // sortable: true,
-            type: 'number',
-            width: '100px'
-          },
-          {
-            name: 'message',
-            label: this.$t('REMARK'),
-            field: 'message',
-            filter: true,
-            // sortable: true,
-            type: 'string',
-            width: '120px'
+            format: value => {
+              return convertFee(value)
+            }
           }
+          // {
+          //   name: 'message',
+          //   label: this.$t('REMARK'),
+          //   field: 'message',
+          //   filter: true,
+          //   // sortable: true,
+          //   type: 'string',
+          //   width: '120px'
+          // }
         ]
       } else {
         return [

@@ -2,14 +2,14 @@
   <div>
     <q-table :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
       <template slot="top-right" slot-scope="props">
-        <q-btn-toggle v-if="isCross" v-model="type" outline
+        <q-btn-toggle v-if="!isCross" v-model="type" outline
     toggle-color="primary"
     :options="[
       {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},
       {label: $t('DEPOSIT')+$t('RECORD'), value: 2},
       {label: $t('WITHDRAW')+$t('RECORD'), value: 3}
     ]" />
-        <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+        <!-- <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" /> -->
 </template>
 
     <q-td slot="body-cell-id" slot-scope="props" :props="props">
@@ -165,8 +165,7 @@ export default {
     },
     getDataInfo(props) {
       let { row } = props
-      this.row = row
-      this.modalInfoShow = true
+      this.$root.$emit('showTransInfoModal', row)
     },
     async getAccountInfo(address) {
       this.$root.$emit('openAccountModal', address)

@@ -166,6 +166,11 @@ export default {
       this.getInner()
       this.getOuter()
     }
+    let asset = this.$route.params.asset
+    if (asset) {
+      this.asset = asset
+      this.assetDetailModalShow = true
+    }
   },
   computed: {
     ...mapGetters(['userInfo']),
