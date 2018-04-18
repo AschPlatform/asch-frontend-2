@@ -209,19 +209,8 @@ export default {
 
 <style lang="stylus" scoped>
 .assets-container {
+  padding: 20px;
   background: #e7ebee;
-}
-
-.assets-container-top {
-  padding: 30px 20px 0 20px;
-}
-
-.assets-container-bottom {
-  padding: 0px 20px;
-}
-
-.assets-panel-container {
-  // padding 0 20px
 }
 
 .more-assets-container {

@@ -1,12 +1,12 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <q-page padding>
+  <q-page class="personal-container">
     <q-card class="no-shadow" v-if="user">
-      <q-card-title>
+      <!-- <q-card-title>
         {{$t('PERSONAL')}}
-      </q-card-title>
+      </q-card-title> -->
       <q-card-main class="row col-12 justify-center">
-        <div class="personal-top col-12 row justify-left shadow-2">
+        <div class="personal-top col-12 row justify-left bg-white shadow-2">
           <div class="personal-head-portrait col-1">
             <jdenticon class="personal-head-canvas self-center" :address="address" :size="60" />
           </div>
@@ -30,7 +30,7 @@
           </div>
   
         </div>
-        <div class="personal-bottom shadow-2 row col-12 justify-left">
+        <div class="personal-bottom shadow-2 bg-white row col-12 justify-left">
           <div class="personal-bottom-title">
             <i class="material-icons">email</i>
             <span>
@@ -45,7 +45,7 @@
                   {{$t('SECOND_PASSWORD')}}
                   </td>
                 <td>
-                  <span v-if="secondSignature">
+                  <span v-if="secondSignature" class="text-black font-18">
                               {{$t('ALREADY_SET')}}
                             </span>
                   <a v-else class="text-secondary" @click="secondPwdShow=true">
@@ -127,7 +127,7 @@
         </q-field>
       </div>
       <template slot="buttons" slot-scope="props">
-                  <q-btn class="col-3 self-lef" color="primary" flat @click="setPwd(props.ok)">
+                  <q-btn class="col-3 self-lef" color="secondary" flat @click="setPwd(props.ok)">
                     {{$t('SUBMIT')}}
                   </q-btn>
                   <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
@@ -173,7 +173,7 @@
         </table>
       </div>
 <template slot="buttons" slot-scope="props">
-  <q-btn class="col-3 self-lef" color="primary" flat @click="setNickname(props.ok)">
+  <q-btn class="col-3 self-lef" color="secondary" flat @click="setNickname(props.ok)">
     {{$t('SUBMIT')}}
   </q-btn>
   <q-btn :label="$t('label.cancel')" flat @click="props.cancel()" />
@@ -202,7 +202,7 @@
         </q-field>
       </div>
 <template slot="buttons" slot-scope="props">
-  <q-btn class="col-3 self-lef" color="primary" flat @click="editLock(props.ok)">
+  <q-btn class="col-3 self-lef" color="secondary" flat @click="editLock(props.ok)">
     {{$t('SUBMIT')}}
   </q-btn>
   <q-btn :label="$t('label.cancel')" flat @click="props.cancel()" />
@@ -540,6 +540,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.personal-container {
+  padding: 20px;
+}
+
 .personal-top {
   padding: 28px 30px;
   width: 100%;

@@ -1,6 +1,6 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <div v-if="user" class="layout-padding self-center">
+  <div v-if="user" class="home-container self-center">
     <div class="row gutter-xs col-12">
       <div class="home-top col-12 col-auto  col-xs-12">
         <q-card class="bg-white no-shadow">
@@ -161,8 +161,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.layout-padding {
-  padding: 20px !important;
+.home-container {
+  padding: 20px;
 }
 
 .balance-panel {
