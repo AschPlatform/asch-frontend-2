@@ -1,25 +1,21 @@
 
 <template>
-  <q-modal content-classes="row col-12 justify-center" v-model="show" maximized :no-esc-dismiss="true">
-    <q-modal-layout>
-      <q-toolbar slot="header">
-        <q-toolbar-title>
+  <q-page>
+    <div class="row">
+      <q-card class="col-9">
+        <q-card-title>
           {{$t('VOTE_DELEGATE_DETAIL')}}
-        </q-toolbar-title>
-      </q-toolbar>
-      <q-toolbar slot="footer">
-        <q-btn flat :label="$t('label.close')" @click="$emit('close')" />
-      </q-toolbar>
-      <div v-if="userInfo" class="row col-12">
-        <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1 col-9 " align="justify">
-          <q-tab default name="supporters" slot="title" icon="people" :label="$t('AGENT_VOTE_DETAIL')" />
-          <q-tab name="records" slot="title" icon="face" :label="$t('AGENT_VOTE_RECORDS')" />
-          <div>
-            <!-- come from VR page -->
-            <q-table :no-data-label="$t('table.noData')" :data="datas" :filter="filter" color="primary" :columns="dynamicCol" @request="request" :pagination.sync="pagination" row-key="id" :loading="loading" :rows-per-page-options="[10]">
-              <template slot="top-right" slot-scope="props">
-                <q-btn flat round  icon="refresh" color="primary" @click="refresh" />
-              </template>
+        </q-card-title>
+        <q-card-main v-if="userInfo">
+          <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1 col-9 " align="justify">
+            <q-tab default name="supporters" slot="title" icon="people" :label="$t('AGENT_VOTE_DETAIL')" />
+            <q-tab name="records" slot="title" icon="face" :label="$t('AGENT_VOTE_RECORDS')" />
+            <div>
+              <!-- come from VR page -->
+              <q-table :no-data-label="$t('table.noData')" :data="datas" :filter="filter" color="primary" :columns="dynamicCol" @request="request" :pagination.sync="pagination" row-key="id" :loading="loading" :rows-per-page-options="[10]">
+                <template slot="top-right" slot-scope="props">
+                    <q-btn flat round  icon="refresh" color="primary" @click="refresh" />
+          </template>
            
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
             <div class="text-primary" @click="viewAccountInfo(props.row)">
@@ -40,29 +36,29 @@
         </q-table>
     </div>
     </q-tabs>
-    <div class="col-3">
-      <q-card>
-        <q-card-title>
-          {{$t('AGENT_DETAIL')}}
-        </q-card-title>
-        <q-card-main>
-          <div>
-            {{userInfo.account.agent}}
-          </div>
-          <div>
-            {{$t('AGENT_WEIGHT')}}({{userInfo.account.agentWeightRatio}})%
-          </div>
-          <div>
-            ({{userInfo.account.agentWeight}})
-          </div>
-        </q-card-main>
-      </q-card>
-    </div>
+      </q-card-main>
+    </q-card>
+
+    <q-card class="col-3">
+      <q-card-title>
+        {{$t('AGENT_DETAIL')}}
+      </q-card-title>
+      <q-card-main align="center">
+        <div>
+          {{userInfo.account.agent}}
         </div>
+        <div>
+          {{$t('AGENT_WEIGHT')}}({{userInfo.account.agentWeightRatio}})%
+        </div>
+        <div>
+          ({{userInfo.account.agentWeight}})
+        </div>
+      </q-card-main>
+    </q-card>
+    </div>
      
     
-    </q-modal-layout>
-  </q-modal>
+  </q-page>
 </template>
 
 <script>
@@ -119,7 +115,8 @@ export default {
         message: ''
       },
       secondPwd: '',
-      supports: []
+      supports: [],
+      user: {}
     }
   },
   methods: {
@@ -139,7 +136,7 @@ export default {
       let res = {}
       if (this.selectedTab === 'records') {
         res = await this.getAgentVotes({
-          publicKey: this.userInfo.publicKey,
+          publicKey: this.user.publicKey,
           orderBy: 'rate:desc',
           limit: limit,
           offset: (pageNo - 1) * limit
@@ -147,7 +144,7 @@ export default {
         this.datas = res.records
       } else {
         res = await this.getAgentSupporters({
-          name: this.userInfo.account.agent,
+          name: this.user.account.agent,
           orderBy: 'rate:desc',
           limit: limit,
           offset: (pageNo - 1) * limit
@@ -162,7 +159,12 @@ export default {
     }
   },
   mounted() {
-    if (this.userInfo && this.userInfo.agent) {
+    let { user } = this.$route.params
+    if (!user) {
+      this.$router.push('/vote')
+    }
+    this.user = user
+    if (user && user.agent) {
       this.getDatas()
     }
   },
@@ -243,6 +245,9 @@ export default {
   },
   watch: {
     selectedTab(val) {
+      this.getDatas()
+    },
+    userInfo() {
       this.getDatas()
     }
   }
