@@ -1,8 +1,15 @@
 <template>
   <div class="col-10" v-if="asset">
     <div v-if="showTitle">
-      <big>{{$t('TRS_TYPE_TRANSFER')}}</big><br/>
-      <span>{{$t('PAY_TIP')}}</span>
+      <span class="text-tertiary font-22">
+        <i class="material-icons">border_color</i>
+      </span>
+      <span class="text-tertiary font-22">
+            {{$t('TRS_TYPE_TRANSFER')}}
+      </span>
+      <span class="text-secondary font-12">
+         {{$t('PAY_TIP')}}
+      </span>
     </div>
     <div v-if="user && user.account" >
       <q-field class="col-12 text-four" :label="$t('RECIPIENT')+':'" :label-width="1">
