@@ -46,7 +46,7 @@
       </div>
     </q-layout-header>
   
-    <q-layout-drawer class="bg-seven" v-model="showLeft" side="left">
+    <q-layout-drawer class="bg-seven main-left-list-container" v-model="showLeft" side="left">
       <!--
                           Use <q-item> component
                           instead of <q-item> for
@@ -376,9 +376,11 @@ export default {
 </script>
 
 <style lang="stylus">
-::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+.main-left-list-container {
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 }
 
 .menu-logo {
