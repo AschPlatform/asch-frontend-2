@@ -7,6 +7,18 @@ export default {
     state.userInfo = userInfo
   },
   updateUserInfo: (state, userInfo) => {
+    if (!userInfo.account) {
+      userInfo.account = {
+        address: state.userInfo.address,
+        xas: 0,
+        isLocked: 0,
+        isAgent: 0,
+        lockHeight: 0,
+        agent: 0,
+        weight: 0,
+        agentWeight: 0
+      }
+    }
     state.userInfo = { ...state.userInfo, ...userInfo }
   },
   setLatestBlock: (state, latestBlock) => {

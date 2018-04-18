@@ -448,6 +448,8 @@ export default {
         toast(this.$t('INF_POSITIONLOCK_SET_SUCCESS'))
         this.locked = true
         this.lockPanelShow = false
+        this.num = 0
+        this.time = 0
       } else {
         translateErrMsg(this.$t, res.error)
       }
