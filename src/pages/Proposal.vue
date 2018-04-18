@@ -195,7 +195,7 @@ export default {
       this.getProposalsFunc()
     },
     callModal() {
-      this.isLaunchShow = true
+      this.$router.push({name:'launchProposal'})
     },
     callShowModal(tid) {
       console.log(tid)

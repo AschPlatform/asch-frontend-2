@@ -90,6 +90,11 @@ export default [
         component: load('Proposal')
       },
       {
+        path: 'launchProposal',
+        name: 'launchProposal',
+        component: load('ProposalLaunch')
+      },
+      {
         path: 'proposalDetail/:tid',
         name: 'proposalDetail',
         component: load('ProposalDetail')
