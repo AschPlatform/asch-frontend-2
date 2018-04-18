@@ -231,6 +231,11 @@
               <q-chips-input color="primary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="MEMBER.show_post" disable/>
             </div>
           </div>
+          <div class="row col-12">
+            <q-field v-if="secondSignature" class="col-8"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="2">
+              <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
+            </q-field>
+          </div>
         </q-card-main>
 
         <q-card-main v-show="this.first_type !== null" key="agreement">
@@ -262,6 +267,7 @@ import {
 } from 'quasar'
 import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
 import { mapActions } from 'vuex'
+import { secondPwd } from '../utils/validators'
 import { getCache, toastError, toast } from '../utils/util'
 
 export default {
@@ -269,6 +275,7 @@ export default {
   props: ['show'],
   data() {
     return {
+      secondPwd: '',
       // overall setting
       p_title: null,
       first_type: null,
@@ -388,6 +395,9 @@ export default {
     }
   },
   validations: {
+    secondPwd: {
+      secondPwd: secondPwd()
+    },
     p_title: {
       required,
       maxLength: maxLength(30),
@@ -581,10 +591,12 @@ export default {
       obj.desc = this.brief
       obj.topic = this.countedType
       obj.endHeight = this.endHeight
+      obj.secondPwd = this.secondPwd
       debugger
       let result = this.postProposal(obj)
       if (result.success) {
         toast('LAUNCH_MODAL.LAUNCH_SUCCESS')
+        this.hideModal()
       } else {
         toastError(result.error)
       }
@@ -737,6 +749,7 @@ export default {
       this.p_time_start = null
       this.p_time_end = null
       this.p_selected = null
+      this.secondPwd = ''
     },
     resetDetail() {
       this.initFalse = false
@@ -789,6 +802,10 @@ export default {
     }
   },
   computed: {
+    secondSignature() {
+      let user = getCache('user')
+      return user ? user.account.secondPublicKey : null
+    },
     countedType() {
       if (this.first_type === 'new_n') {
         return 'gateway_register'
