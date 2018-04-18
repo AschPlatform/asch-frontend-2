@@ -262,7 +262,7 @@ import {
 } from 'quasar'
 import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
 import { mapActions } from 'vuex'
-import { getCache, toastError } from '../utils/util'
+import { getCache, toastError, toast } from '../utils/util'
 
 export default {
   name: 'LaunchProposalModal',
@@ -558,7 +558,7 @@ export default {
           }
         }
       }
-      return JSON.stringify(content)
+      return content
     },
     launchProposal() {
       if (this.first_type === 'new' || this.first_type === 'new_n') {
@@ -582,7 +582,12 @@ export default {
       obj.topic = this.countedType
       obj.endHeight = this.endHeight
       debugger
-      this.postProposal(obj)
+      let result = this.postProposal(obj)
+      if (result.success) {
+        toast('LAUNCH_MODAL.LAUNCH_SUCCESS')
+      } else {
+        toastError(result.error)
+      }
     },
     // select component change func
     detectChange() {

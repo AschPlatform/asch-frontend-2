@@ -511,7 +511,8 @@ const lang = {
     PRECISION_TIP: '需要填写精度',
     CURRENCY_BRIEF: '该币种介绍',
     CURRENCY_BRIEF_TIP: '需要填写该币种介绍',
-    ERR_INVALID_FORM: '表单填写不完整或未按照要求'
+    ERR_INVALID_FORM: '表单填写不完整或未按照要求',
+    LAUNCH_SUCCESS: '发起提案成功'
   },
   DETAIL_MODAL: {
     MEMBER_CHIPS_PRE: '投票成员名单',
