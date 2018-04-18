@@ -78,6 +78,9 @@ const filters = {
   jparse: (value, arg, isHeight) => {
     // Transfer to
     // const obj = eval('(' + value + ')')
+    if (!value) {
+      return 'N/A'
+    }
     const obj = JSON.parse(value)
     if (isHeight) {
       return Number(obj[arg]) / 8640

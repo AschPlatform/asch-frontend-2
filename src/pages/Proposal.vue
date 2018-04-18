@@ -38,7 +38,7 @@
         </q-td>
         <q-td slot="body-cell-period" slot-scope="props" :props="props">
           <!-- <q-btn flat :label="$t('proposal.OPERATION')" color="primary"> -->
-          {{props.value | jparse('updateInterval', true)}}
+          {{props.value | jparse('updateInterval', true) || 'N/A'}}
           <!-- </q-btn> -->
         </q-td>
       </q-table>
