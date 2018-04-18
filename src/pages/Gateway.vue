@@ -3,14 +3,14 @@
   <q-page padding class="">
     <div class="geteway-top">
       <i class="material-icons vertical-align-middle font-24 text-secondary">person</i>
-      <span class="font-24 text-black">{{$t('GATEWAY')}}</span>
+      <span class="font-22 text-black">{{$t('ALL_GATEWAY')}}</span>
     </div>
     <div class="row">
       <gateway-item class="bg-white" v-for="(item, idx) in gateways" :item="item" :key="idx" @open="showDetail" />
       <q-btn :disabled="loading" v-if="pagination.rowsNumber>gateways.length" :label="$t('LOAD_MORE')" @click="loadMore" />
     </div>
     <!-- CouncilModal -->
-    <gateway-modal v-if="gateway" :item="gateway" :show="show" @close="show=false" />
+    <gateway-modal class="gateway-modal no-shadow" v-if="gateway" :item="gateway" :show="show" @close="show=false" />
   </q-page>
 </template>
 
@@ -77,8 +77,17 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
 .geteway-top {
   margin-bottom: 20px;
+}
+
+.gateway-modal {
+  max-width: 70%;
+  max-height: 90%;
+  margin: 5% auto;
+}
+
+.q-table-top {
+  background: #e7ebee!important;
 }
 </style>
