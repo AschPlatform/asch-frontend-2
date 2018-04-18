@@ -25,6 +25,9 @@ export const confirm = (conf, cancel = () => {}, confirm = () => {}) => {
       cancel()
     })
 }
+export const deCompileContent = (value) => {
+  return JSON.parse(value)
+}
 export const toast = message => {
   const type = 'positive'
   const color = 'positive'

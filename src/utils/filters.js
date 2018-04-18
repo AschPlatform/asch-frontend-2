@@ -75,7 +75,7 @@ const filters = {
     }
     return filters.time(i.timestamp) + ' ' + content
   },
-  jparse: (value, arg, isHeight) => {
+  jparse: (value, arg, isHeight, arg2) => {
     // Transfer to
     // const obj = eval('(' + value + ')')
     if (!value) {
@@ -84,6 +84,9 @@ const filters = {
     const obj = JSON.parse(value)
     if (isHeight) {
       return Number(obj[arg]) / 8640
+    }
+    if (arg2) {
+      return obj[arg][arg2]
     }
     return obj[arg]
   }

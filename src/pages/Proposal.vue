@@ -32,7 +32,7 @@
           {{transGate(props.value)}}
         </q-td>
         <q-td slot="body-cell-activated" slot-scope="props" :props="props">
-          <q-btn flat color="secondary" :label="($t('CHECK'))" @click="callShowModal">
+          <q-btn flat color="secondary" :label="($t('CHECK'))" @click="callShowModal(props.row.tid)">
             <!-- {{operationBtn(props.value)}} -->
           </q-btn>
         </q-td>
@@ -197,8 +197,10 @@ export default {
     callModal() {
       this.isLaunchShow = true
     },
-    callShowModal() {
-      this.isDetailShow = true
+    callShowModal(tid) {
+      console.log(tid)
+      this.$router.push({name:'proposalDetail',params:{tid: tid}})
+      // this.isDetailShow = true
     },
     callOffModal() {
       this.isLaunchShow = false
