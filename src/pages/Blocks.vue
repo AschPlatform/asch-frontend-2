@@ -167,11 +167,9 @@
         </q-field>
         <q-field v-if="secondSignature"
           class="col-12"
-          :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
-          :error="secondPwdError"
           :label-width="2"
         >
-          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="form.secondPwd" type="password" @blur="validateSecondPwd" />
+          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="form.secondPwd" type="password"/>
         </q-field>
       </div>
 <template slot="buttons" slot-scope="props">

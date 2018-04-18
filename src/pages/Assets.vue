@@ -37,7 +37,7 @@
     <deposit-modal :user="userInfo" :assets="outerBalance" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
   
     <withdraw-modal :user="userInfo" :assets="outerBalance" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
-    <asset-detail-modal :show="assetDetailModalShow" :asset="asset" @close="assetDetailModalShow=false" :userInfo="userInfo" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
+    <!-- <asset-detail-modal :show="assetDetailModalShow" :asset="asset" @close="assetDetailModalShow=false" :userInfo="userInfo" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" /> -->
   
     <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
   </q-page>
@@ -84,7 +84,6 @@ export default {
       depositPanelShow: false,
       withdrawPanelShow: false,
       moreAssetsModalShow: false,
-      assetDetailModalShow: false,
       asset: {}
     }
   },
@@ -153,8 +152,9 @@ export default {
       this.moreAssetsModalShow = true
     },
     open(asset) {
-      this.asset = asset
-      this.assetDetailModalShow = true
+      // this.asset = asset
+      // this.assetDetailModalShow = true
+      this.$router.push({ name: 'assetDetail', params: { asset: asset, user: this.userInfo } })
     },
     loadMoreInner() {
       // TODO

@@ -5,15 +5,14 @@
       <span class="text-black font-24">
         {{item.name}}{{$t('GATEWAY')}}
         </span>
+
     </q-card-title>
     <q-card-main inline class="row justify-between">
-      <!-- {{$t('COUNCIL_PAGE.MODAL_TITLE', {number: item.members.length})}} -->
-      <!-- <br> -->
       <div>
         <div class="text-left">
           <i class="material-icons font-24 vertical-align-middle text-secondary">fiber_manual_record</i>
           <!-- <span class="font-18 text-five">{{item.desc}}</span> -->
-          <span class="font-18 text-five">成员：7人</span>
+          <span class="font-18 text-five">{{$t('GATEWAY_MEMBER')}}:{{item.validatorNumber}}</span>
         </div>
         <div class="text-left">
           <i class="material-icons font-24 vertical-align-middle text-secondary">fiber_manual_record</i>

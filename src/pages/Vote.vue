@@ -202,7 +202,11 @@ export default {
         this.selected = []
         return
       }
-      let trans = asch.voteDelegate(this.selectedDelegate, this.user.secret, this.secondPwd)
+      let trans = asch.voteDelegate(
+        this.selectedDelegate.join(','),
+        this.userInfo.secret,
+        this.secondPwd
+      )
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_VOTE_SUCCESS'))
@@ -262,7 +266,7 @@ export default {
         return !d.voted
       })
       return selected.map(delegate => {
-        return '+' + delegate.publicKey
+        return delegate.name
       })
     },
     // TODO: below are gonna
