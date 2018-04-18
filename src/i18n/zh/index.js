@@ -445,6 +445,9 @@ const lang = {
   CREATE_TIME: '创建时间',
   ELECTED: '当选状态',
   UPDATE_LIMIT: '最低更新频率:',
+
+  // ERROR
+  AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',
   proposal: {
     No: '提案编号',
     INITIATOR: '发起人',

@@ -311,7 +311,7 @@ const urls = {
     },
     // 获取指定资产详情
     agentsSupporter: {
-      url: '/api/v2/:name/clienteles'
+      url: '/api/v2/agents/:name/clienteles'
     },
     // 获取转账记录
     transfers: {

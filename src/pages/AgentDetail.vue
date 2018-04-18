@@ -1,7 +1,7 @@
 
 <template>
   <q-page>
-    <div class="row">
+    <div  v-if="userAccount" class="row">
       <q-card class="col-9">
         <q-card-title>
           {{$t('VOTE_DELEGATE_DETAIL')}}
@@ -12,7 +12,7 @@
             <q-tab name="records" slot="title" icon="face" :label="$t('AGENT_VOTE_RECORDS')" />
             <div>
               <!-- come from VR page -->
-              <q-table :no-data-label="$t('table.noData')" :data="datas" :filter="filter" color="primary" :columns="dynamicCol" @request="request" :pagination.sync="pagination" row-key="id" :loading="loading" :rows-per-page-options="[10]">
+              <q-table :no-data-label="$t('table.noData')" :data="datas" :filter="filter" color="primary" :columns="dynamicCol" row-key="id" :loading="loading" :rows-per-page-options="[10]">
                 <template slot="top-right" slot-scope="props">
                     <q-btn flat round  icon="refresh" color="primary" @click="refresh" />
           </template>
@@ -39,19 +39,19 @@
       </q-card-main>
     </q-card>
 
-    <q-card class="col-3">
+    <q-card v-if="userAccount" class="col-3">
       <q-card-title>
         {{$t('AGENT_DETAIL')}}
       </q-card-title>
       <q-card-main align="center">
         <div>
-          {{userInfo.account.agent}}
+          {{user.account.agent}}
         </div>
         <div>
-          {{$t('AGENT_WEIGHT')}}({{userInfo.account.agentWeightRatio}})%
+          {{$t('AGENT_WEIGHT')}}({{user.account.agentWeightRatio}})%
         </div>
         <div>
-          ({{userInfo.account.agentWeight}})
+          ({{user.account.agentWeight}})
         </div>
       </q-card-main>
     </q-card>
@@ -80,7 +80,7 @@ import {
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
-  props: ['user', 'show'],
+  props: [],
   components: {
     QModal,
     QTabs,
@@ -130,41 +130,33 @@ export default {
     },
     async getDatas(pagination = {}, filter = '') {
       this.loading = true
-      if (pagination.page) this.pagination = pagination
-      let limit = this.pagination.rowsPerPage
-      let pageNo = this.pagination.page
       let res = {}
       if (this.selectedTab === 'records') {
         res = await this.getAgentVotes({
-          publicKey: this.user.publicKey,
-          orderBy: 'rate:desc',
-          limit: limit,
-          offset: (pageNo - 1) * limit
+          name: this.user.account.agent
         })
-        this.datas = res.records
+        if (res.success) this.datas = res.records
       } else {
         res = await this.getAgentSupporters({
-          name: this.user.account.agent,
-          orderBy: 'rate:desc',
-          limit: limit,
-          offset: (pageNo - 1) * limit
+          name: this.user.account.agent
         })
-        this.datas = res.supports
+        if (res.success) this.datas = res.supports
       }
 
       // set max
-      this.pagination.rowsNumber = res.accounts.length
+      // this.pagination.rowsNumber = res.delegates.length
       this.loading = false
       return res
     }
   },
   mounted() {
     let { user } = this.$route.params
-    if (!user) {
+    if (!user || !user.account) {
       this.$router.push('/vote')
+      return null
     }
     this.user = user
-    if (user && user.agent) {
+    if (user && user.account && user.account.agent) {
       this.getDatas()
     }
   },
@@ -241,6 +233,11 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 10
       }
+    },
+    userAccount() {
+      if (this.user && this.user.account) {
+        return this.user.account
+      }
     }
   },
   watch: {
@@ -248,7 +245,7 @@ export default {
       this.getDatas()
     },
     userInfo() {
-      this.getDatas()
+      if (this.userAccount) this.getDatas()
     }
   }
 }

@@ -66,7 +66,7 @@ export default {
         toastWarn(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
         return
       }
-      this.$emit('setAgent', this.agent, () => {
+      this.$emit('setAgent', { agent: this.agent, secondPwd: this.secondPwd }, () => {
         this.isGonnaSet = false
       })
     }
