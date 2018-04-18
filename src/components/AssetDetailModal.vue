@@ -1,12 +1,12 @@
 <template>
   <q-modal content-classes="row justify-center" v-model="show" maximized :no-esc-dismiss="true">
     <q-modal-layout>
-        <q-toolbar slot="header">
+        <q-toolbar class="bg-secondary" slot="header">
           <q-toolbar-title>
            {{$t('ASSET_DETAIL',{currency:asset.currency})}}
           </q-toolbar-title>
         </q-toolbar>
-        <q-toolbar slot="footer">
+        <q-toolbar class="bg-secondary" slot="footer">
           <q-btn flat :label="$t('label.close')" @click="close"/>
         </q-toolbar>
         <div class="row layout-padding">

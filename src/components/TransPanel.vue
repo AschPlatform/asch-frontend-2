@@ -1,8 +1,15 @@
 <template>
   <div class="col-10" v-if="asset">
     <div v-if="showTitle">
-      <big>{{$t('TRS_TYPE_TRANSFER')}}</big><br/>
-      <span>{{$t('PAY_TIP')}}</span>
+      <span class="text-tertiary font-22">
+        <i class="material-icons">border_color</i>
+      </span>
+      <span class="text-tertiary font-22">
+            {{$t('TRS_TYPE_TRANSFER')}}
+      </span>
+      <span class="text-secondary font-12">
+         {{$t('PAY_TIP')}}
+      </span>
     </div>
     <div v-if="user && user.account" >
       <q-field class="col-12 text-four" :label="$t('RECIPIENT')+':'" :label-width="3">
@@ -19,8 +26,8 @@
       <q-field class="col-12" :label="$t('AMOUNTS')+':'" :label-width="3">
         <q-input  @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="1" :error="$v.form.amount.$error" :error-label="$t('ERR_AMOUNT_INVALID')" />
       </q-field>
-      <q-field v-if="secondSignature" class="col-12" :label="$t('SECOND_PASSWORD')" :label-width="3">
-        <q-input  v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
+      <q-field v-if="secondSignature" class="col-12"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="1">
+        <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
       </q-field>
       <q-field class="col-12" :label="$t('FEES')+':'" :label-width="3">
         <q-input disable  v-model="form.fee" />

@@ -121,8 +121,8 @@
         <div class="col-8">
           <trans-panel :showTitle="true" :assets="assets" :asset="asset" :user="userInfo">
             <div slot="btns" slot-scope="props" class="row col-12 justify-between">
-              <q-btn big class="col-auto" color="primary" @click="sendTrans(props.send)" :label="$t('SEND')" />
-              <q-btn big class="col-auto" color="orange" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
+              <q-btn big class="col-auto" color="secondary" @click="sendTrans(props.send)" :label="$t('SEND')" />
+              <q-btn big class="col-auto" color="secondary" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
             </div>
           </trans-panel>
         </div>
