@@ -9,7 +9,7 @@
 </template>
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
+              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="secondary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
               </q-btn>
               <q-btn v-if="props.row.writeoff == 0" @click="getTransferParams(props)" icon="send" size="sm" flat color="primary" >

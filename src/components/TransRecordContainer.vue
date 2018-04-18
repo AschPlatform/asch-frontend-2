@@ -1,9 +1,9 @@
 <template>
   <div>
-    <q-table :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
+    <q-table class="home-table-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
       <template slot="top-right" slot-scope="props">
-        <q-btn-toggle v-model="type" outline
-    toggle-color="primary"
+        <q-btn-toggle icon="fiber_manual_record" v-model="type" outline
+    toggle-color="secondary"
     :options="[
       {label: $t('TRS_TYPE_TRANSFER_RECORD'), value: 2},
       {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},]" />
@@ -53,7 +53,6 @@
       <div v-else>SYSTEM</div>
     </q-td>
   </q-table>
-
   
 </div>
 </template>
@@ -333,5 +332,9 @@ export default {
 <style lang="stylus" scoped>
 .trans-table {
   margin-top: 3%;
+}
+
+.home-table-container {
+  min-height: 500px;
 }
 </style>

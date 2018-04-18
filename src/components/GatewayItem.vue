@@ -1,24 +1,27 @@
 <template>
-  <q-card inline class="col-4">
-    <q-card-title align="center">
-      {{item.name}}
-        <span slot="subtitle">{{$t('GATEWAY_MEMBER')}}:{{item.validatorNumber}}</span>
+  <q-card inline class="gateway-item-container col-3">
+    <q-card-title align="left">
+      <i class="material-icons vertical-align-sub font-24 text-secondary">opacity</i>
+      <span class="text-black font-24">
+        {{item.name}}{{$t('GATEWAY')}}
+        </span>
+
     </q-card-title>
-    <q-card-main inline >
-      <!-- {{$t('COUNCIL_PAGE.MODAL_TITLE', {number: item.members.length})}} -->
-      <br>
-      <div class="text-center">
-        {{item.desc}}
+    <q-card-main inline class="row justify-between">
+      <div>
+        <div class="text-left">
+          <i class="material-icons font-24 vertical-align-middle text-secondary">fiber_manual_record</i>
+          <!-- <span class="font-18 text-five">{{item.desc}}</span> -->
+          <span class="font-18 text-five">{{$t('GATEWAY_MEMBER')}}:{{item.validatorNumber}}</span>
+        </div>
+        <div class="text-left">
+          <i class="material-icons font-24 vertical-align-middle text-secondary">fiber_manual_record</i>
+          <span class="font-18 text-five"> {{$t('CREATE_TIME')}} : TODO</span>
+        </div>
       </div>
-      <div class="text-center">
-        {{$t('CREATE_TIME')}} : {{item.createTime | time}}
-      </div>
-    </q-card-main>
-    <q-card-actions align="center">
-      <q-btn inverted color="primary" @click="$emit('open',item)">
-        {{$t('CHECK')}}
+      <q-btn small icon="arrow forward" inverted color="secondary" @click="$emit('open',item)">
       </q-btn>
-    </q-card-actions>
+    </q-card-main>
   </q-card>
 </template>
 
@@ -46,7 +49,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.cardSet {
+.gateway-item-container {
+  padding-bottom: 10px;
+  min-width: 300px;
 }
 </style>
 

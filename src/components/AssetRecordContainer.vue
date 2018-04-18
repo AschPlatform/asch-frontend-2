@@ -3,7 +3,7 @@
     <q-table :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
       <template slot="top-right" slot-scope="props">
         <q-btn-toggle v-if="!isCross" v-model="type" outline
-    toggle-color="primary"
+    toggle-color="secondary"
     :options="[
       {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},
       {label: $t('DEPOSIT')+$t('RECORD'), value: 2},
@@ -20,7 +20,7 @@
     </q-td>
 
     <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-      <q-btn @click="getDataInfo(props)" icon="remove red eye" size="sm" flat color="primary" >
+      <q-btn @click="getDataInfo(props)" icon="remove red eye" size="sm" flat color="secondary" >
           <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
         </q-btn>
     </q-td>

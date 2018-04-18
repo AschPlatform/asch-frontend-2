@@ -43,12 +43,12 @@
            </span>
           </q-card-title>
           <q-card-main>
-            <span class="text-secondary font-30">
+            <span class="text-secondary font-22">
               {{userInfo.account.xas | fee}}
               </span>
-            <span class="text-secondary font-16">XAS</span>
+            <span class="text-secondary font-12">XAS</span>
   
-            <div class="text-three font-14">
+            <div class="text-three font-12">
               {{address}}
               <q-btn class="text-secondary font-12" v-clipboard="address || 'no data'" @success="info('copy senderId success...')" size="xs" flat round icon="content copy" />
             </div>
