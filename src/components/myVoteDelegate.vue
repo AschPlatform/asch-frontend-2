@@ -18,6 +18,7 @@
       <span v-if="agentName">{{agentName}}<a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a></span>
       <q-btn color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
       <p v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:user.account.weight})}}</p>
+      <!-- <a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a> -->
     </q-card-main>
   </q-card>
 </template>

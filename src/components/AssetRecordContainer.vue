@@ -2,7 +2,7 @@
   <div>
     <q-table :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
       <template slot="top-right" slot-scope="props">
-        <q-btn-toggle v-if="!isCross" v-model="type" outline
+        <q-btn-toggle v-if="isCross" v-model="type" outline
     toggle-color="secondary"
     :options="[
       {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},
@@ -326,6 +326,9 @@ export default {
     }
   },
   watch: {
+    currency(val) {
+      this.getTrans()
+    },
     userInfo(val) {
       this.getTrans()
     },

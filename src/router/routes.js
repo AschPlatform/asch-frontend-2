@@ -75,6 +75,11 @@ export default [
         ]
       },
       {
+        path: 'agentDetail',
+        name: 'agentDetail',
+        component: load('AgentDetail')
+      },
+      {
         path: 'transfer',
         name: 'transfer',
         component: load('Transfer')
@@ -98,6 +103,11 @@ export default [
         path: 'gateway',
         name: 'gateway',
         component: load('Gateway')
+      },
+      {
+        path: 'gatewayDetail',
+        name: 'gatewayDetail',
+        component: load('GatewayDetaill')
       },
       {
         path: 'peers',

@@ -34,7 +34,7 @@
 
         <div class="col-5">
           <vote-record />
-          <my-vote-delegate :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetailModalShow = true" />
+          <my-vote-delegate :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetail" />
         </div>
 
         <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
@@ -72,7 +72,7 @@
         </q-dialog>
     <!-- this should review -->
     
-    <agent-detail-modal :user="userInfo" :show="agentDetailModal" @close="agentDetailModal=false" />
+    <!-- <agent-detail-modal :user="userInfo" :show="agentDetailModal" @close="agentDetailModal=false" /> -->
     <!-- <router-view class="col-5" :userObj="userObj"></router-view> -->
   </q-page>
 </template>
@@ -85,7 +85,6 @@ import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
 import voteRecord from '../components/voteRecord'
 import myVoteDelegate from '../components/myVoteDelegate'
-import AgentDetailModal from '../components/AgentDetailModal'
 
 export default {
   props: [],
@@ -96,8 +95,7 @@ export default {
     QTab,
     QTabPane,
     voteRecord,
-    myVoteDelegate,
-    AgentDetailModal
+    myVoteDelegate
   },
   data() {
     return {
@@ -152,8 +150,7 @@ export default {
         title: '',
         message: ''
       },
-      secondPwd: '',
-      agentDetailModal: false
+      secondPwd: ''
     }
   },
   methods: {
@@ -242,6 +239,9 @@ export default {
       } else {
         translateErrMsg(this.$t, res.error)
       }
+    },
+    agentDetail() {
+      this.$router.push({ name: 'agentDetail', params: { user: this.userInfo } })
     }
   },
   mounted() {

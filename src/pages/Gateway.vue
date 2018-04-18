@@ -1,6 +1,6 @@
 
 <template>
-  <q-page padding class="">
+  <q-page class="gateway-container">
     <div class="geteway-top">
       <i class="material-icons vertical-align-middle font-24 text-secondary">person</i>
       <span class="font-22 text-black">{{$t('ALL_GATEWAY')}}</span>
@@ -10,15 +10,14 @@
       <q-btn :disabled="loading" v-if="pagination.rowsNumber>gateways.length" :label="$t('LOAD_MORE')" @click="loadMore" />
     </div>
     <!-- CouncilModal -->
-    <gateway-modal class="no-shadow" v-if="gateway" :item="gateway" :show="show" @close="show=false" />
+    <!-- <gateway-modal class="no-shadow" v-if="gateway" :item="gateway" :show="show" @close="show=false" /> -->
   </q-page>
 </template>
 
 <script>
 import { QPage, QCard, QCardTitle } from 'quasar'
 import GatewayItem from '../components/GatewayItem'
-import GatewayModal from '../components/GatewayModal'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Gateway',
@@ -33,16 +32,14 @@ export default {
         page: 1,
         rowsNumber: 0,
         rowsPerPage: 10
-      },
-      gateway: {}
+      }
     }
   },
   components: {
     QPage,
     QCard,
     QCardTitle,
-    GatewayItem,
-    GatewayModal
+    GatewayItem
   },
   mounted() {
     this.getData()
@@ -50,8 +47,7 @@ export default {
   methods: {
     ...mapActions(['getGateways']),
     showDetail(gateway) {
-      this.show = true
-      this.gateway = gateway
+      this.$router.push({ name: 'gatewayDetail', params: { gateway } })
     },
     async getData() {
       this.loading = true
@@ -72,16 +68,23 @@ export default {
       this.getData()
     }
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   watch: {}
 }
 </script>
 
 <style lang="stylus" scoped>
+.gateway-container {
+  padding: 20px;
+}
+
 .geteway-top {
   margin-bottom: 20px;
 }
 
 .q-table-top {
-  background: #e7ebee!important;
+  background: #e7ebee !important;
 }
 </style>

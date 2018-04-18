@@ -170,6 +170,7 @@ export default {
   computed: {
     ...mapGetters(['userInfo']),
     isCross() {
+      if (this.asset.currency === 'XAS') return false
       if (this.asset && this.asset.asset && this.asset.asset.issuerId) {
         return false
       } else {
