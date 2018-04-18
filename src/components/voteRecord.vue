@@ -73,7 +73,7 @@
           :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
           :label-width="4"
         >
-          <q-input v-model="secondPwd" type="password" />
+          <q-input v-model="VR.secondPwd" type="password" />
         </q-field>
         <table class="q-table horizontal-separator highlight loose ">
           <tbody class='info-tbody'>
@@ -277,17 +277,17 @@ export default {
         this.VR.selected = []
         return
       }
-      let trans = createVote(this.selectedDelegate, this.user.secret, this.secondPwd)
+      let trans = createVote(this.selectedDelegate, this.user.secret, this.VR.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_VOTE_SUCCESS'))
       } else {
         translateErrMsg(this.$t, res.error)
       }
-      this.secondPwd = ''
+      this.VR.secondPwd = ''
     },
     onCancel() {
-      this.secondPwd = ''
+      this.VR.secondPwd = ''
     },
     repeal() {
       this.VR.dialogShow = true

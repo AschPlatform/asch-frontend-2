@@ -1,13 +1,13 @@
 <template>
-  <q-modal class="no-shadow col-6" v-model="show" maximized no-esc-dismiss>
+  <q-page >
     <div class="no-wrap q-pa-md row justify-between">
       <span>
         <i class="material-icons vertical-align-sub font-24 text-black">border_color</i>
         <h5 class="q-px-md inline-block">{{$t('GATEWAY_PARTICULARS')}}</h5>
         </span>
-      <q-btn color="secondary" class="self-center" @click="$emit('close')">
+      <!-- <q-btn color="secondary" class="self-center" @click="$router.push('gateway')">
         {{$t('CANCEL')}}
-      </q-btn>
+      </q-btn> -->
     </div>
     <div class="row q-px-md gutter-md">
       <div class="col-8">
@@ -31,10 +31,10 @@
           <q-card class="gateway-modal-right-card no-shadow" align="left">
             <div class=" modal-right-container shadow-2">
             <q-card-title class="bg-nine">
-              <span class="font-16 text-black">{{item.name}}</span>
+              <span class="font-16 text-black">{{gateway.name}}</span>
             </q-card-title>
             <q-card-main>
-              <span class="font-16 text-five">{{item.desc}}</span>
+              <span class="font-16 text-five">{{gateway.desc}}</span>
             </q-card-main>
             </div>
           </q-card>
@@ -44,23 +44,23 @@
             <span class="font-16 text-black">{{$t('UPDATE_LIMIT')}}</span>
           </q-card-title>
           <q-card-main class="self-end bottom-container-bottom">
-            <span class="font-24 text-secondary">{{convertFrequency(item.updateInterval)}}{{$t('FRAGIL_DAY')}}</span>
+            <span class="font-24 text-secondary">{{convertFrequency(gateway.updateInterval)}}{{$t('FRAGIL_DAY')}}</span>
           </q-card-main>
           </div>
         </q-card>
       </div>
     </div>
-  </q-modal>
+  </q-page>
 </template>
 <script>
-import { QModal, QTable, QCard, QCardTitle, QCardMain, QBtn } from 'quasar'
+import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn } from 'quasar'
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'GatewayModal',
-  props: ['show', 'item'],
+  name: 'GatewayDetail',
+  props: [],
   components: {
-    QModal,
+    QPage,
     QTable,
     QCard,
     QCardTitle,
@@ -112,7 +112,8 @@ export default {
         rowsPerPage: 1
       },
       loading: false,
-      datas: []
+      datas: [],
+      gateway: {}
     }
   },
 
@@ -121,21 +122,13 @@ export default {
     viewAccountInfo(row) {
       this.$root.$emit('openAccountModal', row.address)
     },
-    compileData() {
-      return this._.map(this.item.members, val => {
-        return {
-          address: val,
-          member: ''
-        }
-      })
-    },
     async loadData() {
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
       let res = await this.getGatewayDelegates({
         limit: limit,
         offset: (pageNo - 1) * limit,
-        name: this.item.name
+        name: this.gateway.name
       })
       if (res.success) {
         this.datas = res.validators
@@ -153,11 +146,18 @@ export default {
     }
   },
   mounted() {
-    this.loadData()
+    let { gateway } = this.$route.params
+    if (!gateway) {
+      this.$router.push('gateway')
+    }
+    this.gateway = gateway
+    if (gateway && gateway.agent) {
+      this.loadData()
+    }
   },
   computed: {},
   watch: {
-    item(val) {
+    gateway(val) {
       if (val) this.loadData()
     }
   }
