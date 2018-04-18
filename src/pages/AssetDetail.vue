@@ -170,7 +170,7 @@ export default {
   computed: {
     ...mapGetters(['userInfo']),
     isCross() {
-      if (this.asset.asset.issuerId) {
+      if (this.asset && this.asset.asset && this.asset.asset.issuerId) {
         return false
       } else {
         return true
