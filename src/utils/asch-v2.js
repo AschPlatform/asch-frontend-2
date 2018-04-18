@@ -1,5 +1,4 @@
 import AschJS from 'asch-js-v2'
-import store from '../store/index'
 // TODO 替换为更新后的 asch-js 库
 // const exFunc = (conf)=>{
 //   let {type,fee=10000000,args=[],secondSecret=''}
@@ -14,10 +13,10 @@ import store from '../store/index'
 
 // TODO
 const convertSecondPwd = pwd => {
-  let address = store.state.userInfo.account.address
-  let key = pwd + address
-  let keyPair = AschJS.crypto.getKeys(key)
-  return keyPair.publicKey
+  // let key = pwd
+  // let keyPair = AschJS.crypto.getKeys(key)
+  // return keyPair.publicKey
+  return pwd
 }
 
 const asch = {
@@ -28,7 +27,7 @@ const asch = {
       fee: 10000000,
       args: [amount, recipientId],
       secret,
-      secondSecret: secondPwd,
+      secondSecret: convertSecondPwd(secondPwd),
       message
     })
   },
@@ -47,8 +46,9 @@ const asch = {
     return AschJS.transaction.createTransactionEx({
       type: 3,
       fee: 10000000,
-      args: [secondPwd],
-      secret
+      args: [convertSecondPwd(secondPwd)],
+      secret,
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 锁仓
@@ -57,7 +57,8 @@ const asch = {
       type: 4,
       fee: 10000000,
       args: [height, amount],
-      secret
+      secret,
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 解锁
@@ -67,7 +68,7 @@ const asch = {
       fee: 10000000,
       args: [],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 设置多签账户
@@ -77,7 +78,7 @@ const asch = {
       fee: 10000000,
       args: [],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 注册为代理人
@@ -87,7 +88,7 @@ const asch = {
       fee: 10000000,
       args: [],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 设置投票代理人
@@ -97,7 +98,7 @@ const asch = {
       fee: 10000000,
       args: [agent],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 取消投票代理
@@ -107,7 +108,7 @@ const asch = {
       fee: 10000000,
       args: [agent],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 注册为受托人
@@ -117,7 +118,7 @@ const asch = {
       fee: 10000000,
       args: [],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 受托人投票
@@ -127,7 +128,7 @@ const asch = {
       fee: 10000000,
       args: [delegates],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
 
@@ -138,7 +139,7 @@ const asch = {
       fee: 10000000,
       args: [delegates],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
 
@@ -149,7 +150,7 @@ const asch = {
       fee: 10000000,
       args: [name, desc],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 注册资产 TODO
@@ -159,7 +160,7 @@ const asch = {
       fee: 10000000,
       args: [symbol, desc, maximum, precision],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 发行资产
@@ -169,7 +170,7 @@ const asch = {
       fee: 10000000,
       args: [symbol, amount],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 资产转账
@@ -179,7 +180,7 @@ const asch = {
       fee: 10000000,
       args: [symbol, amount, recipientId],
       secret,
-      secondSecret: secondPwd,
+      secondSecret: convertSecondPwd(secondPwd),
       message
     })
   },
@@ -201,7 +202,7 @@ const asch = {
       fee: 10000000,
       args: [name, desc, tags, link, icon, category, delegates, nlockNumber],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 更新 dapp 记账人
@@ -211,7 +212,7 @@ const asch = {
       fee: 10000000,
       args: [dappId, origin, key],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 添加 dapp 记账人
@@ -221,7 +222,7 @@ const asch = {
       fee: 10000000,
       args: [dappId, key],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 删除 dapp 记账人
@@ -231,7 +232,7 @@ const asch = {
       fee: 10000000,
       args: [dappId, key],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // dapp 充值
@@ -241,7 +242,7 @@ const asch = {
       fee: 10000000,
       args: [dappId, currency, amount],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // dapp 提现 TODO  参数问题
@@ -251,7 +252,7 @@ const asch = {
       fee: 10000000,
       args: [dappId, recipient, amount, wid, signatures],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 发起提案
@@ -261,7 +262,7 @@ const asch = {
       fee: 10000000,
       args: [title, desc, topic, content, endHeight],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 对提案投票
@@ -271,7 +272,7 @@ const asch = {
       fee: 10000000,
       args: [pid],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 激活提案
@@ -281,7 +282,7 @@ const asch = {
       fee: 10000000,
       args: [pid],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 网关注册候选人
@@ -291,7 +292,7 @@ const asch = {
       fee: 10000000,
       args: [gateway, publicKey, desc],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 网关开户
@@ -301,7 +302,7 @@ const asch = {
       fee: 10000000,
       args: [gateway],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 网关充值
@@ -311,7 +312,7 @@ const asch = {
       fee: 10000000,
       args: [address, currency, amount],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   },
   // 网关提现
@@ -321,7 +322,7 @@ const asch = {
       fee: 10000000,
       args: [address, currency, amount],
       secret,
-      secondSecret: secondPwd
+      secondSecret: convertSecondPwd(secondPwd)
     })
   }
 }

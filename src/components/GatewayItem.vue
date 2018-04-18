@@ -1,7 +1,8 @@
 <template>
-  <q-card inline class="col-3">
+  <q-card inline class="col-4">
     <q-card-title align="center">
       {{item.name}}
+        <span slot="subtitle">{{$t('GATEWAY_MEMBER')}}:{{item.validatorNumber}}</span>
     </q-card-title>
     <q-card-main inline >
       <!-- {{$t('COUNCIL_PAGE.MODAL_TITLE', {number: item.members.length})}} -->
@@ -9,8 +10,8 @@
       <div class="text-center">
         {{item.desc}}
       </div>
-      <div>
-        {{$t('CREATE_TIME')}} : TODO
+      <div class="text-center">
+        {{$t('CREATE_TIME')}} : {{item.createTime | time}}
       </div>
     </q-card-main>
     <q-card-actions align="center">
@@ -40,13 +41,12 @@ export default {
     QBtn,
     QCardActions
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
 
 <style lang="stylus" scoped>
-  .cardSet{
-  }
+.cardSet {
+}
 </style>
 

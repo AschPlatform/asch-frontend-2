@@ -59,7 +59,7 @@
           <q-item-side icon="home" />
           <q-item-main :label="$t('HOME')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('account')">
+        <q-item class="list-item-container" item :to="getRouterConf('assets')">
           <q-item-side icon="attach money" />
           <q-item-main :label="$t('ASSET')" />
         </q-item>
@@ -318,6 +318,19 @@ export default {
       })
       if (res.success) {
         let userInfo = this._.merge({}, user, res)
+        userInfo.address = user.account.address
+        if (!userInfo.account) {
+          userInfo.account = {
+            address: user.account.address,
+            xas: 0,
+            isLocked: 0,
+            isAgent: 0,
+            lockHeight: 0,
+            agent: 0,
+            weight: 0,
+            agentWeight: 0
+          }
+        }
         this.setUserInfo(userInfo)
         this.setLatestBlock(res.latestBlock)
         this.setVersion(res.version)

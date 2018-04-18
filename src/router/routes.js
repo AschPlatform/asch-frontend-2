@@ -20,34 +20,12 @@ export default [
       {
         path: 'assets',
         name: 'assets',
-        component: load('Assets'),
-        children: [
-          {
-            path: 'account',
-            name: 'account',
-            component: load('AssetsAccount')
-          },
-          {
-            path: 'publisher',
-            name: 'publisher',
-            component: load('AssetsPublisher')
-          },
-          {
-            path: 'addAssets',
-            name: 'addAssets',
-            component: load('AssetsRegister')
-          },
-          {
-            path: 'list',
-            name: 'list',
-            component: load('AssetsPublished')
-          },
-          {
-            path: 'records',
-            name: 'records',
-            component: load('AssetsRecords')
-          }
-        ]
+        component: load('Assets')
+      },
+      {
+        path: '/assetDetail',
+        name: 'assetDetail',
+        component: load('AssetDetail')
       },
       {
         path: 'addACL',

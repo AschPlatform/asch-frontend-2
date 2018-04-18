@@ -41,7 +41,7 @@
               <table>
                 <tr>
                   <td>{{$t('ISSUER')}}</td>
-                  <td>{{assetDetail.issuerId}}</td>
+                  <td>{{issuerName}}</td>
                 </tr>
                 <tr>
                   <td>{{$t('DAPP_COIN_TOTAL_AMOUNT')}}</td>
@@ -187,6 +187,9 @@ export default {
     },
     assetDetail() {
       return this.asset.asset
+    },
+    issuerName() {
+      if (this.asset.currency) return this.asset.currency.split('.')[0]
     }
   },
   watch: {}

@@ -18,8 +18,8 @@
             <!-- come from VR page -->
             <q-table :no-data-label="$t('table.noData')" :data="datas" :filter="filter" color="primary" :columns="dynamicCol" @request="request" :pagination.sync="pagination" row-key="id" :loading="loading" :rows-per-page-options="[10]">
               <template slot="top-right" slot-scope="props">
-                  <q-btn flat round  icon="refresh" color="primary" @click="refresh" />
-        </template>
+                <q-btn flat round  icon="refresh" color="primary" @click="refresh" />
+              </template>
            
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
             <div class="text-primary" @click="viewAccountInfo(props.row)">
@@ -55,7 +55,6 @@
           <div>
             ({{userInfo.account.agentWeight}})
           </div>
-          
         </q-card-main>
       </q-card>
     </div>

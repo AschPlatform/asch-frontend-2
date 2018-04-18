@@ -16,6 +16,7 @@
         </q-toolbar>
         <div class="row layout-padding">
 
+
           <q-card class="col-4" v-for="(currency,idx) in currencies" :key="idx">
             <q-card-main>
               <q-item>

@@ -24,10 +24,9 @@
         :options="assetsOpt" />
       </q-field>
       <q-field v-if="secondSignature"
-        :label="$t('TRS_TYPE_SECOND_PASSWORD')"
         :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
-        :label-width="4">
-        <q-input v-model="secondPwd" type="password" />
+        >
+        <q-input :float-label="$t('TRS_TYPE_SECOND_PASSWORD')" v-model="secondPwd" type="password" />
       </q-field>
       <br />
       <div class="row justify-around">

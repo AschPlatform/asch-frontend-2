@@ -70,7 +70,7 @@
             </div>
           </q-card-main>
         </q-card>
-        <assets-records :userObj="userInfo" />
+        <!-- <assets-records :userObj="userInfo" /> -->
       </div>
      
 

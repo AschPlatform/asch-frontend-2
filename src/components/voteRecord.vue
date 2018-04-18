@@ -254,7 +254,7 @@ export default {
       let limit = this.VR.pagination.rowsPerPage
       let pageNo = this.VR.pagination.page
       let res = await this.myvotes({
-        address: this.user.account.address,
+        address: this.user.account.agent,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit

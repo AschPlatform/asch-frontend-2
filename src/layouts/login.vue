@@ -162,6 +162,18 @@ export default {
           user = data
           user.secret = this.secret
           user.publicKey = publicKey
+          if (!user.account) {
+            user.account = {
+              address,
+              xas: 0,
+              isLocked: 0,
+              isAgent: 0,
+              lockHeight: 0,
+              agent: 0,
+              weight: 0,
+              agentWeight: 0
+            }
+          }
           this.remember ? setCache('user', user) : removeCache('user')
           this.updateUserInfo(user)
           this.loading = false
