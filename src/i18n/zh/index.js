@@ -440,9 +440,11 @@ const lang = {
   COUNCILS: '全部理事会',
   GATEWAY_MEMBER: '网关成员',
   GATEWAY: '网关',
+  ALL_GATEWAY: '全部网关',
+  GATEWAY_PARTICULARS: '网关详情页',
   CREATE_TIME: '创建时间',
   ELECTED: '当选状态',
-  UPDATE_LIMIT: '最低更新频率',
+  UPDATE_LIMIT: '最低更新频率:',
   proposal: {
     No: '提案编号',
     INITIATOR: '发起人',
@@ -531,7 +533,7 @@ const lang = {
     INSTEAD_TITLE_POST: '增加如下受托人成为新的理事会成员'
   },
   COUNCIL_PAGE: {
-    MODAL_TITLE: '共{number}人',
+    MODAL_TITLE: '成员(共{number}人)',
     MEMBER: '成员',
     ADDRESS: '地址',
     OPERATION: '操作',

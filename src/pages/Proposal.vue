@@ -1,24 +1,20 @@
 <template>
-  <q-page class="layout-padding">
-    <q-btn-group outline>
-      <q-btn flat color="primary" :label="$t('proposal.TITLE_ALL')" />
-      <q-btn flat color="primary" :label="$t('proposal.TITLE_PROCESS')" />
-      <q-btn flat color="primary" :label="$t('proposal.TITLE_DONE')" />
-    </q-btn-group>
-    <q-btn-group class="float-right">
-      <q-btn size="sm" color="primary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
-    </q-btn-group>
+  <q-page class="proposal-container">
+    <div class="proposal-content bg-white shadow-2">
+      <q-btn-group outline>
+        <q-btn class="font-22 proposal-content-top-btn" flat color="secondary" :label="$t('proposal.TITLE_ALL')" />
+        <q-btn class="font-22 proposal-content-top-btn" flat :label="$t('proposal.TITLE_PROCESS')" />
+        <q-btn class="font-22 proposal-content-top-btn" flat :label="$t('proposal.TITLE_DONE')" />
+      </q-btn-group>
+      <q-btn-group class="float-right">
+        <q-btn class="font-18" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
+      </q-btn-group>
       <!-- <q-tab default slot="title" :label="$t('proposal.TITLE_ALL')" />
-      <q-tab slot="title" :label="$t('proposal.TITLE_PROCESS')" />
-      <q-tab slot="title" :label="$t('proposal.TITLE_DONE')" />
-      <q-btn size="sm" flat slot="top-right" clas+s="float-right">Launch</q-btn> -->
+        <q-tab slot="title" :label="$t('proposal.TITLE_PROCESS')" />
+        <q-tab slot="title" :label="$t('proposal.TITLE_DONE')" />
+        <q-btn size="sm" flat slot="top-right" clas+s="float-right">Launch</q-btn> -->
       <!-- tab pane content -->
-      <q-table :data="proposalDetail"
-      :columns="columns"
-      row-key="no"
-      :pagination.sync="pagination"
-      @request="request"
-      >
+      <q-table class="no-shadow" :data="proposalDetail" :columns="columns" row-key="no" :pagination.sync="pagination" @request="request">
         <q-td slot="body-cell-desc" slot-scope="props" :props="props">
           {{props.value.substring(0,20) + '...'}}
           <q-popover v-if="props.value" ref="popover-msg">
@@ -35,34 +31,28 @@
           {{transGate(props.value)}}
         </q-td>
         <q-td slot="body-cell-activated" slot-scope="props" :props="props">
-          <q-btn flat color="primary" @click="callShowModal">
+          <q-btn flat color="secondary" @click="callShowModal">
             {{operationBtn(props.value)}}
           </q-btn>
         </q-td>
         <q-td slot="body-cell-period" slot-scope="props" :props="props">
           <!-- <q-btn flat :label="$t('proposal.OPERATION')" color="primary"> -->
-            {{props.value | jparse('updateInterval', true)}}
+          {{props.value | jparse('updateInterval', true)}}
           <!-- </q-btn> -->
         </q-td>
       </q-table>
-
-    <!-- modal area -->
-    <launch-modal :show="isLaunchShow" @hide="callOffModal"></launch-modal>
-    <show-modal :show="isDetailShow" @hide="callOffModal"></show-modal>
+  
+      <!-- modal area -->
+      <launch-modal :show="isLaunchShow" @hide="callOffModal"></launch-modal>
+      <show-modal :show="isDetailShow" @hide="callOffModal"></show-modal>
+    </div>
+  
   </q-page>
 </template>
 
 <script>
 /* eslint-disable */
-import {
-  QPage,
-  QBtnGroup,
-  QTable,
-  QTd,
-  QBtn,
-  QPopover,
-  QTooltip
-} from 'quasar'
+import { QPage, QBtnGroup, QTable, QTd, QBtn, QPopover, QTooltip } from 'quasar'
 import { mapActions } from 'vuex'
 import launchModal from '../components/LaunchProposalModal'
 import showModal from '../components/ShowProposalModal'
@@ -207,8 +197,7 @@ export default {
       this.isDetailShow = false
     }
   },
-  computed: {
-  },
+  computed: {},
   mounted() {
     this.getProposalsFunc()
   }
@@ -216,5 +205,19 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.proposal-container {
+  padding: 40px;
+}
 
+.proposal-content {
+  padding: 20px;
+}
+
+.proposal-content-top-btn:hover {
+  color: #43aea8!important;
+}
+
+.proposal-content-top-btn:hover {
+  color: #000000;
+}
 </style>
