@@ -3,8 +3,8 @@
   <q-page class="personal-container">
     <q-card class="no-shadow" v-if="user">
       <!-- <q-card-title>
-        {{$t('PERSONAL')}}
-      </q-card-title> -->
+          {{$t('PERSONAL')}}
+        </q-card-title> -->
       <q-card-main class="row col-12 justify-center">
         <div class="personal-top col-12 row justify-left bg-white shadow-2">
           <div class="personal-head-portrait col-1">
@@ -13,8 +13,8 @@
           <div class="col-7 col-md-7 col-lg-6 col-xl-5 text-left row justify-left">
             <div>
               <span class="text-black font-22 vertical-align-middle">
-                  {{$t('HELLO')}}
-                  </span>
+                    {{$t('HELLO')}}
+                    </span>
               <a class="set-nickname bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else>{{userNickname}}</span>
             </div>
             <div class="col-12 text-three">
@@ -34,73 +34,69 @@
           <div class="personal-bottom-title">
             <i class="material-icons">email</i>
             <span>
-            {{$t('MESSAGE_DETAILS')}}
-            </span>
+              {{$t('MESSAGE_DETAILS')}}
+              </span>
           </div>
           <table class="q-table bordered highlight responsive ">
             <tbody class='info-tbody'>
               <tr>
                 <td class="bottom-left-link text-three font-18">
-                  <span class="left-ball"></span>
-                  {{$t('SECOND_PASSWORD')}}
-                  </td>
+                  <span class="left-ball"></span> {{$t('SECOND_PASSWORD')}}
+                </td>
                 <td>
                   <span v-if="secondSignature" class="text-black font-18">
-                              {{$t('ALREADY_SET')}}
-                            </span>
+                                {{$t('ALREADY_SET')}}
+                              </span>
                   <a v-else class="text-secondary" @click="secondPwdShow=true">
-                              {{$t('SET_NOW')}}
-                            </a>
+                                {{$t('SET_NOW')}}
+                              </a>
                 </td>
               </tr>
               <!-- <tr>
-                          <td>{{$t('PUBLIC_KEY')}}</td>
-                          <td>{{user.account.publicKey}} 
-                            <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
-                          </td>
-                        </tr> -->
+                            <td>{{$t('PUBLIC_KEY')}}</td>
+                            <td>{{user.account.publicKey}} 
+                              <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
+                            </td>
+                          </tr> -->
               <tr>
                 <td class="bottom-left-link text-three font-18">
-                  <span class="left-ball"></span>
-                  {{$t('LOCK_POSITION_CONF')}}
-                  </td>
+                  <span class="left-ball"></span> {{$t('LOCK_POSITION_CONF')}}
+                </td>
                 <td>
                   <div v-if="lockInfo">
                     <span>
-                                {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
-                              </span>
+                                  {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
+                                </span>
                     <a class="text-secondary" @click="lockPanelShow=true">{{$t('EDIT')}}</a>
                     <a v-if="this.lockInfo.expire" class="text-blue" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
                   <a v-else class="text-secondary" @click="lockPanelShow=true">
-                              {{$t('SET_NOW')}}
-                            </a>
+                                {{$t('SET_NOW')}}
+                              </a>
                 </td>
               </tr>
               <tr>
                 <td class="bottom-left-link text-three font-18">
-                  <span class="left-ball"></span>
-                  {{$t('AGENT_INFO')}}
-                  </td>
+                  <span class="left-ball"></span> {{$t('AGENT_INFO')}}
+                </td>
                 <td>
                   <span v-if="isAgent">
-                              {{$t('IS_AGENT')}}
-                            </span>
+                                {{$t('IS_AGENT')}}
+                              </span>
                   <a v-else class="text-secondary" @click="userAgreementShow=true">
-                              {{$t('REGISTER_AGENT')}}
-                            </a>
+                                {{$t('REGISTER_AGENT')}}
+                              </a>
                 </td>
               </tr>
               <tr>
                 <td class="bottom-left-link text-three font-18">
-                  <span class="left-ball"></span>
-                  {{$t('GATEWAY_CANDIDATE')}}
-                  </td>
+                  <span class="left-ball"></span> {{$t('GATEWAY_CANDIDATE')}}
+                </td>
                 <td>
                   <div @click="jump2Doc">
                     <a class="text-secondary">
-                                {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
-                              </a>
+                                  {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
+                                </a>
                   </div>
                 </td>
               </tr>
@@ -127,10 +123,10 @@
         </q-field>
       </div>
       <template slot="buttons" slot-scope="props">
-                  <q-btn class="col-3 self-lef" color="secondary" flat @click="setPwd(props.ok)">
-                    {{$t('SUBMIT')}}
-                  </q-btn>
-                  <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
+                    <q-btn class="col-3 self-lef" color="secondary" flat @click="setPwd(props.ok)">
+                      {{$t('SUBMIT')}}
+                    </q-btn>
+                    <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
 </template>
     </q-dialog>
 
@@ -183,11 +179,12 @@
     <q-dialog v-model="lockPanelShow" >
       <span slot="title">{{$t('LOCK_POSITION_CONF')}}</span>
       <div slot="body" class="row justify-center" >
-        <q-field class="col-10" :label="$t('NUM')" :label-width="4" :error="numError" :helper="numLimit">
+        <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError" :helper="numLimit">
           <q-input @blur="validateNum" type="number" :decimals="2" v-model="num" />
         </q-field>
-         <q-field class="col-10" :label="$t('TIME')" :label-width="4" :error="$v.time.$error" 
+         <q-field class="col-10" :label="$t('TIME')" color="black" :label-width="3" :error="$v.time.$error" 
          :error-label="$t('ERR_NICKNAME')" :helper="$t('UNLOCK_TIPS')">
+          <!-- <p class="text-secondary font-12">{{$t('UNLOCK_TIPS')}}</p> -->
           <q-datetime
           v-model="time"
           :min="today"
@@ -197,7 +194,7 @@
           format24h
         />
         </q-field>
-        <q-field v-show="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="4"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+        <q-field v-show="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
           <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
         </q-field>
       </div>
@@ -635,5 +632,9 @@ export default {
 
 .bottom-left-link {
   width: 20%;
+}
+
+.modal-header {
+  background: #43aea8 !important;
 }
 </style>
