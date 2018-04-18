@@ -14,7 +14,7 @@
         <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading">
   
           <q-td slot="body-cell-operation" slot-scope="props" :props="props">
-            <div class="text-primary" @click="viewAccountInfo(props.row)">
+            <div class="text-secondary" @click="viewAccountInfo(props.row)">
               {{$t('CHECK')}}
             </div>
           </q-td>

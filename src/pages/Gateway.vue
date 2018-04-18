@@ -10,7 +10,7 @@
       <q-btn :disabled="loading" v-if="pagination.rowsNumber>gateways.length" :label="$t('LOAD_MORE')" @click="loadMore" />
     </div>
     <!-- CouncilModal -->
-    <gateway-modal class="gateway-modal no-shadow" v-if="gateway" :item="gateway" :show="show" @close="show=false" />
+    <gateway-modal class="no-shadow" v-if="gateway" :item="gateway" :show="show" @close="show=false" />
   </q-page>
 </template>
 
@@ -79,12 +79,6 @@ export default {
 <style lang="stylus" scoped>
 .geteway-top {
   margin-bottom: 20px;
-}
-
-.gateway-modal {
-  max-width: 70%;
-  max-height: 90%;
-  margin: 5% auto;
 }
 
 .q-table-top {
