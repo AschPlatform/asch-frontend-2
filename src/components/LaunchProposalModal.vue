@@ -84,12 +84,12 @@
             </div>
             <div class="row">
               <q-field class="block col-5" label-width="3" :error-label="$t('LAUNCH_MODAL.PRECISION_TIP')" :label="$t('PRECISION')">
-                <q-input :float-label="$t('PRECISION')" upper-case type="number" v-model="NEW.currencyPrecision" @blur="$v.NEW.currencyPrecision.$touch()" :error="$v.NEW.currencyPrecision.$error"></q-input>
+                <q-input upper-case type="number" v-model="NEW.currencyPrecision" @blur="$v.NEW.currencyPrecision.$touch()" :error="$v.NEW.currencyPrecision.$error"></q-input>
               </q-field>
             </div>
             <div class="row">
               <q-field class="block col-5" label-width="3" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.CURRENCY_BRIEF')">
-                <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" upper-case type="text" v-model="NEW.currencyBrief" @blur="$v.NEW.currencyBrief.$touch()" :error="$v.NEW.currencyBrief.$error"></q-input>
+                <q-input upper-case type="text" v-model="NEW.currencyBrief" @blur="$v.NEW.currencyBrief.$touch()" :error="$v.NEW.currencyBrief.$error"></q-input>
               </q-field>
             </div>
             <div class="row">
@@ -115,7 +115,7 @@
           </div>
 
           <!-- below is net init page -->
-          <div class="col-12" v-show="this.second_type === 'init' && this.first_type === 'change_n'" id="init">
+          <div class="col-12" v-show="this.second_type === 'init' && this.first_type === 'change_n' && this.initFalse" id="init">
             <div class="row">
               <q-field class="col-8" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
                 <q-select chips multiple filter v-model="INIT.selected" @input="detectChange" @blur="$v.INIT.selected.$touch()" :error="$v.INIT.selected.ifEnough" :options="delegateList"></q-select>
@@ -150,17 +150,22 @@
           <div class="col-12" v-show="this.second_type === 'member_n' && this.first_type === 'change_n'" id="remove">
             <!-- instead members -->
             <div class="row">
-              <q-field class="col-4" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_PRE')">
+              <!-- <q-field class="col-4" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_PRE')">
                 <q-select chips multiple filter v-model="MEMBER.instead_pre" :options="MEMBER.memberList"></q-select>
-              </q-field>
+              </q-field> -->
               <q-field class="col-4" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_POST')">
                 <q-select chips multiple filter v-model="MEMBER.instead_post" :options="delegateList"></q-select>
               </q-field>
             </div>
             <div class="row justify-around q-my-lg">
-              <q-chips-input color="primary" :prefix="$t('LAUNCH_MODAL.INSTEAD_PRE')" class="col-5" inverted readonly v-model="MEMBER.show_pre" disable/>
+              <q-chips-input color="primary" :prefix="$t('LAUNCH_MODAL.INSTEAD_PRE')" class="col-5" inverted readonly v-model="MEMBER.instead_pre" disable/>
               <q-icon size="33px" name="keyboard arrow right" />
-              <q-chips-input color="primary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="MEMBER.show_post" disable/>
+              <q-chips-input color="primary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="MEMBER.instead_post" disable/>
+            </div>
+            <div class="">
+              <q-field class="" label-width="1" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.MEMBER_REASON')">
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+              </q-field>
             </div>
           </div>
 
@@ -195,7 +200,7 @@
           <div class="col-12" v-show="this.second_type === 'member' && this.first_type === 'change'" id="remove">
             <div class="row">
               <q-field :label-width="4" :error-label="$t('ERR.ERR_REQUIRE_TYPE')"  :label="$t('proposal.SELECT_MEMBER_ACTION')" class="col-3">
-                <q-select v-model="MEMBER.type_selected" @blur="$v.MEMBER.type_selected.$touch()" :error="$v.MEMBER.type_selected.$error" :options="MEMBER.type"/>
+                <q-select v-model="MEMBER.type_selected" @blur="$v.MEMBER.instead_post.$touch()" :error="$v.MEMBER.instead_post.$error" :options="MEMBER.type"/>
               </q-field>
             </div>
              <!-- below are second clues -->
@@ -229,11 +234,11 @@
         </q-card-main>
 
         <q-card-main v-show="this.first_type !== null" key="agreement">
-          <q-checkbox v-model="NEW.agreement" val="one" :label="$t('LAUNCH_MODAL.READ_TIP1')" />
+          <q-checkbox v-model="agreeOptions" val="one" :label="$t('LAUNCH_MODAL.READ_TIP1')" />
           <br><br>
-          <q-checkbox v-model="NEW.agreement" val="two" :label="$t('LAUNCH_MODAL.READ_TIP2')" />
+          <q-checkbox v-model="agreeOptions" val="two" :label="$t('LAUNCH_MODAL.READ_TIP2')" />
           <div class="row justify-center">
-            <q-btn color="primary" size="md" @click="launchProposal" :label="$t('proposal.BTN_LAUNCH')"></q-btn>
+            <q-btn color="primary" size="md" @click="launchProposal" :label="$t('proposal.BTN_LAUNCH')" :disabled='this.disableLaunch'></q-btn>
           </div>
         </q-card-main>
         </transition-group>
@@ -257,7 +262,7 @@ import {
 } from 'quasar'
 import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
 import { mapActions } from 'vuex'
-import { getCache } from '../utils/util'
+import { getCache, toastError } from '../utils/util'
 
 export default {
   name: 'LaunchProposalModal',
@@ -267,13 +272,13 @@ export default {
       // overall setting
       p_title: null,
       first_type: null,
-      second_type: null,
       p_time_start: null,
       p_time_end: null,
       p_selected: null,
-      P_CHANGE_TYPE: null,
-      // net proposal
-      p_type_n: null,
+      second_type: null,
+      // cannot init
+      initFalse: false,
+      agreeOptions: [],
       // options for total
       proposalType: [
         // protential of council options
@@ -336,16 +341,7 @@ export default {
       delegateList: [],
       brief: null,
       NEW: {
-        memberList: [
-          {
-            label: 'Jonny',
-            value: 'jonny'
-          },
-          {
-            label: 'Docky',
-            value: 'dockey'
-          }
-        ],
+        memberList: [],
         memberNumber: null,
         selected: [],
         period: null,
@@ -484,7 +480,7 @@ export default {
       }
     },
     MEMBER: {
-      type_selected: {
+      instead_post: {
         required
       }
     },
@@ -507,8 +503,11 @@ export default {
   mounted() {
   },
   methods: {
-    ...mapActions(['postProposal', 'getAllGateways', 'gatewayDelegates']),
+    ...mapActions(['postProposal', 'getGateways', 'getGatewayDelegates']),
     hideModal() {
+      this.resetHeader()
+      this.resetDetail()
+      this.$v.$reset()
       this.$emit('hide')
     },
     initInfo() {},
@@ -562,6 +561,20 @@ export default {
       return JSON.stringify(content)
     },
     launchProposal() {
+      if (this.first_type === 'new' || this.first_type === 'new_n') {
+        let result = this.checkValidate(this.first_type)
+        if (!result) {
+          toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
+          return
+        }
+      } else {
+        let result = this.checkValidate(this.second_type)
+        if (!result) {
+          toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
+          return
+        }
+      }
+      console.log(this.$v)
       let obj = {}
       obj.content = this.compileContent()
       obj.title = this.p_title
@@ -577,7 +590,7 @@ export default {
     },
     // info get funcs
     async getAllGate() {
-      let res = await this.getAllGateways()
+      let res = await this.getGateways()
       debugger
       let ls = []
       this._.each(res.gateways, function (o) {
@@ -589,30 +602,185 @@ export default {
       this.netList = ls
       console.log(this.netList)
     },
-    async getAllDelegates(name, isJoin) {
-      let res = await this.gatewayDelegates({
+    async getAllDelegates() {
+      // params :  filter
+      // 0 for none elected
+      // 1 for elected
+      // 2 for all
+      // params : obj for the state this response to replace
+      console.log('GET IN GET FUNCS')
+      let res = await this.getGatewayDelegates({
+        name: this.p_selected.name
+      })
+      return res
+      // let ls = []
+      // if (filter === 1) {
+      //   console.log('gonna adjust delegated')
+      //   this._.each(res.validators, function (o) {
+      //     if (o.elected === 1) {
+      //       return ls.push({
+      //         label: o.address,
+      //         value: o.address
+      //       })
+      //     }
+      //   })
+      // } else if (filter === 2) {
+      //   console.log('gonna get all delegated')
+      //   this._.each(res.validators, function (o) {
+      //     return ls.push({
+      //       label: o.address,
+      //       value: o.address
+      //     })
+      //   })
+      // } else {
+      //   console.log('gonna get unelected delegates')
+      //   this._.each(res.validators, function (o) {
+      //     if (o.elected === 0) {
+      //       return ls.push({
+      //         label: o.address,
+      //         value: o.address
+      //       })
+      //     }
+      //   })
+      // }
+      // if (obj1) {
+      //   this[obj][obj1] = ls
+      // }
+      // this[obj] = ls
+      // console.log(this['delegateList'])
+    },
+    // to form init list
+    async formInitList() {
+      let that = this
+      console.log('GET IN FORM FUNC')
+      let res = await this.getGatewayDelegates({
         name: this.p_selected.name
       })
       let ls = []
-      if (isJoin) {
-        console.log('gonna adjust delegated')
-        this._.each(res.validators, function (o) {
-          if (o.elected === 1) {
-            return ls.push({
-              label: o.address,
-              value: o.address
-            })
-          }
+      this._.each(res.validators, function (o) {
+        // cannot init detect
+        if (o.elected === 1) {
+          that.initFalse = false
+          return
+        }
+        return ls.push({
+          label: o.address,
+          value: o.address
         })
-      } else {
-        this._.each(res.validators, function (o) {
-          return ls.push({
-            label: o.address,
-            value: o.address
-          })
-        })
-      }
+      })
       this.delegateList = ls
+    },
+    async formMemberList() {
+      console.log('GET IN FORM FUNC')
+      let res = await this.getGatewayDelegates({
+        name: this.p_selected.name
+      })
+      let total = []
+      let elected = []
+      this._.each(res.validators, function (o) {
+        // cannot init detect
+        if (o.elected === 1) {
+          console.log('push the elected')
+          return elected.push(o.address)
+        }
+      })
+      this._.each(res.validators, function (o) {
+        return total.push({
+          label: o.address,
+          value: o.address
+        })
+      })
+      this.MEMBER.instead_pre = elected
+      this.delegateList = total
+      console.log(this.MEMBER.instead_pre, this.delegateList)
+    },
+    checkValidate(action) {
+      // total set first
+      if (!this.$v.p_title.$invalid && !this.$v.first_type.$invalid && !this.$v.p_time_start.$invalid && !this.$v.p_time_end.$invalid) {
+        switch (action) {
+          // init gateway
+          case 'init':
+            if (!this.$v.p_selected.isSelected && !this.$v.INIT.selected && !this.$v.brief.$invalid) {
+              return true
+            }
+            return false
+          // change member of gateway
+          case 'member_n':
+            if (!this.$v.p_selected.isSelected && !this.$v.MEMBER.instead_post.$invalid && !this.$v.brief.$invalid) {
+              return true
+            }
+            return false
+          // new gateway proposal
+          case 'new_n':
+            if (!this.$v.NEW.name.$invalid &&
+            !this.$v.NEW.currency.$invalid &&
+            !this.$v.NEW.currencyPrecision.$invalid &&
+            !this.$v.NEW.currencyBrief.$invalid &&
+            !this.$v.NEW.memberNumber.$invalid &&
+            !this.$v.NEW.period.$invalid &&
+            !this.$v.brief.$invalid) {
+              return true
+            }
+            return false
+        }
+      }
+      return false
+    },
+    resetHeader() {
+      this.p_title = null
+      this.first_type = null
+      this.p_time_start = null
+      this.p_time_end = null
+      this.p_selected = null
+    },
+    resetDetail() {
+      this.initFalse = false
+      this.councilList = []
+      this.netList = []
+      this.delegateList = []
+      this.brief = null
+      this.NEW = {
+        memberList: [],
+        memberNumber: null,
+        selected: [],
+        period: null,
+        agreement: [],
+        name: null,
+        currency: null,
+        currencyBrief: null,
+        currencyPrecision: null
+      }
+      this.INIT = {
+        selected: []
+      }
+      this.PERIOD = {
+        pre: null,
+        post: null
+      }
+      this.MEMBER = {
+        type: [
+          {
+            label: this.$t('proposal.SELECT_MEMBER_ADD'),
+            value: 'add'
+          },
+          {
+            label: this.$t('proposal.SELECT_MEMBER_DELETE'),
+            value: 'delete'
+          },
+          {
+            label: this.$t('proposal.SELECT_MEMBER_INSTEAD'),
+            value: 'instead'
+          }
+        ],
+        type_selected: null,
+        add_selected: [],
+        delete_selected: [],
+        instead_pre: [],
+        instead_post: [],
+        memberList: [],
+        show_pre: [],
+        show_post: []
+      }
     }
   },
   computed: {
@@ -639,6 +807,12 @@ export default {
     },
     countedInterval() {
       return Number(this.NEW.period) * 8640
+    },
+    disableLaunch() {
+      if (this.agreeOptions.length === 2) {
+        return false
+      }
+      return true
     }
   },
   watch: {
@@ -650,9 +824,9 @@ export default {
     second_type(val) {
       if (val === 'init') {
         console.log('gonna get all delegates')
-        this.getAllDelegates(this.p_selected, true)
-      } else if (val === 'member') {
-        this.getAllDelegates(this.p_selected, false)
+        this.formInitList()
+      } else if (val === 'member_n') {
+        this.formMemberList()
       }
     }
   }

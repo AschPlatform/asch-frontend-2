@@ -485,6 +485,7 @@ const lang = {
   LAUNCH_MODAL: {
     MEMBER_NUMBER: '成员数量',
     MEMBER_MEMBER: '成员信息',
+    MEMBER_REASON: '更新成员原因',
     NET_NAME: '网关名字',
     NET_CURRENCY: '默认币种',
     NET_CURRENCY_TIP: '至少填写一种默认币种，且必须是全部大写字母，多个币种用","隔开',
@@ -506,7 +507,8 @@ const lang = {
     NET_PERIOD: '网关最低更新频率参数',
     PRECISION_TIP: '需要填写精度',
     CURRENCY_BRIEF: '该币种介绍',
-    CURRENCY_BRIEF_TIP: '需要填写该币种介绍'
+    CURRENCY_BRIEF_TIP: '需要填写该币种介绍',
+    ERR_INVALID_FORM: '表单填写不完整或未按照要求'
   },
   DETAIL_MODAL: {
     MEMBER_CHIPS_PRE: '投票成员名单',
