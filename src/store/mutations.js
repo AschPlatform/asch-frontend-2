@@ -33,5 +33,8 @@ export default {
   },
   setIssuer: (state, issuer) => {
     state.issuer = issuer
+  },
+  setOutAssetsMap: (state, map) => {
+    state.outAssets = map
   }
 }

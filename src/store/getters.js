@@ -28,6 +28,9 @@ const getters = {
   },
   issuer: state => {
     return state.issuer
+  },
+  outAssets: state => {
+    return state.outAssets
   }
 }
 

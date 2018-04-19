@@ -245,12 +245,12 @@ export default {
         ]
       } else {
         return [
-          {
-            name: 'opt',
-            label: this.$t('OPERATION'),
-            field: 'opt',
-            align: 'center'
-          },
+          // {
+          //   name: 'opt',
+          //   label: this.$t('OPERATION'),
+          //   field: 'opt',
+          //   align: 'center'
+          // },
           {
             name: 'currency',
             label: this.$t('ASSET'),

@@ -131,7 +131,7 @@ export default {
         name: this.gateway.name
       })
       if (res.success) {
-        this.datas = res.validators
+        this.datas = res.validators.filter(p => p.elected === 1)
       }
     },
     async request(props) {

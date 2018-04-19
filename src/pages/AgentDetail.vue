@@ -48,7 +48,7 @@
           {{user.account.agent}}
         </div>
         <div>
-          {{$t('ß')}}
+          {{$t('AGENT_WEIGHT')}}
         </div>
         <div>
           ({{user.account.agentWeight}})

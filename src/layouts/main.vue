@@ -208,7 +208,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances']),
+    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances', 'getIssuer']),
     ...mapMutations([
       'updateUserInfo',
       'setUserInfo',
@@ -250,22 +250,6 @@ export default {
       })
       this.accountInfo = res.account
       this.accountShow = true
-    },
-    async getIssuer(cbOk = func, cbErr = func) {
-      // get user issuer info
-      let res = await this.issuer({
-        address: this.user.account.address
-      })
-      if (res.success) {
-        this.user.issuer = res.issuer
-        let user = this._.merge({}, this.userInfo, res)
-        this.user = user
-        if (getCache('user')) setCache('user', user)
-        cbOk(res)
-        // TODO
-      } else {
-        cbErr()
-      }
     },
     async getAssetsList(cbOk = func, cbErr = func) {
       // get user issuer info
@@ -335,8 +319,13 @@ export default {
         this.setLatestBlock(res.latestBlock)
         this.setVersion(res.version)
         this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
-        // window.CHPlugin.checkIn()
       }
+      this.getIssuer()
+      // if (res.success && res.issuer) {
+      //   let user = this.userInfo
+      //   user = this._.merge({}, user, { issuer: res.issuer })
+      //   this.setUserInfo(user)
+      // }
     }
   },
   computed: {
@@ -363,24 +352,18 @@ export default {
   },
   created() {
     // register event
-    this.$root.$on('getIssuer', () => {
-      this.user && this.user.account ? this.getIssuer() : console.log('not init yet..')
-    })
     this.$root.$on('showTransInfoModal', this.openTransInfoModal)
     this.$root.$on('openAccountModal', this.openAccountModal)
     this.$root.$on('openTransactionDialog', this.openTransactionDialog)
     this.$root.$on('showAjaxBar', this.showAjaxBar)
-    this.$root.$on('changeFloatBtn', this.changeFloatBtn)
     this.$root.$on('showQRCodeModal', this.showQRCodeModal)
     // this.$root.$on('showAssetDetailModal', this.showAssetDetailModal)
   },
   beforeDestroy() {
     clearInterval(this.intervalNum)
-    this.$root.$off('getIssuer', this.getIssuer)
     this.$root.$off('openAccountModal', this.openAccountModal)
     this.$root.$off('openTransactionDialog', this.openTransactionDialog)
     this.$root.$off('showAjaxBar', this.showAjaxBar)
-    this.$root.$off('changeFloatBtn', this.changeFloatBtn)
     this.$root.$off('showQRCodeModal', this.showQRCodeModal)
     this.$root.$off('showTransInfoModal', this.openTransInfoModal)
     // this.$root.$off('showAssetDetailModal', this.showAssetDetailModal)

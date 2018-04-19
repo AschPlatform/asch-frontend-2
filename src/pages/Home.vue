@@ -19,7 +19,6 @@
                 <i class="material-icons font-24 vertical-align-middle text-eight">fiber_manual_record</i>
                 <q-btn class="text-secondary font-24" size="xs" :label="$t('RECEIVE')" flat @click="showAddrQr" />
               </div>
-  
             </div>
           </q-card-main>
         </q-card>

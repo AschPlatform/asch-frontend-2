@@ -102,11 +102,11 @@ const asch = {
     })
   },
   // 取消投票代理
-  repealAgent: (agent, secret, secondPwd = '') => {
+  repealAgent: (secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx({
       type: 9,
       fee: 10000000,
-      args: [agent],
+      args: [],
       secret,
       secondSecret: convertSecondPwd(secondPwd)
     })
@@ -298,7 +298,7 @@ const asch = {
   // 网关开户
   openGatewayAccount: (gateway, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx({
-      type: 402,
+      type: 400,
       fee: 10000000,
       args: [gateway],
       secret,
