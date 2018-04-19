@@ -487,7 +487,9 @@ const lang = {
     VOTE_STATUS: '共计{number}人参与了投票 ，得票率{rate}%',
     ACTIVATED: '已激活',
     EXPIRED: '已过期',
-    ACTIVE: '激活'
+    ACTIVE: '激活',
+    ACTIVE_SUCCESS: '激活成功',
+    VOTE_SUCCESS: '投票成功'
   },
   LAUNCH_MODAL: {
     MEMBER_NUMBER: '成员数量',

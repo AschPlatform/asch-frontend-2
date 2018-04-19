@@ -111,7 +111,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
-import { deCompileContent, compileTimeStamp } from '../utils/util'
+import { deCompileContent, compileTimeStamp, toast, toastError } from '../utils/util'
 import memberIndicator from '../components/MemberIndicator'
 import {
   QPage,
@@ -128,7 +128,7 @@ import {
 
 export default {
   name: 'ProposalDetail',
-  props: ['show', 'type'],
+  props: ['user'],
   data() {
     return {
       tid: '',
@@ -166,7 +166,7 @@ export default {
     memberIndicator
   },
   methods: {
-    ...mapActions(['getProposal', 'getGatewayDelegates', 'getProposalVotes']),
+    ...mapActions(['getProposal', 'getGatewayDelegates', 'getProposalVotes', 'voteProposal', 'activeProposal']),
     back() {
       this.$router.back()
     },
@@ -179,13 +179,13 @@ export default {
       this.content = deCompileContent(this.detail.content)
       if (this.detail.activated === 1) {
         this.btnInfo = 'proposal.ACTIVATED'
-        this.isBtnAble = false
+        this.isBtnAble = true
       } else if (this.detail.endHeight < this.latestBlock.height) {
         this.btnInfo = 'proposal.EXPIRED'
-        this.isBtnAble = false
+        this.isBtnAble = true
       } else {
         this.btnInfo = 'proposal.ACTIVE'
-        this.isBtnAble = true
+        this.isBtnAble = false
       }
     },
     async getVoterInfo() {
@@ -215,10 +215,42 @@ export default {
         // directly envalue both the list
         this.preMemberList = ls
         this.postMemberList = ls
+      }if (this.detail.activated === 1) {
+        this.btnInfo = 'proposal.ACTIVATED'
+        this.isBtnAble = false
+      } else if (this.detail.endHeight < this.latestBlock.height) {
+        this.btnInfo = 'proposal.EXPIRED'
+        this.isBtnAble = false
+      } else {
+        this.btnInfo = 'proposal.ACTIVE'
+        this.isBtnAble = true
+      }
+    },
+    async activePro() {
+      let res = await this.activeProposal({
+        tid: this.$route.params.tid
+      })
+      if (res.success) {
+        toast($t('ACTIVE_SUCCESS'))
+      } else {
+        toastError(res.error)
+      }
+    },
+    async votePro() {
+      let res = await this.voteProposal({
+        tid: this.$route.params.tid
+      })
+      if (res.success) {
+        toast($t('VOTE_SUCCESS'))
+      } else {
+        toastError(res.error)
       }
     },
     active() {
-      
+      // to check if you are already vote
+      // i
+      this.votePro()
+      this.activePro()
     }
   },
   computed: {
@@ -268,6 +300,9 @@ export default {
         s = '0' + s
       }
       return d.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
+    },
+    compileBtn() {
+
     }
   },
   mounted() {
@@ -275,7 +310,6 @@ export default {
     this.getVoterInfo()
   },
   watch: {
-
   }
 }
 </script>

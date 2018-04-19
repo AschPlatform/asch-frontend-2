@@ -230,5 +230,21 @@ export default {
       params.secondPwd || ''
     )
     api.broadcastTransaction(trans)
+  },
+  // vote proposal
+  voteProposal: ({ commit }, params) => {
+    let trans = asch.voteProposal(
+      params.tid,
+      params.secondPwd || ''
+    )
+    api.broadcastTransaction(trans)
+  },
+  // active proposal
+  activeProposal: ({ commit }, params) => {
+    let trans = asch.activateProposal(
+      params.tid,
+      params.secondPwd || ''
+    )
+    api.broadcastTransaction(trans)
   }
 }
