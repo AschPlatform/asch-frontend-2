@@ -1,5 +1,5 @@
 <template>
-  <q-modal content-classes="row justify-center" v-model="show" maximized :no-esc-dismiss="true">
+  <q-modal content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
     <div class="col-6">
       <h4>{{$t('DEPOSIT')}}</h4>
       <div v-if="hasAdd" class="row justify-center">

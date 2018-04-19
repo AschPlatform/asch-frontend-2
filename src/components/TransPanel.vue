@@ -1,17 +1,17 @@
 <template>
-  <div class="col-10" v-if="asset">
-    <div v-if="showTitle">
-      <span class="text-tertiary font-22">
+  <div class="col-10 transPanel-container" v-if="asset">
+    <div class="bg-secondary transfer-top-container" v-if="showTitle">
+      <span class="text-white font-22">
         <i class="material-icons">border_color</i>
       </span>
-      <span class="text-tertiary font-22">
+      <span class="text-white font-22">
             {{$t('TRS_TYPE_TRANSFER')}}
       </span>
-      <span class="text-secondary font-12">
+      <span class="text-white font-12">
          {{$t('PAY_TIP')}}
       </span>
     </div>
-    <div v-if="user && user.account" >
+    <div class="transfer-top-container" v-if="user && user.account" >
       <q-field class="col-12 text-four" :label="$t('RECIPIENT')+':'" :label-width="3">
         <!-- <jdenticon  :address="form.receiver" :size="50" /> -->
         <q-input class="col-8" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" :placeholder="$t('RECIPIENT_NAME_ADDRESS')"/>
@@ -200,6 +200,14 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.transPanel-container {
+  padding-bottom: 50px;
+}
+
+.transfer-top-container {
+  padding: 0 50px;
+}
+
 .panelBtn {
   margin-top: 30px;
 }
