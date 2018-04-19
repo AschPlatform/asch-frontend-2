@@ -1,4 +1,5 @@
 import { SessionStorage, Notify, Dialog } from 'quasar'
+import AschJs from 'asch-js'
 
 export const alertMsg = (content, duration = 500) => {
   this.$q.notify({
@@ -27,6 +28,9 @@ export const confirm = (conf, cancel = () => {}, confirm = () => {}) => {
 }
 export const deCompileContent = (value) => {
   return JSON.parse(value)
+}
+export const compileTimeStamp = (value) => {
+  return AschJs.utils.format.fullTimestamp(value)
 }
 export const toast = message => {
   const type = 'positive'

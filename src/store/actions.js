@@ -217,7 +217,6 @@ export default {
   // api2 post actions
   postProposal: ({ commit }, params) => {
     const secret = getCache('user').secret
-    console.log(secret)
     let trans = asch.createProposal(
       params.title,
       params.desc,
@@ -227,7 +226,6 @@ export default {
       secret,
       params.secondPwd || ''
     )
-    console.log(trans, 'here came the crafted trans')
     api.broadcastTransaction(trans)
   }
 }

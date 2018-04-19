@@ -166,7 +166,6 @@ export default {
       this.proposalDetail = res.proposals
       this.pagination.rowsNumber = res.count
       this.loading = false
-      console.log('got it', res)
       return res
     },
     async request(props) {
@@ -200,7 +199,6 @@ export default {
       this.$router.push({name:'launchProposal'})
     },
     callShowModal(tid) {
-      console.log(tid)
       this.$router.push({name:'proposalDetail',params:{tid: tid}})
       // this.isDetailShow = true
     },

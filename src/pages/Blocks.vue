@@ -399,7 +399,6 @@ export default {
       this.dialogShow = true
     },
     closeModal() {
-      console.log('should something happen')
       this.isModalShow = false
     },
     changeData() {
