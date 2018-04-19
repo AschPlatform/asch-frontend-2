@@ -314,7 +314,7 @@ export default {
     },
     tableTitle() {
       const t = this.$t
-      return this.type === 1 ? t('DAPP_TRANSACTION_RECORD') : t('TRS_TYPE_TRANSFER_RECORD')
+      return this.type === 1 ? t('DAPP_TRANSACTION_RECORD_LATELY') : t('TRS_TYPE_TRANSFER_RECORD_LATELY')
     }
   },
   watch: {
