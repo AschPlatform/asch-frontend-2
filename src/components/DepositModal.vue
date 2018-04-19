@@ -1,11 +1,11 @@
 <template>
-  <q-modal content-classes="row justify-center" v-model="show" maximized :no-esc-dismiss="true">
+  <q-modal content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
     <div class="col-6">
       <h4>{{$t('DEPOSIT')}}</h4>
-      <div v-if="hasAdd" class="row justify-center">
-        <vue-qr :size="200" :text="address || 'no data'"></vue-qr>
+      <div v-if="account" class="row justify-center">
+        <vue-qr :size="200" :text="account.address || 'no data'"></vue-qr>
         <br />
-        <div class="col-12 justify-center" >{{address}} <q-btn v-clipboard="address || 'no data'" @success="info('copy success...')" flat icon='file' round/></div>
+        <div class="col-12 text-center" >{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info('copy success...')" flat icon='content copy' round/></div>
         <p>{{$t('DEPOSIT_TIP',{ currency: currency })}}</p>
         <q-field class="col-12" >
           <q-select
@@ -24,8 +24,7 @@
         :options="assetsOpt" />
       </q-field>
       <q-field v-if="secondSignature"
-        :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
-        >
+        :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
         <q-input :float-label="$t('TRS_TYPE_SECOND_PASSWORD')" v-model="secondPwd" type="password" />
       </q-field>
       <br />
@@ -41,7 +40,7 @@
   </q-modal>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { QField, QInput } from 'quasar'
 import VueQr from 'vue-qr'
 import { secondPwdReg } from '../utils/validators'
@@ -50,12 +49,13 @@ import asch from '../utils/asch-v2'
 
 export default {
   name: 'DepositPanel',
-  props: ['user', 'assets', 'asset', 'show'],
+  props: ['user', 'asset', 'show'],
   components: { QField, QInput, VueQr },
   data() {
     return {
       currency: '',
-      secondPwd: ''
+      secondPwd: '',
+      account: {}
     }
   },
   mounted() {
@@ -64,7 +64,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['broadcastTransaction']),
+    ...mapActions(['broadcastTransaction', 'gateAccountAddr']),
     async openAddr() {
       if (this.secondSignature && !secondPwdReg.test(this.secondPwd)) {
         toastInfo(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
@@ -84,33 +84,35 @@ export default {
     },
     info(msg) {
       toast(msg)
+    },
+    async getAddr() {
+      let asset = this.outAssets[this.currency]
+      let res = await this.gateAccountAddr({ name: asset.gateway, address: this.user.address })
+      if (res.success) {
+        this.account = res.account
+      }
     }
   },
   computed: {
+    ...mapGetters(['outAssets']),
     secondSignature() {
       return this.user ? this.user.account.secondPublicKey : ''
     },
     assetsOpt() {
-      let arr = this.assets.map(asset => {
+      let values = Object.values(this.outAssets)
+      let arr = values.map(asset => {
         return {
           label: asset.symbol,
           value: asset.symbol
         }
       })
-      if (this.asset && !this.asset.hasAdd) {
-        arr.push({ label: this.asset.symbol, value: this.asset.symbol })
-      }
+      // if (this.asset && !this.asset.hasAdd) {
+      //   arr.push({ label: this.asset.symbol, value: this.asset.symbol })
+      // }
       return arr
     },
-    assetsMap() {
-      let assetsMap = {}
-      this.assets.forEach(asset => {
-        assetsMap[asset.symbol] = asset
-      })
-      return assetsMap
-    },
     address() {
-      let asset = this.assetsMap[this.currency]
+      let asset = this.outAssets[this.currency]
       return asset ? asset.address : null
     },
     hasAdd() {
@@ -124,6 +126,10 @@ export default {
   watch: {
     asset(val) {
       this.currency = val.symbol
+      if (this.user) this.getAddr()
+    },
+    currency(val) {
+      if (this.user) this.getAddr()
     }
   }
 }

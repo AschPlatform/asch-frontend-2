@@ -4,5 +4,6 @@ export default {
   latestBlock: {},
   version: {},
   balances: [],
-  issuer: null
+  issuer: null,
+  outAssets: {}
 }

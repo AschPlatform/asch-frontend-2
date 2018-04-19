@@ -18,7 +18,7 @@
       <q-field class="col-8" :label="$t('PRECISION')" :helper="$t('ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16')" :error="$v.assets.precision.$error" :label-width="3"  :error-label="$t('ERR_ASSET_PRECISION_NOT_CORRECT')">
         <q-input @blur="$v.assets.precision.$touch" v-model="assets.precision" :decimals="0" :step="1"  type="number"/>
       </q-field>
-      <q-field class="col-8" :label="$t('STRATEGY')" :helper="$t('STRATEGY_WARNING')"  :label-width="3" >
+      <!-- <q-field class="col-8" :label="$t('STRATEGY')" :helper="$t('STRATEGY_WARNING')"  :label-width="3" >
         <q-input v-model="assets.strategy"  type="textarea"  :row="6" />
       </q-field>
       <q-field class="col-8" :label="$t('ALLOW_WRITEOFF')"  :label-width="3" >
@@ -32,7 +32,7 @@
       <q-field class="col-8" :label="$t('ALLOW_BLACKLIST')"  :label-width="3" >
         <q-radio v-model="assets.allowBlacklist" :val="0" color="faded" :label="notAllow" />
       <q-radio v-model="assets.allowBlacklist" :val="1" color="positive" :label="allow" style="margin-left: 10px" />
-      </q-field>
+      </q-field> -->
       <q-field v-show="secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
         <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
@@ -63,7 +63,8 @@ import {
 import { required, maxLength, between, numeric, minValue } from 'vuelidate/lib/validators'
 import { assetName, secondPwdReg } from '../utils/validators'
 import { confirm, toastError, toast, translateErrMsg } from '../utils/util'
-import { createAsset, dealBigNumber } from '../utils/asch'
+// import { dealBigNumber } from '../utils/asch'
+import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -93,7 +94,6 @@ export default {
       },
       secondPwd: '',
       secondPwdError: false,
-      issuer: null,
       loading: false
     }
   },
@@ -117,16 +117,16 @@ export default {
         required,
         numeric,
         between: between(0, 16)
-      },
-      allowWriteoff: {
-        required
-      },
-      allowWhitelist: {
-        required
-      },
-      allowBlacklist: {
-        required
       }
+      // allowWriteoff: {
+      //   required
+      // },
+      // allowWhitelist: {
+      //   required
+      // },
+      // allowBlacklist: {
+      //   required
+      // }
     }
   },
   methods: {
@@ -134,7 +134,7 @@ export default {
     submit(e) {
       this.loading = true
       const t = this.$t
-      if (!this.user.issuer) {
+      if (!this.issuer) {
         toastError(t('ERR_NO_PUBLISHER_REGISTERED_YET'))
         this.done()
         return
@@ -148,20 +148,11 @@ export default {
       if (isValid || pwdValid) {
         this.done()
       } else {
-        const { secret, issuer } = this.user
-        const {
-          name,
-          desc,
-          maximum,
-          precision,
-          strategy,
-          allowWriteoff,
-          allowWhitelist,
-          allowBlacklist
-        } = this.assets
+        const { secret } = this.user
+        const { name, desc, maximum, precision } = this.assets
 
-        let assetName = issuer.name + '.' + name
-        let realMaximum = dealBigNumber(parseInt(maximum) * Math.pow(10, precision))
+        let assetName = name
+        let realMaximum = parseInt(maximum)
 
         confirm(
           {
@@ -174,15 +165,11 @@ export default {
             this.done()
           },
           async () => {
-            let trans = createAsset(
+            let trans = asch.registerAsset(
               String(assetName),
               String(desc),
               String(realMaximum),
               precision,
-              strategy,
-              allowWriteoff,
-              allowWhitelist,
-              allowBlacklist,
               secret,
               this.secondPwd
             )
@@ -215,7 +202,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userInfo', 'issuer']),
     user() {
       return this.userInfo
     },
@@ -245,26 +232,11 @@ export default {
       return !secondPwdReg.test(this.secondPwd)
     }
   },
-  mounted() {
-    this.$root.$emit('getIssuer', issuer => {
-      this.issuer = issuer
-    })
-  },
-  watch: {
-    userObj(val) {
-      if (val.issuer) {
-        this.issuer = val.issuer
-      } else {
-        this.$root.$emit('getIssuer', issuer => {
-          if (issuer) this.issuer = issuer
-        })
-      }
-    }
-  }
+  mounted() {},
+  watch: {}
 }
 </script>
 
 <style lang="stylus" scoped>
-
 </style>
 

@@ -12,9 +12,9 @@
         </q-btn>
   
       </q-toolbar>
-      <div class="head-bottom row justify-left col-12">
-        <div class="col-3">
-          <p class="font-22 text-black">
+      <div class="head-bottom row justify-left">
+        <div class="head-bottom-item-container">
+          <p class="font-22 text-black font-weight">
             {{$t('VERSION_INFO')}}
           </p>
           <p>
@@ -22,16 +22,16 @@
             <span class="font-16 text-six">V1.4.0</span>
           </p>
         </div>
-        <div class="col-3">
-          <p class="font-22 text-black">
+        <div class="head-bottom-item-container">
+          <p class="font-22 text-black font-weight">
             {{$t(' TIME')}}
           </p>
           <p>
             <span class="font-16 text-secondary">{{latestBlock.timestamp | time}}</span>
           </p>
         </div>
-        <div class="col-3" v-if="latestBlock">
-          <p class="font-22 text-black">
+        <div class="head-bottom-item-latestBlock" v-if="latestBlock">
+          <p class="font-22 text-black font-weight">
             {{$t(' LATEST_BLOCK_HEIGHT')}}
           </p>
           <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
@@ -40,7 +40,7 @@
           <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
           <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
         </div>
-        <div class="col-3" v-if="latestBlock">
+        <div v-if="latestBlock">
           <p class="font-60 text-secondary">{{latestBlock.height}}</p>
         </div>
       </div>
@@ -71,13 +71,21 @@
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('PROPOSAL')" />
         </q-item>
+         <q-item class="list-item-container" item :to="getRouterConf('gateway')">
+          <q-item-side icon="apps" />
+          <q-item-main :label="$t('GATEWAY')" />
+        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('council')">
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('COUNCIL')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('gateway')">
-          <q-item-side icon="apps" />
-          <q-item-main :label="$t('GATEWAY')" />
+          <q-item class="list-item-container" item :to="getRouterConf('delegates')">
+          <q-item-side icon="format list numbered" />
+          <q-item-main :label="$t('VOTE')" />
+        </q-item>
+        <q-item class="list-item-container" item :to="getRouterConf('blocks')">
+          <q-item-side icon="public" />
+          <q-item-main :label="$t('BLOCKS')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('applications')">
           <q-item-side icon="apps" />
@@ -91,21 +99,13 @@
                 <q-item-side icon="gavel" />
                 <q-item-main :label="$t('FORGING')" />
               </q-item> -->
-        <q-item class="list-item-container" item :to="getRouterConf('blocks')">
-          <q-item-side icon="public" />
-          <q-item-main :label="$t('BLOCKS')" />
-        </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('delegates')">
-          <q-item-side icon="format list numbered" />
-          <q-item-main :label="$t('VOTE')" />
+        <q-item class="list-item-container" item :to="getRouterConf('peers')">
+          <q-item-side icon="blur on" />
+          <q-item-main :label="$t('PEERS')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('issuer')">
           <q-item-side icon="blur on" />
           <q-item-main :label="$t('TRS_TYPE_UIA_ISSUE')" />
-        </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('peers')">
-          <q-item-side icon="blur on" />
-          <q-item-main :label="$t('PEERS')" />
         </q-item>
       </q-list>
     </q-layout-drawer>
@@ -117,7 +117,7 @@
       <!-- common component with event -->
       <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false" />
   
-      <q-modal content-classes="layout-padding" v-model="transShow" maximized no-backdrop-dismiss content-css="padding: 50px">
+      <q-modal v-model="transShow" no-backdrop-dismiss>
         <div class="col-8">
           <trans-panel :showTitle="true" :assets="assets" :asset="asset" :user="userInfo">
             <div slot="btns" slot-scope="props" class="row col-12 justify-between">
@@ -132,7 +132,14 @@
       <!-- <float-menu v-if="this.showFloatBtns" :router="$router" :userObj="user" /> -->
       <trans-info-modal :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false" />
     </q-page-container>
+
+    <q-layout-footer class="no-shadow footer-container">
+    <span class="footer-left bg-seven">Asch 1.4.0</span>
+    <span class="footer-introduce font-12">@2018 copyright</span>
+    <span class="footer-introduce font-12 float-right">1.4.0</span>
+    </q-layout-footer>
     <q-ajax-bar ref="bar" position="top" color="orange" />
+
   </q-layout>
 </template>
 
@@ -208,7 +215,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances']),
+    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances', 'getIssuer']),
     ...mapMutations([
       'updateUserInfo',
       'setUserInfo',
@@ -250,22 +257,6 @@ export default {
       })
       this.accountInfo = res.account
       this.accountShow = true
-    },
-    async getIssuer(cbOk = func, cbErr = func) {
-      // get user issuer info
-      let res = await this.issuer({
-        address: this.user.account.address
-      })
-      if (res.success) {
-        this.user.issuer = res.issuer
-        let user = this._.merge({}, this.userInfo, res)
-        this.user = user
-        if (getCache('user')) setCache('user', user)
-        cbOk(res)
-        // TODO
-      } else {
-        cbErr()
-      }
     },
     async getAssetsList(cbOk = func, cbErr = func) {
       // get user issuer info
@@ -334,8 +325,13 @@ export default {
         this.setLatestBlock(res.latestBlock)
         this.setVersion(res.version)
         this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
-        // window.CHPlugin.checkIn()
       }
+      this.getIssuer()
+      // if (res.success && res.issuer) {
+      //   let user = this.userInfo
+      //   user = this._.merge({}, user, { issuer: res.issuer })
+      //   this.setUserInfo(user)
+      // }
     }
   },
   computed: {
@@ -362,24 +358,18 @@ export default {
   },
   created() {
     // register event
-    this.$root.$on('getIssuer', () => {
-      this.user && this.user.account ? this.getIssuer() : console.log('not init yet..')
-    })
     this.$root.$on('showTransInfoModal', this.openTransInfoModal)
     this.$root.$on('openAccountModal', this.openAccountModal)
     this.$root.$on('openTransactionDialog', this.openTransactionDialog)
     this.$root.$on('showAjaxBar', this.showAjaxBar)
-    this.$root.$on('changeFloatBtn', this.changeFloatBtn)
     this.$root.$on('showQRCodeModal', this.showQRCodeModal)
     // this.$root.$on('showAssetDetailModal', this.showAssetDetailModal)
   },
   beforeDestroy() {
     clearInterval(this.intervalNum)
-    this.$root.$off('getIssuer', this.getIssuer)
     this.$root.$off('openAccountModal', this.openAccountModal)
     this.$root.$off('openTransactionDialog', this.openTransactionDialog)
     this.$root.$off('showAjaxBar', this.showAjaxBar)
-    this.$root.$off('changeFloatBtn', this.changeFloatBtn)
     this.$root.$off('showQRCodeModal', this.showQRCodeModal)
     this.$root.$off('showTransInfoModal', this.openTransInfoModal)
     // this.$root.$off('showAssetDetailModal', this.showAssetDetailModal)
@@ -388,6 +378,10 @@ export default {
 </script>
 
 <style lang="stylus">
+body {
+  background: #e7ebee;
+}
+
 .main-left-list-container {
   ::-webkit-scrollbar {
     width: 0;
@@ -437,20 +431,52 @@ export default {
 
 .list-item-container:hover {
   color: #ffffff;
+  border-left: 2px solid #ff750b;
+  background: #252d3a !important;
 }
 
 .list-item-container {
   height: 70px;
   color: #5c636e;
   font-size: 18px;
+  padding-left: 40px;
   border-bottom: 1px solid #2c3411;
+  border-left: 2px solid transparent;
 }
 
 .q-item.active, .q-item.router-link-active, .q-item:focus {
   color: #ffffff;
+  border-left: 2px solid #ff750b;
+  background: #252d3a;
 }
 
 .q-item.active i, .q-item.router-link-active i, .q-item:focus i {
   color: #ffffff;
+}
+
+.head-bottom-item-container {
+  margin-right: 80px;
+}
+
+.head-bottom-item-latestBlock {
+  margin-right: 30px;
+}
+
+.footer-container {
+  background: #f0f3f6;
+  height: 40px;
+  line-height 40px 
+}
+
+.footer-left {
+  width: 300px;
+  height: 100%;
+  display: inline-block;
+  color: #252d3a;
+}
+
+.footer-introduce {
+  padding: 0 10px;
+  color: #999999;
 }
 </style>

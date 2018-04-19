@@ -22,6 +22,7 @@ const lang = {
   TRS_TYPE_TRANSFER: '转账',
   TRS_TYPE_NICKNAME: '设置昵称',
   TRS_TYPE_TRANSFER_RECORD: '转账记录',
+  TRS_TYPE_TRANSFER_RECORD_LATELY: '最近转账记录',
   TRS_TYPE_SECOND_PASSWORD: '二级密码',
   TRS_TYPE_DELEGATE: '受托人',
   TRS_TYPE_VOTE: '投票',
@@ -68,6 +69,7 @@ const lang = {
   DAPP_LIST: '应用列表',
   DAPP_INSTALL_LIST: '已安装应用列表',
   DAPP_TRANSACTION_RECORD: '交易记录',
+  DAPP_TRANSACTION_RECORD_LATELY: '最近交易记录',
   DAPP_DEPOSIT: '充值',
   DAPP_BANLANCE_DETAIL: '余额详情',
   DAPP_DETAIL: '详情',
@@ -100,7 +102,7 @@ const lang = {
   PRODUCED_BLOCKS: '生产的区块',
 
   // header
-  HOME: '首页',
+  HOME: '钱包首页',
   PERSONAL: '个人中心',
   APPLICATIONS: '应用中心',
   FORGING: '区块生产',
@@ -113,10 +115,11 @@ const lang = {
   MESSAGE_DETAILS: '信息详情',
 
   // home
-  BALANCE: '余额',
+  BALANCE: '钱包余额',
   LATEST_BLOCK_HEIGHT: '最后区块高度',
   VERSION_INFO: '版本信息',
   MY_TRSACTIONS: '我的交易',
+  HOME_TIPES: 'tips: 钱包转账为不可逆，请务必核对收款地址',
 
   // login
   INPUT_PASSWORD: '输入主密码',
@@ -445,6 +448,9 @@ const lang = {
   CREATE_TIME: '创建时间',
   ELECTED: '当选状态',
   UPDATE_LIMIT: '最低更新频率:',
+
+  // ERROR
+  AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',
   proposal: {
     No: '提案编号',
     INITIATOR: '发起人',

@@ -129,6 +129,10 @@ export const translateErrMsg = (t, input) => {
       {
         error: 'Currency not supported',
         key: 'Currency not supported'
+      },
+      {
+        error: 'Agent cannot set agent',
+        key: 'AGENT_CAN_NOT_SET_AGENT'
       }
     ]
 

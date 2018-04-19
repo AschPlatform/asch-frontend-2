@@ -168,7 +168,14 @@ export default {
     return api2.myCurrencyWithdrawals(params)
   },
   getCurrencies: ({ commit }, params) => {
-    return api2.currencies(params)
+    return api2.currencies(params).then(res => {
+      let outAssetMap = {}
+      res.currencies.forEach(currency => {
+        outAssetMap[currency.symbol] = currency
+      })
+      commit('setOutAssetsMap', outAssetMap)
+      return res
+    })
   },
   getBalances: ({ commit }, params) => {
     // return api2.balances(params).then(res => {
@@ -187,7 +194,12 @@ export default {
     return api2.issuers(params)
   },
   getIssuer: ({ commit }, params) => {
-    return api2.issuer(params)
+    return api2.issuer(params).then(res => {
+      if (res.success) {
+        commit('setIssuer', res.issuer)
+      }
+      return res
+    })
   },
   getAssets: ({ commit }, params) => {
     return api2.assets(params)
@@ -210,6 +222,10 @@ export default {
   },
 
   // about gateway
+  gateAccountAddr: ({ commit }, params) => {
+    return api2.gateAccountAddr(params)
+  },
+
   getGateways: ({ commit }, params) => {
     return api2.gateways(params)
   },

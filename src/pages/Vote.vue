@@ -85,6 +85,7 @@ import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
 import voteRecord from '../components/voteRecord'
 import myVoteDelegate from '../components/myVoteDelegate'
+import { secondPwdReg } from '../utils/validators'
 
 export default {
   props: [],
@@ -222,8 +223,8 @@ export default {
       }
       this.dialogShow = true
     },
-    async setAgent(name, cb = () => {}) {
-      let trans = asch.setAgent(name)
+    async setAgent(params, cb = () => {}) {
+      let trans = asch.setAgent(params.agent, this.userInfo.secret, params.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success) {
         toast('INF_OPERATION_SUCCEEDED')
@@ -232,7 +233,29 @@ export default {
       }
     },
     async repealAgent() {
-      let trans = asch.repealAgent(name)
+      const t = this.$t
+      if (this.secondSignature) {
+        prompt(
+          {
+            title: t('REGISTER_AGENT'),
+            message: t('ACCOUNT_TYPE2_HINT'),
+            prompt: {
+              model: '',
+              type: 'password' // optional
+            }
+          },
+          data => {
+            if (!data || !secondPwdReg.test(data)) {
+              toastWarn(t('ERR_SECOND_PASSWORD_FORMAT'))
+            }
+          }
+        )
+      } else {
+        this.submitRepeal()
+      }
+    },
+    async submitRepeal(secondPwd = '') {
+      let trans = asch.repealAgent(this.userInfo.secret, secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success) {
         toast('INF_OPERATION_SUCCEEDED')
