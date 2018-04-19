@@ -212,6 +212,10 @@ api2.currencyDeposits = params => {
 api2.myDeposits = params => {
   return fetch(urls.v2.myDeposits, params, 'get')
 }
+// 获取指定网关和账户的信息
+api2.gateAccountAddr = params => {
+  return fetch(urls.v2.gateAccountAddr, params, 'get')
+}
 
 // 获取指定地址指定币种的跨链充值记录 +
 api2.myCurrencyDeposits = params => {

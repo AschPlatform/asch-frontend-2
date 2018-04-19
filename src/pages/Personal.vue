@@ -390,6 +390,7 @@ export default {
         let res = await this.broadcastTransaction(trans)
         if (res.success) {
           toast(this.$t('INF_OPERATION_SUCCEEDED'))
+          this.nicknameFormShow = false
         } else {
           toastError(res.error, this.$t)
         }

@@ -9,17 +9,17 @@
           </template>
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-            <div v-if="props.row.writeoff == 0">
-              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
+            <div>
+              <!-- <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-              </q-btn>
-              <q-btn @click="transferAsset(props)" icon="send" size="sm" flat color="primary" >
+              </q-btn> -->
+              <!-- <q-btn @click="transferAsset(props)" icon="send" size="sm" flat color="primary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRANSFER')}}</q-tooltip>
-              </q-btn>
+              </q-btn> -->
               <q-btn @click="publish(props.row)" icon="publish" size="sm" flat color="primary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_UIA_ISSUE')}}</q-tooltip>
               </q-btn>
-              <q-fab flat color="orange" icon="settings" direction="right" size="sm" >
+              <!-- <q-fab flat color="orange" icon="settings" direction="right" size="sm" >
                 <q-tooltip slot="tooltip" anchor="top middle" self="bottom middle"  :offset="[0, 10]" >
                   {{$t('TRS_TYPE_UIA_FLAGS')}}
                 </q-tooltip>
@@ -35,17 +35,12 @@
                 <q-fab-action color="negative" @click="writeoff(props.row)" icon="delete">
                   <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DELETE')}}</q-tooltip>
                 </q-fab-action>
-              </q-fab>
-            </div>
-            <div v-else>
-              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-              </q-btn>
+              </q-fab> -->
             </div>
           </q-td>
 
-          <q-td slot="body-cell-allowWriteoff"  slot-scope="props" :props="props">
-            {{getAssetRule(props.row)}}
+          <q-td slot="body-cell-maximum"  slot-scope="props" :props="props">
+            {{props.value | fee(props.row.precision)}}
           </q-td>
 
         </q-table>
@@ -176,7 +171,8 @@
 <script>
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
 import { secondPwdReg } from '../utils/validators'
-import { createFlags, createIssue, dealBigNumber, fullTimestamp } from '../utils/asch'
+import { createFlags, dealBigNumber, fullTimestamp } from '../utils/asch'
+import asch from '../utils/asch-v2'
 import { required, numeric, minValue } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
 import { QPage, QModal, QTable, QFabAction, QBtn, QTooltip, QDialog } from 'quasar'
@@ -223,12 +219,12 @@ export default {
           type: 'string',
           filter: true
         },
-        // {
-        //   label: this.$t('MAXIMUM'),
-        //   field: 'maximumShow',
-        //   sort: true,
-        //   filter: true
-        // },
+        {
+          name: 'maximum',
+          label: this.$t('MAXIMUM'),
+          field: 'maximum',
+          sort: true
+        },
         {
           label: this.$t('PRECISION'),
           field: 'precision',
@@ -236,12 +232,12 @@ export default {
           type: 'number',
           sort: true
         },
-        // {
-        //   label: this.$t('QUANTITY'),
-        //   field: 'quantityShow',
-        //   filter: true,
-        //   sort: true
-        // },
+        {
+          label: this.$t('QUANTITY'),
+          field: 'quantity',
+          filter: true,
+          sort: true
+        },
         // {
         //   label: this.$t('CANCELLATION'),
         //   field: 'writeoff',
@@ -411,7 +407,12 @@ export default {
             parseInt(this.form.issuerNum) * Math.pow(10, this.row.precision)
           )
 
-          let trans = createIssue(this.row.name, realAmount, this.userInfo.secret, this.secondPwd)
+          let trans = asch.issueAsset(
+            this.row.name,
+            realAmount,
+            this.userInfo.secret,
+            this.secondPwd
+          )
           let res = await this.broadcastTransaction(trans)
           if (res.success) {
             this.pagination = this.paginationDeafult
@@ -466,7 +467,7 @@ export default {
     assetRegister() {
       const t = this.$t
       if (!this.issuer) {
-        toast(t('ERR_NO_PUBLISHER_REGISTERED_YET'))
+        toastWarn(t('ERR_NO_PUBLISHER_REGISTERED_YET'))
       } else {
         this.agreement = {
           title: t('REGISTERED_PUBLISHER'),

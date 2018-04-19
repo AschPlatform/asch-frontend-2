@@ -255,7 +255,7 @@ const urls = {
     },
     // 获取指定用户地址的所有网关账户
     gateAccountAddr: {
-      url: '/api/v2/gateways/accounts/:address'
+      url: '/api/v2/gateways/:name/accounts/:address'
     },
     // 获取指定用户地址指定币种的所有充值记录
     gateAccountDeposits: {
@@ -337,7 +337,7 @@ const transTypes = {
   7: 'TRS_TYPE_REGISTER_AGENT',
   8: 'TRS_TYPE_SET_AGENT',
   9: 'TRS_TYPE_REPEAL_AGENT',
-  10: 'TRS_TYPE_REGISTER_DELEGATE',
+  10: 'TRS_TYPE_DELEGATE',
   11: 'TRS_TYPE_VOTE',
   12: 'TRS_TYPE_REPEAL_VOTE',
 

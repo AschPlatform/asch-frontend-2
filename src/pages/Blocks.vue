@@ -48,7 +48,7 @@
           <q-card-separator />
           <q-card-main align="center" v-if="!this.isDelegate">
             <span class="block">{{$t('NOT_DELEGATE')}}</span>
-            <q-btn color="primary" @click="regisDelegate">{{$t('DELEGATE_REGISTER')}}</q-btn>
+            <q-btn color="primary" @click="registerDelegate">{{$t('DELEGATE_REGISTER')}}</q-btn>
           </q-card-main>
           <q-card-main align="center" v-else>
             <span class="block">{{delegate.username}}</span>
@@ -177,7 +177,7 @@
   <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
 </template>
     </q-dialog>
-    <user-agreement-modal :show="isModalShow" @confirm="callRegisterDialog" @cancel="closeModal" />
+    <user-agreement-modal :show="isModalShow" @confirm="callRegister" @cancel="closeModal" />
   </q-page>
 </template>
 
@@ -188,6 +188,7 @@ import { fullTimestamp, createDelegate } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
 import UserAgreementModal from '../components/UserAgreementModal'
+import asch from '../utils/asch-v2'
 
 export default {
   props: ['userObj'],
@@ -368,7 +369,7 @@ export default {
         this.type = 3
       }
     },
-    async regisDelegate() {
+    async registerDelegate() {
       if (!this.user.account.name) {
         toastInfo(this.$t('PLEASE_SET_NAME'))
         return null
@@ -383,7 +384,6 @@ export default {
       let trans = createDelegate(this.form.delegateName, this.user.secret, this.form.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
-        this.resetForm()
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
       } else {
         translateErrMsg(this.$t, res.error)
@@ -393,10 +393,15 @@ export default {
       // this.resetForm()
       this.dialogShow = false
     },
-    // modal funcs
-    callRegisterDialog() {
-      this.closeModal()
-      this.dialogShow = true
+    async callRegister() {
+      let trans = asch.registerDelegate(this.user.secret, this.form.secondPwd)
+      let res = await this.broadcastTransaction(trans)
+      if (res.success === true) {
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
+        this.closeModal()
+      } else {
+        translateErrMsg(this.$t, res.error)
+      }
     },
     closeModal() {
       console.log('should something happen')
@@ -449,5 +454,4 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
 </style>

@@ -16,7 +16,7 @@
         </div>
         <div class="text-left">
           <i class="material-icons font-24 vertical-align-middle text-secondary">fiber_manual_record</i>
-          <span class="font-18 text-five"> {{$t('CREATE_TIME')}} : TODO</span>
+          <span class="font-18 text-five"> {{$t('CREATE_TIME')}} {{fullTimestamp(item.createTime)}}</span>
         </div>
       </div>
       <q-btn small icon="arrow forward" inverted color="secondary" @click="$emit('open',item)">
@@ -27,7 +27,7 @@
 
 <script>
 import { QCardMain, QPage, QCard, QCardTitle, QBtn, QCardActions } from 'quasar'
-
+import { fullTimestamp } from '../utils/asch'
 export default {
   name: 'GatewayItem',
   data() {
@@ -44,7 +44,11 @@ export default {
     QBtn,
     QCardActions
   },
-  methods: {}
+  methods: {
+    fullTimestamp(val) {
+      if (val) return fullTimestamp(val).split(' ')[0]
+    }
+  }
 }
 </script>
 
