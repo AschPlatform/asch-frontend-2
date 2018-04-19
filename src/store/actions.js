@@ -140,6 +140,9 @@ export default {
   getProposal: ({ commit }, params) => {
     return api2.proposal(params)
   },
+  getProposalVotes: ({ commit }, params) => {
+    return api2.proposalVotes(params)
+  },
   getDeposits: ({ commit }, params) => {
     return api2.deposits(params)
   },

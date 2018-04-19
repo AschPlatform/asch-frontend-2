@@ -209,6 +209,10 @@ const urls = {
     proposal: {
       url: '/api/v2/proposals/:tid'
     },
+    // 根据 tid 获取提案投票情况
+    proposalVotes: {
+      url: '/api/v2/proposals/:tid/votes'
+    },
     // 获取所有跨链充值记录
     deposits: {
       url: '/api/v2/gateways/deposits'

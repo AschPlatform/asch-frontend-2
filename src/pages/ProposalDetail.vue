@@ -91,13 +91,26 @@
 
       <q-card-separator class="q-my-lg"/>
       <!-- below is vote status -->
+      <q-card-main>
+        <p>{{$t('proposal.VOTE_STATUS', {number: voteTotalNum, rate: votePassRate})}}</p>
+        <q-field :label="$t('LAUNCH_MODAL.VOTE_LIST')" label-width="0">
+          <q-chips-input color="primary" class="col-5" inverted readonly v-model="voteList" disable>
+          </q-chips-input>
+        </q-field>
+      </q-card-main>
+
+      <q-card-separator class="q-my-lg"/>
+      <!-- below is func btn -->
+      <q-card-main class="row justify-center">
+        <q-btn :label="$t(btnInfo)" @click="active" :disabled="isBtnAble"></q-btn>
+      </q-card-main>
 
     </q-card>
   </q-page>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import { deCompileContent, compileTimeStamp } from '../utils/util'
 import memberIndicator from '../components/MemberIndicator'
 import {
@@ -130,7 +143,13 @@ export default {
       preMemberList: [],
       isIndicatorShow: false,
       showCounter: false,
-      time_buffer: 0
+      time_buffer: 0,
+      voteList: [],
+      voteTotalNum: 0,
+      votePassRate: 0,
+      // func btn
+      isBtnAble: true,
+      btnInfo: ''
     }
   },
   components: {
@@ -147,7 +166,7 @@ export default {
     memberIndicator
   },
   methods: {
-    ...mapActions(['getProposal', 'getGatewayDelegates']),
+    ...mapActions(['getProposal', 'getGatewayDelegates', 'getProposalVotes']),
     back() {
       this.$router.back()
     },
@@ -158,6 +177,30 @@ export default {
       this.detail = res.proposal
       this.time_buffer = compileTimeStamp(this.detail.t_timestamp)
       this.content = deCompileContent(this.detail.content)
+      if (this.detail.activated === 1) {
+        this.btnInfo = 'proposal.ACTIVATED'
+        this.isBtnAble = false
+      } else if (this.detail.endHeight < this.latestBlock.height) {
+        this.btnInfo = 'proposal.EXPIRED'
+        this.isBtnAble = false
+      } else {
+        this.btnInfo = 'proposal.ACTIVE'
+        this.isBtnAble = true
+      }
+    },
+    async getVoterInfo() {
+      let res = await this.getProposalVotes({
+        tid: this.$route.params.tid
+      })
+      let ls = []
+      if (res.success) {
+        this._.each(res.votes, function (o) {
+          return ls.push(o.voter)
+        })
+      }
+      this.voteList = ls
+      this.voteTotalNum = res.totalCount
+      this.votePassRate = ((res.validCount / res.totalCount) * 100).toFixed(0)
     },
     async getValidatorInfo(name) {
       debugger
@@ -173,9 +216,13 @@ export default {
         this.preMemberList = ls
         this.postMemberList = ls
       }
+    },
+    active() {
+      
     }
   },
   computed: {
+    ...mapState(['latestBlock']),
     // enpower
     dealWithType() {
       switch (this.detail.topic) {
@@ -201,30 +248,34 @@ export default {
       let start = d.getTime()
       let end = (this.detail.endHeight - this.detail.t_height) * 1000
       let total = new Date(start + end)
-      let month = total.getMonth() + 1;
-      let day = total.getDate();
+      let month = total.getMonth() + 1
+      let day = total.getDate()
       if (day < 10) {
-        day = "0" + day;
+        day = '0' + day
       }
-      let h = d.getHours();
-      let m = d.getMinutes();
-      let s = d.getSeconds();
+      let h = d.getHours()
+      let m = d.getMinutes()
+      let s = d.getSeconds()
       if (h < 10) {
-        h = "0" + h;
+        h = '0' + h
       }
 
       if (m < 10) {
-        m = "0" + m;
+        m = '0' + m
       }
 
       if (s < 10) {
-        s = "0" + s;
+        s = '0' + s
       }
-      return d.getFullYear() + "/" + month + "/" + day + " " + h + ":" + m + ":" + s
+      return d.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
     }
   },
   mounted() {
     this.getProposalInfo()
+    this.getVoterInfo()
+  },
+  watch: {
+
   }
 }
 </script>

@@ -483,7 +483,11 @@ const lang = {
     SELECT_CHANGENET: '更改网关',
     SELECT_INITNET: '网关初始化',
     SELECT_NETPERIOD: '更新最低更新频率',
-    SELECT_NETMEMBER: '更新成员'
+    SELECT_NETMEMBER: '更新成员',
+    VOTE_STATUS: '共计{number}人参与了投票 ，得票率{rate}%',
+    ACTIVATED: '已激活',
+    EXPIRED: '已过期',
+    ACTIVE: '激活'
   },
   LAUNCH_MODAL: {
     MEMBER_NUMBER: '成员数量',
@@ -514,6 +518,7 @@ const lang = {
     ERR_INVALID_FORM: '表单填写不完整或未按照要求',
     LAUNCH_SUCCESS: '发起提案成功',
     PROPOSE: '提议',
+    VOTE_LIST: '投票成员名单',
     PROPOSE_END: '成为网关成员'
   },
   DETAIL_MODAL: {
