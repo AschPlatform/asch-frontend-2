@@ -215,7 +215,7 @@ export default {
         // directly envalue both the list
         this.preMemberList = ls
         this.postMemberList = ls
-      }if (this.detail.activated === 1) {
+      } if (this.detail.activated === 1) {
         this.btnInfo = 'proposal.ACTIVATED'
         this.isBtnAble = false
       } else if (this.detail.endHeight < this.latestBlock.height) {
@@ -231,7 +231,7 @@ export default {
         tid: this.$route.params.tid
       })
       if (res.success) {
-        toast($t('ACTIVE_SUCCESS'))
+        toast(this.$t('ACTIVE_SUCCESS'))
       } else {
         toastError(res.error)
       }
@@ -241,7 +241,7 @@ export default {
         tid: this.$route.params.tid
       })
       if (res.success) {
-        toast($t('VOTE_SUCCESS'))
+        toast(this.$t('VOTE_SUCCESS'))
       } else {
         toastError(res.error)
       }
