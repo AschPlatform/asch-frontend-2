@@ -2,8 +2,8 @@
   <div>
     <q-table class="home-table-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
       <template slot="top-right" slot-scope="props">
-        <q-btn-toggle icon="fiber_manual_record" v-model="type" outline
-    toggle-color="secondary"
+        <q-btn-toggle class="bg-secondary text-black" flat rounded icon="fiber_manual_record" v-model="type" 
+    toggle-color="white"
     :options="[
       {label: $t('TRS_TYPE_TRANSFER_RECORD'), value: 2},
       {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},]" />
@@ -18,7 +18,7 @@
     </q-td>
 
     <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-      <q-btn @click="getDataInfo(props)" icon="remove red eye" size="sm" flat color="primary" >
+      <q-btn @click="getDataInfo(props)" icon="remove red eye" size="sm" flat color="secondary" >
           <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
         </q-btn>
     </q-td>
@@ -314,7 +314,9 @@ export default {
     },
     tableTitle() {
       const t = this.$t
-      return this.type === 1 ? t('DAPP_TRANSACTION_RECORD_LATELY') : t('TRS_TYPE_TRANSFER_RECORD_LATELY')
+      return this.type === 1
+        ? t('DAPP_TRANSACTION_RECORD_LATELY')
+        : t('TRS_TYPE_TRANSFER_RECORD_LATELY')
     }
   },
   watch: {
@@ -336,5 +338,9 @@ export default {
 
 .home-table-container {
   min-height: 500px;
+}
+
+.q-table-title {
+  font-weight: 600 !important;
 }
 </style>

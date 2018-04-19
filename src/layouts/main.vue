@@ -71,13 +71,21 @@
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('PROPOSAL')" />
         </q-item>
+         <q-item class="list-item-container" item :to="getRouterConf('gateway')">
+          <q-item-side icon="apps" />
+          <q-item-main :label="$t('GATEWAY')" />
+        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('council')">
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('COUNCIL')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('gateway')">
-          <q-item-side icon="apps" />
-          <q-item-main :label="$t('GATEWAY')" />
+          <q-item class="list-item-container" item :to="getRouterConf('delegates')">
+          <q-item-side icon="format list numbered" />
+          <q-item-main :label="$t('VOTE')" />
+        </q-item>
+        <q-item class="list-item-container" item :to="getRouterConf('blocks')">
+          <q-item-side icon="public" />
+          <q-item-main :label="$t('BLOCKS')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('applications')">
           <q-item-side icon="apps" />
@@ -91,21 +99,13 @@
                 <q-item-side icon="gavel" />
                 <q-item-main :label="$t('FORGING')" />
               </q-item> -->
-        <q-item class="list-item-container" item :to="getRouterConf('blocks')">
-          <q-item-side icon="public" />
-          <q-item-main :label="$t('BLOCKS')" />
-        </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('delegates')">
-          <q-item-side icon="format list numbered" />
-          <q-item-main :label="$t('VOTE')" />
+        <q-item class="list-item-container" item :to="getRouterConf('peers')">
+          <q-item-side icon="blur on" />
+          <q-item-main :label="$t('PEERS')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('issuer')">
           <q-item-side icon="blur on" />
           <q-item-main :label="$t('TRS_TYPE_UIA_ISSUE')" />
-        </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('peers')">
-          <q-item-side icon="blur on" />
-          <q-item-main :label="$t('PEERS')" />
         </q-item>
       </q-list>
     </q-layout-drawer>

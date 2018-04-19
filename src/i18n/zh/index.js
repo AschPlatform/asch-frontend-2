@@ -102,7 +102,7 @@ const lang = {
   PRODUCED_BLOCKS: '生产的区块',
 
   // header
-  HOME: '首页',
+  HOME: '钱包首页',
   PERSONAL: '个人中心',
   APPLICATIONS: '应用中心',
   FORGING: '区块生产',

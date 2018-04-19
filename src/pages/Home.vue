@@ -8,7 +8,7 @@
             <div class="col-6">
               <jdenticon class="home-jdenticon" :address="user.account.address" :size="60" />
               <div class="home-top-set-nickname">
-                <span class="text-black font-22 vertical-align-middle">
+                <span class="text-black font-22 vertical-align-middle font-weight">
                       {{$t('HELLO')}}
                       </span>
                 <a class="set-nickname bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="toPersonalSetNickname">{{$t('SET_NICKNAME')}}</a> <span v-else>{{userNickname}}</span>
@@ -18,12 +18,12 @@
             <div class="col-6 row justify-end items-center">
               <div class="home-top-btn-container">
                 <i class="material-icons font-24 vertical-align-middle text-eight">fiber_manual_record</i>
-                <q-btn class="text-secondary font-24" size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
+                <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
               </div>
               <span class="btn-container-line"></span>
               <div class="home-top-btn-container">
                 <i class="material-icons font-24 vertical-align-middle text-eight">fiber_manual_record</i>
-                <q-btn class="text-secondary font-24" size="xs" :label="$t('RECEIVE')" flat @click="showAddrQr" />
+                <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('RECEIVE')" flat @click="showAddrQr" />
               </div>
   
             </div>
@@ -38,10 +38,10 @@
           <q-card class="no-shadow">
             <q-card-title>
               <i class="material-icons font-24 vertical-align-middle text-secondary">email</i>
-              <span class="margin-left-10 text-black font-22">
+              <span class="margin-left-10 text-black font-22 font-weight">
                {{$t('BALANCE')}}
               </span>
-              <span class="margin-left-10 text-three font-16">
+              <span class="margin-left-10 text-three font-16 font-weight">
                 {{$t('MAIN_ASSET')}}
              </span>
               <span class="qr-right-container" @click="showAddrQr">
@@ -49,12 +49,12 @@
              </span>
             </q-card-title>
             <q-card-main>
-              <span class="text-secondary font-22">
+              <span class="text-secondary font-22 font-weight">
                 {{userInfo.account.xas | fee}}
                 </span>
               <span class="text-secondary font-12">XAS</span>
   
-              <div class="text-three font-12">
+              <div class="text-three font-12 font-weight">
                 {{address}}
                 <q-btn class="text-secondary font-12" v-clipboard="address || 'no data'" @success="info('copy senderId success...')" size="xs" flat round icon="content copy" />
               </div>
@@ -68,11 +68,11 @@
                       <i class="material-icons font-44 vertical-align-middle text-eight">fiber_manual_record</i>
                     </q-item-tile>
                   </q-item-side>
-                  <q-item-main class="text-five font-18" :label="balance.currency" />
+                  <q-item-main class="text-five font-16 font-weight" :label="balance.currency" />
                   <q-item-side right>
-                    <q-item-tile class="text-five font-18">
+                    <q-item-tile class="text-five font-16">
                       {{balance.balance | fee(balance.precision)}}
-                      <q-btn flat round icon="arrow forward" @click="$router.push({name:'assets',params:{asset:balance}})" />
+                      <q-btn class="text-secondary" flat round icon="arrow forward" @click="$router.push({name:'assets',params:{asset:balance}})" />
                     </q-item-tile>
                   </q-item-side>
                 </q-item>
@@ -225,12 +225,15 @@ export default {
 }
 
 .blances-container:hover {
-  background: #ebebeb;
+  background: #fafafa !important;
 }
 
 .blances-container {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
   margin-bottom: 20px;
   cursor: pointer;
+  border-radius: 6px;
 }
 
 .home-all-btn {
@@ -256,5 +259,9 @@ export default {
   color: #ffffff;
   cursor: pointer;
   vertical-align: text-top;
+}
+
+.q-table-title {
+  font-weight: 600 !important;
 }
 </style>
