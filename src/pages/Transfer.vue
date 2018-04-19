@@ -67,7 +67,6 @@ export default {
 <style lang="stylus" scoped>
 .transfer-container {
   padding: 20px;
-  min-height: 800px;
 }
 
 .transfer-content {

@@ -86,7 +86,6 @@
         <trans-record-container :userInfo="userInfo" />
       </div>
     </div>
-  
   </div>
 </template>
 
