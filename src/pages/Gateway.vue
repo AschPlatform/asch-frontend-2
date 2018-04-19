@@ -1,6 +1,6 @@
 
 <template>
-  <q-page padding class="">
+  <q-page class="gateway-container">
     <div class="geteway-top">
       <i class="material-icons vertical-align-middle font-24 text-secondary">person</i>
       <span class="font-22 text-black">{{$t('ALL_GATEWAY')}}</span>
@@ -76,6 +76,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.gateway-container {
+  padding: 20px;
+}
 
 .geteway-top {
   margin-bottom: 20px;
