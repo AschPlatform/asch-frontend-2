@@ -222,8 +222,8 @@ export default {
       }
       this.dialogShow = true
     },
-    async setAgent(name, cb = () => {}) {
-      let trans = asch.setAgent(name)
+    async setAgent(params, cb = () => {}) {
+      let trans = asch.setAgent(params.agent, this.userInfo.secret, params.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success) {
         toast('INF_OPERATION_SUCCEEDED')

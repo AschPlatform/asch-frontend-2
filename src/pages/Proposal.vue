@@ -2,9 +2,10 @@
   <q-page class="proposal-container">
     <div class="proposal-content bg-white shadow-2">
       <q-btn-group outline>
-        <q-btn class="font-22 proposal-content-top-btn" flat color="secondary" :label="$t('proposal.TITLE_ALL')" />
-        <q-btn class="font-22 proposal-content-top-btn" flat :label="$t('proposal.TITLE_PROCESS')" />
-        <q-btn class="font-22 proposal-content-top-btn" flat :label="$t('proposal.TITLE_DONE')" />
+        <q-btn class="font-22 proposal-content-top-btn" flat color="secondary" :label="$t('proposal.TITLE_ALL')" @click="changeState('all')"/>
+        <q-btn class="font-22 proposal-content-top-btn" flat :label="$t('proposal.TITLE_PROCESS')" @click="changeState('ongoing')"/>
+        <q-btn class="font-22 proposal-content-top-btn" flat :label="$t('proposal.TITLE_ACTIVED')" @click="changeState('activated')"/>
+        <q-btn class="font-22 proposal-content-top-btn" flat :label="$t('proposal.TITLE_EXPIRED')" @click="changeState('expired')"/>
       </q-btn-group>
       <q-btn-group class="float-right">
         <q-btn class="font-18" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
@@ -31,13 +32,13 @@
           {{transGate(props.value)}}
         </q-td>
         <q-td slot="body-cell-activated" slot-scope="props" :props="props">
-          <q-btn flat color="secondary" @click="callShowModal">
-            {{operationBtn(props.value)}}
+          <q-btn flat color="secondary" :label="($t('CHECK'))" @click="callShowModal(props.row.tid)">
+            <!-- {{operationBtn(props.value)}} -->
           </q-btn>
         </q-td>
         <q-td slot="body-cell-period" slot-scope="props" :props="props">
           <!-- <q-btn flat :label="$t('proposal.OPERATION')" color="primary"> -->
-          {{props.value | jparse('updateInterval', true)}}
+          {{props.value | jparse('updateInterval', true) || 'N/A'}}
           <!-- </q-btn> -->
         </q-td>
       </q-table>
@@ -74,6 +75,8 @@ export default {
     return {
       filter: '',
       loading: false,
+      // get infos filter
+      activatedState: 'all',
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -156,7 +159,8 @@ export default {
       let pageNo = this.pagination.page
       let condition = {
         limit: limit,
-        offset: (pageNo - 1) * limit
+        offset: (pageNo - 1) * limit,
+        type: this.activatedState
       }
       let res = await this.getProposals(condition)
       this.proposalDetail = res.proposals
@@ -186,11 +190,17 @@ export default {
           return this.$t('proposal.SELECT_INITNET')
       }
     },
-    callModal() {
-      this.isLaunchShow = true
+    changeState(val) {
+      this.activatedState = val
+      this.getProposalsFunc()
     },
-    callShowModal() {
-      this.isDetailShow = true
+    callModal() {
+      this.$router.push({name:'launchProposal'})
+    },
+    callShowModal(tid) {
+      console.log(tid)
+      this.$router.push({name:'proposalDetail',params:{tid: tid}})
+      // this.isDetailShow = true
     },
     callOffModal() {
       this.isLaunchShow = false

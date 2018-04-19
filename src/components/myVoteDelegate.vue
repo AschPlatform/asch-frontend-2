@@ -17,7 +17,7 @@
     <q-card-main align="center" v-else>
       <span v-if="agentName">{{agentName}}<a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a></span>
       <q-btn color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
-      <p v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:user.account.weight})}}</p>
+      <p v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:user.account.agentWeight})}}</p>
       <!-- <a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a> -->
     </q-card-main>
   </q-card>
@@ -66,7 +66,7 @@ export default {
         toastWarn(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
         return
       }
-      this.$emit('setAgent', this.agent, () => {
+      this.$emit('setAgent', { agent: this.agent, secondPwd: this.secondPwd }, () => {
         this.isGonnaSet = false
       })
     }

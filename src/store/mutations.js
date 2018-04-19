@@ -16,7 +16,8 @@ export default {
         lockHeight: 0,
         agent: 0,
         weight: 0,
-        agentWeight: 0
+        agentWeight: 0,
+        secondPublicKey: state.userInfo.secondPublicKey
       }
     }
     state.userInfo = { ...state.userInfo, ...userInfo }

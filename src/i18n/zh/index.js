@@ -448,6 +448,9 @@ const lang = {
   CREATE_TIME: '创建时间',
   ELECTED: '当选状态',
   UPDATE_LIMIT: '最低更新频率:',
+
+  // ERROR
+  AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',
   proposal: {
     No: '提案编号',
     INITIATOR: '发起人',
@@ -462,7 +465,8 @@ const lang = {
     TIP_REJECT: '投票未通过',
     TITLE_ALL: '全部提案',
     TITLE_PROCESS: '进行中的提案',
-    TITLE_DONE: '已结束的提案',
+    TITLE_ACTIVED: '已激活的提案',
+    TITLE_EXPIRED: '已过期的提案',
     LAUNCH: '发起新提案',
     SHOW: '提案详情',
     SELECT_P_TITLE: '提案标题',
@@ -490,6 +494,7 @@ const lang = {
   LAUNCH_MODAL: {
     MEMBER_NUMBER: '成员数量',
     MEMBER_MEMBER: '成员信息',
+    MEMBER_REASON: '更新成员原因',
     NET_NAME: '网关名字',
     NET_CURRENCY: '默认币种',
     NET_CURRENCY_TIP: '至少填写一种默认币种，且必须是全部大写字母，多个币种用","隔开',
@@ -511,7 +516,9 @@ const lang = {
     NET_PERIOD: '网关最低更新频率参数',
     PRECISION_TIP: '需要填写精度',
     CURRENCY_BRIEF: '该币种介绍',
-    CURRENCY_BRIEF_TIP: '需要填写该币种介绍'
+    CURRENCY_BRIEF_TIP: '需要填写该币种介绍',
+    ERR_INVALID_FORM: '表单填写不完整或未按照要求',
+    LAUNCH_SUCCESS: '发起提案成功'
   },
   DETAIL_MODAL: {
     MEMBER_CHIPS_PRE: '投票成员名单',
