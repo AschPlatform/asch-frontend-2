@@ -2,6 +2,7 @@
   <q-page >
     <q-card >
       <q-card-title>
+        <i class="material-icons vertical-align-middle text-primary font-22">person</i>
         {{$t('ASSET_DETAIL',{currency:asset.currency})}}
       </q-card-title>
       <q-card-main class="row">

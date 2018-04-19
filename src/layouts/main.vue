@@ -12,9 +12,9 @@
         </q-btn>
   
       </q-toolbar>
-      <div class="head-bottom row justify-left col-12">
-        <div class="col-3">
-          <p class="font-22 text-black">
+      <div class="head-bottom row justify-left">
+        <div class="head-bottom-item-container">
+          <p class="font-22 text-black font-weight">
             {{$t('VERSION_INFO')}}
           </p>
           <p>
@@ -22,16 +22,16 @@
             <span class="font-16 text-six">V1.4.0</span>
           </p>
         </div>
-        <div class="col-3">
-          <p class="font-22 text-black">
+        <div class="head-bottom-item-container">
+          <p class="font-22 text-black font-weight">
             {{$t(' TIME')}}
           </p>
           <p>
             <span class="font-16 text-secondary">{{latestBlock.timestamp | time}}</span>
           </p>
         </div>
-        <div class="col-3" v-if="latestBlock">
-          <p class="font-22 text-black">
+        <div class="head-bottom-item-latestBlock" v-if="latestBlock">
+          <p class="font-22 text-black font-weight">
             {{$t(' LATEST_BLOCK_HEIGHT')}}
           </p>
           <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
@@ -40,7 +40,7 @@
           <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
           <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
         </div>
-        <div class="col-3" v-if="latestBlock">
+        <div v-if="latestBlock">
           <p class="font-60 text-secondary">{{latestBlock.height}}</p>
         </div>
       </div>
@@ -438,20 +438,34 @@ export default {
 
 .list-item-container:hover {
   color: #ffffff;
+  border-left: 2px solid #ff750b;
+  background: #252d3a !important;
 }
 
 .list-item-container {
   height: 70px;
   color: #5c636e;
   font-size: 18px;
+  padding-left: 40px;
   border-bottom: 1px solid #2c3411;
+  border-left: 2px solid transparent;
 }
 
 .q-item.active, .q-item.router-link-active, .q-item:focus {
   color: #ffffff;
+  border-left: 2px solid #ff750b;
+  background: #252d3a;
 }
 
 .q-item.active i, .q-item.router-link-active i, .q-item:focus i {
   color: #ffffff;
+}
+
+.head-bottom-item-container {
+  margin-right: 80px;
+}
+
+.head-bottom-item-latestBlock {
+  margin-right: 30px;
 }
 </style>
