@@ -816,7 +816,7 @@ export default {
           case 'period_n':
             return 'gateway_period'
           case 'member_n':
-            return 'gateway_member'
+            return 'gateway_update_member'
         }
       }
     },

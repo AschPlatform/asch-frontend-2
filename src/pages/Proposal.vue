@@ -188,6 +188,8 @@ export default {
           return this.$t('proposal.SELECT_NEWNET')
         case 'gateway_init':
           return this.$t('proposal.SELECT_INITNET')
+        case 'gateway_update_member':
+          return this.$t('proposal.SELECT_MEMBER_ACTION')
       }
     },
     changeState(val) {
