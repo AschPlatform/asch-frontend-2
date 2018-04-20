@@ -58,7 +58,8 @@ import {
   QCardSeparator,
   QCardMain,
   QBtn,
-  QRadio
+  QRadio,
+  QModal
 } from 'quasar'
 import { required, maxLength, between, numeric, minValue } from 'vuelidate/lib/validators'
 import { assetName, secondPwdReg } from '../utils/validators'
@@ -78,7 +79,8 @@ export default {
     QCardSeparator,
     QCardMain,
     QBtn,
-    QRadio
+    QRadio,
+    QModal
   },
   data() {
     return {
