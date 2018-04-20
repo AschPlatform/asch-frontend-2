@@ -1,5 +1,5 @@
 <template>
-  <q-card inline class="col-3">
+  <q-card v-if="item !== {}" inline class="col-3">
     <q-card-title align="center">
       {{item.name}}
     </q-card-title>

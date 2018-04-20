@@ -272,6 +272,19 @@ import {
 
 export default {
   name: 'ProposalLaunch',
+  components: {
+    QField,
+    QModal,
+    QInput,
+    QCard,
+    QCardMain,
+    QCardTitle,
+    QCardSeparator,
+    QSelect,
+    QCheckbox,
+    QDatetime,
+    QChipsInput
+  },
   props: ['show'],
   data() {
     return {
@@ -495,19 +508,6 @@ export default {
     },
     REMOVE: {
     }
-  },
-  components: {
-    QField,
-    QModal,
-    QInput,
-    QCard,
-    QCardMain,
-    QCardTitle,
-    QCardSeparator,
-    QSelect,
-    QCheckbox,
-    QDatetime,
-    QChipsInput
   },
   mounted() {
   },

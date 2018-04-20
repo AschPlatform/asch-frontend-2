@@ -127,6 +127,19 @@ import {
 
 export default {
   name: 'ProposalDetail',
+  components: {
+    QPage,
+    QField,
+    QModal,
+    QInput,
+    QCard,
+    QCardMain,
+    QCardTitle,
+    QCardSeparator,
+    QCheckbox,
+    QChipsInput,
+    memberIndicator
+  },
   props: ['user'],
   data() {
     return {
@@ -150,19 +163,6 @@ export default {
       isBtnAble: true,
       btnInfo: ''
     }
-  },
-  components: {
-    QPage,
-    QField,
-    QModal,
-    QInput,
-    QCard,
-    QCardMain,
-    QCardTitle,
-    QCardSeparator,
-    QCheckbox,
-    QChipsInput,
-    memberIndicator
   },
   methods: {
     ...mapActions(['getProposal', 'getGatewayDelegates', 'getProposalVotes', 'voteProposal', 'activeProposal']),

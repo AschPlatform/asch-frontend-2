@@ -10,11 +10,6 @@
       <q-btn-group class="float-right">
         <q-btn class="font-18" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
       </q-btn-group>
-      <!-- <q-tab default slot="title" :label="$t('proposal.TITLE_ALL')" />
-        <q-tab slot="title" :label="$t('proposal.TITLE_PROCESS')" />
-        <q-tab slot="title" :label="$t('proposal.TITLE_DONE')" />
-        <q-btn size="sm" flat slot="top-right" clas+s="float-right">Launch</q-btn> -->
-      <!-- tab pane content -->
       <q-table class="no-shadow" :data="proposalDetail" :columns="columns" row-key="no" :pagination.sync="pagination" @request="request">
         <q-td slot="body-cell-desc" slot-scope="props" :props="props">
           {{props.value.substring(0,20) + '...'}}
@@ -42,10 +37,6 @@
           <!-- </q-btn> -->
         </q-td>
       </q-table>
-  
-      <!-- modal area -->
-      <launch-modal :show="isLaunchShow" @hide="callOffModal"></launch-modal>
-      <show-modal :show="isDetailShow" @hide="callOffModal"></show-modal>
     </div>
   
   </q-page>
@@ -53,10 +44,8 @@
 
 <script>
 /* eslint-disable */
-import { QPage, QBtnGroup, QTable, QTd, QBtn, QPopover, QTooltip } from 'quasar'
+import { QPage, QBtnGroup, QTable, QTd, QBtn, QPopover } from 'quasar'
 import { mapActions } from 'vuex'
-import launchModal from '../components/LaunchProposalModal'
-import showModal from '../components/ShowProposalModal'
 
 export default {
   name: 'Proposal',
@@ -66,10 +55,7 @@ export default {
     QTable,
     QTd,
     QBtn,
-    QPopover,
-    QTooltip,
-    launchModal,
-    showModal
+    QPopover
   },
   data() {
     return {
@@ -82,17 +68,7 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 10
       },
-      proposalDetail: [
-        // {
-        //   'no': 1,
-        //   'initiator': 'A-Z',
-        //   'type': 'sell',
-        //   'period': '2016/03/01-2019/09/09',
-        //   'approve': '99',
-        //   'detail': 'here should be the detail, and you all should mind that',
-        //   'operation': 0
-        // }
-      ],
+      proposalDetail: [],
       columns: [
         {
           name: 'tid',
@@ -201,10 +177,6 @@ export default {
     callShowModal(tid) {
       this.$router.push({name:'proposalDetail',params:{tid: tid}})
       // this.isDetailShow = true
-    },
-    callOffModal() {
-      this.isLaunchShow = false
-      this.isDetailShow = false
     }
   },
   computed: {},
