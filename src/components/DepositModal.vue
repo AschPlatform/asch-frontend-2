@@ -49,7 +49,7 @@ import asch from '../utils/asch-v2'
 
 export default {
   name: 'DepositPanel',
-  props: ['user', 'asset', 'show'],
+  props: ['user', 'show'],
   components: { QField, QInput, VueQr },
   data() {
     return {
@@ -87,6 +87,7 @@ export default {
     },
     async getAddr() {
       let asset = this.outAssets[this.currency]
+      this.asset = asset
       let res = await this.gateAccountAddr({ name: asset.gateway, address: this.user.address })
       if (res.success) {
         this.account = res.account
@@ -126,7 +127,7 @@ export default {
   watch: {
     asset(val) {
       this.currency = val.symbol
-      if (this.user) this.getAddr()
+      if (this.user && this.asset) this.getAddr()
     },
     currency(val) {
       if (this.user) this.getAddr()
