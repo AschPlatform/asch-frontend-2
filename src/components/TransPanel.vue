@@ -12,7 +12,7 @@
       </span>
     </div>
     <div class="transfer-top-Portraits row justify-center" v-if="showTitle">
-     <jdenticon class="transfer-jdenticon" :address="user.account.address" :size="60" />
+     <jdenticon class="transfer-jdenticon" :address="form.receiver" :size="60" />
     </div>
     <div class="transfer-bottom-container" v-if="user && user.account" >
       <q-field class="col-12 text-four" :label="$t('RECIPIENT')+':'" :label-width="3">
