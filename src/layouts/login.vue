@@ -85,6 +85,8 @@
 
 <script>
 import {
+  QPageContainer,
+  QPage,
   QLayout,
   QCard,
   QIcon,
@@ -107,6 +109,8 @@ import { mapActions, mapMutations } from 'vuex'
 
 export default {
   components: {
+    QPageContainer,
+    QPage,
     QLayout,
     QCard,
     QIcon,
@@ -194,6 +198,7 @@ export default {
       }
     },
     toLogin() {
+      this.registerStep = 1
       this.isRegister = false
     },
     newUser() {

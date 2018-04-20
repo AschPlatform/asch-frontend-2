@@ -58,7 +58,7 @@
             <span class="menu-logo"></span>
           </div>
           <div class="header-right margin-left-10" @click="toHome">
-            <span class="header-right-top">阿希网页钱包</span>
+            <span class="header-right-top">阿希客户端</span>
             <span class="header-right-bottom font-12">Asch Wallet</span>
           </div>
         </q-list-header>
@@ -408,6 +408,10 @@ body {
 .q-list-header {
   padding-left: 40px !important;
   cursor: pointer;
+}
+
+.header-container {
+  padding-bottom: 20px;
 }
 
 .header-left {

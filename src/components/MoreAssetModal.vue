@@ -1,47 +1,42 @@
 <template>
-  <q-modal content-classes="row justify-center" v-model="show" maximized :no-esc-dismiss="true">
-    <q-modal-layout>
-        <q-toolbar slot="header">
-          <q-toolbar-title>
-           {{$t('MORE_ASSETS')}}
-          </q-toolbar-title>
-        </q-toolbar>
-
-        <!-- <q-toolbar slot="header">
-          <q-search class="full-width" inverted v-model="filter" color="none" />
-        </q-toolbar> -->
-
-        <q-toolbar slot="footer">
-          <q-btn flat :label="$t('label.close')" @click="close"/>
-        </q-toolbar>
-        <div class="row layout-padding">
-
-
-          <q-card class="col-4" v-for="(currency,idx) in currencies" :key="idx">
-            <q-card-main>
-              <q-item>
-                <q-item-side>
-                  <q-item-tile avatar>
-                    <img :src="currency.url">
-                  </q-item-tile>
-                </q-item-side>
-                <q-item-main :label="assetsInfo(currency)" />
-                <q-item-side right>
-                  <q-btn flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
-                </q-item-side>
-              </q-item>
-            </q-card-main>
-          </q-card>
-          
-        </div>
-   </q-modal-layout>
+  <q-modal content-classes="row justify-center" v-model="show" minimized :no-esc-dismiss="true">
+    <div class="bg-secondary padding-40 height-62 col-12">
+      <span class="text-white font-22">{{$t('MORE_ASSETS')}}</span>
+      <q-btn class="float-right height-62" flat :label="$t('label.close')" @click="close" />
+    </div> 
+    <!-- <q-toolbar slot="header">
+            <q-search class="full-width" inverted v-model="filter" color="none" />
+          </q-toolbar> -->
+  
+    <div class="row moreAssetModal-container col-12">
+      <q-card class="col-4" v-for="(currency,idx) in currencies" :key="idx">
+        <q-card-main>
+          <div class="col-12">
+            <span><img :src="currency.url"></span>
+            <span>{{assetsInfo(currency)}}</span>
+            <q-btn class="bg-primary text-white" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
+          </div>
+          <!-- <q-item>
+            <q-item-side>
+              <q-item-tile avatar>
+                <img :src="currency.url">
+              </q-item-tile>
+            </q-item-side>
+            <q-item-main :label="assetsInfo(currency)" />
+            <q-item-side right>
+            <q-btn class="bg-primary text-white" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
+            </q-item-side>
+          </q-item> -->
+        </q-card-main>
+      </q-card>
+    </div>
   </q-modal>
 </template>
+
 <script>
 import { mapActions } from 'vuex'
 import {
   QModal,
-  QModalLayout,
   QToolbar,
   QToolbarTitle,
   QSearch,
@@ -65,7 +60,6 @@ export default {
   props: ['show', ''],
   components: {
     QModal,
-    QModalLayout,
     QToolbar,
     QToolbarTitle,
     QSearch,
@@ -160,5 +154,9 @@ export default {
   }
 }
 </script>
+
 <style lang="stylus" scoped>
+.moreAssetModal-container {
+  padding: 40px;
+}
 </style>
