@@ -26,6 +26,7 @@ export const confirm = (conf, cancel = () => {}, confirm = () => {}) => {
       cancel()
     })
 }
+// todo
 export const deCompileContent = (value) => {
   return JSON.parse(value)
 }

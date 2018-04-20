@@ -159,11 +159,11 @@
             </tr>
             <tr>
               <td>6-10</td>
-              <td>20 XAS</td>
+              <td>10 XAS</td>
             </tr>
             <tr>
               <td>11-20</td>
-              <td>0.1 XAS</td>
+              <td>1 XAS</td>
             </tr>
           </tbody>
         </table>

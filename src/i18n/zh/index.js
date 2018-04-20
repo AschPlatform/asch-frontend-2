@@ -352,6 +352,7 @@ const lang = {
 
   // ============== new add =================
   CANAEL: '取消',
+  TO: '至',
   RECIPIENT_NAME_ADDRESS: '请输入需要转账的账户名或者钱包地址',
   RECORD: '记录',
   MAIN_ASSET: '主资产',
@@ -455,6 +456,8 @@ const lang = {
   // ERROR
   AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',
   proposal: {
+    CONTENT: '提案内容',
+    VOTE_DETAIL: '投票状态',
     No: '提案编号',
     INITIATOR: '发起人',
     TYPE: '类型',
