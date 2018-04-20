@@ -301,7 +301,6 @@ export default {
   async mounted() {
     let user = this.userInfo || getCache('user') || null
     if (!user) {
-      console.log('no session data, please login...')
       this.$router.push('/login')
     } else {
       let res = await this.getAccountsInfo({
