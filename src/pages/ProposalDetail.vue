@@ -298,9 +298,6 @@ export default {
         s = '0' + s
       }
       return d.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
-    },
-    compileBtn() {
-
     }
   },
   mounted() {
