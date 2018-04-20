@@ -199,12 +199,7 @@ export default {
       this.$router.push({ name: 'launchProposal' })
     },
     callShowModal(tid) {
-<<<<<<< HEAD
-      console.log(tid)
-      this.$router.push({ name: 'proposalDetail', params: { tid: tid } })
-=======
       this.$router.push({name:'proposalDetail',params:{tid: tid}})
->>>>>>> develop
       // this.isDetailShow = true
     },
     callOffModal() {

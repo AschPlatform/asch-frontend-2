@@ -201,7 +201,7 @@ export default {
       })
       let ls = []
       if (res.success) {
-        this._.each(res.votes, function(o) {
+        this._.each(res.votes, o => {
           return ls.push(o.voter)
         })
       }
@@ -213,7 +213,7 @@ export default {
       let res = await this.getGatewayDelegates(name)
       if (res.success) {
         let ls = []
-        this._.each(res.validators, function(o) {
+        this._.each(res.validators, o => {
           if (o.elected === 1) {
             return ls.push(o.address)
           }
