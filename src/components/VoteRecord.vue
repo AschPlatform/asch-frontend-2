@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { QTabs, QTab, QTabPane, QIcon } from 'quasar'
+import { QTable, QTabs, QTab, QTabPane, QIcon, QBtn, QField, QInput } from 'quasar'
 import { toast, translateErrMsg } from '../utils/util'
 import { createVote } from '../utils/asch'
 import { mapGetters, mapActions } from 'vuex'
@@ -106,11 +106,15 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   props: ['userObj'],
   components: {
+    QTable,
     QTabs,
     QTab,
     QTabPane,
     mapGetters,
-    QIcon
+    QIcon,
+    QBtn,
+    QField,
+    QInput
   },
   data() {
     return {
