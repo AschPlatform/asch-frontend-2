@@ -175,7 +175,18 @@ import { createFlags, dealBigNumber, fullTimestamp } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { required, numeric, minValue } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
-import { QPage, QModal, QTable, QFabAction, QBtn, QTooltip, QDialog } from 'quasar'
+import {
+  QPage,
+  QModal,
+  QTable,
+  QFabAction,
+  QBtn,
+  QTooltip,
+  QDialog,
+  QCard,
+  QCardTitle,
+  QCardMain
+} from 'quasar'
 import UserAgreementModal from '../components/UserAgreementModal'
 import AssetRegisterModal from '../components/AssetRegisterModal'
 import AssetIssuerModal from '../components/AssetIssuerModal'
@@ -194,7 +205,10 @@ export default {
     UserAgreementModal,
     AssetRegisterModal,
     AssetIssuerModal,
-    AssetsRecords
+    AssetsRecords,
+    QCard,
+    QCardTitle,
+    QCardMain
   },
   data() {
     return {
