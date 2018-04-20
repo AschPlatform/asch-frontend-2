@@ -9,24 +9,13 @@
           </q-toolbar> -->
   
     <div class="row moreAssetModal-container col-12">
-      <q-card class="col-4" v-for="(currency,idx) in currencies" :key="idx">
+      <q-card class="col-5" v-for="(currency,idx) in currencies" :key="idx">
         <q-card-main>
           <div class="col-12">
-            <span><img :src="currency.url"></span>
-            <span>{{assetsInfo(currency)}}</span>
-            <q-btn class="bg-primary text-white" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
+          <i class="material-icons font-24 vertical-align-middle text-eight">fiber_manual_record</i>
+            <span class="font-18 text-five vertical-align-middle">{{assetsInfo(currency)}}</span>
+            <q-btn class="moreAssetModal-btn bg-primary text-white float-right" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
           </div>
-          <!-- <q-item>
-            <q-item-side>
-              <q-item-tile avatar>
-                <img :src="currency.url">
-              </q-item-tile>
-            </q-item-side>
-            <q-item-main :label="assetsInfo(currency)" />
-            <q-item-side right>
-            <q-btn class="bg-primary text-white" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
-            </q-item-side>
-          </q-item> -->
         </q-card-main>
       </q-card>
     </div>
@@ -157,6 +146,12 @@ export default {
 
 <style lang="stylus" scoped>
 .moreAssetModal-container {
-  padding: 40px;
+  padding: 40px 20px;
+}
+
+.moreAssetModal-btn {
+  padding: 2px 16px;
+  border-radius: 15px;
+  min-height: 20px;
 }
 </style>
