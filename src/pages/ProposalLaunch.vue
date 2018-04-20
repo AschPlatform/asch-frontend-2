@@ -591,7 +591,6 @@ export default {
           return
         }
       }
-      console.log(this.$v)
       let obj = {}
       obj.content = this.compileContent()
       obj.title = this.p_title
@@ -609,7 +608,6 @@ export default {
     },
     // select component change func
     detectChange() {
-      console.log('changed')
     },
     // info get funcs
     async getAllGate() {
@@ -622,7 +620,6 @@ export default {
         })
       })
       this.netList = ls
-      console.log(this.netList)
     },
     async getAllDelegates() {
       // params :  filter
@@ -630,7 +627,6 @@ export default {
       // 1 for elected
       // 2 for all
       // params : obj for the state this response to replace
-      console.log('GET IN GET FUNCS')
       let res = await this.getGatewayDelegates({
         name: this.p_selected.name
       })
@@ -674,7 +670,6 @@ export default {
     // to form init list
     async formInitList() {
       let that = this
-      console.log('GET IN FORM FUNC')
       let res = await this.getGatewayDelegates({
         name: this.p_selected.name
       })
@@ -693,7 +688,6 @@ export default {
       this.delegateList = ls
     },
     async formMemberList() {
-      console.log('GET IN FORM FUNC')
       let res = await this.getGatewayDelegates({
         name: this.p_selected.name
       })
@@ -702,7 +696,6 @@ export default {
       this._.each(res.validators, o => {
         // cannot init detect
         if (o.elected === 1) {
-          console.log('push the elected')
           return elected.push(o.address)
         }
       })
@@ -714,7 +707,6 @@ export default {
       })
       this.MEMBER.instead_pre = elected
       this.delegateList = total
-      console.log(this.MEMBER.instead_pre, this.delegateList)
     },
     checkValidate(action) {
       // total set first
@@ -865,7 +857,6 @@ export default {
     },
     second_type(val) {
       if (val === 'init') {
-        console.log('gonna get all delegates')
         this.formInitList()
       } else if (val === 'member_n') {
         this.formMemberList()

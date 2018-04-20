@@ -321,7 +321,6 @@ export default {
         toastWarn(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
       } else {
         let trans = asch.setsecondPassword(this.password, this.user.secret)
-        console.log(trans)
         let res = await this.broadcastTransaction(trans)
         console.log(res)
         if (res.success === true) {

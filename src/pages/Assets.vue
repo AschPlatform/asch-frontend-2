@@ -141,12 +141,10 @@ export default {
       this.moreAssetsModalShow = false
       this.depositPanelShow = true
       this.asset = asset
-      console.log('deposit', asset)
     },
     withdraw(asset) {
       this.withdrawPanelShow = true
       this.asset = asset
-      console.log('withdraw', asset)
     },
     moreAssets() {
       this.moreAssetsModalShow = true
