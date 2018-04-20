@@ -44,11 +44,17 @@ import { api } from '../utils/api'
 import { officialPeers } from '../utils/constants'
 import { setCache, getCache, toast } from '../utils/util'
 import axios from '../utils/axiosWrap'
-import { QIcon } from 'quasar'
+import {
+  QIcon,
+  QTable
+} from 'quasar'
 
 export default {
   props: ['userObj'],
-  components: { QIcon },
+  components: {
+    QIcon,
+    QTable
+  },
   data() {
     return {
       peers: [],
