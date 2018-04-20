@@ -42,6 +42,7 @@
         <slot name="btns" :send="send" :cancel="cancel" />
       </div>
     </div>
+    
   </div>
 </template>
 
