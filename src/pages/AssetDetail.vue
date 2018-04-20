@@ -1,13 +1,13 @@
 <template>
   <q-page >
-    <q-card >
+    <q-card class="no-shadow">
       <q-card-title>
-        <i class="material-icons vertical-align-middle text-primary font-22">person</i>
-        {{$t('ASSET_DETAIL',{currency:asset.currency})}}
+      <i class="material-icons vertical-align-middle text-secondary font-22">person</i>
+      {{$t('ASSET_DETAIL',{currency:asset.currency})}}
       </q-card-title>
       <q-card-main class="row">
-        <assets-panel v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
-        <assets-panel v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
+        <assets-panel class="margin-l-15" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
+        <assets-panel class="margin-l-15" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
         <q-card v-if="isCross && address" class="col-3">
           <q-card-main>
             <p>{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
@@ -20,7 +20,7 @@
             </div>
           </q-card-main>
         </q-card>
-        <q-card v-if="assetDetail" class="col-3">
+        <q-card v-if="assetDetail" class="bg-white col-3 assetDetail-card-content">
           <q-card-main>
             <table>
               <tr>
@@ -39,7 +39,7 @@
           </q-card-main>
         </q-card>
   
-        <q-card v-if="asset.asset" class="col-3">
+        <q-card v-if="asset.asset" class="assetDetail-card-content bg-white col-3 margin-l-30">
           <q-card-main>
             <p>
               {{asset.asset.desc}}
@@ -48,8 +48,8 @@
         </q-card>
       </q-card-main>
     </q-card>
-    <div>
-      <asset-record-container :isCross="isCross" :currency="asset.currency" />
+    <div class="asset-detail-record-container">
+      <asset-record-container class="bg-white" :isCross="isCross" :currency="asset.currency" />
     </div>
   </q-page>
 </template>
@@ -193,4 +193,20 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.asset-detail-record-container {
+  padding: 20px;
+}
+
+.margin-l-30 {
+  margin-left: 30px;
+}
+
+.margin-l-15 {
+  margin-left: 5px !important;
+}
+
+.assetDetail-card-content {
+  height: 173px;
+  margin-top: 15px;
+}
 </style>

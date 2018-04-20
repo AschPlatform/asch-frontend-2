@@ -138,9 +138,10 @@ const lang = {
     '请确保您已安全保存主密码，如果您失去您的主密码，您的帐户将永远无法再打开，您将失去您所有的XAS',
   CONFIRM: '确认',
   CANCEL: '返回',
+  CANCEL_LOGIN: '返回登录',
   CREATE: '创建',
-  CREATE_TIP1: '(密码由浏览器本地生成，请妥善备份保存)',
-  CREATE_TIP2: '(复制或输入上面的主密码)',
+  CREATE_TIP1: '密码由浏览器本地生成，请妥善备份保存',
+  CREATE_TIP2: '复制或输入上面的主密码',
   READ_TIP1: '我理解如果我丢失了密码，我将永远无法访问我的资产',
   READ_TIP2: '我理解如果我忘记或丢失了密码，将没有任何人能够帮助我恢复',
   READ_TIP3: '我已经写下了或者用其它方式保存了我的密码',
@@ -350,6 +351,7 @@ const lang = {
   QRCODE_CLOSE: '点击二维码关闭',
 
   // ============== new add =================
+  CANAEL: '取消',
   RECIPIENT_NAME_ADDRESS: '请输入需要转账的账户名或者钱包地址',
   RECORD: '记录',
   MAIN_ASSET: '主资产',
@@ -366,6 +368,7 @@ const lang = {
   DEPOSIT_NO_ADDR_TIP: '你尚未开通 {currency} 钱包收款地址',
   DEPOSIT_TIP:
     '请将 {currency}充值到上述地址，该地址仅支持接收 {currency}，如果需要转入其他 token，请切换到相对应的 token 获取转入地址 钱包收款地址',
+  DEPOSIT_TIP2: '*为避免造成财产损失，请务必确认您的提现地址，本操作无法撤销',
   OPEN_ADDR: '开通',
   VOTE_DELEGATE: '票权代理人',
   VOTE_DELEGATE_DETAIL: '代理人详情',

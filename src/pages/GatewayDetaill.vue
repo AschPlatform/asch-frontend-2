@@ -27,7 +27,7 @@
   
         </q-table>
       </div>
-      <div class="col-4">
+      <div v-if="gateway" class="col-4">
           <q-card class="gateway-modal-right-card no-shadow" align="left">
             <div class=" modal-right-container shadow-2">
             <q-card-title class="bg-nine">
@@ -114,7 +114,7 @@ export default {
       },
       loading: false,
       datas: [],
-      gateway: {}
+      gateway: null
     }
   },
 
@@ -175,6 +175,7 @@ export default {
 }
 
 .modal-right-container {
+  background #ffffff
   height: calc(100% - 10px);
 }
 
@@ -189,5 +190,9 @@ export default {
 .bottom-container-bottom {
   width: 100%;
   text-align: center;
+}
+
+.q-table-container {
+  background: #ffffff;
 }
 </style>

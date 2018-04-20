@@ -1,8 +1,8 @@
 <template>
-  <q-modal minimized content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
-    <div class="col-6">
+  <q-modal class="deposit-modal-container" content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
+    <div class="col-12">
       <h4>{{$t('DEPOSIT')}}</h4>
-      <div v-if="account" class="row justify-center">
+      <div v-if="account">
         <vue-qr :size="200" :text="account.address || 'no data'"></vue-qr>
         <br />
         <div class="col-12 text-center" >{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info('copy success...')" flat icon='content copy' round/></div>
@@ -15,7 +15,7 @@
       </q-field>
         <q-btn color="secondary" @click="close" :label="$t('label.close')"/>
       </div>
-    <div v-else >
+      <div v-else>
       <h5>{{$t('DEPOSIT_NO_ADDR_TIP',{ currency: currency })}}</h5>
       <q-field >
       <q-select
@@ -32,9 +32,7 @@
         <q-btn rounded color="secondary" :label="$t('OPEN_ADDR')" @click="openAddr" />
         <q-btn rounded :label="$t('CANCEL')" @click="$emit('close')" />
       </div>
-    </div>
-    
-      
+    </div> 
     </div>
     
   </q-modal>
@@ -136,4 +134,8 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+.deposit-modal-container {
+  // width: 20%;
+  // min-width: 400px;
+}
 </style>

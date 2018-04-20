@@ -48,27 +48,30 @@
                 </span>  
               </q-card-title>
               <q-card-main v-if="registerStep==1" class="row col-10 justify-center ">
-                <q-field :label="$t('NEW_PASSWORD')" class="col-10" label-width="3" :helper="$t('CREATE_TIP1')">
+                <q-field  class="col-10" :helper="$t('CREATE_TIP1')">
                   <q-input type="textarea" class="new-secret-input col-8" v-model="newSecret" disable :min-rows="5" />
                   <q-btn class="copy-new-secret col-2" color="primary" v-clipboard="newSecret || 'no data' "  flat round icon="content copy" @click="jumpOut($t('COPY_SUCCESS'))" />
                 </q-field>
-                <q-field :label="$t('CONFIRM_PASSWORD')" class="col-10" label-width="3" :helper="$t('CREATE_TIP2')">
-                  <q-input type="textarea" v-model="confirmNewSecret" :min-rows="5" clearable />
+                <q-field  class="col-10">
+                  <q-input type="textarea" :placeholder="$t('CREATE_TIP2')" v-model="confirmNewSecret" clearable />
                 </q-field>
               </q-card-main>
               <!-- <q-card-separator /> -->
               <q-card-main class="prompt-message">
                 <q-checkbox v-model="selection" val="one" :label="$t('READ_TIP1')" />
                 <br><br>
-                <q-checkbox v-model="selection" val="two" :label="$t('READ_TIP2')" />
+                <q-checkbox class="selection-container" v-model="selection" val="two" :label="$t('READ_TIP2')" />
                 <br><br>
-                <q-checkbox v-model="selection" val="three" :label="$t('READ_TIP3')" />
+                <q-checkbox class="selection-container" v-model="selection" val="three" :label="$t('READ_TIP3')" />
               </q-card-main>
               <!-- <q-card-separator /> -->
               <q-card-main class="row col-10 justify-center ">
-                <div v-if="registerStep==1" class="row col-10 justify-center">
+                <div v-if="registerStep==1" class="row col-10 justify-between">
                   <q-btn big class="col-auto " color="primary" @click="verifyNewSecret">
-                    {{$t('CREATE')}}
+                    {{$t('CREATE_MASTER_PASSWORD')}}
+                  </q-btn>
+                  <q-btn big class="col-auto " color="primary" @click="toLogin">
+                    {{$t('CANCEL_LOGIN')}}
                   </q-btn>
                 </div>
               </q-card-main>
@@ -189,6 +192,9 @@ export default {
       } finally {
         this.loading = false
       }
+    },
+    toLogin() {
+      this.isRegister = false
     },
     newUser() {
       this.newSecret = generateM()
@@ -349,6 +355,7 @@ html, body {
 }
 
 .register-panel {
+  waith: 474px;
   position: relative;
   background: #ffffff;
   margin-top: -40px;
@@ -366,5 +373,9 @@ html, body {
 .copy-new-secret {
   display: inline-block;
   vertical-align: top;
+}
+
+.selection-container {
+  margin-top: -20px !important;
 }
 </style>
