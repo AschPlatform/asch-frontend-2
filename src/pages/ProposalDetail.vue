@@ -29,7 +29,6 @@
       <q-card-separator class="q-my-lg"/>
       <!-- below is content of the proposal -->
       <q-card-main>
-        <q-field>
 
           <!-- below is net new page -->
           <div class="col-12" v-if="this.detail.topic === 'gateway_register'" id="new">
@@ -86,14 +85,14 @@
 
           <!-- below is member memberIndicator -->
           <member-indicator v-if="isIndicatorShow" :memberPost="postMemberList" :memberPre="preMemberList" :showCounter="showCounter" :type="this.detail.topic"></member-indicator>
-        </q-field>
       </q-card-main>
 
       <q-card-separator class="q-my-lg"/>
       <!-- below is vote status -->
       <q-card-main>
         <p>{{$t('proposal.VOTE_STATUS', {number: voteTotalNum, rate: votePassRate})}}</p>
-        <q-field :label="$t('LAUNCH_MODAL.VOTE_LIST')" label-width="0">
+        <p>{{$t('LAUNCH_MODAL.VOTE_LIST')}}</p>
+        <q-field>
           <q-chips-input color="primary" class="col-5" inverted readonly v-model="voteList" disable>
           </q-chips-input>
         </q-field>
@@ -203,7 +202,6 @@ export default {
       this.votePassRate = ((res.validCount / res.totalCount) * 100).toFixed(0)
     },
     async getValidatorInfo(name) {
-      debugger
       let res = await this.getGatewayDelegates(name)
       if (res.success) {
         let ls = []
@@ -300,9 +298,6 @@ export default {
         s = '0' + s
       }
       return d.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
-    },
-    compileBtn() {
-
     }
   },
   mounted() {
@@ -310,6 +305,10 @@ export default {
     this.getVoterInfo()
   },
   watch: {
+    user() {
+      this.getProposalInfo()
+      this.getVoterInfo()
+    }
   }
 }
 </script>

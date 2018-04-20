@@ -6,7 +6,7 @@
       </div>
 
       <!-- CouncilModal -->
-      <council-modal :item="activeItem" :show="isModalShow" @callModal="switchModal"></council-modal>
+      <council-modal v-if="this.activeItem !== {}" :item="activeItem" :show="isModalShow" @callModal="switchModal"></council-modal>
   </q-page>
 </template>
 <script>
@@ -39,6 +39,7 @@ export default {
     ...mapActions(['getCouncils']),
     switchModal(val) {
       this.isModalShow = val.status
+      debugger
       this.activeItem = val.item
     },
     async getAllCouncils() {
