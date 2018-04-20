@@ -1,19 +1,24 @@
 <template>
   <q-modal class="deposit-modal-container" content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
-    <div class="col-12">
-      <h4>{{$t('DEPOSIT')}}</h4>
+    <div class="col-12 padding-b-54 ">
+      <!-- <h4>{{$t('DEPOSIT')}}</h4> -->
+      <div class="bg-secondary padding-40 height-62">
+        <span class="text-white font-24">{{$t('DEPOSIT')}}</span>
+      </div>
       <div v-if="account">
-        <vue-qr :size="200" :text="account.address || 'no data'"></vue-qr>
+        <vue-qr class="depositmodal-account-content" :size="200" :text="account.address || 'no data'"></vue-qr>
         <br />
         <div class="col-6 text-center" >{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info('copy success...')" flat icon='content copy' round/></div>
-        <div class="deposit-text col-6">{{$t('DEPOSIT_TIP',{ currency: currency })}}</div>
-        <q-field class="col-9" >
+        <div class="padding-40 deposit-text col-6">{{$t('DEPOSIT_TIP',{ currency: currency })}}</div>
+        <q-field class="padding-40 col-9" >
           <q-select
             v-model="currency"
             :float-label="$t('DAPP_CATEGORY')"
             :options="assetsOpt" />
-      </q-field>
+        </q-field>
+        <div class="row justify-center margin-t-20">
         <q-btn color="secondary" @click="close" :label="$t('label.close')"/>
+        </div>
       </div>
       <div v-else>
       <h5>{{$t('DEPOSIT_NO_ADDR_TIP',{ currency: currency })}}</h5>
@@ -141,5 +146,9 @@ export default {
 
 .deposit-text {
   max-width: 400px;
+}
+
+.depositmodal-account-content {
+  text-align: center;
 }
 </style>
