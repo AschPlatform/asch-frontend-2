@@ -100,6 +100,11 @@
 
       <q-card-separator class="q-my-lg"/>
       <!-- below is func btn -->
+      <div class="row col-12" v-show="!isBtnAble">
+        <q-field v-if="secondSignature" class="col-8"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="2">
+          <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
+        </q-field>
+      </div>
       <q-card-main class="row justify-center">
         <q-btn :label="$t(btnInfo)" @click="active" :disabled="isBtnAble"></q-btn>
       </q-card-main>
@@ -109,8 +114,9 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import { deCompileContent, compileTimeStamp, toast, toastError } from '../utils/util'
+import { secondPwd } from '../utils/validators'
 import memberIndicator from '../components/MemberIndicator'
 import {
   QPage,
@@ -123,7 +129,8 @@ import {
   QCardSeparator,
   QCheckbox,
   QChipsInput,
-  QIcon
+  QIcon,
+  QBtn
 } from 'quasar'
 
 export default {
@@ -140,12 +147,14 @@ export default {
     QCheckbox,
     QChipsInput,
     memberIndicator,
-    QIcon
+    QIcon,
+    QBtn
   },
   props: ['user'],
   data() {
     return {
       tid: '',
+      secondPwd: '',
       detail: {},
       content: {
         currency: {}
@@ -164,6 +173,11 @@ export default {
       // func btn
       isBtnAble: true,
       btnInfo: ''
+    }
+  },
+  validations: {
+    secondPwd: {
+      secondPwd: secondPwd()
     }
   },
   methods: {
@@ -235,7 +249,8 @@ export default {
     },
     async activePro() {
       let res = await this.activeProposal({
-        tid: this.$route.params.tid
+        tid: this.$route.params.tid,
+        secondPwd: this.secondPwd
       })
       if (res.success) {
         toast(this.$t('ACTIVE_SUCCESS'))
@@ -245,7 +260,8 @@ export default {
     },
     async votePro() {
       let res = await this.voteProposal({
-        tid: this.$route.params.tid
+        tid: this.$route.params.tid,
+        secondPwd: this.secondPwd
       })
       if (res.success) {
         toast(this.$t('VOTE_SUCCESS'))
@@ -261,6 +277,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['userInfo']),
     ...mapState(['latestBlock']),
     // enpower
     dealWithType() {
@@ -307,6 +324,9 @@ export default {
         s = '0' + s
       }
       return d.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
+    },
+    secondSignature() {
+      return this.userInfo ? this.userInfo.account.secondPublicKey : null
     }
   },
   mounted() {

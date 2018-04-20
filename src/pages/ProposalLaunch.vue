@@ -231,10 +231,10 @@
             <q-chips-input color="primary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="MEMBER.show_post" disable/>
         </div>
         </div>
-        <div class="row col-12">
-        <q-field v-if="secondSignature" class="col-8"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="2">
+        <div class="row col-12" v-show="this.first_type !== null">
+          <q-field v-if="secondSignature" class="col-8"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="2">
             <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
-        </q-field>
+          </q-field>
         </div>
     </q-card-main>
 
@@ -253,7 +253,7 @@
 
 <script>
 import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { secondPwd } from '../utils/validators'
 import { getCache, toastError, toast } from '../utils/util'
 import {
@@ -818,9 +818,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['userInfo']),
     secondSignature() {
-      let user = getCache('user')
-      return user ? user.account.secondPublicKey : null
+      return this.userInfo ? this.userInfo.account.secondPublicKey : null
     },
     countedType() {
       if (this.first_type === 'new_n') {

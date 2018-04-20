@@ -15,7 +15,8 @@
 <script>
 import {
   QChipsInput,
-  QField
+  QField,
+  QIcon
 } from 'quasar'
 
 export default {
@@ -29,7 +30,8 @@ export default {
   },
   components: {
     QChipsInput,
-    QField
+    QField,
+    QIcon
   },
   computed: {
     title_pre() {
