@@ -59,7 +59,7 @@
           </div>
           <div class="header-right margin-left-10" @click="toHome">
             <span class="header-right-top">阿希客户端</span>
-            <span class="header-right-bottom font-12">Asch Wallet</span>
+            <span class="header-right-bottom font-12">Asch Client</span>
           </div>
         </q-list-header>
         <q-item class="list-item-container" item :to="getRouterConf('home')">
@@ -75,7 +75,7 @@
           <q-item-main :label="$t('TRANSFER')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('proposal')">
-          <q-item-side icon="compare arrows" />
+          <q-item-side icon="gavel" />
           <q-item-main :label="$t('PROPOSAL')" />
         </q-item>
          <q-item class="list-item-container" item :to="getRouterConf('gateway')">
@@ -107,11 +107,11 @@
                 <q-item-main :label="$t('FORGING')" />
               </q-item> -->
         <q-item class="list-item-container" item :to="getRouterConf('peers')">
-          <q-item-side icon="blur on" />
+          <q-item-side icon="share" />
           <q-item-main :label="$t('PEERS')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('issuer')">
-          <q-item-side icon="blur on" />
+          <q-item-side icon="send" />
           <q-item-main :label="$t('TRS_TYPE_UIA_ISSUE')" />
         </q-item>
       </q-list>

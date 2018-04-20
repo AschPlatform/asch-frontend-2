@@ -2,8 +2,8 @@
   <div>
     <q-table class="home-table-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
       <template slot="top-right" slot-scope="props">
-        <q-btn-toggle class="bg-secondary text-black" flat rounded icon="fiber_manual_record" v-model="type" 
-    toggle-color="white"
+        <q-btn-toggle class="bg-secondary text-white" flat rounded icon="fiber_manual_record" v-model="type" 
+    toggle-color="negative"  toggle-text-color="white"
     :options="[
       {label: $t('TRS_TYPE_TRANSFER_RECORD'), value: 2},
       {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},]" />
