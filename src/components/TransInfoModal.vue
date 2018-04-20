@@ -42,13 +42,13 @@
     </q-modal>
 </template>
 <script>
-import { QModal } from 'quasar'
+import { QModal, QBtn } from 'quasar'
 import { transTypes } from '../utils/constants'
 import { fullTimestamp, convertFee } from '../utils/asch'
 
 export default {
   name: 'TransInfoModal',
-  components: { QModal },
+  components: { QModal, QBtn },
   props: ['show', 'row'],
   data() {
     return {}

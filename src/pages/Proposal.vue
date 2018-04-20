@@ -172,7 +172,7 @@ export default {
       this.getProposalsFunc()
     },
     callModal() {
-      this.$router.push({name:'launchProposal'})
+      this.$router.push({ name: 'launchProposal' })
     },
     callShowModal(tid) {
       this.$router.push({name:'proposalDetail',params:{tid: tid}})
@@ -196,7 +196,7 @@ export default {
 }
 
 .proposal-content-top-btn:hover {
-  color: #43aea8!important;
+  color: #43aea8 !important;
 }
 
 .proposal-content-top-btn:hover {

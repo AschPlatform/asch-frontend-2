@@ -77,28 +77,14 @@
 </template>
 
 <script>
-import {
-  QTable,
-  QBtn,
-  QTooltip,
-  QTd,
-  QDialog,
-  QField
-} from 'quasar'
 import { toast, translateErrMsg } from '../utils/util'
 import { createVote } from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
+import { QIcon, QTable, QTooltip, QField, QDialog, QBtn } from 'quasar'
 
 export default {
   props: ['userObj'],
-  components: {
-    QTable,
-    QBtn,
-    QTooltip,
-    QTd,
-    QDialog,
-    QField
-  },
+  components: { QIcon, QTable, QTooltip, QField, QDialog, QBtn },
   data() {
     return {
       delegatesData: null,

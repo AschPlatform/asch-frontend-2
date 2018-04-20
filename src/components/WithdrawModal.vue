@@ -31,7 +31,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import { QField, QInput } from 'quasar'
+import { QField, QInput, QModal, QSelect, QBtn } from 'quasar'
 import { secondPwd } from '../utils/validators'
 import { required, minValue } from 'vuelidate/lib/validators'
 import { toast, translateErrMsg } from '../utils/util'
@@ -40,7 +40,7 @@ import asch from '../utils/asch-v2'
 export default {
   name: 'WithdrawModal',
   props: ['user', 'assets', 'asset', 'show'],
-  components: { QField, QInput },
+  components: { QField, QInput, QModal, QSelect, QBtn },
   data() {
     return {
       currency: '',

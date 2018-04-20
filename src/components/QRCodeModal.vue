@@ -21,13 +21,14 @@
 
 <script>
 import VueQr from 'vue-qr'
-import { QDialog } from 'quasar'
+import { QDialog, QBtn } from 'quasar'
 
 export default {
   props: ['show', 'text', 'title', 'message'],
   components: {
     VueQr,
-    QDialog
+    QDialog,
+    QBtn
   },
   data() {
     return {}
@@ -41,5 +42,4 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-
 </style>
