@@ -195,7 +195,7 @@ import {
   QField,
   QInput,
   QTd
-  } from 'quasar'
+} from 'quasar'
 import { toast, toastInfo, translateErrMsg } from '../utils/util'
 import { fullTimestamp, createDelegate } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
