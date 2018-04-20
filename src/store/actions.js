@@ -140,6 +140,9 @@ export default {
   getProposal: ({ commit }, params) => {
     return api2.proposal(params)
   },
+  getProposalVotes: ({ commit }, params) => {
+    return api2.proposalVotes(params)
+  },
   getDeposits: ({ commit }, params) => {
     return api2.deposits(params)
   },
@@ -233,7 +236,6 @@ export default {
   // api2 post actions
   postProposal: ({ commit }, params) => {
     const secret = getCache('user').secret
-    console.log(secret)
     let trans = asch.createProposal(
       params.title,
       params.desc,
@@ -243,7 +245,22 @@ export default {
       secret,
       params.secondPwd || ''
     )
-    console.log(trans, 'here came the crafted trans')
+    api.broadcastTransaction(trans)
+  },
+  // vote proposal
+  voteProposal: ({ commit }, params) => {
+    let trans = asch.voteProposal(
+      params.tid,
+      params.secondPwd || ''
+    )
+    api.broadcastTransaction(trans)
+  },
+  // active proposal
+  activeProposal: ({ commit }, params) => {
+    let trans = asch.activateProposal(
+      params.tid,
+      params.secondPwd || ''
+    )
     api.broadcastTransaction(trans)
   }
 }

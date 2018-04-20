@@ -53,8 +53,15 @@
                           internal vue-router navigation
                         -->
       <q-list no-border link inset-delimiter>
-        <q-list-header>
-          <div class="menu-logo" /> </q-list-header>
+        <q-list-header class="header-container row justify-left"  >
+          <div class="header-left row justify-center items-center" @click="toHome">
+            <span class="menu-logo"></span>
+          </div>
+          <div class="header-right margin-left-10" @click="toHome">
+            <span class="header-right-top">阿希网页钱包</span>
+            <span class="header-right-bottom font-12">Asch Wallet</span>
+          </div>
+        </q-list-header>
         <q-item class="list-item-container" item :to="getRouterConf('home')">
           <q-item-side icon="home" />
           <q-item-main :label="$t('HOME')" />
@@ -117,12 +124,12 @@
       <!-- common component with event -->
       <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false" />
   
-      <q-modal v-model="transShow" no-backdrop-dismiss>
+      <q-modal class="transfer-modal-container" v-model="transShow" no-backdrop-dismiss>
         <div class="col-8">
           <trans-panel :showTitle="true" :assets="assets" :asset="asset" :user="userInfo">
             <div slot="btns" slot-scope="props" class="row col-12 justify-between">
+              <q-btn big outline class="col-auto" color="secondary" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
               <q-btn big class="col-auto" color="secondary" @click="sendTrans(props.send)" :label="$t('SEND')" />
-              <q-btn big class="col-auto" color="secondary" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
             </div>
           </trans-panel>
         </div>
@@ -230,6 +237,9 @@ export default {
       'setUserIsLogin',
       'setBalances'
     ]),
+    toHome() {
+      this.$router.push('home')
+    },
     logout() {
       removeCache('user')
       this.setUserIsLogin(false)
@@ -307,7 +317,6 @@ export default {
   async mounted() {
     let user = this.userInfo || getCache('user') || null
     if (!user) {
-      console.log('no session data, please login...')
       this.$router.push('/login')
     } else {
       let res = await this.getAccountsInfo({
@@ -396,11 +405,40 @@ body {
   }
 }
 
+.q-list-header {
+  padding-left: 40px !important;
+  cursor: pointer;
+}
+
+.header-left {
+  width: 82px;
+  height: 82px;
+  background: #3e4654;
+  border-radius: 10px;
+}
+
+.header-right {
+  padding-top: 20px;
+  line-height: 20px;
+}
+
 .menu-logo {
-  background: url('../assets/logo.png') no-repeat;
+  display: block;
+  background: url('../assets/logo1.png') no-repeat;
   background-size: 100%;
-  width: 260px;
-  height: 77px;
+  width: 40px;
+  height: 40px;
+}
+
+.header-right-top {
+  display: block;
+  font-size: 23px;
+  color: #bdc2cb;
+}
+
+.header-right-bottom {
+  margin-top: 10px;
+  color: #bdc2cb;
 }
 
 .q-field {
@@ -472,7 +510,7 @@ body {
 .footer-container {
   background: #f0f3f6;
   height: 40px;
-  line-height 40px 
+  line-height: 40px;
 }
 
 .footer-left {
@@ -485,5 +523,12 @@ body {
 .footer-introduce {
   padding: 0 10px;
   color: #999999;
+}
+
+.transfer-modal-container {
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 }
 </style>

@@ -424,7 +424,6 @@ export default {
     },
     p_selected: {
       isSelected() {
-        debugger
         if (this.first_type === 'change' || this.first_type === 'change_n') {
           if (this.p_selected === null && this.$v.p_selected.$dirty !== false) {
             return true
@@ -538,7 +537,6 @@ export default {
       if (this.first_type === 'new_n') {
         // launch a new gateway
         this.p_desc = this.brief
-        debugger
         content = {
           name: this.NEW.name,
           desc: this.NEW.currencyBrief,
@@ -600,7 +598,6 @@ export default {
       obj.topic = this.countedType
       obj.endHeight = this.endHeight
       obj.secondPwd = this.secondPwd
-      debugger
       let result = this.postProposal(obj)
       if (result.success) {
         toast('LAUNCH_MODAL.LAUNCH_SUCCESS')

@@ -198,6 +198,11 @@ api2.proposal = params => {
   return fetch(urls.v2.proposal, params, 'get')
 }
 
+// 根据 tid 获取提案投票情况
+api2.proposalVotes = params => {
+  return fetch(urls.v2.proposalVotes, params, 'get')
+}
+
 // 获取所有跨链充值记录
 api2.deposits = params => {
   return fetch(urls.v2.deposits, params, 'get')

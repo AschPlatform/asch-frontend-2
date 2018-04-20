@@ -1,5 +1,5 @@
 <template>
-  <q-modal content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
+  <q-modal minimized content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
     <div class="col-6">
       <h4>{{$t('DEPOSIT')}}</h4>
       <div v-if="account" class="row justify-center">
@@ -13,7 +13,7 @@
             :float-label="$t('DAPP_CATEGORY')"
             :options="assetsOpt" />
       </q-field>
-        <q-btn color="primary" @click="close" :label="$t('label.close')"/>
+        <q-btn color="secondary" @click="close" :label="$t('label.close')"/>
       </div>
     <div v-else >
       <h5>{{$t('DEPOSIT_NO_ADDR_TIP',{ currency: currency })}}</h5>
@@ -29,7 +29,7 @@
       </q-field>
       <br />
       <div class="row justify-around">
-        <q-btn rounded color="primary" :label="$t('OPEN_ADDR')" @click="openAddr" />
+        <q-btn rounded color="secondary" :label="$t('OPEN_ADDR')" @click="openAddr" />
         <q-btn rounded :label="$t('CANCEL')" @click="$emit('close')" />
       </div>
     </div>

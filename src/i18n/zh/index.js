@@ -489,7 +489,13 @@ const lang = {
     SELECT_CHANGENET: '更改网关',
     SELECT_INITNET: '网关初始化',
     SELECT_NETPERIOD: '更新最低更新频率',
-    SELECT_NETMEMBER: '更新成员'
+    SELECT_NETMEMBER: '更新成员',
+    VOTE_STATUS: '共计{number}人参与了投票 ，得票率{rate}%',
+    ACTIVATED: '已激活',
+    EXPIRED: '已过期',
+    ACTIVE: '激活',
+    ACTIVE_SUCCESS: '激活成功',
+    VOTE_SUCCESS: '投票成功'
   },
   LAUNCH_MODAL: {
     MEMBER_NUMBER: '成员数量',
@@ -518,7 +524,10 @@ const lang = {
     CURRENCY_BRIEF: '该币种介绍',
     CURRENCY_BRIEF_TIP: '需要填写该币种介绍',
     ERR_INVALID_FORM: '表单填写不完整或未按照要求',
-    LAUNCH_SUCCESS: '发起提案成功'
+    LAUNCH_SUCCESS: '发起提案成功',
+    PROPOSE: '提议',
+    VOTE_LIST: '投票成员名单',
+    PROPOSE_END: '成为网关成员'
   },
   DETAIL_MODAL: {
     MEMBER_CHIPS_PRE: '投票成员名单',
@@ -537,6 +546,10 @@ const lang = {
     PERIOD_TITLE: '我提议修改当前理事会成员任职周期由{pre}替换为{post}',
     ADD_TITLE: '我提议增加如下受托人成为新的理事会成员',
     REMOVE_TITLE: '我提议撤销如下理事会成员',
+    INIT_TIP_PRE: '初始化前成员数量{number}名',
+    INIT_TIP_POST: '初始化后成员数量{number}名',
+    MEMBER_TIP_PRE: '变更前成员:',
+    MEMBER_TIP_POST: '变更后成员:',
     INSTEAD_TITLE_PRE: '我提议撤销如下理事会成员',
     INSTEAD_TITLE_POST: '增加如下受托人成为新的理事会成员'
   },

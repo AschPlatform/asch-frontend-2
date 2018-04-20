@@ -11,7 +11,10 @@
          {{$t('PAY_TIP')}}
       </span>
     </div>
-    <div class="transfer-top-container" v-if="user && user.account" >
+    <div class="transfer-top-Portraits row justify-center" v-if="showTitle">
+     <jdenticon class="transfer-jdenticon" :address="form.receiver" :size="60" />
+    </div>
+    <div class="transfer-bottom-container" v-if="user && user.account" >
       <q-field class="col-12 text-four" :label="$t('RECIPIENT')+':'" :label-width="3">
         <!-- <jdenticon  :address="form.receiver" :size="50" /> -->
         <q-input class="col-8" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" :placeholder="$t('RECIPIENT_NAME_ADDRESS')"/>
@@ -39,6 +42,7 @@
         <slot name="btns" :send="send" :cancel="cancel" />
       </div>
     </div>
+    
   </div>
 </template>
 
@@ -200,12 +204,32 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 .transPanel-container {
   padding-bottom: 50px;
 }
 
 .transfer-top-container {
   padding: 0 50px;
+  height: 62px;
+  line-height: 62px;
+}
+
+.transfer-bottom-container {
+  padding: 0 50px;
+}
+
+.transfer-top-Portraits {
+  padding: 20px 0;
+}
+
+.transfer-jdenticon {
+  border-radius: 50%;
+  border: 1px solid #999999;
 }
 
 .panelBtn {

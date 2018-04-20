@@ -404,7 +404,6 @@ export default {
       }
     },
     closeModal() {
-      console.log('should something happen')
       this.isModalShow = false
     },
     changeData() {
