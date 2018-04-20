@@ -581,7 +581,7 @@ const lang = {
   lang: 'zh-hans',
   label: {
     clear: '清空',
-    ok: '确定',
+    ok: '确认',
     cancel: '取消',
     close: '关闭',
     set: '设置',

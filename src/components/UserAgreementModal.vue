@@ -1,5 +1,5 @@
 <template>
-  <q-modal content-classes="layout-padding" v-model="show" maximized>
+  <q-modal class="user-agreement-container" content-classes="layout-padding" v-model="show" maximized>
     <q-card class="col-12" >
       <q-card-title>
         {{title}}
@@ -10,14 +10,14 @@
             <div>{{content}}</div>
         </q-scroll-area>
         <q-checkbox class="q-mt-sm" v-model="checked" :label="$t('I_AGREE')" />
-        <div class="text-center">
+        <div class="text-right text-secondary">
          {{tips}}
         </div>
       </q-card-main>
       <q-card-main>
-        <div class="justify-around row">
-          <q-btn size="md" :label="$t('label.cancel')" @click="cancel"/>
-          <q-btn color="primary" :disable="!checked" :label="$t('label.ok')" @click="confirm"/>
+        <div class="justify-left row">
+          <q-btn big class="bg-secondary text-white" :disable="!checked" :label="$t('label.ok')" @click="confirm"/>
+          <q-btn big outline class="agreement-btn-2" color="secondary" size="md" :label="$t('label.cancel')" @click="cancel"/>
         </div>
       </q-card-main>
     </q-card>
@@ -65,4 +65,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.user-agreement-container {
+}
+
+.agreement-btn-2 {
+  margin-left: 20px;
+}
 </style>
