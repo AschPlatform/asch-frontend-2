@@ -5,9 +5,9 @@
       <div v-if="account">
         <vue-qr :size="200" :text="account.address || 'no data'"></vue-qr>
         <br />
-        <div class="col-12 text-center" >{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info('copy success...')" flat icon='content copy' round/></div>
-        <p>{{$t('DEPOSIT_TIP',{ currency: currency })}}</p>
-        <q-field class="col-12" >
+        <div class="col-6 text-center" >{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info('copy success...')" flat icon='content copy' round/></div>
+        <div class="deposit-text col-6">{{$t('DEPOSIT_TIP',{ currency: currency })}}</div>
+        <q-field class="col-9" >
           <q-select
             v-model="currency"
             :float-label="$t('DAPP_CATEGORY')"
@@ -137,5 +137,9 @@ export default {
 .deposit-modal-container {
   // width: 20%;
   // min-width: 400px;
+}
+
+.deposit-text {
+  max-width: 400px;
 }
 </style>
