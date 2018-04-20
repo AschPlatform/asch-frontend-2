@@ -1,57 +1,61 @@
 <template>
-  <q-page >
-    <div class="no-wrap q-pa-md row justify-between">
-      <span>
-        <i class="material-icons vertical-align-sub font-24 text-black">border_color</i>
-        <h5 class="q-px-md inline-block">{{$t('GATEWAY_PARTICULARS')}}</h5>
-        </span>
-      <!-- <q-btn color="secondary" class="self-center" @click="$router.push('gateway')">
-        {{$t('CANCEL')}}
-      </q-btn> -->
-    </div>
-    <div class="row q-px-md gutter-md">
-      <div class="col-8">
-        <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading">
-  
-          <q-td slot="body-cell-operation" slot-scope="props" :props="props">
-            <div class="text-secondary" @click="viewAccountInfo(props.row)">
-              {{$t('CHECK')}}
-            </div>
-          </q-td>
-  
-          <!-- <q-td slot="body-cell-"  slot-scope="props" :props="props">
-            <div class="text-primary" @click="viewAccountInfo(props.row)">
-              {{$t('CHECK')}}
-            </div>
-          </q-td> -->
-  
-        </q-table>
+  <q-page class="gatewayDetail-container">
+    <div class="gatewayDetail-content">
+      <div class="no-wrap q-pa-md row justify-between">
+        <span>
+          <i class="material-icons vertical-align-sub font-24 text-black">border_color</i>
+          <h5 class="q-px-md inline-block">{{$t('GATEWAY_PARTICULARS')}}</h5>
+          </span>
+        <!-- <q-btn color="secondary" class="self-center" @click="$router.push('gateway')">
+          {{$t('CANCEL')}}
+        </q-btn> -->
       </div>
-      <div v-if="gateway" class="col-4">
+      <div class="row q-px-md gutter-md">
+        <div class="col-8">
+          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading">
+  
+            <q-td slot="body-cell-operation" slot-scope="props" :props="props">
+              <div class="text-secondary" @click="viewAccountInfo(props.row)">
+                {{$t('CHECK')}}
+              </div>
+            </q-td>
+  
+            <!-- <q-td slot="body-cell-"  slot-scope="props" :props="props">
+              <div class="text-primary" @click="viewAccountInfo(props.row)">
+                {{$t('CHECK')}}
+              </div>
+            </q-td> -->
+  
+          </q-table>
+        </div>
+        <div v-if="gateway" class="col-4">
           <q-card class="gateway-modal-right-card no-shadow" align="left">
             <div class=" modal-right-container shadow-2">
-            <q-card-title class="bg-nine">
-              <span class="font-16 text-black">{{gateway.name}}</span>
-            </q-card-title>
-            <q-card-main>
-              <span class="font-16 text-five">{{gateway.desc}}</span>
-            </q-card-main>
+              <q-card-title class="bg-nine">
+                <span class="font-16 text-black">{{gateway.name}}</span>
+              </q-card-title>
+              <q-card-main>
+                <span class="font-16 text-five">{{gateway.desc}}</span>
+              </q-card-main>
             </div>
           </q-card>
-        <q-card class="gateway-modal-right-card no-shadow" align="left">
-          <div class="modal-right-container modal-right-container-bottom shadow-2 row">
-          <q-card-title class="bg-nine self-start bottom-container-top">
-            <span class="font-16 text-black">{{$t('UPDATE_LIMIT')}}</span>
-          </q-card-title>
-          <q-card-main class="self-end bottom-container-bottom">
-            <span class="font-24 text-secondary">{{convertFrequency(gateway.updateInterval)}}{{$t('FRAGIL_DAY')}}</span>
-          </q-card-main>
-          </div>
-        </q-card>
+          <q-card class="gateway-modal-right-card no-shadow" align="left">
+            <div class="modal-right-container modal-right-container-bottom shadow-2 row">
+              <q-card-title class="bg-nine self-start bottom-container-top">
+                <span class="font-16 text-black">{{$t('UPDATE_LIMIT')}}</span>
+              </q-card-title>
+              <q-card-main class="self-end bottom-container-bottom">
+                <span class="font-24 text-secondary">{{convertFrequency(gateway.updateInterval)}}{{$t('FRAGIL_DAY')}}</span>
+              </q-card-main>
+            </div>
+          </q-card>
+        </div>
       </div>
     </div>
+  
   </q-page>
 </template>
+
 <script>
 import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd } from 'quasar'
 import { mapActions } from 'vuex'
@@ -166,6 +170,16 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.gatewayDetail-container {
+  padding: 20px;
+}
+
+.gatewayDetail-content {
+  background: #ffffff !important;
+  padding-bottom: 40px;
+  border-radius: 6px;
+}
+
 .q-table-top {
   background: #e7ebee !important;
 }
@@ -175,7 +189,7 @@ export default {
 }
 
 .modal-right-container {
-  background #ffffff
+  background: #ffffff;
   height: calc(100% - 10px);
 }
 
