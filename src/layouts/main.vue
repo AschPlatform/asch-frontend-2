@@ -231,8 +231,8 @@ export default {
       'setUserIsLogin',
       'setBalances'
     ]),
-    toHome(){
-       this.$router.push('home')
+    toHome() {
+      this.$router.push('home')
     },
     logout() {
       removeCache('user')
