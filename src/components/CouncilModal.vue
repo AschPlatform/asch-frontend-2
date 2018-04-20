@@ -1,5 +1,5 @@
 <template>
-  <q-modal v-if="this.item" v-model="show" maximized no-esc-dismiss>
+  <q-modal v-model="show" maximized no-esc-dismiss>
     <div class="no-wrap q-pa-md row justify-between">
       <h5 class="q-px-md inline-block">{{$t('COUNCIL_MEMBER')}}</h5>
       <q-btn color="warning" class="self-center" @click="closeModal">

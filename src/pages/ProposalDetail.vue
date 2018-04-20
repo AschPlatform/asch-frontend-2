@@ -128,6 +128,20 @@ import {
 
 export default {
   name: 'ProposalDetail',
+  components: {
+    QPage,
+    QField,
+    QModal,
+    QInput,
+    QCard,
+    QCardMain,
+    QCardTitle,
+    QCardSeparator,
+    QCheckbox,
+    QChipsInput,
+    memberIndicator,
+    QIcon
+  },
   props: ['user'],
   data() {
     return {
@@ -151,20 +165,6 @@ export default {
       isBtnAble: true,
       btnInfo: ''
     }
-  },
-  components: {
-    QPage,
-    QField,
-    QModal,
-    QInput,
-    QCard,
-    QCardMain,
-    QCardTitle,
-    QCardSeparator,
-    QCheckbox,
-    QChipsInput,
-    QIcon,
-    memberIndicator
   },
   methods: {
     ...mapActions([
@@ -201,7 +201,7 @@ export default {
       })
       let ls = []
       if (res.success) {
-        this._.each(res.votes, o => {
+        this._.each(res.votes, (o) => {
           return ls.push(o.voter)
         })
       }
@@ -213,7 +213,7 @@ export default {
       let res = await this.getGatewayDelegates(name)
       if (res.success) {
         let ls = []
-        this._.each(res.validators, o => {
+        this._.each(res.validators, (o) => {
           if (o.elected === 1) {
             return ls.push(o.address)
           }
