@@ -1,28 +1,32 @@
 <template>
   <q-modal content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
-    <div class="col-6">
-      <h4>{{$t('WITHDRAW')}}</h4>
-      <div  class="row justify-center">
-        <q-field class="col-12">
+    <div class="col-12 widthdraw-modal-content">
+      <!-- <h4>{{$t('WITHDRAW')}}</h4> -->
+      <div class="bg-secondary padding-40 height-62">
+        <span class="text-white font-24">{{$t('WITHDRAW')}} </span>
+        <span class="font-12 text-white">{{$t('DEPOSIT_TIP2')}} </span>
+        </div>
+      <div  class="row justify-center padding-40">
+        <q-field class="col-12 margin-top-54">
         <q-input :float-label="$t('RECIPIENT')" @blur="$v.form.address.$touch" v-model="form.address" :error="$v.form.address.$error" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" />
         </q-field>
-        <q-field class="col-12">
+        <q-field class="col-12 margin-top-54">
          <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="1" :error="$v.form.amount.$error" :error-label="$t('ERR_AMOUNT_INVALID')" />
         </q-field>
-        <q-field class="col-12" >
+        <q-field class="col-12 margin-top-54" >
           <q-select
             v-model="currency"
             :float-label="$t('DAPP_CATEGORY')"
             :options="assetsOpt" />
             <p v-if="currency" >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
         </q-field>
-        <q-field v-if="secondSignature" class="col-12">
+        <q-field v-if="secondSignature" class="col-12 margin-top-54">
           <q-input :float-label="$t('SECOND_PASSWORD')" v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
         </q-field>
        
-        <div class="row col-12 justify-around q-mt-lg">
-          <q-btn rounded color="primary" @click="withdraw" :label="$t('WITHDRAW')"/>
-          <q-btn rounded @click="close" :label="$t('label.close')"/>
+        <div class="row col-12 justify-around q-mt-lg margin-top-54">
+          <q-btn class="col-4" outline big color="secondary"  @click="close" :label="$t('label.cancel')"/>
+          <q-btn class="col-4" big color="secondary" @click="withdraw" :label="$t('WITHDRAW')"/>
         </div>
       </div>
     </div>
@@ -149,4 +153,15 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+.widthdraw-modal-content {
+  padding-bottom: 54px;
+}
+
+.margin-top-54 {
+  margin-top: 54px;
+}
+
+.padding-40 {
+  padding: 0 40px;
+}
 </style>

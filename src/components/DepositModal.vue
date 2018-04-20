@@ -1,6 +1,6 @@
 <template>
-  <q-modal minimized content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
-    <div class="col-6">
+  <q-modal content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
+    <div class="col-8">
       <h4>{{$t('DEPOSIT')}}</h4>
       <div v-if="account" class="row justify-center">
         <vue-qr :size="200" :text="account.address || 'no data'"></vue-qr>
@@ -32,9 +32,7 @@
         <q-btn rounded color="secondary" :label="$t('OPEN_ADDR')" @click="openAddr" />
         <q-btn rounded :label="$t('CANCEL')" @click="$emit('close')" />
       </div>
-    </div>
-    
-      
+    </div> 
     </div>
     
   </q-modal>

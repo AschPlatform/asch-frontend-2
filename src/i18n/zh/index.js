@@ -351,6 +351,7 @@ const lang = {
   QRCODE_CLOSE: '点击二维码关闭',
 
   // ============== new add =================
+  CANAEL: '取消',
   RECIPIENT_NAME_ADDRESS: '请输入需要转账的账户名或者钱包地址',
   RECORD: '记录',
   MAIN_ASSET: '主资产',
@@ -367,6 +368,7 @@ const lang = {
   DEPOSIT_NO_ADDR_TIP: '你尚未开通 {currency} 钱包收款地址',
   DEPOSIT_TIP:
     '请将 {currency}充值到上述地址，该地址仅支持接收 {currency}，如果需要转入其他 token，请切换到相对应的 token 获取转入地址 钱包收款地址',
+  DEPOSIT_TIP2: '*为避免造成财产损失，请务必确认您的提现地址，本操作无法撤销',
   OPEN_ADDR: '开通',
   VOTE_DELEGATE: '票权代理人',
   VOTE_DELEGATE_DETAIL: '代理人详情',
