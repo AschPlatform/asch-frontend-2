@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import { QTabs, QRouteTab, QPage, QTab, QTabPane } from 'quasar'
+import { QTabs, QRouteTab, QPage, QTab, QTabPane, QIcon } from 'quasar'
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
 // import { createVote } from '../utils/asch'
 import asch from '../utils/asch-v2'
@@ -96,7 +96,8 @@ export default {
     QTab,
     QTabPane,
     voteRecord,
-    myVoteDelegate
+    myVoteDelegate,
+    QIcon
   },
   data() {
     return {

@@ -53,7 +53,7 @@
   </q-page>
 </template>
 <script>
-import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn } from 'quasar'
+import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd } from 'quasar'
 import { mapActions } from 'vuex'
 
 export default {
@@ -65,7 +65,8 @@ export default {
     QCard,
     QCardTitle,
     QCardMain,
-    QBtn
+    QBtn,
+    QTd
   },
   data() {
     return {

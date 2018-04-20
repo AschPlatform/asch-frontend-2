@@ -70,6 +70,7 @@ import {
   QCardSeparator,
   QCardActions,
   QItemTile,
+  QItemMain,
   openURL,
   QTimeline,
   QTimelineEntry
@@ -84,7 +85,8 @@ export default {
     QCardActions,
     QItemTile,
     QTimeline,
-    QTimelineEntry
+    QTimelineEntry,
+    QItemMain
   },
   data() {
     return {

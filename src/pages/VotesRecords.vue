@@ -80,9 +80,11 @@
 import { toast, translateErrMsg } from '../utils/util'
 import { createVote } from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
+import { QIcon, QTable, QTooltip, QField, QDialog, QBtn } from 'quasar'
 
 export default {
   props: ['userObj'],
+  components: { QIcon, QTable, QTooltip, QField, QDialog, QBtn },
   data() {
     return {
       delegatesData: null,

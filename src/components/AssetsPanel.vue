@@ -44,7 +44,16 @@
 </template>
 
 <script>
-import { QCard, QCardMain, QItem, QItemSide, QItemTile, QCardActions, QBtn } from 'quasar'
+import {
+  QCard,
+  QCardMain,
+  QItem,
+  QItemSide,
+  QItemTile,
+  QCardActions,
+  QBtn,
+  QItemMain
+} from 'quasar'
 
 export default {
   name: 'AssetPanel',
@@ -56,7 +65,8 @@ export default {
     QItemSide,
     QItemTile,
     QCardActions,
-    QBtn
+    QBtn,
+    QItemMain
   },
   data() {
     return {}
@@ -110,8 +120,8 @@ export default {
 }
 
 .q-btn:hover {
-  color: #ffffff!important;
-  background: #43aea8!important;
+  color: #ffffff !important;
+  background: #43aea8 !important;
 }
 
 .q-btn {

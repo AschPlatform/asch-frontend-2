@@ -91,7 +91,8 @@ import {
   QCardTitle,
   QCardSeparator,
   QCheckbox,
-  QChipsInput
+  QChipsInput,
+  QIcon
 } from 'quasar'
 
 export default {
@@ -114,7 +115,8 @@ export default {
     QCardTitle,
     QCardSeparator,
     QCheckbox,
-    QChipsInput
+    QChipsInput,
+    QIcon
   },
   methods: {
     ...mapActions(['getProposal']),

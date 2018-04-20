@@ -166,7 +166,10 @@ import {
   QItemSide,
   QItemTile,
   QToolbar,
-  QToolbarTitle
+  QToolbarTitle,
+  QIcon,
+  QListHeader,
+  QAjaxBar
 } from 'quasar'
 
 import logo from '../assets/logo.png'
@@ -194,7 +197,10 @@ export default {
     QItemTile,
     QToolbar,
     QToolbarTitle,
-    TransInfoModal
+    TransInfoModal,
+    QIcon,
+    QListHeader,
+    QAjaxBar
   },
   data() {
     return {

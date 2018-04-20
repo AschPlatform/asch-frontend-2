@@ -142,7 +142,8 @@ import {
   QCardTitle,
   QCardActions,
   QCardMedia,
-  openURL
+  openURL,
+  QSelect
 } from 'quasar'
 export default {
   props: ['userObj'],
@@ -158,7 +159,8 @@ export default {
     QCardMain,
     QCardTitle,
     QCardActions,
-    QCardMedia
+    QCardMedia,
+    QSelect
   },
   data() {
     return {

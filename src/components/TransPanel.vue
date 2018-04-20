@@ -49,11 +49,11 @@ import { address, secondPwd } from '../utils/validators'
 import { required, maxLength, minValue } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
-import { QField, QInput } from 'quasar'
+import { QField, QInput, QSelect } from 'quasar'
 
 export default {
   props: ['user', 'asset', 'showTitle'],
-  components: { Jdenticon, QField, QInput },
+  components: { Jdenticon, QField, QInput, QSelect },
   data() {
     return {
       form: {

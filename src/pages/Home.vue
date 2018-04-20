@@ -106,7 +106,10 @@ import {
   QItem,
   QItemMain,
   QItemSide,
-  QItemTile
+  QItemTile,
+  QIcon,
+  QListHeader,
+  QAjaxBar
 } from 'quasar'
 
 export default {
@@ -126,7 +129,10 @@ export default {
     QItemMain,
     QItemSide,
     QItemTile,
-    TransRecordContainer
+    TransRecordContainer,
+    QIcon,
+    QListHeader,
+    QAjaxBar
   },
   data() {
     return {

@@ -217,7 +217,17 @@ import { toastWarn, toast, toastError, prompt, translateErrMsg } from '../utils/
 import { convertFee, fullTimestamp } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
-import { QPage, QCard, QCardTitle, QCardMain, QDialog, QDatetime, date, openURL } from 'quasar'
+import {
+  QPage,
+  QCard,
+  QCardTitle,
+  QCardMain,
+  QDialog,
+  QDatetime,
+  date,
+  openURL,
+  QBtn
+} from 'quasar'
 import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
@@ -237,7 +247,8 @@ export default {
     Jdenticon,
     QDialog,
     QDatetime,
-    UserAgreementModal
+    UserAgreementModal,
+    QBtn
   },
   data() {
     return {

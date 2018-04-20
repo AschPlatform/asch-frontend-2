@@ -41,7 +41,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { QField, QInput } from 'quasar'
+import { QField, QInput, QModal, QBtn, QSelect, QItemMain } from 'quasar'
 import VueQr from 'vue-qr'
 import { secondPwdReg } from '../utils/validators'
 import { toast, toastInfo, translateErrMsg } from '../utils/util'
@@ -50,7 +50,7 @@ import asch from '../utils/asch-v2'
 export default {
   name: 'DepositPanel',
   props: ['user', 'show'],
-  components: { QField, QInput, VueQr },
+  components: { QField, QInput, VueQr, QModal, QBtn, QSelect, QItemMain },
   data() {
     return {
       currency: '',
