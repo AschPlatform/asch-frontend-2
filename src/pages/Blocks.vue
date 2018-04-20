@@ -182,7 +182,20 @@
 </template>
 
 <script>
-import { QTable, QPage } from 'quasar'
+import {
+  QTable,
+  QPage,
+  QSearch,
+  QBtn,
+  QCard,
+  QCardTitle,
+  QCardSeparator,
+  QCardMain,
+  QModal,
+  QField,
+  QInput,
+  QTd
+  } from 'quasar'
 import { toast, toastInfo, translateErrMsg } from '../utils/util'
 import { fullTimestamp, createDelegate } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
@@ -193,9 +206,19 @@ import asch from '../utils/asch-v2'
 export default {
   props: ['userObj'],
   components: {
+    UserAgreementModal,
     QTable,
     QPage,
-    UserAgreementModal
+    QSearch,
+    QBtn,
+    QCard,
+    QCardTitle,
+    QCardSeparator,
+    QCardMain,
+    QModal,
+    QField,
+    QInput,
+    QTd
   },
   data() {
     return {

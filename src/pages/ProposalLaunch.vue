@@ -300,7 +300,9 @@ export default {
       first_type: null,
       p_time_start: null,
       p_time_end: null,
-      p_selected: null,
+      p_selected: {
+        name: ''
+      },
       second_type: null,
       // cannot init
       initFalse: false,
@@ -760,7 +762,9 @@ export default {
       this.first_type = null
       this.p_time_start = null
       this.p_time_end = null
-      this.p_selected = null
+      this.p_selected = {
+        name: ''
+      }
       this.secondPwd = ''
     },
     resetDetail() {

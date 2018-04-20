@@ -226,7 +226,9 @@ import {
   QDatetime,
   date,
   openURL,
-  QBtn
+  QBtn,
+  QField,
+  QInput
 } from 'quasar'
 import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
@@ -248,7 +250,11 @@ export default {
     QDialog,
     QDatetime,
     UserAgreementModal,
-    QBtn
+    QBtn,
+    date,
+    openURL,
+    QField,
+    QInput
   },
   data() {
     return {
@@ -322,7 +328,6 @@ export default {
       } else {
         let trans = asch.setsecondPassword(this.password, this.user.secret)
         let res = await this.broadcastTransaction(trans)
-        console.log(res)
         if (res.success === true) {
           toast(this.$t('INF_SECND_PASSWORD_SET_SUCCESS'))
           this.seted = true
