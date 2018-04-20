@@ -82,10 +82,10 @@
           <q-item-side icon="apps" />
           <q-item-main :label="$t('GATEWAY')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('council')">
+        <!-- <q-item class="list-item-container" item :to="getRouterConf('council')">
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('COUNCIL')" />
-        </q-item>
+        </q-item> -->
           <q-item class="list-item-container" item :to="getRouterConf('delegates')">
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
@@ -173,7 +173,10 @@ import {
   QItemSide,
   QItemTile,
   QToolbar,
-  QToolbarTitle
+  QToolbarTitle,
+  QIcon,
+  QListHeader,
+  QAjaxBar
 } from 'quasar'
 
 import logo from '../assets/logo.png'
@@ -201,7 +204,10 @@ export default {
     QItemTile,
     QToolbar,
     QToolbarTitle,
-    TransInfoModal
+    TransInfoModal,
+    QIcon,
+    QListHeader,
+    QAjaxBar
   },
   data() {
     return {

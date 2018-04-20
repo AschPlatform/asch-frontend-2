@@ -27,7 +27,7 @@
   
         </q-table>
       </div>
-      <div class="col-4">
+      <div v-if="gateway" class="col-4">
           <q-card class="gateway-modal-right-card no-shadow" align="left">
             <div class=" modal-right-container shadow-2">
             <q-card-title class="bg-nine">
@@ -53,7 +53,7 @@
   </q-page>
 </template>
 <script>
-import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn } from 'quasar'
+import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd } from 'quasar'
 import { mapActions } from 'vuex'
 
 export default {
@@ -65,7 +65,8 @@ export default {
     QCard,
     QCardTitle,
     QCardMain,
-    QBtn
+    QBtn,
+    QTd
   },
   data() {
     return {
@@ -113,7 +114,7 @@ export default {
       },
       loading: false,
       datas: [],
-      gateway: {}
+      gateway: null
     }
   },
 

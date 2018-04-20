@@ -143,7 +143,9 @@ import {
   QCardTitle,
   QCardSeparator,
   QCheckbox,
-  QChipsInput
+  QChipsInput,
+  QIcon,
+  QBtn
 } from 'quasar'
 
 export default {
@@ -217,7 +219,9 @@ export default {
     QCardTitle,
     QCardSeparator,
     QCheckbox,
-    QChipsInput
+    QChipsInput,
+    QIcon,
+    QBtn
   },
   methods: {
     hideModal() {

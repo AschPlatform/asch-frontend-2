@@ -217,7 +217,19 @@ import { toastWarn, toast, toastError, prompt, translateErrMsg } from '../utils/
 import { convertFee, fullTimestamp } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
-import { QPage, QCard, QCardTitle, QCardMain, QDialog, QDatetime, date, openURL } from 'quasar'
+import {
+  QPage,
+  QCard,
+  QCardTitle,
+  QCardMain,
+  QDialog,
+  QDatetime,
+  date,
+  openURL,
+  QBtn,
+  QField,
+  QInput
+} from 'quasar'
 import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
@@ -237,7 +249,12 @@ export default {
     Jdenticon,
     QDialog,
     QDatetime,
-    UserAgreementModal
+    UserAgreementModal,
+    QBtn,
+    date,
+    openURL,
+    QField,
+    QInput
   },
   data() {
     return {
@@ -310,9 +327,7 @@ export default {
         toastWarn(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
       } else {
         let trans = asch.setsecondPassword(this.password, this.user.secret)
-        console.log(trans)
         let res = await this.broadcastTransaction(trans)
-        console.log(res)
         if (res.success === true) {
           toast(this.$t('INF_SECND_PASSWORD_SET_SUCCESS'))
           this.seted = true

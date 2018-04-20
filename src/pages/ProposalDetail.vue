@@ -122,11 +122,26 @@ import {
   QCardTitle,
   QCardSeparator,
   QCheckbox,
-  QChipsInput
+  QChipsInput,
+  QIcon
 } from 'quasar'
 
 export default {
   name: 'ProposalDetail',
+  components: {
+    QPage,
+    QField,
+    QModal,
+    QInput,
+    QCard,
+    QCardMain,
+    QCardTitle,
+    QCardSeparator,
+    QCheckbox,
+    QChipsInput,
+    memberIndicator,
+    QIcon
+  },
   props: ['user'],
   data() {
     return {
@@ -151,21 +166,14 @@ export default {
       btnInfo: ''
     }
   },
-  components: {
-    QPage,
-    QField,
-    QModal,
-    QInput,
-    QCard,
-    QCardMain,
-    QCardTitle,
-    QCardSeparator,
-    QCheckbox,
-    QChipsInput,
-    memberIndicator
-  },
   methods: {
-    ...mapActions(['getProposal', 'getGatewayDelegates', 'getProposalVotes', 'voteProposal', 'activeProposal']),
+    ...mapActions([
+      'getProposal',
+      'getGatewayDelegates',
+      'getProposalVotes',
+      'voteProposal',
+      'activeProposal'
+    ]),
     back() {
       this.$router.back()
     },
@@ -193,19 +201,19 @@ export default {
       })
       let ls = []
       if (res.success) {
-        this._.each(res.votes, function (o) {
+        this._.each(res.votes, (o) => {
           return ls.push(o.voter)
         })
       }
       this.voteList = ls
       this.voteTotalNum = res.totalCount
-      this.votePassRate = ((res.validCount / res.totalCount) * 100).toFixed(0)
+      this.votePassRate = (res.validCount / res.totalCount * 100).toFixed(0)
     },
     async getValidatorInfo(name) {
       let res = await this.getGatewayDelegates(name)
       if (res.success) {
         let ls = []
-        this._.each(res.validators, function (o) {
+        this._.each(res.validators, (o) => {
           if (o.elected === 1) {
             return ls.push(o.address)
           }
@@ -213,7 +221,8 @@ export default {
         // directly envalue both the list
         this.preMemberList = ls
         this.postMemberList = ls
-      } if (this.detail.activated === 1) {
+      }
+      if (this.detail.activated === 1) {
         this.btnInfo = 'proposal.ACTIVATED'
         this.isBtnAble = false
       } else if (this.detail.endHeight < this.latestBlock.height) {
@@ -314,5 +323,4 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
 </style>

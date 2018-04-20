@@ -28,8 +28,10 @@
 
 <script>
 import { toast } from '../utils/util'
+import { QModal, QBtn } from 'quasar'
 export default {
   props: ['show', 'account'],
+  components: { QModal, QBtn },
   data() {
     return {}
   },
@@ -46,5 +48,4 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-
 </style>

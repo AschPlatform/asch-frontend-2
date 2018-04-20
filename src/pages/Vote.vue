@@ -78,13 +78,13 @@
 </template>
 
 <script>
-import { QTabs, QRouteTab, QPage, QTab, QTabPane } from 'quasar'
+import { QTabs, QRouteTab, QPage, QTab, QTabPane, QIcon, QTable, QTd, QBtn, QField, QInput } from 'quasar'
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
 // import { createVote } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
-import voteRecord from '../components/voteRecord'
-import myVoteDelegate from '../components/myVoteDelegate'
+import voteRecord from '../components/VoteRecord'
+import myVoteDelegate from '../components/MyVoteDelegate'
 import { secondPwdReg } from '../utils/validators'
 
 export default {
@@ -96,7 +96,13 @@ export default {
     QTab,
     QTabPane,
     voteRecord,
-    myVoteDelegate
+    myVoteDelegate,
+    QIcon,
+    QTable,
+    QBtn,
+    QTd,
+    QField,
+    QInput
   },
   data() {
     return {

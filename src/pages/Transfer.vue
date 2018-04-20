@@ -30,12 +30,11 @@
 <script>
 import TransPanel from '../components/TransPanel'
 import { mapGetters, mapActions } from 'vuex'
+import { QCardMain, QCard, QCardTitle, QSelect, QBtn } from 'quasar'
 
 export default {
   props: ['userObj'],
-  components: {
-    TransPanel
-  },
+  components: { QCardMain, QCard, QCardTitle, QSelect, QBtn, TransPanel },
   data() {
     return {}
   },

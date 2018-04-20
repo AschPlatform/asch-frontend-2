@@ -75,7 +75,8 @@ import {
   QTabPane,
   QModalLayout,
   QToolbar,
-  QToolbarTitle
+  QToolbarTitle,
+  QIcon
 } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 
@@ -94,7 +95,8 @@ export default {
     QTabPane,
     QModalLayout,
     QToolbar,
-    QToolbarTitle
+    QToolbarTitle,
+    QIcon
   },
   data() {
     return {

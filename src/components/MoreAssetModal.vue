@@ -51,6 +51,7 @@ import {
   QItem,
   QItemSide,
   QItemTile,
+  QItemMain,
   QCardActions,
   QBtn
 } from 'quasar'
@@ -74,6 +75,7 @@ export default {
     QItem,
     QItemSide,
     QItemTile,
+    QItemMain,
     QCardActions,
     QBtn
   },

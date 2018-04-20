@@ -267,11 +267,30 @@ import {
   QSelect,
   QCheckbox,
   QDatetime,
-  QChipsInput
+  QChipsInput,
+  QIcon,
+  QPage,
+  QBtn
 } from 'quasar'
 
 export default {
   name: 'ProposalLaunch',
+  components: {
+    QField,
+    QModal,
+    QInput,
+    QCard,
+    QCardMain,
+    QCardTitle,
+    QCardSeparator,
+    QSelect,
+    QCheckbox,
+    QDatetime,
+    QChipsInput,
+    QIcon,
+    QPage,
+    QBtn
+  },
   props: ['show'],
   data() {
     return {
@@ -281,7 +300,9 @@ export default {
       first_type: null,
       p_time_start: null,
       p_time_end: null,
-      p_selected: null,
+      p_selected: {
+        name: ''
+      },
       second_type: null,
       // cannot init
       initFalse: false,
@@ -362,8 +383,7 @@ export default {
       INIT: {
         selected: []
       },
-      REMOVE: {
-      },
+      REMOVE: {},
       PERIOD: {
         pre: null,
         post: null
@@ -430,7 +450,13 @@ export default {
     },
     second_type: {
       test(val) {
-        if (this.first_type !== 'new' && this.first_type !== 'new_n' && this.first_type !== null && this.first_type !== null && this.$v.second_type.$dirty !== false) {
+        if (
+          this.first_type !== 'new' &&
+          this.first_type !== 'new_n' &&
+          this.first_type !== null &&
+          this.first_type !== null &&
+          this.$v.second_type.$dirty !== false
+        ) {
           if (val === null) {
             return true
           }
@@ -493,24 +519,9 @@ export default {
         required
       }
     },
-    REMOVE: {
-    }
+    REMOVE: {}
   },
-  components: {
-    QField,
-    QModal,
-    QInput,
-    QCard,
-    QCardMain,
-    QCardTitle,
-    QCardSeparator,
-    QSelect,
-    QCheckbox,
-    QDatetime,
-    QChipsInput
-  },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     ...mapActions(['postProposal', 'getGateways', 'getGatewayDelegates']),
     hideModal() {
@@ -582,7 +593,6 @@ export default {
           return
         }
       }
-      console.log(this.$v)
       let obj = {}
       obj.content = this.compileContent()
       obj.title = this.p_title
@@ -600,20 +610,18 @@ export default {
     },
     // select component change func
     detectChange() {
-      console.log('changed')
     },
     // info get funcs
     async getAllGate() {
       let res = await this.getGateways()
       let ls = []
-      this._.each(res.gateways, function (o) {
+      this._.each(res.gateways, o => {
         return ls.push({
           label: o.name,
           value: o
         })
       })
       this.netList = ls
-      console.log(this.netList)
     },
     async getAllDelegates() {
       // params :  filter
@@ -621,7 +629,6 @@ export default {
       // 1 for elected
       // 2 for all
       // params : obj for the state this response to replace
-      console.log('GET IN GET FUNCS')
       let res = await this.getGatewayDelegates({
         name: this.p_selected.name
       })
@@ -665,12 +672,11 @@ export default {
     // to form init list
     async formInitList() {
       let that = this
-      console.log('GET IN FORM FUNC')
       let res = await this.getGatewayDelegates({
         name: this.p_selected.name
       })
       let ls = []
-      this._.each(res.validators, function (o) {
+      this._.each(res.validators, o => {
         // cannot init detect
         if (o.elected === 1) {
           that.initFalse = false
@@ -684,20 +690,18 @@ export default {
       this.delegateList = ls
     },
     async formMemberList() {
-      console.log('GET IN FORM FUNC')
       let res = await this.getGatewayDelegates({
         name: this.p_selected.name
       })
       let total = []
       let elected = []
-      this._.each(res.validators, function (o) {
+      this._.each(res.validators, o => {
         // cannot init detect
         if (o.elected === 1) {
-          console.log('push the elected')
           return elected.push(o.address)
         }
       })
-      this._.each(res.validators, function (o) {
+      this._.each(res.validators, o => {
         return total.push({
           label: o.address,
           value: o.address
@@ -705,33 +709,47 @@ export default {
       })
       this.MEMBER.instead_pre = elected
       this.delegateList = total
-      console.log(this.MEMBER.instead_pre, this.delegateList)
     },
     checkValidate(action) {
       // total set first
-      if (!this.$v.p_title.$invalid && !this.$v.first_type.$invalid && !this.$v.p_time_start.$invalid && !this.$v.p_time_end.$invalid) {
+      if (
+        !this.$v.p_title.$invalid &&
+        !this.$v.first_type.$invalid &&
+        !this.$v.p_time_start.$invalid &&
+        !this.$v.p_time_end.$invalid
+      ) {
         switch (action) {
           // init gateway
           case 'init':
-            if (!this.$v.p_selected.isSelected && !this.$v.INIT.selected && !this.$v.brief.$invalid) {
+            if (
+              !this.$v.p_selected.isSelected &&
+              !this.$v.INIT.selected &&
+              !this.$v.brief.$invalid
+            ) {
               return true
             }
             return false
           // change member of gateway
           case 'member_n':
-            if (!this.$v.p_selected.isSelected && !this.$v.MEMBER.instead_post.$invalid && !this.$v.brief.$invalid) {
+            if (
+              !this.$v.p_selected.isSelected &&
+              !this.$v.MEMBER.instead_post.$invalid &&
+              !this.$v.brief.$invalid
+            ) {
               return true
             }
             return false
           // new gateway proposal
           case 'new_n':
-            if (!this.$v.NEW.name.$invalid &&
-            !this.$v.NEW.currency.$invalid &&
-            !this.$v.NEW.currencyPrecision.$invalid &&
-            !this.$v.NEW.currencyBrief.$invalid &&
-            !this.$v.NEW.memberNumber.$invalid &&
-            !this.$v.NEW.period.$invalid &&
-            !this.$v.brief.$invalid) {
+            if (
+              !this.$v.NEW.name.$invalid &&
+              !this.$v.NEW.currency.$invalid &&
+              !this.$v.NEW.currencyPrecision.$invalid &&
+              !this.$v.NEW.currencyBrief.$invalid &&
+              !this.$v.NEW.memberNumber.$invalid &&
+              !this.$v.NEW.period.$invalid &&
+              !this.$v.brief.$invalid
+            ) {
               return true
             }
             return false
@@ -744,7 +762,9 @@ export default {
       this.first_type = null
       this.p_time_start = null
       this.p_time_end = null
-      this.p_selected = null
+      this.p_selected = {
+        name: ''
+      }
       this.secondPwd = ''
     },
     resetDetail() {
@@ -841,7 +861,6 @@ export default {
     },
     second_type(val) {
       if (val === 'init') {
-        console.log('gonna get all delegates')
         this.formInitList()
       } else if (val === 'member_n') {
         this.formMemberList()
@@ -852,5 +871,4 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
 </style>
