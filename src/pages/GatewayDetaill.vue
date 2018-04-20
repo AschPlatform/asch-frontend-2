@@ -174,6 +174,7 @@ export default {
 }
 
 .modal-right-container {
+  background #ffffff
   height: calc(100% - 10px);
 }
 
@@ -188,5 +189,9 @@ export default {
 .bottom-container-bottom {
   width: 100%;
   text-align: center;
+}
+
+.q-table-container {
+  background: #ffffff;
 }
 </style>
