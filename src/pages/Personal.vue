@@ -226,7 +226,9 @@ import {
   QDatetime,
   date,
   openURL,
-  QBtn
+  QBtn,
+  QField,
+  QInput
 } from 'quasar'
 import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
@@ -248,7 +250,9 @@ export default {
     QDialog,
     QDatetime,
     UserAgreementModal,
-    QBtn
+    QBtn,
+    QField,
+    QInput
   },
   data() {
     return {
