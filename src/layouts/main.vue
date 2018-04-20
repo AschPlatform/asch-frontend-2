@@ -117,12 +117,12 @@
       <!-- common component with event -->
       <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false" />
   
-      <q-modal v-model="transShow" no-backdrop-dismiss>
+      <q-modal class="transfer-modal-container" v-model="transShow" no-backdrop-dismiss>
         <div class="col-8">
           <trans-panel :showTitle="true" :assets="assets" :asset="asset" :user="userInfo">
             <div slot="btns" slot-scope="props" class="row col-12 justify-between">
+              <q-btn big outline class="col-auto" color="secondary" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
               <q-btn big class="col-auto" color="secondary" @click="sendTrans(props.send)" :label="$t('SEND')" />
-              <q-btn big class="col-auto" color="secondary" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
             </div>
           </trans-panel>
         </div>
@@ -465,7 +465,7 @@ body {
 .footer-container {
   background: #f0f3f6;
   height: 40px;
-  line-height 40px 
+  line-height: 40px;
 }
 
 .footer-left {
@@ -478,5 +478,12 @@ body {
 .footer-introduce {
   padding: 0 10px;
   color: #999999;
+}
+
+.transfer-modal-container {
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 }
 </style>
