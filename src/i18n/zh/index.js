@@ -352,6 +352,7 @@ const lang = {
 
   // ============== new add =================
   LOCK_DETAIL_TIP: '请设置锁仓额度',
+  DELEGATE_LIST_DETAILS: '受托人详情列表',
   SECOND_PASSWORD_TIP: '为了保障您的资金安全，请设置8位数以上的密码',
   SECOND_PASSWORD_CONFIRM: '请确认密码',
   CANAEL: '取消',
@@ -398,7 +399,7 @@ const lang = {
   CREATE_MY_DAPP: '创建我的应用',
   LOAD_MORE: '加载更多',
   MY_BLOCKS: '我生产的区块',
-  HELLO: '您好 ',
+  HELLO: '您好',
   SET_NICKNAME: '请设置昵称',
   NICKNAME: '昵称',
   INPUT_NICKNAME: '请输入你想设置的昵称',
