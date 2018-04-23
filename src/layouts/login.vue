@@ -6,23 +6,20 @@
         <q-page padding class="login-content row justify-center">
           <div class="main-page layout-padding row justify-center ">
             <img class="login-ball" ref="img" :src="loginBallImg" alt="login ball">
-            <q-card v-if="!isRegister" class="login-panel col-12 ">
+            <q-card v-if="registerStep==0" class="login-panel col-12 ">
               <q-card-title class="">
                 <span class="lite-orange card-font">
                       {{$t('LOGIN')}}
                     </span>
                 <div slot="right">
-                  <!-- <q-select style="width:125px" separator radio float-label="server" class="col" v-model="serverUrl" :options="serverOpts" /> -->
                   <q-select class="col-auto " chips color="secondary" v-model="lang" :options="langsOpts" />
                 </div>
               </q-card-title>
               <q-card-main class="row col-10 justify-center ">
                 <q-field class="col-10" :error="$v.secret.$error" :error-label="$t('ERR_VIOLATE_BIP39')">
-                  <!-- <input class="login-password" :placeholder="$t('INPUT_PASSWORD')" @change="$v.secret.$touch" type="password" v-model="secret" @keyup.enter="userLogin"> -->
                   <q-input icon="search" :float-label="$t('INPUT_PASSWORD')" @change="$v.secret.$touch" type="password" v-model="secret" @keyup.enter="userLogin" clearable />
                 </q-field>
                 <div class="row col-10 justify-between options-panel">
-                  <!-- <q-select class="col-auto " chips color="" v-model="lang" :options="langsOpts" /> -->
                   <div inline style="line-height: 44px;" class="q-mr-md">{{$t('CHOSE_SERVER')}}:</div>
                   <q-select style="width:125px" separator radio float-label="server" class="col" v-model="serverUrl" :options="serverOpts" />
                 </div>
@@ -41,13 +38,13 @@
                 </div>
               </q-card-main>
             </q-card>
-            <q-card v-else class="register-panel col-lg-9 col-xs-10 ">
+            <q-card  v-show="registerStep==1" class="register-panel col-lg-9 col-xs-10 ">
               <q-card-title class="lite-orange card-font">
                 <span>
                 {{$t('CREATE_MASTER_PASSWORD')}}
                 </span>  
-              </q-card-title>
-              <q-card-main v-if="registerStep==1" class="row col-10 justify-center ">
+              </q-card-title> 
+              <q-card-main class="row col-10 justify-center ">
                 <q-field  class="col-10" :helper="$t('CREATE_TIP1')">
                   <q-input type="textarea" class="new-secret-input col-8" v-model="newSecret" disable :min-rows="5" />
                   <q-btn class="copy-new-secret col-2" color="primary" v-clipboard="newSecret || 'no data' "  flat round icon="content copy" @click="jumpOut($t('COPY_SUCCESS'))" />
@@ -56,7 +53,6 @@
                   <q-input type="textarea" :placeholder="$t('CREATE_TIP2')" v-model="confirmNewSecret" clearable />
                 </q-field>
               </q-card-main>
-              <!-- <q-card-separator /> -->
               <q-card-main class="prompt-message">
                 <q-checkbox v-model="selection" val="one" :label="$t('READ_TIP1')" />
                 <br><br>
@@ -64,9 +60,8 @@
                 <br><br>
                 <q-checkbox class="selection-container" v-model="selection" val="three" :label="$t('READ_TIP3')" />
               </q-card-main>
-              <!-- <q-card-separator /> -->
               <q-card-main class="row col-10 justify-center ">
-                <div v-if="registerStep==1" class="row col-10 justify-between">
+                <div v-show="registerStep==1" class="row col-10 justify-between">
                   <q-btn big class="col-auto " color="primary" @click="verifyNewSecret">
                     {{$t('CREATE_MASTER_PASSWORD')}}
                   </q-btn>
@@ -198,13 +193,11 @@ export default {
       }
     },
     toLogin() {
-      this.registerStep = 1
-      this.isRegister = false
+      this.registerStep = 0
     },
     newUser() {
       this.newSecret = generateM()
       this.registerStep = 1
-      this.isRegister = true
     },
     saveNewSecret() {
       let secret = this.newSecret
