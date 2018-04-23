@@ -612,7 +612,7 @@ export default {
     async getAllGate() {
       let res = await this.getGateways()
       let ls = []
-      this._.each(res.gateways, o => {
+      res.gateways.foreach(o => {
         return ls.push({
           label: o.name,
           value: o
@@ -673,7 +673,7 @@ export default {
         name: this.p_selected.name
       })
       let ls = []
-      this._.each(res.validators, o => {
+      res.validators.foreach(o => {
         // cannot init detect
         if (o.elected === 1) {
           that.initFalse = false
@@ -692,13 +692,13 @@ export default {
       })
       let total = []
       let elected = []
-      this._.each(res.validators, o => {
+      res.validators.foreach(o => {
         // cannot init detect
         if (o.elected === 1) {
           return elected.push(o.address)
         }
       })
-      this._.each(res.validators, o => {
+      res.validators.foreach(o => {
         return total.push({
           label: o.address,
           value: o.address

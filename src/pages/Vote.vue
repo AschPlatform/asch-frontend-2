@@ -83,8 +83,8 @@ import { toast, toastWarn, translateErrMsg } from '../utils/util'
 // import { createVote } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
-import voteRecord from '../components/VoteRecord'
-import myVoteDelegate from '../components/MyVoteDelegate'
+import VoteRecord from '../components/VoteRecord'
+import MyVoteDelegate from '../components/MyVoteDelegate'
 import { secondPwdReg } from '../utils/validators'
 
 export default {
@@ -95,8 +95,8 @@ export default {
     QPage,
     QTab,
     QTabPane,
-    voteRecord,
-    myVoteDelegate,
+    VoteRecord,
+    MyVoteDelegate,
     QIcon,
     QTable,
     QBtn,
