@@ -20,7 +20,7 @@
         <q-btn color="secondary" @click="close" :label="$t('label.close')"/>
         </div>
       </div>
-      <div v-else>
+      <div class="padding-40" v-else>
       <h5>{{$t('DEPOSIT_NO_ADDR_TIP',{ currency: currency })}}</h5>
       <q-field >
       <q-select
@@ -34,8 +34,8 @@
       </q-field>
       <br />
       <div class="row justify-around">
-        <q-btn rounded color="secondary" :label="$t('OPEN_ADDR')" @click="openAddr" />
-        <q-btn rounded :label="$t('CANCEL')" @click="$emit('close')" />
+        <q-btn  :label="$t('CANCEL')" color="secondary" outline @click="$emit('close')" />
+        <q-btn  color="secondary" :label="$t('OPEN_ADDR')" @click="openAddr" />
       </div>
     </div> 
     </div>
