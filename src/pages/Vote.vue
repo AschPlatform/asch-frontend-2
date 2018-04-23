@@ -8,16 +8,17 @@
         <span class="vote-line"></span>
       </div>
       <div class="col-7 no-shadow bg-white">
-        <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST_DETAILS')" :rows-per-page-options="[15]">
+        <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST_DETAILS')"
+          :rows-per-page-options="[15]">
   
           <template slot="top-right" slot-scope="props">
-                    <q-btn v-if="selected.length" color="secondary" flat round  icon="thumb up" @click="vote" >
-                      <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
-                    </q-btn>
-                    <q-btn flat round  icon="refresh" color="secondary" @click="refresh" >
-                    </q-btn>
-                    <q-btn flat round  color="secondary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
-                    </q-btn>
+                      <q-btn v-if="selected.length" color="secondary" flat round  icon="thumb up" @click="vote" >
+                        <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
+                      </q-btn>
+                      <q-btn flat round  icon="refresh" color="secondary" @click="refresh" >
+                      </q-btn>
+                      <q-btn flat round  color="secondary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
+                      </q-btn>
 </template>
               
             <q-td slot="body-cell-address"  slot-scope="props" :props="props">
@@ -83,258 +84,265 @@
 </template>
 
 <script>
-import {
-  QTabs,
-  QRouteTab,
-  QPage,
-  QTab,
-  QTabPane,
-  QIcon,
-  QTable,
-  QTd,
-  QBtn,
-  QField,
-  QInput,
-  QTooltip
-} from 'quasar'
-import { toast, toastWarn, translateErrMsg } from '../utils/util'
-// import { createVote } from '../utils/asch'
-import asch from '../utils/asch-v2'
-import { mapActions, mapGetters } from 'vuex'
-import VoteRecord from '../components/VoteRecord'
-import MyVoteDelegate from '../components/myVoteDelegate'
-import { secondPwdReg } from '../utils/validators'
-
-export default {
-  props: [],
-  components: {
-    QTooltip,
+  import {
     QTabs,
     QRouteTab,
     QPage,
     QTab,
     QTabPane,
-    VoteRecord,
-    MyVoteDelegate,
     QIcon,
     QTable,
-    QBtn,
     QTd,
+    QBtn,
     QField,
-    QInput
-  },
-  data() {
-    return {
-      // below are original data from supporters
-      delegatesData: [],
-      pagination: {
-        page: 1,
-        rowsNumber: 0,
-        rowsPerPage: 15
-      },
-      selected: [],
-      filter: '',
-      loading: false,
-      columns: [
-        {
-          name: 'rate',
-          label: this.$t('RANKING'),
-          field: 'rate',
-          align: 'center'
-        },
-        {
-          name: 'username',
-          label: this.$t('DELEGATE'),
-          field: 'name',
-          type: 'string'
-        },
-        {
-          name: 'address',
-          label: this.$t('ADDRESS'),
-          field: 'address'
-        },
-        {
-          name: 'productivity',
-          label: this.$t('PRODUCTIVITY'),
-          field: 'productivity'
-        },
-        {
-          name: 'producedblocks',
-          label: this.$t('PRODUCED_BLOCKS'),
-          field: 'producedblocks',
-          align: 'center',
-          type: 'number'
-        },
-        {
-          name: 'approval',
-          label: this.$t('APPROVAL'),
-          field: 'approval'
-        }
-      ],
-      dialogShow: false,
-      dialog: {
-        title: '',
-        message: ''
-      },
-      secondPwd: ''
-    }
-  },
-  methods: {
-    ...mapActions(['delegates', 'broadcastTransaction']),
-    routerConfig(name) {
+    QInput,
+    QTooltip
+  } from 'quasar'
+  import {
+    toast,
+    toastWarn,
+    translateErrMsg
+  } from '../utils/util'
+  // import { createVote } from '../utils/asch'
+  import asch from '../utils/asch-v2'
+  import {
+    mapActions,
+    mapGetters
+  } from 'vuex'
+  import VoteRecord from '../components/VoteRecord'
+  import MyVoteDelegate from '../components/MyVoteDelegate'
+  import {
+    secondPwdReg
+  } from '../utils/validators'
+  
+  export default {
+    props: [],
+    components: {
+      QTooltip,
+      QTabs,
+      QRouteTab,
+      QPage,
+      QTab,
+      QTabPane,
+      VoteRecord,
+      MyVoteDelegate,
+      QIcon,
+      QTable,
+      QBtn,
+      QTd,
+      QField,
+      QInput
+    },
+    data() {
       return {
-        name: name,
-        params: {
-          user: this.user
-        }
-      }
-    },
-    // below are original funcs
-    refresh() {
-      this.pagination = this.paginationDeafult
-      this.getDelegates()
-    },
-    async request(props) {
-      await this.getDelegates(props.pagination, props.filter)
-    },
-    async getDelegates(pagination = {}, filter = '') {
-      this.loading = true
-      if (pagination.page) this.pagination = pagination
-      let limit = this.pagination.rowsPerPage
-      let pageNo = this.pagination.page
-      let res = await this.delegates({
-        address: this.userInfo.account.address,
-        orderBy: 'rate:asc',
-        limit: limit,
-        offset: (pageNo - 1) * limit
-      })
-      this.delegatesData = res.delegates
-      // set max
-      this.pagination.rowsNumber = res.totalCount
-      this.loading = false
-      return res
-    },
-    viewAccountInfo(row) {
-      this.$root.$emit('openAccountModal', row.address)
-    },
-    info(msg) {
-      toast(msg)
-    },
-    async onOk() {
-      if (this.selectedDelegate.length === 0) {
-        this.selected = []
-        return
-      }
-      let trans = asch.voteDelegate(
-        this.selectedDelegate.join(','),
-        this.userInfo.secret,
-        this.secondPwd
-      )
-      let res = await this.broadcastTransaction(trans)
-      if (res.success === true) {
-        toast(this.$t('INF_VOTE_SUCCESS'))
-      } else {
-        translateErrMsg(this.$t, res.error)
-      }
-      this.secondPwd = ''
-    },
-    onCancel() {
-      this.secondPwd = ''
-    },
-    vote() {
-      if (this.userInfo.account.isLocked === 0) {
-        toastWarn(this.$t('PLEASE_LOCK'))
-        return
-      }
-      this.dialogShow = true
-    },
-    async setAgent(params, cb = () => {}) {
-      let trans = asch.setAgent(params.agent, this.userInfo.secret, params.secondPwd)
-      let res = await this.broadcastTransaction(trans)
-      if (res.success) {
-        toast('INF_OPERATION_SUCCEEDED')
-      } else {
-        translateErrMsg(this.$t, res.error)
-      }
-    },
-    async repealAgent() {
-      const t = this.$t
-      if (this.secondSignature) {
-        prompt(
-          {
-            title: t('REGISTER_AGENT'),
-            message: t('ACCOUNT_TYPE2_HINT'),
-            prompt: {
-              model: '',
-              type: 'password' // optional
-            }
+        // below are original data from supporters
+        delegatesData: [],
+        pagination: {
+          page: 1,
+          rowsNumber: 0,
+          rowsPerPage: 15
+        },
+        selected: [],
+        filter: '',
+        loading: false,
+        columns: [{
+            name: 'rate',
+            label: this.$t('RANKING'),
+            field: 'rate',
+            align: 'center'
           },
-          data => {
-            if (!data || !secondPwdReg.test(data)) {
-              toastWarn(t('ERR_SECOND_PASSWORD_FORMAT'))
-            }
+          {
+            name: 'username',
+            label: this.$t('DELEGATE'),
+            field: 'name',
+            type: 'string'
+          },
+          {
+            name: 'address',
+            label: this.$t('ADDRESS'),
+            field: 'address'
+          },
+          {
+            name: 'productivity',
+            label: this.$t('PRODUCTIVITY'),
+            field: 'productivity'
+          },
+          {
+            name: 'producedblocks',
+            label: this.$t('PRODUCED_BLOCKS'),
+            field: 'producedblocks',
+            align: 'center',
+            type: 'number'
+          },
+          {
+            name: 'approval',
+            label: this.$t('APPROVAL'),
+            field: 'approval'
           }
-        )
-      } else {
-        this.submitRepeal()
+        ],
+        dialogShow: false,
+        dialog: {
+          title: '',
+          message: ''
+        },
+        secondPwd: ''
       }
     },
-    async submitRepeal(secondPwd = '') {
-      let trans = asch.repealAgent(this.userInfo.secret, secondPwd)
-      let res = await this.broadcastTransaction(trans)
-      if (res.success) {
-        toast('INF_OPERATION_SUCCEEDED')
-      } else {
-        translateErrMsg(this.$t, res.error)
-      }
-    },
-    agentDetail() {
-      this.$router.push({
-        name: 'agentDetail',
-        params: {
-          user: this.userInfo
+    methods: {
+      ...mapActions(['delegates', 'broadcastTransaction']),
+      routerConfig(name) {
+        return {
+          name: name,
+          params: {
+            user: this.user
+          }
         }
-      })
-    }
-  },
-  mounted() {
-    if (this.userInfo) {
-      this.getDelegates()
-    }
-  },
-  computed: {
-    ...mapGetters(['userInfo']),
-    secondSignature() {
-      return this.userInfo ? this.userInfo.account.secondPublicKey : null
-    },
-    paginationDeafult() {
-      return {
-        page: 1,
-        rowsNumber: 0,
-        rowsPerPage: 10
+      },
+      // below are original funcs
+      refresh() {
+        this.pagination = this.paginationDeafult
+        this.getDelegates()
+      },
+      async request(props) {
+        await this.getDelegates(props.pagination, props.filter)
+      },
+      async getDelegates(pagination = {}, filter = '') {
+        this.loading = true
+        if (pagination.page) this.pagination = pagination
+        let limit = this.pagination.rowsPerPage
+        let pageNo = this.pagination.page
+        let res = await this.delegates({
+          address: this.userInfo.account.address,
+          orderBy: 'rate:asc',
+          limit: limit,
+          offset: (pageNo - 1) * limit
+        })
+        this.delegatesData = res.delegates
+        // set max
+        this.pagination.rowsNumber = res.totalCount
+        this.loading = false
+        return res
+      },
+      viewAccountInfo(row) {
+        this.$root.$emit('openAccountModal', row.address)
+      },
+      info(msg) {
+        toast(msg)
+      },
+      async onOk() {
+        if (this.selectedDelegate.length === 0) {
+          this.selected = []
+          return
+        }
+        let trans = asch.voteDelegate(
+          this.selectedDelegate.join(','),
+          this.userInfo.secret,
+          this.secondPwd
+        )
+        let res = await this.broadcastTransaction(trans)
+        if (res.success === true) {
+          toast(this.$t('INF_VOTE_SUCCESS'))
+        } else {
+          translateErrMsg(this.$t, res.error)
+        }
+        this.secondPwd = ''
+      },
+      onCancel() {
+        this.secondPwd = ''
+      },
+      vote() {
+        if (this.userInfo.account.isLocked === 0) {
+          toastWarn(this.$t('PLEASE_LOCK'))
+          return
+        }
+        this.dialogShow = true
+      },
+      async setAgent(params, cb = () => {}) {
+        let trans = asch.setAgent(params.agent, this.userInfo.secret, params.secondPwd)
+        let res = await this.broadcastTransaction(trans)
+        if (res.success) {
+          toast('INF_OPERATION_SUCCEEDED')
+        } else {
+          translateErrMsg(this.$t, res.error)
+        }
+      },
+      async repealAgent() {
+        const t = this.$t
+        if (this.secondSignature) {
+          prompt({
+              title: t('REGISTER_AGENT'),
+              message: t('ACCOUNT_TYPE2_HINT'),
+              prompt: {
+                model: '',
+                type: 'password' // optional
+              }
+            },
+            data => {
+              if (!data || !secondPwdReg.test(data)) {
+                toastWarn(t('ERR_SECOND_PASSWORD_FORMAT'))
+              }
+            }
+          )
+        } else {
+          this.submitRepeal()
+        }
+      },
+      async submitRepeal(secondPwd = '') {
+        let trans = asch.repealAgent(this.userInfo.secret, secondPwd)
+        let res = await this.broadcastTransaction(trans)
+        if (res.success) {
+          toast('INF_OPERATION_SUCCEEDED')
+        } else {
+          translateErrMsg(this.$t, res.error)
+        }
+      },
+      agentDetail() {
+        this.$router.push({
+          name: 'agentDetail',
+          params: {
+            user: this.userInfo
+          }
+        })
       }
     },
-    selectedDelegate() {
-      let selected = this.selected.filter(d => {
-        return !d.voted
-      })
-      return selected.map(delegate => {
-        return delegate.name
-      })
-    },
-    // TODO: below are gonna
-    isSetDelegate() {
-      return false
-    }
-  },
-  watch: {
-    userInfo(val) {
-      if (val) {
+    mounted() {
+      if (this.userInfo) {
         this.getDelegates()
+      }
+    },
+    computed: {
+      ...mapGetters(['userInfo']),
+      secondSignature() {
+        return this.userInfo ? this.userInfo.account.secondPublicKey : null
+      },
+      paginationDeafult() {
+        return {
+          page: 1,
+          rowsNumber: 0,
+          rowsPerPage: 10
+        }
+      },
+      selectedDelegate() {
+        let selected = this.selected.filter(d => {
+          return !d.voted
+        })
+        return selected.map(delegate => {
+          return delegate.name
+        })
+      },
+      // TODO: below are gonna
+      isSetDelegate() {
+        return false
+      }
+    },
+    watch: {
+      userInfo(val) {
+        if (val) {
+          this.getDelegates()
+        }
       }
     }
   }
-}
 </script>
 
 <style lang="stylus" scoped>
