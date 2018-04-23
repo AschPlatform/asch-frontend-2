@@ -577,7 +577,7 @@ const lang = {
     ERR_50_1000: '请输入50-1000个字符',
     ERR_REQUIRE_TYPE: '请选择提案类型',
     ERR_REQUIRE_CONTENT: '请选择内容',
-    ERR_REQUIRE_TIME: '请选择时间',
+    ERR_REQUIRE_TIME: '请选择结束时间',
     ERR_REQUIRE_DETAIL: '请选择提案详情',
     ERR_REQUIRE_NUMBER: '成员应在7-33人之间',
     ERR_REQUIRE_MEMBER: '请提名候选人'
