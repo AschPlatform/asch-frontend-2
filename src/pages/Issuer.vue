@@ -130,7 +130,7 @@
             :label-width="4"
           >
             <q-input  @blur="$v.issuerNum.$touch" v-model="form.issuerNum" error-label="error"
-            type="number" :decimals="0" :error="$v.issuerNum.$error"   />
+            type="number" :decimals="0" :error="$v.issuerNum.$error"/>
         </q-field>
         </div>
         <div v-if="dialog.form == 3">
@@ -176,6 +176,9 @@ import asch from '../utils/asch-v2'
 import { required, numeric, minValue } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
 import {
+  QTd,
+  QField,
+  QInput,
   QPage,
   QModal,
   QTable,
@@ -195,6 +198,9 @@ import AssetsRecords from '../components/AssetsRecords'
 export default {
   props: ['userObj'],
   components: {
+    QTd,
+    QField,
+    QInput,
     QPage,
     QModal,
     QTable,

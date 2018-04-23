@@ -1,7 +1,7 @@
 <template>
   <q-modal minimized no-backdrop-dismiss v-model="show" content-css="padding: 20px">
     <big>{{$t('DAPP_DETAIL')}}</big>
-    <table class="q-table horizontal-separator highlight loose ">
+    <table class="q-table horizontal-separator highlight loose accountinfo-table margin-t-20">
       <tbody class='info-tbody'>
         <tr disable v-clipboard="account.address || 'no data'" @success="info('copy address success...')">
           <td>{{$t('ADDRESS')}}</td>
@@ -22,7 +22,7 @@
       </tbody>
     </table>
     <br/>
-    <q-btn color="primary" @click="close" :label="$t('label.close')" />
+    <q-btn color="secondary" @click="close" :label="$t('label.close')" />
   </q-modal>
 </template>
 
@@ -48,4 +48,11 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+.accountinfo-table tbody tr td {
+  border: 1px solid #dddddd;
+}
+
+.accountinfo-table tbody tr td:nth-child(1) {
+  text-align: right;
+}
 </style>
