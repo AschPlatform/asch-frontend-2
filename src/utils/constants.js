@@ -326,7 +326,8 @@ const urls = {
   // 区分 local 与 mainnet 的请求头参数
   magics: {
     development: '594fe0f3',
-    production: '5f5b3cf5'
+    production: '594fe0f3'
+    // production: '5f5b3cf5'
   }
 }
 
