@@ -84,7 +84,6 @@
 
 <script>
 import {
-  QTooltip,
   QTabs,
   QRouteTab,
   QPage,
@@ -95,7 +94,8 @@ import {
   QTd,
   QBtn,
   QField,
-  QInput
+  QInput,
+  QTooltip
 } from 'quasar'
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
 // import { createVote } from '../utils/asch'

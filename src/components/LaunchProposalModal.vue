@@ -23,12 +23,12 @@
           </q-field>
         </div>
         <div class="row">
-          <q-field :label-width="4" :error-label="$t('ERR.ERR_REQUIRE_TIME')"  :label="$t('proposal.SELECT_P_PERIOD')" class="col-3">
-            <q-datetime min="2018-04-05" v-model="p_time_start" @blur="$v.p_time_start.$touch()" :error="$v.p_time_start.$error"/>
-          </q-field>
-          <span class="self-center col-1" align="center">至</span>
+          <!-- <q-field :label-width="4" :error-label="$t('ERR.ERR_REQUIRE_TIME')"  :label="$t('proposal.SELECT_P_PERIOD')" class="col-3">
+            <q-datetime min="2018-04-05" max="2018-04-26" v-model="p_time_start" @blur="$v.p_time_start.$touch()" :error="$v.p_time_start.$error"/>
+          </q-field> -->
+          <span class="self-center col-1" align="center">{{$t('TO')}}</span>
           <q-field class="col-3 q-ml-xl" :error-label="$t('ERR.ERR_REQUIRE_TIME')">
-            <q-datetime v-model="p_time_end" @blur="$v.p_time_end.$touch()" :error="$v.p_time_end.$error"/>
+            <q-datetime :min="minTime" :max="maxTime" v-model="p_time_end" @blur="$v.p_time_end.$touch()" :error="$v.p_time_end.$error"/>
           </q-field>
         </div>
         <q-card-separator class="q-my-lg"/>
@@ -50,7 +50,7 @@
           <div v-show="this.first_type === 'new'" id="new" class="col-8">
             <div class="row">
               <q-field class="block col-6" label-width="4" :error-label="$t('ERR.ERR_REQUIRE_NUMBER')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-                <q-input min=7 max=33 type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :suffix="$t('LAUNCH_MODAL.PERSON')"></q-input>
+                <q-input type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :suffix="$t('LAUNCH_MODAL.PERSON')"></q-input>
               </q-field>
             </div>
             <div class="">
@@ -93,7 +93,7 @@
               </q-field>
             </div>
             <div class="row">
-              <q-field class="block col-2" label-width="8" :error-label="$t('ERR.ERR_3_15')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
+              <q-field class="block col-2" label-width="8" :error-label="$t('ERR.ERR_5_33')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
                 <q-input type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :suffix="$t('LAUNCH_MODAL.PERSON')"></q-input>
               </q-field>
             </div>
@@ -268,7 +268,7 @@ import {
   QBtn
 } from 'quasar'
 import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { secondPwd } from '../utils/validators'
 import { getCache, toastError, toast } from '../utils/util'
 
@@ -369,7 +369,6 @@ export default {
         memberNumber: null,
         selected: [],
         period: null,
-        agreement: [],
         // NET SCOPE
         name: null,
         currency: null,
@@ -433,9 +432,9 @@ export default {
         return false
       }
     },
-    p_time_start: {
-      required
-    },
+    // p_time_start: {
+    //   required
+    // },
     p_time_end: {
       required
     },
@@ -464,7 +463,7 @@ export default {
     NEW: {
       memberNumber: {
         required,
-        minValue: minValue(7),
+        minValue: minValue(5),
         maxValue: maxValue(33)
       },
       selected: {
@@ -630,41 +629,6 @@ export default {
         name: this.p_selected.name
       })
       return res
-      // let ls = []
-      // if (filter === 1) {
-      //   console.log('gonna adjust delegated')
-      //   this._.each(res.validators, function (o) {
-      //     if (o.elected === 1) {
-      //       return ls.push({
-      //         label: o.address,
-      //         value: o.address
-      //       })
-      //     }
-      //   })
-      // } else if (filter === 2) {
-      //   console.log('gonna get all delegated')
-      //   this._.each(res.validators, function (o) {
-      //     return ls.push({
-      //       label: o.address,
-      //       value: o.address
-      //     })
-      //   })
-      // } else {
-      //   console.log('gonna get unelected delegates')
-      //   this._.each(res.validators, function (o) {
-      //     if (o.elected === 0) {
-      //       return ls.push({
-      //         label: o.address,
-      //         value: o.address
-      //       })
-      //     }
-      //   })
-      // }
-      // if (obj1) {
-      //   this[obj][obj1] = ls
-      // }
-      // this[obj] = ls
-      // console.log(this['delegateList'])
     },
     // to form init list
     async formInitList() {
@@ -707,12 +671,14 @@ export default {
       this.MEMBER.instead_pre = elected
       this.delegateList = total
     },
+    checkLength() {
+      console.log('fucker')
+    },
     checkValidate(action) {
       // total set first
       if (
         !this.$v.p_title.$invalid &&
         !this.$v.first_type.$invalid &&
-        !this.$v.p_time_start.$invalid &&
         !this.$v.p_time_end.$invalid
       ) {
         switch (action) {
@@ -757,7 +723,6 @@ export default {
     resetHeader() {
       this.p_title = null
       this.first_type = null
-      this.p_time_start = null
       this.p_time_end = null
       this.p_selected = null
       this.secondPwd = ''
@@ -813,6 +778,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['userInfo']),
     secondSignature() {
       let user = getCache('user')
       return user ? user.account.secondPublicKey : null
@@ -832,8 +798,8 @@ export default {
       }
     },
     endHeight() {
-      let currentHeight = getCache('user').latestBlock.height
-      let pre = new Date(this.p_time_start).getTime()
+      let currentHeight = this.userInfo.latestBlock.height
+      let pre = new Date().getTime()
       let post = new Date(this.p_time_end).getTime()
       let shift = (post - pre) / 10000
       return currentHeight + shift
@@ -846,6 +812,22 @@ export default {
         return false
       }
       return true
+    },
+    minTime() {
+      let d = new Date()
+      let y = d.getFullYear()
+      let m = d.getMonth() + 1
+      let day = d.getDate()
+      return `${y}-${m}-${day}`
+    },
+    maxTime() {
+      let maxi = 33 * 24 * 60 * 60 * 1000
+      let d = new Date()
+      let end = d.getTime() + maxi
+      let y = end.getFullYear()
+      let m = end.getMonth() + 1
+      let day = end.getDate()
+      return `${y}-${m}-${day}`
     }
   },
   watch: {

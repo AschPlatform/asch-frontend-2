@@ -20,7 +20,7 @@
            
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
             <div class="text-secondary" @click="viewAccountInfo(props.row)">
-              {{props.value}}
+              {{props.value.substring(0,7)}}
             </div>
           </q-td>
           <q-td slot="body-cell-username"  slot-scope="props" :props="props">
@@ -79,7 +79,7 @@
               <td >{{$t('ADDRESS')}}</td>
             </tr>
             <tr v-for="delegate in VR.selected" :key="delegate.address">
-              <td >{{delegate.username}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
+              <td >{{delegate.name}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
               <td >{{delegate.address}} </td>
             </tr>
           </tbody>
@@ -95,9 +95,9 @@
 </template>
 
 <script>
-import { QTable, QTabs, QTab, QTabPane, QIcon, QBtn, QField, QInput } from 'quasar'
+import { QTable, QTabs, QTab, QTabPane, QIcon, QBtn, QField, QInput, QTooltip, QTd } from 'quasar'
 import { toast, translateErrMsg } from '../utils/util'
-import { createVote } from '../utils/asch'
+import asch from '../utils/asch-v2'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -111,12 +111,14 @@ export default {
     QIcon,
     QBtn,
     QField,
-    QInput
+    QInput,
+    QTooltip,
+    QTd
   },
   data() {
     return {
       SP: {
-        // below are come from support
+        // below are for supporter
         delegates: [],
         pagination: {
           page: 1,
@@ -148,6 +150,7 @@ export default {
         supports: []
       },
       VR: {
+        // below are for vote record
         delegatesData: [],
         pagination: {
           page: 1,
@@ -173,7 +176,7 @@ export default {
           {
             name: 'username',
             label: this.$t('DELEGATE'),
-            field: 'username',
+            field: 'name',
             type: 'string'
           },
           {
@@ -224,7 +227,7 @@ export default {
       let limit = this.SP.pagination.rowsPerPage
       let pageNo = this.SP.pagination.page
       let res = await this.votetome({
-        publicKey: this.user.publicKey,
+        publicKey: this.userInfo.publicKey,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -256,7 +259,7 @@ export default {
       let limit = this.VR.pagination.rowsPerPage
       let pageNo = this.VR.pagination.page
       let res = await this.myvotes({
-        address: this.user.account.agent,
+        address: this.userInfo.account.address,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -279,7 +282,7 @@ export default {
         this.VR.selected = []
         return
       }
-      let trans = createVote(this.selectedDelegate, this.user.secret, this.VR.secondPwd)
+      let trans = asch.cleanVote(this.selectedDelegate, this.userInfo.secret, this.VR.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_VOTE_SUCCESS'))
@@ -292,20 +295,16 @@ export default {
       this.VR.secondPwd = ''
     },
     repeal() {
+      console.log(this.VR.dialogShow)
       this.VR.dialogShow = true
     }
   },
   mounted() {
-    if (this.user) {
-      this.getSupporters()
-      this.getDelegates()
-    }
+    this.getSupporters()
+    this.getDelegates()
   },
   computed: {
     ...mapGetters(['userInfo']),
-    user() {
-      return this.userInfo
-    },
     paginationDeafult() {
       return {
         page: 1,
@@ -314,23 +313,26 @@ export default {
       }
     },
     selectedDelegate() {
+      // string, split by ','
       let selected = this.VR.selected.filter(d => {
         return !d.voted
       })
-      return selected.map(delegate => {
-        return '-' + delegate.publicKey
-      })
+      return selected
+        .map(delegate => {
+          return delegate.name
+        })
+        .join(',')
     },
     secondSignature() {
-      return this.user ? this.user.account.secondPublicKey : null
+      return this.userInfo ? this.userInfo.account.secondPublicKey : null
     }
   },
   watch: {
     userInfo(val) {
-      if (val) {
-        this.getSupporters()
-        this.getDelegates()
-      }
+      this.getSupporters()
+      this.getDelegates()
+      // if (val) {
+      // }
     },
     pageNo(val) {
       this.getSupporters()
