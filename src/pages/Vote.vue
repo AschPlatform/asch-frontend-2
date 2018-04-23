@@ -145,7 +145,8 @@
         selected: [],
         filter: '',
         loading: false,
-        columns: [{
+        columns: [
+          {
             name: 'rate',
             label: this.$t('RANKING'),
             field: 'rate',
@@ -269,7 +270,8 @@
       async repealAgent() {
         const t = this.$t
         if (this.secondSignature) {
-          prompt({
+          prompt(
+            {
               title: t('REGISTER_AGENT'),
               message: t('ACCOUNT_TYPE2_HINT'),
               prompt: {
