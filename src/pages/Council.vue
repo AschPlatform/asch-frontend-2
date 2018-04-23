@@ -11,8 +11,8 @@
 </template>
 <script>
 import { QPage } from 'quasar'
-import councilSnippet from '../components/CouncilSnippet'
-import councilModal from '../components/CouncilModal'
+import CouncilSnippet from '../components/CouncilSnippet'
+import CouncilModal from '../components/CouncilModal'
 import { mapActions } from 'vuex'
 
 export default {
@@ -29,8 +29,8 @@ export default {
   },
   components: {
     QPage,
-    councilSnippet,
-    councilModal
+    CouncilSnippet,
+    CouncilModal
   },
   mounted() {
     this.getAllCouncils()

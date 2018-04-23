@@ -130,7 +130,7 @@
 import { mapActions, mapState, mapGetters } from 'vuex'
 import { deCompileContent, compileTimeStamp, toast, toastError } from '../utils/util'
 import { secondPwd } from '../utils/validators'
-import memberIndicator from '../components/MemberIndicator'
+import MemberIndicator from '../components/MemberIndicator'
 import {
   QPage,
   QField,
@@ -159,7 +159,7 @@ export default {
     QCardSeparator,
     QCheckbox,
     QChipsInput,
-    memberIndicator,
+    MemberIndicator,
     QIcon,
     QBtn
   },
@@ -228,7 +228,7 @@ export default {
       })
       let ls = []
       if (res.success) {
-        this._.each(res.votes, (o) => {
+        res.votes.foreach((o) => {
           return ls.push(o.voter)
         })
       }
@@ -240,7 +240,7 @@ export default {
       let res = await this.getGatewayDelegates(name)
       if (res.success) {
         let ls = []
-        this._.each(res.validators, (o) => {
+        res.validators.foreach((o) => {
           if (o.elected === 1) {
             return ls.push(o.address)
           }
