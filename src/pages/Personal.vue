@@ -114,66 +114,58 @@
   
     <q-dialog v-model="secondPwdShow">
       <span slot="title">{{$t('SET_SECOND_PASSWORD')}}</span>
-      <div slot="body" class="row justify-center">
-        <q-field class="col-8" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
-          <q-input @blur="$v.password.$touch" type="password" v-model="password" />
+      <div slot="body" class="row justify-left">
+        <q-field class="col-12" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
+          <q-input @blur="$v.password.$touch" :placeholder="$t('SECOND_PASSWORD_TIP')" type="password" v-model="password" />
         </q-field>
-        <q-field class="col-8" :label="$t('CONFIRM')" :label-width="2" :error="$v.confirmPassword.$error" :error-label="$t('ERR_TWO_INPUTS_NOT_EQUAL')">
-          <q-input @blur="$v.confirmPassword.$touch" type="password" v-model="confirmPassword" />
+        <q-field class="col-12" :label="$t('CONFIRM')" :label-width="2" :error="$v.confirmPassword.$error" :error-label="$t('ERR_TWO_INPUTS_NOT_EQUAL')">
+          <q-input @blur="$v.confirmPassword.$touch" :placeholder="$t('SECOND_PASSWORD_CONFIRM')" type="password" v-model="confirmPassword" />
         </q-field>
       </div>
       <template slot="buttons" slot-scope="props">
-                      <q-btn class="col-3 self-lef" color="secondary" flat @click="setPwd(props.ok)">
-                        {{$t('SUBMIT')}}
+        <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()"/>
+        <q-btn class="col-3 self-lef margin-left-10" color="secondary" @click="setPwd(props.ok)">
+                        {{$t('CONFIRM')}}
                       </q-btn>
-                      <q-btn :label="$t('label.cancel')" flat @click="props.cancel()"/>
-</template>
+      </template>
     </q-dialog>
 
     <q-dialog v-model="nicknameFormShow" >
       <span  slot="title">{{$t('SET_NICKNAME')}}</span>
-      <div slot="body" class="row justify-center" >
-        <q-field class="col-10" :label="$t('NICKNAME')" :label-width="4" :error="$v.nickname.$error" :error-label="$t('ERR_NICKNAME')" :helper="$t('NICKNAME_TIP')">
-          <q-input @blur="$v.nickname.$touch"  v-model="nickname" />
+      <div slot="body" class="row justify-center margin-t-54" >
+        <q-field class="col-12" :error="$v.nickname.$error" :error-label="$t('ERR_NICKNAME')">
+          <q-input @blur="$v.nickname.$touch" :placeholder="$t('NICKNAME_TIP')" v-model="nickname" />
         </q-field>
          <q-field v-show="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="4"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
           <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
         </q-field>
-        <table class="q-table bordered  responsive ">
+        <table class="personal-table-container q-table bordered  responsive margin-t-20">
           <tbody>
             <tr>
               <td>{{$t('CHAR_NUM')}}</td>
+               <td>3</td>
+               <td>4</td>
+               <td>5</td>
+               <td>6-10</td>
+               <td>11-20</td>
+            </tr>
+            <tr>
               <td>{{$t('PRICE')}}</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>100 XAS</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>80 XAS</td>
-            </tr>
-            <tr>
-              <td>5</td>
-              <td>40 XAS</td>
-            </tr>
-            <tr>
-              <td>6-10</td>
-              <td>10 XAS</td>
-            </tr>
-            <tr>
-              <td>11-20</td>
-              <td>1 XAS</td>
+                <td>100 XAS</td>
+                <td>80 XAS</td>
+                <td>40 XAS</td>
+                <td>10 XAS</td>
+                <td>1 XAS</td>
             </tr>
           </tbody>
         </table>
       </div>
 
 <template slot="buttons" slot-scope="props">
-  <q-btn class="col-3 self-lef" color="secondary" flat @click="setNickname(props.ok)">
-    {{$t('SUBMIT')}}
+  <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()" />
+  <q-btn class="col-3 self-lef" color="secondary"  @click="setNickname(props.ok)">
+    {{$t('CONFIRM')}}
   </q-btn>
-  <q-btn :label="$t('label.cancel')" flat @click="props.cancel()" />
 </template>
     </q-dialog>
 
@@ -181,9 +173,9 @@
       <span slot="title">{{$t('LOCK_POSITION_CONF')}}</span>
       <div slot="body" class="row justify-center" >
         <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError" :helper="numLimit">
-          <q-input @blur="validateNum" type="number" :decimals="2" v-model="num" />
+          <q-input @blur="validateNum" :placeholder="$t('LOCK_DETAIL_TIP')" type="number" :decimals="2" v-model="num" />
         </q-field>
-         <q-field class="col-10" :label="$t('TIME')" color="black" :label-width="3" :error="$v.time.$error" 
+         <q-field class="col-10" :label="$t('HEIGHT')" color="black" :label-width="3" :error="$v.time.$error" 
          :error-label="$t('ERR_NICKNAME')" :helper="$t('UNLOCK_TIPS')">
           <!-- <p class="text-secondary font-12">{{$t('UNLOCK_TIPS')}}</p> -->
           <q-datetime
@@ -200,10 +192,10 @@
         </q-field>
       </div>
 <template slot="buttons" slot-scope="props">
-  <q-btn class="col-3 self-lef" color="secondary" flat @click="editLock(props.ok)">
-    {{$t('SUBMIT')}}
+  <q-btn :label="$t('label.cancel')" class="col-2 self-lef" color="secondary" outline @click="props.cancel()" />
+  <q-btn class="col-2 self-lef" color="secondary" @click="editLock(props.ok)">
+    {{$t('TRS_TYPE_LOCK')}}
   </q-btn>
-  <q-btn :label="$t('label.cancel')" flat @click="props.cancel()" />
 </template>
     </q-dialog>
   <user-agreement-modal :show="userAgreementShow" @confirm="registerAgent" @cancel="userAgreementShow=false" :tips="$t('REGISTER_AGENT')+$t('COST_FEE',{num:100})" />
@@ -651,7 +643,11 @@ export default {
   width: 20%;
 }
 
-.modal-header {
-  background: red !important;
+.personal-table-container tbody td {
+  border: 1px solid #ccc;
+  width: 78px;
+  padding: 0;
+  font-size: 16px;
+  color: #000000;
 }
 </style>
