@@ -7,7 +7,7 @@
     <q-card-main class="row" v-if="isGonnaSet">
       <q-input class="col-12" clearable v-model="agent" :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
       <q-input class="col-12" v-if="secondSignature" v-model="secondPwd" type="password" :float-label="$t('TRS_TYPE_SECOND_PASSWORD')"></q-input>
-      <q-btn v-if="!isGonnaSet" color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
+      <q-btn v-if="!isGonnaSet" color="secondary" @click="action">{{$t(btnInfo)}}</q-btn>
      <div class="col-12 justify-between">
        <br />
         <q-btn color="primary" @click="setAgent">{{$t('SUBMIT')}}</q-btn>
