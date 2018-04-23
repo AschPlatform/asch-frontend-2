@@ -37,7 +37,7 @@
         <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
       <div class="row col-10 justify-between">
-        <q-btn :loading="loading" color="primary" @click="submit">
+        <q-btn :loading="loading" color="primary" @click="submit" :disable="$v.$error">
           {{$t('SUBMIT')}}
         </q-btn>
         <q-btn :label="$t('label.cancel')" @click="close"/>

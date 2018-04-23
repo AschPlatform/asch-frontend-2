@@ -100,7 +100,7 @@
 <script>
 import { QTable, QTabs, QTab, QTabPane, QIcon, QBtn, QField, QInput, QTooltip, QTd } from 'quasar'
 import { toast, translateErrMsg } from '../utils/util'
-import { createVote } from '../utils/asch'
+import asch from '../utils/asch-v2'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -214,9 +214,6 @@ export default {
       }
     }
   },
-  created() {
-    console.log('VR has been set!')
-  },
   methods: {
     ...mapActions(['votetome', 'myvotes', 'broadcastTransaction']),
     // come from SP PAGE
@@ -228,7 +225,6 @@ export default {
       await this.getSupporters(props.pagination, props.filter)
     },
     async getSupporters(pagination = {}, filter = '') {
-      console.log('IN the spf')
       this.SP.loading = true
       if (pagination.page) this.pagination = pagination
       let limit = this.SP.pagination.rowsPerPage
@@ -261,7 +257,6 @@ export default {
       await this.getDelegates(props.pagination, props.filter)
     },
     async getDelegates(pagination = {}, filter = '') {
-      console.log('IN the vrf')
       this.loading = true
       if (pagination.page) this.VR.pagination = pagination
       let limit = this.VR.pagination.rowsPerPage
@@ -290,7 +285,7 @@ export default {
         this.VR.selected = []
         return
       }
-      let trans = createVote(this.selectedDelegate, this.userInfo.secret, this.VR.secondPwd)
+      let trans = asch.cleanVote(this.selectedDelegate, this.userInfo.secret, this.VR.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_VOTE_SUCCESS'))
@@ -303,16 +298,13 @@ export default {
       this.VR.secondPwd = ''
     },
     repeal() {
+      console.log(this.VR.dialogShow)
       this.VR.dialogShow = true
     }
   },
   mounted() {
-    debugger
-    console.log(this.userInfo, 'userInfo')
     this.getSupporters()
     this.getDelegates()
-    // if (this.userInfo) {
-    // }
   },
   computed: {
     ...mapGetters(['userInfo']),
@@ -324,12 +316,13 @@ export default {
       }
     },
     selectedDelegate() {
+      // string, split by ','
       let selected = this.VR.selected.filter(d => {
         return !d.voted
       })
       return selected.map(delegate => {
-        return '-' + delegate.publicKey
-      })
+        return delegate.name
+      }).join(',')
     },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
