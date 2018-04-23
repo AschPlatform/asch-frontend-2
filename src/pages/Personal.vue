@@ -12,10 +12,13 @@
           </div>
           <div class="col-7 col-md-7 col-lg-6 col-xl-5 text-left row justify-left">
             <div>
-              <span class="text-black font-22 vertical-align-middle">
+              <span v-if="!userNickname" class="text-black font-22 vertical-align-middle">
                       {{$t('HELLO')}}
                       </span>
-              <a class="set-nickname bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else>{{userNickname}}</span>
+              <span v-else class="text-black font-22 vertical-align-middle">
+                      {{$t('HELLO')+'，'}}
+                      </span>
+              <a class="set-nickname bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
             <div class="col-12 text-three">
               {{address}}

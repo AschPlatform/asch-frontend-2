@@ -1,26 +1,27 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <q-page class="row gutter-xs layout-padding">
-        <div class="col-7 shadow-1">
-          <q-table :data="delegatesData" :filter="filter" color="primary"
-          selection="multiple" :selected.sync="selected" row-key="address"
-          :columns="columns"  @request="request" :pagination.sync="pagination" 
-          :loading="loading" :title="$t('DELEGATE_LIST')"
-          :rows-per-page-options="[15]"
-          >
-          
-            <template slot="top-right" slot-scope="props">
-              <q-btn v-if="selected.length" color="positive" flat round  icon="thumb up" @click="vote" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
-              </q-btn>
-              <q-btn flat round  icon="refresh" color="primary" @click="refresh" >
-              </q-btn>
-              <q-btn flat round  color="primary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
-              </q-btn>
-            </template>
+  <q-page class="vote-container">
+    <div class="row vote-content bg-white">
+      <div class="vote-container-title col-12">
+        <i class="material-icons text-tertiary font-22">border_color</i>
+        <span class="text-tertiary font-22 font-weight">{{$t('DELEGATE_LIST')}}</span>
+        <span class="vote-line"></span>
+      </div>
+      <div class="col-7 no-shadow bg-white">
+        <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST_DETAILS')" :rows-per-page-options="[15]">
+  
+          <template slot="top-right" slot-scope="props">
+                    <q-btn v-if="selected.length" color="secondary" flat round  icon="thumb up" @click="vote" >
+                      <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
+                    </q-btn>
+                    <q-btn flat round  icon="refresh" color="secondary" @click="refresh" >
+                    </q-btn>
+                    <q-btn flat round  color="secondary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
+                    </q-btn>
+</template>
               
             <q-td slot="body-cell-address"  slot-scope="props" :props="props">
-              <div class="text-primary" @click="viewAccountInfo(props.row)">
+              <div class="text-secondary vote-table-address-td" @click="viewAccountInfo(props.row)">
                 {{props.value}}
               </div>
             </q-td>
@@ -32,10 +33,14 @@
           </q-table>
         </div>
 
-        <div class="col-5">
+        <div class="col-5 vote-right-container">
+          <div >
           <vote-record />
-          <my-vote-delegate :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetail" />
+          <my-vote-delegate class="margin-t-20" :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetail" />
+          </div> 
         </div>
+    </div>
+
 
         <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
 
@@ -65,10 +70,10 @@
               </tbody>
             </table>
             </div>
-          <template slot="buttons" slot-scope="props">
-            <q-btn  flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
-            <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
-          </template>
+<template slot="buttons" slot-scope="props">
+  <q-btn flat color="secondary" :label="$t('label.cancel')" @click="props.cancel" />
+  <q-btn flat color="secondary" :label="$t('label.ok')" @click="props.ok" />
+</template>
         </q-dialog>
     <!-- this should review -->
     
@@ -78,18 +83,32 @@
 </template>
 
 <script>
-import { QTabs, QRouteTab, QPage, QTab, QTabPane, QIcon, QTable, QTd, QBtn, QField, QInput, QTooltip } from 'quasar'
+import {
+  QTabs,
+  QRouteTab,
+  QPage,
+  QTab,
+  QTabPane,
+  QIcon,
+  QTable,
+  QTd,
+  QBtn,
+  QField,
+  QInput,
+  QTooltip
+} from 'quasar'
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
 // import { createVote } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
 import VoteRecord from '../components/VoteRecord'
-import MyVoteDelegate from '../components/MyVoteDelegate'
+import MyVoteDelegate from '../components/myVoteDelegate'
 import { secondPwdReg } from '../utils/validators'
 
 export default {
   props: [],
   components: {
+    QTooltip,
     QTabs,
     QRouteTab,
     QPage,
@@ -102,8 +121,7 @@ export default {
     QBtn,
     QTd,
     QField,
-    QInput,
-    QTooltip
+    QInput
   },
   data() {
     return {
@@ -271,7 +289,12 @@ export default {
       }
     },
     agentDetail() {
-      this.$router.push({ name: 'agentDetail', params: { user: this.userInfo } })
+      this.$router.push({
+        name: 'agentDetail',
+        params: {
+          user: this.userInfo
+        }
+      })
     }
   },
   mounted() {
@@ -315,4 +338,32 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.vote-container {
+  padding: 20px;
+}
+
+.vote-content {
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.vote-line {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: #dddddd;
+  margin: 25px 0 10px 0;
+}
+
+.vote-right-container {
+  padding-left: 20px;
+}
+
+.vote-container-title {
+  padding: 20px 0;
+}
+
+.vote-table-address-td {
+  cursor: pointer;
+}
 </style>
