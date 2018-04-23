@@ -176,6 +176,9 @@ import asch from '../utils/asch-v2'
 import { required, numeric, minValue } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
 import {
+  QTd,
+  QField,
+  QInput,
   QPage,
   QModal,
   QTable,
@@ -195,6 +198,9 @@ import AssetsRecords from '../components/AssetsRecords'
 export default {
   props: ['userObj'],
   components: {
+    QTd,
+    QField,
+    QInput,
     QPage,
     QModal,
     QTable,
