@@ -13,7 +13,7 @@
         
           <template slot="top-right" slot-scope="props">
             <q-btn v-if="VR.selected.length" color="negative" flat round  icon="delete" @click="repeal" >
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
+              <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DELETE')}}</q-tooltip>
             </q-btn>
             <q-btn flat round  icon="refresh" color="primary" @click="refreshVR" >
             </q-btn>
@@ -23,7 +23,7 @@
            
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
             <div class="text-primary" @click="viewAccountInfo(props.row)">
-              {{props.value}}
+              {{props.value.substring(0,7)}}
             </div>
           </q-td>
           <q-td slot="body-cell-username"  slot-scope="props" :props="props">
@@ -82,7 +82,7 @@
               <td >{{$t('ADDRESS')}}</td>
             </tr>
             <tr v-for="delegate in VR.selected" :key="delegate.address">
-              <td >{{delegate.username}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
+              <td >{{delegate.name}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
               <td >{{delegate.address}} </td>
             </tr>
           </tbody>
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { QTable, QTabs, QTab, QTabPane, QIcon, QBtn, QField, QInput } from 'quasar'
+import { QTable, QTabs, QTab, QTabPane, QIcon, QBtn, QField, QInput, QTooltip, QTd } from 'quasar'
 import { toast, translateErrMsg } from '../utils/util'
 import { createVote } from '../utils/asch'
 import { mapGetters, mapActions } from 'vuex'
@@ -114,12 +114,14 @@ export default {
     QIcon,
     QBtn,
     QField,
-    QInput
+    QInput,
+    QTooltip,
+    QTd
   },
   data() {
     return {
       SP: {
-        // below are come from support
+        // below are for supporter
         delegates: [],
         pagination: {
           page: 1,
@@ -151,6 +153,7 @@ export default {
         supports: []
       },
       VR: {
+        // below are for vote record
         delegatesData: [],
         pagination: {
           page: 1,
@@ -176,7 +179,7 @@ export default {
           {
             name: 'username',
             label: this.$t('DELEGATE'),
-            field: 'username',
+            field: 'name',
             type: 'string'
           },
           {
@@ -211,6 +214,9 @@ export default {
       }
     }
   },
+  created() {
+    console.log('VR has been set!')
+  },
   methods: {
     ...mapActions(['votetome', 'myvotes', 'broadcastTransaction']),
     // come from SP PAGE
@@ -222,12 +228,13 @@ export default {
       await this.getSupporters(props.pagination, props.filter)
     },
     async getSupporters(pagination = {}, filter = '') {
+      console.log('IN the spf')
       this.SP.loading = true
       if (pagination.page) this.pagination = pagination
       let limit = this.SP.pagination.rowsPerPage
       let pageNo = this.SP.pagination.page
       let res = await this.votetome({
-        publicKey: this.user.publicKey,
+        publicKey: this.userInfo.publicKey,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -254,12 +261,13 @@ export default {
       await this.getDelegates(props.pagination, props.filter)
     },
     async getDelegates(pagination = {}, filter = '') {
+      console.log('IN the vrf')
       this.loading = true
       if (pagination.page) this.VR.pagination = pagination
       let limit = this.VR.pagination.rowsPerPage
       let pageNo = this.VR.pagination.page
       let res = await this.myvotes({
-        address: this.user.account.agent,
+        address: this.userInfo.account.address,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -282,7 +290,7 @@ export default {
         this.VR.selected = []
         return
       }
-      let trans = createVote(this.selectedDelegate, this.user.secret, this.VR.secondPwd)
+      let trans = createVote(this.selectedDelegate, this.userInfo.secret, this.VR.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_VOTE_SUCCESS'))
@@ -299,16 +307,15 @@ export default {
     }
   },
   mounted() {
-    if (this.user) {
-      this.getSupporters()
-      this.getDelegates()
-    }
+    debugger
+    console.log(this.userInfo, 'userInfo')
+    this.getSupporters()
+    this.getDelegates()
+    // if (this.userInfo) {
+    // }
   },
   computed: {
     ...mapGetters(['userInfo']),
-    user() {
-      return this.userInfo
-    },
     paginationDeafult() {
       return {
         page: 1,
@@ -325,15 +332,15 @@ export default {
       })
     },
     secondSignature() {
-      return this.user ? this.user.account.secondPublicKey : null
+      return this.userInfo ? this.userInfo.account.secondPublicKey : null
     }
   },
   watch: {
     userInfo(val) {
-      if (val) {
-        this.getSupporters()
-        this.getDelegates()
-      }
+      this.getSupporters()
+      this.getDelegates()
+      // if (val) {
+      // }
     },
     pageNo(val) {
       this.getSupporters()

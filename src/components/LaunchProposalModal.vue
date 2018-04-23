@@ -369,7 +369,6 @@ export default {
         memberNumber: null,
         selected: [],
         period: null,
-        agreement: [],
         // NET SCOPE
         name: null,
         currency: null,
@@ -630,41 +629,6 @@ export default {
         name: this.p_selected.name
       })
       return res
-      // let ls = []
-      // if (filter === 1) {
-      //   console.log('gonna adjust delegated')
-      //   this._.each(res.validators, function (o) {
-      //     if (o.elected === 1) {
-      //       return ls.push({
-      //         label: o.address,
-      //         value: o.address
-      //       })
-      //     }
-      //   })
-      // } else if (filter === 2) {
-      //   console.log('gonna get all delegated')
-      //   this._.each(res.validators, function (o) {
-      //     return ls.push({
-      //       label: o.address,
-      //       value: o.address
-      //     })
-      //   })
-      // } else {
-      //   console.log('gonna get unelected delegates')
-      //   this._.each(res.validators, function (o) {
-      //     if (o.elected === 0) {
-      //       return ls.push({
-      //         label: o.address,
-      //         value: o.address
-      //       })
-      //     }
-      //   })
-      // }
-      // if (obj1) {
-      //   this[obj][obj1] = ls
-      // }
-      // this[obj] = ls
-      // console.log(this['delegateList'])
     },
     // to form init list
     async formInitList() {

@@ -46,14 +46,16 @@ import { setCache, getCache, toast } from '../utils/util'
 import axios from '../utils/axiosWrap'
 import {
   QIcon,
-  QTable
+  QTable,
+  QToggle
 } from 'quasar'
 
 export default {
   props: ['userObj'],
   components: {
     QIcon,
-    QTable
+    QTable,
+    QToggle
   },
   data() {
     return {
