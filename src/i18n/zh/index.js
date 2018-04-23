@@ -351,6 +351,9 @@ const lang = {
   QRCODE_CLOSE: '点击二维码关闭',
 
   // ============== new add =================
+  LOCK_DETAIL_TIP: '请设置锁仓额度',
+  SECOND_PASSWORD_TIP: '为了保障您的资金安全，请设置8位数以上的密码',
+  SECOND_PASSWORD_CONFIRM: '请确认密码',
   CANAEL: '取消',
   TO: '至',
   RECIPIENT_NAME_ADDRESS: '请输入需要转账的账户名或者钱包地址',
