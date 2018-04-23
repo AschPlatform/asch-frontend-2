@@ -300,8 +300,10 @@ export default {
     }
   },
   mounted() {
-    this.getSupporters()
-    this.getDelegates()
+    if (this.userInfo) {
+      this.getSupporters()
+      this.getDelegates()
+    }
   },
   computed: {
     ...mapGetters(['userInfo']),
@@ -329,10 +331,10 @@ export default {
   },
   watch: {
     userInfo(val) {
-      this.getSupporters()
-      this.getDelegates()
-      // if (val) {
-      // }
+      if (val) {
+        this.getSupporters()
+        this.getDelegates()
+      }
     },
     pageNo(val) {
       this.getSupporters()
