@@ -563,6 +563,8 @@ export default {
 .personal-head-portrait {
   width: 116px;
   margin-right: 40px;
+  border: 1px solid #e3e6e8;
+  border-radius: 50%;
 }
 
 .personal-head-canvas {
