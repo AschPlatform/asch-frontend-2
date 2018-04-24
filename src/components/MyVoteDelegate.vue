@@ -26,7 +26,7 @@
 <script>
 import { QCard, QCardTitle, QCardMain, QCardSeparator, QBtn, QInput } from 'quasar'
 import { toastWarn } from '../utils/util'
-import { nicknameReg, secondPwdReg } from '../utils/validators'
+import { nicknameReg, secondPwdReg, addressReg } from '../utils/validators'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -65,7 +65,7 @@ export default {
     },
     // TODO SET DELEGATE
     setAgent() {
-      if (!nicknameReg.test(this.agent)) {
+      if (!nicknameReg.test(this.agent) && !addressReg.test(this.agent)) {
         toastWarn(this.$t('ERR_NICKNAME'))
         return
       }
