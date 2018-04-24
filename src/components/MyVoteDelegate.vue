@@ -27,6 +27,7 @@
 import { QCard, QCardTitle, QCardMain, QCardSeparator, QBtn, QInput } from 'quasar'
 import { toastWarn } from '../utils/util'
 import { nicknameReg, secondPwdReg } from '../utils/validators'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -35,7 +36,6 @@ export default {
       secondPwd: ''
     }
   },
-  props: ['user'],
   components: {
     QCard,
     QCardTitle,
@@ -49,6 +49,9 @@ export default {
       if (!this.isLocked) {
         toastWarn(this.$t('PLEASE_LOCK'))
         return
+      }
+      if (this.isDelegate) {
+        toastWarn(this.$t('DELEGATE_CAN_NOT_BE_AGENT'))
       }
       // this.isSetAgent ? this.cancelAgent() : this.setAgent()
       if (this.agentName) {
@@ -77,6 +80,10 @@ export default {
   },
   mounted() {},
   computed: {
+    ...mapGetters(['userInfo']),
+    user() {
+      return this.userInfo
+    },
     btnInfo() {
       if (this.agentName) {
         return 'VOTE_CANCEL'
@@ -92,6 +99,9 @@ export default {
     },
     isLocked() {
       return this.user && this.user.account ? this.user.account.isLocked === 1 : false
+    },
+    isDelegate() {
+      return this.user && this.user.account ? this.user.account.isDelegate === 1 : false
     },
     secondSignature() {
       return this.user ? this.user.account.secondPublicKey : null
