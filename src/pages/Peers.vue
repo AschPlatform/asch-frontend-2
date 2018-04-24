@@ -1,13 +1,13 @@
 <template>
   <div class="peers-container self-center">
-    <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-      <div class="col-12 shadow-1">
-        <q-table :data="peers" :filter="filter" color="primary" 
-         row-key="ip" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PEER_LIST')">
+    <div class="padding-20 bg-white border-r-6">
+      <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
+        <div class="col-12">
+          <q-table :data="peers" :filter="filter" color="secondary" row-key="ip" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PEER_LIST')">
   
-          <template slot="top-right" slot-scope="props">
-              <q-toggle v-model="official" color="primary"  />
-          </template>
+            <template slot="top-right" slot-scope="props">
+                <q-toggle v-model="official" color="secondary"  />
+</template>
            
           <q-td slot="body-cell-ip"  slot-scope="props" :props="props">
             <div>
@@ -15,7 +15,7 @@
             </div>
           </q-td>
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
-            <div class="text-primary" @click="viewAccountInfo(props.row)">
+            <div class="text-secondary" @click="viewAccountInfo(props.row)">
               {{props.value}}<q-icon v-if="isCurrentServer(props)" name="check circle" color="positive"/>
             </div>
           </q-td>
@@ -25,7 +25,7 @@
             </div>
           </q-td>
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-            <q-btn @click="changePeer(props.row)" icon="playlist add check" size="sm" flat :color="isCurrentServer(props)?'positive':'primary'" >
+            <q-btn @click="changePeer(props.row)" icon="playlist add check" size="sm" flat :color="isCurrentServer(props)?'positive':'secondary'" >
               <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CHANGE_TO')}}</q-tooltip>
             </q-btn>
           </q-td>
@@ -35,6 +35,8 @@
         </q-table>
       </div>
       </transition>
+    </div>
+  
       
 </div>
 </template>
@@ -126,7 +128,9 @@ export default {
       if (ping > 0 && ping < 1000) {
         setCache('currentServer', peer)
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
-        this.$router.push({ name: 'home' })
+        this.$router.push({
+          name: 'home'
+        })
       } else {
         this.$q
           .dialog({
@@ -139,7 +143,9 @@ export default {
           .then(() => {
             setCache('currentServer', peer)
             toast(this.$t('INF_OPERATION_SUCCEEDED'))
-            this.$router.push({ name: 'home' })
+            this.$router.push({
+              name: 'home'
+            })
           })
           .catch(e => {
             // console.log(e)
@@ -247,5 +253,6 @@ export default {
 <style lang="stylus" scoped>
 .peers-container {
   padding: 20px;
+  display: none;
 }
 </style>
