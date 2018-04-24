@@ -68,7 +68,7 @@
             </div>
             <div class="row">
               <q-field class="col-2 font-16" label-width="8" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
-                <q-input readonly hide-underline v-model="content.updateInterval" value=""></q-input>
+                <q-input readonly hide-underline v-model="content.interval" value=""></q-input>
               </q-field>
             </div>
             <div class="row">
@@ -212,6 +212,7 @@ export default {
       this.detail = res.proposal
       this.time_buffer = compileTimeStamp(this.detail.t_timestamp)
       this.content = deCompileContent(this.detail.content)
+      this.content.interval = Math.round(this.content.updateInterval / 8640)
       if (this.detail.activated === 1) {
         this.btnInfo = 'proposal.ACTIVATED'
         this.isBtnAble = true
@@ -229,19 +230,19 @@ export default {
       })
       let ls = []
       if (res.success) {
-        res.votes.foreach((o) => {
+        res.votes.forEach((o) => {
           return ls.push(o.voter)
         })
       }
       this.voteList = ls
       this.voteTotalNum = res.totalCount
-      this.votePassRate = (res.validCount / res.totalCount * 100).toFixed(0)
+      this.votePassRate = (res.validCount || 0 / res.totalCount || 0 * 100).toFixed(0)
     },
     async getValidatorInfo(name) {
       let res = await this.getGatewayDelegates(name)
       if (res.success) {
         let ls = []
-        res.validators.foreach((o) => {
+        res.validators.forEach((o) => {
           if (o.elected === 1) {
             return ls.push(o.address)
           }
@@ -342,6 +343,9 @@ export default {
     },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
+    },
+    interval() {
+      return 
     }
   },
   mounted() {
@@ -349,7 +353,7 @@ export default {
     this.getVoterInfo()
   },
   watch: {
-    user() {
+    userInfo() {
       this.getProposalInfo()
       this.getVoterInfo()
     }

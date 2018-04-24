@@ -626,7 +626,7 @@
       async getAllGate() {
         let res = await this.getGateways()
         let ls = []
-        res.gateways.foreach(o => {
+        res.gateways.forEach(o => {
           return ls.push({
             label: o.name,
             value: o
@@ -687,7 +687,7 @@
           name: this.p_selected.name
         })
         let ls = []
-        res.validators.foreach(o => {
+        res.validators.forEach(o => {
           // cannot init detect
           if (o.elected === 1) {
             that.initFalse = false
@@ -706,13 +706,13 @@
         })
         let total = []
         let elected = []
-        res.validators.foreach(o => {
+        res.validators.forEach(o => {
           // cannot init detect
           if (o.elected === 1) {
             return elected.push(o.address)
           }
         })
-        res.validators.foreach(o => {
+        res.validators.forEach(o => {
           return total.push({
             label: o.address,
             value: o.address
