@@ -13,11 +13,11 @@
           <div class="col-7 col-md-7 col-lg-6 col-xl-5 text-left row justify-left">
             <div>
               <span v-if="!userNickname" class="text-black font-22 vertical-align-middle">
-                      {{$t('HELLO')}}
-                      </span>
+                {{$t('HELLO')}}
+              </span>
               <span v-else class="text-black font-22 vertical-align-middle">
-                      {{$t('HELLO')+'，'}}
-                      </span>
+                {{$t('HELLO')+'，'}}
+              </span>
               <a class="set-nickname bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
             <div class="col-12 text-three">
@@ -37,8 +37,8 @@
           <div class="personal-bottom-title">
             <i class="material-icons">email</i>
             <span>
-                {{$t('MESSAGE_DETAILS')}}
-                </span>
+              {{$t('MESSAGE_DETAILS')}}
+            </span>
           </div>
           <table class="q-table bordered highlight responsive ">
             <tbody class='info-tbody'>
@@ -48,18 +48,18 @@
                 </td>
                 <td>
                   <span v-if="secondSignature" class="text-black font-18">
-                                  {{$t('ALREADY_SET')}}
-                                </span>
+                    {{$t('ALREADY_SET')}}
+                  </span>
                   <a v-else class="text-secondary" @click="secondPwdShow=true">
-                                  {{$t('SET_NOW')}}
-                                </a>
+                    {{$t('SET_NOW')}}
+                  </a>
                 </td>
               </tr>
               <!-- <tr>
                               <td>{{$t('PUBLIC_KEY')}}</td>
                               <td>{{user.account.publicKey}} 
                                 <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
-                              </td>
+                   callLockPanel           </td>
                             </tr> -->
               <tr>
                 <td class="bottom-left-link text-three font-18">
@@ -68,14 +68,14 @@
                 <td>
                   <div v-if="lockInfo">
                     <span>
-                                    {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
-                                  </span>
-                    <a class="text-secondary" @click="lockPanelShow=true">{{$t('EDIT')}}</a>
+                      {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
+                    </span>
+                    <a class="text-secondary" @click="callLockPanel">{{$t('EDIT')}}</a>
                     <a v-if="this.lockInfo.expire" class="text-blue" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
-                  <a v-else class="text-secondary" @click="lockPanelShow=true">
-                                  {{$t('SET_NOW')}}
-                                </a>
+                  <a v-else class="text-secondary" @click="callLockPanel">
+                    {{$t('SET_NOW')}}
+                  </a>
                 </td>
               </tr>
               <tr>
@@ -86,7 +86,7 @@
                   <span v-if="isAgent">
                                   {{$t('IS_AGENT')}}
                                 </span>
-                  <a v-else class="text-secondary" @click="userAgreementShow=true">
+                  <a v-else class="text-secondary" @click="callDelegatePanel">
                                   {{$t('REGISTER_AGENT')}}
                                 </a>
                 </td>
@@ -488,6 +488,22 @@ export default {
     },
     convertFee(value) {
       return convertFee(value)
+    },
+    callLockPanel() {
+      if (this.user.account.isDelegate === 0) {
+        // is not delegate
+        this.lockPanelShow = true
+      } else {
+        toastWarn(this.$t('AGENT_ALREADY'))
+      }
+    },
+    callDelegatePanel() {
+      if (this.user.account.isLocked === 0) {
+        // is not delegate
+        this.userAgreementShow = true
+      } else {
+        toastWarn(this.$t('ALREADY_LOCKED'))
+      }
     }
   },
   async mounted() {},

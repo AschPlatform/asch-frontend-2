@@ -213,7 +213,7 @@ export default {
       'dappMyBalance',
       'broadcastTransaction',
       'appInstalled',
-      'appList',
+      'getAllChains',
       'dappContract'
     ]),
     async loadMore() {
@@ -227,12 +227,12 @@ export default {
       let pageNo = this.pagination.page
       let res = {}
       if (this.installed) {
-        res = await this.appInstalled({
+        res = await this.getAllChains({
           limit: limit,
           offset: (pageNo - 1) * limit
         })
       } else {
-        res = await this.appList({
+        res = await this.getAllChains({
           limit: limit,
           offset: (pageNo - 1) * limit
         })

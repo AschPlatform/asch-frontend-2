@@ -458,6 +458,7 @@ const lang = {
   UPDATE_LIMIT: '最低更新频率:',
 
   // ERROR
+  AGENT_ALREADY: '已经是代理人，此行为被拒绝',
   AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',
   proposal: {
     CONTENT: '提案内容',
