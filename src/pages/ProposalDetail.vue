@@ -131,6 +131,7 @@ import { mapActions, mapState, mapGetters } from 'vuex'
 import { deCompileContent, compileTimeStamp, toast, toastError } from '../utils/util'
 import { secondPwd } from '../utils/validators'
 import MemberIndicator from '../components/MemberIndicator'
+import AschJs from 'asch-js'
 import {
   QPage,
   QField,
@@ -313,30 +314,31 @@ export default {
     },
     // compile time start / end
     time_end() {
-      let d = new Date(this.time_buffer)
-      let start = d.getTime()
-      let end = (this.detail.endHeight - this.detail.t_height) * 1000
-      let total = new Date(start + end)
-      let month = total.getMonth() + 1
-      let day = total.getDate()
-      if (day < 10) {
-        day = '0' + day
-      }
-      let h = d.getHours()
-      let m = d.getMinutes()
-      let s = d.getSeconds()
-      if (h < 10) {
-        h = '0' + h
-      }
+      // let d = new Date(this.time_buffer)
+      // let start = d.getTime()
+      // let end = (this.detail.endHeight - this.detail.t_height) * 1000
+      // let total = new Date(start + end)
+      // let month = total.getMonth() + 1
+      // let day = total.getDate()
+      // if (day < 10) {
+      //   day = '0' + day
+      // }
+      // let h = d.getHours()
+      // let m = d.getMinutes()
+      // let s = d.getSeconds()
+      // if (h < 10) {
+      //   h = '0' + h
+      // }
 
-      if (m < 10) {
-        m = '0' + m
-      }
+      // if (m < 10) {
+      //   m = '0' + m
+      // }
 
-      if (s < 10) {
-        s = '0' + s
-      }
-      return d.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
+      // if (s < 10) {
+      //   s = '0' + s
+      // }
+      // return d.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
+      return AschJs.utils.format.fullTimestamp(this.detail.endHeight)
     },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
