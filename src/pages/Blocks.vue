@@ -1,25 +1,27 @@
 <template>
-  <q-page padding class="self-center row gutter-md">
-    <div class="col-8">
-      <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
-        <template slot="top-left" slot-scope="props">
-          <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
-        </template>
-        <template slot="top-right" slot-scope="props">
-          <q-search hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
-          <q-btn :loading="loading" flat round icon="refresh" @click="refresh" />
-        </template>
+  <q-page class="self-center blocks-container">
+    <div class="blocks-content row">
+      <div class="col-8">
+        <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
+          <template slot="top-left" slot-scope="props">
+              <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
+</template>
 
-        <!-- <template slot="top-right" slot-scope="props">
-          <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-        </template> -->
+<template slot="top-right" slot-scope="props">
+  <q-search class="blocks-search" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
+  <q-btn :loading="loading" flat round icon="refresh" @click="refresh" />
+</template>
+
+        <!--<template slot="top-right" slot-scope="props">
+  <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+</template>-->
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
-            <div class="my-label text-primary" @click="()=>showBlockInfo(props.row.id)" >
+            <div class="my-label text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
               {{props.value.substring(0,7)}}
             </div>
           </q-td>
           <q-td slot="body-cell-height"  slot-scope="props" :props="props">
-            <div class="text-primary" @click="()=>showBlockInfo(props.row.id)" >
+            <div class="text-secondary" @click="()=>showBlockInfo(props.row.id)" >
               {{props.value }}
             </div>
           </q-td>
@@ -28,19 +30,20 @@
           </q-td>
           
           <q-td slot="body-cell-generatorId"  slot-scope="props" :props="props">
-            <div class="text-primary" @click="()=>showAccountInfo(props.row.generatorId)" >
+            <div class="text-secondary" @click="()=>showAccountInfo(props.row.generatorId)" >
 
               {{props.value}}
             </div>
           </q-td>
           <q-td slot="body-cell-numberOfTransactions"  slot-scope="props" :props="props">
-            <div class="text-primary" @click="()=>showTransInfo(props.row.id)" >
+            <div class="text-secondary" @click="()=>showTransInfo(props.row.id)" >
               {{props.value}}
             </div>
           </q-td>
         </q-table>
       </div>
       <div class="col-4">
+        <div class="blocks-container-right">
         <q-card class="q-px-sm">
           <q-card-title>
           {{$t('DELEGATE_INFO')}}
@@ -48,7 +51,7 @@
           <q-card-separator />
           <q-card-main align="center" v-if="!this.isDelegate">
             <span class="block">{{$t('NOT_DELEGATE')}}</span>
-            <q-btn color="primary" @click="registerDelegate">{{$t('DELEGATE_REGISTER')}}</q-btn>
+            <q-btn color="secondary" @click="registerDelegate">{{$t('DELEGATE_REGISTER')}}</q-btn>
           </q-card-main>
           <q-card-main align="center" v-else>
             <span class="block">{{delegate.username}}</span>
@@ -62,10 +65,11 @@
           </q-card-title>
           <q-card-separator />
           <q-card-main align="center">
-            <q-btn @click="changeData" flat text-color="primary">{{delegate.producedblocks}}</q-btn>
+            <q-btn @click="changeData" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
             <span class="block">{{$t('DELEGATE_VOTERATE')+':'+delegate.productivity+'%'}}</span>
           </q-card-main>
         </q-card>
+        </div>
       </div>
 
       <!-- below are modals -->
@@ -91,7 +95,7 @@
           </tr>
           <tr @click="()=>{modalInfoShow = false;showBlockInfo(row.previousBlock)}">
             <td >{{$t('PREVIOUS_BLOCK')}}</td>
-            <td class="text-primary">{{row.previousBlock}}</td>
+            <td class="text-secondary">{{row.previousBlock}}</td>
           </tr>
           <tr>
             <td >{{$t('TOTAL_AMOUNTS')}}</td>
@@ -111,7 +115,7 @@
           </tr>
           <tr @click="()=>{modalInfoShow = false;showAccountInfo(row.generatorId)}">
             <td >{{$t('PRODUCER')}}</td>
-            <td class="text-primary">{{row.generatorId }}</td>
+            <td class="text-secondary">{{row.generatorId }}</td>
           </tr>
           <tr >
             <td >{{$t('PRODUCER_PUBKEY')}}</td>
@@ -138,7 +142,7 @@
       </table>
       <br/>
       <q-btn
-        color="primary"
+        color="secondary"
         @click="()=>{
           this.modalInfoShow = false
           this.row = {}
@@ -173,11 +177,13 @@
         </q-field>
       </div>
 <template slot="buttons" slot-scope="props">
-  <q-btn flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
-  <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
+  <q-btn flat color="secondary" :label="$t('label.cancel')" @click="props.cancel" />
+  <q-btn flat color="secondary" :label="$t('label.ok')" @click="props.ok" />
 </template>
     </q-dialog>
     <user-agreement-modal :show="isModalShow" @confirm="callRegister" @cancel="closeModal" />
+    </div>
+    
   </q-page>
 </template>
 
@@ -476,4 +482,21 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.blocks-container {
+  padding: 20px;
+}
+
+.blocks-content {
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 6px;
+}
+
+.blocks-container-right {
+  padding-left: 20px;
+}
+
+.blocks-search {
+  border: 1px solid #cccccc;
+}
 </style>
