@@ -40,7 +40,7 @@
                 {{$t('MESSAGE_DETAILS')}}
                 </span>
           </div>
-          <table class="q-table bordered highlight responsive ">
+          <table class="personal-table q-table bordered highlight responsive ">
             <tbody class='info-tbody'>
               <tr>
                 <td class="bottom-left-link text-three font-18">
