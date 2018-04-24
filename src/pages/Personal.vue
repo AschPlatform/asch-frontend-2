@@ -16,7 +16,7 @@
                       {{$t('HELLO')}}
                       </span>
               <span v-else class="text-black font-22 vertical-align-middle">
-                      {{$t('HELLO')+'，'}}
+                      {{$t('HELLO')+','}}
                       </span>
               <a class="set-nickname bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
