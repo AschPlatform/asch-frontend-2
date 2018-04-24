@@ -10,13 +10,13 @@
       <q-btn v-if="!isGonnaSet" color="secondary" @click="action">{{$t(btnInfo)}}</q-btn>
      <div class="col-12 justify-between">
        <br />
-        <q-btn color="primary" @click="setAgent">{{$t('SUBMIT')}}</q-btn>
-        <q-btn color="primary" @click="isGonnaSet=false">{{$t('CANCEL')}}</q-btn>
+        <q-btn color="secondary" @click="setAgent">{{$t('SUBMIT')}}</q-btn>
+        <q-btn color="secondary" @click="isGonnaSet=false">{{$t('CANCEL')}}</q-btn>
      </div>
     </q-card-main>
     <q-card-main align="center" v-else>
       <div v-if="agentName">{{agentName}}<a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a></div>
-      <q-btn color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
+      <q-btn color="secondary" @click="action">{{$t(btnInfo)}}</q-btn>
       <p v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:user.account.weight})}}</p>
       <!-- <a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a> -->
     </q-card-main>
