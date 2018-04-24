@@ -68,7 +68,7 @@
             </div>
             <div class="row">
               <q-field class="col-2 font-16" label-width="8" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
-                <q-input readonly hide-underline v-model="content.updateInterval" value=""></q-input>
+                <q-input readonly hide-underline v-model="content.interval" value="" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
               </q-field>
             </div>
             <div class="row">
@@ -131,6 +131,7 @@ import { mapActions, mapState, mapGetters } from 'vuex'
 import { deCompileContent, compileTimeStamp, toast, toastError } from '../utils/util'
 import { secondPwd } from '../utils/validators'
 import MemberIndicator from '../components/MemberIndicator'
+import AschJs from 'asch-js'
 import {
   QPage,
   QField,
@@ -211,6 +212,7 @@ export default {
       this.detail = res.proposal
       this.time_buffer = compileTimeStamp(this.detail.t_timestamp)
       this.content = deCompileContent(this.detail.content)
+      this.content.interval = Math.round(this.content.updateInterval / 8640)
       if (this.detail.activated === 1) {
         this.btnInfo = 'proposal.ACTIVATED'
         this.isBtnAble = true
@@ -228,19 +230,19 @@ export default {
       })
       let ls = []
       if (res.success) {
-        res.votes.foreach((o) => {
+        res.votes.forEach((o) => {
           return ls.push(o.voter)
         })
       }
       this.voteList = ls
       this.voteTotalNum = res.totalCount
-      this.votePassRate = (res.validCount / res.totalCount * 100).toFixed(0)
+      this.votePassRate = (res.validCount || 0 / res.totalCount || 0 * 100).toFixed(0)
     },
     async getValidatorInfo(name) {
       let res = await this.getGatewayDelegates(name)
       if (res.success) {
         let ls = []
-        res.validators.foreach((o) => {
+        res.validators.forEach((o) => {
           if (o.elected === 1) {
             return ls.push(o.address)
           }
@@ -313,30 +315,31 @@ export default {
     },
     // compile time start / end
     time_end() {
-      let d = new Date(this.time_buffer)
-      let start = d.getTime()
-      let end = (this.detail.endHeight - this.detail.t_height) * 1000
-      let total = new Date(start + end)
-      let month = total.getMonth() + 1
-      let day = total.getDate()
-      if (day < 10) {
-        day = '0' + day
-      }
-      let h = d.getHours()
-      let m = d.getMinutes()
-      let s = d.getSeconds()
-      if (h < 10) {
-        h = '0' + h
-      }
+      // let d = new Date(this.time_buffer)
+      // let start = d.getTime()
+      // let end = (this.detail.endHeight - this.detail.t_height) * 1000
+      // let total = new Date(start + end)
+      // let month = total.getMonth() + 1
+      // let day = total.getDate()
+      // if (day < 10) {
+      //   day = '0' + day
+      // }
+      // let h = d.getHours()
+      // let m = d.getMinutes()
+      // let s = d.getSeconds()
+      // if (h < 10) {
+      //   h = '0' + h
+      // }
 
-      if (m < 10) {
-        m = '0' + m
-      }
+      // if (m < 10) {
+      //   m = '0' + m
+      // }
 
-      if (s < 10) {
-        s = '0' + s
-      }
-      return d.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
+      // if (s < 10) {
+      //   s = '0' + s
+      // }
+      // return d.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
+      return AschJs.utils.format.fullTimestamp(this.detail.endHeight)
     },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
@@ -347,7 +350,7 @@ export default {
     this.getVoterInfo()
   },
   watch: {
-    user() {
+    userInfo() {
       this.getProposalInfo()
       this.getVoterInfo()
     }

@@ -77,13 +77,13 @@ export default {
           align: 'center',
           field: 'tid'
         },
-        {
-          name: 'initiator',
-          required: true,
-          label: this.$t('proposal.INITIATOR'),
-          align: 'center',
-          field: 'initiator'
-        },
+        // {
+        //   name: 'initiator',
+        //   required: true,
+        //   label: this.$t('proposal.INITIATOR'),
+        //   align: 'center',
+        //   field: 'initiator'
+        // },
         {
           name: 'topic',
           required: true,

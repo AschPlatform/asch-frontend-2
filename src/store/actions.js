@@ -245,7 +245,7 @@ export default {
       secret,
       params.secondPwd || ''
     )
-    api.broadcastTransaction(trans)
+    return api.broadcastTransaction(trans)
   },
   // vote proposal
   voteProposal: ({ commit }, params) => {
@@ -253,7 +253,7 @@ export default {
       params.tid,
       params.secondPwd || ''
     )
-    api.broadcastTransaction(trans)
+    return api.broadcastTransaction(trans)
   },
   // active proposal
   activeProposal: ({ commit }, params) => {
@@ -261,6 +261,6 @@ export default {
       params.tid,
       params.secondPwd || ''
     )
-    api.broadcastTransaction(trans)
+    return api.broadcastTransaction(trans)
   }
 }
