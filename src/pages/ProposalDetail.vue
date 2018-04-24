@@ -68,7 +68,7 @@
             </div>
             <div class="row">
               <q-field class="col-2 font-16" label-width="8" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
-                <q-input readonly hide-underline v-model="content.interval" value=""></q-input>
+                <q-input readonly hide-underline v-model="content.interval" value="" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
               </q-field>
             </div>
             <div class="row">
@@ -343,9 +343,6 @@ export default {
     },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
-    },
-    interval() {
-      return 
     }
   },
   mounted() {
