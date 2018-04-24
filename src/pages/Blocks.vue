@@ -1,15 +1,15 @@
 <template>
   <q-page class="self-center blocks-container">
     <div class="blocks-content row">
-      <div class="col-8">
+      <div class="col-9">
         <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
           <template slot="top-left" slot-scope="props">
               <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
 </template>
 
 <template slot="top-right" slot-scope="props">
-  <q-search class="blocks-search" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
-  <q-btn :loading="loading" flat round icon="refresh" @click="refresh" />
+  <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
+  <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
 </template>
 
         <!--<template slot="top-right" slot-scope="props">
@@ -42,16 +42,16 @@
           </q-td>
         </q-table>
       </div>
-      <div class="col-4">
+      <div class="col-3">
         <div class="blocks-container-right">
         <q-card class="q-px-sm">
           <q-card-title>
           {{$t('DELEGATE_INFO')}}
           </q-card-title>
           <q-card-separator />
-          <q-card-main align="center" v-if="!this.isDelegate">
+          <q-card-main class="blocks-padding-40" align="center" v-if="!this.isDelegate">
             <span class="block">{{$t('NOT_DELEGATE')}}</span>
-            <q-btn color="secondary" @click="registerDelegate">{{$t('DELEGATE_REGISTER')}}</q-btn>
+            <q-btn class="margin-t-20" color="secondary" @click="registerDelegate">{{$t('DELEGATE_REGISTER')}}</q-btn>
           </q-card-main>
           <q-card-main align="center" v-else>
             <span class="block">{{delegate.username}}</span>
@@ -75,7 +75,7 @@
       <!-- below are modals -->
       <q-modal minimized   v-model="modalInfoShow" content-css="padding: 20px">
       <big>{{$t('DAPP_DETAIL')}}</big>
-      <table class="q-table horizontal-separator highlight loose ">
+      <table class="q-table horizontal-separator highlight loose blocks-datail-table">
         <tbody v-if="type==1" class='info-tbody'>
           <tr v-clipboard="row.id || 'no data'" @success="info('copy ID success...')">
             <td >{{'ID'}}</td>
@@ -498,5 +498,8 @@ export default {
 
 .blocks-search {
   border: 1px solid #cccccc;
+  border-radius: 15px;
 }
+
+
 </style>
