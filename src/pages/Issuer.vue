@@ -1,12 +1,12 @@
 <template>
-  <q-page class="tab-panel-container row ">
-      <div class="col-8 shadow-1">
-        <q-table :data="assets" :columns="columns" @request="request" :pagination.sync="pagination" 
-        :loading="loading" :title="$t('MY_ASSETS')">
-          
-         <template slot="top-right" slot-scope="props">
-            <q-btn flat :label="$t('REGISTERED_ASSETS')" color="primary"  @click="assetRegister" />
-          </template>
+  <q-page class="issuer-container">
+    <div class="bg-white padding-20 row issuer-content">
+      <div class="col-9">
+        <q-table :data="assets" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('MY_ASSETS')">
+  
+          <template slot="top-right" slot-scope="props">
+                    <q-btn  :label="$t('REGISTERED_ASSETS')" color="secondary"  @click="assetRegister" />
+</template>
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
             <div>
@@ -16,7 +16,7 @@
               <!-- <q-btn @click="transferAsset(props)" icon="send" size="sm" flat color="primary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRANSFER')}}</q-tooltip>
               </q-btn> -->
-              <q-btn @click="publish(props.row)" icon="publish" size="sm" flat color="primary" >
+              <q-btn @click="publish(props.row)" icon="publish" size="sm" flat color="secondary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_UIA_ISSUE')}}</q-tooltip>
               </q-btn>
               <!-- <q-fab flat color="orange" icon="settings" direction="right" size="sm" >
@@ -45,8 +45,9 @@
 
         </q-table>
       </div>
-      <div class="col-4">
-        <q-card>
+      <div class="col-3">
+        <div class="padding-l-20">
+         <q-card>
           <q-card-title>
             {{$t('ISSUER')}}
           </q-card-title>
@@ -64,9 +65,13 @@
               <a class="text-blue" @click="issuerRegister" >{{$t('REGISTERED_PUBLISHER')}}</a>
             </div>
           </q-card-main>
-        </q-card>
+         </q-card>
+        </div>
+    
         <!-- <assets-records :userObj="userInfo" /> -->
       </div>
+    </div>
+
      
 
       <q-modal minimized no-backdrop-dismiss   v-model="modalInfoShow" content-css="padding: 20px">
@@ -156,10 +161,10 @@
         </q-field>
       </div>
 
-      <template slot="buttons" slot-scope="props">
-          <q-btn  flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
-          <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
-      </template>
+<template slot="buttons" slot-scope="props">
+  <q-btn outline class="" color="secondary" :label="$t('label.cancel')" @click="props.cancel" />
+  <q-btn  color="secondary" :label="$t('label.ok')" @click="props.ok" />
+</template>
     </q-dialog>
 
       <user-agreement-modal :show="userAgreementShow" @confirm="confirm" @cancel="userAgreementShow=false" :title="agreement.title" :tips="agreement.tips" :content="agreement.content" />
@@ -390,10 +395,22 @@ export default {
     },
 
     addACL(row) {
-      this.$router.push({ name: 'addACL', params: { user: this.user, assets: row } })
+      this.$router.push({
+        name: 'addACL',
+        params: {
+          user: this.user,
+          assets: row
+        }
+      })
     },
     removeACL(row) {
-      this.$router.push({ name: 'reduceACL', params: { user: this.user, assets: row } })
+      this.$router.push({
+        name: 'reduceACL',
+        params: {
+          user: this.user,
+          assets: row
+        }
+      })
     },
     async onOk() {
       const t = this.$t
@@ -491,7 +508,11 @@ export default {
       } else {
         this.agreement = {
           title: t('REGISTERED_PUBLISHER'),
-          tips: t('REGISTERED_PUBLISHER') + t('COST_FEE', { num: 100 }),
+          tips:
+            t('REGISTERED_PUBLISHER') +
+            t('COST_FEE', {
+              num: 100
+            }),
           content: t('AGREEMENT_ASSET_CONTENT'),
           type: 2
         }
@@ -502,7 +523,11 @@ export default {
       const t = this.$t
       this.agreement = {
         title: t('REGISTERED_ASSETS'),
-        tips: t('TRS_TYPE_UIA_ASSET') + t('COST_FEE', { num: 500 }),
+        tips:
+          t('TRS_TYPE_UIA_ASSET') +
+          t('COST_FEE', {
+            num: 500
+          }),
         content: t('AGREEMENT_ISSUER_CONTENT'),
         type: 1
       }
@@ -517,7 +542,9 @@ export default {
       }
     },
     async initData() {
-      await this.getIssuer({ address: this.userInfo.account.address })
+      await this.getIssuer({
+        address: this.userInfo.account.address
+      })
       await this.getAssets()
     }
     // formValid(type) {
@@ -576,4 +603,12 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.issuer-container {
+  padding: 20px;
+  border-radius: 6px;
+}
+
+.issuer-content {
+  border-radius: 6px;
+}
 </style>

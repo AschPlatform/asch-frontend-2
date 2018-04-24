@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-padding self-center">
+  <div class="peers-container self-center">
     <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
       <div class="col-12 shadow-1">
         <q-table :data="peers" :filter="filter" color="primary" 
@@ -44,15 +44,14 @@ import { api } from '../utils/api'
 import { officialPeers } from '../utils/constants'
 import { setCache, getCache, toast } from '../utils/util'
 import axios from '../utils/axiosWrap'
-import {
-  QIcon,
-  QTable,
-  QToggle
-} from 'quasar'
+import { QTd, QBtn, QTooltip, QIcon, QTable, QToggle } from 'quasar'
 
 export default {
   props: ['userObj'],
   components: {
+    QTd,
+    QBtn,
+    QTooltip,
     QIcon,
     QTable,
     QToggle
@@ -246,4 +245,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.peers-container {
+  padding: 20px;
+}
 </style>
