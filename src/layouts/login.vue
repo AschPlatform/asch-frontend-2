@@ -6,7 +6,7 @@
         <q-page padding class="login-content row justify-center">
           <div class="main-page layout-padding row justify-center ">
             <img class="login-ball" ref="img" :src="loginBallImg" alt="login ball">
-            <q-card v-if="registerStep==0" class="login-panel col-12 ">
+            <q-card v-if="registerStep==0" class="login-panel">
               <q-card-title class="">
                 <span class="lite-orange card-font">
                       {{$t('LOGIN')}}
@@ -20,11 +20,10 @@
                   <q-input icon="search" :float-label="$t('INPUT_PASSWORD')" @change="$v.secret.$touch" type="password" v-model="secret" @keyup.enter="userLogin" clearable />
                 </q-field>
                 <div class="row col-10 justify-between options-panel">
-                  <div inline style="line-height: 44px;" class="q-mr-md">{{$t('CHOSE_SERVER')}}:</div>
-                  <q-select style="width:125px" separator radio float-label="server" class="col" v-model="serverUrl" :options="serverOpts" />
+                  <q-select style="width:125px" separator radio :float-label="$t('CHOSE_SERVER')" class="col" v-model="serverUrl" :options="serverOpts" />
                 </div>
                 <div class="row col-10 q-mt-lg">
-                  <q-checkbox class="col-auto " v-model="remember">{{$t('KEEP_SESSION')}}</q-checkbox>
+                  <q-checkbox class="col-auto" v-model="remember">{{$t('KEEP_SESSION')}}</q-checkbox>
                 </div>
               </q-card-main>
               <q-card-main class="row col-10 justify-center ">
@@ -38,16 +37,16 @@
                 </div>
               </q-card-main>
             </q-card>
-            <q-card  v-show="registerStep==1" class="register-panel col-lg-9 col-xs-10 ">
+            <q-card  v-show="registerStep==1" class="register-panel">
               <q-card-title class="lite-orange card-font">
-                <span>
+                <span class="lite-orange card-font">
                 {{$t('CREATE_MASTER_PASSWORD')}}
                 </span>  
               </q-card-title> 
-              <q-card-main class="row col-10 justify-center ">
+              <q-card-main class="row col-12 justify-center ">
                 <q-field  class="col-10" :helper="$t('CREATE_TIP1')">
-                  <q-input type="textarea" class="new-secret-input col-8" v-model="newSecret" disable :min-rows="5" />
-                  <q-btn class="copy-new-secret col-2" color="primary" v-clipboard="newSecret || 'no data' "  flat round icon="content copy" @click="jumpOut($t('COPY_SUCCESS'))" />
+                  <q-input type="textarea" class="new-secret-input col-6" v-model="newSecret" disable :min-rows="3" />
+                  <q-btn class="copy-new-secret col-10" color="primary" v-clipboard="newSecret || 'no data' "  flat round icon="content copy" @click="jumpOut($t('COPY_SUCCESS'))" />
                 </q-field>
                 <q-field  class="col-10">
                   <q-input type="textarea" :placeholder="$t('CREATE_TIP2')" v-model="confirmNewSecret" clearable />
@@ -56,16 +55,16 @@
               <q-card-main class="prompt-message">
                 <q-checkbox v-model="selection" val="one" :label="$t('READ_TIP1')" />
                 <br><br>
-                <q-checkbox class="selection-container" v-model="selection" val="two" :label="$t('READ_TIP2')" />
+                <q-checkbox class="selection-container-two" v-model="selection" val="two" :label="$t('READ_TIP2')" />
                 <br><br>
-                <q-checkbox class="selection-container" v-model="selection" val="three" :label="$t('READ_TIP3')" />
+                <q-checkbox class="selection-container-three" v-model="selection" val="three" :label="$t('READ_TIP3')" />
               </q-card-main>
-              <q-card-main class="row col-10 justify-center ">
+              <q-card-main class="row col-10 justify-center padding-b-40">
                 <div v-show="registerStep==1" class="row col-10 justify-between">
-                  <q-btn big class="col-auto " color="primary" @click="verifyNewSecret">
+                  <q-btn big class="col-auto col-5" color="primary" @click="verifyNewSecret">
                     {{$t('CREATE_MASTER_PASSWORD')}}
                   </q-btn>
-                  <q-btn big class="col-auto " color="primary" @click="toLogin">
+                  <q-btn big class="col-auto col-5" color="primary" @click="toLogin">
                     {{$t('CANCEL_LOGIN')}}
                   </q-btn>
                 </div>
@@ -122,7 +121,7 @@ export default {
     return {
       loginBallImg,
       secret: '',
-      remember: false,
+      remember: true,
       lang: '',
       langsOpts: langsOpts,
       isRegister: false,
@@ -315,6 +314,7 @@ html, body {
 }
 
 .login-panel {
+  width: 513px;
   position: relative;
   background: #ffffff;
   padding: 30px 0 40px 0;
@@ -353,7 +353,7 @@ html, body {
 }
 
 .register-panel {
-  waith: 474px;
+  width: 513px;
   position: relative;
   background: #ffffff;
   margin-top: -40px;
@@ -366,6 +366,7 @@ html, body {
 
 .new-secret-input {
   display: inline-block;
+  width: 80%;
 }
 
 .copy-new-secret {
@@ -373,7 +374,11 @@ html, body {
   vertical-align: top;
 }
 
-.selection-container {
+.selection-container-two {
   margin-top: -20px !important;
+}
+
+.selection-container-three {
+  margin-top: -30px !important;
 }
 </style>
