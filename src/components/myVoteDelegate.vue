@@ -1,22 +1,22 @@
 <template>
   <q-card class="q-px-sm">
-    <q-card-title color="secondary">
-     {{!isGonnaSet ? this.$t('VOTE_DELEGATE') : this.$t('VOTE_SET')}}
+    <q-card-title>
+    {{!isGonnaSet ? this.$t('VOTE_DELEGATE') : this.$t('VOTE_SET')}}
     </q-card-title>
     <q-card-separator />
     <q-card-main class="row" v-if="isGonnaSet">
       <q-input class="col-12" clearable v-model="agent" :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
       <q-input class="col-12" v-if="secondSignature" v-model="secondPwd" type="password" :float-label="$t('TRS_TYPE_SECOND_PASSWORD')"></q-input>
-      <q-btn v-if="!isGonnaSet" class="bg-secondary" color="secondary" @click="action">{{$t(btnInfo)}}</q-btn>
+      <q-btn v-if="!isGonnaSet" color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
      <div class="col-12 justify-between">
        <br />
-        <q-btn color="secondary" @click="setAgent">{{$t('SUBMIT')}}</q-btn>
-        <q-btn color="secondary" @click="isGonnaSet=false">{{$t('CANCEL')}}</q-btn>
+        <q-btn color="primary" @click="setAgent">{{$t('SUBMIT')}}</q-btn>
+        <q-btn color="primary" @click="isGonnaSet=false">{{$t('CANCEL')}}</q-btn>
      </div>
     </q-card-main>
     <q-card-main align="center" v-else>
       <div v-if="agentName">{{agentName}}<a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a></div>
-      <q-btn class="bg-secondary" color="secondary" @click="action">{{$t(btnInfo)}}</q-btn>
+      <q-btn color="primary" @click="action">{{$t(btnInfo)}}</q-btn>
       <p v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:user.account.weight})}}</p>
       <!-- <a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a> -->
     </q-card-main>

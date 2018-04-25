@@ -1,29 +1,26 @@
 <template>
   <q-tabs no-pane-border inverted class="tab-container shadow-1" align="justify">
-    <q-tab default name="voteRecords" slot="title"  icon="people" :label="$t('VOTE_RECORD')" />
-    <q-tab name="supporters" slot="title" icon="face" :label="$t('MY_VOTERS')" />
+    <q-tab default name="voteRecords"  color="secondary" slot="title" icon="people" :label="$t('VOTE_RECORD')" />
+    <q-tab name="supporters" color="secondary" slot="title" icon="face" :label="$t('MY_VOTERS')" />
     <!-- target -->
     <q-tab-pane name="voteRecords" keep-alive>
-       <!-- come from VR page -->
-       <q-table :no-data-label="$t('table.noData')" :data="VR.delegatesData" :filter="VR.filter" color="primary"
-        selection="multiple" :selected.sync="VR.selected" row-key="address"
-        :columns="VR.columns"  @request="requestVR" :pagination.sync="VR.pagination" 
-        :loading="VR.loading" :rows-per-page-options="[10]"
-        >
-        
-          <template slot="top-right" slot-scope="props">
-            <q-btn v-if="VR.selected.length" color="negative" flat round  icon="delete" @click="repeal" >
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
-            </q-btn>
-            <q-btn flat round  icon="refresh" color="primary" @click="refreshVR" >
-            </q-btn>
-            <q-btn flat round  color="primary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
-            </q-btn>
-          </template>
+      <!-- come from VR page -->
+      <q-table :no-data-label="$t('table.noData')" :data="VR.delegatesData" :filter="VR.filter" color="secondary" selection="multiple" :selected.sync="VR.selected" row-key="address" :columns="VR.columns" @request="requestVR" :pagination.sync="VR.pagination"
+        :loading="VR.loading" :rows-per-page-options="[10]">
+  
+        <template slot="top-right" slot-scope="props">
+              <q-btn v-if="VR.selected.length" color="negative" flat round  icon="delete" @click="repeal" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
+              </q-btn>
+              <q-btn flat round  icon="refresh" color="secondary" @click="refreshVR" >
+              </q-btn>
+              <q-btn flat round  color="secondary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
+              </q-btn>
+</template>
            
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
-            <div class="text-primary" @click="viewAccountInfo(props.row)">
-              {{props.value}}
+            <div class="text-secondary" @click="viewAccountInfo(props.row)">
+              {{props.value.substring(0,7)}}
             </div>
           </q-td>
           <q-td slot="body-cell-username"  slot-scope="props" :props="props">
@@ -32,7 +29,7 @@
             </div>
           </q-td>
           <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-            <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
+            <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="secondary" >
               <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
             </q-btn>
             <q-icon color="positive" v-if="props.row.voted" name="icon-chrome" />
@@ -40,20 +37,20 @@
         </q-table>
     </q-tab-pane>
     <q-tab-pane name="supporters" keep-alive>
-        <q-table :no-data-label="$t('table.noData')" :data="SP.supports" :filter="SP.filter" color="primary"
+        <q-table :no-data-label="$t('table.noData')" :data="SP.supports" :filter="SP.filter" color="secondary"
         :columns="SP.columns"  @request="requestSP" :pagination.sync="SP.pagination" 
         :loading="SP.loading" :title="$t('TOTAL_PEOPLES',{count:SP.pagination.rowsNumber})"
         >
         
-          <template slot="top-right" slot-scope="props">
-            <q-btn flat round  icon="refresh" color="primary" @click="refreshSP" >
-            </q-btn>
-            <q-btn flat round  color="primary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
-            </q-btn>
-          </template>
+<template slot="top-right" slot-scope="props">
+  <q-btn flat round icon="refresh" color="secondary" @click="refreshSP">
+  </q-btn>
+  <q-btn flat round color="secondary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen">
+  </q-btn>
+</template>
            
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
-            <div @click="viewAccountInfo(props.row)" class="text-primary">{{props.value}}</div>
+            <div @click="viewAccountInfo(props.row)" class="text-secondary">{{props.value}}</div>
           </q-td>
 
           <q-td slot="body-cell-weight"  slot-scope="props" :props="props">
@@ -82,39 +79,46 @@
               <td >{{$t('ADDRESS')}}</td>
             </tr>
             <tr v-for="delegate in VR.selected" :key="delegate.address">
-              <td >{{delegate.username}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
+              <td >{{delegate.name}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
               <td >{{delegate.address}} </td>
             </tr>
           </tbody>
         </table>
         </div>
-      <template slot="buttons" slot-scope="props">
-        <q-btn  flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
-        <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
-      </template>
+<template slot="buttons" slot-scope="props">
+  <q-btn flat color="secondary" :label="$t('label.cancel')" @click="props.cancel" />
+  <q-btn flat color="secondary" :label="$t('label.ok')" @click="props.ok" />
+</template>
     </q-dialog>
     <slot name="voteDelegate"></slot>
   </q-tabs>
 </template>
 
 <script>
-import { QTabs, QTab, QTabPane } from 'quasar'
+import { QTable, QTabs, QTab, QTabPane, QIcon, QBtn, QField, QInput, QTooltip, QTd } from 'quasar'
 import { toast, translateErrMsg } from '../utils/util'
-import { createVote } from '../utils/asch'
+import asch from '../utils/asch-v2'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
   props: ['userObj'],
   components: {
+    QTable,
     QTabs,
     QTab,
     QTabPane,
-    mapGetters
+    mapGetters,
+    QIcon,
+    QBtn,
+    QField,
+    QInput,
+    QTooltip,
+    QTd
   },
   data() {
     return {
       SP: {
-        // below are come from support
+        // below are for supporter
         delegates: [],
         pagination: {
           page: 1,
@@ -146,6 +150,7 @@ export default {
         supports: []
       },
       VR: {
+        // below are for vote record
         delegatesData: [],
         pagination: {
           page: 1,
@@ -171,7 +176,7 @@ export default {
           {
             name: 'username',
             label: this.$t('DELEGATE'),
-            field: 'username',
+            field: 'name',
             type: 'string'
           },
           {
@@ -222,7 +227,7 @@ export default {
       let limit = this.SP.pagination.rowsPerPage
       let pageNo = this.SP.pagination.page
       let res = await this.votetome({
-        publicKey: this.user.publicKey,
+        publicKey: this.userInfo.publicKey,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -254,7 +259,7 @@ export default {
       let limit = this.VR.pagination.rowsPerPage
       let pageNo = this.VR.pagination.page
       let res = await this.myvotes({
-        address: this.user.account.agent,
+        address: this.userInfo.account.address,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -277,7 +282,7 @@ export default {
         this.VR.selected = []
         return
       }
-      let trans = createVote(this.selectedDelegate, this.user.secret, this.VR.secondPwd)
+      let trans = asch.cleanVote(this.selectedDelegate, this.userInfo.secret, this.VR.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_VOTE_SUCCESS'))
@@ -290,20 +295,18 @@ export default {
       this.VR.secondPwd = ''
     },
     repeal() {
+      console.log(this.VR.dialogShow)
       this.VR.dialogShow = true
     }
   },
   mounted() {
-    if (this.user) {
+    if (this.userInfo) {
       this.getSupporters()
       this.getDelegates()
     }
   },
   computed: {
     ...mapGetters(['userInfo']),
-    user() {
-      return this.userInfo
-    },
     paginationDeafult() {
       return {
         page: 1,
@@ -312,15 +315,18 @@ export default {
       }
     },
     selectedDelegate() {
+      // string, split by ','
       let selected = this.VR.selected.filter(d => {
         return !d.voted
       })
-      return selected.map(delegate => {
-        return '-' + delegate.publicKey
-      })
+      return selected
+        .map(delegate => {
+          return delegate.name
+        })
+        .join(',')
     },
     secondSignature() {
-      return this.user ? this.user.account.secondPublicKey : null
+      return this.userInfo ? this.userInfo.account.secondPublicKey : null
     }
   },
   watch: {
