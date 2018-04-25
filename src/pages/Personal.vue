@@ -8,7 +8,7 @@
       <q-card-main class="row col-12 justify-center">
         <div class="personal-top col-12 row justify-left bg-white shadow-2">
           <div class="personal-head-portrait col-1">
-            <jdenticon class="personal-head-canvas self-center" :address="address" :size="60" />
+            <jdenticon class="personal-head-canvas" :address="address" :size="60" />
           </div>
           <div class="col-7 col-md-7 col-lg-6 col-xl-5 text-left row justify-left">
             <div>
@@ -563,12 +563,12 @@ export default {
 .personal-head-portrait {
   width: 116px;
   margin-right: 40px;
-  border: 1px solid #e3e6e8;
-  border-radius: 50%;
 }
 
 .personal-head-canvas {
   width: 100%;
+  border: 1px solid #e3e6e8;
+  border-radius: 50%;
 }
 
 .self-center {
