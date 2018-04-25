@@ -224,7 +224,7 @@ export default {
     }
   },
   watch: {
-    userObj(val) {
+    userInfo(val) {
       if (val) {
         this.getDelegates()
       }

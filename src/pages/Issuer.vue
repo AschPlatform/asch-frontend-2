@@ -24,7 +24,7 @@
                   {{$t('TRS_TYPE_UIA_FLAGS')}}
                 </q-tooltip>
                 <q-fab-action color="primary" @click="changeModal(props.row)" icon="transform">
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CHANGE_ACL_MODAL')}}</q-tooltip>
+                  <q-tooltip anchor="top middle" se00000lf="bottom middle" :offset="[0, 10]">{{$t('CHANGE_ACL_MODAL')}}</q-tooltip>
                 </q-fab-action>
                 <q-fab-action color="primary" @click="addACL(props.row)" icon="add">
                   <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.create') + ACLStr(props.row.acl)}}</q-tooltip>
@@ -413,6 +413,7 @@ export default {
       })
     },
     async onOk() {
+      debugger
       const t = this.$t
       let formType = this.dialog.form
       if (formType === 1) {

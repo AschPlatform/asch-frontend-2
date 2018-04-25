@@ -84,7 +84,7 @@ export const convertFee = (fee, precision = 8) => {
   }
   fee = fee.toString()
 
-  while (fee.length < 9) {
+  while (fee.length < (precision + 1)) {
     fee = '0'.concat(fee)
   }
 

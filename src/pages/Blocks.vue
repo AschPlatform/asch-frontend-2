@@ -403,6 +403,10 @@ export default {
         toastInfo(this.$t('PLEASE_SET_NAME'))
         return null
       }
+      if (!this.user.account.isDelegate === 0) {
+        toastInfo(this.$t('AGENT_ALREADY'))
+        return null
+      }
       if (this.user.account.isAgent) {
         toastInfo(this.$t('AGENT_CAN_NOT_BE_DELEGATE'))
         return null

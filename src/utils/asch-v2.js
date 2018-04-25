@@ -203,7 +203,7 @@ const asch = {
   issueAsset: (symbol, amount, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertFee({
-        type: 101,
+        type: 102,
         fee: 10000000,
         args: [symbol, amount],
         secret,
