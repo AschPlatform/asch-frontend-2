@@ -266,7 +266,6 @@
     secondPwd
   } from '../utils/validators'
   import {
-    getCache,
     toastError,
     toast
   } from '../utils/util'
@@ -468,7 +467,6 @@
             this.first_type !== 'new' &&
             this.first_type !== 'new_n' &&
             this.first_type !== null &&
-            this.first_type !== null &&
             this.$v.second_type.$dirty !== false
           ) {
             if (val === null) {
@@ -593,7 +591,7 @@
         }
         return content
       },
-      launchProposal() {
+      async launchProposal() {
         if (this.first_type === 'new' || this.first_type === 'new_n') {
           let result = this.checkValidate(this.first_type)
           if (!result) {
@@ -614,9 +612,9 @@
         obj.topic = this.countedType
         obj.endHeight = this.endHeight
         obj.secondPwd = this.secondPwd
-        let result = this.postProposal(obj)
+        let result = await this.postProposal(obj)
         if (result.success) {
-          toast('LAUNCH_MODAL.LAUNCH_SUCCESS')
+          toast(this.$t('LAUNCH_MODAL.LAUNCH_SUCCESS'))
           this.hideModal()
         } else {
           toastError(result.error)
@@ -628,7 +626,7 @@
       async getAllGate() {
         let res = await this.getGateways()
         let ls = []
-        res.gateways.foreach(o => {
+        res.gateways.forEach(o => {
           return ls.push({
             label: o.name,
             value: o
@@ -689,7 +687,7 @@
           name: this.p_selected.name
         })
         let ls = []
-        res.validators.foreach(o => {
+        res.validators.forEach(o => {
           // cannot init detect
           if (o.elected === 1) {
             that.initFalse = false
@@ -708,13 +706,13 @@
         })
         let total = []
         let elected = []
-        res.validators.foreach(o => {
+        res.validators.forEach(o => {
           // cannot init detect
           if (o.elected === 1) {
             return elected.push(o.address)
           }
         })
-        res.validators.foreach(o => {
+        res.validators.forEach(o => {
           return total.push({
             label: o.address,
             value: o.address
@@ -724,10 +722,10 @@
         this.delegateList = total
       },
       checkValidate(action) {
+        debugger
         // total set first
         if (!this.$v.p_title.$invalid &&
           !this.$v.first_type.$invalid &&
-          !this.$v.p_time_start.$invalid &&
           !this.$v.p_time_end.$invalid
         ) {
           switch (action) {
@@ -846,11 +844,12 @@
         }
       },
       endHeight() {
-        let currentHeight = getCache('user').latestBlock.height
-        let pre = new Date(this.p_time_start).getTime()
+        debugger
+        let currentHeight = this.userInfo.latestBlock.height
+        let pre = new Date().getTime()
         let post = new Date(this.p_time_end).getTime()
         let shift = (post - pre) / 10000
-        return currentHeight + shift
+        return Math.round(currentHeight + shift)
       },
       countedInterval() {
         return Number(this.NEW.period) * 8640

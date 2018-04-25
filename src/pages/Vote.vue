@@ -2,13 +2,8 @@
   <!-- if you want automatic padding use "layout-padding" class -->
   <q-page class="vote-container">
     <div class="row vote-content bg-white">
-      <div class="vote-container-title col-12">
-        <i class="material-icons text-tertiary font-22">border_color</i>
-        <span class="text-tertiary font-22 font-weight">{{$t('DELEGATE_LIST')}}</span>
-        <span class="vote-line"></span>
-      </div>
-      <div class="col-7 no-shadow bg-white">
-        <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST_DETAILS')"
+      <div class="col-8 no-shadow bg-white">
+        <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST')"
           :rows-per-page-options="[15]">
   
           <template slot="top-right" slot-scope="props">
@@ -34,7 +29,7 @@
           </q-table>
         </div>
 
-        <div class="col-5 vote-right-container">
+        <div class="col-4 vote-right-container">
           <div >
           <vote-record />
           <my-vote-delegate class="margin-t-20" :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetail" />

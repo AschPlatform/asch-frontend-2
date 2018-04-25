@@ -285,7 +285,7 @@ export default {
       let trans = asch.cleanVote(this.selectedDelegate, this.userInfo.secret, this.VR.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
-        toast(this.$t('INF_VOTE_SUCCESS'))
+        toast(this.$t('RETREAT_VOTE_SUCCESS'))
       } else {
         translateErrMsg(this.$t, res.error)
       }

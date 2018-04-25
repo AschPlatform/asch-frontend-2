@@ -233,6 +233,10 @@ export default {
   getGatewayDelegates: ({ commit }, params) => {
     return api2.gatewayDelegates(params)
   },
+  // get all chains(dapps)
+  getAllChains: ({ commit }, params) => {
+    return api2.chains(params)
+  },
   // api2 post actions
   postProposal: ({ commit }, params) => {
     const secret = getCache('user').secret
@@ -245,7 +249,7 @@ export default {
       secret,
       params.secondPwd || ''
     )
-    api.broadcastTransaction(trans)
+    return api.broadcastTransaction(trans)
   },
   // vote proposal
   voteProposal: ({ commit }, params) => {
@@ -253,7 +257,7 @@ export default {
       params.tid,
       params.secondPwd || ''
     )
-    api.broadcastTransaction(trans)
+    return api.broadcastTransaction(trans)
   },
   // active proposal
   activeProposal: ({ commit }, params) => {
@@ -261,6 +265,6 @@ export default {
       params.tid,
       params.secondPwd || ''
     )
-    api.broadcastTransaction(trans)
+    return api.broadcastTransaction(trans)
   }
 }

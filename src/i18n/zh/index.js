@@ -352,6 +352,7 @@ const lang = {
 
   // ============== new add =================
   LOCK_DETAIL_TIP: '请设置锁仓额度',
+  RETREAT_VOTE_SUCCESS: '撤销投票成功',
   DELEGATE_LIST_DETAILS: '受托人详情列表',
   SECOND_PASSWORD_TIP: '为了保障您的资金安全，请设置8位数以上的密码',
   SECOND_PASSWORD_CONFIRM: '请确认密码',
@@ -447,6 +448,7 @@ const lang = {
   DONE: '完成',
   PROCESS: '进行中',
   AGENT_CAN_NOT_BE_DELEGATE: '代理人不能成为受托人',
+  DELEGATE_CAN_NOT_BE_AGENT: '受托人不能成为代理人',
   COUNCIL_MEMBER: '理事会成员',
   COUNCILS: '全部理事会',
   GATEWAY_MEMBER: '网关成员',
@@ -456,6 +458,7 @@ const lang = {
   CREATE_TIME: '创建时间',
   ELECTED: '当选状态',
   UPDATE_LIMIT: '最低更新频率:',
+  AGENT_ALREADY: '已经是代理人，此行为被拒绝',
 
   // ERROR
   AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',

@@ -229,7 +229,7 @@ export default {
 
 .transfer-jdenticon {
   border-radius: 50%;
-  border: 1px solid #999999;
+  border: 1px solid #e3e6e8;
 }
 
 .panelBtn {

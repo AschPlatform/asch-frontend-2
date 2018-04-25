@@ -8,10 +8,13 @@
             <div class="col-6">
               <jdenticon class="home-jdenticon" :address="user.account.address" :size="60" />
               <div class="home-top-set-nickname">
-                <span class="text-black font-22 vertical-align-middle font-weight">
+                <span v-if="!userNickname" class="text-black font-22 vertical-align-middle font-weight">
                       {{$t('HELLO')}}
                       </span>
-                <a class="set-nickname bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="toPersonalSetNickname">{{$t('SET_NICKNAME')}}</a> <span v-else>{{userNickname}}</span>
+                <span v-else class="text-black font-22 vertical-align-middle font-weight">
+                      {{$t('HELLO')+','}}
+                      </span>
+                <a class="set-nickname bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="toPersonalSetNickname">{{$t('SET_NICKNAME')}}</a> <span v-else class="font-22 vertical-align-middle">{{userNickname}}</span>
                 <p class="font-14 text-three">{{$t('HOME_TIPES')}}</p>
               </div>
             </div>

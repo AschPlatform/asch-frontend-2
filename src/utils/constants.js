@@ -320,6 +320,10 @@ const urls = {
     // 获取转账记录
     transfers: {
       url: '/api/v2/transfers'
+    },
+    // 获取所有已注册侧链
+    chains: {
+      url: '/api/v2/chains'
     }
   },
 

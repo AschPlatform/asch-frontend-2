@@ -3,6 +3,7 @@ import { urls } from './constants'
 import { getCurrentSeverUrl } from './util'
 
 // import nodeService from './servers'
+// Read me: this file contains all the get API & V1 post APIS
 
 const json2url = json => {
   var arr = []
@@ -305,6 +306,10 @@ api2.gateways = params => {
 // 获取某网关所有候选人
 api2.gatewayDelegates = params => {
   return fetch(urls.v2.gateValidators, params, 'get')
+}
+// 获取所有已注册侧链
+api2.chains = params => {
+  return fetch(urls.v2.chains, params, 'get')
 }
 
 // const canRetry = ret => {
