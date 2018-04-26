@@ -49,7 +49,7 @@
                   <q-btn class="copy-new-secret col-10" color="primary" v-clipboard="newSecret || 'no data' "  flat round icon="content copy" @click="jumpOut($t('COPY_SUCCESS'))" />
                 </q-field>
                 <q-field  class="col-10">
-                  <q-input type="textarea" :placeholder="$t('CREATE_TIP2')" v-model="confirmNewSecret" clearable />
+                  <q-input type="textarea" class="margin-t-10" :float-label="$t('CREATE_TIP2')" v-model="confirmNewSecret" clearable />
                 </q-field>
               </q-card-main>
               <q-card-main class="prompt-message">
@@ -59,13 +59,13 @@
                 <br><br>
                 <q-checkbox class="selection-container-three" v-model="selection" val="three" :label="$t('READ_TIP3')" />
               </q-card-main>
-              <q-card-main class="row col-10 justify-center padding-b-40">
+              <q-card-main class="row col-10 justify-center padding-b-54">
                 <div v-show="registerStep==1" class="row col-10 justify-between">
-                  <q-btn big class="col-auto col-5" color="primary" @click="verifyNewSecret">
-                    {{$t('CREATE_MASTER_PASSWORD')}}
-                  </q-btn>
                   <q-btn big class="col-auto col-5" color="primary" @click="toLogin">
                     {{$t('CANCEL_LOGIN')}}
+                  </q-btn>
+                  <q-btn big class="col-auto col-5" color="primary" @click="verifyNewSecret">
+                    {{$t('CREATE_MASTER_PASSWORD')}}
                   </q-btn>
                 </div>
               </q-card-main>
