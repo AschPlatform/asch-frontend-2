@@ -220,7 +220,7 @@ export default {
         this.btnInfo = 'proposal.EXPIRED'
         this.isBtnAble = true
       } else {
-        this.btnInfo = 'proposal.ACTIVE'
+        this.btnInfo = 'proposal.BTN_VOTE'
         this.isBtnAble = false
       }
     },

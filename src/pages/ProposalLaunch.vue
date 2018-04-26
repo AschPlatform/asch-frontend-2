@@ -127,6 +127,10 @@
               </q-field>
             </div>
           </div>
+          <!-- below is net init disabled page -->
+          <div class="col-12" v-show="this.first_type === 'init' && !this.initFalse">
+            <div class="row">{{$t('ALREADY_INIT')}}</div>
+          </div>
   
           <!-- below is net period page -->
           <div class="col-12" v-show="this.first_type === 'period_n'" id="remove">
