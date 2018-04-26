@@ -433,7 +433,7 @@ const lang = {
   HOW_TO_BE: '如何成为',
   PLEASE_LOCK: '请先锁仓',
   AGENT_DETAIL: '代理详情',
-  AUTHOR_AMOUNT: '授权代理额度 {amunt} XAS',
+  AUTHOR_AMOUNT: '授权代理额度 {amount} XAS',
   AGENT_VOTE_DETAIL: '票权代理情况',
   AGENT_VOTE_RECORDS: '投票记录',
   AUTHORIZOR: '授权人',
