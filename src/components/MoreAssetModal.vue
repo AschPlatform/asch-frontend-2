@@ -42,7 +42,7 @@ import {
 import { secondPwd } from '../utils/validators'
 import { required, minValue } from 'vuelidate/lib/validators'
 import { toast } from '../utils/util'
-import { convertFee } from '../utils/asch'
+// import { convertFee } from '../utils/asch'
 
 export default {
   name: 'DepositModal',
@@ -116,8 +116,8 @@ export default {
       toast(msg)
     },
     assetsInfo(asset) {
-      let balance = convertFee(asset.balance, asset.precision)
-      return `${asset.symbol}  ${balance}   `
+      // let balance = convertFee(asset.balance, asset.precision)
+      return `${asset.symbol}  `
     },
     deposit(asset) {
       this.$emit('deposit', asset)

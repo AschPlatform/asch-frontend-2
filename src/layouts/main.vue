@@ -3,47 +3,35 @@
     <q-layout-header class="no-shadow">
   
       <q-toolbar class="head-top row justify-between bg-white">
-        <q-btn flat @click="showLeft=!showLeft">
+        <div class="head-top-left">
+         <q-btn flat @click="showLeft=!showLeft">
           <q-icon name="menu" class="text-faded" />
-        </q-btn>
-  
+         </q-btn>
+         <div class="head-top-left-container">
+          <span class="font-22 text-black font-weight">
+            {{$t(' LATEST_BLOCK_HEIGHT')}}
+          </span>
+           <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+          <span class="font-22 text-secondary margin-left-10 font-weight vertical-align-middle">{{latestBlock.height}}</span>
+         </div>
+         <span class="head-top-left-line vertical-align-middle"></span>
+         <div class="head-top-left-container  vertical-align-middle">
+          <span class="font-22 text-black font-weight vertical-align-middle">
+            {{$t(' TIME')}}
+          </span>
+          <span class="font-22 text-secondary margin-left-10 font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
+         </div>
+        </div>
+
         <q-btn flat @click="logout">
           <q-icon name="power settings new" class="text-faded" />
         </q-btn>
   
       </q-toolbar>
-      <div class="head-bottom row justify-left">
-        <div class="head-bottom-item-container">
-          <p class="font-22 text-black font-weight">
-            {{$t('VERSION_INFO')}}
-          </p>
-          <p>
-            <i class="font-16 text-secondary"> Asch Wallet </i>
-            <span class="font-16 text-six">V1.4.0</span>
-          </p>
-        </div>
-        <div class="head-bottom-item-container">
-          <p class="font-22 text-black font-weight">
-            {{$t(' TIME')}}
-          </p>
-          <p>
-            <span class="font-16 text-secondary">{{latestBlock.timestamp | time}}</span>
-          </p>
-        </div>
-        <div class="head-bottom-item-latestBlock" v-if="latestBlock">
-          <p class="font-22 text-black font-weight">
-            {{$t(' LATEST_BLOCK_HEIGHT')}}
-          </p>
-          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-        </div>
-        <div v-if="latestBlock">
-          <p class="font-60 text-secondary">{{latestBlock.height}}</p>
-        </div>
-      </div>
     </q-layout-header>
   
     <q-layout-drawer class="bg-seven main-left-list-container" v-model="showLeft" side="left">
@@ -59,7 +47,7 @@
           </div>
           <div class="header-right margin-left-10" @click="toHome">
             <span class="header-right-top">阿希客户端</span>
-            <span class="header-right-bottom font-12">Asch Client V1.4.0</span>
+            <span class="header-right-bottom font-12 text-secondary">Asch Client V1.4.0</span>
           </div>
         </q-list-header>
         <q-item class="list-item-container" item :to="getRouterConf('home')">
@@ -438,6 +426,7 @@ body {
   display: block;
   font-size: 23px;
   color: #bdc2cb;
+  margin-bottom: 5px;
 }
 
 .header-right-bottom {
@@ -509,6 +498,20 @@ body {
 
 .head-bottom-item-latestBlock {
   margin-right: 30px;
+}
+
+.head-top-left-container {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
+.head-top-left-line {
+  width: 1px;
+  height: 20px;
+  display: inline-block;
+  background: #dddddd;
+  margin: 0 30px;
 }
 
 .footer-container {
