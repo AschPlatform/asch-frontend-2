@@ -87,15 +87,12 @@ export const convertFee = (fee, precision = 8) => {
     fee = '0'.concat(fee)
   }
 
-  console.log(fee, precision)
   fee = fee.slice(0, -precision).concat('.', fee.slice(-precision))
-  console.log(fee, 'step2')
   var clearView = false
 
   while (!clearView) {
     if (fee[fee.length - 1] === '0') {
       fee = fee.slice(0, fee.length - 1)
-      console.log(fee, 'step inner')
     } else {
       clearView = true
     }
@@ -104,7 +101,6 @@ export const convertFee = (fee, precision = 8) => {
   if (fee[fee.length - 1] === '.') {
     fee = fee.slice(0, fee.length - 1)
   }
-  console.log(fee, 'step 4')
   return fee
 }
 export const dealBigNumber = num => {
