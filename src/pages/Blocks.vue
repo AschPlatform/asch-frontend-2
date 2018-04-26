@@ -50,8 +50,8 @@
           </q-card-title>
           <q-card-separator />
           <q-card-main class="blocks-padding-40" align="center" v-if="!this.isDelegate">
-            <span class="block">{{$t('NOT_DELEGATE')}}</span>
-            <q-btn class="margin-t-20" color="secondary" @click="registerDelegate">{{$t('DELEGATE_REGISTER')}}</q-btn>
+            <q-btn class="" color="secondary" @click="registerDelegate">{{$t('DELEGATE_REGISTER')}}</q-btn>
+            <span class="block margin-t-10 font-12">{{$t('NOT_DELEGATE')}}</span>
           </q-card-main>
           <q-card-main align="center" v-else>
             <span class="block">{{delegate.username}}</span>

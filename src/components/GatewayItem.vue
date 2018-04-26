@@ -12,11 +12,11 @@
         <div class="text-left">
           <i class="material-icons font-24 vertical-align-middle text-secondary">fiber_manual_record</i>
           <!-- <span class="font-18 text-five">{{item.desc}}</span> -->
-          <span class="font-18 text-five">{{$t('GATEWAY_MEMBER')}}:{{item.validatorNumber}}</span>
+          <span class="font-16 text-five vertical-align-middle">{{$t('GATEWAY_MEMBER')}}:{{item.validatorNumber}}</span>
         </div>
         <div class="text-left">
           <i class="material-icons font-24 vertical-align-middle text-secondary">fiber_manual_record</i>
-          <span class="font-18 text-five"> {{$t('CREATE_TIME')}} {{fullTimestamp(item.createTime)}}</span>
+          <span class="font-16 text-five vertical-align-middle"> {{$t('CREATE_TIME')}} {{fullTimestamp(item.createTime)}}</span>
         </div>
       </div>
       <q-btn small icon="arrow forward" inverted color="secondary" @click="$emit('open',item)">

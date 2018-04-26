@@ -64,7 +64,7 @@
 
 <script>
 import { fullTimestamp, convertFee } from '../utils/asch'
-import { QTable, QTd, QTableColumns, QTooltip, QBtnToggle } from 'quasar'
+import { QBtn, QTable, QTd, QTableColumns, QTooltip, QBtnToggle } from 'quasar'
 import { transTypes } from '../utils/constants'
 import { mapActions, mapGetters } from 'vuex'
 
@@ -72,6 +72,7 @@ export default {
   name: 'AssetRecordContainer',
   props: ['currency', 'isCross'],
   components: {
+    QBtn,
     QTable,
     QTd,
     QTableColumns,

@@ -8,22 +8,20 @@
           <q-icon name="menu" class="text-faded" />
          </q-btn>
          <div class="head-top-left-container">
-          <span class="font-22 text-black font-weight">
+          <span class="font-18 text-black font-weight">
             {{$t(' LATEST_BLOCK_HEIGHT')}}
           </span>
            <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
           <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
           <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-          <span class="font-22 text-secondary margin-left-10 font-weight vertical-align-middle">{{latestBlock.height}}</span>
+          <span class="font-30 text-secondary margin-left-10 font-weight vertical-align-sub">{{latestBlock.height}}</span>
          </div>
          <span class="head-top-left-line vertical-align-middle"></span>
          <div class="head-top-left-container  vertical-align-middle">
-          <span class="font-22 text-black font-weight vertical-align-middle">
-            {{$t(' TIME')}}
+          <span class="font-18 text-black font-weight vertical-align-middle">
+            {{$t(' TIME_LAST')}}
           </span>
-          <span class="font-22 text-secondary margin-left-10 font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
+          <span class="font-22 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
          </div>
         </div>
 
@@ -94,10 +92,10 @@
                 <q-item-side icon="gavel" />
                 <q-item-main :label="$t('FORGING')" />
               </q-item> -->
-        <q-item class="list-item-container" item :to="getRouterConf('peers')">
+        <!-- <q-item class="list-item-container" item :to="getRouterConf('peers')">
           <q-item-side icon="share" />
           <q-item-main :label="$t('PEERS')" />
-        </q-item>
+        </q-item> -->
         <q-item class="list-item-container" item :to="getRouterConf('issuer')">
           <q-item-side icon="send" />
           <q-item-main :label="$t('TRS_TYPE_UIA_ISSUE')" />
@@ -117,7 +115,7 @@
           <trans-panel :showTitle="true" :assets="assets" :asset="asset" :user="userInfo">
             <div slot="btns" slot-scope="props" class="row col-12 justify-between">
               <q-btn big outline class="col-auto" color="secondary" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
-              <q-btn big class="col-auto" color="secondary" @click="sendTrans(props.send)" :label="$t('SEND')" />
+              <q-btn big class="col-auto" color="secondary" :disable="btnDisable" @click="sendTrans(props.send)" :label="$t('SEND')" />
             </div>
           </trans-panel>
         </div>
@@ -212,7 +210,8 @@ export default {
       QRCodeText: '',
       intervalNum: -1,
       trans: null,
-      transInfoModalShow: false
+      transInfoModalShow: false,
+      btnDisable: false
     }
   },
   methods: {
@@ -297,7 +296,15 @@ export default {
       let flag = await send()
       if (flag) {
         this.transShow = false
+      } else {
+        this.disableBtn('btnDisable')
       }
+    },
+    disableBtn(model) {
+      this[model] = true
+      this._.delay(() => {
+        this[model] = false
+      }, 3000)
     }
     // showAssetDetailModal(asset){
     // }
@@ -399,18 +406,18 @@ body {
 }
 
 .header-container {
-  padding-bottom: 20px;
+  padding-bottom: 16px;
 }
 
 .header-left {
-  width: 82px;
-  height: 82px;
+  width: 70px;
+  height: 70px;
   background: #3e4654;
   border-radius: 10px;
 }
 
 .header-right {
-  padding-top: 20px;
+  padding-top: 15px;
   line-height: 20px;
 }
 
@@ -443,6 +450,7 @@ body {
 }
 
 .head-top {
+  height: 80px;
   border-bottom: 2px solid #eaeceb;
 }
 
@@ -469,7 +477,7 @@ body {
 
 .list-item-container:hover {
   color: #ffffff;
-  border-left: 2px solid #ff750b;
+  border-left: 4px solid #ff750b;
   background: #252d3a !important;
 }
 
@@ -484,7 +492,7 @@ body {
 
 .q-item.active, .q-item.router-link-active, .q-item:focus {
   color: #ffffff;
-  border-left: 2px solid #ff750b;
+  border-left: 4px solid #ff750b;
   background: #252d3a;
 }
 
@@ -504,7 +512,6 @@ body {
   display: inline-block;
   vertical-align: middle;
 }
-
 
 .head-top-left-line {
   width: 1px;

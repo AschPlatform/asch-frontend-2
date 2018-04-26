@@ -177,6 +177,7 @@ export default {
     async onOk() {
       if (this.selectedDelegate.length === 0) {
         this.selected = []
+
         return
       }
       let trans = createVote(this.selectedDelegate, this.user.secret, this.secondPwd)
@@ -193,6 +194,12 @@ export default {
     },
     vote() {
       this.dialogShow = true
+    },
+    disableBtn(model) {
+      this[model] = true
+      this._.delay(() => {
+        this[model] = false
+      }, 3000)
     }
   },
   async mounted() {

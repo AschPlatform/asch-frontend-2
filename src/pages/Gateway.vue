@@ -2,8 +2,8 @@
 <template>
   <q-page class="gateway-container">
     <div class="geteway-top">
-      <i class="material-icons vertical-align-middle font-24 text-secondary">person</i>
-      <span class="font-22 text-black">{{$t('ALL_GATEWAY')}}</span>
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-22 text-black vertical-align-middle">{{$t('ALL_GATEWAY')}}</span>
     </div>
     <div class="row">
       <gateway-item class="bg-white" v-for="(item, idx) in gateways" :item="item" :key="idx" @open="showDetail" />

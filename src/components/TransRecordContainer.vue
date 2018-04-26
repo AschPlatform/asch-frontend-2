@@ -59,7 +59,7 @@
 
 <script>
 import { fullTimestamp, convertFee } from '../utils/asch'
-import { QTable, QTd, QTableColumns, QTooltip, QBtnToggle } from 'quasar'
+import { QTable, QTd, QTableColumns, QTooltip, QBtnToggle, QPopover } from 'quasar'
 import { transTypes } from '../utils/constants'
 import { mapActions } from 'vuex'
 
@@ -71,7 +71,8 @@ export default {
     QTd,
     QTableColumns,
     QTooltip,
-    QBtnToggle
+    QBtnToggle,
+    QPopover
   },
   data() {
     return {

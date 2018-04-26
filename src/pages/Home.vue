@@ -14,7 +14,7 @@
                 <span v-else class="text-black font-22 vertical-align-middle font-weight">
                       {{$t('HELLO')+','}}
                       </span>
-                <a class="set-nickname bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="toPersonalSetNickname">{{$t('SET_NICKNAME')}}</a> <span v-else class="font-22 vertical-align-middle">{{userNickname}}</span>
+                <a class="set-nickname font-14 bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="toPersonalSetNickname">{{$t('SET_NICKNAME')}}</a> <span v-else class="font-22 vertical-align-middle">{{userNickname}}</span>
                 <p class="font-14 text-three">{{$t('HOME_TIPES')}}</p>
               </div>
             </div>
@@ -195,6 +195,8 @@ export default {
 }
 
 .home-jdenticon {
+  margin-left: 10px;
+  vertical-align: top;
   border-radius: 50%;
   border: 1px solid #e3e6e8;
 }
@@ -257,12 +259,12 @@ export default {
   height: 100%;
   vertical-align: text-bottom;
   display: inline-block;
-  margin-left: 40px;
+  margin-left: 20px;
 }
 
 .set-nickname {
   width: 110px;
-  padding: 2px 8px;
+  padding: 4px 16px;
   border-radius: 15px;
   font-size: 16px;
   color: #ffffff;
