@@ -115,7 +115,7 @@
           <trans-panel :showTitle="true" :assets="assets" :asset="asset" :user="userInfo">
             <div slot="btns" slot-scope="props" class="row col-12 justify-between">
               <q-btn big outline class="col-auto" color="secondary" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
-              <q-btn big class="col-auto" color="secondary" @click="sendTrans(props.send)" :label="$t('SEND')" />
+              <q-btn big class="col-auto" color="secondary" :disable="btnDisable" @click="sendTrans(props.send)" :label="$t('SEND')" />
             </div>
           </trans-panel>
         </div>
@@ -210,7 +210,8 @@ export default {
       QRCodeText: '',
       intervalNum: -1,
       trans: null,
-      transInfoModalShow: false
+      transInfoModalShow: false,
+      btnDisable: false
     }
   },
   methods: {
@@ -295,7 +296,15 @@ export default {
       let flag = await send()
       if (flag) {
         this.transShow = false
+      } else {
+        this.disableBtn('btnDisable')
       }
+    },
+    disableBtn(model) {
+      this[model] = true
+      this._.delay(() => {
+        this[model] = false
+      }, 3000)
     }
     // showAssetDetailModal(asset){
     // }

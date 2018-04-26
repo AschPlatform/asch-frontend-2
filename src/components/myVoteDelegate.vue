@@ -7,16 +7,16 @@
     <q-card-main class="row" v-if="isGonnaSet">
       <q-input class="col-12" clearable v-model="agent" :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
       <q-input class="col-12" v-if="secondSignature" v-model="secondPwd" type="password" :float-label="$t('TRS_TYPE_SECOND_PASSWORD')"></q-input>
-      <q-btn v-if="!isGonnaSet" color="secondary" @click="action">{{$t(btnInfo)}}</q-btn>
+      <q-btn v-if="!isGonnaSet" color="secondary" :disable="btnDisable" @click="action">{{$t(btnInfo)}}</q-btn>
      <div class="col-12 justify-between">
        <br />
-        <q-btn color="secondary" @click="setAgent">{{$t('SUBMIT')}}</q-btn>
+        <q-btn color="secondary" :disable="btnDisable" @click="setAgent">{{$t('SUBMIT')}}</q-btn>
         <q-btn color="secondary" @click="isGonnaSet=false">{{$t('CANCEL')}}</q-btn>
      </div>
     </q-card-main>
     <q-card-main align="center" v-else>
       <div v-if="agentName">{{agentName}}<a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a></div>
-      <q-btn color="secondary" @click="action">{{$t(btnInfo)}}</q-btn>
+      <q-btn color="secondary" :disable="btnDisable" @click="action">{{$t(btnInfo)}}</q-btn>
       <p v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:user.account.weight})}}</p>
       <!-- <a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a> -->
     </q-card-main>
@@ -33,7 +33,8 @@ export default {
     return {
       isGonnaSet: false,
       agent: '',
-      secondPwd: ''
+      secondPwd: '',
+      btnDisable: false
     }
   },
   components: {
@@ -48,10 +49,13 @@ export default {
     action() {
       if (!this.isLocked) {
         toastWarn(this.$t('PLEASE_LOCK'))
+        this.disableBtn('btnDisable')
         return
       }
       if (this.isDelegate) {
         toastWarn(this.$t('DELEGATE_CAN_NOT_BE_AGENT'))
+        this.disableBtn('btnDisable')
+        return
       }
       // this.isSetAgent ? this.cancelAgent() : this.setAgent()
       if (this.agentName) {
@@ -67,6 +71,7 @@ export default {
     setAgent() {
       if (!nicknameReg.test(this.agent) && !addressReg.test(this.agent)) {
         toastWarn(this.$t('ERR_NICKNAME'))
+        this.disableBtn('btnDisable')
         return
       }
       if (this.secondSignature && !secondPwdReg.test(this.secondPwd)) {
@@ -76,6 +81,12 @@ export default {
       this.$emit('setAgent', { agent: this.agent, secondPwd: this.secondPwd }, () => {
         this.isGonnaSet = false
       })
+    },
+    disableBtn(model) {
+      this[model] = true
+      this._.delay(() => {
+        this[model] = false
+      }, 3000)
     }
   },
   mounted() {},

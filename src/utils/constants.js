@@ -17,47 +17,47 @@ const officialPeers = [
   {
     ip: '107.191.41.208',
     port: 80,
-    local: 'US'
+    local: 'US1'
   },
   {
     ip: '45.76.98.139',
     port: 80,
-    local: 'JP'
+    local: 'JP1'
   },
   {
     ip: '45.63.27.97',
     port: 80,
-    local: 'US'
+    local: 'US2'
   },
   {
     ip: '45.76.99.134',
     port: 80,
-    local: 'JP'
+    local: 'JP2'
   },
   {
     ip: '104.238.180.37',
     port: 80,
-    local: 'US'
+    local: 'US3'
   },
   {
     ip: '45.32.254.236',
     port: 80,
-    local: 'JP'
+    local: 'JP3'
   },
   {
     ip: '108.61.181.76',
     port: 80,
-    local: 'JP'
+    local: 'JP4'
   },
   {
     ip: '222.161.26.230',
     port: 9999,
-    local: 'CN'
+    local: 'CN1'
   },
   {
     ip: '222.161.26.231',
     port: 9999,
-    local: 'CN'
+    local: 'CN2'
   }
 ]
 

@@ -17,7 +17,7 @@
         <div class="col-10">
           <trans-panel class="col-12" :asset="asset" :user="user">
             <div class="col-12" slot="btns" slot-scope="props">
-              <q-btn big class="transfer-accounts-btn" color="secondary" @click="props.send" :label="$t('TRS_TYPE_TRANSFER')" />
+              <q-btn big class="transfer-accounts-btn" :disable="btnDisable" color="secondary" @click="sender(props.send)" :label="$t('TRS_TYPE_TRANSFER')" />
             </div>
           </trans-panel>
         </div>
@@ -36,10 +36,27 @@ export default {
   props: ['userObj'],
   components: { QCardMain, QCard, QCardTitle, QSelect, QBtn, TransPanel },
   data() {
-    return {}
+    return {
+      btnDisable: false
+    }
   },
   methods: {
-    ...mapActions(['getBalance'])
+    ...mapActions(['getBalance']),
+    async sender(send) {
+      debugger
+      let flag = await send()
+      if (flag) {
+        this.transShow = false
+      } else {
+        this.disableBtn('btnDisable')
+      }
+    },
+    disableBtn(model) {
+      this[model] = true
+      this._.delay(() => {
+        this[model] = false
+      }, 3000)
+    }
   },
   async mounted() {},
   computed: {
