@@ -253,16 +253,20 @@ export default {
   },
   // vote proposal
   voteProposal: ({ commit }, params) => {
+    const secret = getCache('user').secret
     let trans = asch.voteProposal(
       params.tid,
+      secret,
       params.secondPwd || ''
     )
     return api.broadcastTransaction(trans)
   },
   // active proposal
   activeProposal: ({ commit }, params) => {
+    const secret = getCache('user').secret
     let trans = asch.activateProposal(
       params.tid,
+      secret,
       params.secondPwd || ''
     )
     return api.broadcastTransaction(trans)
