@@ -4,17 +4,15 @@
       <div class="col-9">
         <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
           <template slot="top-left" slot-scope="props">
-              <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
-</template>
+                <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
+        </template>
 
-<template slot="top-right" slot-scope="props">
-  <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
-  <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
-</template>
+        <template slot="top-right" slot-scope="props">
+          <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
+          <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
+            <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+        </template>
 
-        <!--<template slot="top-right" slot-scope="props">
-  <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-</template>-->
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
             <div class="my-label text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
               {{props.value.substring(0,7)}}
@@ -188,31 +186,7 @@
 </template>
 
 <script>
-import {
-  QTable,
-  QPage,
-  QSearch,
-  QBtn,
-  QCard,
-  QCardTitle,
-  QCardSeparator,
-  QCardMain,
-  QModal,
-  QField,
-  QInput,
-  QTd
-} from 'quasar'
-import { toast, toastInfo, translateErrMsg } from '../utils/util'
-import { fullTimestamp, createDelegate } from '../utils/asch'
-import { secondPwdReg } from '../utils/validators'
-import { mapGetters, mapActions } from 'vuex'
-import UserAgreementModal from '../components/UserAgreementModal'
-import asch from '../utils/asch-v2'
-
-export default {
-  props: ['userObj'],
-  components: {
-    UserAgreementModal,
+  import {
     QTable,
     QPage,
     QSearch,
@@ -225,264 +199,299 @@ export default {
     QField,
     QInput,
     QTd
-  },
-  data() {
-    return {
-      delegate: null,
-      blocksData: [],
-      forgingEnabled: false,
-      pagination: {
-        page: 1,
-        rowsNumber: 0,
-        rowsPerPage: 20
-      },
-      filter: '',
-      loading: false,
-      columns: [
-        {
-          name: 'height',
-          label: this.$t('HEIGHT'),
-          field: 'height',
-          align: 'center'
-        },
-        {
-          name: 'timestamp',
-          label: this.$t('DATE'),
-          field: 'timestamp',
-          type: 'string',
-          align: 'center',
-          format: value => {
-            return this.formatTimestamp(value)
-          }
-        },
-        {
-          label: 'ID',
-          name: 'id',
-          field: 'id'
-        },
-        {
-          label: this.$t('PRODUCER'),
-          name: 'generatorId',
-          field: 'generatorId'
-        },
-        {
-          name: 'numberOfTransactions',
-          label: this.$t('TRANSACTIONS'),
-          field: 'numberOfTransactions',
-          type: 'string',
-          align: 'right'
-        },
-        {
-          label: this.$t('TOTAL') + this.$t('AMOUNTS'),
-          field: 'totalAmount',
-          align: 'right'
-        },
-        {
-          label: this.$t('TOTAL') + this.$t('FEES'),
-          field: 'totalFee',
-          align: 'right'
-        },
-        {
-          name: 'reward',
-          label: this.$t('REWARDS'),
-          field: 'reward',
-          align: 'right'
-        }
-      ],
-      modalInfoShow: false,
-      row: {},
-      type: 0,
-      // is this user delegate
-      // isDelegate: false,
-      dialogShow: false,
-      isModalShow: false,
-      form: {
-        delegateName: '',
-        secondPwd: ''
-      },
-      isOwn: false
-    }
-  },
-  methods: {
-    ...mapActions([
-      'blocks',
-      'blockDetail',
-      'blockforging',
-      'forgingStatus',
-      'transactions',
-      'broadcastTransaction'
-    ]),
-    async refresh() {
-      await this.getBlocks(this.defaultPage, '')
+  } from 'quasar'
+  import {
+    toast,
+    toastInfo,
+    translateErrMsg
+  } from '../utils/util'
+  import {
+    fullTimestamp,
+    createDelegate
+  } from '../utils/asch'
+  import {
+    secondPwdReg
+  } from '../utils/validators'
+  import {
+    mapGetters,
+    mapActions
+  } from 'vuex'
+  import UserAgreementModal from '../components/UserAgreementModal'
+  import asch from '../utils/asch-v2'
+  
+  export default {
+    props: ['userObj'],
+    components: {
+      UserAgreementModal,
+      QTable,
+      QPage,
+      QSearch,
+      QBtn,
+      QCard,
+      QCardTitle,
+      QCardSeparator,
+      QCardMain,
+      QModal,
+      QField,
+      QInput,
+      QTd
     },
-    async request(props) {
-      await this.getBlocks(props.pagination, props.filter)
-    },
-    async getBlocks(pagination = {}, filter = '') {
-      this.loading = true
-      let condition = []
-      // is own judge
-      if (!this.isOwn) {
-        if (pagination && pagination.page) this.pagination = pagination
-        let limit = this.pagination.rowsPerPage
-        let pageNo = this.pagination.page
-        condition = {
-          limit: limit,
-          offset: (pageNo - 1) * limit,
-          orderBy: 'height:desc'
-        }
-      } else {
-        if (pagination && pagination.page) this.pagination = pagination
-        let limit = this.pagination.rowsPerPage
-        let pageNo = this.pagination.page
-        condition = {
-          generatorPublicKey: this.publicKey,
-          limit: limit,
-          offset: (pageNo - 1) * limit,
-          orderBy: 'height:desc'
-        }
-      }
-      let res = await this.blocks(condition)
-      this.blocksData = res.blocks
-      // set max
-      this.pagination.rowsNumber = res.count
-      this.loading = false
-      return res
-    },
-    async getBlockDetail() {
-      let res = await this.blockDetail({
-        height: this.filter
-      })
-      this.pagination.rowsNumber = 1
-      this.blocksData = [res.block]
-      this.loading = false
-      return res
-    },
-    async getDelegate() {
-      let res = await this.blockforging({
-        publicKey: this.publicKey
-      })
-      if (res.success === true) {
-        this.delegate = res.delegate
-        // this.isDelegate = true
-      }
-      return res
-    },
-    init() {
-      this.getBlocks()
-      this.getDelegate()
-    },
-    formatTimestamp(timestamp) {
-      return fullTimestamp(timestamp)
-    },
-    async showBlockInfo(id) {
-      let res = await this.blockDetail({
-        id
-      })
-      if (res.success === true) {
-        this.row = res.block
-        this.modalInfoShow = true
-        this.type = 1
-      }
-    },
-    async showAccountInfo(address) {
-      this.$root.$emit('openAccountModal', address)
-    },
-    async showTransInfo(blockId) {
-      let res = await this.transactions({
-        blockId: blockId
-      })
-      if (res.success === true) {
-        this.row = res.transactions
-        this.modalInfoShow = true
-        this.type = 3
-      }
-    },
-    async registerDelegate() {
-      if (!this.user.account.name) {
-        toastInfo(this.$t('PLEASE_SET_NAME'))
-        return null
-      }
-      if (!this.user.account.isDelegate === 0) {
-        toastInfo(this.$t('AGENT_ALREADY'))
-        return null
-      }
-      if (this.user.account.isAgent) {
-        toastInfo(this.$t('AGENT_CAN_NOT_BE_DELEGATE'))
-        return null
-      }
-      this.isModalShow = true
-    },
-    async onOk() {
-      let trans = createDelegate(this.form.delegateName, this.user.secret, this.form.secondPwd)
-      let res = await this.broadcastTransaction(trans)
-      if (res.success === true) {
-        toast(this.$t('INF_OPERATION_SUCCEEDED'))
-      } else {
-        translateErrMsg(this.$t, res.error)
-      }
-    },
-    onCancel() {
-      // this.resetForm()
-      this.dialogShow = false
-    },
-    async callRegister() {
-      let trans = asch.registerDelegate(this.user.secret, this.form.secondPwd)
-      let res = await this.broadcastTransaction(trans)
-      if (res.success === true) {
-        toast(this.$t('INF_OPERATION_SUCCEEDED'))
-        this.closeModal()
-      } else {
-        translateErrMsg(this.$t, res.error)
-      }
-    },
-    closeModal() {
-      this.isModalShow = false
-    },
-    changeData() {
-      this.isOwn = !this.isOwn
-      this.getBlocks()
-    }
-  },
-  mounted() {
-    if (this.userInfo) {
-      this.init()
-    }
-  },
-  computed: {
-    ...mapGetters(['userInfo']),
-    user() {
-      return this.userInfo
-    },
-    publicKey() {
-      if (this.user) return this.user.publicKey
-    },
-    secondSignature() {
-      return this.user && this.user.account ? this.user.account.secondPublicKey : null
-    },
-    pwdValid() {
-      return !secondPwdReg.test(this.form.secondPwd)
-    },
-    defaultPage() {
+    data() {
       return {
-        page: 1,
-        rowsNumber: 0,
-        rowsPerPage: 20
+        delegate: null,
+        blocksData: [],
+        forgingEnabled: false,
+        pagination: {
+          page: 1,
+          rowsNumber: 0,
+          rowsPerPage: 20
+        },
+        filter: '',
+        loading: false,
+        columns: [{
+            name: 'height',
+            label: this.$t('HEIGHT'),
+            field: 'height',
+            align: 'center'
+          },
+          {
+            name: 'timestamp',
+            label: this.$t('DATE'),
+            field: 'timestamp',
+            type: 'string',
+            align: 'center',
+            format: value => {
+              return this.formatTimestamp(value)
+            }
+          },
+          {
+            label: 'ID',
+            name: 'id',
+            field: 'id'
+          },
+          {
+            label: this.$t('PRODUCER'),
+            name: 'generatorId',
+            field: 'generatorId'
+          },
+          {
+            name: 'numberOfTransactions',
+            label: this.$t('TRANSACTIONS'),
+            field: 'numberOfTransactions',
+            type: 'string',
+            align: 'right'
+          },
+          {
+            label: this.$t('TOTAL') + this.$t('AMOUNTS'),
+            field: 'totalAmount',
+            align: 'right'
+          },
+          {
+            label: this.$t('TOTAL') + this.$t('FEES'),
+            field: 'totalFee',
+            align: 'right'
+          },
+          {
+            name: 'reward',
+            label: this.$t('REWARDS'),
+            field: 'reward',
+            align: 'right'
+          }
+        ],
+        modalInfoShow: false,
+        row: {},
+        type: 0,
+        // is this user delegate
+        // isDelegate: false,
+        dialogShow: false,
+        isModalShow: false,
+        form: {
+          delegateName: '',
+          secondPwd: ''
+        },
+        isOwn: false
       }
     },
-    isDelegate() {}
-  },
-  watch: {
-    userInfo(val) {
-      if (val) {
+    methods: {
+      ...mapActions([
+        'blocks',
+        'blockDetail',
+        'blockforging',
+        'forgingStatus',
+        'transactions',
+        'broadcastTransaction'
+      ]),
+      async refresh() {
+        await this.getBlocks(this.defaultPage, '')
+      },
+      async request(props) {
+        await this.getBlocks(props.pagination, props.filter)
+      },
+      async getBlocks(pagination = {}, filter = '') {
+        this.loading = true
+        let condition = []
+        // is own judge
+        if (!this.isOwn) {
+          if (pagination && pagination.page) this.pagination = pagination
+          let limit = this.pagination.rowsPerPage
+          let pageNo = this.pagination.page
+          condition = {
+            limit: limit,
+            offset: (pageNo - 1) * limit,
+            orderBy: 'height:desc'
+          }
+        } else {
+          if (pagination && pagination.page) this.pagination = pagination
+          let limit = this.pagination.rowsPerPage
+          let pageNo = this.pagination.page
+          condition = {
+            generatorPublicKey: this.publicKey,
+            limit: limit,
+            offset: (pageNo - 1) * limit,
+            orderBy: 'height:desc'
+          }
+        }
+        let res = await this.blocks(condition)
+        this.blocksData = res.blocks
+        // set max
+        this.pagination.rowsNumber = res.count
+        this.loading = false
+        return res
+      },
+      async getBlockDetail() {
+        let res = await this.blockDetail({
+          height: this.filter
+        })
+        this.pagination.rowsNumber = 1
+        this.blocksData = [res.block]
+        this.loading = false
+        return res
+      },
+      async getDelegate() {
+        let res = await this.blockforging({
+          publicKey: this.publicKey
+        })
+        if (res.success === true) {
+          this.delegate = res.delegate
+          // this.isDelegate = true
+        }
+        return res
+      },
+      init() {
+        this.getBlocks()
+        this.getDelegate()
+      },
+      formatTimestamp(timestamp) {
+        return fullTimestamp(timestamp)
+      },
+      async showBlockInfo(id) {
+        let res = await this.blockDetail({
+          id
+        })
+        if (res.success === true) {
+          this.row = res.block
+          this.modalInfoShow = true
+          this.type = 1
+        }
+      },
+      async showAccountInfo(address) {
+        this.$root.$emit('openAccountModal', address)
+      },
+      async showTransInfo(blockId) {
+        let res = await this.transactions({
+          blockId: blockId
+        })
+        if (res.success === true) {
+          this.row = res.transactions
+          this.modalInfoShow = true
+          this.type = 3
+        }
+      },
+      async registerDelegate() {
+        if (!this.user.account.name) {
+          toastInfo(this.$t('PLEASE_SET_NAME'))
+          return null
+        }
+        if (!this.user.account.isDelegate === 0) {
+          toastInfo(this.$t('AGENT_ALREADY'))
+          return null
+        }
+        if (this.user.account.isAgent) {
+          toastInfo(this.$t('AGENT_CAN_NOT_BE_DELEGATE'))
+          return null
+        }
+        this.isModalShow = true
+      },
+      async onOk() {
+        let trans = createDelegate(this.form.delegateName, this.user.secret, this.form.secondPwd)
+        let res = await this.broadcastTransaction(trans)
+        if (res.success === true) {
+          toast(this.$t('INF_OPERATION_SUCCEEDED'))
+        } else {
+          translateErrMsg(this.$t, res.error)
+        }
+      },
+      onCancel() {
+        // this.resetForm()
+        this.dialogShow = false
+      },
+      async callRegister() {
+        let trans = asch.registerDelegate(this.user.secret, this.form.secondPwd)
+        let res = await this.broadcastTransaction(trans)
+        if (res.success === true) {
+          toast(this.$t('INF_OPERATION_SUCCEEDED'))
+          this.closeModal()
+        } else {
+          translateErrMsg(this.$t, res.error)
+        }
+      },
+      closeModal() {
+        this.isModalShow = false
+      },
+      changeData() {
+        this.isOwn = !this.isOwn
+        this.getBlocks()
+      }
+    },
+    mounted() {
+      if (this.userInfo) {
         this.init()
       }
     },
-    filter(val) {
-      this.getBlockDetail()
+    computed: {
+      ...mapGetters(['userInfo']),
+      user() {
+        return this.userInfo
+      },
+      publicKey() {
+        if (this.user) return this.user.publicKey
+      },
+      secondSignature() {
+        return this.user && this.user.account ? this.user.account.secondPublicKey : null
+      },
+      pwdValid() {
+        return !secondPwdReg.test(this.form.secondPwd)
+      },
+      defaultPage() {
+        return {
+          page: 1,
+          rowsNumber: 0,
+          rowsPerPage: 20
+        }
+      },
+      isDelegate() {}
+    },
+    watch: {
+      userInfo(val) {
+        if (val) {
+          this.init()
+        }
+      },
+      filter(val) {
+        this.getBlockDetail()
+      }
     }
   }
-}
 </script>
 
 <style lang="stylus" scoped>
