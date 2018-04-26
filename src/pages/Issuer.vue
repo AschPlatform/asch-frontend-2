@@ -48,21 +48,21 @@
       <div class="col-3">
         <div class="padding-l-20">
          <q-card>
-          <q-card-title>
-            {{$t('ISSUER')}}
-          </q-card-title>
+           <div class="text-black height-62 padding-l-20 q-table-top">
+             <span class="font-22">{{$t('ISSUER')}}</span>
+          </div>
           <q-card-main>
             <div v-if="issuer">
-              <p>
+              <p class="font-16 text-black">
                 {{issuer.name}}
               </p>
-              <p>
+              <p class="font-16 text-five">
                 {{issuer.desc}}
               </p>
             </div>
-            <div class="text-center" v-else>
-              {{$t('NO_ISSUER_INFO')}}
-              <a class="text-blue" @click="issuerRegister" >{{$t('REGISTERED_PUBLISHER')}}</a>
+            <div class="text-center padding-b-20" v-else>
+              <p>{{$t('NO_ISSUER_INFO')}}</p>
+              <q-btn class="cursor-pointer" color="secondary" @click="issuerRegister" >{{$t('REGISTERED_PUBLISHER')}}</q-btn>
             </div>
           </q-card-main>
          </q-card>

@@ -67,7 +67,7 @@
                 </td>
                 <td>
                   <div v-if="lockInfo">
-                    <span>
+                    <span class="font-18">
                       {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
                     </span>
                     <a class="text-secondary" @click="callLockPanel">{{$t('EDIT')}}</a>

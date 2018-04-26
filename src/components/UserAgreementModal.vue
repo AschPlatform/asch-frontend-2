@@ -2,18 +2,17 @@
   <q-modal class="user-agreement-container" v-model="show" minimized>
     <q-card class="col-12 no-shadow" >
       <div class="bg-secondary height-62 padding-l-20">
-      <span class="text-white font-24 font-weight">{{$t('REGISTER_AGENT')}}</span>
+      <span class="text-white font-24 font-weight">{{title}}</span>
       </div>
       <q-card-separator />
       <q-card-main class="q-px-lg margin-t-20">
         <q-scroll-area style="height: 400px" class="shadow-1 q-px-sm q-py-lg">
-            <!-- <div>{{content}}</div> -->
-            <div>{{$t('USER_AGREEMENT_MODAL_CONTENT')}}</div>
+            <div>{{content}}</div>
         </q-scroll-area>
         <div class="row justify-between user-agree-content">
         <q-checkbox v-model="checked" :label="$t('I_AGREE')" />
         <span class="text-right text-secondary">
-         {{$t('USER_AGREEMENT_MODAL_TIPS')}}
+         {{tips}}
         </span>
         </div>
       </q-card-main>
