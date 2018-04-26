@@ -4,17 +4,15 @@
       <div class="col-9">
         <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
           <template slot="top-left" slot-scope="props">
-              <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
-</template>
+                <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
+        </template>
 
-<template slot="top-right" slot-scope="props">
-  <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
-  <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
-</template>
+        <template slot="top-right" slot-scope="props">
+          <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
+          <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
+            <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+        </template>
 
-        <!--<template slot="top-right" slot-scope="props">
-  <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-</template>-->
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
             <div class="my-label text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
               {{props.value.substring(0,7)}}
@@ -504,6 +502,4 @@ export default {
   border: 1px solid #cccccc;
   border-radius: 15px;
 }
-
-
 </style>
