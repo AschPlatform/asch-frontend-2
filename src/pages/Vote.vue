@@ -26,6 +26,9 @@
                 {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
               </div>
             </q-td>
+            <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
+                {{(Number(props.value)*100)+'%'}}
+            </q-td>
           </q-table>
         </div>
 
