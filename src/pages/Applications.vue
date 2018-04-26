@@ -29,18 +29,17 @@
           <q-card-media>
             <img :src="dapp.icon" />
           </q-card-media>
-          <q-card-title>
+          <q-card-title align="center">
             {{dapp.name}}
             <div slot="center" class="row items-center">
-              <q-icon name="place" /> 250 ft
             </div>
           </q-card-title>
           <q-card-main>
-            <p>$・Italian, Cafe</p>
+            <p align="center" class="underline col-2"></p>
             <p class="text-faded">{{dapp.desc}}</p>
           </q-card-main>
           <q-card-separator />
-          <q-card-actions>
+          <q-card-actions class="justify-around">
             <q-btn :label="$t('BALANCE')" flat @click="balance(dapp)" />
             <q-btn :label="$t('DEPOSIT')" flat @click="deposit(dapp)" />
             <q-btn :label="$t('CHECK')" flat @click="check(dapp)" />
@@ -77,7 +76,7 @@
           <tbody v-if="balanceType==1" class='info-tbody'>
             <tr v-for="b in dappBalances" :key="b.currency" >
               <td >{{b.currency}}</td>
-              <td >{{b.balance | fee}}</td>
+              <td >{{b.balance | fee(b.precision)}}</td>
             </tr>
           </tbody>
           
@@ -189,9 +188,9 @@ export default {
     return {
       dapps: [
         {
-          tid: '4f322b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
+          tid: '2870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
           name: 'test',
-          desc: 'test chain',
+          desc: 'test chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chain',
           link: 'https://github.com/testchain.zip',
           icon: 'http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqq2zj8686j307k03raa5.jpeg',
           unlockNumber: 3,
@@ -200,7 +199,7 @@ export default {
           t_height: 30
         },
         {
-          tid: '4f322b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
+          tid: '22b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
           name: 'Moxi',
           desc: 'test chain',
           link: 'https://github.com/testchain.zip',
@@ -211,7 +210,7 @@ export default {
           t_height: 30
         },
         {
-          tid: '4f322b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
+          tid: '4c92a77fd892e81462aabd347ea3f0108173c5538d620',
           name: 'Presh',
           desc: 'test chain',
           link: 'https://github.com/testchain.zip',
@@ -222,7 +221,7 @@ export default {
           t_height: 30
         },
         {
-          tid: '4f322b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
+          tid: '892e81462aabd347ea3f0108173c5538d620',
           name: 'Dophi',
           desc: 'test chain',
           link: 'https://github.com/testchain.zip',
@@ -233,7 +232,7 @@ export default {
           t_height: 30
         },
         {
-          tid: '4f322b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
+          tid: '6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
           name: 'test2',
           desc: 'test chain2',
           link: 'https://github.com/testchain.zip',
@@ -288,12 +287,13 @@ export default {
   },
   methods: {
     ...mapActions([
-      'appBalance',
+      'getBalances',
       'dappMyBalance',
       'broadcastTransaction',
       'appInstalled',
       'getAllChains',
-      'dappContract'
+      'dappContract',
+      'deposit'
     ]),
     async loadMore() {
       this.pagination.page += 1
@@ -317,7 +317,7 @@ export default {
         })
       }
       if (pageNo === 1) {
-        this.dapps = res.dapps
+        this.dapps = res.chains
       } else {
         this.dapps = this.dapps.concat(res.dapps)
       }
@@ -327,18 +327,22 @@ export default {
       return res
     },
     async viewAppBanlance(row) {
+      console.log('viewAppBanlance')
       await this.getBalance(row)
+      console.log('viewAppBanlance')
       this.modalInfoShow = true
     },
     async viewMyBanlance(row) {
+      console.log('viewMyBanlance')
       await this.getBalance(row, true)
       this.modalInfoShow = true
     },
     async getBalance(row, userFlag = false) {
+      debugger
       let res
       if (!userFlag) {
-        res = await this.appBalance({
-          appId: row.transactionId
+        res = await this.getBalances({
+          address: row.address
         })
         this.balanceType = 0
       } else {
@@ -351,6 +355,7 @@ export default {
       if (res.success === true) {
         let balences = res.balances.map(b => {
           // init XAS data
+          b.precision = b.asset.precision
           if (b.currency === 'XAS') b.quantityShow = 100000000
           return b
         })
@@ -409,6 +414,7 @@ export default {
     },
     async onOk() {
       this.$v.form.$touch()
+      debugger
       if (this.$v.form.$error || (this.secondSignature && this.secondPwdError)) {
         toastWarn('error')
         this.dialogShow = true
@@ -421,14 +427,20 @@ export default {
       let res, trans
 
       if (form === 1) {
-        trans = createInTransfer(
-          transactionId,
-          this.form.depositName,
-          amount,
-          this.user.secret,
-          this.form.secondPwd
-        )
-        res = await this.broadcastTransaction(trans)
+        trans = {
+          dappId: transactionId,
+          currency: this.form.depositName,
+          amount: amount,
+          secondSecret: this.form.secondPwd
+        }
+        // trans = createInTransfer(
+        //   transactionId,
+        //   this.form.depositName,
+        //   amount,
+        //   this.user.secret,
+        //   this.form.secondPwd
+        // )
+        res = await this.deposit(trans)
       } else if (form === 2) {
         let type = 2 // 这里的type指的是合约标号，而非主链的交易类型
         let options = {
@@ -540,35 +552,37 @@ export default {
         return obj
       }
     },
+    // asset map for deposit
     assetsOpt() {
-      if (this.user && this.user.assets) {
+      if (this.user && this.balances) {
         let assets = []
-        const formType = this.dialog.form
-        if (formType === 1) {
-          assets = [
-            {
-              key: 0,
-              value: 'XAS',
-              label: 'XAS'
-            }
-          ].concat(
-            this.user.assets.map((item, idx) => {
-              return {
-                key: idx + 1,
-                label: item.name,
-                value: item.name
-              }
-            })
-          )
-        } else {
-          assets = this.dappBalances.map((item, idx) => {
+        let allAsset = []
+        // if (formType === 1) {
+        assets = [
+          {
+            key: 0,
+            value: 'XAS',
+            label: 'XAS'
+          }
+        ].concat(
+          this.balances.map((item, idx) => {
+            console.log('map inner')
             return {
               key: idx + 1,
-              label: item.currency,
-              value: item.currency
+              label: item.asset.name,
+              value: item.asset.name
             }
           })
-        }
+        )
+        // } else {
+        //   assets = this.dappBalances.map((item, idx) => {
+        //     return {
+        //       key: idx + 1,
+        //       label: item.currency,
+        //       value: item.currency
+        //     }
+        //   })
+        // }
 
         return assets
       } else {
@@ -602,4 +616,7 @@ export default {
   cursor: pointer;
   min-width: 300px;
 }
+.underline
+  // margin: 0 !important
+  border-bottom: 1px solid black
 </style>

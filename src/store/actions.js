@@ -270,5 +270,17 @@ export default {
       params.secondPwd || ''
     )
     return api.broadcastTransaction(trans)
+  },
+  // deposit
+  deposit: ({ commit }, params) => {
+    const secret = getCache('user').secret
+    let trans = asch.depositDapp(
+      params.dappId,
+      params.currency,
+      params.amount,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
   }
 }

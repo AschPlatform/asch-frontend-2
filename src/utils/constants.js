@@ -167,7 +167,7 @@ const urls = {
   //  获取应用余额
   appBalanceApi: {
     mock: '',
-    url: '/api/dapps/balances/:appId'
+    url: '/api/uia/balances/:address'
   },
   //  获取特定资产
   uiaAssetApi: {
