@@ -3,7 +3,7 @@
     <q-card class="no-shadow">
       <q-card-title>
       <i class="material-icons vertical-align-middle text-secondary font-22">person</i>
-      {{$t('ASSET_DETAIL',{currency:asset.currency})}}
+      <span class="vertical-align-middle font-22">{{$t('ASSET_DETAIL',{currency:asset.currency})}}</span>
       </q-card-title>
       <q-card-main class="row">
         <assets-panel class="margin-l-15" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
@@ -23,16 +23,16 @@
         <q-card v-if="assetDetail" class="bg-white col-3 assetDetail-card-content">
           <q-card-main>
             <table>
-              <tr>
-                <td>{{$t('ISSUER')}}</td>
+              <tr class="margin-t-20">
+                <td>{{$t('ISSUER')+':'}}</td>
                 <td>{{issuerName}}</td>
               </tr>
-              <tr>
-                <td>{{$t('DAPP_COIN_TOTAL_AMOUNT')}}</td>
+              <tr class="margin-t-20">
+                <td>{{$t('DAPP_COIN_TOTAL_AMOUNT')+':'}}</td>
                 <td>{{assetDetail.maximum |fee(assetDetail.precision)}}</td>
               </tr>
-              <tr>
-                <td>{{$t('DAPP_COIN_CURRENT_QUANTITY')}}</td>
+              <tr class="margin-t-20">
+                <td>{{$t('DAPP_COIN_CURRENT_QUANTITY')+':'}}</td>
                 <td>{{assetDetail.quantity ||fee(assetDetail.precision) }}</td>
               </tr>
             </table>
@@ -41,7 +41,7 @@
   
         <q-card v-if="asset.asset" class="assetDetail-card-content bg-white col-3 margin-l-30">
           <q-card-main>
-            <p>
+            <p class="text-black font-18">
               {{asset.asset.desc}}
             </p>
           </q-card-main>

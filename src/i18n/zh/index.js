@@ -370,6 +370,7 @@ const lang = {
   WITHDRAW: '提现',
   DEPOSIT: '充值',
   AVAILABLE_BALANCE: '*可用转账余额：',
+  AVAILABLE_BALANCE_LIMIT: '可用额度',
   PROPOSAL: '提案',
   COUNCIL: '理事会',
   DEPOSIT_NO_ADDR_TIP: '您尚未开通 {currency} 钱包收款地址',
