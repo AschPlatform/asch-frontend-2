@@ -276,7 +276,8 @@ export default {
       num: '',
       time: '',
       today,
-      numError: false
+      numError: false,
+      btnDisable: false
     }
   },
   validations: {
