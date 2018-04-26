@@ -18,7 +18,7 @@
               <span v-else class="text-black font-22 vertical-align-middle">
                 {{$t('HELLO')+'，'}}
               </span>
-              <a class="set-nickname bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
+              <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
             <div class="col-12 text-three">
               {{address}}
@@ -578,11 +578,11 @@ export default {
 
 .personal-head-portrait {
   width: 116px;
-  margin-right: 40px;
+  // margin-right: 40px;
 }
 
 .personal-head-canvas {
-  width: 100%;
+  width: 80px;
   border: 1px solid #e3e6e8;
   border-radius: 50%;
 }

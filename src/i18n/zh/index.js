@@ -102,7 +102,7 @@ const lang = {
   PRODUCED_BLOCKS: '生产的区块',
 
   // header
-  HOME: '客户端首页',
+  HOME: '首页',
   PERSONAL: '个人中心',
   APPLICATIONS: '应用中心',
   FORGING: '区块生产',
@@ -235,6 +235,7 @@ const lang = {
   // model - block detail
   BLOCK_DETAIL: '区块详情',
   TIME: '时间',
+  TIME_LAST: '最后区块时间',
   PREVIOUS_BLOCK: '上一块',
   TRANSACTIONS_COUNT: '交易数',
   TOTAL_AMOUNTS: '交易总额',

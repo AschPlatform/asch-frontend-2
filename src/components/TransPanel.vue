@@ -15,8 +15,8 @@
      <jdenticon class="transfer-jdenticon" :address="form.receiver" :size="60" />
     </div>
     <div class="transfer-bottom-container" v-if="user && user.account" >
-      <q-field class="col-12 text-four" :label="$t('RECIPIENT')+':'" :label-width="3">
-        <!-- <jdenticon  :address="form.receiver" :size="50" /> -->
+       <!-- <div class="col-3" style="display:inline-block">{{$t('RECIPIENT')+':'}}</div> -->
+      <q-field class="col-8 text-four" :label="$t('RECIPIENT')+':'" :label-width="3">
         <q-input class="col-8" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" :placeholder="$t('RECIPIENT_NAME_ADDRESS')"/>
       </q-field>
       <q-field class="col-12" :label="$t('DAPP_CATEGORY')+':'" :label-width="3">
