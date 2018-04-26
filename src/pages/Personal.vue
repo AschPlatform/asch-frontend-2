@@ -499,11 +499,13 @@ export default {
       }
     },
     callDelegatePanel() {
-      if (this.user.account.isLocked === 0) {
+      if (this.user.account.isLocked === 1) {
         // is not delegate
-        this.userAgreementShow = true
-      } else {
         toastWarn(this.$t('ALREADY_LOCKED'))
+      } else if (!this.userInfo.account.name) {
+        toastWarn(this.$t('PLEASE_SET_NAME'))
+      } else {
+        this.userAgreementShow = true
       }
     }
   },

@@ -9,7 +9,7 @@
         </div>
       </q-card-title>
       <q-card-main class="row">
-        <q-card inline class="col-3" v-for="(dapp,idx) in dapps" :key="idx">
+        <!-- <q-card inline class="col-3" v-for="(dapp,idx) in dapps" :key="idx">
           <q-card-media>
             <img :src="dapps.icon">
           </q-card-media>
@@ -23,6 +23,27 @@
             <q-btn :label="$t('BALANCE')" flat @click="balance(dapp)" />
             <q-btn :label="$t('DEPOSIT')" flat @click="deposit(dapp)"/>
             <q-btn :label="$t('CHECK')" flat @click="check(dapp)"/>
+          </q-card-actions>
+        </q-card> -->
+        <q-card inline color="white" text-color="black" v-for="(dapp,idx) in dapps" class="col-3 assets-panel-content" :key="idx">
+          <q-card-media>
+            <img :src="dapp.icon" />
+          </q-card-media>
+          <q-card-title>
+            {{dapp.name}}
+            <div slot="center" class="row items-center">
+              <q-icon name="place" /> 250 ft
+            </div>
+          </q-card-title>
+          <q-card-main>
+            <p>$・Italian, Cafe</p>
+            <p class="text-faded">{{dapp.desc}}</p>
+          </q-card-main>
+          <q-card-separator />
+          <q-card-actions>
+            <q-btn :label="$t('BALANCE')" flat @click="balance(dapp)" />
+            <q-btn :label="$t('DEPOSIT')" flat @click="deposit(dapp)" />
+            <q-btn :label="$t('CHECK')" flat @click="check(dapp)" />
           </q-card-actions>
         </q-card>
         <q-btn v-if="dapps.length < pagination.rowsNumber" :label="$t('LOAD_MORE')" @click="loadMore" />
@@ -142,6 +163,7 @@ import {
   QCardTitle,
   QCardActions,
   QCardMedia,
+  QCardSeparator,
   openURL,
   QSelect
 } from 'quasar'
@@ -160,11 +182,68 @@ export default {
     QCardTitle,
     QCardActions,
     QCardMedia,
+    QCardSeparator,
     QSelect
   },
   data() {
     return {
-      dapps: [],
+      dapps: [
+        {
+          tid: '4f322b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
+          name: 'test',
+          desc: 'test chain',
+          link: 'https://github.com/testchain.zip',
+          icon: 'http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqq2zj8686j307k03raa5.jpeg',
+          unlockNumber: 3,
+          t_timestamp: 57400250,
+          t_type: 200,
+          t_height: 30
+        },
+        {
+          tid: '4f322b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
+          name: 'Moxi',
+          desc: 'test chain',
+          link: 'https://github.com/testchain.zip',
+          icon: 'http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqq2zj8686j307k03raa5.jpeg',
+          unlockNumber: 3,
+          t_timestamp: 57400250,
+          t_type: 200,
+          t_height: 30
+        },
+        {
+          tid: '4f322b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
+          name: 'Presh',
+          desc: 'test chain',
+          link: 'https://github.com/testchain.zip',
+          icon: 'http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqq2zj8686j307k03raa5.jpeg',
+          unlockNumber: 3,
+          t_timestamp: 57400250,
+          t_type: 200,
+          t_height: 30
+        },
+        {
+          tid: '4f322b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
+          name: 'Dophi',
+          desc: 'test chain',
+          link: 'https://github.com/testchain.zip',
+          icon: 'http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqq2zj8686j307k03raa5.jpeg',
+          unlockNumber: 3,
+          t_timestamp: 57400250,
+          t_type: 200,
+          t_height: 30
+        },
+        {
+          tid: '4f322b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
+          name: 'test2',
+          desc: 'test chain2',
+          link: 'https://github.com/testchain.zip',
+          icon: 'http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqq2zj8686j307k03raa5.jpeg',
+          unlockNumber: 3,
+          t_timestamp: 57400250,
+          t_type: 200,
+          t_height: 30
+        }
+      ],
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -517,4 +596,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.assets-panel-content {
+  margin: 15px 30px;
+  background: #ffffff;
+  cursor: pointer;
+  min-width: 300px;
+}
 </style>
