@@ -394,7 +394,7 @@ export default {
     },
     async setNickname(done) {
       this.$v.nickname.$touch()
-      if (this.$v.nickname.$error && !nicknameReg.test(this.nickname)) {
+      if (!this.$v.nickname.$error && !nicknameReg.test(this.nickname)) {
         toastError(this.$t('ERR_NICKNAME'))
       } else {
         let trans = asch.setName(this.nickname, this.user.secret, this.secondPwd)

@@ -23,11 +23,11 @@
         </q-item>
 
         <q-item class="text-primary font-22" v-if="type=='inner'">
-        {{asset.balance | fee(asset.precision)}} 
+        {{asset.balance | fee(asset.asset.precision)}} 
         </q-item>
 
         <q-item class="text-secondary font-22" v-if="type=='outer'">
-        {{asset.balance | fee(asset.precision)}} 
+        {{asset.balance | fee(asset.asset.precision)}} 
         </q-item>
       </div>
   
