@@ -77,7 +77,7 @@ export default {
     transfer() {
       this.$emit('transfer', this.asset)
     },
-    deposassetit() {
+    deposit() {
       this.$emit('deposit', this.asset)
     },
     withdraw() {

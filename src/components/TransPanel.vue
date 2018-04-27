@@ -27,7 +27,7 @@
           <p class="text-secondary font-12" v-if="form.currency" >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
       </q-field>
       <q-field class="col-12" :label="$t('AMOUNTS')+':'" :label-width="3">
-        <q-input  @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="1" :error="$v.form.amount.$error" :error-label="$t('ERR_AMOUNT_INVALID')" />
+        <q-input  @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="8" :error="$v.form.amount.$error" :error-label="$t('ERR_AMOUNT_INVALID')" />
       </q-field>
       <q-field v-if="secondSignature" class="col-12"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
         <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
@@ -50,7 +50,7 @@
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
 import { address, secondPwd } from '../utils/validators'
-import { required, maxLength, minValue } from 'vuelidate/lib/validators'
+import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
 import { QField, QInput, QSelect } from 'quasar'
@@ -76,8 +76,7 @@ export default {
   validations: {
     form: {
       amount: {
-        required,
-        minValue: minValue(1)
+        required
       },
       receiver: {
         required,
@@ -191,10 +190,13 @@ export default {
       if (val && this.assetsMap[val]) {
         this.balance = this.assetsMap[val].balance
         this.precision = this.assetsMap[val].precision
+        if (this.assetsMap[val].asset) {
+          this.precision = this.assetsMap[val].asset.precision
+        }
       }
     },
     asset(val) {
-      this.form.currency = val.currency
+      if (!this.form.currency) this.form.currency = val.currency
     },
     user(val) {
       this.refreshBalances()
