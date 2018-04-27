@@ -72,8 +72,6 @@
       </div>
     </div>
 
-     
-
       <q-modal minimized no-backdrop-dismiss   v-model="modalInfoShow" content-css="padding: 20px">
         <big>{{$t('DAPP_DETAIL')}}</big>
         <table class="q-table horizontal-separator highlight loose ">
@@ -508,9 +506,9 @@ export default {
         toastWarn(t('ERR_NO_PUBLISHER_REGISTERED_YET'))
       } else {
         this.agreement = {
-          title: t('REGISTERED_PUBLISHER'),
+          title: t('REGISTERED_ASSETS'),
           tips:
-            t('REGISTERED_PUBLISHER') +
+            t('REGISTERED_ASSETS') +
             t('COST_FEE', {
               num: 100
             }),
@@ -523,7 +521,7 @@ export default {
     issuerRegister() {
       const t = this.$t
       this.agreement = {
-        title: t('REGISTERED_ASSETS'),
+        title: t('REGISTERED_PUBLISHER'),
         tips:
           t('TRS_TYPE_UIA_ASSET') +
           t('COST_FEE', {
