@@ -23,7 +23,8 @@
                   <q-select style="width:125px" separator radio :float-label="$t('CHOSE_SERVER')" class="col" v-model="serverUrl" :options="serverOpts" />
                 </div>
                 <div class="row col-10 q-mt-lg">
-                  <q-checkbox class="col-auto" v-model="remember">{{$t('KEEP_SESSION')}}</q-checkbox>
+                  <p></p>
+                  <!-- <q-checkbox class="col-auto" v-model="remember">{{$t('KEEP_SESSION')}}</q-checkbox> -->
                 </div>
               </q-card-main>
               <q-card-main class="row col-10 justify-center ">
