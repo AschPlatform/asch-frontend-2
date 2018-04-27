@@ -83,13 +83,11 @@ export const convertFee = (fee, precision = 8) => {
     return 0
   }
   fee = fee.toString()
-
   while (fee.length < (precision + 1)) {
     fee = '0'.concat(fee)
   }
 
-  fee = fee.slice(0, -8).concat('.', fee.slice(-8))
-
+  fee = fee.slice(0, -precision).concat('.', fee.slice(-precision))
   var clearView = false
 
   while (!clearView) {

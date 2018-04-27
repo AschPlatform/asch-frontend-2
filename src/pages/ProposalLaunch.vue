@@ -20,7 +20,7 @@
         <q-field class="col-4 q-ml-lg font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change'">
           <q-select v-model="p_selected" :options="councilList" @blur="$v.p_selected.$touch()" :error="$v.p_selected.$error" :placeholder="$t('proposal.SELECT_P_COUNCIL')" />
         </q-field>
-        <q-field class="col-4 q-ml-lg font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change_n'">
+        <q-field class="col-4 q-ml-lg font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type !== 'new_n' && this.first_type !== null">
           <q-select v-model="p_selected" :options="netList" @change="val => {console.log(val)}" @blur="$v.p_selected.$touch()" :error="$v.p_selected.isSelected" :placeholder="$t('proposal.SELECT_P_NET')" />
         </q-field>
       </div>
@@ -42,9 +42,9 @@
       <transition-group appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
   
         <q-card-main key="content" class="row">
-          <q-field v-show="this.first_type !== 'new' && this.first_type !== 'new_n' && this.first_type !== null && this.first_type !== null" :label-width="3" :label="$t('proposal.SELECT_P_TYPE')" class="col-6 font-16" :error-label="$t('ERR.ERR_REQUIRE_DETAIL')">
+          <!-- <q-field v-show="this.first_type !== 'new' && this.first_type !== 'new_n' && this.first_type !== null && this.first_type !== null" :label-width="3" :label="$t('proposal.SELECT_P_TYPE')" class="col-6 font-16" :error-label="$t('ERR.ERR_REQUIRE_DETAIL')">
             <q-select v-model="second_type" :error="$v.second_type.test" :options="this.first_type === 'change' ? proposalType_sec : proposalType_sec_n" />
-          </q-field>
+          </q-field> -->
           <!-- below is new page -->
           <div v-show="this.first_type === 'new'" id="new" class="col-8">
             <div class="row">
@@ -114,7 +114,8 @@
           </div>
   
           <!-- below is net init page -->
-          <div class="col-12" v-show="this.second_type === 'init' && this.first_type === 'change_n' && this.initFalse" id="init">
+          <!-- TODO -->
+          <div class="col-12" v-show="this.first_type === 'init' && this.initFalse" id="init">
             <div class="row">
               <q-field class="col-8 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
                 <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" @blur="$v.INIT.selected.$touch()" :error="$v.INIT.selected.ifEnough" :options="delegateList"></q-select>
@@ -126,9 +127,13 @@
               </q-field>
             </div>
           </div>
+          <!-- below is net init disabled page -->
+          <div class="col-12" v-show="this.first_type === 'init' && !this.initFalse">
+            <div class="row">{{$t('ALREADY_INIT')}}</div>
+          </div>
   
           <!-- below is net period page -->
-          <div class="col-12" v-show="this.second_type === 'period_n' && this.first_type === 'change_n'" id="remove">
+          <div class="col-12" v-show="this.first_type === 'period_n'" id="remove">
             <div class="row">
               <q-field :label-width="4" :label="$t('LAUNCH_MODAL.NET_PERIOD')" class="col-3 font-16 text-four">
                 <q-input :suffix="$t('LAUNCH_MODAL.DAY')" type="number" disabled readonly v-model="PERIOD.pre" />
@@ -146,7 +151,7 @@
           </div>
   
           <!-- below is net member page -->
-          <div class="col-12" v-show="this.second_type === 'member_n' && this.first_type === 'change_n'" id="remove">
+          <div class="col-12" v-show="this.first_type === 'member_n'" id="remove">
             <!-- instead members -->
             <div class="row">
               <!-- <q-field class="col-4" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_PRE')">
@@ -335,9 +340,17 @@
             label: this.$t('proposal.SELECT_NEWNET'),
             value: 'new_n'
           },
+          // {
+          //   label: this.$t('proposal.SELECT_CHANGENET'),
+          //   value: 'change_n'
+          // },
           {
-            label: this.$t('proposal.SELECT_CHANGENET'),
-            value: 'change_n'
+            label: this.$t('proposal.SELECT_INITNET'),
+            value: 'init'
+          },
+          {
+            label: this.$t('proposal.SELECT_CHANGEMEMBER'),
+            value: 'member_n'
           }
           // {
           //   label: this.$t('proposal.SELECT_NETPERIOD'),
@@ -378,7 +391,16 @@
           }
         ],
         councilList: [],
-        netList: [],
+        netList: [
+          // {
+          //   label: 'bitcoin',
+          //   value: 'bitcoin'
+          // },
+          // {
+          //   label: 'ethereum',
+          //   value: 'ethereum'
+          // }
+        ],
         delegateList: [],
         brief: null,
         NEW: {
@@ -440,12 +462,13 @@
         required
       },
       p_selected: {
+        required,
         isSelected() {
-          if (this.first_type === 'change' || this.first_type === 'change_n') {
-            if (this.p_selected === null && this.$v.p_selected.$dirty !== false) {
-              return true
+          if (this.first_type === 'init' || this.first_type === 'member_n') {
+            if (this.$v.p_selected.$dirty !== false) {
+              return false
             }
-            return false
+            return true
           }
           return false
         }
@@ -563,48 +586,39 @@
               precision: this.NEW.currencyPrecision
             }
           }
-        } else if (this.first_type === 'change_n') {
-          if (this.second_type === 'init') {
-            this.p_desc = ''
-            content = {
-              // TODO need get gateway detail & members detail
-              gateway: this.p_selected.name,
-              members: this.INIT.selected,
-              desc: this.brief
-            }
-          } else if (this.second_type === 'period_n') {
-            // this.p_desc = this.PERIOD.brief
-            // content = {
-            //   field: 'updateInterval',
-            //   from: this.PERIOD.pre,
-            //   to: this.PERIOD.post
-            // }
-          } else {
-            this.p_desc = this.brief
-            content = {
-              // TODO need getway member list
-              gateway: this.p_selected.name,
-              from: this.MEMBER.instead_pre,
-              to: this.MEMBER.instead_post
-            }
+        } else if (this.first_type === 'init') {
+          this.p_desc = ''
+          content = {
+            // TODO need get gateway detail & members detail
+            gateway: this.p_selected.name,
+            members: this.INIT.selected,
+            desc: this.brief
+          }
+        } else if (this.first_type === 'member_n') {
+          this.p_desc = this.brief
+          content = {
+            // TODO need getway member list
+            gateway: this.p_selected.name,
+            from: this.MEMBER.instead_pre,
+            to: this.MEMBER.instead_post
           }
         }
         return content
       },
       async launchProposal() {
-        if (this.first_type === 'new' || this.first_type === 'new_n') {
-          let result = this.checkValidate(this.first_type)
-          if (!result) {
-            toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
-            return
-          }
-        } else {
-          let result = this.checkValidate(this.second_type)
-          if (!result) {
-            toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
-            return
-          }
+        // if (this.first_type === 'new' || this.first_type === 'new_n') {
+        let valid = this.checkValidate(this.first_type)
+        if (!valid) {
+          toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
+          return
         }
+        // } else {
+        //   let result = this.checkValidate(this.second_type)
+        //   if (!result) {
+        //     toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
+        //     return
+        //   }
+        // }
         let obj = {}
         obj.content = this.compileContent()
         obj.title = this.p_title
@@ -832,19 +846,15 @@
       countedType() {
         if (this.first_type === 'new_n') {
           return 'gateway_register'
-        } else if (this.first_type === 'change_n') {
-          switch (this.second_type) {
-            case 'init':
-              return 'gateway_init'
-            case 'period_n':
-              return 'gateway_period'
-            case 'member_n':
-              return 'gateway_update_member'
-          }
+        } else if (this.first_type === 'init') {
+          return 'gateway_init'
+        } else if (this.first_type === 'period_n') {
+          return 'gateway_period'
+        } else if (this.first_type === 'member_n') {
+          return 'gateway_update_member'
         }
       },
       endHeight() {
-        debugger
         let currentHeight = this.userInfo.latestBlock.height
         let pre = new Date().getTime()
         let post = new Date(this.p_time_end).getTime()
@@ -879,14 +889,14 @@
     },
     watch: {
       first_type(val) {
-        if (val === 'change_n') {
+        if (val === 'init' || val === 'member_n') {
           this.getAllGate()
         }
       },
-      second_type(val) {
-        if (val === 'init') {
+      p_selected(val) {
+        if (this.first_type === 'init') {
           this.formInitList()
-        } else if (val === 'member_n') {
+        } else if (this.first_type === 'member_n') {
           this.formMemberList()
         }
       }

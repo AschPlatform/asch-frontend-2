@@ -43,6 +43,10 @@
             {{props.value | fee(props.row.precision)}}
           </q-td>
 
+          <q-td slot="body-cell-quantity"  slot-scope="props" :props="props">
+            {{props.value | fee(props.row.precision)}}
+          </q-td>
+
         </q-table>
       </div>
       <div class="col-3">

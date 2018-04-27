@@ -67,7 +67,9 @@ export default {
   },
   data() {
     return {
-      innerBalance: [],
+      innerBalance: [
+        {asset: ''}
+      ],
       outerBalance: [],
       innerPagination: {
         page: 1,
@@ -103,6 +105,9 @@ export default {
       })
       if (res.success) {
         this.innerBalance = res.balances
+        this.innerBalance.forEach(o => {
+          o.precision = o.asset.precision
+        })
         // set max
         this.innerPagination.rowsNumber = res.count
         this.loading = false

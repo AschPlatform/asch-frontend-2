@@ -28,6 +28,12 @@
             <!-- <q-icon v-if="props.row.voted" name="check circle" color="positive"/> -->
           <!-- </div> -->
         </q-td>
+        <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
+          <!-- <div> -->
+            {{(Number(props.value)*100)+'%'}}
+            <!-- <q-icon v-if="props.row.voted" name="check circle" color="positive"/> -->
+          <!-- </div> -->
+        </q-td>
         <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
           <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
             <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
@@ -177,6 +183,7 @@ export default {
     async onOk() {
       if (this.selectedDelegate.length === 0) {
         this.selected = []
+
         return
       }
       let trans = createVote(this.selectedDelegate, this.user.secret, this.secondPwd)
@@ -193,6 +200,12 @@ export default {
     },
     vote() {
       this.dialogShow = true
+    },
+    disableBtn(model) {
+      this[model] = true
+      this._.delay(() => {
+        this[model] = false
+      }, 3000)
     }
   },
   async mounted() {

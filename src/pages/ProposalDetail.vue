@@ -220,7 +220,7 @@ export default {
         this.btnInfo = 'proposal.EXPIRED'
         this.isBtnAble = true
       } else {
-        this.btnInfo = 'proposal.ACTIVE'
+        this.btnInfo = 'proposal.BTN_VOTE'
         this.isBtnAble = false
       }
     },
@@ -263,6 +263,7 @@ export default {
       }
     },
     async activePro() {
+      debugger
       let res = await this.activeProposal({
         tid: this.$route.params.tid,
         secondPwd: this.secondPwd
@@ -274,6 +275,7 @@ export default {
       }
     },
     async votePro() {
+      debugger
       let res = await this.voteProposal({
         tid: this.$route.params.tid,
         secondPwd: this.secondPwd

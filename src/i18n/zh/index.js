@@ -463,6 +463,7 @@ const lang = {
   ELECTED: '当选状态',
   UPDATE_LIMIT: '最低更新频率:',
   AGENT_ALREADY: '已经是代理人，此行为被拒绝',
+  ALREADY_INIT: '该网关已经初始化成功，暂不能进行此种功能',
 
   // ERROR
   AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',
