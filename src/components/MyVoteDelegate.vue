@@ -14,10 +14,13 @@
         <q-btn color="secondary" @click="isGonnaSet=false">{{$t('CANCEL')}}</q-btn>
      </div>
     </q-card-main>
-    <q-card-main align="center" v-else>
-      <div v-if="agentName">{{agentName}}<a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a></div>
-      <q-btn color="secondary" :disable="btnDisable" @click="action">{{$t(btnInfo)}}</q-btn>
-      <p v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:user.account.weight})}}</p>
+    <q-card-main class="padding-t-b-40" align="center" v-else>
+      <div v-if="agentName">
+         <span class="font-30 text-black vertical-align-sub margin-left-24">{{agentName}}</span>
+        (<a class="text-blue cursor-pointer" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a>)
+        </div>
+      <q-btn  class="margin-t-10" color="secondary" :disable="btnDisable" @click="action">{{$t(btnInfo)}}</q-btn>
+      <p class="margin-t-10" v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:convertFeeAmount()})}}</p>
       <!-- <a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a> -->
     </q-card-main>
   </q-card>
