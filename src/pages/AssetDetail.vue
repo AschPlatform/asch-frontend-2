@@ -20,7 +20,7 @@
             </div>
           </q-card-main>
         </q-card>
-        <q-card v-if="assetDetail" class="bg-white col-3 assetDetail-card-content">
+        <q-card v-if="!isCross" class="bg-white col-3 assetDetail-card-content">
           <q-card-main>
             <table>
               <tr class="margin-t-20">
@@ -33,7 +33,7 @@
               </tr>
               <tr class="margin-t-20">
                 <td>{{$t('DAPP_COIN_CURRENT_QUANTITY')+':'}}</td>
-                <td>{{assetDetail.quantity ||fee(assetDetail.precision) }}</td>
+                <td>{{assetDetail.quantity | fee(assetDetail.precision) }}</td>
               </tr>
             </table>
           </q-card-main>

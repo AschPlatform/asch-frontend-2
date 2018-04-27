@@ -52,9 +52,12 @@
             <span class="block margin-t-10 font-12">{{$t('NOT_DELEGATE')}}</span>
           </q-card-main>
           <q-card-main align="center" v-else>
-            <span class="block">{{delegate.username}}</span>
+            <div v-if="delegate">
+              <span class="block">{{delegate.username}}</span>
             <span class="block">{{$t('DELEGATE_POLLRATE')+':'+delegate.approval+'%'}}</span>
             <span class="block">{{$t('DELEGATE_RANK')+':'+delegate.rate}}</span>
+            </div>
+            
           </q-card-main>
         </q-card>
         <q-card class="q-px-sm" v-if="this.isDelegate">
@@ -62,7 +65,7 @@
           {{$t('MY_FORGING')}}
           </q-card-title>
           <q-card-separator />
-          <q-card-main align="center">
+          <q-card-main v-if="delegate" align="center">
             <q-btn @click="changeData" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
             <span class="block">{{$t('DELEGATE_VOTERATE')+':'+delegate.productivity+'%'}}</span>
           </q-card-main>
@@ -468,7 +471,13 @@ export default {
         rowsPerPage: 20
       }
     },
-    isDelegate() {}
+    isDelegate() {
+      if (this.userInfo && this.userInfo.account) {
+        return this.userInfo.account.isDelegate === 1
+      } else {
+        return false
+      }
+    }
   },
   watch: {
     userInfo(val) {

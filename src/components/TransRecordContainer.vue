@@ -8,7 +8,7 @@
       {label: $t('TRS_TYPE_TRANSFER_RECORD'), value: 2},
       {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},]" />
         <!-- <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" /> -->
-</template>
+    </template>
 
     <q-td slot="body-cell-id" slot-scope="props" :props="props">
       <div v-if="props.value" class="my-label" >
@@ -101,8 +101,8 @@ export default {
       })
     },
     getAmountNFee(data) {
-      const { amount, fee } = data
-      return `${convertFee(amount)}(${convertFee(fee)})`
+      const { amount } = data
+      return convertFee(amount)
     },
     async request(props) {
       await this.getTrans(props.pagination, props.filter)
@@ -233,6 +233,20 @@ export default {
             format: value => {
               return convertFee(value)
             }
+          },
+          {
+            name: 'args',
+            label: this.$t('ARGS'),
+            field: 'args',
+            format: args => {
+              if (args) {
+                args = args.replace(/"/g, '')
+                args = args.replace('[', '')
+                args = args.replace(']', '')
+              }
+              return args
+            },
+            align: 'center'
           }
           // {
           //   name: 'message',
@@ -295,7 +309,7 @@ export default {
 
           {
             name: 'amount',
-            label: this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')',
+            label: this.$t('AMOUNTS'),
             field: 'amount',
             filter: true,
             // sortable: true,

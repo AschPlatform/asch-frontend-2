@@ -127,6 +127,11 @@ export default {
       }
       if (this.currency) {
         condition.currency = this.currency
+      } else {
+        if (this.isCross) {
+          this.loading = false
+          return false
+        }
       }
       let res
       if (this.type === 1) {
@@ -311,9 +316,9 @@ export default {
             }
           },
           {
-            name: 'timestamp',
+            name: 't_timestamp',
             label: this.$t('DATE'),
-            field: 'timestamp',
+            field: 't_timestamp',
             format: value => {
               return this.formatTimestamp(value)
             }
@@ -327,9 +332,9 @@ export default {
     }
   },
   watch: {
-    currency(val) {
-      this.getTrans()
-    },
+    // currency(val) {
+    //   this.getTrans()
+    // },
     userInfo(val) {
       this.getTrans()
     },
