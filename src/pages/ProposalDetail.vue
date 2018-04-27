@@ -263,7 +263,6 @@ export default {
       }
     },
     async activePro() {
-      debugger
       let res = await this.activeProposal({
         tid: this.$route.params.tid,
         secondPwd: this.secondPwd
@@ -275,7 +274,6 @@ export default {
       }
     },
     async votePro() {
-      debugger
       let res = await this.voteProposal({
         tid: this.$route.params.tid,
         secondPwd: this.secondPwd
@@ -317,6 +315,7 @@ export default {
     },
     // compile time start / end
     time_end() {
+      // TODO : ENCLOSE A FUNC
       // let d = new Date(this.time_buffer)
       // let start = d.getTime()
       // let end = (this.detail.endHeight - this.detail.t_height) * 1000

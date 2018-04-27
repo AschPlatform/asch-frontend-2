@@ -284,12 +284,12 @@ const asch = {
     )
   },
   // dapp 充值
-  depositDapp: (dappId, currency, amount, secret, secondPwd = '') => {
+  depositDapp: (name, currency, amount, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertFee({
         type: 204,
         fee: 10000000,
-        args: [dappId, currency, amount],
+        args: [name, currency, amount],
         secret,
         secondSecret: convertSecondPwd(secondPwd)
       })

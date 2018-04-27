@@ -275,7 +275,7 @@ export default {
   deposit: ({ commit }, params) => {
     const secret = getCache('user').secret
     let trans = asch.depositDapp(
-      params.dappId,
+      params.name,
       params.currency,
       params.amount,
       secret,

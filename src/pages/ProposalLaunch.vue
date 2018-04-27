@@ -723,7 +723,7 @@
         res.validators.forEach(o => {
           // cannot init detect
           if (o.elected === 1) {
-            return elected.push(o.address)
+            return elected.push(o.name)
           }
         })
         res.validators.forEach(o => {
@@ -736,7 +736,6 @@
         this.delegateList = total
       },
       checkValidate(action) {
-        debugger
         // total set first
         if (!this.$v.p_title.$invalid &&
           !this.$v.first_type.$invalid &&
