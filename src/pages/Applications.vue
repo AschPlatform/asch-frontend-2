@@ -143,7 +143,7 @@
 
 <script>
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
-import { createInTransfer, createInnerTransaction, check58 } from '../utils/asch'
+import { createInnerTransaction, check58 } from '../utils/asch'
 import { required, minValue, numeric } from 'vuelidate/lib/validators'
 import { secondPwdReg } from '../utils/validators'
 import { mapActions, mapGetters } from 'vuex'
@@ -556,7 +556,7 @@ export default {
     assetsOpt() {
       if (this.user && this.balances) {
         let assets = []
-        let allAsset = []
+        // let allAsset = []
         // if (formType === 1) {
         assets = [
           {
