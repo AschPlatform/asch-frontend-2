@@ -1,11 +1,11 @@
 <template>
-  <q-modal class="deposit-modal-container" content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
+  <q-modal class="deposit-modal-container" content-classes="row justify-center" v-model="show" no-backdrop-dismiss :no-esc-dismiss="true">
     <div class="col-12 padding-b-54 ">
       <!-- <h4>{{$t('DEPOSIT')}}</h4> -->
       <div class="bg-secondary padding-40 height-62">
         <span class="text-white font-24">{{$t('DEPOSIT')}}</span>
       </div>
-      <div v-if="account">
+      <div v-if="account&&account.address">
         <vue-qr class="depositmodal-account-content" :size="200" :text="account.address || 'no data'"></vue-qr>
         <br />
         <div class="col-6 text-center" >{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info('copy success...')" flat icon='content copy' round/></div>
@@ -52,7 +52,7 @@ import asch from '../utils/asch-v2'
 
 export default {
   name: 'DepositPanel',
-  props: ['user', 'show'],
+  props: ['user', 'show', 'asset'],
   components: { QField, QInput, VueQr, QModal, QBtn, QSelect, QItemMain },
   data() {
     return {
@@ -90,7 +90,7 @@ export default {
     },
     async getAddr() {
       let asset = this.outAssets[this.currency]
-      this.asset = asset
+      // this.asset = asset
       let res = await this.gateAccountAddr({ name: asset.gateway, address: this.user.address })
       if (res.success) {
         this.account = res.account
@@ -129,7 +129,7 @@ export default {
   },
   watch: {
     asset(val) {
-      this.currency = val.symbol
+      if (val) this.currency = val.symbol
       if (this.user && this.asset) this.getAddr()
     },
     currency(val) {
