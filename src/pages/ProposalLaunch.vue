@@ -921,7 +921,6 @@
       afterList() {
         let space = []
         let removenamespace = []
-        let addnamespace = []
         if (this.MEMBER.electedList.length > 0 && this.MEMBER.removed.length > 0) {
           this.MEMBER.removed.forEach(o => {
             return removenamespace.push(o.name)
