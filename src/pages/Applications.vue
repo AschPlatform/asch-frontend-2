@@ -41,7 +41,7 @@
           <q-card-separator />
           <q-card-actions class="justify-around">
             <q-btn :label="$t('BALANCE')" flat @click="balance(dapp)" />
-            <q-btn :label="$t('DEPOSIT')" flat @click="deposit(dapp)" />
+            <q-btn :label="$t('DEPOSIT')" flat @click="depositFunc(dapp)" />
             <q-btn :label="$t('CHECK')" flat @click="check(dapp)" />
           </q-card-actions>
         </q-card>
@@ -402,7 +402,7 @@ export default {
       this.row = row
       this.dialogShow = true
     },
-    deposit(dapp) {
+    depositFunc(dapp) {
       const t = this.$t
       this.dialog = {
         title: t('DAPP_DEPOSIT'),
@@ -420,7 +420,7 @@ export default {
         this.dialogShow = true
         return
       }
-      const { transactionId } = this.row
+      const { address } = this.row
       const assets = this.selectedAssets
       const form = this.dialog.form
       let amount = parseFloat((this.form.amount * Math.pow(10, assets.precision)).toFixed(0))
@@ -428,10 +428,10 @@ export default {
 
       if (form === 1) {
         trans = {
-          dappId: transactionId,
-          currency: this.form.depositName,
-          amount: amount,
-          secondSecret: this.form.secondPwd
+          'dappId': address,
+          'currency': this.form.depositName,
+          'amount': amount,
+          'secondSecret': this.form.secondPwd
         }
         // trans = createInTransfer(
         //   transactionId,
@@ -541,7 +541,7 @@ export default {
       let depositName = this.form.depositName
       if (depositName === 'XAS') {
         return {
-          precision: 10,
+          precision: 8,
           name: depositName
         }
       } else {
@@ -556,7 +556,6 @@ export default {
     assetsOpt() {
       if (this.user && this.balances) {
         let assets = []
-        // let allAsset = []
         // if (formType === 1) {
         assets = [
           {

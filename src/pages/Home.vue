@@ -196,7 +196,6 @@ export default {
   margin-left: 10px;
   vertical-align: top;
   border-radius: 50%;
-  border: 1px solid #e3e6e8;
 }
 
 .home-top-btn-container:hover i {

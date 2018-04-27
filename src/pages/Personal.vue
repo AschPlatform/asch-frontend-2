@@ -586,7 +586,6 @@ export default {
 
 .personal-head-canvas {
   width: 80px;
-  border: 1px solid #e3e6e8;
   border-radius: 50%;
 }
 
