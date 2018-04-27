@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <q-card color="white" text-color="black" class="layout-padding q-mx-xl q-my-xl">
+    <q-card color="white" text-color="black" class="padding-20 q-mx-xl q-my-xl">
       <q-card-title class="font-22 padding-l-0">
         <q-icon size="18px" name="border color" /> {{$t('proposal.LAUNCH')}}
         <q-btn color="warning" slot="right" class="row items-center" @click="hideModal">
@@ -34,7 +34,7 @@
         </q-field>
       </div>
     </q-card>
-    <q-card v-show="this.first_type !== null" color="white" text-color="black" class="layout-padding q-mx-xl q-my-xl">
+    <q-card v-show="this.first_type !== null" color="white" text-color="black" class="padding-20 q-mx-xl q-my-xl">
       <q-card-title class="font-22 padding-l-0">
         <q-icon size="18px" name="border color" /> {{$t('proposal.CONTENT')}}
       </q-card-title>
@@ -72,27 +72,27 @@
           <!-- below is net new page -->
           <div class="col-12" v-show="this.first_type === 'new_n'" id="new">
             <div class="row">
-              <q-field class="block col-5 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_3_15')" :label="$t('LAUNCH_MODAL.NET_NAME')">
+              <q-field class="block col-6 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_3_15')" :label="$t('LAUNCH_MODAL.NET_NAME')">
                 <q-input type="text" v-model="NEW.name" @blur="$v.NEW.name.$touch()" :error="$v.NEW.name.$error"></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="block col-5 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.NET_CURRENCY_TIP')" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
+              <q-field class="block col-6 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.NET_CURRENCY_TIP')" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
                 <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" upper-case type="text" v-model="NEW.currency" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.currency.$error"></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="block col-5 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.PRECISION_TIP')" :label="$t('PRECISION')">
+              <q-field class="block col-6 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.PRECISION_TIP')" :label="$t('PRECISION')">
                 <q-input upper-case type="number" v-model="NEW.currencyPrecision" @blur="$v.NEW.currencyPrecision.$touch()" :error="$v.NEW.currencyPrecision.$error"></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="block col-5 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.CURRENCY_BRIEF')">
+              <q-field class="block col-6 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.CURRENCY_BRIEF')">
                 <q-input type="text" v-model="NEW.currencyBrief" @blur="$v.NEW.currencyBrief.$touch()" :error="$v.NEW.currencyBrief.$error"></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="block col-5 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_5_33')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
+              <q-field class="block col-6 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_5_33')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
                 <q-input type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :suffix="$t('LAUNCH_MODAL.PERSON')"></q-input>
               </q-field>
             </div>
@@ -102,12 +102,12 @@
               </q-field>
           </div> -->
             <div class="row">
-              <q-field class="col-5 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
+              <q-field class="col-6 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
                 <q-input type="number" v-model="NEW.period" @blur="$v.NEW.period.$touch()" :error="$v.NEW.period.$error" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="col-5 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
+              <q-field class="col-6 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
             </div>
