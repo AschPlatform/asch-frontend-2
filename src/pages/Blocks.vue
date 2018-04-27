@@ -10,7 +10,7 @@
         <template slot="top-right" slot-scope="props">
           <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
           <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
-            <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+          <q-btn class="text-secondary" flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
         </template>
 
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
