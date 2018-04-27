@@ -594,6 +594,7 @@ const lang = {
     ERR_REQUIRE_MEMBER: '请提名候选人'
   },
   LASTEST_UPDATE_TIME: '最后更新日期',
+  ARGS: '参数',
 
   // ==============  quasar i18n  =================
 
