@@ -369,7 +369,7 @@ const lang = {
   SEE_ALL_ASSETS: '查看全部资产',
   TRANSFER_TIP: '钱包转账为不可逆，请务必核对收款地址',
   RECEIVE: '收款',
-  X_ASSETS: 'Asch链内资产',
+  X_ASSETS: '链内资产',
   CROSS_ASSETS: '跨链资产',
   WITHDRAW: '提现',
   DEPOSIT: '充值',
@@ -466,6 +466,7 @@ const lang = {
   UPDATE_LIMIT: '最低更新频率:',
   AGENT_ALREADY: '已经是代理人，此行为被拒绝',
   ALREADY_INIT: '该网关已经初始化成功，暂不能进行此种功能',
+  PERIOD_TIP: '*开始时间应该至少设置在一周以后，以留有足够的时间让用户发现、评估项目并投票',
 
   // ERROR
   AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',
@@ -534,7 +535,7 @@ const lang = {
     REMOVE_COUNCIL: '我提议撤销理事会',
     REMOVE_REASON: '撤销原因',
     PERIOD_REASON: '任职周期更改原因',
-    INIT_REASON: '网关初始化原因',
+    INIT_REASON: '初始化原因',
     READ_TIP1: '自觉遵守《社区自治用户协议书》',
     READ_TIP2: '发布提案将消耗 100 XAS',
     INSTEAD_PRE: '由',
@@ -588,7 +589,7 @@ const lang = {
     ERR_50_1000: '请输入50-1000个字符',
     ERR_REQUIRE_TYPE: '请选择提案类型',
     ERR_REQUIRE_CONTENT: '请选择内容',
-    ERR_REQUIRE_TIME: '请选择结束时间',
+    ERR_REQUIRE_TIME: '开始时间应该至少设置在一周以后，以留有足够的时间让用户发现、评估项目并投票',
     ERR_REQUIRE_DETAIL: '请选择提案详情',
     ERR_REQUIRE_NUMBER: '成员应在7-33人之间',
     ERR_REQUIRE_MEMBER: '请提名候选人'
