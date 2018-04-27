@@ -415,7 +415,6 @@ export default {
       })
     },
     async onOk() {
-      debugger
       const t = this.$t
       let formType = this.dialog.form
       if (formType === 1) {
