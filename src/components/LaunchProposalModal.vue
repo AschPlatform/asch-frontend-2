@@ -3,7 +3,7 @@
     <q-card class="layout-padding q-mx-xl q-my-xl">
       <q-card-title>{{$t('proposal.LAUNCH')}}
         <q-btn color="warning" slot="right" class="row items-center" @click="hideModal">
-          <q-icon name="place" /> {{$t('CANCEL')}}
+          <q-icon name="reply" /> {{$t('CANCEL')}}
         </q-btn>
       </q-card-title>
       <div class="row">

@@ -4,7 +4,7 @@
       <q-card-title class="font-22">
         <q-icon size="18px" name="border color" /> {{$t('proposal.LAUNCH')}}
         <q-btn color="warning" slot="right" class="row items-center" @click="hideModal">
-          <q-icon name="place" /> {{$t('CANCEL')}}
+          <q-icon name="reply" /> {{$t('CANCEL')}}
         </q-btn>
       </q-card-title>
       <q-card-separator class="q-my-lg bg-999 no-border-top" />
