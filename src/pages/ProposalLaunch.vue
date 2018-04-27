@@ -323,7 +323,8 @@
         },
         second_type: null,
         // cannot init
-        initFalse: false,
+        // TODO NEED DELETE BELOW
+        initFalse: true,
         agreeOptions: [],
         // options for total
         proposalType: [
