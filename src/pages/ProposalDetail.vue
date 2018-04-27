@@ -230,7 +230,7 @@ export default {
       })
       let ls = []
       if (res.success) {
-        res.votes.forEach((o) => {
+        res.votes.forEach(o => {
           return ls.push(o.voter)
         })
       }
@@ -242,7 +242,7 @@ export default {
       let res = await this.getGatewayDelegates(name)
       if (res.success) {
         let ls = []
-        res.validators.forEach((o) => {
+        res.validators.forEach(o => {
           if (o.elected === 1) {
             return ls.push(o.address)
           }
@@ -262,7 +262,7 @@ export default {
         this.isBtnAble = true
       }
     },
-    async activePro() {      
+    async activePro() {
       let res = await this.activeProposal({
         tid: this.$route.params.tid,
         secondPwd: this.secondPwd
@@ -359,6 +359,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.no-border-top
-  margin-top: 0 !important
+.no-border-top {
+  margin-top: 0 !important;
+}
 </style>

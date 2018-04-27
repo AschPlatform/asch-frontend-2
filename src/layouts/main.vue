@@ -483,7 +483,7 @@ body {
 
 .list-item-container {
   height: 70px;
-  color: #5c636e;
+  color: #8b939e;
   font-size: 18px;
   padding-left: 40px;
   border-bottom: 1px solid #2c3411;
