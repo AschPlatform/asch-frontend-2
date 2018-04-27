@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page class="proposal-detail-container">
     <q-card color="white" text-color="black" class="padding-20 q-mx-xl q-my-xl">
       <q-card-title class="padding-l-0">
         <q-icon size="18px" name="border color" />
@@ -17,7 +17,7 @@
         <div class="row">
           <q-field :label-width="3" :label="$t('proposal.SELECT_P_TYPE')" class="col-6 font-16">
             <q-input readonly hide-underline v-model="dealWithType" value=""/>
-            <span>{{detail.content | jparse('name', false)}}</span>
+            <!-- <span>{{detail.content | jparse('name', false)}}</span> -->
           </q-field>
         </div>
         <div class="row">

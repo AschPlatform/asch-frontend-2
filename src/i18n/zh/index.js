@@ -472,7 +472,7 @@ const lang = {
   AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',
   proposal: {
     CONTENT: '提案内容',
-    VOTE_DETAIL: '投票状态',
+    VOTE_DETAIL: '投票情况',
     No: '提案编号',
     INITIATOR: '发起人',
     TYPE: '类型',
