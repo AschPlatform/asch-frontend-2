@@ -45,7 +45,7 @@
           </div>
           <div class="header-right margin-left-10" @click="toHome">
             <span class="header-right-top">阿希客户端</span>
-            <span class="header-right-bottom font-12 text-secondary">Asch Client V1.4.0</span>
+            <span class="header-right-bottom font-12">Asch Client V1.4.0</span>
           </div>
         </q-list-header>
         <q-item class="list-item-container" item :to="getRouterConf('home')">
@@ -483,7 +483,7 @@ body {
 
 .list-item-container {
   height: 70px;
-  color: #5c636e;
+  color: #8b939e;
   font-size: 18px;
   padding-left: 40px;
   border-bottom: 1px solid #2c3411;

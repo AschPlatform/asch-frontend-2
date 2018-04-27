@@ -39,7 +39,7 @@
   
     <withdraw-modal :user="userInfo" :assets="outerBalance" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
     <!-- <asset-detail-modal :show="assetDetailModalShow" :asset="asset" @close="assetDetailModalShow=false" :userInfo="userInfo" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" /> -->
-    <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
+    <more-asset-modal :show="moreAssetsModalShow"  :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
   </q-page>
 </template>
 
@@ -67,9 +67,7 @@ export default {
   },
   data() {
     return {
-      innerBalance: [
-        {asset: ''}
-      ],
+      innerBalance: [{ asset: '' }],
       outerBalance: [],
       innerPagination: {
         page: 1,
@@ -140,16 +138,17 @@ export default {
       this.depositPanelShow = true
       asset.haveAdd = true // mark as have address asset
       asset.symbol = asset.name // mark as have address asset
-      this.asset = asset
+      this.asset = this._.merge({}, asset)
     },
     depositNewAsset(asset) {
+      this.asset = this._.merge({}, asset)
       this.moreAssetsModalShow = false
+
       this.depositPanelShow = true
-      this.asset = asset
     },
     withdraw(asset) {
       this.withdrawPanelShow = true
-      this.asset = asset
+      this.asset = this._.merge({}, asset)
     },
     moreAssets() {
       this.moreAssetsModalShow = true

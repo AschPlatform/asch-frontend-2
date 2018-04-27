@@ -5,7 +5,7 @@
         <q-icon size="18px" name="border color" />
         {{$t('proposal.SHOW')}}
         <q-btn color="warning" slot="right" class="row items-center" @click="back">
-          <q-icon name="place" /> {{$t('CANCEL')}}
+          <q-icon name="reply" /> {{$t('CANCEL')}}
         </q-btn>
       </q-card-title>
         <q-card-separator class="q-my-lg bg-999 no-border-top"/>
@@ -230,7 +230,7 @@ export default {
       })
       let ls = []
       if (res.success) {
-        res.votes.forEach((o) => {
+        res.votes.forEach(o => {
           return ls.push(o.voter)
         })
       }
@@ -242,7 +242,7 @@ export default {
       let res = await this.getGatewayDelegates(name)
       if (res.success) {
         let ls = []
-        res.validators.forEach((o) => {
+        res.validators.forEach(o => {
           if (o.elected === 1) {
             return ls.push(o.address)
           }
@@ -360,6 +360,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.no-border-top
-  margin-top: 0 !important
+.no-border-top {
+  margin-top: 0 !important;
+}
 </style>
