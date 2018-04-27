@@ -1,5 +1,5 @@
 <template>
-  <q-modal content-classes="row justify-center" v-model="show" minimized :no-esc-dismiss="true">
+  <q-modal content-classes="row justify-center" v-model="show" minimized no-backdrop-dismiss	 :no-esc-dismiss="true">
     <div class="bg-secondary padding-40 height-62 col-12">
       <span class="text-white font-22">{{$t('MORE_ASSETS')}}</span>
       <q-btn class="float-right height-62" flat :label="$t('label.close')" @click="close" />
