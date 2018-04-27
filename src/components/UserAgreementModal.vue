@@ -1,23 +1,25 @@
 <template>
-  <q-modal class="user-agreement-container" content-classes="layout-padding" v-model="show" maximized>
-    <q-card class="col-12" >
-      <q-card-title>
-        {{title}}
-      </q-card-title>
+  <q-modal class="user-agreement-container" v-model="show" minimized>
+    <q-card class="col-12 no-shadow" >
+      <div class="bg-secondary height-62 padding-l-20">
+      <span class="text-white font-24 font-weight">{{title}}</span>
+      </div>
       <q-card-separator />
-      <q-card-main class="q-px-lg">
+      <q-card-main class="q-px-lg margin-t-20">
         <q-scroll-area style="height: 400px" class="shadow-1 q-px-sm q-py-lg">
             <div>{{content}}</div>
         </q-scroll-area>
-        <q-checkbox class="q-mt-sm" v-model="checked" :label="$t('I_AGREE')" />
-        <div class="text-right text-secondary">
+        <div class="row justify-between user-agree-content">
+        <q-checkbox v-model="checked" :label="$t('I_AGREE')" />
+        <span class="text-right text-secondary">
          {{tips}}
+        </span>
         </div>
       </q-card-main>
       <q-card-main>
-        <div class="justify-left row">
-          <q-btn big class="bg-secondary text-white" :disable="!checked" :label="$t('label.ok')" @click="confirm"/>
-          <q-btn big outline class="agreement-btn-2" color="secondary" size="md" :label="$t('label.cancel')" @click="cancel"/>
+        <div class="justify-between row padding-40">
+          <q-btn class="col-3" big outline color="secondary" size="md" :label="$t('label.cancel')" @click="cancel"/>
+          <q-btn big class="bg-secondary text-white col-3" :disable="!checked" :label="$t('label.ok')" @click="confirm"/>
         </div>
       </q-card-main>
     </q-card>
@@ -70,5 +72,10 @@ export default {
 
 .agreement-btn-2 {
   margin-left: 20px;
+}
+
+.user-agree-content {
+  height: 30px;
+  line-height: 30px;
 }
 </style>

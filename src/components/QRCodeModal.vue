@@ -13,8 +13,8 @@
       </div>
     </div>
 
-    <template slot="buttons" slot-scope="props">
-            <q-btn flat :label="$t('label.close')" @click="close" />
+    <template  slot="buttons" slot-scope="props">
+      <q-btn color="secondary" :label="$t('label.close')" @click="close" />
     </template>
   </q-dialog>
 </template>

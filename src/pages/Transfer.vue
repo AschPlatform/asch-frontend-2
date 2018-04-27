@@ -43,7 +43,6 @@ export default {
   methods: {
     ...mapActions(['getBalance']),
     async sender(send) {
-      debugger
       let flag = await send()
       if (flag) {
         this.transShow = false

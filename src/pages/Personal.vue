@@ -67,7 +67,7 @@
                 </td>
                 <td>
                   <div v-if="lockInfo">
-                    <span>
+                    <span class="font-18">
                       {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
                     </span>
                     <a class="text-secondary" @click="callLockPanel">{{$t('EDIT')}}</a>
@@ -125,7 +125,7 @@
           <q-input @blur="$v.confirmPassword.$touch" :placeholder="$t('SECOND_PASSWORD_CONFIRM')" type="password" v-model="confirmPassword" />
         </q-field>
       </div>
-      <template slot="buttons" slot-scope="props">
+      <template slot="buttons" class="row justify-between" slot-scope="props">
         <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()"/>
         <q-btn class="col-3 self-lef margin-left-10" color="secondary" @click="setPwd(props.ok)">
                         {{$t('CONFIRM')}}

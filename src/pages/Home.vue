@@ -20,14 +20,12 @@
             </div>
             <div class="col-6 row justify-end items-center">
               <div class="home-top-btn-container">
-                <!-- <i class="material-icons font-24 vertical-align-middle text-eight">fiber_manual_record</i> -->
                 <i class="material-icons font-24 vertical-align-middle text-eight">call_missed</i>
                 <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
               </div>
               <span class="btn-container-line"></span>
               <div class="home-top-btn-container">
                 <i class="material-icons material-icons font-24 vertical-align-middle text-eight">call_missed_outgoing</i>
-                <!-- <i class="material-icons font-24 vertical-align-middle text-eight">fiber_manual_record</i> -->
                 <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('RECEIVE')" flat @click="showAddrQr" />
               </div>
             </div>

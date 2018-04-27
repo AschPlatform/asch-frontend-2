@@ -352,6 +352,8 @@ const lang = {
   QRCODE_CLOSE: '点击二维码关闭',
 
   // ============== new add =================
+  USER_AGREEMENT_MODAL_TIPS: '*注册成为代理人将消耗 100 XAS',
+  USER_AGREEMENT_MODAL_CONTENT: ' Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互',
   LOCK_DETAIL_TIP: '请设置锁仓额度',
   RETREAT_VOTE_SUCCESS: '撤销投票成功',
   DELEGATE_LIST_DETAILS: '受托人详情列表',
@@ -370,6 +372,7 @@ const lang = {
   WITHDRAW: '提现',
   DEPOSIT: '充值',
   AVAILABLE_BALANCE: '*可用转账余额：',
+  AVAILABLE_BALANCE_LIMIT: '可用额度',
   PROPOSAL: '提案',
   COUNCIL: '理事会',
   DEPOSIT_NO_ADDR_TIP: '您尚未开通 {currency} 钱包收款地址',
@@ -432,7 +435,7 @@ const lang = {
   HOW_TO_BE: '如何成为',
   PLEASE_LOCK: '请先锁仓',
   AGENT_DETAIL: '代理详情',
-  AUTHOR_AMOUNT: '授权代理额度 {amunt} XAS',
+  AUTHOR_AMOUNT: '授权代理额度 {amount} XAS',
   AGENT_VOTE_DETAIL: '票权代理情况',
   AGENT_VOTE_RECORDS: '投票记录',
   AUTHORIZOR: '授权人',

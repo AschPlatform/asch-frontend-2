@@ -1,24 +1,25 @@
 
 <template>
   <q-page>
-    <div  v-if="userAccount" class="row">
-      <q-card class="col-9">
+    <div v-if="userAccount" class="row padding-20">
+      <q-card class="col-9 shadow-1">
         <q-card-title>
-          {{$t('VOTE_DELEGATE_DETAIL')}}
+          <i class="material-icons vertical-align-middle font-24 text-secondary">perm_identity</i>
+          <span class="font-24 vertical-align-middle font-weight">{{$t('VOTE_DELEGATE_DETAIL')}}</span>
         </q-card-title>
         <q-card-main v-if="userInfo">
           <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1 col-9 " align="justify">
-            <q-tab default name="supporters" slot="title" icon="people" :label="$t('AGENT_VOTE_DETAIL')" />
-            <q-tab name="records" slot="title" icon="face" :label="$t('AGENT_VOTE_RECORDS')" />
+            <q-tab default name="supporters" slot="title" color="secondary" icon="people" :label="$t('AGENT_VOTE_DETAIL')" />
+            <q-tab name="records" slot="title" icon="face" color="secondary" :label="$t('AGENT_VOTE_RECORDS')" />
             <div>
               <!-- come from VR page -->
-              <q-table :no-data-label="$t('table.noData')" :data="datas" :filter="filter" color="primary" :columns="dynamicCol" row-key="id" :loading="loading" :rows-per-page-options="[10]">
-                <template slot="top-right" slot-scope="props">
-                    <q-btn flat round  icon="refresh" color="primary" @click="refresh" />
-          </template>
+              <q-table :no-data-label="$t('table.noData')" :data="datas" :filter="filter" color="secondary" :columns="dynamicCol" row-key="id" :loading="loading" :rows-per-page-options="[10]">
+<template slot="top-right" slot-scope="props">
+                      <q-btn flat round  icon="refresh" color="secondary" @click="refresh" />
+</template>
            
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
-            <div class="text-primary" @click="viewAccountInfo(props.row)">
+            <div class="text-secondary" @click="viewAccountInfo(props.row)">
               {{props.value}}
             </div>
           </q-td>
@@ -40,6 +41,7 @@
     </q-card>
 
     <q-card v-if="userAccount" class="col-3">
+      <div class="padding-l-20 bg-white">
       <q-card-title>
         {{$t('AGENT_DETAIL')}}
       </q-card-title>
@@ -54,6 +56,7 @@
           ({{user.account.agentWeight}})
         </div>
       </q-card-main>
+      </div>
     </q-card>
     </div>
      
@@ -63,6 +66,7 @@
 
 <script>
 import {
+  QPage,
   QModal,
   QTabs,
   QTab,
@@ -83,6 +87,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   props: [],
   components: {
+    QPage,
     QModal,
     QTabs,
     QTab,

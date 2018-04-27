@@ -123,7 +123,7 @@
   
       <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText" />
       <!-- <float-menu v-if="this.showFloatBtns" :router="$router" :userObj="user" /> -->
-      <trans-info-modal :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false" />
+      <trans-info-modal class="code-modal-container" :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false" />
     </q-page-container>
 
     <q-layout-footer class="no-shadow footer-container">
@@ -487,7 +487,7 @@ body {
   font-size: 18px;
   padding-left: 40px;
   border-bottom: 1px solid #2c3411;
-  border-left: 2px solid transparent;
+  border-left: 4px solid transparent;
 }
 
 .q-item.active, .q-item.router-link-active, .q-item:focus {

@@ -26,6 +26,7 @@
 <script>
 import { QCard, QCardTitle, QCardMain, QCardSeparator, QBtn, QInput } from 'quasar'
 import { toastWarn } from '../utils/util'
+import { convertFee } from '../utils/asch'
 import { nicknameReg, secondPwdReg, addressReg } from '../utils/validators'
 import { mapGetters } from 'vuex'
 export default {
@@ -46,6 +47,9 @@ export default {
     QInput
   },
   methods: {
+    convertFeeAmount() {
+      return convertFee(this.user.account.weight)
+    },
     action() {
       if (!this.isLocked) {
         toastWarn(this.$t('PLEASE_LOCK'))

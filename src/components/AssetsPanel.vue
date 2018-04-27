@@ -46,6 +46,7 @@
 <script>
 import {
   QCard,
+  QListHeader,
   QCardMain,
   QItem,
   QItemSide,
@@ -59,6 +60,7 @@ export default {
   name: 'AssetPanel',
   props: ['asset', 'type'],
   components: {
+    QListHeader,
     QCard,
     QCardMain,
     QItem,
