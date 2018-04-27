@@ -99,6 +99,7 @@ export default {
     async getAddr() {
       let asset = this.outAssets[this.currency]
       // this.asset = asset
+      if (!asset || !asset.gateway) return
       let res = await this.gateAccountAddr({ name: asset.gateway, address: this.user.address })
       if (res.success) {
         this.account = res.account
@@ -137,8 +138,8 @@ export default {
   },
   watch: {
     asset(val) {
-      if (val) this.currency = val.symbol
-      if (this.user && this.asset) this.getAddr()
+      if (val) this.currency = val.currency
+      if (this.user && this.currency) this.getAddr()
     },
     currency(val) {
       if (this.user) this.getAddr()
