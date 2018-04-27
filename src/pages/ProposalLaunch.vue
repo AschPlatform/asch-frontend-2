@@ -154,17 +154,17 @@
           <div class="col-12" v-show="this.first_type === 'member_n'" id="remove">
             <!-- instead members -->
             <div class="row">
-              <!-- <q-field class="col-4" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_PRE')">
-            <q-select chips multiple filter v-model="MEMBER.instead_pre" :options="MEMBER.memberList"></q-select>
-            </q-field> -->
-              <q-field class="col-6 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.INSTEAD_POST')">
-                <q-select color="secondary" chips multiple filter v-model="MEMBER.instead_post" :options="delegateList"></q-select>
+              <q-field class="col-4 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_PRE')">
+            <q-select chips multiple filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
+            </q-field>
+              <q-field class="col-4 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_POST')">
+                <q-select color="secondary" chips multiple filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
               </q-field>
             </div>
             <div class="row justify-around q-my-lg">
-              <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_PRE')" class="col-5" inverted readonly v-model="MEMBER.instead_pre" disable/>
+              <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_PRE')" class="col-5" inverted readonly v-model="totalName" disable/>
               <q-icon size="33px" name="keyboard arrow right" />
-              <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="MEMBER.instead_post" disable/>
+              <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="afterName" disable/>
             </div>
             <div class="">
               <q-field class="col-1 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.MEMBER_REASON')">
@@ -440,6 +440,10 @@
             }
           ],
           type_selected: null,
+          added: [],
+          removed: [],
+          electedList: [],
+          unelectedList: [],
           add_selected: [],
           delete_selected: [],
           instead_pre: [],
@@ -600,8 +604,8 @@
           content = {
             // TODO need getway member list
             gateway: this.p_selected.name,
-            from: this.MEMBER.instead_pre,
-            to: this.MEMBER.instead_post
+            from: this.beforeAddress,
+            to: this.afterAddress
           }
         }
         return content
@@ -721,19 +725,33 @@
         })
         let total = []
         let elected = []
+        let unelected = []
         res.validators.forEach(o => {
           // cannot init detect
           if (o.elected === 1) {
-            return elected.push(o.name)
+            return elected.push({
+              label: o.name,
+              value: o
+            })
+          }
+        })
+        res.validators.forEach(o => {
+          // cannot init detect
+          if (o.elected === 1) {
+            return unelected.push({
+              label: o.name,
+              value: o
+            })
           }
         })
         res.validators.forEach(o => {
           return total.push({
-            label: o.address,
-            value: o.address
+            label: o.name,
+            value: o
           })
         })
-        this.MEMBER.instead_pre = elected
+        this.MEMBER.electedList = elected
+        this.MEMBER.unelectedList = unelected
         this.delegateList = total
       },
       checkValidate(action) {
@@ -828,7 +846,10 @@
             }
           ],
           type_selected: null,
-          add_selected: [],
+          added: [],
+          removed: [],
+          electedList: [],
+          unelectedList: [],
           delete_selected: [],
           instead_pre: [],
           instead_post: [],
@@ -885,6 +906,68 @@
         let m = new Date(end).getMonth() + 1
         let day = new Date(end).getDate()
         return `${y}-${m}-${day}`
+      },
+      totalName() {
+        let name = []
+        console.log('into')
+        if (this.delegateList && this.delegateList.length > 0) {
+          this.MEMBER.electedList.forEach(o => {
+            console.log('into inner', o)
+            return name.push(o.label)
+          })
+        }
+        return name
+      },
+      afterList() {
+        let space = []
+        let removenamespace = []
+        let addnamespace = []
+        if (this.MEMBER.electedList.length > 0 && this.MEMBER.removed.length > 0) {
+          this.MEMBER.removed.forEach(o => {
+            return removenamespace.push(o.name)
+          })
+          this.MEMBER.electedList.forEach(o => {
+            if (this._.indexOf(removenamespace, o.label) < 0) {
+              // not found:
+              return space.push(o)
+            }
+          })
+        }
+        if (this.MEMBER.electedList.length > 0 && this.MEMBER.added.length > 0) {
+          this.MEMBER.added.forEach(o => {
+            space.push({
+              label: o.name,
+              value: o
+            })
+          })
+        }
+        return space
+      },
+      afterName() {
+        let name = []
+        if (this.afterList.length > 0) {
+          this.afterList.forEach(o => {
+            console.log(name)
+            return name.push(o.label)
+          })
+        }
+        return name
+      },
+      beforeAddress() {
+        let add = []
+        this.MEMBER.electedList.forEach(o => {
+          return add.push(o.value.address)
+        })
+        return add.join(',')
+      },
+      afterAddress() {
+        let add = []
+        if (this.afterList.length > 0) {
+          this.afterList.forEach(o => {
+            return add.push(o.value.address)
+          })
+        }
+        return add.join(',')
       }
     },
     watch: {
