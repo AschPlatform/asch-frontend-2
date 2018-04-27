@@ -262,7 +262,7 @@ export default {
         this.isBtnAble = true
       }
     },
-    async activePro(){      
+    async activePro() {      
       let res = await this.activeProposal({
         tid: this.$route.params.tid,
         secondPwd: this.secondPwd
