@@ -35,7 +35,7 @@
       <br />
       <div class="row justify-around">
         <q-btn  :label="$t('CANCEL')" color="secondary" outline @click="$emit('close')" />
-        <q-btn  color="secondary" :label="$t('OPEN_ADDR')" @click="openAddr" />
+        <q-btn  color="secondary" :disable="btnDisable" :label="$t('OPEN_ADDR')" @click="openAddr" />
       </div>
     </div> 
     </div>
@@ -58,7 +58,8 @@ export default {
     return {
       currency: '',
       secondPwd: '',
-      account: {}
+      account: {},
+      btnDisable: false
     }
   },
   mounted() {
@@ -80,6 +81,7 @@ export default {
         this.close()
       } else {
         translateErrMsg(this.$t, res.error)
+        this.disableBtn('btnDisable')
       }
     },
     close() {
@@ -87,6 +89,12 @@ export default {
     },
     info(msg) {
       toast(msg)
+    },
+    disableBtn(model) {
+      this[model] = true
+      this._.delay(() => {
+        this[model] = false
+      }, 3000)
     },
     async getAddr() {
       let asset = this.outAssets[this.currency]
