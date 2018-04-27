@@ -27,10 +27,10 @@ export const confirm = (conf, cancel = () => {}, confirm = () => {}) => {
     })
 }
 // todo
-export const deCompileContent = (value) => {
+export const deCompileContent = value => {
   return JSON.parse(value)
 }
-export const compileTimeStamp = (value) => {
+export const compileTimeStamp = value => {
   return AschJs.utils.format.fullTimestamp(value)
 }
 export const toast = message => {
@@ -86,6 +86,12 @@ export const getCurrentSeverUrl = () => {
   } else {
     return false
   }
+}
+
+export const getTimeFromHight = (block, currentHight) => {
+  let { height, timestamp } = block
+  let time = (height - currentHight) * 10 + timestamp
+  return AschJs.utils.format.fullTimestamp(time)
 }
 
 export const translateErrMsg = (t, input) => {

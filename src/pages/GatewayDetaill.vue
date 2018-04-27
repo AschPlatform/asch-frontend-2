@@ -42,10 +42,10 @@
           <q-card class="gateway-modal-right-card no-shadow" align="left">
             <div class="modal-right-container modal-right-container-bottom shadow-2 row">
               <q-card-title class="bg-nine self-start bottom-container-top">
-                <span class="font-16 text-black">{{$t('UPDATE_LIMIT')}}</span>
+                <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
               </q-card-title>
               <q-card-main class="self-end bottom-container-bottom">
-                <span class="font-24 text-secondary">{{convertFrequency(gateway.updateInterval)}}{{$t('FRAGIL_DAY')}}</span>
+                <span class="font-24 text-secondary">{{gateway.createTime?compileTimeStamp(gateway.createTime):getTimeFromHight(gateway.lastUpdateHeight)}}</span>
               </q-card-main>
             </div>
           </q-card>
@@ -58,7 +58,8 @@
 
 <script>
 import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd } from 'quasar'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import { compileTimeStamp, getTimeFromHight } from '../utils/util'
 
 export default {
   name: 'GatewayDetail',
@@ -148,6 +149,12 @@ export default {
     },
     convertFrequency(val) {
       return Math.floor(val / 8640)
+    },
+    compileTimeStamp(timestamp) {
+      return compileTimeStamp(timestamp)
+    },
+    getTimeFromHight(height) {
+      return getTimeFromHight(this.latestBlock, height)
     }
   },
   mounted() {
@@ -160,7 +167,9 @@ export default {
       this.loadData()
     }
   },
-  computed: {},
+  computed: {
+    ...mapGetters(['latestBlock'])
+  },
   watch: {
     gateway(val) {
       if (val) this.loadData()
