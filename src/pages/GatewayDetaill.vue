@@ -15,7 +15,7 @@
           <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading">
   
             <q-td slot="body-cell-operation" slot-scope="props" :props="props">
-              <div class="text-secondary" @click="viewAccountInfo(props.row)">
+              <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">
                 {{$t('CHECK')}}
               </div>
             </q-td>
@@ -32,7 +32,7 @@
           <q-card class="gateway-modal-right-card no-shadow" align="left">
             <div class=" modal-right-container shadow-2">
               <q-card-title class="bg-nine">
-                <span class="font-16 text-black">{{gateway.name}}</span>
+                <span class="font-22 text-black font-weight">{{gateway.name}}</span>
               </q-card-title>
               <q-card-main>
                 <span class="font-16 text-five">{{gateway.desc}}</span>
@@ -44,7 +44,7 @@
               <q-card-title class="bg-nine self-start bottom-container-top">
                 <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
               </q-card-title>
-              <q-card-main class="self-end bottom-container-bottom">
+              <q-card-main class="self-center bottom-container-bottom">
                 <span class="font-24 text-secondary">{{gateway.createTime?compileTimeStamp(gateway.createTime):getTimeFromHight(gateway.lastUpdateHeight)}}</span>
               </q-card-main>
             </div>
