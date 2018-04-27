@@ -53,21 +53,30 @@
           </q-card-main>
           <q-card-main align="center" v-else>
             <div v-if="delegate">
-              <span class="block">{{delegate.username}}</span>
-            <span class="block">{{$t('DELEGATE_POLLRATE')+':'+delegate.approval+'%'}}</span>
-            <span class="block">{{$t('DELEGATE_RANK')+':'+delegate.rate}}</span>
+              <span class="block margin-t-20 text-secondary font-30 font-weight">{{delegate.name}}</span>
+            <span class="block margin-t-20">
+              {{$t('DELEGATE_POLLRATE')+':'}}
+              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval+'%'}}</a>
+              </span>
+            <span class="block margin-t-10">
+              {{$t('DELEGATE_RANK')+':'}}
+              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.rate}}</a>
+              </span>
             </div>
             
           </q-card-main>
         </q-card>
-        <q-card class="q-px-sm" v-if="this.isDelegate">
+        <q-card class="q-px-sm margin-t-20" v-if="this.isDelegate">
           <q-card-title>
           {{$t('MY_FORGING')}}
           </q-card-title>
           <q-card-separator />
-          <q-card-main v-if="delegate" align="center">
-            <q-btn @click="changeData" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
-            <span class="block">{{$t('DELEGATE_VOTERATE')+':'+delegate.productivity+'%'}}</span>
+          <q-card-main class="padding-b-40" v-if="delegate" align="center">
+            <q-btn class="font-30" @click="changeData" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
+            <span class="block">
+              {{$t('DELEGATE_VOTERATE')+':'}}
+              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline" href="javascript:;">{{delegate.productivity+'%'}}</a>
+            </span>
           </q-card-main>
         </q-card>
         </div>
