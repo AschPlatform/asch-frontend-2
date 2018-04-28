@@ -23,6 +23,15 @@
               {{props.value}}
             </div>
           </q-td>
+          <!-- vote agent overview -->
+          <q-td slot="body-cell-name"  slot-scope="props" :props="props">
+            <div class="text-secondary" @click="viewAccountInfo(props.row)">
+              {{props.value || props.row.address}}
+            </div>
+          </q-td>
+          <q-td slot="body-cell-xas"  slot-scope="props" :props="props">
+            {{props.value | fee(8)}}
+          </q-td>
           <q-td slot="body-cell-username"  slot-scope="props" :props="props">
             <div>
               {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
@@ -132,6 +141,9 @@ export default {
       this.pagination = this.paginationDeafult
       this.getDatas()
     },
+    viewAccountInfo(row) {
+      this.$root.$emit('openAccountModal', row.address)
+    },
     async request(props) {
       if (this.userInfo) await this.getDatas(props.pagination, props.filter)
     },
@@ -145,9 +157,9 @@ export default {
         if (res.success) this.datas = res.records
       } else {
         res = await this.getAgentSupporters({
-          name: this.user.account.agent
+          name: this.user.account.agent || this.user.account.name
         })
-        if (res.success) this.datas = res.supports
+        if (res.success) this.datas = res.clienteles
       }
 
       // set max
@@ -198,31 +210,31 @@ export default {
       } else {
         return [
           {
-            name: 'authorizor',
+            name: 'name',
             label: this.$t('AUTHORIZOR'),
-            field: 'rate',
+            field: 'name',
             align: 'center'
           },
           {
-            name: 'authorizedAmount',
+            name: 'xas',
             label: this.$t('AUTHORIZED_AMOUNT'),
-            field: 'username',
+            field: 'xas',
             type: 'string'
           },
           {
             name: 'weight',
             label: this.$t('WEIGHT'),
-            field: 'address'
+            field: 'weight'
           },
           {
-            name: 'lockTime',
+            name: 'lockHeight',
             label: this.$t('LOCK_TIME'),
-            field: 'productivity'
+            field: 'lockHeight'
           },
           {
-            name: 'authorTime',
+            name: 'agent',
             label: this.$t('AUTHOR_TIME'),
-            field: 'productivity'
+            field: 'agent'
           }
         ]
       }

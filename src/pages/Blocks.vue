@@ -277,21 +277,21 @@ export default {
         },
         {
           name: 'numberOfTransactions',
-          label: this.$t('TRANSACTIONS'),
-          field: 'numberOfTransactions',
+          label: this.$t('TRANSACTIONS_COUNT'),
+          field: 'count',
           type: 'string',
           align: 'right'
         },
-        {
-          label: this.$t('TOTAL') + this.$t('AMOUNTS'),
-          field: 'totalAmount',
-          align: 'right'
-        },
-        {
-          label: this.$t('TOTAL') + this.$t('FEES'),
-          field: 'totalFee',
-          align: 'right'
-        },
+        // {
+        //   label: this.$t('TOTAL') + this.$t('AMOUNTS'),
+        //   field: 'totalAmount',
+        //   align: 'right'
+        // },
+        // {
+        //   label: this.$t('TOTAL') + this.$t('FEES'),
+        //   field: 'totalFee',
+        //   align: 'right'
+        // },
         {
           name: 'reward',
           label: this.$t('REWARDS'),
