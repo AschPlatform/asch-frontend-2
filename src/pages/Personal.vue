@@ -44,7 +44,8 @@
             <tbody class='info-tbody'>
               <tr>
                 <td class="bottom-left-link text-three font-18">
-                  <span class="left-ball"></span> {{$t('SECOND_PASSWORD')}}
+                <i class="material-icons font-22 personal-icon">lock outline</i>
+                {{$t('SECOND_PASSWORD')}}
                 </td>
                 <td>
                   <span v-if="secondSignature" class="text-black font-18">
@@ -63,10 +64,11 @@
                             </tr> -->
               <tr>
                 <td class="bottom-left-link text-three font-18">
-                  <span class="left-ball"></span> {{$t('LOCK_POSITION_CONF')}}
+                <i class="material-icons font-22 personal-icon">settings</i>
+                  {{$t('LOCK_POSITION_CONF')}}
                 </td>
                 <td>
-                  <div v-if="lockInfo">
+                  <div class="font-18" v-if="lockInfo">
                     <span class="font-18">
                       {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
                     </span>
@@ -80,10 +82,11 @@
               </tr>
               <tr>
                 <td class="bottom-left-link text-three font-18">
-                  <span class="left-ball"></span> {{$t('AGENT_INFO')}}
+              <i class="material-icons font-22 personal-icon">account_circle</i>
+                  {{$t('AGENT_INFO')}}
                 </td>
                 <td>
-                  <span v-if="isAgent">
+                  <span class="font-18" v-if="isAgent">
                                   {{$t('IS_AGENT')}}
                                 </span>
                   <a v-else class="text-secondary" @click="callDelegatePanel">
@@ -93,7 +96,8 @@
               </tr>
               <tr>
                 <td class="bottom-left-link text-three font-18">
-                  <span class="left-ball"></span> {{$t('GATEWAY_CANDIDATE')}}
+                   <i class="material-icons font-22 personal-icon">person</i>
+                  {{$t('GATEWAY_CANDIDATE')}}
                 </td>
                 <td>
                   <div @click="jump2Doc">

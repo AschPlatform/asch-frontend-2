@@ -106,8 +106,8 @@ export default {
       })
     },
     getAmountNFee(data) {
-      const { amount, fee } = data
-      return `${convertFee(amount)}(${convertFee(fee)})`
+      const { amount } = data
+      return convertFee(amount)
     },
     async request(props) {
       await this.getTrans(props.pagination, props.filter)
@@ -257,7 +257,7 @@ export default {
           },
           {
             name: 'amount',
-            label: this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')',
+            label: this.$t('AMOUNTS'),
             field: 'amount',
             filter: true,
             classes: 'text-right',
@@ -275,29 +275,13 @@ export default {
             width: '120px'
           }
         ]
-      } else {
+      } else if (this.type === 2) {
         // CROSS
         return [
-          // {
-          //   name: 'tid',
-          //   label: 'TID',
-          //   field: 'tid'
-          // },
-          // {
-          //   name: 'oid',
-          //   label: 'OID',
-          //   field: 'oid'
-          // },
           {
             name: 'crossAmount',
-            label: this.$t('AMOUNT'),
+            label: this.$t('AMOUNTS'),
             field: 'amount',
-            align: 'center'
-          },
-          {
-            name: 'address',
-            label: this.$t('ADDRESS'),
-            field: 'address',
             align: 'center'
           },
           {
@@ -312,7 +296,39 @@ export default {
             field: 'processed',
             align: 'center',
             format: value => {
-              return value === 1 ? this.$t('PROCESS') : this.$t('DONE')
+              return value === 1 ? this.$t('DONE') : this.$t('PROCESS')
+            }
+          },
+          {
+            name: 't_timestamp',
+            label: this.$t('DATE'),
+            field: 't_timestamp',
+            format: value => {
+              return this.formatTimestamp(value)
+            }
+          }
+        ]
+      } else {
+        return [
+          {
+            name: 'crossAmount',
+            label: this.$t('AMOUNTS'),
+            field: 'amount',
+            align: 'center'
+          },
+          {
+            name: 'address',
+            label: this.$t('ADDRESS'),
+            field: 'recipientId',
+            align: 'center'
+          },
+          {
+            name: 'processed',
+            label: this.$t('PROCESSED'),
+            field: 'processed',
+            align: 'center',
+            format: value => {
+              return value === 1 ? this.$t('DONE') : this.$t('PROCESS')
             }
           },
           {
@@ -328,13 +344,25 @@ export default {
     },
     tableTitle() {
       const t = this.$t
-      return this.type === 1 ? t('DAPP_TRANSACTION_RECORD') : t('TRS_TYPE_TRANSFER_RECORD')
+      let str
+      switch (this.type) {
+        case 1:
+          str = t('DAPP_TRANSACTION_RECORD')
+          break
+        case 2:
+          str = t('DEPOSIT_RECORD')
+          break
+        case 3:
+          str = t('WITHDRAW_RECORD')
+          break
+      }
+      return str
     }
   },
   watch: {
-    // currency(val) {
-    //   this.getTrans()
-    // },
+    currency(val) {
+      this.getTrans()
+    },
     userInfo(val) {
       this.getTrans()
     },

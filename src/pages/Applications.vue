@@ -330,7 +330,6 @@
           this.balanceType = 1
         }
         if (res.success === true) {
-          debugger
           let balences = res.balances.map(b => {
             // init XAS data
             b.precision = b.asset.precision

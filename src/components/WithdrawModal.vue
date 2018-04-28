@@ -7,11 +7,11 @@
         <span class="font-12 text-white">{{$t('DEPOSIT_TIP2')}} </span>
         </div>
       <div  class="row justify-center padding-40">
-        <q-field class="col-12 margin-top-54">
-        <q-input :float-label="$t('RECIPIENT')" @blur="$v.form.address.$touch" v-model="form.address" :error="$v.form.address.$error" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" />
+        <q-field class="col-12 margin-top-54" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" >
+        <q-input :float-label="$t('RECIPIENT')" @blur="$v.form.address.$touch" v-model="form.address" :error="$v.form.address.$error" />
         </q-field>
-        <q-field class="col-12 margin-top-54">
-         <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="1" :error="$v.form.amount.$error" :error-label="$t('ERR_AMOUNT_INVALID')" />
+        <q-field class="col-12 margin-top-54" :error-label="$t('ERR_AMOUNT_INVALID')">
+         <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="1" :error="$v.form.amount.$error"  />
         </q-field>
         <q-field class="col-12 margin-top-54" >
           <q-select
@@ -37,7 +37,7 @@
 import { mapActions } from 'vuex'
 import { QField, QInput, QModal, QSelect, QBtn } from 'quasar'
 import { secondPwd } from '../utils/validators'
-import { required, minValue } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 import { toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
 
@@ -67,7 +67,9 @@ export default {
       },
       amount: {
         required,
-        minValue: minValue(1)
+        gtZero(value) {
+          return value > 0
+        }
       },
       receiver: {
         required
@@ -147,7 +149,7 @@ export default {
       }
     },
     asset(val) {
-      this.currency = val.symbol
+      this.currency = val.currency || val.symbol
     }
   }
 }
@@ -160,5 +162,4 @@ export default {
 .margin-top-54 {
   margin-top: 54px;
 }
-
 </style>

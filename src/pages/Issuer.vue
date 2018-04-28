@@ -264,6 +264,7 @@ export default {
           sort: true
         },
         {
+          name: 'quantity',
           label: this.$t('QUANTITY'),
           field: 'quantity',
           // filter: true,

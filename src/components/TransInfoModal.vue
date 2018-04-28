@@ -3,14 +3,14 @@
       <big>{{$t('DAPP_DETAIL')}}</big>
       <table v-if="row" class="q-table horizontal-separator highlight loose ">
         <tbody class='info-tbody'>
-          <tr v-clipboard="row.id || 'no data'" @success="info('copy ID success...')">
+          <!-- <tr v-clipboard="row.id || 'no data'" @success="info('copy ID success...')">
             <td >{{'ID'}}</td>
             <td >{{row.id}}</td>
           </tr>
           <tr>
             <td >{{$t('TYPE')}}</td>
             <td >{{getTransType(row.type)}}</td>
-          </tr>
+          </tr> -->
           <tr  v-clipboard="row.senderId || 'no data'" @success="info('copy senderId success...')">
             <td >{{$t('SENDER')}}</td>
             <td >{{row.senderId}}</td>
@@ -24,7 +24,7 @@
             <td >{{this.formatTimestamp(row.timestamp)}}</td>
           </tr>
           <tr v-clipboard="getAmountNFee(row) || 'no data'" @success="info('copy amount success...')">
-            <td >{{this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')'}}</td>
+            <td >{{this.$t('AMOUNTS')}}</td>
             <td >{{getAmountNFee(row)}}</td>
           </tr>
           <tr v-clipboard="row.message || 'no data'" @success="info('copy message success...')">
@@ -55,8 +55,8 @@ export default {
   },
   methods: {
     getAmountNFee(data) {
-      const { amount, fee } = data
-      return `${convertFee(amount)}(${convertFee(fee)})`
+      const { amount } = data
+      return convertFee(amount)
     },
     getTransType(val) {
       return this.$t(transTypes[val])

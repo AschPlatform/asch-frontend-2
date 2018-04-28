@@ -18,7 +18,7 @@ module.exports = ctx => {
     },
     build: {
       scopeHoisting: true,
-      vueRouterMode: 'history',
+      vueRouterMode: 'hash',
       // gzip: true,
       // analyze: true,
       // extractCSS: false,

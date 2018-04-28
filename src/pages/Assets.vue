@@ -2,8 +2,8 @@
   <q-page class="assets-container">
     <q-card class="assets-container-top no-shadow">
       <q-card-title>
-        <i class="material-icons vertical-align-middle text-secondary font-22">person</i>
-        <span class="font-22 text-tertiary">
+        <i class="material-icons font-22 vertical-align-middle text-secondary ">person</i>
+        <span class="font-22 text-black">
              {{$t('X_ASSETS')}}
               </span>
       </q-card-title>
@@ -15,8 +15,8 @@
     </q-card>
     <q-card class="assets-container-bottom no-shadow">
       <q-card-title>
-        <i class="material-icons vertical-align-middle text-secondary font-22">person</i>
-        <span>
+        <i class="material-icons text-secondary vertical-align-middle font-22">person</i>
+        <span class="font-22 text-black">
            {{$t('CROSS_ASSETS')}}
           </span>
   
@@ -143,7 +143,6 @@ export default {
     depositNewAsset(asset) {
       this.asset = this._.merge({}, asset)
       this.moreAssetsModalShow = false
-
       this.depositPanelShow = true
     },
     withdraw(asset) {
