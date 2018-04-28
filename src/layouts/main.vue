@@ -309,6 +309,12 @@ export default {
     // showAssetDetailModal(asset){
     // }
   },
+  beforeMount() {
+    let lang = this.$i18n.locale || 'zh'
+    import(`src/i18n/${lang}`).then(lang => {
+      this.$q.i18n.set(lang.default)
+    })
+  },
   async mounted() {
     let user = this.userInfo || getCache('user') || null
     if (!user) {

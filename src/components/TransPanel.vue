@@ -27,7 +27,7 @@
           <p class="text-secondary font-12" v-if="form.currency" >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
       </q-field>
       <q-field class="col-12" :label="$t('AMOUNTS')+':'" :label-width="3" :error-label="$t('ERR_AMOUNT_INVALID')">
-        <q-input  @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="8" :error="$v.form.amount.$error"  />
+        <q-input  @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error"  />
       </q-field>
       <q-field v-if="secondSignature" class="col-12"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
         <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
@@ -78,7 +78,17 @@ export default {
       amount: {
         required,
         gtZero(value) {
+          value = Number(value)
+          if (this._.isNaN(value)) return false
           return value > 0
+        },
+        getPrecision(value) {
+          let arr = value.split('.')
+          if (arr.length === 1) {
+            return true
+          } else {
+            return arr[1].length <= this.precision
+          }
         }
       },
       receiver: {
