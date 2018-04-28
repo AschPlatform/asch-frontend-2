@@ -53,7 +53,6 @@ export default {
         address: '',
         amount: '',
         fee: '0.1',
-        remark: '',
         currency: ''
       },
       balance: '',
@@ -81,9 +80,6 @@ export default {
             return arr[1].length <= this.precision
           }
         }
-      },
-      receiver: {
-        required
       }
     },
     secondPwd: {
