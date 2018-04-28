@@ -250,17 +250,14 @@
         this.secondPwd = ''
       },
       vote() {
-        if (this.userInfo.account.isLocked === 0) {
-          toastWarn(this.$t('PLEASE_LOCK'))
-          return
-        }
         this.dialogShow = true
       },
       async setAgent(params, cb = () => {}) {
         let trans = asch.setAgent(params.agent, this.userInfo.secret, params.secondPwd)
         let res = await this.broadcastTransaction(trans)
         if (res.success) {
-          toast('INF_OPERATION_SUCCEEDED')
+          toast(this.$t('INF_OPERATION_SUCCEEDED'))
+          cb()
         } else {
           translateErrMsg(this.$t, res.error)
         }
@@ -332,7 +329,6 @@
       },
       // TODO: below are gonna
       isSetDelegate() {
-        return false
       }
     },
     watch: {

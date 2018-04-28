@@ -4,7 +4,11 @@
     {{!isGonnaSet ? this.$t('VOTE_DELEGATE') : this.$t('VOTE_SET')}}
     </q-card-title>
     <q-card-separator />
-    <q-card-main class="row" v-if="isGonnaSet">
+    <q-card-main v-if="isSetAgent">
+      {{$t('IS_AGENT')}}
+      (<a class="text-blue cursor-pointer" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a>)
+    </q-card-main>
+    <q-card-main class="row" v-if="isGonnaSet && !isSetAgent">
       <q-input class="col-12" clearable v-model="agent" :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
       <q-input class="col-12" v-if="secondSignature" v-model="secondPwd" type="password" :float-label="$t('TRS_TYPE_SECOND_PASSWORD')"></q-input>
       <q-btn v-if="!isGonnaSet" color="secondary" :disable="btnDisable" @click="action">{{$t(btnInfo)}}</q-btn>
@@ -14,7 +18,7 @@
         <q-btn color="secondary" @click="isGonnaSet=false">{{$t('CANCEL')}}</q-btn>
      </div>
     </q-card-main>
-    <q-card-main class="padding-t-b-40" align="center" v-else>
+    <q-card-main class="padding-t-b-40" align="center" v-if="!isGonnaSet && !isSetAgent">
       <div v-if="agentName">
          <span class="font-30 text-black vertical-align-sub margin-left-24">{{agentName}}</span>
         (<a class="text-blue cursor-pointer" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a>)
@@ -30,7 +34,7 @@
 import { QCard, QCardTitle, QCardMain, QCardSeparator, QBtn, QInput } from 'quasar'
 import { toastWarn } from '../utils/util'
 import { convertFee } from '../utils/asch'
-import { nicknameReg, secondPwdReg, addressReg } from '../utils/validators'
+import { nicknameReg, secondPwdReg } from '../utils/validators'
 import { mapGetters } from 'vuex'
 export default {
   data() {
@@ -76,7 +80,7 @@ export default {
     },
     // TODO SET DELEGATE
     setAgent() {
-      if (!nicknameReg.test(this.agent) && !addressReg.test(this.agent)) {
+      if (!nicknameReg.test(this.agent)) {
         toastWarn(this.$t('ERR_NICKNAME'))
         this.disableBtn('btnDisable')
         return

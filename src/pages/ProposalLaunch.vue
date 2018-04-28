@@ -739,7 +739,7 @@
         })
         res.validators.forEach(o => {
           // cannot init detect
-          if (o.elected === 1) {
+          if (o.elected === 0) {
             return unelected.push({
               label: o.name,
               value: o

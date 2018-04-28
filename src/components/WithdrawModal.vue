@@ -11,7 +11,7 @@
         <q-input :float-label="$t('RECIPIENT')" @blur="$v.form.address.$touch" v-model="form.address" :error="$v.form.address.$error" />
         </q-field>
         <q-field class="col-12 margin-top-54" :error-label="$t('ERR_AMOUNT_INVALID')">
-         <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="1" :error="$v.form.amount.$error"  />
+         <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error"  />
         </q-field>
         <q-field class="col-12 margin-top-54" >
           <q-select
@@ -53,7 +53,6 @@ export default {
         address: '',
         amount: '',
         fee: '0.1',
-        remark: '',
         currency: ''
       },
       balance: '',
@@ -69,11 +68,18 @@ export default {
       amount: {
         required,
         gtZero(value) {
+          value = Number(value)
+          if (this._.isNaN(value)) return false
           return value > 0
+        },
+        getPrecision(value) {
+          let arr = value.split('.')
+          if (arr.length === 1) {
+            return true
+          } else {
+            return arr[1].length <= this.precision
+          }
         }
-      },
-      receiver: {
-        required
       }
     },
     secondPwd: {
@@ -108,11 +114,11 @@ export default {
       if (this.$v.form.$error) {
         return null
       }
-
+      let amount = this.form.amount * Math.pow(10, this.precision).toFixed(0)
       let trans = asch.withdrawGateway(
         this.form.address,
         this.asset.currency,
-        this.form.amount,
+        amount,
         this.user.secret,
         this.secondPwd
       )
@@ -165,7 +171,8 @@ export default {
     currency(val) {
       if (val && this.assetsMap[val]) {
         this.balance = this.assetsMap[val].balance
-        this.precision = this.assetsMap[val].precision
+        debugger
+        this.precision = this.assetsMap[val].asset.precision
       } else {
         return ''
       }

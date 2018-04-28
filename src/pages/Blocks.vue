@@ -277,21 +277,21 @@ export default {
         },
         {
           name: 'numberOfTransactions',
-          label: this.$t('TRANSACTIONS'),
-          field: 'numberOfTransactions',
+          label: this.$t('TRANSACTIONS_COUNT'),
+          field: 'count',
           type: 'string',
           align: 'right'
         },
-        {
-          label: this.$t('TOTAL') + this.$t('AMOUNTS'),
-          field: 'totalAmount',
-          align: 'right'
-        },
-        {
-          label: this.$t('TOTAL') + this.$t('FEES'),
-          field: 'totalFee',
-          align: 'right'
-        },
+        // {
+        //   label: this.$t('TOTAL') + this.$t('AMOUNTS'),
+        //   field: 'totalAmount',
+        //   align: 'right'
+        // },
+        // {
+        //   label: this.$t('TOTAL') + this.$t('FEES'),
+        //   field: 'totalFee',
+        //   align: 'right'
+        // },
         {
           name: 'reward',
           label: this.$t('REWARDS'),
@@ -331,9 +331,13 @@ export default {
     async getBlocks(pagination = {}, filter = '') {
       this.loading = true
       let condition = []
+      debugger
       // is own judge
       if (!this.isOwn) {
-        if (pagination && pagination.page) this.pagination = pagination
+        if (pagination && pagination.page) {
+          this.pagination = pagination
+          console.log('envalue default')
+        }
         let limit = this.pagination.rowsPerPage
         let pageNo = this.pagination.page
         condition = {
@@ -342,7 +346,10 @@ export default {
           orderBy: 'height:desc'
         }
       } else {
-        if (pagination && pagination.page) this.pagination = pagination
+        if (pagination && pagination.page) {
+          this.pagination = pagination
+          console.log('envalue default', this.isOwn)
+        }
         let limit = this.pagination.rowsPerPage
         let pageNo = this.pagination.page
         condition = {
@@ -451,7 +458,7 @@ export default {
     },
     changeData() {
       this.isOwn = !this.isOwn
-      this.getBlocks()
+      this.getBlocks(this.defaultPage, '')
     }
   },
   mounted() {
@@ -496,6 +503,12 @@ export default {
     },
     filter(val) {
       this.getBlockDetail()
+    },
+    isOwn(val) {
+      console.log(val)
+    },
+    pagination(val) {
+      console.log(val.page)
     }
   }
 }
