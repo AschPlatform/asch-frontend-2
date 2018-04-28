@@ -599,6 +599,8 @@ const lang = {
   },
   LASTEST_UPDATE_TIME: '最后更新日期',
   ARGS: '参数',
+  DEPOSIT_RECORD: '充值记录',
+  WITHDRAW_RECORD: '提现记录',
 
   // ==============  quasar i18n  =================
 

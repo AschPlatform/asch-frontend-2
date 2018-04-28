@@ -5,10 +5,10 @@
       <i class="material-icons vertical-align-middle text-secondary font-22">person</i>
       <span class="vertical-align-middle font-22">{{$t('ASSET_DETAIL',{currency:asset.currency})}}</span>
       </q-card-title>
-      <q-card-main class="row">
-        <assets-panel class="margin-l-15" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
-        <assets-panel class="margin-l-15" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
-        <q-card v-if="isCross && address" class="col-3">
+      <q-card-main class="row col-12">
+        <assets-panel class="margin-l-15 col-auto" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
+        <assets-panel class="margin-l-15 col-auto" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
+        <q-card v-if="isCross && address" class="col-auto">
           <q-card-main>
             <p>{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
             <div>
@@ -20,7 +20,7 @@
             </div>
           </q-card-main>
         </q-card>
-        <q-card v-if="!isCross" class="bg-white col-3 assetDetail-card-content">
+        <q-card v-if="!isCross && assetDetail" class="bg-white col-auto assetDetail-card-content">
           <q-card-main>
             <table>
               <tr class="margin-t-20">
@@ -39,7 +39,7 @@
           </q-card-main>
         </q-card>
   
-        <q-card v-if="asset.asset" class="assetDetail-card-content bg-white col-3 margin-l-30">
+        <q-card v-if="asset.asset" class="assetDetail-card-content bg-white col-auto margin-l-30">
           <q-card-main>
             <p class="text-black font-18">
               {{asset.asset.desc}}
@@ -103,7 +103,8 @@ export default {
   data() {
     return {
       asset: {},
-      filter: ''
+      filter: '',
+      address: ''
     }
   },
   validations: {
@@ -138,9 +139,17 @@ export default {
         balance: user.account.xas
       }
     }
+    if (asset && asset.asset) {
+      let name = asset.asset.gateway
+      let address = this.userInfo.address
+      let res = await this.gateAccountAddr({ name, address })
+      if (res.success && res.account) {
+        this.address = res.account.outAddress
+      }
+    }
   },
   methods: {
-    ...mapActions(['getBalance']),
+    ...mapActions(['getBalance', 'gateAccountAddr']),
     async getData() {
       // TODO
       let res = await this.getMoreAssets()
@@ -177,9 +186,6 @@ export default {
       } else {
         return true
       }
-    },
-    address() {
-      return this.asset && this.asset.address ? this.asset.address : ''
     },
     assetDetail() {
       return this.asset.asset

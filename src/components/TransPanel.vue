@@ -16,8 +16,8 @@
     </div>
     <div class="transfer-bottom-container" v-if="user && user.account" >
        <!-- <div class="col-3" style="display:inline-block">{{$t('RECIPIENT')+':'}}</div> -->
-      <q-field class="col-8 text-four" :label="$t('RECIPIENT')+':'" :label-width="3">
-        <q-input class="col-8" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" :placeholder="$t('RECIPIENT_NAME_ADDRESS')"/>
+      <q-field class="col-8 text-four" :label="$t('RECIPIENT')+':'" :label-width="3" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')">
+        <q-input class="col-8" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error"  :placeholder="$t('RECIPIENT_NAME_ADDRESS')"/>
       </q-field>
       <q-field class="col-12" :label="$t('DAPP_CATEGORY')+':'" :label-width="3">
         <!-- <q-input v-if="currency" disable :float-label="$t('DAPP_CATEGORY')" v-model="currency" /> -->
@@ -26,8 +26,8 @@
           :options="assetsOpt" />
           <p class="text-secondary font-12" v-if="form.currency" >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
       </q-field>
-      <q-field class="col-12" :label="$t('AMOUNTS')+':'" :label-width="3">
-        <q-input  @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="8" :error="$v.form.amount.$error" :error-label="$t('ERR_AMOUNT_INVALID')" />
+      <q-field class="col-12" :label="$t('AMOUNTS')+':'" :label-width="3" :error-label="$t('ERR_AMOUNT_INVALID')">
+        <q-input  @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="8" :error="$v.form.amount.$error"  />
       </q-field>
       <q-field v-if="secondSignature" class="col-12"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
         <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
@@ -35,8 +35,8 @@
       <q-field class="col-12" :label="$t('FEES')+':'" :label-width="3">
         <q-input disable  v-model="form.fee" />
       </q-field>
-      <q-field class="col-12" :label="$t('REMARK')+':'" :label-width="3">
-        <q-input :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" :error-label="$t('ERR_INVALID_REMARK')" />
+      <q-field class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')" >
+        <q-input :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
       </q-field>
       <div class="panelBtn col-6">
         <slot name="btns" :send="send" :cancel="cancel" />
@@ -49,7 +49,7 @@
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
-import { address, secondPwd } from '../utils/validators'
+import { secondPwd } from '../utils/validators'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
@@ -76,11 +76,14 @@ export default {
   validations: {
     form: {
       amount: {
-        required
+        required,
+        gtZero(value) {
+          return value > 0
+        }
       },
       receiver: {
-        required,
-        address: address()
+        required
+        // address: address()
       },
       remark: {
         maxLength: maxLength(255)

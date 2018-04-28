@@ -73,7 +73,7 @@
                   <q-item-main class="text-five font-16 font-weight" :label="balance.currency" />
                   <q-item-side right>
                     <q-item-tile class="text-five font-16">
-                      {{balance.balance | fee(balance.precision)}}
+                      {{balance.balance | fee(balance.asset.precision)}}
                       <q-btn class="text-secondary" flat round icon="arrow forward" @click="$router.push({name:'assets',params:{asset:balance}})" />
                     </q-item-tile>
                   </q-item-side>

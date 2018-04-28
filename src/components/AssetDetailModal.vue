@@ -186,7 +186,11 @@ export default {
       return this.asset && this.asset.address ? this.asset.address : ''
     },
     assetDetail() {
-      return this.asset.asset
+      if (this.asset.asset) {
+        return this.asset.asset
+      } else {
+        return null
+      }
     },
     issuerName() {
       if (this.asset.currency) return this.asset.currency.split('.')[0]
