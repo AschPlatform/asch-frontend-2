@@ -256,7 +256,8 @@
         let trans = asch.setAgent(params.agent, this.userInfo.secret, params.secondPwd)
         let res = await this.broadcastTransaction(trans)
         if (res.success) {
-          toast('INF_OPERATION_SUCCEEDED')
+          toast(this.$t('INF_OPERATION_SUCCEEDED'))
+          cb()
         } else {
           translateErrMsg(this.$t, res.error)
         }

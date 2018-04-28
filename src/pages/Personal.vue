@@ -482,7 +482,7 @@ export default {
         let trans = asch.unlock()
         let res = await this.broadcastTransaction(trans)
         if (res.success === true) {
-          toast('INF_OPERATION_SUCCEEDED')
+          toast(this.$t('INF_OPERATION_SUCCEEDED'))
         } else {
           translateErrMsg(res.error, this.$t)
         }
