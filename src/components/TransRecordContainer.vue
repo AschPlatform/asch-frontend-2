@@ -45,12 +45,9 @@
     </q-td>
 
     <q-td slot="body-cell-recipientId" slot-scope="props" :props="props">
-       <div v-if="props.row.recipientName">
-        {{props.row.recipientName}}
-      </div>
-      <div v-else-if="props.value">
+      <div v-if="props.value">
         <a @click="getAccountInfo(props.row.recipientId)">
-                {{matchSelf(props.value)?'Me':props.value}}
+                {{getName(props)}}
               </a>
         <q-tooltip v-if="!matchSelf(props.value)" ref="popover-rec">
           {{props.value}}
@@ -169,6 +166,11 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 10
       }
+    },
+    getName(props) {
+      let flag = this.matchSelf(props.value)
+      debugger
+      return flag ? 'Me' : props.row.recipientName ? props.row.recipientName : props.value
     }
   },
   mounted() {
@@ -267,12 +269,6 @@ export default {
         ]
       } else {
         return [
-          // {
-          //   name: 'opt',
-          //   label: this.$t('OPERATION'),
-          //   field: 'opt',
-          //   align: 'center'
-          // },
           {
             name: 'currency',
             label: this.$t('ASSET'),
@@ -294,14 +290,7 @@ export default {
             name: 'recipientId',
             label: this.$t('RECIPIENT'),
             field: 'recipientId',
-            align: 'center',
-            format: value => {
-              if (value === '') {
-                return 'SYSTEM'
-              }
-              let isMySelf = this.matchSelf(value)
-              return isMySelf ? 'Me' : value
-            }
+            align: 'center'
           },
           {
             name: 'timestamp',
