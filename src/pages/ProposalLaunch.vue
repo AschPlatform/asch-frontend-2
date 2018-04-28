@@ -154,12 +154,12 @@
           <div class="col-12" v-show="this.first_type === 'member_n'" id="remove">
             <!-- instead members -->
             <div class="row">
-              <q-field class="col-4 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_PRE')">
-            <q-select chips multiple filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
+            <q-field class="col-4 font-16 text-four" label-width="2" :error-label="$t('ERR_SHOULD_EQUAL')" :label="$t('LAUNCH_MODAL.INSTEAD_PRE')">
+              <q-select chips multiple filter v-model="MEMBER.removed" @blur="$v.MEMBER.added.$touch()" :error="!$v.MEMBER.added.isEqual" :options="MEMBER.electedList"></q-select>
             </q-field>
-              <q-field class="col-4 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_POST')">
-                <q-select color="secondary" chips multiple filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
-              </q-field>
+            <q-field class="col-4 font-16 text-four" label-width="2" :error-label="$t('ERR_SHOULD_EQUAL')" :label="$t('LAUNCH_MODAL.INSTEAD_POST')">
+              <q-select color="secondary" chips multiple filter v-model="MEMBER.added" @blur="$v.MEMBER.removed.$touch()" :error="!$v.MEMBER.removed.isEqual" :options="MEMBER.unelectedList"></q-select>
+            </q-field>
             </div>
             <div class="row justify-around q-my-lg">
               <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_PRE')" class="col-5" inverted readonly v-model="totalName" disable/>
@@ -557,6 +557,18 @@
       MEMBER: {
         instead_post: {
           required
+        },
+        added: {
+          required,
+          isEqual(val) {
+            return val.length === this.MEMBER.removed.length
+          }
+        },
+        removed: {
+          required,
+          isEqual(val) {
+            return val.length === this.MEMBER.added.length
+          }
         }
       },
       REMOVE: {}
@@ -571,9 +583,6 @@
         this.$router.back()
       },
       initInfo() {},
-      // countedInterval(val) {
-      //   return val * 8640
-      // },
       // compile the proposal content
       compileContent() {
         let content = {}
@@ -663,41 +672,6 @@
           name: this.p_selected.name
         })
         return res
-        // let ls = []
-        // if (filter === 1) {
-        //   console.log('gonna adjust delegated')
-        //   this._.each(res.validators, function (o) {
-        //     if (o.elected === 1) {
-        //       return ls.push({
-        //         label: o.address,
-        //         value: o.address
-        //       })
-        //     }
-        //   })
-        // } else if (filter === 2) {
-        //   console.log('gonna get all delegated')
-        //   this._.each(res.validators, function (o) {
-        //     return ls.push({
-        //       label: o.address,
-        //       value: o.address
-        //     })
-        //   })
-        // } else {
-        //   console.log('gonna get unelected delegates')
-        //   this._.each(res.validators, function (o) {
-        //     if (o.elected === 0) {
-        //       return ls.push({
-        //         label: o.address,
-        //         value: o.address
-        //       })
-        //     }
-        //   })
-        // }
-        // if (obj1) {
-        //   this[obj][obj1] = ls
-        // }
-        // this[obj] = ls
-        // console.log(this['delegateList'])
       },
       // to form init list
       async formInitList() {
@@ -774,7 +748,9 @@
             case 'member_n':
               if (!this.$v.p_selected.isSelected &&
                 !this.$v.MEMBER.instead_post.$invalid &&
-                !this.$v.brief.$invalid
+                !this.$v.brief.$invalid &&
+                this.$v.MEMBER.added.isEqual &&
+                this.$v.MEMBER.removed.isEqual
               ) {
                 return true
               }
