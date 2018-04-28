@@ -118,7 +118,7 @@ export default {
       if (this.$v.form.$error) {
         return null
       }
-      let amount = this.form.amount * Math.pow(10, this.precision)
+      let amount = this.form.amount * Math.pow(10, this.precision).toFixed(0)
       let trans = asch.withdrawGateway(
         this.form.address,
         this.asset.currency,

@@ -46,7 +46,7 @@
 
     <q-td slot="body-cell-recipientId" slot-scope="props" :props="props">
        <div v-if="props.row.recipientName">
-        {{props.data.recipientName}}
+        {{props.row.recipientName}}
       </div>
       <div v-else-if="props.value">
         <a @click="getAccountInfo(props.row.recipientId)">
