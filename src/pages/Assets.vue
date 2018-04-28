@@ -143,7 +143,6 @@ export default {
     depositNewAsset(asset) {
       this.asset = this._.merge({}, asset)
       this.moreAssetsModalShow = false
-
       this.depositPanelShow = true
     },
     withdraw(asset) {
