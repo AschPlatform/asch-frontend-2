@@ -236,7 +236,7 @@ export default {
       }
       this.voteList = ls
       this.voteTotalNum = res.totalCount
-      this.votePassRate = (res.validCount || 0 / res.totalCount || 0 * 100).toFixed(0)
+      this.votePassRate = ((Number(res.validCount / res.totalCount) || 0) * 100).toFixed(0)
     },
     async getValidatorInfo(name) {
       let res = await this.getGatewayDelegates(name)
