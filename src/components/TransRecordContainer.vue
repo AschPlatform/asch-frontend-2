@@ -35,14 +35,20 @@
     </q-td>
 
     <q-td slot="body-cell-senderId" class="table-address" slot-scope="props" :props="props">
-      <a @click="getAccountInfo(props.row.senderId)">
+     
+      <div >
+        <a @click="getAccountInfo(props.row.senderId)">
               {{matchSelf(props.value)?'Me':props.value}}
             </a>
-      <q-tooltip v-if="!matchSelf(props.value)">{{props.value}}</q-tooltip>
+        <q-tooltip v-if="!matchSelf(props.value)">{{props.value}}</q-tooltip>
+      </div>
     </q-td>
 
     <q-td slot="body-cell-recipientId" slot-scope="props" :props="props">
-      <div v-if="props.value">
+       <div v-if="props.row.recipientName">
+        {{props.row.recipientName}}
+      </div>
+      <div v-else-if="props.value">
         <a @click="getAccountInfo(props.row.recipientId)">
                 {{matchSelf(props.value)?'Me':props.value}}
               </a>
@@ -101,8 +107,9 @@ export default {
       })
     },
     getAmountNFee(data) {
-      const { amount } = data
-      return convertFee(amount)
+      const { amount, asset = {} } = data
+      let precision = asset ? asset.precision : 8
+      return convertFee(amount, precision)
     },
     async request(props) {
       await this.getTrans(props.pagination, props.filter)

@@ -35,9 +35,9 @@
       </q-card-main>
     </q-card>
   
-    <deposit-modal :user="userInfo" :assets="outerBalance" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
+    <deposit-modal :user="userInfo" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
   
-    <withdraw-modal :user="userInfo" :assets="outerBalance" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
+    <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
     <!-- <asset-detail-modal :show="assetDetailModalShow" :asset="asset" @close="assetDetailModalShow=false" :userInfo="userInfo" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" /> -->
     <more-asset-modal :show="moreAssetsModalShow"  :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
   </q-page>

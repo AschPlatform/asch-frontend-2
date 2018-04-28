@@ -51,6 +51,8 @@
     <div class="asset-detail-record-container">
       <asset-record-container class="bg-white" :isCross="isCross" :currency="asset.currency" />
     </div>
+     <deposit-modal :user="userInfo"  :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
+    <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
   </q-page>
 </template>
 
@@ -59,6 +61,8 @@ import { mapActions, mapGetters } from 'vuex'
 import AssetRecordContainer from '../components/AssetRecordContainer'
 import AssetsPanel from '../components/AssetsPanel'
 import VueQr from 'vue-qr'
+import DepositModal from '../components/DepositModal'
+import WithdrawModal from '../components/WithdrawModal'
 
 import {
   QModalLayout,
@@ -98,13 +102,17 @@ export default {
     QBtn,
     AssetRecordContainer,
     AssetsPanel,
-    VueQr
+    VueQr,
+    DepositModal,
+    WithdrawModal
   },
   data() {
     return {
       asset: {},
       filter: '',
-      address: ''
+      address: '',
+      depositPanelShow: false,
+      withdrawPanelShow: false
     }
   },
   validations: {
@@ -166,12 +174,12 @@ export default {
       this.$root.$emit('openTransactionDialog', asset)
     },
     deposit(asset) {
-      this.$emit('deposit', asset)
-      this.close()
+      this.asset = this._.merge({}, asset)
+      this.depositPanelShow = true
     },
     withdraw(asset) {
-      this.$emit('withdraw', asset)
-      this.close()
+      this.asset = this._.merge({}, asset)
+      this.withdrawPanelShow = true
     },
     showAddrQr() {
       this.$root.$emit('showQRCodeModal', this.address)

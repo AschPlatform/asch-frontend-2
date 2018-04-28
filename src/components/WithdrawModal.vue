@@ -11,7 +11,7 @@
         <q-input :float-label="$t('RECIPIENT')" @blur="$v.form.address.$touch" v-model="form.address" :error="$v.form.address.$error" />
         </q-field>
         <q-field class="col-12 margin-top-54" :error-label="$t('ERR_AMOUNT_INVALID')">
-         <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="1" :error="$v.form.amount.$error"  />
+         <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error"  />
         </q-field>
         <q-field class="col-12 margin-top-54" >
           <q-select
@@ -34,7 +34,7 @@
   </q-modal>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { QField, QInput, QModal, QSelect, QBtn } from 'quasar'
 import { secondPwd } from '../utils/validators'
 import { required } from 'vuelidate/lib/validators'
@@ -43,7 +43,7 @@ import asch from '../utils/asch-v2'
 
 export default {
   name: 'WithdrawModal',
-  props: ['user', 'assets', 'asset', 'show'],
+  props: ['user', 'asset', 'show'],
   components: { QField, QInput, QModal, QSelect, QBtn },
   data() {
     return {
@@ -57,7 +57,8 @@ export default {
         currency: ''
       },
       balance: '',
-      precision: 0
+      precision: 0,
+      balances: []
     }
   },
   validations: {
@@ -68,7 +69,17 @@ export default {
       amount: {
         required,
         gtZero(value) {
+          value = Number(value)
+          if (this._.isNaN(value)) return false
           return value > 0
+        },
+        getPrecision(value) {
+          let arr = value.split('.')
+          if (arr.length === 1) {
+            return true
+          } else {
+            return arr[1].length <= this.precision
+          }
         }
       },
       receiver: {
@@ -79,9 +90,24 @@ export default {
       secondPwd: secondPwd()
     }
   },
-  mounted() {},
+  async mounted() {
+    if (this.user) {
+      this.getOutBalances()
+    }
+  },
   methods: {
-    ...mapActions(['broadcastTransaction']),
+    ...mapActions(['broadcastTransaction', 'getBalances']),
+    async getOutBalances() {
+      let res = await this.getBalances({
+        address: this.user.account.address,
+        flag: 3
+      })
+      if (res.success) {
+        this.balances = res.balances
+        this.currency = ''
+        this.currency = this.asset.currency
+      }
+    },
     async withdraw() {
       this.$v.form.$touch()
 
@@ -92,11 +118,11 @@ export default {
       if (this.$v.form.$error) {
         return null
       }
-
+      let amount = this.form.amount * Math.pow(10, this.precision).toFixed(0)
       let trans = asch.withdrawGateway(
         this.form.address,
         this.asset.currency,
-        this.form.amount,
+        amount,
         this.user.secret,
         this.secondPwd
       )
@@ -116,21 +142,27 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['outAssets']),
     secondSignature() {
       return this.user ? this.user.account.secondPublicKey : ''
     },
     assetsOpt() {
-      return this.assets.map(asset => {
+      let values = Object.values(this.outAssets)
+      let arr = values.map(asset => {
         return {
-          label: asset.currency,
-          value: asset.currency
+          label: asset.symbol,
+          value: asset.symbol
         }
       })
+      // if (this.asset && !this.asset.hasAdd) {
+      //   arr.push({ label: this.asset.symbol, value: this.asset.symbol })
+      // }
+      return arr
     },
     assetsMap() {
       let assetsMap = {}
-      this.assets.forEach(asset => {
-        assetsMap[asset.currency] = asset
+      this.balances.forEach(asset => {
+        assetsMap[asset.currency || asset.symbol] = asset
       })
       return assetsMap
     },
@@ -143,13 +175,17 @@ export default {
     currency(val) {
       if (val && this.assetsMap[val]) {
         this.balance = this.assetsMap[val].balance
-        this.precision = this.assetsMap[val].precision
+        debugger
+        this.precision = this.assetsMap[val].asset.precision
       } else {
         return ''
       }
     },
-    asset(val) {
-      this.currency = val.currency || val.symbol
+    show(val) {
+      if (this.asset) this.currency = this.asset.currency || this.asset.symbol
+    },
+    user(val) {
+      if (val) this.getOutBalances()
     }
   }
 }
