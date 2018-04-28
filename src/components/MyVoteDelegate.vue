@@ -54,13 +54,13 @@ export default {
       return convertFee(this.user.account.weight)
     },
     action() {
-      if (!this.isLocked) {
-        toastWarn(this.$t('PLEASE_LOCK'))
+      if (this.isDelegate) {
+        toastWarn(this.$t('DELEGATE_CAN_NOT_BE_AGENT'))
         this.disableBtn('btnDisable')
         return
       }
-      if (this.isDelegate) {
-        toastWarn(this.$t('DELEGATE_CAN_NOT_BE_AGENT'))
+      if (!this.isLocked) {
+        toastWarn(this.$t('PLEASE_LOCK'))
         this.disableBtn('btnDisable')
         return
       }

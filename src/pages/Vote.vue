@@ -250,10 +250,6 @@
         this.secondPwd = ''
       },
       vote() {
-        if (this.userInfo.account.isLocked === 0) {
-          toastWarn(this.$t('PLEASE_LOCK'))
-          return
-        }
         this.dialogShow = true
       },
       async setAgent(params, cb = () => {}) {
@@ -332,7 +328,6 @@
       },
       // TODO: below are gonna
       isSetDelegate() {
-        return false
       }
     },
     watch: {
