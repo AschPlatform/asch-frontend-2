@@ -386,7 +386,7 @@ const lang = {
   VOTE_DELEGATE_DETAIL: '代理人详情',
   VOTE_CANCEL: '撤销代理人',
   VOTE_SET: '设置代理人',
-  VOTE_DELEGATE_TIP: '请输入用户昵称或钱包地址',
+  VOTE_DELEGATE_TIP: '请输入代理人昵称',
   ALL_BLOCKS: '全部区块',
   NOT_DELEGATE: '您还不是受托人',
   CHECK: '查看',

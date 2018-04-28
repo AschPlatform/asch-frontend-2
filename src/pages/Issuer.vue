@@ -43,6 +43,9 @@
             {{props.value | fee(props.row.precision)}}
           </q-td>
 
+          <!-- <q-td slot="body-cell-quantity"  slot-scope="props" :props="props">
+            {{props.value | fee(props.row.precision)}}
+          </q-td> -->
           <q-td slot="body-cell-quantity"  slot-scope="props" :props="props">
             {{props.value | fee(props.row.precision)}}
           </q-td>
@@ -226,6 +229,7 @@ export default {
   data() {
     return {
       assets: [],
+
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -262,7 +266,7 @@ export default {
         {
           label: this.$t('QUANTITY'),
           field: 'quantity',
-          filter: true,
+          // filter: true,
           sort: true
         },
         // {
