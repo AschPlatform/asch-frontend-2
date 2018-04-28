@@ -68,7 +68,7 @@
                   {{$t('LOCK_POSITION_CONF')}}
                 </td>
                 <td>
-                  <div v-if="lockInfo">
+                  <div class="font-18" v-if="lockInfo">
                     <span class="font-18">
                       {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
                     </span>
@@ -86,7 +86,7 @@
                   {{$t('AGENT_INFO')}}
                 </td>
                 <td>
-                  <span v-if="isAgent">
+                  <span class="font-18" v-if="isAgent">
                                   {{$t('IS_AGENT')}}
                                 </span>
                   <a v-else class="text-secondary" @click="callDelegatePanel">
