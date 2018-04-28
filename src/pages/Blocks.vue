@@ -322,9 +322,13 @@ export default {
     async getBlocks(pagination = {}, filter = '') {
       this.loading = true
       let condition = []
+      debugger
       // is own judge
       if (!this.isOwn) {
-        if (pagination && pagination.page) this.pagination = pagination
+        if (pagination && pagination.page) {
+          this.pagination = pagination
+          console.log('envalue default')
+        }
         let limit = this.pagination.rowsPerPage
         let pageNo = this.pagination.page
         condition = {
@@ -333,7 +337,10 @@ export default {
           orderBy: 'height:desc'
         }
       } else {
-        if (pagination && pagination.page) this.pagination = pagination
+        if (pagination && pagination.page) {
+          this.pagination = pagination
+          console.log('envalue default', this.isOwn)
+        }
         let limit = this.pagination.rowsPerPage
         let pageNo = this.pagination.page
         condition = {
@@ -442,7 +449,7 @@ export default {
     },
     changeData() {
       this.isOwn = !this.isOwn
-      this.getBlocks()
+      this.getBlocks(this.defaultPage, '')
     }
   },
   mounted() {
@@ -487,6 +494,12 @@ export default {
     },
     filter(val) {
       this.getBlockDetail()
+    },
+    isOwn(val) {
+      console.log(val)
+    },
+    pagination(val) {
+      console.log(val.page)
     }
   }
 }
