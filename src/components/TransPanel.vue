@@ -145,7 +145,8 @@ export default {
         amount: '',
         secondPwd: '',
         fee: '0.1',
-        remark: ''
+        remark: '',
+        currency: ''
       }
       this.$v.form.$reset()
       this.$v.secondPwd.$reset()
@@ -177,14 +178,17 @@ export default {
           value: asset.currency
         }
       })
-      return [{ label: 'XAS', value: 'XAS' }].concat(arr)
+      arr = [{ label: 'XAS', value: 'XAS' }].concat(arr)
+      return arr
     },
     assetsMap() {
       let assetsMap = {}
       this.balances.forEach(asset => {
         assetsMap[asset.currency] = asset
       })
-      assetsMap['XAS'] = { name: 'XAS', precision: 8, balance: this.userInfo.account.xas }
+      if (!assetsMap['XAS']) {
+        assetsMap['XAS'] = { name: 'XAS', precision: 8, balance: this.userInfo.account.xas }
+      }
       return assetsMap
     }
   },

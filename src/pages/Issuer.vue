@@ -30,7 +30,7 @@
                   <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.create') + ACLStr(props.row.acl)}}</q-tooltip>
                 </q-fab-action>
                 <q-fab-action color="primary" @click="removeACL(props.row)" icon="remove">
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.remove') + ACLStr(props.row.acl)}}</q-tooltip>
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.remove') + ACLStr(props.row.acl)}}</q-tooltip>
                 </q-fab-action>
                 <q-fab-action color="negative" @click="writeoff(props.row)" icon="delete">
                   <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DELETE')}}</q-tooltip>

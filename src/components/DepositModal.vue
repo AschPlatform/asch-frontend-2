@@ -138,7 +138,6 @@ export default {
   },
   watch: {
     asset(val) {
-      debugger
       if (val) this.currency = val.currency || val.symbol
       if (this.user && this.currency) this.getAddr()
     },
