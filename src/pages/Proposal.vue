@@ -175,7 +175,7 @@ export default {
       this.$router.push({ name: 'launchProposal' })
     },
     callShowModal(tid) {
-      this.$router.push({name:'proposalDetail',params:{tid: tid}})
+      this.$router.push({ name: 'proposalDetail', params: { tid: tid } })
       // this.isDetailShow = true
     }
   },

@@ -34,7 +34,7 @@
   </q-modal>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import { QField, QInput, QModal, QSelect, QBtn } from 'quasar'
 import { secondPwd } from '../utils/validators'
 import { required } from 'vuelidate/lib/validators'
@@ -43,7 +43,7 @@ import asch from '../utils/asch-v2'
 
 export default {
   name: 'WithdrawModal',
-  props: ['user', 'assets', 'asset', 'show'],
+  props: ['user', 'asset', 'show'],
   components: { QField, QInput, QModal, QSelect, QBtn },
   data() {
     return {
@@ -57,7 +57,8 @@ export default {
         currency: ''
       },
       balance: '',
-      precision: 0
+      precision: 0,
+      balances: []
     }
   },
   validations: {
@@ -79,9 +80,24 @@ export default {
       secondPwd: secondPwd()
     }
   },
-  mounted() {},
+  async mounted() {
+    if (this.user) {
+      this.getOutBalances()
+    }
+  },
   methods: {
-    ...mapActions(['broadcastTransaction']),
+    ...mapActions(['broadcastTransaction', 'getBalances']),
+    async getOutBalances() {
+      let res = await this.getBalances({
+        address: this.user.account.address,
+        flag: 3
+      })
+      if (res.success) {
+        this.balances = res.balances
+        this.currency = ''
+        this.currency = this.asset.currency
+      }
+    },
     async withdraw() {
       this.$v.form.$touch()
 
@@ -116,21 +132,27 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['outAssets']),
     secondSignature() {
       return this.user ? this.user.account.secondPublicKey : ''
     },
     assetsOpt() {
-      return this.assets.map(asset => {
+      let values = Object.values(this.outAssets)
+      let arr = values.map(asset => {
         return {
-          label: asset.currency,
-          value: asset.currency
+          label: asset.symbol,
+          value: asset.symbol
         }
       })
+      // if (this.asset && !this.asset.hasAdd) {
+      //   arr.push({ label: this.asset.symbol, value: this.asset.symbol })
+      // }
+      return arr
     },
     assetsMap() {
       let assetsMap = {}
-      this.assets.forEach(asset => {
-        assetsMap[asset.currency] = asset
+      this.balances.forEach(asset => {
+        assetsMap[asset.currency || asset.symbol] = asset
       })
       return assetsMap
     },
@@ -148,8 +170,11 @@ export default {
         return ''
       }
     },
-    asset(val) {
-      this.currency = val.currency || val.symbol
+    show(val) {
+      if (this.asset) this.currency = this.asset.currency || this.asset.symbol
+    },
+    user(val) {
+      if (val) this.getOutBalances()
     }
   }
 }
