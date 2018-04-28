@@ -4,7 +4,11 @@
     {{!isGonnaSet ? this.$t('VOTE_DELEGATE') : this.$t('VOTE_SET')}}
     </q-card-title>
     <q-card-separator />
-    <q-card-main class="row" v-if="isGonnaSet">
+    <q-card-main v-if="isSetAgent">
+      {{$t('IS_AGENT')}}
+      (<a class="text-blue cursor-pointer" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a>)
+    </q-card-main>
+    <q-card-main class="row" v-if="isGonnaSet && !isSetAgent">
       <q-input class="col-12" clearable v-model="agent" :float-label="$t('VOTE_DELEGATE_TIP')"></q-input>
       <q-input class="col-12" v-if="secondSignature" v-model="secondPwd" type="password" :float-label="$t('TRS_TYPE_SECOND_PASSWORD')"></q-input>
       <q-btn v-if="!isGonnaSet" color="secondary" :disable="btnDisable" @click="action">{{$t(btnInfo)}}</q-btn>
@@ -14,7 +18,7 @@
         <q-btn color="secondary" @click="isGonnaSet=false">{{$t('CANCEL')}}</q-btn>
      </div>
     </q-card-main>
-    <q-card-main class="padding-t-b-40" align="center" v-else>
+    <q-card-main class="padding-t-b-40" align="center" v-if="!isGonnaSet && !isSetAgent">
       <div v-if="agentName">
          <span class="font-30 text-black vertical-align-sub margin-left-24">{{agentName}}</span>
         (<a class="text-blue cursor-pointer" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a>)
@@ -54,13 +58,13 @@ export default {
       return convertFee(this.user.account.weight)
     },
     action() {
-      if (this.isDelegate) {
-        toastWarn(this.$t('DELEGATE_CAN_NOT_BE_AGENT'))
+      if (!this.isLocked) {
+        toastWarn(this.$t('PLEASE_LOCK'))
         this.disableBtn('btnDisable')
         return
       }
-      if (!this.isLocked) {
-        toastWarn(this.$t('PLEASE_LOCK'))
+      if (this.isDelegate) {
+        toastWarn(this.$t('DELEGATE_CAN_NOT_BE_AGENT'))
         this.disableBtn('btnDisable')
         return
       }
