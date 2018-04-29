@@ -251,7 +251,7 @@ export default {
                 args = args.replace('[', '')
                 args = args.replace(']', '')
               }
-              return args.substr(0, 10)+'...'
+              return args.substr(0, 10) + '...'
             },
             align: 'center'
           }
