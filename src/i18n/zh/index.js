@@ -352,6 +352,7 @@ const lang = {
   QRCODE_CLOSE: '点击二维码关闭',
 
   // ============== new add =================
+  AT_LEAST_7DAY: '(开始时间应该至少设置在一周以后，以留有足够的时间让用户发现、评估项目并投票。)',
   CURRENCY_INTRODUCE: '币种介绍',
   NAME_OF_DISTRIBUTOR: '请输入名称',
   DESCRIBE_OF_DISTRIBUTOR: '请输入描述',

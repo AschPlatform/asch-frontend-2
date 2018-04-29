@@ -29,7 +29,7 @@
           <q-datetime min="2018-04-05" v-model="p_time_start" @blur="$v.p_time_start.$touch()" :error="$v.p_time_start.$error" />
         </q-field>
         <span class="self-center col-1 font-16" align="center">{{$t('TO')}}</span> -->
-        <q-field :label-width="4" class="col-4 font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_TIME')" :label="$t('proposal.SELECT_P_PERIOD')">
+        <q-field :helper="$t('AT_LEAST_7DAY')" :label-width="4" class="col-4 font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_TIME')" :label="$t('proposal.SELECT_P_PERIOD')">
           <q-datetime :min="minTime" :max="maxTime" v-model="p_time_end" @blur="$v.p_time_end.$touch()" :error="$v.p_time_end.$error" />
         </q-field>
       </div>
@@ -870,7 +870,7 @@
         return true
       },
       minTime() {
-        let maxi = 7 * 24 * 60 * 60 * 1000
+        let maxi = 1 * 24 * 60 * 60 * 1000
         let d = new Date().getTime()
         let end = new Date(d + maxi)
         let y = end.getFullYear()
