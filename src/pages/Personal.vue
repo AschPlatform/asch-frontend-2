@@ -294,7 +294,10 @@ export default {
       sameAsPassword: sameAs('password')
     },
     nickname: {
-      required
+      required,
+      nameReg(value) {
+        return nicknameReg.test(value)
+      }
     },
     num: {},
     time: {}
@@ -399,8 +402,9 @@ export default {
     },
     async setNickname(done) {
       this.$v.nickname.$touch()
-      if (!this.$v.nickname.$error && !nicknameReg.test(this.nickname)) {
+      if (this.$v.nickname.$error) {
         toastError(this.$t('ERR_NICKNAME'))
+        return null
       } else {
         let trans = asch.setName(this.nickname, this.user.secret, this.secondPwd)
         let res = await this.broadcastTransaction(trans)
@@ -495,7 +499,7 @@ export default {
       return convertFee(value)
     },
     callLockPanel() {
-      if (this.user.account.isDelegate === 0) {
+      if (this.user.account.isAgent === 0) {
         // is not delegate
         this.lockPanelShow = true
       } else {
