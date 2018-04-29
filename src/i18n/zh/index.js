@@ -352,6 +352,9 @@ const lang = {
   QRCODE_CLOSE: '点击二维码关闭',
 
   // ============== new add =================
+  CURRENCY_INTRODUCE: '币种介绍',
+  NAME_OF_DISTRIBUTOR: '请输入名称',
+  DESCRIBE_OF_DISTRIBUTOR: '请输入描述',
   CHAINS_OVERVIEW: '资产概况',
   USER_AGREEMENT_MODAL_TIPS: '*注册成为代理人将消耗 100 XAS',
   USER_AGREEMENT_MODAL_CONTENT:
