@@ -12,5 +12,6 @@
       style="width:200px;"
       @click="$router.push('/')"
     >Go back</q-btn>
+    
   </div>
 </template>
