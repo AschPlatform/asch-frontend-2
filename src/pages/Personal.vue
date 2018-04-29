@@ -478,18 +478,39 @@ export default {
       return !this.num >= amount
     },
     async unlock() {
+      const t = this.$t
       let lockHeight = this.user.account.lockHeight
       let height = this.latestBlock.height
       if (height <= lockHeight) {
         toastError(this.$t('HEIGHT_NOT_ARRIVE'))
       } else {
-        let trans = asch.unlock()
-        let res = await this.broadcastTransaction(trans)
-        if (res.success === true) {
-          toast(this.$t('INF_OPERATION_SUCCEEDED'))
+        if (this.secondSignature) {
+          prompt(
+            {
+              title: t('TRS_TYPE_UNLOCK'),
+              message: t('TRS_TYPE_SECOND_PASSWORD'),
+              prompt: {
+                model: '',
+                type: 'password' // optional
+              }
+            },
+            data => {
+              this.secondPwd = data
+              this.doUnlock()
+            }
+          )
         } else {
-          translateErrMsg(res.error, this.$t)
+          this.doUnlock()
         }
+      }
+    },
+    async doUnlock() {
+      let trans = asch.unlock(this.userInfo.secret, this.secondPwd)
+      let res = await this.broadcastTransaction(trans)
+      if (res.success === true) {
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
+      } else {
+        translateErrMsg(res.error, this.$t)
       }
     },
     jump2Doc() {
@@ -516,8 +537,7 @@ export default {
         this.userAgreementShow = true
       }
     },
-    lowerName(val) {
-    }
+    lowerName(val) {}
   },
   async mounted() {},
   computed: {
