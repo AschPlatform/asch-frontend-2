@@ -481,7 +481,6 @@
         return validated
       },
       onError() {
-        console.log('should load defa', this)
         this.$refs['img'].src = defaultIcon
       },
       createMyDapp() {
