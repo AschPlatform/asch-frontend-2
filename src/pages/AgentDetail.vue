@@ -1,12 +1,12 @@
 
 <template>
-  <q-page>
-    <div v-if="userAccount" class="row padding-20">
-      <q-card class="col-9 shadow-1">
-        <q-card-title>
-          <i class="material-icons vertical-align-middle font-24 text-secondary">perm_identity</i>
-          <span class="font-24 vertical-align-middle font-weight">{{$t('VOTE_DELEGATE_DETAIL')}}</span>
-        </q-card-title>
+  <q-page class="padding-20 border-r-6">
+    <div v-if="userAccount" class="row padding-20 bg-white">
+      <div class="col-12 padding-l-15">
+       <i class="material-icons vertical-align-middle font-24 text-secondary">perm_identity</i>
+       <span class="font-24 vertical-align-middle font-weight">{{$t('VOTE_DELEGATE_DETAIL')}}</span>
+      </div>
+      <q-card class="col-9 no-shadow">
         <q-card-main v-if="userInfo">
           <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1 col-9 " align="justify">
             <q-tab default name="supporters" slot="title" color="secondary" icon="people" :label="$t('AGENT_VOTE_DETAIL')" />
@@ -62,27 +62,24 @@
       </q-card-main>
     </q-card>
 
-    <q-card v-if="userAccount" class="col-3">
-      <div class="padding-l-20 bg-white">
-      <q-card-title>
+    <q-card v-if="userAccount" class="col-3 margin-t-15 no-shadow">
+      <div class="shadow-2 bg-white">
+      <q-card-title class="bg-nine text-black font-22 height-62">
         {{$t('AGENT_DETAIL')}}
       </q-card-title>
-      <q-card-main align="center">
-        <div>
+      <q-card-main class="padding-20" align="center">
+        <div class="text-secondary font-30 margin-t-20">
           {{user.account.agent}}
         </div>
         <div>
-          {{$t('AGENT_WEIGHT')}}
-        </div>
-        <div>
-          ({{user.account.agentWeight}})
+          <span class="font-16 text-black vertical-align-middle">{{$t('AGENT_WEIGHT')+':'}}</span>
+          <span class="font-30 text-secondary vertical-align-middle">{{user.account.agentWeight}}</span>
         </div>
       </q-card-main>
       </div>
     </q-card>
     </div>
      
-    
   </q-page>
 </template>
 
