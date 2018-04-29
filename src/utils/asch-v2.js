@@ -57,9 +57,9 @@ const asch = {
       convertFee({
         type: 3,
         fee: 10000000,
-        args: [secondPwd],
+        args: [convertSecondPwd(secondPwd)],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
