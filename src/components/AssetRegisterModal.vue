@@ -1,10 +1,10 @@
 <template>
-  <q-modal content-classes="layout-padding" v-model="show" maximized  :no-esc-dismiss="true">
-  <q-card v-if="user" class="row ">
-    <q-card-title>
-      {{user.issuer?$t('PUBLISHER_ALREADY_REGISTERED'):$t('REGISTERED_PUBLISHER')}}
+  <q-modal v-model="show" minimized  :no-esc-dismiss="true">
+  <q-card v-if="user" class="padding-b-40">
+    <div class="padding-20 bg-secondary">
+      <span class="text-white font-22">{{user.issuer?$t('PUBLISHER_ALREADY_REGISTERED'):$t('TRS_TYPE_UIA_ASSET')}}</span>
       <div slot="subtitle"> </div>
-    </q-card-title>
+    </div>
     <q-card-main class="row justify-center ">
       <q-field class="col-8" :label="$t('ASSET_NAME')" :label-width="3" :error="$v.assets.name.$error" :error-label="$t('ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS')" :count="6">
         <q-input @blur="$v.assets.name.$touch" upper-case v-model="assets.name" clearable />
@@ -37,10 +37,10 @@
         <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
       <div class="row col-10 justify-between">
-        <q-btn :loading="loading" color="primary" @click="submit" :disable="$v.$error">
+        <q-btn class="col-3" :label="$t('label.cancel')" color="secondary" outline @click="close"/>
+        <q-btn class="col-3" :loading="loading" color="secondary" @click="submit" :disable="$v.$error">
           {{$t('SUBMIT')}}
         </q-btn>
-        <q-btn :label="$t('label.cancel')" @click="close"/>
       </div>
       
     </q-card-main>

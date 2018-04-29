@@ -14,7 +14,10 @@
     </div>
 
     <template  slot="buttons" slot-scope="props">
-      <q-btn color="secondary" :label="$t('label.close')" @click="close" />
+      <div class="row justify-center width-100">
+     <q-btn color="secondary" :label="$t('label.close')" @click="close" />
+      </div>
+   
     </template>
   </q-dialog>
 </template>

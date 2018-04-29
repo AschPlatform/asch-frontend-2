@@ -10,18 +10,18 @@
       </q-card-title>
         <q-card-separator class="q-my-lg bg-999 no-border-top"/>
         <div class="row">
-          <q-field :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8 font-16">
+          <q-field :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-10 font-16">
             <q-input readonly hide-underline v-model="detail.title" value=""/>
           </q-field>
         </div>
         <div class="row">
-          <q-field :label-width="3" :label="$t('proposal.SELECT_P_TYPE')" class="col-6 font-16">
+          <q-field :label-width="2" :label="$t('proposal.SELECT_P_TYPE')" class="col-10 font-16">
             <q-input readonly hide-underline v-model="dealWithType" value=""/>
             <!-- <span>{{detail.content | jparse('name', false)}}</span> -->
           </q-field>
         </div>
         <div class="row">
-          <q-field :label-width="4" class="col-4 font-16" :label="$t('proposal.SELECT_P_PERIOD')">
+          <q-field :label-width="4" class="col-5 font-16" :label="$t('proposal.SELECT_P_PERIOD')">
             <q-input readonly hide-underline value="" v-model="time_buffer"></q-input>
           </q-field>
           <span class="self-center col-1 font-16" align="center">{{$t('TO')}}</span>
@@ -42,37 +42,37 @@
           <!-- below is net new page -->
           <div class="col-12" v-if="this.detail.topic === 'gateway_register'" id="new">
             <div class="row">
-              <q-field class="block col-5 font-16" label-width="3" :label="$t('LAUNCH_MODAL.NET_NAME')">
+              <q-field class="block col-5 font-16" label-width="4" :label="$t('LAUNCH_MODAL.NET_NAME')">
                 <q-input readonly hide-underline v-model="content.name" value=""/>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="block col-5 font-16" label-width="3" :error-label="$t('LAUNCH_MODAL.NET_CURRENCY_TIP')" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
+              <q-field class="block col-5 font-16" label-width="4" :error-label="$t('LAUNCH_MODAL.NET_CURRENCY_TIP')" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
                 <q-input readonly hide-underline v-model="content.currency.symbol" value=""></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="block col-5 font-16" label-width="3" :error-label="$t('LAUNCH_MODAL.PRECISION_TIP')" :label="$t('PRECISION')">
+              <q-field class="block col-5 font-16" label-width="4" :error-label="$t('LAUNCH_MODAL.PRECISION_TIP')" :label="$t('PRECISION')">
                 <q-input readonly hide-underline v-model="content.currency.precision" value=""></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="block col-5 font-16" label-width="3" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.CURRENCY_BRIEF')">
+              <q-field class="block col-10 font-16" label-width="2" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.CURRENCY_BRIEF')">
                 <q-input type="textarea" readonly hide-underline v-model="content.currency.desc" value=""></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="block col-2 font-16" label-width="8" :error-label="$t('ERR.ERR_3_15')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
+              <q-field class="block col-2 font-16" label-width="10" :error-label="$t('ERR.ERR_3_15')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
                 <q-input readonly hide-underline v-model="content.minimumMembers" value=""></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="col-2 font-16" label-width="8" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
+              <q-field class="col-2 font-16" label-width="10" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
                 <q-input readonly hide-underline v-model="content.interval" value="" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="col-8 font-16" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
+              <q-field class="col-10 font-16" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
                 <q-input type="textarea" value="" readonly hide-underline v-model="content.desc"></q-input>
               </q-field>
             </div>

@@ -1,5 +1,5 @@
 <template>
-  <q-layout ref="layout" view="lHh Lpr fff">
+  <q-layout ref="layout" view="lHh Lpr lff">
     <q-layout-header class="no-shadow">
   
       <q-toolbar class="head-top row justify-between bg-white">
@@ -126,13 +126,12 @@
       <trans-info-modal class="code-modal-container" :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false" />
     </q-page-container>
 
-    <q-layout-footer class="no-shadow footer-container">
-    <span class="footer-left bg-seven">Asch 1.4.0</span>
+    <q-ajax-bar ref="bar" position="top" color="orange" />
+
+   <q-layout-footer class="no-shadow footer-container row justify-between">
     <span class="footer-introduce font-12">@2018 copyright</span>
     <span class="footer-introduce font-12 float-right">1.4.0</span>
     </q-layout-footer>
-    <q-ajax-bar ref="bar" position="top" color="orange" />
-
   </q-layout>
 </template>
 
@@ -531,13 +530,6 @@ body {
   background: #f0f3f6;
   height: 40px;
   line-height: 40px;
-}
-
-.footer-left {
-  width: 300px;
-  height: 100%;
-  display: inline-block;
-  color: #252d3a;
 }
 
 .footer-introduce {
