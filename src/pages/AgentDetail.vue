@@ -152,7 +152,7 @@ export default {
       this.pagination = this.paginationDeafult
       this.getDatas()
     },
-    viewAccountInfo(row ,isRecord = false) {
+    viewAccountInfo(row, isRecord = false) {
       if (isRecord) {
         this.$root.$emit('openAccountModal', row.address)
       }
