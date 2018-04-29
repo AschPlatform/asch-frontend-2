@@ -380,12 +380,12 @@ const asch = {
     )
   },
   // 网关提现
-  withdrawGateway: (address, currency, amount, secret, secondPwd = '') => {
+  withdrawGateway: (address, gateway, currency, amount, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertFee({
         type: 403,
         fee: 10000000,
-        args: [address, currency, amount],
+        args: [address, gateway, currency, amount],
         secret,
         secondSecret: convertSecondPwd(secondPwd)
       })

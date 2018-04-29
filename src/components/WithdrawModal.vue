@@ -53,7 +53,6 @@ export default {
         address: '',
         amount: '',
         fee: '0.1',
-        remark: '',
         currency: ''
       },
       balance: '',
@@ -81,9 +80,6 @@ export default {
             return arr[1].length <= this.precision
           }
         }
-      },
-      receiver: {
-        required
       }
     },
     secondPwd: {
@@ -121,6 +117,7 @@ export default {
       let amount = this.form.amount * Math.pow(10, this.precision).toFixed(0)
       let trans = asch.withdrawGateway(
         this.form.address,
+        this.asset.asset.gateway,
         this.asset.currency,
         amount,
         this.user.secret,
@@ -175,7 +172,6 @@ export default {
     currency(val) {
       if (val && this.assetsMap[val]) {
         this.balance = this.assetsMap[val].balance
-        debugger
         this.precision = this.assetsMap[val].asset.precision
       } else {
         return ''

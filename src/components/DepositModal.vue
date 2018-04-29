@@ -74,7 +74,7 @@ export default {
         toastInfo(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
         return null
       }
-      let trans = asch.openGatewayAccount(this.asset.gateway, this.user.secret, this.secondPwd)
+      let trans = asch.openGatewayAccount(this.asset.asset.gateway, this.user.secret, this.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
