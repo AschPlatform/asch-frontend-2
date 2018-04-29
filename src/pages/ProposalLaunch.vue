@@ -151,20 +151,22 @@
           </div>
   
           <!-- below is net member page -->
-          <div class="col-12" v-show="this.first_type === 'member_n'" id="remove">
+          <div class="col-12 q-field-label-inner-center" v-show="this.first_type === 'member_n'" id="remove">
             <!-- instead members -->
             <div class="row">
-              <q-field class="col-4 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_PRE')">
+            <q-field class="col-4 font-16 text-four" label-width="4" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP1')">
             <q-select chips multiple filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
             </q-field>
-              <q-field class="col-4 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.INSTEAD_POST')">
+            <q-field class="col-4 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP2')">
                 <q-select color="secondary" chips multiple filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
               </q-field>
+            <q-field class="col-4 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP3')">
+            </q-field>
             </div>
             <div class="row justify-around q-my-lg">
-              <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_PRE')" class="col-5" inverted readonly v-model="totalName" disable/>
+              <q-chips-input color="white" :float-label="$t('LAUNCH_MODAL.INSTEAD_PRE')" chips-bg-color="secondary" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="totalName" disable/>
               <q-icon size="33px" name="keyboard arrow right" />
-              <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="afterName" disable/>
+              <q-chips-input color="white" chips-bg-color="secondary"  :float-label="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="afterName" disable/>
             </div>
             <div class="">
               <q-field class="col-1 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.MEMBER_REASON')">
