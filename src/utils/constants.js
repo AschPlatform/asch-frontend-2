@@ -181,7 +181,7 @@ const urls = {
   },
   // ===== 1.4  v2 api ======
   v2: {
-    // 账户查询
+    // 账户查询 ps: name params is avaliable now
     accounts: {
       url: '/api/v2/accounts/:address'
     },
