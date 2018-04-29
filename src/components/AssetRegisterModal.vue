@@ -2,7 +2,7 @@
   <q-modal v-model="show" minimized  :no-esc-dismiss="true">
   <q-card v-if="user" class="padding-b-40">
     <div class="padding-20 bg-secondary">
-      <span class="text-white font-22">{{user.issuer?$t('PUBLISHER_ALREADY_REGISTERED'):$t('TRS_TYPE_UIA_ASSET')}}</span>
+      <span class="text-white font-22">{{$t('TRS_TYPE_UIA_ASSET')}}</span>
       <div slot="subtitle"> </div>
     </div>
     <q-card-main class="row justify-center ">
