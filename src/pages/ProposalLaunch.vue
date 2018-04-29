@@ -887,10 +887,8 @@
       },
       totalName() {
         let name = []
-        console.log('into')
         if (this.delegateList && this.delegateList.length > 0) {
           this.MEMBER.electedList.forEach(o => {
-            console.log('into inner', o)
             return name.push(o.label)
           })
         }
@@ -924,7 +922,6 @@
         let name = []
         if (this.afterList.length > 0) {
           this.afterList.forEach(o => {
-            console.log(name)
             return name.push(o.label)
           })
         }
