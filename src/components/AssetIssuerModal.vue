@@ -1,25 +1,27 @@
 <template>
-  <q-modal content-classes=" layout-padding" v-model="show" maximized  :no-esc-dismiss="true">
-  <q-card v-if="user" class="row ">
-    <q-card-title>
-      {{user.issuer?$t('PUBLISHER_ALREADY_REGISTERED'):$t('ERR_NO_PUBLISHER_REGISTERED_YET')}}
+  <q-modal v-model="show" minimized :no-esc-dismiss="true">
+  <q-card v-if="user" class="padding-b-40">
+     <div class="padding-20 bg-secondary">
+      <span class="text-white font-22">
+        {{user.issuer?$t('PUBLISHER_ALREADY_REGISTERED'):$t('TRS_TYPE_UIA_ISSUER')}}
+        </span>
       <div slot="subtitle"> </div>
-    </q-card-title>
+    </div>
     <q-card-main  class="row col-12 justify-center ">
-      <q-field class="col-8" :label="$t('DAPP_NAME')" :label-width="2" :error="$v.issuer.name.$error" error-label="error" :count="15">
+      <q-field class="col-8" :label="$t('DAPP_NAME')" :label-width="2" :error="$v.issuer.name.$error" :error-label="$t('NAME_OF_DISTRIBUTOR')" :count="15">
         <q-input @blur="$v.issuer.name.$touch" v-model="issuer.name" clearable :disable="!!user.issuer" />
       </q-field>
-      <q-field class="col-8" :label="$t('DESCRIBE')" :label-width="2" :error="$v.issuer.desc.$error" :row="5" :count="500" error-label="error">
+      <q-field class="col-8" :label="$t('DESCRIBE')" :label-width="2" :error="$v.issuer.desc.$error" :row="5" :count="500" :error-label="$t('DESCRIBE_OF_DISTRIBUTOR')">
         <q-input @blur="$v.issuer.desc.$touch" type="textarea" v-model="issuer.desc" clearable  :disable="!!user.issuer"/>
       </q-field>
       <q-field v-show="!user.issuer && secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
         <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
-      <div class="row col-10 justify-between">
-        <q-btn :loading="loading" class="col-3"  color="primary" @click="submit">
+      <div class="row col-10 justify-between margin-t-20">
+        <q-btn size="md" :label="$t('label.cancel')" class="col-3" color="secondary" outline @click="close"/>
+        <q-btn :loading="loading" class="col-3" color="secondary" @click="submit">
           {{$t('SUBMIT')}}
         </q-btn>
-        <q-btn size="md" :label="$t('label.cancel')" @click="close"/>
       </div>
     </q-card-main>
   </q-card>

@@ -6,7 +6,7 @@
       </div>
       <q-card-separator />
       <q-card-main class="q-px-lg margin-t-20">
-        <q-scroll-area style="height: 400px" class="shadow-1 q-px-sm q-py-lg">
+        <q-scroll-area style="height: 300px" class="shadow-1 q-px-sm q-py-lg">
             <div>{{content}}</div>
         </q-scroll-area>
         <div class="row justify-between user-agree-content">
