@@ -35,7 +35,6 @@
     </q-td>
 
     <q-td slot="body-cell-senderId" class="table-address" slot-scope="props" :props="props">
-     
       <div >
         <a @click="getAccountInfo(props.row.senderId)">
               {{matchSelf(props.value)?'Me':props.value}}
@@ -169,7 +168,6 @@ export default {
     },
     getName(props) {
       let flag = this.matchSelf(props.value)
-      debugger
       return flag ? 'Me' : props.row.recipientName ? props.row.recipientName : props.value
     }
   },
