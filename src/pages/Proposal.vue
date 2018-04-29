@@ -33,7 +33,8 @@
         </q-td>
         <q-td slot="body-cell-period" slot-scope="props" :props="props">
           <!-- <q-btn flat :label="$t('proposal.OPERATION')" color="primary"> -->
-          {{props.value | jparse('updateInterval', true) || 'N/A'}}
+          <!-- {{props.value | jparse('updateInterval', true) || 'N/A'}} -->
+          {{stt(props.row)}}
           <!-- </q-btn> -->
         </q-td>
       </q-table>
@@ -46,6 +47,7 @@
 /* eslint-disable */
 import { QPage, QBtnGroup, QTable, QTd, QBtn, QPopover } from 'quasar'
 import { mapActions } from 'vuex'
+import { getTimeFromTrade, compileTimeStamp } from '../utils/util'
 
 export default {
   name: 'Proposal',
@@ -177,6 +179,15 @@ export default {
     callShowModal(tid) {
       this.$router.push({ name: 'proposalDetail', params: { tid: tid } })
       // this.isDetailShow = true
+    },
+    stt(obj) {
+      let start = compileTimeStamp(obj.t_timestamp)
+      let end = getTimeFromTrade({
+        tTimestamp: obj.t_timestamp,
+        tHeight: obj.t_height,
+        endHeight: obj.endHeight
+      })
+      return `${start} - ${end}`
     }
   },
   computed: {},

@@ -26,16 +26,29 @@
           <!-- vote agent overview -->
           <q-td slot="body-cell-name"  slot-scope="props" :props="props">
             <div class="text-secondary" @click="viewAccountInfo(props.row)">
-              {{props.value || props.row.address}}
+              {{showName(props.row)}}
             </div>
+          </q-td>
+          <q-td slot="body-cell-lockHeight"  slot-scope="props" :props="props">
+            {{showEndTime(props.row)}}
           </q-td>
           <q-td slot="body-cell-xas"  slot-scope="props" :props="props">
-            {{props.value | fee(8)}}
+            {{showContent(props.row, 'weight') | fee(8)}}
           </q-td>
-          <q-td slot="body-cell-username"  slot-scope="props" :props="props">
-            <div>
-              {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
+          <q-td slot="body-cell-agent"  slot-scope="props" :props="props">
+            {{showTime(props.row) | time}}
+          </q-td>
+          <!-- <q-td slot="body-cell-weight"  slot-scope="props" :props="props">
+            {{showContent(props.row, 'weight') | fee(8)}}
+          </q-td> -->
+          <!-- vote record overview -->
+          <q-td slot="body-cell-delegate"  slot-scope="props" :props="props">
+            <div class="text-secondary" @click="viewAccountInfo(props.row, true)">
+              {{showName(props.row, true)}}
             </div>
+          </q-td>
+          <q-td slot="body-cell-voteTime"  slot-scope="props" :props="props">
+            {{showTime(props.row) | time}}
           </q-td>
           <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
             <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
@@ -89,6 +102,7 @@ import {
   QIcon
 } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
+import { getTimeFromTrade } from '../utils/util'
 
 export default {
   props: [],
@@ -138,8 +152,11 @@ export default {
       this.pagination = this.paginationDeafult
       this.getDatas()
     },
-    viewAccountInfo(row) {
-      this.$root.$emit('openAccountModal', row.address)
+    viewAccountInfo(row ,isRecord = false) {
+      if (isRecord) {
+        this.$root.$emit('openAccountModal', row.address)
+      }
+      this.$root.$emit('openAccountModal', row.account.address)
     },
     async request(props) {
       if (this.userInfo) await this.getDatas(props.pagination, props.filter)
@@ -151,7 +168,7 @@ export default {
         res = await this.getAgentVotes({
           name: this.user.account.agent
         })
-        if (res.success) this.datas = res.records
+        if (res.success) this.datas = res.delegates
       } else {
         res = await this.getAgentSupporters({
           name: this.user.account.agent || this.user.account.name
@@ -163,6 +180,28 @@ export default {
       // this.pagination.rowsNumber = res.delegates.length
       this.loading = false
       return res
+    },
+    showContent(obj, content, isRecord = false) {
+      if (isRecord) {
+        return obj[content]
+      }
+      return obj.account[content]
+    },
+    showEndTime(obj) {
+      return getTimeFromTrade({
+        tTimestamp: obj.t_timestamp,
+        tHeight: obj.t_height,
+        endHeight: obj.account.lockHeight
+      })
+    },
+    showTime(obj) {
+      return obj.t_timestamp
+    },
+    showName(obj, isRecord = false) {
+      if (isRecord) {
+        return obj.name || obj.address
+      }
+      return obj.account.name || obj.account.address
     }
   },
   mounted() {
@@ -184,20 +223,20 @@ export default {
           {
             name: 'delegate',
             label: this.$t('VOTED_DELEGATE'),
-            field: 'rate',
+            field: 'address',
             align: 'center'
           },
-          {
-            name: 'voteWeight',
-            label: this.$t('VOTE_WEIGHT'),
-            field: 'username',
-            type: 'string'
-          },
-          {
-            name: 'weight',
-            label: this.$t('WEIGHT'),
-            field: 'address'
-          },
+          // {
+          //   name: 'voteWeight',
+          //   label: this.$t('VOTE_WEIGHT'),
+          //   field: 'username',
+          //   type: 'string'
+          // },
+          // {
+          //   name: 'weight',
+          //   label: this.$t('WEIGHT'),
+          //   field: 'address'
+          // },
           {
             name: 'voteTime',
             label: this.$t('VOTE_TIME'),
@@ -217,11 +256,6 @@ export default {
             label: this.$t('AUTHORIZED_AMOUNT'),
             field: 'xas',
             type: 'string'
-          },
-          {
-            name: 'weight',
-            label: this.$t('WEIGHT'),
-            field: 'weight'
           },
           {
             name: 'lockHeight',
@@ -258,6 +292,7 @@ export default {
   },
   watch: {
     selectedTab(val) {
+      this.datas = []
       this.getDatas()
     },
     userInfo() {

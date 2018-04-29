@@ -88,10 +88,39 @@ export const getCurrentSeverUrl = () => {
   }
 }
 
+// TODO: untest
 export const getTimeFromHight = (block, currentHight) => {
   let { height, timestamp } = block
   let time = (height - currentHight) * 10 + timestamp
   return AschJs.utils.format.fullTimestamp(time)
+}
+
+export const getTimeFromTrade = (obj) => {
+  let { tTimestamp, tHeight, endHeight } = obj
+  let d = new Date(AschJs.utils.format.fullTimestamp(tTimestamp))
+  let start = d.getTime()
+  let end = (endHeight - tHeight) * 10000
+  let total = new Date(start + end)
+  let month = total.getMonth() + 1
+  let day = total.getDate()
+  if (day < 10) {
+    day = '0' + day
+  }
+  let h = total.getHours()
+  let m = total.getMinutes()
+  let s = total.getSeconds()
+  if (h < 10) {
+    h = '0' + h
+  }
+
+  if (m < 10) {
+    m = '0' + m
+  }
+
+  if (s < 10) {
+    s = '0' + s
+  }
+  return total.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
 }
 
 export const translateErrMsg = (t, input) => {
