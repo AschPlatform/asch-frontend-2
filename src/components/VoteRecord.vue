@@ -295,7 +295,6 @@ export default {
       this.VR.secondPwd = ''
     },
     repeal() {
-      console.log(this.VR.dialogShow)
       this.VR.dialogShow = true
     }
   },

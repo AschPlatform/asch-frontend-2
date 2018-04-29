@@ -676,7 +676,6 @@
         this.delegateList = total
       },
       checkLength() {
-        console.log('fucker')
       },
       checkValidate(action) {
         // total set first

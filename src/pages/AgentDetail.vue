@@ -73,7 +73,7 @@
         </div>
         <div>
           <span class="font-16 text-black vertical-align-middle">{{$t('AGENT_WEIGHT')+':'}}</span>
-          <span class="font-30 text-secondary vertical-align-middle">{{user.account.agentWeight}}</span>
+          <span class="font-30 text-secondary vertical-align-middle">{{user.account.agentWeight | fee(8)}}</span>
         </div>
       </q-card-main>
       </div>

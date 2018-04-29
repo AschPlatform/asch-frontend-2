@@ -517,7 +517,6 @@ export default {
       }
     },
     lowerName(val) {
-      console.log(val)
     }
   },
   async mounted() {},

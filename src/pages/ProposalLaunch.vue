@@ -870,10 +870,12 @@
         return true
       },
       minTime() {
-        let d = new Date()
-        let y = d.getFullYear()
-        let m = d.getMonth() + 1
-        let day = d.getDate()
+        let maxi = 7 * 24 * 60 * 60 * 1000
+        let d = new Date().getTime()
+        let end = new Date(d + maxi)
+        let y = end.getFullYear()
+        let m = end.getMonth() + 1
+        let day = end.getDate()
         return `${y}-${m}-${day}`
       },
       maxTime() {
@@ -887,10 +889,8 @@
       },
       totalName() {
         let name = []
-        console.log('into')
         if (this.delegateList && this.delegateList.length > 0) {
           this.MEMBER.electedList.forEach(o => {
-            console.log('into inner', o)
             return name.push(o.label)
           })
         }
@@ -924,7 +924,6 @@
         let name = []
         if (this.afterList.length > 0) {
           this.afterList.forEach(o => {
-            console.log(name)
             return name.push(o.label)
           })
         }

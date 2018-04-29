@@ -331,12 +331,10 @@ export default {
     async getBlocks(pagination = {}, filter = '') {
       this.loading = true
       let condition = []
-      debugger
       // is own judge
       if (!this.isOwn) {
         if (pagination && pagination.page) {
           this.pagination = pagination
-          console.log('envalue default')
         }
         let limit = this.pagination.rowsPerPage
         let pageNo = this.pagination.page
@@ -348,7 +346,6 @@ export default {
       } else {
         if (pagination && pagination.page) {
           this.pagination = pagination
-          console.log('envalue default', this.isOwn)
         }
         let limit = this.pagination.rowsPerPage
         let pageNo = this.pagination.page
@@ -505,10 +502,8 @@ export default {
       this.getBlockDetail()
     },
     isOwn(val) {
-      console.log(val)
     },
     pagination(val) {
-      console.log(val.page)
     }
   }
 }
