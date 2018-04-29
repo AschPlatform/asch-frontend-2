@@ -11,12 +11,10 @@ import AschJS from 'asch-js-v2'
 //   })
 // }
 
-// TODO
 const convertSecondPwd = pwd => {
-  // let key = pwd
-  // let keyPair = AschJS.crypto.getKeys(key)
-  // return keyPair.publicKey
-  return pwd
+  let key = pwd
+  let keyPair = AschJS.crypto.getKeys(key)
+  return keyPair.publicKey
 }
 
 const convertFee = trans => {
@@ -36,7 +34,7 @@ const asch = {
         fee: 10000000,
         args: [amount, recipientId],
         secret,
-        secondSecret: convertSecondPwd(secondPwd),
+        secondSecret: secondPwd,
         message
       })
     )
@@ -49,7 +47,7 @@ const asch = {
         fee: 10000000,
         args: [name],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -61,7 +59,7 @@ const asch = {
         fee: 10000000,
         args: [convertSecondPwd(secondPwd)],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -73,7 +71,7 @@ const asch = {
         fee: 10000000,
         args: [height, amount],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -85,7 +83,7 @@ const asch = {
         fee: 10000000,
         args: [],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -97,7 +95,7 @@ const asch = {
         fee: 10000000,
         args: [],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -109,7 +107,7 @@ const asch = {
         fee: 10000000,
         args: [],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -121,7 +119,7 @@ const asch = {
         fee: 10000000,
         args: [agent],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -133,7 +131,7 @@ const asch = {
         fee: 10000000,
         args: [],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -145,7 +143,7 @@ const asch = {
         fee: 10000000,
         args: [],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -157,7 +155,7 @@ const asch = {
         fee: 10000000,
         args: [delegates],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -170,7 +168,7 @@ const asch = {
         fee: 10000000,
         args: [delegates],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -183,7 +181,7 @@ const asch = {
         fee: 10000000,
         args: [name, desc],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -195,7 +193,7 @@ const asch = {
         fee: 10000000,
         args: [symbol, desc, maximum, precision],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -207,7 +205,7 @@ const asch = {
         fee: 10000000,
         args: [symbol, amount],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -219,7 +217,7 @@ const asch = {
         fee: 10000000,
         args: [symbol, amount, recipientId],
         secret,
-        secondSecret: convertSecondPwd(secondPwd),
+        secondSecret: secondPwd,
         message
       })
     )
@@ -243,7 +241,7 @@ const asch = {
         fee: 10000000,
         args: [name, desc, tags, link, icon, category, delegates, nlockNumber],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -255,7 +253,7 @@ const asch = {
         fee: 10000000,
         args: [dappId, origin, key],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -267,7 +265,7 @@ const asch = {
         fee: 10000000,
         args: [dappId, key],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -279,7 +277,7 @@ const asch = {
         fee: 10000000,
         args: [dappId, key],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -291,7 +289,7 @@ const asch = {
         fee: 10000000,
         args: [name, currency, amount],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -303,7 +301,7 @@ const asch = {
         fee: 10000000,
         args: [dappId, recipient, amount, wid, signatures],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -315,7 +313,7 @@ const asch = {
         fee: 10000000,
         args: [title, desc, topic, content, endHeight],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -327,7 +325,7 @@ const asch = {
         fee: 10000000,
         args: [pid],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -339,7 +337,7 @@ const asch = {
         fee: 10000000,
         args: [pid],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -351,7 +349,7 @@ const asch = {
         fee: 10000000,
         args: [gateway, publicKey, desc],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -363,7 +361,7 @@ const asch = {
         fee: 10000000,
         args: [gateway],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -375,7 +373,7 @@ const asch = {
         fee: 10000000,
         args: [address, currency, amount],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   },
@@ -387,7 +385,7 @@ const asch = {
         fee: 10000000,
         args: [address, gateway, currency, amount],
         secret,
-        secondSecret: convertSecondPwd(secondPwd)
+        secondSecret: secondPwd
       })
     )
   }

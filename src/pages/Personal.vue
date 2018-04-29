@@ -143,8 +143,8 @@
         <q-field class="col-12" :error="$v.nickname.$error" :error-label="$t('ERR_NICKNAME')">
           <q-input @blur="$v.nickname.$touch" :placeholder="$t('NICKNAME_TIP')" v-model="nickname" @change="lowerName" />
         </q-field>
-         <q-field v-show="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="4"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
-          <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
+         <q-field class="col-12" v-show="secondSignature"  :error="secondPwdError" :label-width="4"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+          <q-input @blur="validateSecondPwd" :float-label="$t('TRS_TYPE_SECOND_PASSWORD')" type="password" v-model="secondPwd"  />
         </q-field>
         <table class="personal-table-container q-table bordered  responsive margin-t-20">
           <tbody>
@@ -180,7 +180,7 @@
       <span slot="title">{{$t('LOCK_POSITION_CONF')}}</span>
       <div slot="body" class="row justify-center" >
         <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError" :helper="numLimit">
-          <q-input @blur="validateNum" :placeholder="$t('LOCK_DETAIL_TIP')" type="number" :decimals="2" v-model="num" />
+          <q-input @blur="validateNum" :placeholder="$t('LOCK_DETAIL_TIP')" type="number" :decimals="0" v-model="num" />
         </q-field>
          <q-field class="col-10" :label="$t('HEIGHT')" color="black" :label-width="3" :error="$v.time.$error" 
          :error-label="$t('ERR_NICKNAME')" :helper="$t('UNLOCK_TIPS')">
@@ -234,9 +234,9 @@ import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
 let today = new Date()
-today = date.addToDate(today, {
-  days: 31
-})
+// today = date.addToDate(today, {
+//   days: 31
+// })
 
 export default {
   props: ['userObj'],
@@ -473,7 +473,7 @@ export default {
       }
     },
     validateNum() {
-      let amount = convertFee(this.user.account.balance)
+      let amount = convertFee(this.user.account.xas)
       this.numError = this.num >= amount
       return !this.num >= amount
     },

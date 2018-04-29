@@ -250,8 +250,9 @@ export default {
                 args = args.replace(/"/g, '')
                 args = args.replace('[', '')
                 args = args.replace(']', '')
+                args = args.substr(0, 10) + '...'
               }
-              return args.substr(0, 10) + '...'
+              return args
             },
             align: 'center'
           }
