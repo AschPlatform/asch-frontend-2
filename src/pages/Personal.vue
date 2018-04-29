@@ -143,8 +143,8 @@
         <q-field class="col-12" :error="$v.nickname.$error" :error-label="$t('ERR_NICKNAME')">
           <q-input @blur="$v.nickname.$touch" :placeholder="$t('NICKNAME_TIP')" v-model="nickname" @change="lowerName" />
         </q-field>
-         <q-field v-show="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="4"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
-          <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
+         <q-field class="col-12" v-show="secondSignature"  :error="secondPwdError" :label-width="4"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+          <q-input @blur="validateSecondPwd" :float-label="$t('TRS_TYPE_SECOND_PASSWORD')" type="password" v-model="secondPwd"  />
         </q-field>
         <table class="personal-table-container q-table bordered  responsive margin-t-20">
           <tbody>
