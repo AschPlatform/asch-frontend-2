@@ -2,11 +2,15 @@
 <template>
   <q-page>
     <div v-if="userAccount" class="row padding-20">
+      <div class="col-12 padding-l-15">
+       <i class="material-icons vertical-align-middle font-24 text-secondary">perm_identity</i>
+       <span class="font-24 vertical-align-middle font-weight">{{$t('VOTE_DELEGATE_DETAIL')}}</span>
+      </div>
       <q-card class="col-9 shadow-1">
-        <q-card-title>
+        <!-- <q-card-title>
           <i class="material-icons vertical-align-middle font-24 text-secondary">perm_identity</i>
           <span class="font-24 vertical-align-middle font-weight">{{$t('VOTE_DELEGATE_DETAIL')}}</span>
-        </q-card-title>
+        </q-card-title> -->
         <q-card-main v-if="userInfo">
           <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1 col-9 " align="justify">
             <q-tab default name="supporters" slot="title" color="secondary" icon="people" :label="$t('AGENT_VOTE_DETAIL')" />
