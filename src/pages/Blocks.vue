@@ -331,7 +331,6 @@ export default {
     async getBlocks(pagination = {}, filter = '') {
       this.loading = true
       let condition = []
-      debugger
       // is own judge
       if (!this.isOwn) {
         if (pagination && pagination.page) {
