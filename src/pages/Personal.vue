@@ -180,7 +180,7 @@
       <span slot="title">{{$t('LOCK_POSITION_CONF')}}</span>
       <div slot="body" class="row justify-center" >
         <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError" :helper="numLimit">
-          <q-input @blur="validateNum" :placeholder="$t('LOCK_DETAIL_TIP')" type="number" :decimals="2" v-model="num" />
+          <q-input @blur="validateNum" :placeholder="$t('LOCK_DETAIL_TIP')" type="number" :decimals="0" v-model="num" />
         </q-field>
          <q-field class="col-10" :label="$t('HEIGHT')" color="black" :label-width="3" :error="$v.time.$error" 
          :error-label="$t('ERR_NICKNAME')" :helper="$t('UNLOCK_TIPS')">
@@ -234,9 +234,9 @@ import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
 let today = new Date()
-today = date.addToDate(today, {
-  days: 31
-})
+// today = date.addToDate(today, {
+//   days: 31
+// })
 
 export default {
   props: ['userObj'],
@@ -473,7 +473,7 @@ export default {
       }
     },
     validateNum() {
-      let amount = convertFee(this.user.account.balance)
+      let amount = convertFee(this.user.account.xas)
       this.numError = this.num >= amount
       return !this.num >= amount
     },
