@@ -128,10 +128,9 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
-import { deCompileContent, compileTimeStamp, toast, toastError } from '../utils/util'
+import { deCompileContent, compileTimeStamp, toast, toastError, getTimeFromTrade } from '../utils/util'
 import { secondPwd } from '../utils/validators'
 import MemberIndicator from '../components/MemberIndicator'
-import AschJs from 'asch-js'
 import {
   QPage,
   QField,
@@ -181,6 +180,7 @@ export default {
       isIndicatorShow: false,
       showCounter: false,
       time_buffer: 0,
+      time_end: 0,
       voteList: [],
       voteTotalNum: 0,
       votePassRate: 0,
@@ -211,6 +211,7 @@ export default {
       })
       this.detail = res.proposal
       this.time_buffer = compileTimeStamp(this.detail.t_timestamp)
+      this.envalueEnd()
       this.content = deCompileContent(this.detail.content)
       this.content.interval = Math.round(this.content.updateInterval / 8640)
       if (this.detail.activated === 1) {
@@ -289,6 +290,13 @@ export default {
       // i
       this.votePro()
       this.activePro()
+    },
+    envalueEnd() {
+      this.time_end = getTimeFromTrade({
+        tTimestamp: this.detail.t_timestamp,
+        tHeight: this.detail.t_height,
+        endHeight: this.detail.endHeight
+      })
     }
   },
   computed: {
@@ -314,34 +322,6 @@ export default {
       }
     },
     // compile time start / end
-    time_end() {
-      // TODO : ENCLOSE A FUNC
-      // let d = new Date(this.time_buffer)
-      // let start = d.getTime()
-      // let end = (this.detail.endHeight - this.detail.t_height) * 1000
-      // let total = new Date(start + end)
-      // let month = total.getMonth() + 1
-      // let day = total.getDate()
-      // if (day < 10) {
-      //   day = '0' + day
-      // }
-      // let h = d.getHours()
-      // let m = d.getMinutes()
-      // let s = d.getSeconds()
-      // if (h < 10) {
-      //   h = '0' + h
-      // }
-
-      // if (m < 10) {
-      //   m = '0' + m
-      // }
-
-      // if (s < 10) {
-      //   s = '0' + s
-      // }
-      // return d.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
-      return AschJs.utils.format.fullTimestamp(this.detail.endHeight)
-    },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
     }
