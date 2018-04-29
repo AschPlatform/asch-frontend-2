@@ -87,6 +87,9 @@ export default {
       this.$emit('open', this.asset)
     }
   },
+  mounted() {
+    console.log(this.asset)
+  },
   computed: {}
 }
 </script>
