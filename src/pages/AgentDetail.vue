@@ -168,7 +168,7 @@ export default {
       let res = {}
       if (this.selectedTab === 'records') {
         res = await this.getAgentVotes({
-          name: this.user.account.agent
+          name: this.user.account.agent || this.user.account.name
         })
         if (res.success) this.datas = res.delegates
       } else {
@@ -206,10 +206,10 @@ export default {
       return obj.account.name || obj.account.address
     },
     async getAgentInfo() {
-      console.log('trust me there')
+      let that = this
       if (this.userInfo.account.agent) {
         let res = await this.getAccountsInfo({
-          address: this.userInfo.account.agent
+          address: that.userInfo.account.agent
         })
         this.agentWeight = convertFee(res.account.agentWeight, 8)
       }
@@ -219,7 +219,6 @@ export default {
     }
   },
   mounted() {
-    this.getAgentInfo()
     let { user } = this.$route.params
     if (!user || !user.account) {
       this.$router.push('/vote')
@@ -229,6 +228,7 @@ export default {
     if (user && user.account && user.account.agent) {
       this.getDatas()
     }
+    this.getAgentInfo()
   },
   computed: {
     ...mapGetters(['userInfo']),
