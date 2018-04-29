@@ -69,11 +69,11 @@
       </q-card-title>
       <q-card-main class="padding-20" align="center">
         <div class="text-secondary font-30 margin-t-20">
-          {{user.account.agent}}
+          {{user.account.agent || user.account.name}}
         </div>
         <div>
           <span class="font-16 text-black vertical-align-middle">{{$t('AGENT_WEIGHT')+':'}}</span>
-          <span class="font-30 text-secondary vertical-align-middle">{{user.account.agentWeight | fee(8)}}</span>
+          <span class="font-30 text-secondary vertical-align-middle">{{agentWeight}}</span>
         </div>
       </q-card-main>
       </div>
@@ -103,6 +103,7 @@ import {
 } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { getTimeFromTrade } from '../utils/util'
+import { convertFee } from '../utils/asch'
 
 export default {
   props: [],
@@ -143,11 +144,12 @@ export default {
       },
       secondPwd: '',
       supports: [],
-      user: {}
+      user: {},
+      agentWeight: 0
     }
   },
   methods: {
-    ...mapActions(['getAgentSupporters', 'getAgentVotes']),
+    ...mapActions(['getAgentSupporters', 'getAgentVotes', 'getAccountsInfo']),
     refresh() {
       this.pagination = this.paginationDeafult
       this.getDatas()
@@ -202,9 +204,22 @@ export default {
         return obj.name || obj.address
       }
       return obj.account.name || obj.account.address
+    },
+    async getAgentInfo() {
+      console.log('trust me there')
+      if (this.userInfo.account.agent) {
+        let res = await this.getAccountsInfo({
+          address: this.userInfo.account.agent
+        })
+        this.agentWeight = convertFee(res.account.agentWeight, 8)
+      }
+      if (this.userInfo.account.isAgent === 1) {
+        this.agentWeight = convertFee(this.userInfo.account.agentWeight, 8)
+      }
     }
   },
   mounted() {
+    this.getAgentInfo()
     let { user } = this.$route.params
     if (!user || !user.account) {
       this.$router.push('/vote')
@@ -297,6 +312,12 @@ export default {
     },
     userInfo() {
       if (this.userAccount) this.getDatas()
+      if (this.userInfo && this.userInfo.account && this.userInfo.account.agent) {
+        this.getAgentInfo()
+      }
+      if (this.userInfo && this.userInfo.account && this.userInfo.account.isAgent === 1) {
+        this.getAgentInfo()
+      }
     }
   }
 }
