@@ -7,7 +7,6 @@ const filters = {
     return t(value)
   },
   fee: (fee, precision = 8) => {
-    console.log(fee, precision)
     return convertFee(fee, precision)
   },
   time: value => {
