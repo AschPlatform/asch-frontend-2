@@ -8,15 +8,15 @@
       <q-card-main class="row col-12">
         <assets-panel class="margin-l-15 col-auto" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
         <assets-panel class="margin-l-15 col-auto" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
-        <q-card v-if="isCross && address" class="col-auto">
+        <q-card v-if="isCross && address" class="col-auto bg-white asset-detail-card-h">
           <q-card-main>
-            <p>{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
+            <p class="font-22 text-black margin-b-0">{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
             <div>
-              {{address}}
-              <q-btn v-clipboard="address || 'no data'" @success="info('copy senderId success...')" size="xs" flat round icon="compare arrows" />
+              <span class="font-14 text-three">{{address}}</span>
+              <q-btn v-clipboard="address || 'no data'" @success="info('copy senderId success...')" color="secondary" size="xs" flat round icon="content copy" />
             </div>
             <div class="row justify-center" @click="showAddrQr">
-              <vue-qr :size="100" :text="address"></vue-qr>
+              <vue-qr :size="80" :text="address"></vue-qr>
             </div>
           </q-card-main>
         </q-card>
@@ -41,7 +41,8 @@
   
         <q-card v-if="asset.asset" class="assetDetail-card-content bg-white col-auto margin-l-30">
           <q-card-main>
-            <p class="text-black font-18">
+            <p class="text-black font-22">{{$t('CURRENCY_INTRODUCE')}}</p>
+            <p>
               {{asset.asset.desc}}
             </p>
           </q-card-main>
