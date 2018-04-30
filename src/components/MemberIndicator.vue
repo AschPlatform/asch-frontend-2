@@ -2,9 +2,9 @@
   <div class="row justify-around q-my-lg">
     <q-field class="col-5 align-center">
       <p>{{$t(title_pre)}}</p>
-      <q-chips-input color="primary" class="col-5" inverted readonly v-model="memberPre" disable/>
+      <q-chips-input color="primary" class="col-5 height-100" inverted readonly v-model="memberPre" disable/>
     </q-field>
-    <q-icon size="33px" name="keyboard arrow right" />
+    <q-icon size="33px" class="padding-t-40" name="keyboard arrow right" />
     <q-field class="col-5">
       <p>{{$t(title_post)}}</p>
       <q-chips-input color="primary" class="col-5" inverted readonly v-model="memberPost" disable/>
