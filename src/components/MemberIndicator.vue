@@ -5,7 +5,7 @@
         <p class="col-1">{{$t(title_pre)}}</p>
         <div class="col-auto">
 
-      <q-chips-input color="primary" class="col-auto member-content-chips-1" inverted readonly v-model="memberPre" disable/>
+      <q-chips-input color="primary" class="col-auto member-content-chips-1" inverted readonly v-model="contentPre" disable/>
         </div>
       </div>
       
@@ -13,7 +13,7 @@
     <q-icon size="33px" class="padding-t-40" name="keyboard arrow right" />
     <q-field class="col-5">
       <p>{{$t(title_post)}}</p>
-      <q-chips-input color="primary" class="col-5 member-content-chips-2" inverted readonly v-model="memberPost" disable/>
+      <q-chips-input color="primary" class="col-5 member-content-chips-2" inverted readonly v-model="contentPost" disable/>
     </q-field>
   </div>
 </template>
@@ -51,6 +51,16 @@ export default {
         case 'gateway_update_member':
           return this.$t('DETAIL_MODAL.MEMBER_TIP_POST')
       }
+    },
+    contentPre() {
+      let ls = []
+      ls.push(this.memberPre)
+      return ls
+    },
+    contentPost() {
+      let ls = []
+      ls.push(this.memberPost)
+      return ls
     }
   }
 }
