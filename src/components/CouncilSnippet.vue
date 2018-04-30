@@ -9,7 +9,7 @@
       {{$t('STARTTIME')}}
     </q-card-main>
     <q-card-actions align="center">
-      <q-btn inverted color="primary" @click="calCouncilDetail">
+      <q-btn inverted color="secondary" @click="calCouncilDetail">
         {{$t('CHECK')}}
       </q-btn>
     </q-card-actions>

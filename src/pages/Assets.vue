@@ -7,9 +7,9 @@
              {{$t('X_ASSETS')}}
               </span>
       </q-card-title>
-      <q-card-main class="row justify-left">
+      <q-card-main class="row justify-left gutter-md">
         <assets-panel class="assets-panel-container" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" />
-        <assets-panel v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open" />
+        <assets-panel class="" v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open" />
         <q-btn class="load-more-btn col-3 bg-white text-black"  v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
       </q-card-main>
     </q-card>
@@ -21,7 +21,7 @@
           </span>
   
       </q-card-title>
-      <q-card-main class="row justify-left">
+      <q-card-main class="row justify-left gutter-md">
         <!-- <assets-panel class="assets-panel-container" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="outer" /> -->
         <assets-panel v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" />
         <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
@@ -217,7 +217,7 @@ export default {
 .more-assets-container {
   padding: 30px;
   min-width: 300px;
-  height: 173px;
+  height: 161px;
   cursor: pointer;
   background: #ffffff;
   margin: 30px;
