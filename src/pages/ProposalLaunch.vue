@@ -118,7 +118,7 @@
           <div class="col-12" v-show="this.first_type === 'init' && this.initFalse" id="init">
             <div class="row">
               <q-field class="col-8 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_SUGGEST_PRE')">
-                <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST')" @blur="$v.INIT.selected.$touch()" :error="$v.INIT.selected.ifEnough" :options="delegateList"></q-select>
+                <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST', {number: gatewayMember})" @blur="$v.INIT.selected.$touch()" :error="!$v.INIT.selected.inNeed" :options="delegateList"></q-select>
               </q-field>
             </div>
             <div class="row">
@@ -546,7 +546,13 @@
       },
       INIT: {
         selected: {
-          required
+          required,
+          inNeed(val) {
+            if (this.gatewayMember === val.length) {
+              return true
+            }
+            return false
+          }
         }
       },
       PERIOD: {
@@ -741,7 +747,8 @@
             // init gateway
             case 'init':
               if (!this.$v.p_selected.isSelected &&
-                !this.$v.INIT.selected &&
+                !this.$v.INIT.selected.$invalid &&
+                this.$v.INIT.selected.inNeed &&
                 !this.$v.brief.$invalid
               ) {
                 return true
@@ -946,6 +953,12 @@
           })
         }
         return add.join(',')
+      },
+      gatewayMember() {
+        if (this.p_selected && this.p_selected.minimumMembers) {
+          return this.p_selected.minimumMembers
+        }
+        return 0
       }
     },
     watch: {
