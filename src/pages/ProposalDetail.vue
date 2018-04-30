@@ -186,7 +186,8 @@ export default {
       votePassRate: 0,
       // func btn
       isBtnAble: true,
-      btnInfo: ''
+      btnInfo: '',
+      activeState: 0
     }
   },
   validations: {
@@ -237,7 +238,7 @@ export default {
       }
       this.voteList = ls
       this.voteTotalNum = res.totalCount
-      this.votePassRate = ((Number(res.validCount / res.totalCount) || 0) * 100).toFixed(0)
+      this.votePassRate = ((Number(res.validCount / 101) || 0) * 100).toFixed(0)
     },
     async getValidatorInfo(name) {
       let res = await this.getGatewayDelegates(name)
@@ -252,16 +253,16 @@ export default {
         this.preMemberList = ls
         this.postMemberList = ls
       }
-      if (this.detail.activated === 1) {
-        this.btnInfo = 'proposal.ACTIVATED'
-        this.isBtnAble = false
-      } else if (this.detail.endHeight < this.latestBlock.height) {
-        this.btnInfo = 'proposal.EXPIRED'
-        this.isBtnAble = false
-      } else {
-        this.btnInfo = 'proposal.ACTIVE'
-        this.isBtnAble = true
-      }
+      // if (this.detail.activated === 1) {
+      //   this.btnInfo = 'proposal.ACTIVATED'
+      //   this.isBtnAble = false
+      // } else if (this.detail.endHeight < this.latestBlock.height) {
+      //   this.btnInfo = 'proposal.EXPIRED'
+      //   this.isBtnAble = false
+      // } else {
+      //   this.btnInfo = 'proposal.ACTIVE'
+      //   this.isBtnAble = true
+      // }
     },
     async activePro() {
       let res = await this.activeProposal({
@@ -288,8 +289,11 @@ export default {
     active() {
       // to check if you are already vote
       // i
-      this.votePro()
-      this.activePro()
+      if (this.activeState === 0) {
+        this.votePro()
+      } else {
+        this.activePro()
+      }
     },
     envalueEnd() {
       this.time_end = getTimeFromTrade({
@@ -334,6 +338,25 @@ export default {
     userInfo() {
       this.getProposalInfo()
       this.getVoterInfo()
+    },
+    detail(val) {
+      if (!this._.isEmpty(this.detail) && this.voteTotalNum !== 0) {
+        if (this.detail.activated === 1) {
+          this.btnInfo = 'proposal.ACTIVATED'
+          this.isBtnAble = true
+        } else if (this.detail.endHeight < this.latestBlock.height) {
+          this.btnInfo = 'proposal.EXPIRED'
+          this.isBtnAble = true
+        } else if (this.voteTotalNum <= 67) {
+          this.btnInfo = 'proposal.BTN_VOTE'
+          this.isBtnAble = false
+          this.activeState = 0
+        } else {
+          this.btnInfo = 'proposal.ACTIVE'
+          this.isBtnAble = false
+          this.activeState = 1
+        }
+      }
     }
   }
 }
