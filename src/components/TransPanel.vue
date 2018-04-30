@@ -109,6 +109,8 @@ export default {
     async send() {
       this.$v.form.$touch()
       let invlaidPwd = false
+      let { amount, receiver, remark } = this.form
+      receiver = receiver.trim()
       if (this.secondSignature) {
         this.$v.secondPwd.$touch()
         invlaidPwd = this.$v.secondPwd.$error
@@ -116,12 +118,11 @@ export default {
       if (invlaidPwd || this.$v.form.$error) {
         return false
       }
-      if (this.form.receiver === this.user.account.address) {
+      if (receiver === this.user.account.address) {
         toastWarn(this.$t('ERR_RECIPIENT_EQUAL_SENDER'))
         return false
       }
 
-      let { amount, receiver, remark } = this.form
       amount = (amount * Math.pow(10, this.precision)).toFixed(0)
       let trans = {}
       if (this.form.currency === 'XAS') {
