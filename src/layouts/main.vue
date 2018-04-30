@@ -333,6 +333,7 @@ export default {
             isAgent: 0,
             lockHeight: 0,
             agent: 0,
+            isDelegate: 0,
             weight: 0,
             agentWeight: 0
           }
