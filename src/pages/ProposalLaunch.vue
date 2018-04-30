@@ -9,7 +9,7 @@
       </q-card-title>
       <q-card-separator class="q-my-lg bg-999 no-border-top" />
       <div class="row">
-        <q-field :error-label="$t('ERR.ERR_5_30')" :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8 font-16 text-four">
+        <q-field :error-label="$t('ERR.ERR_10_100')" :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8 font-16 text-four">
           <q-input v-model="p_title" @focus="$v.p_title.$reset()" @blur="$v.p_title.$touch()" :error="$v.p_title.$error && !$v.p_title.isTested" />
         </q-field>
       </div>
@@ -154,22 +154,22 @@
           <div class="col-12 q-field-label-inner-center" v-show="this.first_type === 'member_n'" id="remove">
             <!-- instead members -->
             <div class="row">
-            <q-field class="col-4 font-16 text-four" label-width="4" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP1')">
-            <q-select chips multiple filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
+            <q-field align="left" class="col-4 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP1')">
+              <q-select align="center" chips="true" filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
             </q-field>
             <q-field class="col-4 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP2')">
-                <q-select color="secondary" chips multiple filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
-              </q-field>
+              <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+            </q-field>
             <q-field class="col-4 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP3')">
             </q-field>
             </div>
-            <div class="row justify-around q-my-lg">
+            <!-- <div class="row justify-around q-my-lg">
               <q-chips-input color="white" :float-label="$t('LAUNCH_MODAL.INSTEAD_PRE')" chips-bg-color="secondary" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="totalName" disable/>
               <q-icon size="33px" name="keyboard arrow right" />
               <q-chips-input color="white" chips-bg-color="secondary"  :float-label="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="afterName" disable/>
-            </div>
+            </div> -->
             <div class="">
-              <q-field class="col-1 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.MEMBER_REASON')">
+              <q-field class="col-12 font-16 text-four" label-width="1" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.MEMBER_REASON')">
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
             </div>
@@ -463,8 +463,8 @@
       },
       p_title: {
         required,
-        maxLength: maxLength(30),
-        minLength: minLength(5),
+        maxLength: maxLength(100),
+        minLength: minLength(10),
         isTested(val) {
           // past the test
           return proposalTitleReg.test(val)
@@ -626,8 +626,8 @@
           content = {
             // TODO need getway member list
             gateway: this.p_selected.name,
-            from: this.beforeAddress,
-            to: this.afterAddress
+            from: this.MEMBER.removed.address,
+            to: this.MEMBER.added.address
           }
         }
         return content
@@ -762,7 +762,7 @@
               // change member of gateway
             case 'member_n':
               if (!this.$v.p_selected.isSelected &&
-                !this.$v.MEMBER.instead_post.$invalid &&
+                // !this.$v.MEMBER.instead_post.$invalid &&
                 !this.$v.brief.$invalid &&
                 this.$v.MEMBER.added.isEqual &&
                 this.$v.MEMBER.removed.isEqual
@@ -884,7 +884,7 @@
         return true
       },
       minTime() {
-        let maxi = 1 * 24 * 60 * 60 * 1000
+        let maxi = 2 * 24 * 60 * 60 * 1000
         let d = new Date().getTime()
         let end = new Date(d + maxi)
         let y = end.getFullYear()
@@ -936,7 +936,7 @@
       },
       afterName() {
         let name = []
-        if (this.afterList.length > 0) {
+        if (!this._.isempty(this.MEMBER.added)) {
           this.afterList.forEach(o => {
             return name.push(o.label)
           })
