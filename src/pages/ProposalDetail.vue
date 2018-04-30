@@ -73,7 +73,7 @@
             </div>
             <div class="row">
               <q-field class="col-10 font-16" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
-                <q-input type="textarea" value="" readonly hide-underline v-model="content.desc"></q-input>
+                <q-input type="textarea" value="" readonly hide-underline v-model="detail.desc"></q-input>
               </q-field>
             </div>
           </div>
