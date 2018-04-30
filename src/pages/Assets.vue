@@ -236,9 +236,9 @@ export default {
 }
 
 .load-more-btn {
-  height: 173px;
+  height: 160px;
   margin-left: 30px;
-  margin-top: 15px;
+  margin-top: 30px;
   min-width: 300px;
 }
 </style>
