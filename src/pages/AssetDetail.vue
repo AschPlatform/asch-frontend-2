@@ -9,7 +9,7 @@
         <assets-panel class="margin-l-15 col-auto" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
         <assets-panel class="margin-l-15 col-auto" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
         <q-card v-if="isCross && address" class="col-auto bg-white asset-detail-card-h">
-          <q-card-main>
+          <q-card-main class="">
             <p class="font-22 text-black margin-b-0">{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
             <div>
               <span class="font-14 text-three">{{address}}</span>
@@ -20,7 +20,7 @@
             </div>
           </q-card-main>
         </q-card>
-        <q-card v-if="!isCross && assetDetail" class="bg-white col-auto assetDetail-card-content">
+        <q-card v-if="!isCross && assetDetail" class="bg-white col-auto assetDetail-card-content margin-l-30">
           <q-card-main>
             <table>
               <tr class="margin-t-20">
@@ -221,7 +221,8 @@ export default {
 }
 
 .assetDetail-card-content {
-  height: 173px;
-  margin-top: 15px;
+  min-width: 300px;
+  height: 160px;
+  // margin-top: 15px;
 }
 </style>

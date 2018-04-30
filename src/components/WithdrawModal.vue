@@ -12,6 +12,7 @@
         </q-field>
         <q-field class="col-12 margin-top-54" :error-label="$t('ERR_AMOUNT_INVALID')">
          <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error"  />
+         <p class="text-right">{{$t('REQUIRES_FEE' )}}{{ fee|fee(precision)}}{{currency}}</p>
         </q-field>
         <q-field class="col-12 margin-top-54" >
           <q-select
@@ -57,6 +58,7 @@ export default {
       },
       balance: '',
       precision: 0,
+      fee: '',
       balances: []
     }
   },
@@ -173,6 +175,7 @@ export default {
       if (val && this.assetsMap[val]) {
         this.balance = this.assetsMap[val].balance
         this.precision = this.assetsMap[val].asset.precision
+        this.fee = this.assetsMap[val].asset.fee
       } else {
         return ''
       }
