@@ -233,7 +233,7 @@ export default {
       let ls = []
       if (res.success) {
         res.votes.forEach(o => {
-          return ls.push(o.voter)
+          return ls.push(o.account.name)
         })
       }
       this.voteList = ls
