@@ -1,6 +1,7 @@
 <template>
-  <q-card inline class="gateway-item-container col-3">
-    <q-card-title align="left">
+  <q-card inline class="gateway-item-container col-4 no-shadow">
+    <div class="shadow-1 bg-white">
+     <q-card-title align="left">
       <i class="material-icons vertical-align-sub font-24 text-secondary">opacity</i>
       <span class="text-black font-24">
         {{item.name}}{{$t('GATEWAY')}}
@@ -22,6 +23,8 @@
       <q-btn small icon="arrow forward" inverted color="secondary" @click="$emit('open',item)">
       </q-btn>
     </q-card-main>
+    </div>
+ 
   </q-card>
 </template>
 

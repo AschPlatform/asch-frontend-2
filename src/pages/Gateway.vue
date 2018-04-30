@@ -5,8 +5,8 @@
       <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
       <span class="font-22 text-black vertical-align-middle">{{$t('ALL_GATEWAY')}}</span>
     </div>
-    <div class="row">
-      <gateway-item class="bg-white" v-for="(item, idx) in gateways" :item="item" :key="idx" @open="showDetail" />
+    <div class="row gutter-sm">
+      <gateway-item  v-for="(item, idx) in gateways" :item="item" :key="idx" @open="showDetail" />
       <q-btn :disabled="loading" v-if="pagination.rowsNumber>gateways.length" :label="$t('LOAD_MORE')" @click="loadMore" />
     </div>
     <!-- CouncilModal -->
