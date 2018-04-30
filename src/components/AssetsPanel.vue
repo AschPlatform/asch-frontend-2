@@ -1,5 +1,5 @@
 <template>
-  <q-card class="col-3 assets-panel-content no-shadow">
+  <q-card class="col-4 assets-panel-content no-shadow">
     <q-card-main class="shadow-1 bg-white">
       <div @click="open">
         <q-item v-if="type=='inner'">

@@ -39,7 +39,7 @@
     <q-card-separator />
     <q-card-main class="row col-12 justify-center ">
       <div class="row col-10 justify-end">
-        <q-btn :loading="loading" big class="col-auto " color="primary" @click="submit">
+        <q-btn :loading="loading" big class="col-auto" color="secondary" @click="submit">
           {{$t('SUBMIT')}}
         </q-btn>
       </div>
