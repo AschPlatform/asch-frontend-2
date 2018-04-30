@@ -117,8 +117,8 @@
           <!-- TODO -->
           <div class="col-12" v-show="this.first_type === 'init' && this.initFalse" id="init">
             <div class="row">
-              <q-field class="col-8 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-                <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" @blur="$v.INIT.selected.$touch()" :error="$v.INIT.selected.ifEnough" :options="delegateList"></q-select>
+              <q-field class="col-8 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_SUGGEST_PRE')">
+                <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST')" @blur="$v.INIT.selected.$touch()" :error="$v.INIT.selected.ifEnough" :options="delegateList"></q-select>
               </q-field>
             </div>
             <div class="row">
@@ -682,6 +682,7 @@
           name: this.p_selected.name
         })
         let ls = []
+        this.initFalse = true
         res.validators.forEach(o => {
           // cannot init detect
           if (o.elected === 1) {
@@ -707,7 +708,7 @@
           if (o.elected === 1) {
             return elected.push({
               label: o.name,
-              value: o
+              value: oMLAUNCH_MODAL
             })
           }
         })
@@ -757,7 +758,7 @@
                 return true
               }
               return false
-              // new gateway proposal
+              // new gateway proposalundefined
             case 'new_n':
               if (!this.$v.NEW.name.$invalid &&
                 !this.$v.NEW.currency.$invalid &&
@@ -807,8 +808,8 @@
         this.PERIOD = {
           pre: null,
           post: null
-        }
-        this.MEMBER = {
+        },
+        this.MEMBER= {
           type: [
             {
               label: this.$t('proposal.SELECT_MEMBER_ADD'),
@@ -828,6 +829,7 @@
           removed: [],
           electedList: [],
           unelectedList: [],
+          add_selected: [],
           delete_selected: [],
           instead_pre: [],
           instead_post: [],
