@@ -119,7 +119,7 @@
           <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
         </q-field>
       </div>
-      <q-card-main class="row justify-center">
+      <q-card-main v-if="isDelegate" class="row justify-center">
         <q-btn color="secondary" class="col-4" :label="$t(btnInfo)" @click="active" :disabled="isBtnAble"></q-btn>
       </q-card-main>
     </q-card>
@@ -328,6 +328,9 @@ export default {
     // compile time start / end
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
+    },
+    isDelegate() {
+      return this.userInfo && this.userInfo.account ? this.userInfo.account.isDelegate === 1 : false
     }
   },
   mounted() {
