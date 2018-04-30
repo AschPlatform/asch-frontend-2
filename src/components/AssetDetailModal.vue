@@ -32,7 +32,7 @@
                 <q-btn v-clipboard="address || 'no data'" @success="info('copy senderId success...')" size="xs"  flat round icon="compare arrows" />
               </div>
                <div class="row justify-center" @click="showAddrQr">
-               <vue-qr :size="100" :text="address"></vue-qr>
+               <vue-qr :size="100" :text="address ? address:'no data'"></vue-qr>
              </div>
             </q-card-main>
           </q-card>
