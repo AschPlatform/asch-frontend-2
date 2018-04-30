@@ -75,6 +75,7 @@ export default {
   .member-content-chips-1 {
     height: 100%;
     min-height: 235px;
+    align-items: flex-start;
   }
 
   .member-content-chips-2 {
