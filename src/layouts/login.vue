@@ -382,4 +382,35 @@ html, body {
 .selection-container-three {
   margin-top: -30px !important;
 }
+
+@media screen and (max-width: 800px) {
+  .login-ball {
+    display: none;
+  }
+
+  .main-logo {
+    display: none;
+  }
+
+  .login-panel {
+    width: 100%;
+  }
+
+  .main-page {
+    height: 364px;
+  }
+
+  .register-panel {
+    width: 100%;
+  }
+
+  .login-content {
+    width: 100%;
+  }
+
+  .main-page {
+    width: 100%;
+    padding: 0 10px !important;
+  }
+}
 </style>
