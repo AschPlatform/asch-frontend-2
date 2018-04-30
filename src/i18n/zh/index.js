@@ -507,7 +507,7 @@ const lang = {
     SELECT_P_PERIOD: '公投周期',
     BTN_LAUNCH: '发起',
     BTN_VOTE: '投票',
-    SELECT_MEMBER_ACTION: '理事会成员操作',
+    SELECT_MEMBER_ACTION: '网关更新',
     SELECT_MEMBER_ADD: '添加成员',
     SELECT_MEMBER_DELETE: '移除成员',
     SELECT_MEMBER_INSTEAD: '替换成员',
@@ -594,6 +594,7 @@ const lang = {
   ERR: {
     ERR_10_100: '请输入10-100个字符',
     ERR_3_15: '请输入3-15个字符',
+    ERR_3_16: '请输入3-16个字符',
     ERR_1_30: '请输入1-30之间的数字',
     ERR_3_33: '请输入3-33之间的数字',
     ERR_50_1000: '请输入50-1000个字符',

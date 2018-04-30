@@ -10,7 +10,7 @@
       <q-card-separator class="q-my-lg bg-999 no-border-top" />
       <div class="row">
         <q-field :error-label="$t('ERR.ERR_10_100')" :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8 font-16 text-four">
-          <q-input v-model="p_title" @focus="$v.p_title.$reset()" @blur="$v.p_title.$touch()" :error="$v.p_title.$error && !$v.p_title.isTested" />
+          <q-input v-model="p_title" @focus="$v.p_title.$reset()" @blur="$v.p_title.$touch()" :error="$v.p_title.$error" />
         </q-field>
       </div>
       <div class="row">
@@ -26,9 +26,9 @@
       </div>
       <div class="row">
         <!-- <q-field :label-width="4" :error-label="$t('ERR.ERR_REQUIRE_TIME')" :label="$t('proposal.SELECT_P_PERIOD')" class="col-4 font-16 text-four">
-          <q-datetime min="2018-04-05" v-model="p_time_start" @blur="$v.p_time_start.$touch()" :error="$v.p_time_start.$error" />
-        </q-field>
-        <span class="self-center col-1 font-16" align="center">{{$t('TO')}}</span> -->
+            <q-datetime min="2018-04-05" v-model="p_time_start" @blur="$v.p_time_start.$touch()" :error="$v.p_time_start.$error" />
+          </q-field>
+          <span class="self-center col-1 font-16" align="center">{{$t('TO')}}</span> -->
         <q-field :helper="$t('AT_LEAST_7DAY')" :label-width="4" class="col-4 font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_TIME')" :label="$t('proposal.SELECT_P_PERIOD')">
           <q-datetime :min="minTime" :max="maxTime" v-model="p_time_end" @blur="$v.p_time_end.$touch()" :error="$v.p_time_end.$error" />
         </q-field>
@@ -43,8 +43,8 @@
   
         <q-card-main key="content" class="row">
           <!-- <q-field v-show="this.first_type !== 'new' && this.first_type !== 'new_n' && this.first_type !== null && this.first_type !== null" :label-width="3" :label="$t('proposal.SELECT_P_TYPE')" class="col-6 font-16" :error-label="$t('ERR.ERR_REQUIRE_DETAIL')">
-            <q-select v-model="second_type" :error="$v.second_type.test" :options="this.first_type === 'change' ? proposalType_sec : proposalType_sec_n" />
-          </q-field> -->
+              <q-select v-model="second_type" :error="$v.second_type.test" :options="this.first_type === 'change' ? proposalType_sec : proposalType_sec_n" />
+            </q-field> -->
           <!-- below is new page -->
           <div v-show="this.first_type === 'new'" id="new" class="col-8">
             <div class="row">
@@ -72,7 +72,7 @@
           <!-- below is net new page -->
           <div class="col-12" v-show="this.first_type === 'new_n'" id="new">
             <div class="row">
-              <q-field class="block col-6 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_3_15')" :label="$t('LAUNCH_MODAL.NET_NAME')">
+              <q-field class="block col-6 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_3_16')" :label="$t('LAUNCH_MODAL.NET_NAME')">
                 <q-input type="text" v-model="NEW.name" @blur="$v.NEW.name.$touch()" :error="$v.NEW.name.$error"></q-input>
               </q-field>
             </div>
@@ -97,10 +97,10 @@
               </q-field>
             </div>
             <!-- <div class="row">
-              <q-field class="col-8" label-width="2" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-              <q-select chips multiple filter v-model="NEW.selected" :options="NEW.memberList"></q-select>
-              </q-field>
-          </div> -->
+                <q-field class="col-8" label-width="2" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
+                <q-select chips multiple filter v-model="NEW.selected" :options="NEW.memberList"></q-select>
+                </q-field>
+            </div> -->
             <div class="row">
               <q-field class="col-6 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
                 <q-input type="number" v-model="NEW.period" @blur="$v.NEW.period.$touch()" :error="$v.NEW.period.$error" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
@@ -154,20 +154,20 @@
           <div class="col-12 q-field-label-inner-center" v-show="this.first_type === 'member_n'" id="remove">
             <!-- instead members -->
             <div class="row">
-            <q-field align="left" class="col-4 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP1')">
-              <q-select align="center" chips="true" filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
-            </q-field>
-            <q-field class="col-4 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP2')">
-              <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
-            </q-field>
-            <q-field class="col-4 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP3')">
-            </q-field>
+              <q-field align="left" class="col-4 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP1')">
+                <q-select align="center" chips filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
+              </q-field>
+              <q-field class="col-4 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP2')">
+                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+              </q-field>
+              <q-field class="col-4 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP3')">
+              </q-field>
             </div>
             <!-- <div class="row justify-around q-my-lg">
-              <q-chips-input color="white" :float-label="$t('LAUNCH_MODAL.INSTEAD_PRE')" chips-bg-color="secondary" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="totalName" disable/>
-              <q-icon size="33px" name="keyboard arrow right" />
-              <q-chips-input color="white" chips-bg-color="secondary"  :float-label="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="afterName" disable/>
-            </div> -->
+                <q-chips-input color="white" :float-label="$t('LAUNCH_MODAL.INSTEAD_PRE')" chips-bg-color="secondary" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="totalName" disable/>
+                <q-icon size="33px" name="keyboard arrow right" />
+                <q-chips-input color="white" chips-bg-color="secondary"  :float-label="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="afterName" disable/>
+              </div> -->
             <div class="">
               <q-field class="col-12 font-16 text-four" label-width="1" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.MEMBER_REASON')">
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
@@ -271,7 +271,9 @@
   } from 'vuex'
   import {
     secondPwd,
-    proposalTitleReg
+    proposalTitleReg,
+    assetSymbolReg,
+    gatewayNameReg
   } from '../utils/validators'
   import {
     toastError,
@@ -463,10 +465,7 @@
       },
       p_title: {
         required,
-        maxLength: maxLength(100),
-        minLength: minLength(10),
         isTested(val) {
-          // past the test
           return proposalTitleReg.test(val)
         }
       },
@@ -536,14 +535,21 @@
         // NET SCOPE
         name: {
           required,
-          minLength: minLength(3),
-          maxLength: maxLength(15)
+          reg(val) {
+            return gatewayNameReg.test(val)
+          }
         },
         currency: {
-          required
+          required,
+          reg(val) {
+            return assetSymbolReg.test(val)
+          }
         },
         currencyPrecision: {
-          required
+          required,
+          reg(val) {
+            return val <= 16
+          }
         },
         currencyBrief: {
           required
@@ -629,10 +635,27 @@
             from: this.MEMBER.removed.address,
             to: this.MEMBER.added.address
           }
+        } else if (this.first_type === 'init') {
+          this.p_desc = ''
+          content = {
+            // TODO need get gateway detail & members detail
+            gateway: this.p_selected.name,
+            members: this.INIT.selected,
+            desc: this.brief
+          }
+        } else if (this.first_type === 'member_n') {
+          this.p_desc = this.brief
+          content = {
+            // TODO need getway member list
+            gateway: this.p_selected.name,
+            from: this.beforeAddress,
+            to: this.afterAddress
+          }
         }
         return content
       },
       async launchProposal() {
+        debugger
         // if (this.first_type === 'new' || this.first_type === 'new_n') {
         let valid = this.checkValidate(this.first_type)
         if (!valid) {
@@ -743,6 +766,7 @@
         this.delegateList = total
       },
       checkValidate(action) {
+        debugger
         // total set first
         if (!this.$v.p_title.$invalid &&
           !this.$v.first_type.$invalid &&
@@ -936,7 +960,7 @@
       },
       afterName() {
         let name = []
-        if (!this._.isempty(this.MEMBER.added)) {
+        if (this.afterList.length > 0) {
           this.afterList.forEach(o => {
             return name.push(o.label)
           })
@@ -984,6 +1008,7 @@
 </script>
 
 <style lang="stylus" scoped>
-.no-border-top
-  margin-top: 0 !important
+.no-border-top {
+  margin-top: 0 !important;
+}
 </style>

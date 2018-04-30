@@ -8,15 +8,16 @@
       <q-card-main class="row col-12">
         <assets-panel class="margin-l-15 col-auto" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
         <assets-panel class="margin-l-15 col-auto" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
-        <q-card v-if="isCross && address" class="col-auto bg-white asset-detail-card-h">
-          <q-card-main class="">
+        <q-card v-if="isCross && address" class="col-auto bg-white asset-detail-card-h margin-l-30">
+          <q-card-main>
             <p class="font-22 text-black margin-b-0">{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
             <div>
               <span class="font-14 text-three">{{address}}</span>
               <q-btn v-clipboard="address || 'no data'" @success="info('copy senderId success...')" color="secondary" size="xs" flat round icon="content copy" />
             </div>
             <div class="row justify-center" @click="showAddrQr">
-              <vue-qr :size="80" :text="address"></vue-qr>
+              <vue-qr v-if="isCross" :size="80" :text="address?'bitcoin:'+address:'no data'"></vue-qr>
+              <vue-qr v-else :size="80" :text="address || 'no data'"></vue-qr>
             </div>
           </q-card-main>
         </q-card>
@@ -183,7 +184,10 @@ export default {
       this.withdrawPanelShow = true
     },
     showAddrQr() {
-      this.$root.$emit('showQRCodeModal', this.address)
+      this.$root.$emit(
+        'showQRCodeModal',
+        this.address && this.isCross ? 'bitcoin:' + this.address : this.address
+      )
     }
   },
   computed: {
@@ -223,6 +227,5 @@ export default {
 .assetDetail-card-content {
   min-width: 300px;
   height: 160px;
-  // margin-top: 15px;
 }
 </style>
