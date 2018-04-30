@@ -524,6 +524,8 @@ const lang = {
     VOTE_SUCCESS: '投票成功'
   },
   LAUNCH_MODAL: {
+    MEMBER_SUGGEST_PRE: '我提议',
+    MEMBER_SUGGEST_POST: '成为网关成员',
     MEMBER_NUMBER: '成员数量',
     MEMBER_MEMBER: '成员信息',
     MEMBER_REASON: '更新成员原因',
