@@ -1,11 +1,11 @@
 <template>
-  <q-card class="col-3 assets-panel-content">
-    <q-card-main>
+  <q-card class="col-4 assets-panel-content no-shadow">
+    <q-card-main class="shadow-1 bg-white">
       <div @click="open">
         <q-item v-if="type=='inner'">
           <q-item-side v-if="asset.url" :avatar="asset.url" />
           <q-item-main>
-            <span class="assets-panel-content-ball"></span>
+            <!-- <span class="assets-panel-content-ball"></span> -->
             <q-item-tile class="asset-currency font-24 text-five vertical-align-middle" label>
               {{asset.currency}}
             </q-item-tile>
@@ -15,7 +15,7 @@
         <q-item v-if="type=='outer'">
           <q-item-side v-if="asset.url" :avatar="asset.url" />
           <q-item-main>
-            <span class="assets-panel-content-ball"></span>
+            <!-- <span class="assets-panel-content-ball"></span> -->
             <q-item-tile class="asset-currency font-24 text-five vertical-align-middle" label>
               {{asset.currency}}
             </q-item-tile>
@@ -93,8 +93,8 @@ export default {
 
 <style lang="stylus" scoped>
 .assets-panel-content {
-  margin: 15px 30px;
-  background: #ffffff;
+  // margin: 15px 30px;
+  // background: #ffffff;
   cursor: pointer;
   min-width: 300px;
 }
