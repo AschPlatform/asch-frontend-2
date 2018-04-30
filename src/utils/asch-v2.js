@@ -488,7 +488,7 @@ const feeFuncMap = {
     return 0.01
   },
   403: trs => {
-    return 0.1
+    return 0
   },
   404: trs => {
     return 0.01
