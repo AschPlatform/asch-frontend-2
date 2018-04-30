@@ -10,7 +10,7 @@
       <q-card-separator class="q-my-lg bg-999 no-border-top" />
       <div class="row">
         <q-field :error-label="$t('ERR.ERR_5_30')" :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8 font-16 text-four">
-          <q-input v-model="p_title" @focus="$v.p_title.$reset()" @blur="$v.p_title.$touch()" :error="$v.p_title.$error" />
+          <q-input v-model="p_title" @focus="$v.p_title.$reset()" @blur="$v.p_title.$touch()" :error="$v.p_title.$error && !$v.p_title.isTested" />
         </q-field>
       </div>
       <div class="row">
@@ -92,7 +92,7 @@
               </q-field>
             </div>
             <div class="row">
-              <q-field class="block col-6 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_5_33')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
+              <q-field class="block col-6 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_3_33')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
                 <q-input type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :suffix="$t('LAUNCH_MODAL.PERSON')"></q-input>
               </q-field>
             </div>
@@ -270,7 +270,8 @@
     mapGetters
   } from 'vuex'
   import {
-    secondPwd
+    secondPwd,
+    proposalTitleReg
   } from '../utils/validators'
   import {
     toastError,
@@ -463,7 +464,11 @@
       p_title: {
         required,
         maxLength: maxLength(30),
-        minLength: minLength(5)
+        minLength: minLength(5),
+        isTested(val) {
+          // past the test
+          return proposalTitleReg.test(val)
+        }
       },
       first_type: {
         required
@@ -510,7 +515,7 @@
       NEW: {
         memberNumber: {
           required,
-          minValue: minValue(5),
+          minValue: minValue(3),
           maxValue: maxValue(33)
         },
         selected: {
