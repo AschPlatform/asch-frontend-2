@@ -144,64 +144,7 @@ export default {
   data() {
     return {
       defaultIcon,
-      dapps: [
-        {
-          tid: '2870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
-          name: 'test',
-          desc:
-            'test chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chaintest chain',
-          link: 'https://github.com/testchain.zip',
-          icon: 'http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqq2zj8686j307k03raa5.jpeg',
-          unlockNumber: 3,
-          t_timestamp: 57400250,
-          t_type: 200,
-          t_height: 30
-        },
-        {
-          tid: '22b6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
-          name: 'Moxi',
-          desc: 'test chain',
-          link: 'https://github.com/testchain.zip',
-          icon: 'http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqq2zj8686j307k03raa5.jpeg',
-          unlockNumber: 3,
-          t_timestamp: 57400250,
-          t_type: 200,
-          t_height: 30
-        },
-        {
-          tid: '4c92a77fd892e81462aabd347ea3f0dappId108173c5538d620',
-          name: 'Presh',
-          desc: 'test chain',
-          link: 'https://github.com/testchain.zip',
-          icon: 'http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqq2zj8686j307k03raa5.jpeg',
-          unlockNumber: 3,
-          t_timestamp: 57400250,
-          t_type: 200,
-          t_height: 30
-        },
-        {
-          tid: '892e81462aabd347ea3f0108173c5538d620',
-          name: 'Dophi',
-          desc: 'test chain',
-          link: 'https://github.com/testchain.zip',
-          icon: 'http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqq2zj8686j307k03raa5.jpeg',
-          unlockNumber: 3,
-          t_timestamp: 57400250,
-          t_type: 200,
-          t_height: 30
-        },
-        {
-          tid: '6932870e710254c92a77fd892e81462aabd347ea3f0108173c5538d620',
-          name: 'test2',
-          desc: 'test chain2',
-          link: 'https://github.com/testchain.zip',
-          icon: 'http://wx1.sinaimg.cn/mw690/0060lm7Tly1fqq2zj8686j307k03raa5.jpeg',
-          unlockNumber: 3,
-          t_timestamp: 57400250,
-          t_type: 200,
-          t_height: 30
-        }
-      ],
+      dapps: [],
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -466,7 +409,6 @@ export default {
       return validated
     },
     onError(idx) {
-      debugger
       this.$refs['img' + idx][0].src = defaultIcon
     },
     createMyDapp() {
