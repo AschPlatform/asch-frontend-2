@@ -9,8 +9,8 @@
       </q-card-title>
       <q-card-separator class="q-my-lg bg-999 no-border-top" />
       <div class="row">
-        <q-field :error-label="$t('ERR.ERR_5_30')" :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8 font-16 text-four">
-          <q-input v-model="p_title" @focus="$v.p_title.$reset()" @blur="$v.p_title.$touch()" :error="$v.p_title.$error && !$v.p_title.isTested" />
+        <q-field :error-label="$t('ERR.ERR_10_100')" :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8 font-16 text-four">
+          <q-input v-model="p_title" @focus="$v.p_title.$reset()" @blur="$v.p_title.$touch()" :error="$v.p_title.$error" />
         </q-field>
       </div>
       <div class="row">
@@ -26,9 +26,9 @@
       </div>
       <div class="row">
         <!-- <q-field :label-width="4" :error-label="$t('ERR.ERR_REQUIRE_TIME')" :label="$t('proposal.SELECT_P_PERIOD')" class="col-4 font-16 text-four">
-          <q-datetime min="2018-04-05" v-model="p_time_start" @blur="$v.p_time_start.$touch()" :error="$v.p_time_start.$error" />
-        </q-field>
-        <span class="self-center col-1 font-16" align="center">{{$t('TO')}}</span> -->
+            <q-datetime min="2018-04-05" v-model="p_time_start" @blur="$v.p_time_start.$touch()" :error="$v.p_time_start.$error" />
+          </q-field>
+          <span class="self-center col-1 font-16" align="center">{{$t('TO')}}</span> -->
         <q-field :helper="$t('AT_LEAST_7DAY')" :label-width="4" class="col-4 font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_TIME')" :label="$t('proposal.SELECT_P_PERIOD')">
           <q-datetime :min="minTime" :max="maxTime" v-model="p_time_end" @blur="$v.p_time_end.$touch()" :error="$v.p_time_end.$error" />
         </q-field>
@@ -43,8 +43,8 @@
   
         <q-card-main key="content" class="row">
           <!-- <q-field v-show="this.first_type !== 'new' && this.first_type !== 'new_n' && this.first_type !== null && this.first_type !== null" :label-width="3" :label="$t('proposal.SELECT_P_TYPE')" class="col-6 font-16" :error-label="$t('ERR.ERR_REQUIRE_DETAIL')">
-            <q-select v-model="second_type" :error="$v.second_type.test" :options="this.first_type === 'change' ? proposalType_sec : proposalType_sec_n" />
-          </q-field> -->
+              <q-select v-model="second_type" :error="$v.second_type.test" :options="this.first_type === 'change' ? proposalType_sec : proposalType_sec_n" />
+            </q-field> -->
           <!-- below is new page -->
           <div v-show="this.first_type === 'new'" id="new" class="col-8">
             <div class="row">
@@ -97,10 +97,10 @@
               </q-field>
             </div>
             <!-- <div class="row">
-              <q-field class="col-8" label-width="2" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-              <q-select chips multiple filter v-model="NEW.selected" :options="NEW.memberList"></q-select>
-              </q-field>
-          </div> -->
+                <q-field class="col-8" label-width="2" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
+                <q-select chips multiple filter v-model="NEW.selected" :options="NEW.memberList"></q-select>
+                </q-field>
+            </div> -->
             <div class="row">
               <q-field class="col-6 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
                 <q-input type="number" v-model="NEW.period" @blur="$v.NEW.period.$touch()" :error="$v.NEW.period.$error" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
@@ -154,22 +154,22 @@
           <div class="col-12 q-field-label-inner-center" v-show="this.first_type === 'member_n'" id="remove">
             <!-- instead members -->
             <div class="row">
-            <q-field class="col-4 font-16 text-four" label-width="4" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP1')">
-            <q-select chips multiple filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
-            </q-field>
-            <q-field class="col-4 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP2')">
-                <q-select color="secondary" chips multiple filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+              <q-field align="left" class="col-4 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP1')">
+                <q-select align="center" chips filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
               </q-field>
-            <q-field class="col-4 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP3')">
-            </q-field>
+              <q-field class="col-4 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP2')">
+                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+              </q-field>
+              <q-field class="col-4 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP3')">
+              </q-field>
             </div>
-            <div class="row justify-around q-my-lg">
-              <q-chips-input color="white" :float-label="$t('LAUNCH_MODAL.INSTEAD_PRE')" chips-bg-color="secondary" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="totalName" disable/>
-              <q-icon size="33px" name="keyboard arrow right" />
-              <q-chips-input color="white" chips-bg-color="secondary"  :float-label="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="afterName" disable/>
-            </div>
+            <!-- <div class="row justify-around q-my-lg">
+                <q-chips-input color="white" :float-label="$t('LAUNCH_MODAL.INSTEAD_PRE')" chips-bg-color="secondary" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="totalName" disable/>
+                <q-icon size="33px" name="keyboard arrow right" />
+                <q-chips-input color="white" chips-bg-color="secondary"  :float-label="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="afterName" disable/>
+              </div> -->
             <div class="">
-              <q-field class="col-1 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.MEMBER_REASON')">
+              <q-field class="col-12 font-16 text-four" label-width="1" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.MEMBER_REASON')">
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
             </div>
@@ -258,30 +258,28 @@
 </template>
 
 <script>
-import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
-import { mapActions, mapGetters } from 'vuex'
-import { secondPwd, proposalTitleReg, assetSymbolReg, gatewayNameReg } from '../utils/validators'
-import { toastError, toast } from '../utils/util'
-import {
-  QField,
-  QModal,
-  QInput,
-  QCard,
-  QCardMain,
-  QCardTitle,
-  QCardSeparator,
-  QSelect,
-  QCheckbox,
-  QDatetime,
-  QChipsInput,
-  QIcon,
-  QPage,
-  QBtn
-} from 'quasar'
-
-export default {
-  name: 'ProposalLaunch',
-  components: {
+  import {
+    required,
+    minLength,
+    maxLength,
+    minValue,
+    maxValue
+  } from 'vuelidate/lib/validators'
+  import {
+    mapActions,
+    mapGetters
+  } from 'vuex'
+  import {
+    secondPwd,
+    proposalTitleReg,
+    assetSymbolReg,
+    gatewayNameReg
+  } from '../utils/validators'
+  import {
+    toastError,
+    toast
+  } from '../utils/util'
+  import {
     QField,
     QModal,
     QInput,
@@ -296,686 +294,717 @@ export default {
     QIcon,
     QPage,
     QBtn
-  },
-  props: ['show'],
-  data() {
-    return {
-      secondPwd: '',
-      // overall setting
-      p_title: null,
-      first_type: null,
-      p_time_start: null,
-      p_time_end: null,
-      p_selected: {
-        name: ''
+  } from 'quasar'
+  
+  export default {
+    name: 'ProposalLaunch',
+    components: {
+      QField,
+      QModal,
+      QInput,
+      QCard,
+      QCardMain,
+      QCardTitle,
+      QCardSeparator,
+      QSelect,
+      QCheckbox,
+      QDatetime,
+      QChipsInput,
+      QIcon,
+      QPage,
+      QBtn
+    },
+    props: ['show'],
+    data() {
+      return {
+        secondPwd: '',
+        // overall setting
+        p_title: null,
+        first_type: null,
+        p_time_start: null,
+        p_time_end: null,
+        p_selected: {
+          name: ''
+        },
+        second_type: null,
+        // cannot init
+        // TODO NEED DELETE BELOW
+        initFalse: true,
+        agreeOptions: [],
+        // options for total
+        proposalType: [
+          // protential of council options
+          // {
+          //   label: this.$t('proposal.SELECT_NEWCOUNCIL'),
+          //   value: 'new'
+          // },
+          // {
+          //   label: this.$t('proposal.SELECT_CHANGECOUNCIL'),
+          //   value: 'change'
+          // },
+          {
+            label: this.$t('proposal.SELECT_NEWNET'),
+            value: 'new_n'
+          },
+          // {
+          //   label: this.$t('proposal.SELECT_CHANGENET'),
+          //   value: 'change_n'
+          // },
+          {
+            label: this.$t('proposal.SELECT_INITNET'),
+            value: 'init'
+          },
+          {
+            label: this.$t('proposal.SELECT_CHANGEMEMBER'),
+            value: 'member_n'
+          }
+          // {
+          //   label: this.$t('proposal.SELECT_NETPERIOD'),
+          //   value: 'period_n'
+          // },
+          // {
+          //   label: this.$t('proposal.SELECT_NETMEMBER'),
+          //   value: 'member_n'
+          // }
+        ],
+        proposalType_sec: [
+          {
+            label: this.$t('proposal.SELECT_REMOVECOUNCIL'),
+            value: 'remove'
+          },
+          {
+            label: this.$t('proposal.SELECT_CHANGEPERIOD'),
+            value: 'period'
+          },
+          {
+            label: this.$t('proposal.SELECT_CHANGEMEMBER'),
+            value: 'member'
+          }
+        ],
+        proposalType_sec_n: [
+          // protential canceled
+          // {
+          //   label: this.$t('proposal.SELECT_NETPERIOD'),
+          //   value: 'period_n'
+          // },
+          {
+            label: this.$t('proposal.SELECT_INITNET'),
+            value: 'init'
+          },
+          {
+            label: this.$t('proposal.SELECT_NETMEMBER'),
+            value: 'member_n'
+          }
+        ],
+        councilList: [],
+        netList: [
+          // {
+          //   label: 'bitcoin',
+          //   value: 'bitcoin'
+          // },
+          // {
+          //   label: 'ethereum',
+          //   value: 'ethereum'
+          // }
+        ],
+        delegateList: [],
+        brief: null,
+        NEW: {
+          memberList: [],
+          memberNumber: null,
+          selected: [],
+          period: null,
+          agreement: [],
+          // NET SCOPE
+          name: null,
+          currency: null,
+          currencyBrief: null,
+          currencyPrecision: null
+        },
+        INIT: {
+          selected: []
+        },
+        REMOVE: {},
+        PERIOD: {
+          pre: null,
+          post: null
+        },
+        MEMBER: {
+          type: [
+            {
+              label: this.$t('proposal.SELECT_MEMBER_ADD'),
+              value: 'add'
+            },
+            {
+              label: this.$t('proposal.SELECT_MEMBER_DELETE'),
+              value: 'delete'
+            },
+            {
+              label: this.$t('proposal.SELECT_MEMBER_INSTEAD'),
+              value: 'instead'
+            }
+          ],
+          type_selected: null,
+          added: [],
+          removed: [],
+          electedList: [],
+          unelectedList: [],
+          add_selected: [],
+          delete_selected: [],
+          instead_pre: [],
+          instead_post: [],
+          memberList: [],
+          show_pre: [],
+          show_post: []
+        }
+      }
+    },
+    validations: {
+      secondPwd: {
+        secondPwd: secondPwd()
       },
-      second_type: null,
-      // cannot init
-      // TODO NEED DELETE BELOW
-      initFalse: true,
-      agreeOptions: [],
-      // options for total
-      proposalType: [
-        // protential of council options
-        // {
-        //   label: this.$t('proposal.SELECT_NEWCOUNCIL'),
-        //   value: 'new'
-        // },
-        // {
-        //   label: this.$t('proposal.SELECT_CHANGECOUNCIL'),
-        //   value: 'change'
-        // },
-        {
-          label: this.$t('proposal.SELECT_NEWNET'),
-          value: 'new_n'
-        },
-        // {
-        //   label: this.$t('proposal.SELECT_CHANGENET'),
-        //   value: 'change_n'
-        // },
-        {
-          label: this.$t('proposal.SELECT_INITNET'),
-          value: 'init'
-        },
-        {
-          label: this.$t('proposal.SELECT_CHANGEMEMBER'),
-          value: 'member_n'
+      p_title: {
+        required,
+        isTested(val) {
+          return proposalTitleReg.test(val)
         }
-        // {
-        //   label: this.$t('proposal.SELECT_NETPERIOD'),
-        //   value: 'period_n'
-        // },
-        // {
-        //   label: this.$t('proposal.SELECT_NETMEMBER'),
-        //   value: 'member_n'
-        // }
-      ],
-      proposalType_sec: [
-        {
-          label: this.$t('proposal.SELECT_REMOVECOUNCIL'),
-          value: 'remove'
-        },
-        {
-          label: this.$t('proposal.SELECT_CHANGEPERIOD'),
-          value: 'period'
-        },
-        {
-          label: this.$t('proposal.SELECT_CHANGEMEMBER'),
-          value: 'member'
+      },
+      first_type: {
+        required
+      },
+      p_selected: {
+        required,
+        isSelected() {
+          if (this.first_type === 'init' || this.first_type === 'member_n') {
+            if (this.$v.p_selected.$dirty !== false) {
+              return false
+            }
+            return true
+          }
+          return false
         }
-      ],
-      proposalType_sec_n: [
-        // protential canceled
-        // {
-        //   label: this.$t('proposal.SELECT_NETPERIOD'),
-        //   value: 'period_n'
-        // },
-        {
-          label: this.$t('proposal.SELECT_INITNET'),
-          value: 'init'
-        },
-        {
-          label: this.$t('proposal.SELECT_NETMEMBER'),
-          value: 'member_n'
+      },
+      p_time_start: {
+        required
+      },
+      p_time_end: {
+        required
+      },
+      brief: {
+        required,
+        minLength: minLength(50),
+        maxLength: maxLength(1000)
+      },
+      second_type: {
+        test(val) {
+          if (
+            this.first_type !== 'new' &&
+            this.first_type !== 'new_n' &&
+            this.first_type !== null &&
+            this.$v.second_type.$dirty !== false
+          ) {
+            if (val === null) {
+              return true
+            }
+            return false
+          }
+          return false
         }
-      ],
-      councilList: [],
-      netList: [
-        // {
-        //   label: 'bitcoin',
-        //   value: 'bitcoin'
-        // },
-        // {
-        //   label: 'ethereum',
-        //   value: 'ethereum'
-        // }
-      ],
-      delegateList: [],
-      brief: null,
+      },
       NEW: {
-        memberList: [],
-        memberNumber: null,
-        selected: [],
-        period: null,
-        agreement: [],
+        memberNumber: {
+          required,
+          minValue: minValue(3),
+          maxValue: maxValue(33)
+        },
+        selected: {
+          required,
+          ifEnough(val) {
+            // to see whether should use the
+            if (this.NEW.memberNumber !== val.length && this.$v.NEW.selected.$dirty !== false) {
+              return true
+            }
+            return false
+          }
+        },
+        period: {
+          required,
+          minValue: minValue(1),
+          maxValue: maxValue(30)
+        },
         // NET SCOPE
-        name: null,
-        currency: null,
-        currencyBrief: null,
-        currencyPrecision: null
+        name: {
+          required,
+          reg(val) {
+            return gatewayNameReg.test(val)
+          }
+        },
+        currency: {
+          required,
+          reg(val) {
+            return assetSymbolReg.test(val)
+          }
+        },
+        currencyPrecision: {
+          required,
+          reg(val) {
+            return val <= 16
+          }
+        },
+        currencyBrief: {
+          required
+        }
       },
       INIT: {
-        selected: []
+        selected: {
+          required,
+          inNeed(val) {
+            if (this.gatewayMember === val.length) {
+              return true
+            }
+            return false
+          }
+        }
       },
-      REMOVE: {},
       PERIOD: {
-        pre: null,
-        post: null
+        post: {
+          required,
+          minValue: minValue(1),
+          maxValue: maxValue(30)
+        }
       },
       MEMBER: {
-        type: [
-          {
-            label: this.$t('proposal.SELECT_MEMBER_ADD'),
-            value: 'add'
-          },
-          {
-            label: this.$t('proposal.SELECT_MEMBER_DELETE'),
-            value: 'delete'
-          },
-          {
-            label: this.$t('proposal.SELECT_MEMBER_INSTEAD'),
-            value: 'instead'
+        instead_post: {
+          required
+        },
+        added: {
+          required,
+          isEqual(val) {
+            return val.length === this.MEMBER.removed.length
           }
-        ],
-        type_selected: null,
-        added: [],
-        removed: [],
-        electedList: [],
-        unelectedList: [],
-        add_selected: [],
-        delete_selected: [],
-        instead_pre: [],
-        instead_post: [],
-        memberList: [],
-        show_pre: [],
-        show_post: []
-      }
-    }
-  },
-  validations: {
-    secondPwd: {
-      secondPwd: secondPwd()
-    },
-    p_title: {
-      required,
-      maxLength: maxLength(30),
-      minLength: minLength(5),
-      isTested(val) {
-        return proposalTitleReg.test(val)
-      }
-    },
-    first_type: {
-      required
-    },
-    p_selected: {
-      required,
-      isSelected() {
-        if (this.first_type === 'init' || this.first_type === 'member_n') {
-          if (this.$v.p_selected.$dirty !== false) {
-            return false
+        },
+        removed: {
+          required,
+          isEqual(val) {
+            return val.length === this.MEMBER.added.length
           }
-          return true
-        }
-        return false
-      }
-    },
-    p_time_start: {
-      required
-    },
-    p_time_end: {
-      required
-    },
-    brief: {
-      required,
-      minLength: minLength(50),
-      maxLength: maxLength(1000)
-    },
-    second_type: {
-      test(val) {
-        if (
-          this.first_type !== 'new' &&
-          this.first_type !== 'new_n' &&
-          this.first_type !== null &&
-          this.$v.second_type.$dirty !== false
-        ) {
-          if (val === null) {
-            return true
-          }
-          return false
-        }
-        return false
-      }
-    },
-    NEW: {
-      memberNumber: {
-        required,
-        minValue: minValue(3),
-        maxValue: maxValue(33)
-      },
-      selected: {
-        required,
-        ifEnough(val) {
-          // to see whether should use the
-          if (this.NEW.memberNumber !== val.length && this.$v.NEW.selected.$dirty !== false) {
-            return true
-          }
-          return false
         }
       },
-      period: {
-        required,
-        minValue: minValue(1),
-        maxValue: maxValue(30)
-      },
-      // NET SCOPE
-      name: {
-        required,
-        reg(val) {
-          return gatewayNameReg.test(val)
-        }
-      },
-      currency: {
-        required,
-        reg(val) {
-          return assetSymbolReg.test(val)
-        }
-      },
-      currencyPrecision: {
-        required,
-        reg(val) {
-          return val <= 16
-        }
-      },
-      currencyBrief: {
-        required
-      }
+      REMOVE: {}
     },
-    INIT: {
-      selected: {
-        required,
-        inNeed(val) {
-          if (this.gatewayMember === val.length) {
-            return true
-          }
-          return false
-        }
-      }
-    },
-    PERIOD: {
-      post: {
-        required,
-        minValue: minValue(1),
-        maxValue: maxValue(30)
-      }
-    },
-    MEMBER: {
-      instead_post: {
-        required
+    mounted() {},
+    methods: {
+      ...mapActions(['postProposal', 'getGateways', 'getGatewayDelegates']),
+      hideModal() {
+        this.resetHeader()
+        this.resetDetail()
+        this.$v.$reset()
+        this.$router.back()
       },
-      added: {
-        required,
-        isEqual(val) {
-          return val.length === this.MEMBER.removed.length
-        }
-      },
-      removed: {
-        required,
-        isEqual(val) {
-          return val.length === this.MEMBER.added.length
-        }
-      }
-    },
-    REMOVE: {}
-  },
-  mounted() {},
-  methods: {
-    ...mapActions(['postProposal', 'getGateways', 'getGatewayDelegates']),
-    hideModal() {
-      this.resetHeader()
-      this.resetDetail()
-      this.$v.$reset()
-      this.$router.back()
-    },
-    initInfo() {},
-    // compile the proposal content
-    compileContent() {
-      let content = {}
-      if (this.first_type === 'new_n') {
-        // launch a new gateway
-        this.p_desc = this.brief
-        content = {
-          name: this.NEW.name,
-          desc: this.NEW.currencyBrief,
-          updateInterval: this.countedInterval,
-          minimumMembers: this.NEW.memberNumber,
-          currency: {
-            symbol: this.NEW.currency,
+      initInfo() {},
+      // compile the proposal content
+      compileContent() {
+        let content = {}
+        if (this.first_type === 'new_n') {
+          // launch a new gateway
+          this.p_desc = this.brief
+          content = {
+            name: this.NEW.name,
             desc: this.NEW.currencyBrief,
-            precision: this.NEW.currencyPrecision
+            updateInterval: this.countedInterval,
+            minimumMembers: this.NEW.memberNumber,
+            currency: {
+              symbol: this.NEW.currency,
+              desc: this.NEW.currencyBrief,
+              precision: this.NEW.currencyPrecision
+            }
+          }
+        } else if (this.first_type === 'init') {
+          this.p_desc = ''
+          content = {
+            // TODO need get gateway detail & members detail
+            gateway: this.p_selected.name,
+            members: this.INIT.selected,
+            desc: this.brief
+          }
+        } else if (this.first_type === 'member_n') {
+          this.p_desc = this.brief
+          content = {
+            // TODO need getway member list
+            gateway: this.p_selected.name,
+            from: this.MEMBER.removed.address,
+            to: this.MEMBER.added.address
+          }
+        } else if (this.first_type === 'init') {
+          this.p_desc = ''
+          content = {
+            // TODO need get gateway detail & members detail
+            gateway: this.p_selected.name,
+            members: this.INIT.selected,
+            desc: this.brief
+          }
+        } else if (this.first_type === 'member_n') {
+          this.p_desc = this.brief
+          content = {
+            // TODO need getway member list
+            gateway: this.p_selected.name,
+            from: this.beforeAddress,
+            to: this.afterAddress
           }
         }
-      } else if (this.first_type === 'init') {
-        this.p_desc = ''
-        content = {
-          // TODO need get gateway detail & members detail
-          gateway: this.p_selected.name,
-          members: this.INIT.selected,
-          desc: this.brief
-        }
-      } else if (this.first_type === 'member_n') {
-        this.p_desc = this.brief
-        content = {
-          // TODO need getway member list
-          gateway: this.p_selected.name,
-          from: this.beforeAddress,
-          to: this.afterAddress
-        }
-      }
-      return content
-    },
-    async launchProposal() {
-      // if (this.first_type === 'new' || this.first_type === 'new_n') {
-      let valid = this.checkValidate(this.first_type)
-      if (!valid) {
-        toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
-        return
-      }
-      // } else {
-      //   let result = this.checkValidate(this.second_type)
-      //   if (!result) {
-      //     toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
-      //     return
-      //   }
-      // }
-      let obj = {}
-      obj.content = this.compileContent()
-      obj.title = this.p_title
-      obj.desc = this.brief
-      obj.topic = this.countedType
-      obj.endHeight = this.endHeight
-      obj.secondPwd = this.secondPwd
-      let result = await this.postProposal(obj)
-      if (result.success) {
-        toast(this.$t('LAUNCH_MODAL.LAUNCH_SUCCESS'))
-        this.hideModal()
-      } else {
-        toastError(result.error)
-      }
-    },
-    // select component change func
-    detectChange() {},
-    // info get funcs
-    async getAllGate() {
-      let res = await this.getGateways()
-      let ls = []
-      res.gateways.forEach(o => {
-        return ls.push({
-          label: o.name,
-          value: o
-        })
-      })
-      this.netList = ls
-    },
-    async getAllDelegates() {
-      // params :  filter
-      // 0 for none elected
-      // 1 for elected
-      // 2 for all
-      // params : obj for the state this response to replace
-      let res = await this.getGatewayDelegates({
-        name: this.p_selected.name
-      })
-      return res
-    },
-    // to form init list
-    async formInitList() {
-      let that = this
-      let res = await this.getGatewayDelegates({
-        name: this.p_selected.name
-      })
-      let ls = []
-      this.initFalse = true
-      res.validators.forEach(o => {
-        // cannot init detect
-        if (o.elected === 1) {
-          that.initFalse = false
+        return content
+      },
+      async launchProposal() {
+        debugger
+        // if (this.first_type === 'new' || this.first_type === 'new_n') {
+        let valid = this.checkValidate(this.first_type)
+        if (!valid) {
+          toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
           return
         }
-        return ls.push({
-          label: o.address,
-          value: o.address
-        })
-      })
-      this.delegateList = ls
-    },
-    async formMemberList() {
-      let res = await this.getGatewayDelegates({
-        name: this.p_selected.name
-      })
-      let total = []
-      let elected = []
-      let unelected = []
-      res.validators.forEach(o => {
-        // cannot init detect
-        if (o.elected === 1) {
-          return elected.push({
+        // } else {
+        //   let result = this.checkValidate(this.second_type)
+        //   if (!result) {
+        //     toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
+        //     return
+        //   }
+        // }
+        let obj = {}
+        obj.content = this.compileContent()
+        obj.title = this.p_title
+        obj.desc = this.brief
+        obj.topic = this.countedType
+        obj.endHeight = this.endHeight
+        obj.secondPwd = this.secondPwd
+        let result = await this.postProposal(obj)
+        if (result.success) {
+          toast(this.$t('LAUNCH_MODAL.LAUNCH_SUCCESS'))
+          this.hideModal()
+        } else {
+          toastError(result.error)
+        }
+      },
+      // select component change func
+      detectChange() {},
+      // info get funcs
+      async getAllGate() {
+        let res = await this.getGateways()
+        let ls = []
+        res.gateways.forEach(o => {
+          return ls.push({
             label: o.name,
             value: o
           })
-        }
-      })
-      res.validators.forEach(o => {
-        // cannot init detect
-        if (o.elected === 0) {
-          return unelected.push({
-            label: o.name,
-            value: o
-          })
-        }
-      })
-      res.validators.forEach(o => {
-        return total.push({
-          label: o.name,
-          value: o
         })
-      })
-      this.MEMBER.electedList = elected
-      this.MEMBER.unelectedList = unelected
-      this.delegateList = total
-    },
-    checkValidate(action) {
-      // total set first
-      if (
-        !this.$v.p_title.$invalid &&
-        !this.$v.first_type.$invalid &&
-        !this.$v.p_time_end.$invalid
-      ) {
-        switch (action) {
-          // init gateway
-          case 'init':
-            if (
-              !this.$v.p_selected.isSelected &&
-              !this.$v.INIT.selected.$invalid &&
-              this.$v.INIT.selected.inNeed &&
-              !this.$v.brief.$invalid
-            ) {
-              return true
-            }
-            return false
-          // change member of gateway
-          case 'member_n':
-            if (
-              !this.$v.p_selected.isSelected &&
-              !this.$v.MEMBER.instead_post.$invalid &&
-              !this.$v.brief.$invalid &&
-              this.$v.MEMBER.added.isEqual &&
-              this.$v.MEMBER.removed.isEqual
-            ) {
-              return true
-            }
-            return false
-          // new gateway proposalundefined
-          case 'new_n':
-            if (
-              !this.$v.NEW.name.$invalid &&
-              !this.$v.NEW.currency.$invalid &&
-              !this.$v.NEW.currencyPrecision.$invalid &&
-              !this.$v.NEW.currencyBrief.$invalid &&
-              !this.$v.NEW.memberNumber.$invalid &&
-              !this.$v.NEW.period.$invalid &&
-              !this.$v.brief.$invalid
-            ) {
-              return true
-            }
-            return false
-        }
-      }
-      return false
-    },
-    resetHeader() {
-      this.p_title = null
-      this.first_type = null
-      this.p_time_start = null
-      this.p_time_end = null
-      this.p_selected = {
-        name: ''
-      }
-      this.secondPwd = ''
-    },
-    resetDetail() {
-      this.initFalse = false
-      this.councilList = []
-      this.netList = []
-      this.delegateList = []
-      this.brief = null
-      this.NEW = {
-        memberList: [],
-        memberNumber: null,
-        selected: [],
-        period: null,
-        agreement: [],
-        name: null,
-        currency: null,
-        currencyBrief: null,
-        currencyPrecision: null
-      }
-      this.INIT = {
-        selected: []
-      }
-      this.PERIOD = {
-        pre: null,
-        post: null
-      }
-      this.MEMBER = {
-        type: [
-          {
-            label: this.$t('proposal.SELECT_MEMBER_ADD'),
-            value: 'add'
-          },
-          {
-            label: this.$t('proposal.SELECT_MEMBER_DELETE'),
-            value: 'delete'
-          },
-          {
-            label: this.$t('proposal.SELECT_MEMBER_INSTEAD'),
-            value: 'instead'
+        this.netList = ls
+      },
+      async getAllDelegates() {
+        // params :  filter
+        // 0 for none elected
+        // 1 for elected
+        // 2 for all
+        // params : obj for the state this response to replace
+        let res = await this.getGatewayDelegates({
+          name: this.p_selected.name
+        })
+        return res
+      },
+      // to form init list
+      async formInitList() {
+        let that = this
+        let res = await this.getGatewayDelegates({
+          name: this.p_selected.name
+        })
+        let ls = []
+        this.initFalse = true
+        res.validators.forEach(o => {
+          // cannot init detect
+          if (o.elected === 1) {
+            that.initFalse = false
+            return
           }
-        ],
-        type_selected: null,
-        added: [],
-        removed: [],
-        electedList: [],
-        unelectedList: [],
-        add_selected: [],
-        delete_selected: [],
-        instead_pre: [],
-        instead_post: [],
-        memberList: [],
-        show_pre: [],
-        show_post: []
-      }
-    }
-  },
-  computed: {
-    ...mapGetters(['userInfo']),
-    secondSignature() {
-      return this.userInfo ? this.userInfo.account.secondPublicKey : null
-    },
-    countedType() {
-      if (this.first_type === 'new_n') {
-        return 'gateway_register'
-      } else if (this.first_type === 'init') {
-        return 'gateway_init'
-      } else if (this.first_type === 'period_n') {
-        return 'gateway_period'
-      } else if (this.first_type === 'member_n') {
-        return 'gateway_update_member'
-      }
-    },
-    endHeight() {
-      let currentHeight = this.userInfo.latestBlock.height
-      let pre = new Date().getTime()
-      let post = new Date(this.p_time_end).getTime()
-      let shift = (post - pre) / 10000
-      return Math.round(currentHeight + shift)
-    },
-    countedInterval() {
-      return Number(this.NEW.period) * 8640
-    },
-    disableLaunch() {
-      if (this.agreeOptions.length === 2) {
+          return ls.push({
+            label: o.address,
+            value: o.address
+          })
+        })
+        this.delegateList = ls
+      },
+      async formMemberList() {
+        let res = await this.getGatewayDelegates({
+          name: this.p_selected.name
+        })
+        let total = []
+        let elected = []
+        let unelected = []
+        res.validators.forEach(o => {
+          // cannot init detect
+          if (o.elected === 1) {
+            return elected.push({
+              label: o.name,
+              value: o
+            })
+          }
+        })
+        res.validators.forEach(o => {
+          // cannot init detect
+          if (o.elected === 0) {
+            return unelected.push({
+              label: o.name,
+              value: o
+            })
+          }
+        })
+        res.validators.forEach(o => {
+          return total.push({
+            label: o.name,
+            value: o
+          })
+        })
+        this.MEMBER.electedList = elected
+        this.MEMBER.unelectedList = unelected
+        this.delegateList = total
+      },
+      checkValidate(action) {
+        debugger
+        // total set first
+        if (!this.$v.p_title.$invalid &&
+          !this.$v.first_type.$invalid &&
+          !this.$v.p_time_end.$invalid
+        ) {
+          switch (action) {
+            // init gateway
+            case 'init':
+              if (!this.$v.p_selected.isSelected &&
+                !this.$v.INIT.selected.$invalid &&
+                this.$v.INIT.selected.inNeed &&
+                !this.$v.brief.$invalid
+              ) {
+                return true
+              }
+              return false
+              // change member of gateway
+            case 'member_n':
+              if (!this.$v.p_selected.isSelected &&
+                // !this.$v.MEMBER.instead_post.$invalid &&
+                !this.$v.brief.$invalid &&
+                this.$v.MEMBER.added.isEqual &&
+                this.$v.MEMBER.removed.isEqual
+              ) {
+                return true
+              }
+              return false
+              // new gateway proposalundefined
+            case 'new_n':
+              if (!this.$v.NEW.name.$invalid &&
+                !this.$v.NEW.currency.$invalid &&
+                !this.$v.NEW.currencyPrecision.$invalid &&
+                !this.$v.NEW.currencyBrief.$invalid &&
+                !this.$v.NEW.memberNumber.$invalid &&
+                !this.$v.NEW.period.$invalid &&
+                !this.$v.brief.$invalid
+              ) {
+                return true
+              }
+              return false
+          }
+        }
         return false
+      },
+      resetHeader() {
+        this.p_title = null
+        this.first_type = null
+        this.p_time_start = null
+        this.p_time_end = null
+        this.p_selected = {
+          name: ''
+        }
+        this.secondPwd = ''
+      },
+      resetDetail() {
+        this.initFalse = false
+        this.councilList = []
+        this.netList = []
+        this.delegateList = []
+        this.brief = null
+        this.NEW = {
+          memberList: [],
+          memberNumber: null,
+          selected: [],
+          period: null,
+          agreement: [],
+          name: null,
+          currency: null,
+          currencyBrief: null,
+          currencyPrecision: null
+        }
+        this.INIT = {
+          selected: []
+        }
+        this.PERIOD = {
+          pre: null,
+          post: null
+        }
+        this.MEMBER = {
+          type: [
+            {
+              label: this.$t('proposal.SELECT_MEMBER_ADD'),
+              value: 'add'
+            },
+            {
+              label: this.$t('proposal.SELECT_MEMBER_DELETE'),
+              value: 'delete'
+            },
+            {
+              label: this.$t('proposal.SELECT_MEMBER_INSTEAD'),
+              value: 'instead'
+            }
+          ],
+          type_selected: null,
+          added: [],
+          removed: [],
+          electedList: [],
+          unelectedList: [],
+          add_selected: [],
+          delete_selected: [],
+          instead_pre: [],
+          instead_post: [],
+          memberList: [],
+          show_pre: [],
+          show_post: []
+        }
       }
-      return true
     },
-    minTime() {
-      let maxi = 1 * 24 * 60 * 60 * 1000
-      let d = new Date().getTime()
-      let end = new Date(d + maxi)
-      let y = end.getFullYear()
-      let m = end.getMonth() + 1
-      let day = end.getDate()
-      return `${y}-${m}-${day}`
-    },
-    maxTime() {
-      let maxi = 33 * 24 * 60 * 60 * 1000
-      let d = new Date()
-      let end = d.getTime() + maxi
-      let y = new Date(end).getFullYear()
-      let m = new Date(end).getMonth() + 1
-      let day = new Date(end).getDate()
-      return `${y}-${m}-${day}`
-    },
-    totalName() {
-      let name = []
-      if (this.delegateList && this.delegateList.length > 0) {
-        this.MEMBER.electedList.forEach(o => {
-          return name.push(o.label)
-        })
-      }
-      return name
-    },
-    afterList() {
-      let space = []
-      let removenamespace = []
-      if (this.MEMBER.electedList.length > 0 && this.MEMBER.removed.length > 0) {
-        this.MEMBER.removed.forEach(o => {
-          return removenamespace.push(o.name)
-        })
-        this.MEMBER.electedList.forEach(o => {
-          if (this._.indexOf(removenamespace, o.label) < 0) {
-            // not found:
-            return space.push(o)
-          }
-        })
-      }
-      if (this.MEMBER.electedList.length > 0 && this.MEMBER.added.length > 0) {
-        this.MEMBER.added.forEach(o => {
-          space.push({
-            label: o.name,
-            value: o
+    computed: {
+      ...mapGetters(['userInfo']),
+      secondSignature() {
+        return this.userInfo ? this.userInfo.account.secondPublicKey : null
+      },
+      countedType() {
+        if (this.first_type === 'new_n') {
+          return 'gateway_register'
+        } else if (this.first_type === 'init') {
+          return 'gateway_init'
+        } else if (this.first_type === 'period_n') {
+          return 'gateway_period'
+        } else if (this.first_type === 'member_n') {
+          return 'gateway_update_member'
+        }
+      },
+      endHeight() {
+        let currentHeight = this.userInfo.latestBlock.height
+        let pre = new Date().getTime()
+        let post = new Date(this.p_time_end).getTime()
+        let shift = (post - pre) / 10000
+        return Math.round(currentHeight + shift)
+      },
+      countedInterval() {
+        return Number(this.NEW.period) * 8640
+      },
+      disableLaunch() {
+        if (this.agreeOptions.length === 2) {
+          return false
+        }
+        return true
+      },
+      minTime() {
+        let maxi = 2 * 24 * 60 * 60 * 1000
+        let d = new Date().getTime()
+        let end = new Date(d + maxi)
+        let y = end.getFullYear()
+        let m = end.getMonth() + 1
+        let day = end.getDate()
+        return `${y}-${m}-${day}`
+      },
+      maxTime() {
+        let maxi = 33 * 24 * 60 * 60 * 1000
+        let d = new Date()
+        let end = d.getTime() + maxi
+        let y = new Date(end).getFullYear()
+        let m = new Date(end).getMonth() + 1
+        let day = new Date(end).getDate()
+        return `${y}-${m}-${day}`
+      },
+      totalName() {
+        let name = []
+        if (this.delegateList && this.delegateList.length > 0) {
+          this.MEMBER.electedList.forEach(o => {
+            return name.push(o.label)
           })
-        })
-      }
-      return space
-    },
-    afterName() {
-      let name = []
-      if (this.afterList.length > 0) {
-        this.afterList.forEach(o => {
-          return name.push(o.label)
-        })
-      }
-      return name
-    },
-    beforeAddress() {
-      let add = []
-      this.MEMBER.electedList.forEach(o => {
-        return add.push(o.value.address)
-      })
-      return add.join(',')
-    },
-    afterAddress() {
-      let add = []
-      if (this.afterList.length > 0) {
-        this.afterList.forEach(o => {
+        }
+        return name
+      },
+      afterList() {
+        let space = []
+        let removenamespace = []
+        if (this.MEMBER.electedList.length > 0 && this.MEMBER.removed.length > 0) {
+          this.MEMBER.removed.forEach(o => {
+            return removenamespace.push(o.name)
+          })
+          this.MEMBER.electedList.forEach(o => {
+            if (this._.indexOf(removenamespace, o.label) < 0) {
+              // not found:
+              return space.push(o)
+            }
+          })
+        }
+        if (this.MEMBER.electedList.length > 0 && this.MEMBER.added.length > 0) {
+          this.MEMBER.added.forEach(o => {
+            space.push({
+              label: o.name,
+              value: o
+            })
+          })
+        }
+        return space
+      },
+      afterName() {
+        let name = []
+        if (this.afterList.length > 0) {
+          this.afterList.forEach(o => {
+            return name.push(o.label)
+          })
+        }
+        return name
+      },
+      beforeAddress() {
+        let add = []
+        this.MEMBER.electedList.forEach(o => {
           return add.push(o.value.address)
         })
+        return add.join(',')
+      },
+      afterAddress() {
+        let add = []
+        if (this.afterList.length > 0) {
+          this.afterList.forEach(o => {
+            return add.push(o.value.address)
+          })
+        }
+        return add.join(',')
+      },
+      gatewayMember() {
+        if (this.p_selected && this.p_selected.minimumMembers) {
+          return this.p_selected.minimumMembers
+        }
+        return 0
       }
-      return add.join(',')
     },
-    gatewayMember() {
-      if (this.p_selected && this.p_selected.minimumMembers) {
-        return this.p_selected.minimumMembers
-      }
-      return 0
-    }
-  },
-  watch: {
-    first_type(val) {
-      if (val === 'init' || val === 'member_n') {
-        this.getAllGate()
-      }
-    },
-    p_selected(val) {
-      if (this.first_type === 'init') {
-        this.formInitList()
-      } else if (this.first_type === 'member_n') {
-        this.formMemberList()
+    watch: {
+      first_type(val) {
+        if (val === 'init' || val === 'member_n') {
+          this.getAllGate()
+        }
+      },
+      p_selected(val) {
+        if (this.first_type === 'init') {
+          this.formInitList()
+        } else if (this.first_type === 'member_n') {
+          this.formMemberList()
+        }
       }
     }
   }
-}
 </script>
 
 <style lang="stylus" scoped>
