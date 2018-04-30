@@ -60,12 +60,12 @@ export default {
 .member-container .q-field div .q-field-content {
   .member-content-chips-1 {
     height: 100%;
-    min-height: 135px;
+    min-height: 235px;
   }
 
   .member-content-chips-2 {
     height: 100%;
-    min-height: 100px;
+    min-height: 200px;
     align-items: flex-start;
   }
 }
