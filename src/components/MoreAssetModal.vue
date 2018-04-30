@@ -8,7 +8,7 @@
             <q-search class="full-width" inverted v-model="filter" color="none" />
           </q-toolbar> -->
   
-    <div class="row moreAssetModal-container col-12">
+    <div class="row moreAssetModal-container col-12 justify-between">
       <q-card class="col-5" v-for="(currency,idx) in currencies" :key="idx">
         <q-card-main>
           <div class="col-12">
