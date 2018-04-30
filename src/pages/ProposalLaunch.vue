@@ -708,7 +708,7 @@
           if (o.elected === 1) {
             return elected.push({
               label: o.name,
-              value: oMLAUNCH_MODAL
+              value: o
             })
           }
         })
@@ -808,8 +808,8 @@
         this.PERIOD = {
           pre: null,
           post: null
-        },
-        this.MEMBER= {
+        }
+        this.MEMBER = {
           type: [
             {
               label: this.$t('proposal.SELECT_MEMBER_ADD'),
