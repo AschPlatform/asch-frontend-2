@@ -531,7 +531,7 @@ export default {
       this.agreement = {
         title: t('REGISTERED_PUBLISHER'),
         tips:
-          t('TRS_TYPE_UIA_ASSET') +
+          t('REGISTERED_PUBLISHER') +
           t('COST_FEE', {
             num: 100
           }),
