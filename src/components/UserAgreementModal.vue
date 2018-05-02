@@ -7,7 +7,7 @@
       <q-card-separator />
       <q-card-main class="q-px-lg margin-t-20">
         <q-scroll-area style="height: 300px" class="shadow-1 q-px-sm q-py-lg">
-            <div>{{content}}</div>
+            <div v-html="content"></div>
         </q-scroll-area>
         <div class="row justify-between user-agree-content">
         <q-checkbox v-model="checked" :label="$t('I_AGREE')" />
