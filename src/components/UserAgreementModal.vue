@@ -7,7 +7,8 @@
       <q-card-separator />
       <q-card-main class="q-px-lg margin-t-20">
         <q-scroll-area style="height: 300px" class="shadow-1 q-px-sm q-py-lg">
-            <div v-html="content"></div>
+            <!-- <div v-html="content"></div> -->
+          <vue-markdown :source="content"></vue-markdown>
         </q-scroll-area>
         <div class="row justify-between user-agree-content">
         <q-checkbox v-model="checked" :label="$t('I_AGREE')" />
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+import VueMarkdown from 'vue-markdown'
 import {
   QModal,
   QCard,
@@ -46,6 +48,7 @@ export default {
   },
   props: ['show', 'title', 'content', 'tips'],
   components: {
+    VueMarkdown,
     QModal,
     QCard,
     QCardTitle,
