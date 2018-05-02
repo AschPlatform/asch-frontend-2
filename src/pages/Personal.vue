@@ -7,10 +7,10 @@
           </q-card-title> -->
       <q-card-main class="row col-12 justify-center">
         <div class="personal-top col-12 row justify-left bg-white shadow-2">
-          <div class="personal-head-portrait col-1">
+          <div>
             <jdenticon class="personal-head-canvas" :address="address" :size="60" />
           </div>
-          <div class="col-7 col-md-7 col-lg-6 col-xl-5 text-left row justify-left">
+          <div class="col-7 col-md-7 col-lg-6 col-xl-5 col-xs-10 text-left row justify-left margin-left-10">
             <div>
               <span v-if="!userNickname" class="text-black font-22 vertical-align-middle">
                 {{$t('HELLO')}}
@@ -25,7 +25,7 @@
               <q-btn class="text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
             </div>
           </div>
-          <div class="personal-qr col-3 row justify-left text-left">
+          <div class="personal-qr row justify-left text-left">
             <span class="right-line"></span>
             <div class="row justify-center" @click="showAddrQr">
               <vue-qr class="personal-qr-container" :size="103" :text="address"></vue-qr>
@@ -586,13 +586,9 @@ export default {
   margin-bottom: 28px;
 }
 
-.personal-head-portrait {
-  width: 116px;
-  // margin-right: 40px;
-}
 
 .personal-head-canvas {
-  width: 80px;
+  width: 60px;
   border-radius: 50%;
 }
 
@@ -620,7 +616,7 @@ export default {
 }
 
 .personal-qr {
-  width: 103px;
+  // width: 103px;
   height: 100px;
 }
 
