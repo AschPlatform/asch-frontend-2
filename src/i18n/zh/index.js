@@ -414,7 +414,7 @@ const lang = {
   SET_NICKNAME: '请设置昵称',
   NICKNAME: '昵称',
   INPUT_NICKNAME: '请输入你想设置的昵称',
-  ERR_NICKNAME: '昵称输入有误',
+  ERR_NICKNAME: '昵称输入有误,应为3-20位小写字母与数字的组合',
   NICKNAME_TIP: '昵称可用于转账，请慎重填写，最多3-20个字符',
   CHAR_NUM: '字符数',
   PRICE: '价格',
