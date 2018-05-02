@@ -473,6 +473,7 @@ const lang = {
   PERIOD_TIP: '*开始时间应该至少设置在一周以后，以留有足够的时间让用户发现、评估项目并投票',
   ERR_SHOULD_EQUAL: '替换两方应该数量相等',
   EXIT: '退出登录',
+  CANCEL_VOTE: '撤票',
 
   // ERROR
   AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',
