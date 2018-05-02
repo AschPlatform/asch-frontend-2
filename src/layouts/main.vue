@@ -27,7 +27,7 @@
 
         <q-btn flat @click="logout">
           <q-tooltip>
-            {{Exit}}
+            {{$t('EXIT')}}
           </q-tooltip>
           <q-icon name="power settings new" class="text-faded" />
         </q-btn>
