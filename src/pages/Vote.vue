@@ -8,7 +8,7 @@
   
           <template slot="top-right" slot-scope="props">
                       <q-btn v-if="selected.length" color="secondary" flat round  icon="thumb up" @click="vote" >
-                        <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
+                        <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CANCEL_VOTE')}}</q-tooltip>
                       </q-btn>
                       <q-btn flat round  icon="refresh" color="secondary" @click="refresh" >
                       </q-btn>
@@ -52,7 +52,7 @@
           {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
         </span>
           <div slot="body">
-            <q-field v-if="secondSignature"
+            <q-field class="q-mb-lg" v-if="secondSignature"
               :label="$t('TRS_TYPE_SECOND_PASSWORD')"
               :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
               :label-width="4"
