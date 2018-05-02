@@ -262,7 +262,7 @@ const lang = {
   ERR_DELEGATE_NAME_EMPTY: '受托人名称不能为空',
   ERR_DELEGATE_NAME_ADDRESS: '受托人名称不能为账户地址',
   ERR_DELEGATE_NAME_FORMAT: '受托人名称格式不正确',
-  ERR_SECOND_PASSWORD_FORMAT: '二级密码输入格式不正确',
+  ERR_SECOND_PASSWORD_FORMAT: '二级密码输入格式不正确,应为8-16位字母数字组合',
   ERR_NO_RECIPIENT_ADDRESS: '必须输入接收地址',
   ERR_RECIPIENT_ADDRESS_FORMAT: '接收地址格式不正确',
   ERR_RECIPIENT_EQUAL_SENDER: '接受地址与发送地址不能相同',
