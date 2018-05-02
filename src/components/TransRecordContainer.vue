@@ -24,7 +24,7 @@
     </q-td>
 
     <q-td slot="body-cell-message" slot-scope="props" :props="props">
-      {{(props.row.transaction.message).slice(0,7)}}
+      {{props.row.transaction.message.slice(0,7)}}
       <q-popover v-if="props.row.transaction.message" ref="popover-msg">
         <div class="light-paragraph">{{props.row.transaction.message}}</div>
       </q-popover>
