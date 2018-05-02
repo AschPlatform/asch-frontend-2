@@ -29,6 +29,9 @@
             <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
                 {{(Number(props.value))+'%'}}
             </q-td>
+            <q-td slot="body-cell-productivity"  slot-scope="props" :props="props">
+                {{props.value+'%'}}
+            </q-td>
           </q-table>
         </div>
 
