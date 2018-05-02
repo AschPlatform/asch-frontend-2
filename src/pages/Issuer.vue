@@ -518,7 +518,7 @@ export default {
           tips:
             t('REGISTERED_ASSETS') +
             t('COST_FEE', {
-              num: 100
+              num: 500
             }),
           content: t('AGREEMENT_ASSET_CONTENT'),
           type: 2
@@ -533,7 +533,7 @@ export default {
         tips:
           t('TRS_TYPE_UIA_ASSET') +
           t('COST_FEE', {
-            num: 500
+            num: 100
           }),
         content: t('AGREEMENT_ISSUER_CONTENT'),
         type: 1

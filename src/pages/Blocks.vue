@@ -191,7 +191,7 @@
   <q-btn flat color="secondary" :label="$t('label.ok')" @click="props.ok" />
 </template>
     </q-dialog>
-    <user-agreement-modal :show="isModalShow" @confirm="callRegister" @cancel="closeModal" />
+    <user-agreement-modal :show="isModalShow" @confirm="callRegister" @cancel="closeModal" :title="$t('DELEGATE_TITLE')" :content="$t('AGREEMENT_DELEGATE_TITLE_CONTENT')" :tips="$t('DELEGATE_TITLE')+$t('COST_FEE',{num:100})"/>
     </div>
     
   </q-page>
