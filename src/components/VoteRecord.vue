@@ -227,7 +227,7 @@ export default {
       let limit = this.SP.pagination.rowsPerPage
       let pageNo = this.SP.pagination.page
       let res = await this.votetome({
-        publicKey: this.userInfo.publicKey,
+        name: this.userInfo.account.name,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -331,8 +331,10 @@ export default {
   watch: {
     userInfo(val) {
       if (val) {
-        this.getSupporters()
         this.getDelegates()
+        if (val.account && val.account.name) {
+          this.getSupporters()
+        }
       }
     },
     pageNo(val) {
