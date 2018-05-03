@@ -547,9 +547,8 @@
         },
         currencyPrecision: {
           required,
-          reg(val) {
-            return val <= 16
-          }
+          minValue: minValue(0),
+          maxValue: maxValue(16)
         },
         currencyBrief: {
           required

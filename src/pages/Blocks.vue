@@ -183,7 +183,7 @@ import {
   QTd
 } from 'quasar'
 import { toast, toastInfo, translateErrMsg, prompt } from '../utils/util'
-import { fullTimestamp, createDelegate } from '../utils/asch'
+import { fullTimestamp } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
 import UserAgreementModal from '../components/UserAgreementModal'

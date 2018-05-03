@@ -553,7 +553,7 @@ const lang = {
     INSTEAD_PRE: '变更前',
     INSTEAD_POST: '变更后',
     NET_PERIOD: '网关最低更新频率参数',
-    PRECISION_TIP: '需要填写精度',
+    PRECISION_TIP: '需要填写精度, 0-16之间',
     CURRENCY_BRIEF: '该币种介绍',
     CURRENCY_BRIEF_TIP: '需要填写该币种介绍',
     ERR_INVALID_FORM: '表单填写不完整或未按照要求',
