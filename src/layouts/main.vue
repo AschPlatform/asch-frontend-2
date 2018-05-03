@@ -543,4 +543,10 @@ body {
     height: 0;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .head-top-left-line {
+    display: none;
+  }
+}
 </style>
