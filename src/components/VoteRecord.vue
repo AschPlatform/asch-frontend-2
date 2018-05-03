@@ -59,6 +59,7 @@
           :label="$t('TRS_TYPE_SECOND_PASSWORD')"
           :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
           :label-width="4"
+          class="q-mb-lg"
         >
           <q-input v-model="secondPwd" type="password" />
         </q-field>
