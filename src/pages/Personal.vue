@@ -130,7 +130,7 @@
         </q-field>
       </div>
       <template slot="buttons" class="row justify-between" slot-scope="props">
-        <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()"/>
+        <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="reset(props)"/>
         <q-btn class="col-3 self-lef margin-left-10" color="secondary" @click="setPwd(props.ok)">
                         {{$t('CONFIRM')}}
                       </q-btn>
@@ -323,6 +323,14 @@ export default {
     //     translateErrMsg(this.$t, res.error)
     //   }
     // },
+    reset(props) {
+      debugger
+      this.password = ''
+      this.confirmPassword = ''
+      this.$v.password.$reset()
+      this.$v.confirmPassword.$reset()
+      props.cancel()
+    },
     async setPwd(done) {
       this.$v.password.$touch()
       this.$v.confirmPassword.$touch()
