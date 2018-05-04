@@ -424,7 +424,7 @@ const lang = {
   HIGHEST_LOCK: '最高可锁仓',
   LOCK_DETAIL: '已锁仓额度：{amount} XAS 锁仓截止时间: {date}',
   AGENT_INFO: '代理人身份:',
-  IS_AGENT: '您已经是代理人',
+  IS_AGENT: '您已经是代理人或受托人',
   REGISTER_AGENT: '注册成为代理人',
   EDIT: '修改',
   UNLOCK: '解锁',
