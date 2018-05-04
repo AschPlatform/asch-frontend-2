@@ -18,7 +18,7 @@
   
         <template slot="top-right" slot-scope="props">
           <q-btn v-if="selected.length" color="negative" flat round  icon="delete" @click="repeal" >
-            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
+            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CANCEL_VOTE')}}</q-tooltip>
           </q-btn>
           <q-btn flat round  icon="refresh" color="secondary" @click="refresh" >
           </q-btn>
