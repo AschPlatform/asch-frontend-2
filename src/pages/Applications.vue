@@ -93,7 +93,7 @@
       <template slot="buttons" slot-scope="props">
           <q-btn flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
           <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
-</template>
+      </template>
     </q-dialog>
     </q-page>
 </template>
