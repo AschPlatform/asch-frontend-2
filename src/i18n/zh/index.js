@@ -472,7 +472,7 @@ const lang = {
   ALREADY_INIT: '该网关已经初始化成功，暂不能进行此种功能',
   PERIOD_TIP: '*开始时间应该至少设置在一周以后，以留有足够的时间让用户发现、评估项目并投票',
   ERR_SHOULD_EQUAL: '替换两方应该数量相等',
-  EXIT: '退出登录',
+  EXIT: '退出',
   CANCEL_VOTE: '撤票',
 
   // ERROR
