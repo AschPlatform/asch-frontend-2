@@ -9,7 +9,7 @@
       </q-card-title>
       <q-card-separator class="q-my-lg bg-999 no-border-top" />
       <div class="row">
-        <q-field :error-label="$t('ERR.ERR_10_100')" :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8 font-16 text-four">
+        <q-field :error-label="$t('ERR.ERR_10_100_TITLE')" :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-8 font-16 text-four">
           <q-input v-model="p_title" @focus="$v.p_title.$reset()" @blur="$v.p_title.$touch()" :error="$v.p_title.$error" />
         </q-field>
       </div>

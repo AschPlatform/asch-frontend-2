@@ -18,7 +18,7 @@
   
         <template slot="top-right" slot-scope="props">
           <q-btn v-if="selected.length" color="negative" flat round  icon="delete" @click="repeal" >
-            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
+            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('CANCEL_VOTE')}}</q-tooltip>
           </q-btn>
           <q-btn flat round  icon="refresh" color="secondary" @click="refresh" >
           </q-btn>
@@ -37,9 +37,8 @@
             </div>
           </q-td>
           <q-td slot="body-cell-weight"  slot-scope="props" :props="props">
-            <div class="text-secondary">
-              {{props.value}}
-            </div>
+            <!-- {{props.row.weightRatio.toFixed(4)}} -->
+            {{dueRatio(props.row)}}
           </q-td>
           <q-td slot="body-cell-username"  slot-scope="props" :props="props">
             <div>
@@ -190,6 +189,14 @@ export default {
     },
     repeal() {
       this.dialogShow = true
+    },
+    dueRatio(props) {
+      if (props.weightRatio) {
+        if (props.weightRatio < 0.0001) {
+          return 0.0001 + '%'
+        }
+        return props.weightRatio.toFixed(4) + '%'
+      }
     }
   },
   mounted() {
@@ -247,7 +254,7 @@ export default {
           {
             name: 'weight',
             label: this.$t('WEIGHT'),
-            field: 'weight',
+            field: 'weightRatio',
             align: 'left'
           }
         ]

@@ -23,7 +23,7 @@ const lang = {
   TRS_TYPE_NICKNAME: '设置昵称',
   TRS_TYPE_TRANSFER_RECORD: '转账记录',
   TRS_TYPE_TRANSFER_RECORD_LATELY: '最近转账记录',
-  TRS_TYPE_SECOND_PASSWORD: '二级密码 :',
+  TRS_TYPE_SECOND_PASSWORD: '二级密码',
   TRS_TYPE_DELEGATE: '受托人',
   TRS_TYPE_VOTE: '投票',
   TRS_TYPE_MULTISIGNATURE: '多重签名',
@@ -425,7 +425,7 @@ const lang = {
   HIGHEST_LOCK: '最高可锁仓',
   LOCK_DETAIL: '已锁仓额度：{amount} XAS 锁仓截止时间: {date}',
   AGENT_INFO: '代理人身份:',
-  IS_AGENT: '您已经是代理人',
+  IS_AGENT: '您已经是代理人或受托人',
   REGISTER_AGENT: '注册成为代理人',
   EDIT: '修改',
   UNLOCK: '解锁',
@@ -472,7 +472,7 @@ const lang = {
   AGENT_ALREADY: '已经是代理人，此行为被拒绝',
   ALREADY_INIT: '该网关已经初始化成功，暂不能进行此种功能',
   ERR_SHOULD_EQUAL: '替换两方应该数量相等',
-  EXIT: '退出登录',
+  EXIT: '退出',
   CANCEL_VOTE: '撤票',
 
   // ERROR
@@ -595,6 +595,7 @@ const lang = {
   },
   ERR: {
     ERR_10_100: '请输入10-100个字符',
+    ERR_10_100_TITLE: '请输入10-100字符，仅限大小写英文字母、数字、标点符号等，不支持中文',
     ERR_3_15: '请输入3-15个字符',
     ERR_3_16: '请输入3-16个字符',
     ERR_1_30: '请输入1-30之间的数字',

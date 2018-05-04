@@ -86,7 +86,7 @@
                   {{$t('AGENT_INFO')}}
                 </td>
                 <td>
-                  <span class="font-18" v-if="isAgent">
+                  <span class="font-18" v-if="isAgent || isDelegate === 1">
                                   {{$t('IS_AGENT')}}
                                 </span>
                   <a v-else class="text-secondary" @click="callDelegatePanel">
@@ -569,6 +569,9 @@ export default {
     },
     userNickname() {
       return this.user.account.name
+    },
+    isDelegate() {
+      return this.user.account.isDelegate
     },
     isAgent() {
       return this.user.account.isAgent

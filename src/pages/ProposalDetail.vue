@@ -68,7 +68,7 @@
             </div>
             <div class="row">
               <q-field class="col-2 font-16" label-width="10" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
-                <q-input readonly hide-underline v-model="content.interval" value="" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
+                <q-input disabled readonly hide-underline v-model="content.interval" value="" color="black">{{$t('LAUNCH_MODAL.DAY')}}</q-input>
               </q-field>
             </div>
             <div class="row">
