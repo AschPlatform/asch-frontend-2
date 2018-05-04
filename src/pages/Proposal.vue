@@ -14,7 +14,7 @@
         <q-td slot="body-cell-desc" slot-scope="props" :props="props">
           {{props.value.substring(0,20) + '...'}}
           <q-popover v-if="props.value" ref="popover-msg">
-            <div class="light-paragraph">{{props.value}}</div>
+            <div class="light-paragraph">{{props.value.substring(0,50) + '...'}}</div>
           </q-popover>
         </q-td>
         <q-td slot="body-cell-tid" slot-scope="props" :props="props">
