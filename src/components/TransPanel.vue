@@ -155,7 +155,7 @@ export default {
         receiver: '',
         amount: '',
         secondPwd: '',
-        fee: '0.1',
+        fee: '0.1 XAS',
         remark: '',
         currency: ''
       }
