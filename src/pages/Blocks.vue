@@ -161,36 +161,6 @@
       />
     </q-modal>
 
-    <!-- below are register dialog -->
-    <q-dialog
-      v-model="dialogShow"
-      prevent-close
-      @ok="onOk"
-      @cancel="onCancel"
-    >
-      <!-- This or use "title" prop on <q-dialog> -->
-      <span slot="title">{{$t('REGISTER_DELEGATE')}}</span>
-      <span slot="message">{{$t('NEED_PAY')+' 100 XAS'}}</span>
-
-      <div class="row" slot="body">
-        <q-field 
-            class="col-12"
-          >
-            <q-input :float-label="$t('DELEGATE_NAME')"  
-            v-model="form.delegateName"  />
-        </q-field>
-        <q-field v-if="secondSignature"
-          class="col-12"
-          :label-width="2"
-        >
-          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="form.secondPwd" type="password"/>
-        </q-field>
-      </div>
-<template slot="buttons" slot-scope="props">
-  <q-btn flat color="secondary" :label="$t('label.cancel')" @click="props.cancel" />
-  <q-btn flat color="secondary" :label="$t('label.ok')" @click="props.ok" />
-</template>
-    </q-dialog>
     <user-agreement-modal :show="isModalShow" @confirm="callRegister" @cancel="closeModal" :title="$t('DELEGATE_TITLE')" :content="$t('AGREEMENT_DELEGATE_TITLE_CONTENT')" :tips="$t('DELEGATE_TITLE')+$t('COST_FEE',{num:100})"/>
     </div>
     
@@ -212,8 +182,8 @@ import {
   QInput,
   QTd
 } from 'quasar'
-import { toast, toastInfo, translateErrMsg } from '../utils/util'
-import { fullTimestamp, createDelegate } from '../utils/asch'
+import { toast, toastInfo, translateErrMsg, prompt } from '../utils/util'
+import { fullTimestamp } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
 import UserAgreementModal from '../components/UserAgreementModal'
@@ -310,7 +280,8 @@ export default {
         delegateName: '',
         secondPwd: ''
       },
-      isOwn: false
+      isOwn: false,
+      secondPwd: ''
     }
   },
   methods: {
@@ -427,21 +398,29 @@ export default {
       }
       this.isModalShow = true
     },
-    async onOk() {
-      let trans = createDelegate(this.form.delegateName, this.user.secret, this.form.secondPwd)
-      let res = await this.broadcastTransaction(trans)
-      if (res.success === true) {
-        toast(this.$t('INF_OPERATION_SUCCEEDED'))
-      } else {
-        translateErrMsg(this.$t, res.error)
+    callRegister() {
+      const t = this.$t
+      if (this.secondSignature) {
+        prompt(
+          {
+            title: t('DELEGATE_TITLE'),
+            message: t('ACCOUNT_TYPE2_HINT'),
+            prompt: {
+              model: '',
+              type: 'password' // optional
+            }
+          },
+          data => {
+            this.secondPwd = data
+            this.boardTransaction()
+          }
+        )
+        return
       }
+      this.boardTransaction()
     },
-    onCancel() {
-      // this.resetForm()
-      this.dialogShow = false
-    },
-    async callRegister() {
-      let trans = asch.registerDelegate(this.user.secret, this.form.secondPwd)
+    async boardTransaction() {
+      let trans = asch.registerDelegate(this.user.secret, this.secondPwd || '')
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
