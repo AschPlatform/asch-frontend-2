@@ -146,6 +146,7 @@ const lang = {
   READ_TIP2: '我理解如果我忘记或丢失了密码，将没有任何人能够帮助我恢复',
   READ_TIP3: '我已经写下了或者用其它方式保存了我的密码',
   CHOSE_SERVER: '选择服务器节点',
+  DEFAULT_SERVER: '默认节点',
   COPY_SUCCESS: '复制成功',
 
   // transfer/pay
@@ -352,7 +353,7 @@ const lang = {
   QRCODE_CLOSE: '点击二维码关闭',
 
   // ============== new add =================
-  AT_LEAST_7DAY: '(开始时间应该至少设置在一周以后，以留有足够的时间让用户发现、评估项目并投票。)',
+  AT_LEAST_7DAY: '(建议将结束时间设置在一周以后，以留有足够的时间让用户发现、评估项目并投票。)',
   CURRENCY_INTRODUCE: '币种介绍',
   NAME_OF_DISTRIBUTOR: '请输入名称',
   DESCRIBE_OF_DISTRIBUTOR: '请输入描述',
@@ -470,7 +471,6 @@ const lang = {
   UPDATE_LIMIT: '最低更新频率:',
   AGENT_ALREADY: '已经是代理人，此行为被拒绝',
   ALREADY_INIT: '该网关已经初始化成功，暂不能进行此种功能',
-  PERIOD_TIP: '*开始时间应该至少设置在一周以后，以留有足够的时间让用户发现、评估项目并投票',
   ERR_SHOULD_EQUAL: '替换两方应该数量相等',
   EXIT: '退出',
   CANCEL_VOTE: '撤票',

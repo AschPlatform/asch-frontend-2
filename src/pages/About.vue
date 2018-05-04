@@ -2,7 +2,6 @@
   <q-page padding class="flex flex-center">
     <q-card inline class="q-ma-sm col-6">
       <q-item>
-        <q-item-side :avatar="avatar" />
         <q-item-main>
           <q-item-tile label>Caos</q-item-tile>
           <q-item-tile sublabel>Javascript developer at Asch</q-item-tile>
@@ -59,7 +58,6 @@
 </style>
 
 <script>
-import avatar from '../assets/caos.jpg'
 import { api } from '../utils/api'
 import { createVote } from '../utils/asch'
 import { toast, translateErrMsg } from '../utils/util'
@@ -90,7 +88,6 @@ export default {
   },
   data() {
     return {
-      avatar: avatar,
       secondPwd: '',
       delegate: null,
       channelShow: false,
