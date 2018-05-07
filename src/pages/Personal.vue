@@ -150,6 +150,7 @@
           <tbody>
             <tr>
               <td>{{$t('CHAR_NUM')}}</td>
+               <td>2</td>
                <td>3</td>
                <td>4</td>
                <td>5</td>
@@ -158,6 +159,7 @@
             </tr>
             <tr>
               <td>{{$t('PRICE')}}</td>
+                <td>200 XAS</td>
                 <td>100 XAS</td>
                 <td>80 XAS</td>
                 <td>40 XAS</td>
