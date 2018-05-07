@@ -54,6 +54,13 @@
       </div>
       <div v-else>SYSTEM</div>
     </q-td>
+
+    <q-td slot="body-cell-args" slot-scope="props" :props="props">
+      {{props.value}}
+      <q-popover v-if="props.row" ref="popover-msg">
+        <div class="light-paragraph">{{props.row}}</div>
+      </q-popover>
+    </q-td>
   </q-table>
   
 </div>
