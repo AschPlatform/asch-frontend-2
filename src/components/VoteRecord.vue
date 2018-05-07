@@ -8,7 +8,7 @@
       :data="dataList"
       :filter="filter" color="secondary"
       :selection="selectionStatus"
-      :selected.sync="selected" row-key="address2"
+      :selected.sync="selected" row-key="address"
       :columns="dynamicCol" @request="request"
       :pagination.sync="pagination"
       :loading="loading"
