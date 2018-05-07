@@ -57,8 +57,8 @@
 
     <q-td slot="body-cell-args" slot-scope="props" :props="props">
       {{props.value}}
-      <q-popover v-if="props.row" ref="popover-msg">
-        <div class="light-paragraph">{{props.row}}</div>
+      <q-popover  v-if="props.row" ref="popover-msg" style="max-width: 400px;">
+        <div class="light-paragraph">{{props.row.args}}</div>
       </q-popover>
     </q-td>
   </q-table>
@@ -73,7 +73,7 @@ import { transTypes } from '../utils/constants'
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'TransTableContainer',
+  name: 'TransRecordContainer',
   props: ['userInfo', 'currency'],
   components: {
     QTable,
