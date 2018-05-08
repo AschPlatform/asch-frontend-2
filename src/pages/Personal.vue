@@ -122,10 +122,10 @@
     <q-dialog v-model="secondPwdShow">
       <span slot="title">{{$t('SET_SECOND_PASSWORD')}}</span>
       <div slot="body" class="row justify-left">
-        <q-field class="col-12" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
+        <q-field class="col-12 secondPwdField" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
           <q-input @blur="$v.password.$touch" :placeholder="$t('SECOND_PASSWORD_TIP')" type="password" v-model="password" />
         </q-field>
-        <q-field class="col-12" :label="$t('CONFIRM')" :label-width="2" :error="$v.confirmPassword.$error" :error-label="$t('ERR_TWO_INPUTS_NOT_EQUAL')">
+        <q-field class="col-12 secondPwdField" :label="$t('CONFIRM')" :label-width="2" :error="$v.confirmPassword.$error" :error-label="$t('ERR_TWO_INPUTS_NOT_EQUAL')">
           <q-input @blur="$v.confirmPassword.$touch" :placeholder="$t('SECOND_PASSWORD_CONFIRM')" type="password" v-model="confirmPassword" />
         </q-field>
       </div>
@@ -682,5 +682,9 @@ export default {
   padding: 0;
   font-size: 16px;
   color: #000000;
+}
+
+.secondPwdField {
+  width: 180px;
 }
 </style>
