@@ -118,6 +118,7 @@ export default {
   },
   data() {
     return {
+      isDisable: false,
       filter: ''
     }
   },
@@ -156,6 +157,13 @@ export default {
       this.$emit('close')
     },
     info(msg) {
+      if (this.isDisable === true) {
+        return
+      }
+      this.isDisable = true
+      setTimeout(() => {
+        this.isDisable = false
+      }, 2000)
       toast(msg)
     },
     transfer(asset) {

@@ -2,8 +2,15 @@
   <q-page >
     <q-card class="no-shadow">
       <q-card-title>
-      <i class="material-icons vertical-align-middle text-secondary font-22">person</i>
-      <span class="vertical-align-middle font-22">{{$t('ASSET_DETAIL',{currency:asset.currency})}}</span>
+        <div class="row justify-between">
+          <div>
+            <i class="material-icons vertical-align-middle text-secondary font-22">person</i>
+            <span class="vertical-align-middle font-22">{{$t('ASSET_DETAIL',{currency:asset.currency})}}</span>
+          </div>
+          <q-btn color="secondary" icon="reply" class="row items-center" @click="back">
+          </q-btn>
+        </div>
+     
       </q-card-title>
       <q-card-main class="row col-12">
         <assets-panel class="margin-l-15 col-auto" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
@@ -114,7 +121,8 @@ export default {
       filter: '',
       address: '',
       depositPanelShow: false,
-      withdrawPanelShow: false
+      withdrawPanelShow: false,
+      isDisable: false
     }
   },
   validations: {
@@ -166,10 +174,20 @@ export default {
       this.close()
       return res
     },
+    back() {
+      this.$router.back()
+    },
     close() {
       this.$emit('close')
     },
     info(msg) {
+      if (this.isDisable === true) {
+        return
+      }
+      this.isDisable = true
+      setTimeout(() => {
+        this.isDisable = false
+      }, 2000)
       toast(msg)
     },
     transfer(asset) {

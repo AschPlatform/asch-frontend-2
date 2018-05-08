@@ -139,7 +139,8 @@ export default {
   },
   data() {
     return {
-      refreshLoading: false
+      refreshLoading: false,
+      isDisable: false
     }
   },
   methods: {
@@ -157,6 +158,13 @@ export default {
       this.$router.push('assets')
     },
     info(msg) {
+      if (this.isDisable === true) {
+        return
+      }
+      this.isDisable = true
+      setTimeout(() => {
+        this.isDisable = false
+      }, 2000)
       toast(msg)
     },
     // get transactions
