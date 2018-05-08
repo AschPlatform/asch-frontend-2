@@ -124,8 +124,6 @@ export const getTimeFromTrade = (obj) => {
 }
 
 export const translateErrMsg = (t, input) => {
-  // console.log('translateErrInner',language,input);
-  // console.log(this)
   if (typeof input === 'string') {
     input = input.split(':')[0]
     var translateMap = [

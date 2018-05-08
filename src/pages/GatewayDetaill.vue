@@ -141,10 +141,8 @@ export default {
       }
     },
     async request(props) {
-      console.log('btn')
       this.loading = true
       this.pagination = props.pagination
-      console.log(props)
       this.filter = props.filter
       await this.loadData()
       this.loading = false

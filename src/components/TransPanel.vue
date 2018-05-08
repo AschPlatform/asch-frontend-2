@@ -122,6 +122,10 @@ export default {
         toastWarn(this.$t('ERR_RECIPIENT_EQUAL_SENDER'))
         return false
       }
+      if (this.user.account.name && receiver === this.user.account.name) {
+        toastWarn(this.$t('ERR_RECIPIENT_EQUAL_SENDER'))
+        return false
+      }
 
       amount = (amount * Math.pow(10, this.precision)).toFixed(0)
       let trans = {}
