@@ -3,9 +3,9 @@
     <big>{{$t('DAPP_DETAIL')}}</big>
     <table class="q-table horizontal-separator highlight loose accountinfo-table margin-t-20">
       <tbody class='info-tbody'>
-        <tr disable v-clipboard="account.address || 'no data'" @success="info('copy address success...')">
+        <tr disable v-clipboard="account.address || 'no data'" @success="info('copy address success...')" >
           <td>{{$t('ADDRESS')}}</td>
-          <td>{{account.address}}</td>
+          <td class="text-secondary cursor-pointer">{{account.address}}</td>
         </tr>
         <tr v-if="account.name">
           <td>{{$t('NICKNAME')}}</td>
@@ -33,13 +33,22 @@ export default {
   props: ['show', 'account'],
   components: { QModal, QBtn },
   data() {
-    return {}
+    return {
+      isDisable: false
+    }
   },
   methods: {
     close() {
       this.$emit('close')
     },
     info(msg) {
+      if (this.isDisable === true) {
+        return
+      }
+      this.isDisable = true
+      setTimeout(() => {
+        this.isDisable = false
+      }, 2000)
       toast(msg)
     }
   },

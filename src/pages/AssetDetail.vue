@@ -120,7 +120,8 @@ export default {
       filter: '',
       address: '',
       depositPanelShow: false,
-      withdrawPanelShow: false
+      withdrawPanelShow: false,
+      isDisable: false
     }
   },
   validations: {
@@ -179,6 +180,13 @@ export default {
       this.$emit('close')
     },
     info(msg) {
+      if (this.isDisable === true) {
+        return
+      }
+      this.isDisable = true
+      setTimeout(() => {
+        this.isDisable = false
+      }, 2000)
       toast(msg)
     },
     transfer(asset) {

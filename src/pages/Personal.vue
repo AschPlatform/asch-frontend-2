@@ -281,7 +281,8 @@ export default {
       time: '',
       today,
       numError: false,
-      btnDisable: false
+      btnDisable: false,
+      isDisable: false
     }
   },
   validations: {
@@ -392,6 +393,13 @@ export default {
       }
     },
     info(msg) {
+      if (this.isDisable === true) {
+        return
+      }
+      this.isDisable = true
+      setTimeout(() => {
+        this.isDisable = false
+      }, 2000)
       toast(msg)
     },
     showAddrQr() {
@@ -585,7 +593,6 @@ export default {
   border-radius: 6px;
   margin-bottom: 28px;
 }
-
 
 .personal-head-canvas {
   width: 60px;
