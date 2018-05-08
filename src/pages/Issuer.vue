@@ -139,8 +139,8 @@
             error-label="error"
             :label-width="4"
           >
-            <q-input  @blur="$v.issuerNum.$touch" v-model="form.issuerNum" error-label="error"
-            type="number" :decimals="0" :error="$v.issuerNum.$error"/>
+            <q-input  @blur="$v.issuerNum.$touch" v-model="form.issuerNum" :error-label="$t('ERR_ASSET_TOPLIMIT_NOT_CORRECT2')"
+            :error="$v.issuerNum.$error"/>
         </q-field>
         </div>
         <div v-if="dialog.form == 3">
@@ -183,7 +183,7 @@ import { toast, toastWarn, translateErrMsg } from '../utils/util'
 import { secondPwdReg } from '../utils/validators'
 import { createFlags, dealGiantNumber, fullTimestamp } from '../utils/asch'
 import asch from '../utils/asch-v2'
-import { required, numeric, minValue } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
 import {
   QTd,
@@ -321,8 +321,20 @@ export default {
   validations: {
     issuerNum: {
       required,
-      numeric,
-      minValue: minValue(1)
+      minLength: minLength(1),
+      maxLength: maxLength(30),
+      isNumber(value) {
+        value = Number(value)
+        if (this._.isNaN(value)) return false
+        return value > 0
+      },
+      getPrecision(value) {
+        let arr = value.split('.')
+        if (arr.length === 1) {
+          return true
+        }
+        return false
+      }
     }
   },
   methods: {

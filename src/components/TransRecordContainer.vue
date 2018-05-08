@@ -57,8 +57,9 @@
 
     <q-td slot="body-cell-args" slot-scope="props" :props="props">
       {{props.value}}
-      <q-popover  v-if="props.row" ref="popover-msg" style="max-width: 400px;">
-        <div class="light-paragraph">{{props.row.args}}</div>
+      <q-popover  v-if="props.row" ref="popover-msg" style="max-width: 150px;">
+        <!-- <pre class="light-paragraph">{{props.row.args}}</pre> -->
+        <pre class="light-paragraph">{{dueArg(props.row.args)}}</pre>
       </q-popover>
     </q-td>
   </q-table>
@@ -184,6 +185,13 @@ export default {
         }
         return o.transaction.message.slice(0, 7)
       }
+    },
+    dueArg(args) {
+      args = args.replace(/,/g, '\n')
+      args = args.replace(/"/g, '')
+      args = args.replace(/\[/g, '')
+      args = args.replace(/\]/g, '')
+      return args
     }
   },
   mounted() {
