@@ -108,5 +108,15 @@ export const dealBigNumber = num => {
   let dealNum = dealNumB.toFormat(0).toString()
   return dealNum.replace(/,/g, '')
 }
+export const dealGiantNumber = (num, precision) => {
+  let bunch = ''
+  let tail = (function () {
+    for (let i = 0; i < precision; i++) {
+      bunch = bunch + '0'
+    }
+    return bunch
+  })()
+  return num + tail
+}
 
 export const check58 = address => AschJs.crypto.isBase58CheckAddress(address)

@@ -181,7 +181,7 @@
 <script>
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
 import { secondPwdReg } from '../utils/validators'
-import { createFlags, dealBigNumber, fullTimestamp } from '../utils/asch'
+import { createFlags, dealGiantNumber, fullTimestamp } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { required, numeric, minValue } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
@@ -447,9 +447,7 @@ export default {
           this.$v.issuerNum.$touch()
           if (this.$v.issuerNum.$error) {
           }
-          let realAmount = dealBigNumber(
-            parseInt(this.form.issuerNum) * Math.pow(10, this.row.precision)
-          )
+          let realAmount = dealGiantNumber(this.form.issuerNum, this.row.precision)
 
           let trans = asch.issueAsset(
             this.row.name,

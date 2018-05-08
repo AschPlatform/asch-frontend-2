@@ -64,7 +64,7 @@ import {
 import { required, maxLength, minLength, between, numeric } from 'vuelidate/lib/validators'
 import { assetName, secondPwdReg } from '../utils/validators'
 import { confirm, toastError, toast, translateErrMsg } from '../utils/util'
-import { dealBigNumber } from '../utils/asch'
+import { dealGiantNumber } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
 
@@ -167,7 +167,9 @@ export default {
         const { name, desc, maximum, precision } = this.assets
 
         let assetName = name
-        let realMaximum = dealBigNumber(parseInt(maximum) * Math.pow(10, precision))
+        // console.log(parseInt(maximum) * Math.pow(10, precision))
+        // let num = (parseInt(maximum) * Math.pow(10, precision)).toString()
+        let realMaximum = dealGiantNumber(maximum, precision)
 
         confirm(
           {

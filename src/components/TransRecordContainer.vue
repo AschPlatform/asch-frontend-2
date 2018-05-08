@@ -178,10 +178,12 @@ export default {
       return flag ? 'Me' : props.row.recipientName ? props.row.recipientName : props.value
     },
     showMemo(o) {
-      if (o.transaction.message === '') {
-        return ''
+      if (o.transaction.message) {
+        if (o.transaction.message === '') {
+          return ''
+        }
+        return o.transaction.message.slice(0, 7)
       }
-      return o.transaction.message.slice(0, 7)
     }
   },
   mounted() {
