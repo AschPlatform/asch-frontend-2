@@ -4,21 +4,21 @@
       <q-card-title>
         <i class="material-icons font-22 vertical-align-middle text-secondary ">person</i>
         <span class="font-22 text-black">
-             {{$t('X_ASSETS')}}
-              </span>
+                 {{$t('X_ASSETS')}}
+            </span>
       </q-card-title>
       <q-card-main class="row justify-left gutter-md">
         <assets-panel class="assets-panel-container" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" />
         <assets-panel class="" v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open" />
-        <q-btn class="load-more-btn col-3 bg-white text-black"  v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
+        <q-btn class="load-more-btn col-3 bg-white text-black" v-if="innerPagination.rowsNumber>innerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreInner" />
       </q-card-main>
     </q-card>
     <q-card class="assets-container-bottom no-shadow">
       <q-card-title>
         <i class="material-icons text-secondary vertical-align-middle font-22">person</i>
         <span class="font-22 text-black">
-           {{$t('CROSS_ASSETS')}}
-          </span>
+               {{$t('CROSS_ASSETS')}}
+              </span>
   
       </q-card-title>
       <q-card-main class="row justify-left gutter-md">
@@ -28,8 +28,8 @@
         <q-card class="col-3 shadow-2 more-assets-container">
           <div class="more-assets-btn row justify-center items-center" @click="moreAssets">
             <span>
-               {{$t('MORE_ASSETS')}}
-            </span>
+                   {{$t('MORE_ASSETS')}}
+                </span>
           </div>
         </q-card>
       </q-card-main>
@@ -39,12 +39,12 @@
   
     <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
     <!-- <asset-detail-modal :show="assetDetailModalShow" :asset="asset" @close="assetDetailModalShow=false" :userInfo="userInfo" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" /> -->
-    <more-asset-modal :show="moreAssetsModalShow"  :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
+    <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
   </q-page>
 </template>
 
 <script>
-import { QPage, QCard, QCardMain, QCardTitle } from 'quasar'
+import { QBtn, QPage, QCard, QCardMain, QCardTitle } from 'quasar'
 import AssetsPanel from '../components/AssetsPanel'
 import DepositModal from '../components/DepositModal'
 import WithdrawModal from '../components/WithdrawModal'
@@ -56,6 +56,7 @@ export default {
   props: ['userObj'],
   components: {
     AssetsPanel,
+    QBtn,
     QPage,
     QCard,
     QCardMain,
@@ -67,7 +68,11 @@ export default {
   },
   data() {
     return {
-      innerBalance: [{ asset: '' }],
+      innerBalance: [
+        {
+          asset: ''
+        }
+      ],
       outerBalance: [],
       innerPagination: {
         page: 1,
@@ -131,6 +136,7 @@ export default {
       }
       return res
     },
+
     transfer(asset) {
       this.$root.$emit('openTransactionDialog', asset)
     },
@@ -155,7 +161,13 @@ export default {
     open(asset) {
       // this.asset = asset
       // this.assetDetailModalShow = true
-      this.$router.push({ name: 'assetDetail', params: { asset: asset, user: this.userInfo } })
+      this.$router.push({
+        name: 'assetDetail',
+        params: {
+          asset: asset,
+          user: this.userInfo
+        }
+      })
     },
     loadMoreInner() {
       // TODO
