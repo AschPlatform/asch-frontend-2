@@ -1,8 +1,8 @@
 {
   "name": "asch_wallet",
   "version": "1.0.0",
-  "description": "New Asch Wallet",
-  "productName": "Asch Wallet",
+  "description": "Asch Client",
+  "productName": "Asch Client",
   "cordovaId": "org.asch.wallet",
   "author": "mrcaos <mrcaos@foxmail.com>",
   "private": true,

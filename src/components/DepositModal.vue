@@ -5,8 +5,8 @@
       <div class="bg-secondary padding-40 height-62">
         <span class="text-white font-24">{{$t('DEPOSIT')}}</span>
       </div>
-      <div v-if="account&&account.address">
-        <vue-qr class="depositmodal-account-content" :size="200" :text="account.address || 'no data'"></vue-qr>
+      <div v-if="account&&account.outAddress">
+        <vue-qr class="depositmodal-account-content" :size="200" :text="account.outAddress?'bitcoin:'+account.outAddress:'no data'"></vue-qr>
         <br />
         <div class="col-6 text-center font-14" >{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info('copy success...')" flat color="secondary" icon='content copy' round/></div>
         <div class="padding-40 deposit-text col-6 font-14 text-five">{{$t('DEPOSIT_TIP',{ currency: currency })}}</div>
@@ -74,7 +74,11 @@ export default {
         toastInfo(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
         return null
       }
-      let trans = asch.openGatewayAccount(this.asset.asset.gateway, this.user.secret, this.secondPwd)
+      let trans = asch.openGatewayAccount(
+        this.asset.gateway || this.asset.asset.gateway,
+        this.user.secret,
+        this.secondPwd
+      )
       let res = await this.broadcastTransaction(trans)
       if (res.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))

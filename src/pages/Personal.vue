@@ -86,7 +86,7 @@
                   {{$t('AGENT_INFO')}}
                 </td>
                 <td>
-                  <span class="font-18" v-if="isAgent">
+                  <span class="font-18" v-if="isAgent || isDelegate === 1">
                                   {{$t('IS_AGENT')}}
                                 </span>
                   <a v-else class="text-secondary" @click="callDelegatePanel">
@@ -130,7 +130,7 @@
         </q-field>
       </div>
       <template slot="buttons" class="row justify-between" slot-scope="props">
-        <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()"/>
+        <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="reset(props)"/>
         <q-btn class="col-3 self-lef margin-left-10" color="secondary" @click="setPwd(props.ok)">
                         {{$t('CONFIRM')}}
                       </q-btn>
@@ -143,13 +143,14 @@
         <q-field class="col-12" :error="$v.nickname.$error" :error-label="$t('ERR_NICKNAME')">
           <q-input @blur="$v.nickname.$touch" :placeholder="$t('NICKNAME_TIP')" v-model="nickname" @change="lowerName" />
         </q-field>
-         <q-field v-show="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="4"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
-          <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
+         <q-field class="col-12" v-show="secondSignature"  :error="secondPwdError" :label-width="4"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+          <q-input @blur="validateSecondPwd" :float-label="$t('TRS_TYPE_SECOND_PASSWORD')" type="password" v-model="secondPwd"  />
         </q-field>
         <table class="personal-table-container q-table bordered  responsive margin-t-20">
           <tbody>
             <tr>
               <td>{{$t('CHAR_NUM')}}</td>
+               <td>2</td>
                <td>3</td>
                <td>4</td>
                <td>5</td>
@@ -158,6 +159,7 @@
             </tr>
             <tr>
               <td>{{$t('PRICE')}}</td>
+                <td>200 XAS</td>
                 <td>100 XAS</td>
                 <td>80 XAS</td>
                 <td>40 XAS</td>
@@ -180,7 +182,7 @@
       <span slot="title">{{$t('LOCK_POSITION_CONF')}}</span>
       <div slot="body" class="row justify-center" >
         <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError" :helper="numLimit">
-          <q-input @blur="validateNum" :placeholder="$t('LOCK_DETAIL_TIP')" type="number" :decimals="2" v-model="num" />
+          <q-input @blur="validateNum" :placeholder="$t('LOCK_DETAIL_TIP')" type="number" :decimals="0" v-model="num" />
         </q-field>
          <q-field class="col-10" :label="$t('HEIGHT')" color="black" :label-width="3" :error="$v.time.$error" 
          :error-label="$t('ERR_NICKNAME')" :helper="$t('UNLOCK_TIPS')">
@@ -234,9 +236,9 @@ import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
 let today = new Date()
-today = date.addToDate(today, {
-  days: 31
-})
+// today = date.addToDate(today, {
+//   days: 31
+// })
 
 export default {
   props: ['userObj'],
@@ -295,7 +297,10 @@ export default {
       sameAsPassword: sameAs('password')
     },
     nickname: {
-      required
+      required,
+      nameReg(value) {
+        return nicknameReg.test(value)
+      }
     },
     num: {},
     time: {}
@@ -321,6 +326,14 @@ export default {
     //     translateErrMsg(this.$t, res.error)
     //   }
     // },
+    reset(props) {
+      debugger
+      this.password = ''
+      this.confirmPassword = ''
+      this.$v.password.$reset()
+      this.$v.confirmPassword.$reset()
+      props.cancel()
+    },
     async setPwd(done) {
       this.$v.password.$touch()
       this.$v.confirmPassword.$touch()
@@ -407,8 +420,9 @@ export default {
     },
     async setNickname(done) {
       this.$v.nickname.$touch()
-      if (!this.$v.nickname.$error && !nicknameReg.test(this.nickname)) {
+      if (this.$v.nickname.$error) {
         toastError(this.$t('ERR_NICKNAME'))
+        return null
       } else {
         let trans = asch.setName(this.nickname, this.user.secret, this.secondPwd)
         let res = await this.broadcastTransaction(trans)
@@ -477,23 +491,44 @@ export default {
       }
     },
     validateNum() {
-      let amount = convertFee(this.user.account.balance)
+      let amount = convertFee(this.user.account.xas)
       this.numError = this.num >= amount
       return !this.num >= amount
     },
     async unlock() {
+      const t = this.$t
       let lockHeight = this.user.account.lockHeight
       let height = this.latestBlock.height
       if (height <= lockHeight) {
         toastError(this.$t('HEIGHT_NOT_ARRIVE'))
       } else {
-        let trans = asch.unlock()
-        let res = await this.broadcastTransaction(trans)
-        if (res.success === true) {
-          toast(this.$t('INF_OPERATION_SUCCEEDED'))
+        if (this.secondSignature) {
+          prompt(
+            {
+              title: t('TRS_TYPE_UNLOCK'),
+              message: t('TRS_TYPE_SECOND_PASSWORD'),
+              prompt: {
+                model: '',
+                type: 'password' // optional
+              }
+            },
+            data => {
+              this.secondPwd = data
+              this.doUnlock()
+            }
+          )
         } else {
-          translateErrMsg(res.error, this.$t)
+          this.doUnlock()
         }
+      }
+    },
+    async doUnlock() {
+      let trans = asch.unlock(this.userInfo.secret, this.secondPwd)
+      let res = await this.broadcastTransaction(trans)
+      if (res.success === true) {
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
+      } else {
+        translateErrMsg(res.error, this.$t)
       }
     },
     jump2Doc() {
@@ -503,7 +538,7 @@ export default {
       return convertFee(value)
     },
     callLockPanel() {
-      if (this.user.account.isDelegate === 0) {
+      if (this.user.account.isAgent === 0) {
         // is not delegate
         this.lockPanelShow = true
       } else {
@@ -520,9 +555,7 @@ export default {
         this.userAgreementShow = true
       }
     },
-    lowerName(val) {
-      console.log(val)
-    }
+    lowerName(val) {}
   },
   async mounted() {},
   computed: {
@@ -546,6 +579,9 @@ export default {
     },
     userNickname() {
       return this.user.account.name
+    },
+    isDelegate() {
+      return this.user.account.isDelegate
     },
     isAgent() {
       return this.user.account.isAgent

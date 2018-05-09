@@ -11,9 +11,9 @@
           <td>{{$t('NICKNAME')}}</td>
           <td>{{account.name}}</td>
         </tr>
-        <tr v-clipboard="account.balance || 'no data'" @success="info('copy balance success...')">
+        <tr v-clipboard="account.xas || 'no data'" @success="info('copy balance success...')">
           <td>{{$t('BALANCE')}}</td>
-          <td>{{account.xas | fee}}</td>
+          <td>{{account.xas | fee}}&nbsp;&nbsp;XAS</td>
         </tr>
         <tr v-if="account.isLocked">
           <td>{{$t('LOCK_POSITION')}}{{$t('HEIGHT')}}</td>

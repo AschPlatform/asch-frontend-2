@@ -27,7 +27,7 @@
               </div>
             </q-td>
             <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
-                {{(Number(props.value)*100)+'%'}}
+                {{(Number(props.value))+'%'}}
             </q-td>
             <q-td slot="body-cell-productivity"  slot-scope="props" :props="props">
                 {{props.value+'%'}}
@@ -52,7 +52,7 @@
           {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
         </span>
           <div slot="body">
-            <q-field v-if="secondSignature"
+            <q-field class="q-mb-lg" v-if="secondSignature"
               :label="$t('TRS_TYPE_SECOND_PASSWORD')"
               :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
               :label-width="4"

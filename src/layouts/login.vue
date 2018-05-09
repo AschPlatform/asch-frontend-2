@@ -20,7 +20,7 @@
                   <q-input icon="search" :float-label="$t('INPUT_PASSWORD')" @change="$v.secret.$touch" type="password" v-model="secret" @keyup.enter="userLogin" clearable />
                 </q-field>
                 <div class="row col-10 justify-between options-panel">
-                  <q-select style="width:125px" separator radio :float-label="$t('CHOSE_SERVER')" class="col" v-model="serverUrl" :options="serverOpts" />
+                  <q-select style="width:125px" separator radio :float-label="$t('CHOSE_SERVER')"  class="col" v-model="serverUrl" :options="serverOpts" />
                 </div>
                 <div class="row col-10 q-mt-lg">
                   <p></p>
@@ -131,7 +131,7 @@ export default {
       confirmNewSecret: '',
       loading: false,
       secretSaved: false,
-      serverUrl: '',
+      serverUrl: ' ',
       selection: []
     }
   },
@@ -254,14 +254,17 @@ export default {
   },
   computed: {
     serverOpts() {
-      return officialPeers.map(server => {
+      let opts = officialPeers.map(server => {
         let opt = {
           label: server.local,
           value: server
           // stamp: server.local
         }
+
         return opt
       })
+      opts.unshift({ label: this.$t('DEFAULT_SERVER'), value: ' ' })
+      return opts
     }
   },
   watch: {

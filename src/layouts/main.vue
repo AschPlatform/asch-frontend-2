@@ -26,6 +26,9 @@
         </div>
 
         <q-btn flat @click="logout">
+          <q-tooltip>
+            {{$t('EXIT')}}
+          </q-tooltip>
           <q-icon name="power settings new" class="text-faded" />
         </q-btn>
   
@@ -161,7 +164,8 @@ import {
   QToolbarTitle,
   QIcon,
   QListHeader,
-  QAjaxBar
+  QAjaxBar,
+  QTooltip
 } from 'quasar'
 
 import logo from '../assets/logo.png'
@@ -192,7 +196,8 @@ export default {
     TransInfoModal,
     QIcon,
     QListHeader,
-    QAjaxBar
+    QAjaxBar,
+    QTooltip
   },
   data() {
     return {
@@ -333,6 +338,7 @@ export default {
             isAgent: 0,
             lockHeight: 0,
             agent: 0,
+            isDelegate: 0,
             weight: 0,
             agentWeight: 0
           }

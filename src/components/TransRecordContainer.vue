@@ -24,13 +24,13 @@
     </q-td>
 
     <q-td slot="body-cell-message" slot-scope="props" :props="props">
-      {{props.value}}
-      <q-popover v-if="props.value" ref="popover-msg">
-        <div class="light-paragraph">{{props.value}}</div>
+      {{showMemo(props.row)}}
+      <q-popover v-if="props.row.transaction.message" ref="popover-msg">
+        <div class="light-paragraph">{{props.row.transaction.message}}</div>
       </q-popover>
     </q-td>
 
-    <q-td slot="body-cell-amount" slot-scope="props" :props="props">
+    <q-td slot="body-cell-amount" slot-scope="props">
       {{getAmountNFee(props.row)}}
     </q-td>
 
@@ -54,6 +54,13 @@
       </div>
       <div v-else>SYSTEM</div>
     </q-td>
+
+    <q-td slot="body-cell-args" slot-scope="props" :props="props">
+      {{props.value}}
+      <q-popover  v-if="props.row" ref="popover-msg" style="max-width: 400px;">
+        <div class="light-paragraph">{{props.row.args}}</div>
+      </q-popover>
+    </q-td>
   </q-table>
   
 </div>
@@ -66,7 +73,7 @@ import { transTypes } from '../utils/constants'
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'TransTableContainer',
+  name: 'TransRecordContainer',
   props: ['userInfo', 'currency'],
   components: {
     QTable,
@@ -169,6 +176,14 @@ export default {
     getName(props) {
       let flag = this.matchSelf(props.value)
       return flag ? 'Me' : props.row.recipientName ? props.row.recipientName : props.value
+    },
+    showMemo(o) {
+      if (o.transaction.message) {
+        if (o.transaction.message === '') {
+          return ''
+        }
+        return o.transaction.message.slice(0, 7)
+      }
     }
   },
   mounted() {
@@ -250,6 +265,7 @@ export default {
                 args = args.replace(/"/g, '')
                 args = args.replace('[', '')
                 args = args.replace(']', '')
+                args = args.substr(0, 10) + '...'
               }
               return args
             },

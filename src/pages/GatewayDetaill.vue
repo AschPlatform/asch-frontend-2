@@ -12,7 +12,7 @@
       </div>
       <div class="row q-px-md gutter-md">
         <div class="col-8">
-          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading">
+          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading" row-key="address" hide-bottom>
   
             <q-td slot="body-cell-operation" slot-scope="props" :props="props">
               <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">

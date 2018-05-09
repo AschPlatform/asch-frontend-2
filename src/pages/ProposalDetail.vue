@@ -68,12 +68,12 @@
             </div>
             <div class="row">
               <q-field class="col-2 font-16" label-width="10" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
-                <q-input readonly hide-underline v-model="content.interval" value="" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
+                <q-input disabled readonly hide-underline v-model="content.interval" value="" color="black">{{$t('LAUNCH_MODAL.DAY')}}</q-input>
               </q-field>
             </div>
             <div class="row">
               <q-field class="col-10 font-16" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
-                <q-input type="textarea" value="" readonly hide-underline v-model="content.desc"></q-input>
+                <q-input type="textarea" value="" readonly hide-underline v-model="detail.desc"></q-input>
               </q-field>
             </div>
           </div>
@@ -119,7 +119,7 @@
           <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
         </q-field>
       </div>
-      <q-card-main class="row justify-center">
+      <q-card-main v-show="isDelegate" class="row justify-center">
         <q-btn color="secondary" class="col-4" :label="$t(btnInfo)" @click="active" :disabled="isBtnAble"></q-btn>
       </q-card-main>
     </q-card>
@@ -128,10 +128,9 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
-import { deCompileContent, compileTimeStamp, toast, toastError } from '../utils/util'
+import { deCompileContent, compileTimeStamp, toast, toastError, getTimeFromTrade } from '../utils/util'
 import { secondPwd } from '../utils/validators'
 import MemberIndicator from '../components/MemberIndicator'
-import AschJs from 'asch-js'
 import {
   QPage,
   QField,
@@ -181,12 +180,14 @@ export default {
       isIndicatorShow: false,
       showCounter: false,
       time_buffer: 0,
+      time_end: 0,
       voteList: [],
       voteTotalNum: 0,
       votePassRate: 0,
       // func btn
       isBtnAble: true,
-      btnInfo: ''
+      btnInfo: '',
+      activeState: 0
     }
   },
   validations: {
@@ -211,6 +212,7 @@ export default {
       })
       this.detail = res.proposal
       this.time_buffer = compileTimeStamp(this.detail.t_timestamp)
+      this.envalueEnd()
       this.content = deCompileContent(this.detail.content)
       this.content.interval = Math.round(this.content.updateInterval / 8640)
       if (this.detail.activated === 1) {
@@ -231,12 +233,12 @@ export default {
       let ls = []
       if (res.success) {
         res.votes.forEach(o => {
-          return ls.push(o.voter)
+          return ls.push(o.account.name)
         })
       }
       this.voteList = ls
       this.voteTotalNum = res.totalCount
-      this.votePassRate = ((Number(res.validCount / res.totalCount) || 0) * 100).toFixed(0)
+      this.votePassRate = ((Number(res.validCount / 101) || 0) * 100).toFixed(0)
     },
     async getValidatorInfo(name) {
       let res = await this.getGatewayDelegates(name)
@@ -251,16 +253,16 @@ export default {
         this.preMemberList = ls
         this.postMemberList = ls
       }
-      if (this.detail.activated === 1) {
-        this.btnInfo = 'proposal.ACTIVATED'
-        this.isBtnAble = false
-      } else if (this.detail.endHeight < this.latestBlock.height) {
-        this.btnInfo = 'proposal.EXPIRED'
-        this.isBtnAble = false
-      } else {
-        this.btnInfo = 'proposal.ACTIVE'
-        this.isBtnAble = true
-      }
+      // if (this.detail.activated === 1) {
+      //   this.btnInfo = 'proposal.ACTIVATED'
+      //   this.isBtnAble = false
+      // } else if (this.detail.endHeight < this.latestBlock.height) {
+      //   this.btnInfo = 'proposal.EXPIRED'
+      //   this.isBtnAble = false
+      // } else {
+      //   this.btnInfo = 'proposal.ACTIVE'
+      //   this.isBtnAble = true
+      // }
     },
     async activePro() {
       let res = await this.activeProposal({
@@ -287,8 +289,18 @@ export default {
     active() {
       // to check if you are already vote
       // i
-      this.votePro()
-      this.activePro()
+      if (this.activeState === 0) {
+        this.votePro()
+      } else {
+        this.activePro()
+      }
+    },
+    envalueEnd() {
+      this.time_end = getTimeFromTrade({
+        tTimestamp: this.detail.t_timestamp,
+        tHeight: this.detail.t_height,
+        endHeight: this.detail.endHeight
+      })
     }
   },
   computed: {
@@ -314,36 +326,11 @@ export default {
       }
     },
     // compile time start / end
-    time_end() {
-      // TODO : ENCLOSE A FUNC
-      // let d = new Date(this.time_buffer)
-      // let start = d.getTime()
-      // let end = (this.detail.endHeight - this.detail.t_height) * 1000
-      // let total = new Date(start + end)
-      // let month = total.getMonth() + 1
-      // let day = total.getDate()
-      // if (day < 10) {
-      //   day = '0' + day
-      // }
-      // let h = d.getHours()
-      // let m = d.getMinutes()
-      // let s = d.getSeconds()
-      // if (h < 10) {
-      //   h = '0' + h
-      // }
-
-      // if (m < 10) {
-      //   m = '0' + m
-      // }
-
-      // if (s < 10) {
-      //   s = '0' + s
-      // }
-      // return d.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
-      return AschJs.utils.format.fullTimestamp(this.detail.endHeight)
-    },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
+    },
+    isDelegate() {
+      return this.userInfo && this.userInfo.account ? this.userInfo.account.isDelegate === 1 : false
     }
   },
   mounted() {
@@ -354,6 +341,25 @@ export default {
     userInfo() {
       this.getProposalInfo()
       this.getVoterInfo()
+    },
+    detail(val) {
+      if (!this._.isEmpty(this.detail) && this.voteTotalNum !== 0) {
+        if (this.detail.activated === 1) {
+          this.btnInfo = 'proposal.ACTIVATED'
+          this.isBtnAble = true
+        } else if (this.detail.endHeight < this.latestBlock.height) {
+          this.btnInfo = 'proposal.EXPIRED'
+          this.isBtnAble = true
+        } else if (this.voteTotalNum <= 67) {
+          this.btnInfo = 'proposal.BTN_VOTE'
+          this.isBtnAble = false
+          this.activeState = 0
+        } else {
+          this.btnInfo = 'proposal.ACTIVE'
+          this.isBtnAble = false
+          this.activeState = 1
+        }
+      }
     }
   }
 }

@@ -2,7 +2,7 @@
   <q-modal v-model="show" minimized  :no-esc-dismiss="true">
   <q-card v-if="user" class="padding-b-40">
     <div class="padding-20 bg-secondary">
-      <span class="text-white font-22">{{user.issuer?$t('PUBLISHER_ALREADY_REGISTERED'):$t('TRS_TYPE_UIA_ASSET')}}</span>
+      <span class="text-white font-22">{{$t('TRS_TYPE_UIA_ASSET')}}</span>
       <div slot="subtitle"> </div>
     </div>
     <q-card-main class="row justify-center ">
@@ -13,7 +13,7 @@
         <q-input @blur="$v.assets.desc.$touch" type="textarea" v-model="assets.desc" clearable />
       </q-field>
       <q-field class="col-8" :label="$t('TOPLIMIT')" :label-width="3" :error="$v.assets.maximum.$error"  :error-label="$t('ERR_ASSET_TOPLIMIT_NOT_CORRECT')">
-        <q-input @blur="$v.assets.maximum.$touch" v-model="assets.maximum" :decimals="0" type="number" />
+        <q-input @blur="$v.assets.maximum.$touch" v-model="assets.maximum" :decimals="0" />
       </q-field>
       <q-field class="col-8" :label="$t('PRECISION')" :helper="$t('ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16')" :error="$v.assets.precision.$error" :label-width="3"  :error-label="$t('ERR_ASSET_PRECISION_NOT_CORRECT')">
         <q-input @blur="$v.assets.precision.$touch" v-model="assets.precision" :decimals="0" :step="1"  type="number"/>
@@ -61,10 +61,10 @@ import {
   QRadio,
   QModal
 } from 'quasar'
-import { required, maxLength, between, numeric, minValue } from 'vuelidate/lib/validators'
+import { required, maxLength, minLength, between, numeric } from 'vuelidate/lib/validators'
 import { assetName, secondPwdReg } from '../utils/validators'
 import { confirm, toastError, toast, translateErrMsg } from '../utils/util'
-import { dealBigNumber } from '../utils/asch'
+import { dealGiantNumber } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
 
@@ -113,7 +113,20 @@ export default {
       maximum: {
         required,
         numeric,
-        minValue: minValue(1)
+        maxLength: maxLength(30),
+        minLength: minLength(1),
+        isNumber(value) {
+          value = Number(value)
+          if (this._.isNaN(value)) return false
+          return value > 0
+        },
+        getPrecision(value) {
+          let arr = value.split('.')
+          if (arr.length === 1) {
+            return true
+          }
+          return false
+        }
       },
       precision: {
         required,
@@ -154,7 +167,9 @@ export default {
         const { name, desc, maximum, precision } = this.assets
 
         let assetName = name
-        let realMaximum = dealBigNumber(parseInt(maximum) * Math.pow(10, precision))
+        // console.log(parseInt(maximum) * Math.pow(10, precision))
+        // let num = (parseInt(maximum) * Math.pow(10, precision)).toString()
+        let realMaximum = dealGiantNumber(maximum, precision)
 
         confirm(
           {

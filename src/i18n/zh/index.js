@@ -146,6 +146,7 @@ const lang = {
   READ_TIP2: '我理解如果我忘记或丢失了密码，将没有任何人能够帮助我恢复',
   READ_TIP3: '我已经写下了或者用其它方式保存了我的密码',
   CHOSE_SERVER: '选择服务器节点',
+  DEFAULT_SERVER: '默认节点',
   COPY_SUCCESS: '复制成功',
 
   // transfer/pay
@@ -262,7 +263,7 @@ const lang = {
   ERR_DELEGATE_NAME_EMPTY: '受托人名称不能为空',
   ERR_DELEGATE_NAME_ADDRESS: '受托人名称不能为账户地址',
   ERR_DELEGATE_NAME_FORMAT: '受托人名称格式不正确',
-  ERR_SECOND_PASSWORD_FORMAT: '二级密码输入格式不正确',
+  ERR_SECOND_PASSWORD_FORMAT: '二级密码输入格式不正确,应为8-16位字母数字组合',
   ERR_NO_RECIPIENT_ADDRESS: '必须输入接收地址',
   ERR_RECIPIENT_ADDRESS_FORMAT: '接收地址格式不正确',
   ERR_RECIPIENT_EQUAL_SENDER: '接受地址与发送地址不能相同',
@@ -283,7 +284,7 @@ const lang = {
   ERR_NO_PUBLISHER_REGISTERED_YET: '你还没有注册发行商',
   ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS: '请输入3-6位大写字母',
   ERR_MISSING_ASSET_DESCRIPTION: '请输入资产描述',
-  ERR_ASSET_TOPLIMIT_NOT_CORRECT: '您输入的发行上限不正确',
+  ERR_ASSET_TOPLIMIT_NOT_CORRECT: '发行上限应为不包含小数点的纯1-30位的整数',
   ERR_ASSET_PRECISION_NOT_CORRECT: '您输入的资产精度不正确',
   ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: '精度必须为0-16的整数',
   // toast error was bound here
@@ -352,6 +353,7 @@ const lang = {
   QRCODE_CLOSE: '点击二维码关闭',
 
   // ============== new add =================
+  AT_LEAST_7DAY: '(建议将结束时间设置在一周以后，以留有足够的时间让用户发现、评估项目并投票。)',
   CURRENCY_INTRODUCE: '币种介绍',
   NAME_OF_DISTRIBUTOR: '请输入名称',
   DESCRIBE_OF_DISTRIBUTOR: '请输入描述',
@@ -413,8 +415,8 @@ const lang = {
   SET_NICKNAME: '请设置昵称',
   NICKNAME: '昵称',
   INPUT_NICKNAME: '请输入你想设置的昵称',
-  ERR_NICKNAME: '昵称输入有误',
-  NICKNAME_TIP: '昵称可用于转账，请慎重填写，最多3-20个字符',
+  ERR_NICKNAME: '昵称输入有误,应为3-20位小写字母与数字的组合',
+  NICKNAME_TIP: '昵称可用于转账，请慎重填写，最多2-20个字符',
   CHAR_NUM: '字符数',
   PRICE: '价格',
   NICKNAME_PRICE: '昵称价格对应表',
@@ -423,7 +425,7 @@ const lang = {
   HIGHEST_LOCK: '最高可锁仓',
   LOCK_DETAIL: '已锁仓额度：{amount} XAS 锁仓截止时间: {date}',
   AGENT_INFO: '代理人身份:',
-  IS_AGENT: '您已经是代理人',
+  IS_AGENT: '您已经是代理人或受托人',
   REGISTER_AGENT: '注册成为代理人',
   EDIT: '修改',
   UNLOCK: '解锁',
@@ -469,7 +471,9 @@ const lang = {
   UPDATE_LIMIT: '最低更新频率:',
   AGENT_ALREADY: '已经是代理人，此行为被拒绝',
   ALREADY_INIT: '该网关已经初始化成功，暂不能进行此种功能',
-  PERIOD_TIP: '*开始时间应该至少设置在一周以后，以留有足够的时间让用户发现、评估项目并投票',
+  ERR_SHOULD_EQUAL: '替换两方应该数量相等',
+  EXIT: '退出',
+  CANCEL_VOTE: '撤票',
 
   // ERROR
   AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',
@@ -483,7 +487,7 @@ const lang = {
     DETAIL: '提案描述',
     APPROVE: '赞成票数',
     OPERATION: '操作',
-    STATUS: '状态',
+    STATUS: '操作',
     TIP_VOTE: '投票',
     TIP_PASS: '投票已通过',
     TIP_REJECT: '投票未通过',
@@ -505,7 +509,7 @@ const lang = {
     SELECT_P_PERIOD: '公投周期',
     BTN_LAUNCH: '发起',
     BTN_VOTE: '投票',
-    SELECT_MEMBER_ACTION: '理事会成员操作',
+    SELECT_MEMBER_ACTION: '网关更新',
     SELECT_MEMBER_ADD: '添加成员',
     SELECT_MEMBER_DELETE: '移除成员',
     SELECT_MEMBER_INSTEAD: '替换成员',
@@ -522,6 +526,8 @@ const lang = {
     VOTE_SUCCESS: '投票成功'
   },
   LAUNCH_MODAL: {
+    MEMBER_SUGGEST_PRE: '我提议',
+    MEMBER_SUGGEST_POST: '等{number}人成为网关成员',
     MEMBER_NUMBER: '成员数量',
     MEMBER_MEMBER: '成员信息',
     MEMBER_REASON: '更新成员原因',
@@ -547,7 +553,7 @@ const lang = {
     INSTEAD_PRE: '变更前',
     INSTEAD_POST: '变更后',
     NET_PERIOD: '网关最低更新频率参数',
-    PRECISION_TIP: '需要填写精度',
+    PRECISION_TIP: '需要填写精度, 0-16之间',
     CURRENCY_BRIEF: '该币种介绍',
     CURRENCY_BRIEF_TIP: '需要填写该币种介绍',
     ERR_INVALID_FORM: '表单填写不完整或未按照要求',
@@ -588,14 +594,16 @@ const lang = {
     STARTTIME: '成立时间'
   },
   ERR: {
-    ERR_5_30: '请输入5-30个字符',
+    ERR_10_100: '请输入10-100个字符',
+    ERR_10_100_TITLE: '请输入10-100字符，仅限大小写英文字母、数字、标点符号等，不支持中文',
     ERR_3_15: '请输入3-15个字符',
+    ERR_3_16: '请输入3-16个字符',
     ERR_1_30: '请输入1-30之间的数字',
-    ERR_5_33: '请输入5-33之间的数字',
+    ERR_3_33: '请输入3-33之间的数字',
     ERR_50_1000: '请输入50-1000个字符',
     ERR_REQUIRE_TYPE: '请选择提案类型',
     ERR_REQUIRE_CONTENT: '请选择内容',
-    ERR_REQUIRE_TIME: '开始时间应该至少设置在一周以后，以留有足够的时间让用户发现、评估项目并投票',
+    ERR_REQUIRE_TIME: '建议将结束时间设置在一周以后，以留有足够的时间让用户发现、评估项目并投票',
     ERR_REQUIRE_DETAIL: '请选择提案详情',
     ERR_REQUIRE_NUMBER: '成员应在7-33人之间',
     ERR_REQUIRE_MEMBER: '请提名候选人'
