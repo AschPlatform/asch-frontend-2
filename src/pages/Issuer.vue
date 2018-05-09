@@ -1,7 +1,7 @@
 <template>
   <q-page class="issuer-container">
     <div class="bg-white padding-20 row issuer-content">
-      <div class="col-9">
+      <div class="col-md-9 col-xs-12">
         <q-table :data="assets" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('MY_ASSETS')">
   
           <template slot="top-right" slot-scope="props">
@@ -52,8 +52,33 @@
 
         </q-table>
       </div>
-      <div class="col-3">
+      <div class="col-md-3 col-xs-12" v-if="$q.platform.is.desktop">
         <div class="padding-l-20">
+         <q-card>
+           <div class="text-black height-62 padding-l-20 q-table-top">
+             <span class="font-22">{{$t('ISSUER')}}</span>
+          </div>
+          <q-card-main>
+            <div v-if="issuer">
+              <p class="font-16 text-black">
+                {{issuer.name}}
+              </p>
+              <p class="font-16 text-five">
+                {{issuer.desc}}
+              </p>
+            </div>
+            <div class="text-center padding-b-20" v-else>
+              <p>{{$t('NO_ISSUER_INFO')}}</p>
+              <q-btn class="cursor-pointer" color="secondary" @click="issuerRegister" >{{$t('REGISTERED_PUBLISHER')}}</q-btn>
+            </div>
+          </q-card-main>
+         </q-card>
+        </div>
+    
+        <!-- <assets-records :userObj="userInfo" /> -->
+      </div>
+      <div class="col-md-3 col-xs-12 margin-top-20" v-if="$q.platform.is.mobile">
+        <div>
          <q-card>
            <div class="text-black height-62 padding-l-20 q-table-top">
              <span class="font-22">{{$t('ISSUER')}}</span>

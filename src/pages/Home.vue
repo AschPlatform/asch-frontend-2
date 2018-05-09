@@ -6,7 +6,7 @@
         <q-card class="bg-white no-shadow">
           <q-card-main class="row shadow-2">
             <div class="col-md-6 col-xs-12 row justify-left">
-              <jdenticon class="home-jdenticon" :address="user.account.address" :size="60" />
+              <jdenticon class="desktop-only home-jdenticon" :address="user.account.address" :size="60" />
               <div class="home-top-set-nickname">
                 <span v-if="!userNickname" class="text-black font-22 vertical-align-middle font-weight">
                       {{$t('HELLO')}}
@@ -282,10 +282,6 @@ export default {
 }
 
 @media screen and (max-width: 500px) {
-  .home-jdenticon {
-    display: none;
-  }
-
   .home-bottom-left {
     padding-right: 0;
     margin-bottom: 20px;
