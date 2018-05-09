@@ -151,6 +151,7 @@ export default {
           this.pagination.rowsNumber = res.delegates.length
         }
       } else {
+        let result = []
         res = await this.votetome({
           name: this.userInfo.account.name,
           orderBy: 'rate:asc',
@@ -158,8 +159,13 @@ export default {
           offset: (pageNo - 1) * limit
         })
         if (res.success) {
-          this.dataList = res.accounts
-          this.pagination.rowsNumber = res.accounts.length
+          res.accounts.forEach(o => {
+            if (o.isLocked === 1) {
+              result.push(o)
+            }
+          })
+          this.dataList = result
+          this.pagination.rowsNumber = result.length
         }
       }
       this.loading = false
