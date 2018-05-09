@@ -5,7 +5,7 @@
       <div class="home-top col-12 col-auto  col-xs-12">
         <q-card class="bg-white no-shadow">
           <q-card-main class="row shadow-2">
-            <div class="col-6">
+            <div class="col-md-6 col-xs-12 row justify-left">
               <jdenticon class="home-jdenticon" :address="user.account.address" :size="60" />
               <div class="home-top-set-nickname">
                 <span v-if="!userNickname" class="text-black font-22 vertical-align-middle font-weight">
@@ -18,7 +18,7 @@
                 <p class="font-14 text-three">{{$t('HOME_TIPES')}}</p>
               </div>
             </div>
-            <div class="col-6 row justify-end items-center">
+            <div class="col-md-6 col-xs-12 row justify-end items-center">
               <div class="home-top-btn-container">
                 <i class="material-icons font-24 vertical-align-middle text-eight">call_missed</i>
                 <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
@@ -35,7 +35,7 @@
     </div>
   
     <div class="home-bottom no-border row col no-shadow">
-      <div class="home-bottom-left col-4 balance-panel">
+      <div class="home-bottom-left col-md-4 col-xs-12 balance-panel">
         <div class="home-bottom-left-container bg-white shadow-1">
           <q-card class="no-shadow">
             <q-card-title>
@@ -84,7 +84,7 @@
           </q-card>
         </div>
       </div>
-      <div class="col-8 bg-white">
+      <div class="col-md-8 col-xs-12 bg-white">
         <trans-record-container :userInfo="userInfo" />
       </div>
     </div>
@@ -279,5 +279,20 @@ export default {
 
 .q-table-title {
   font-weight: 600 !important;
+}
+
+@media screen and (max-width: 500px) {
+  .home-jdenticon {
+    display: none;
+  }
+
+  .home-bottom-left {
+    padding-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .home-table-container .q-table-top .q-table-title {
+    font-size: 16px;
+  }
 }
 </style>
