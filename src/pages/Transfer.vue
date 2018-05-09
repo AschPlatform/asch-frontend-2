@@ -14,7 +14,14 @@
       </q-card-title>
       <span class="transfer-title-line"></span>
       <q-card-main class="row justify-left">
-        <div class="col-10">
+        <div class="col-10" v-if="$q.platform.is.desktop">
+          <trans-panel class="col-12" :asset="asset" :user="user">
+            <div class="col-12" slot="btns" slot-scope="props">
+              <q-btn big class="transfer-accounts-btn" :disable="btnDisable" color="secondary" @click="sender(props.send)" :label="$t('TRS_TYPE_TRANSFER')" />
+            </div>
+          </trans-panel>
+        </div>
+        <div class="col-12" v-if="$q.platform.is.mobile">
           <trans-panel class="col-12" :asset="asset" :user="user">
             <div class="col-12" slot="btns" slot-scope="props">
               <q-btn big class="transfer-accounts-btn" :disable="btnDisable" color="secondary" @click="sender(props.send)" :label="$t('TRS_TYPE_TRANSFER')" />
