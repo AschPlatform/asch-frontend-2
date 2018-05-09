@@ -1,13 +1,13 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <q-page class="personal-container">
+  <q-page>
     <q-card class="no-shadow" v-if="user">
       <!-- <q-card-title>
             {{$t('PERSONAL')}}
           </q-card-title> -->
       <q-card-main class="row col-12 justify-center">
-        <div class="personal-top col-12 row justify-left bg-white shadow-2">
-          <div>
+        <div v-if="$q.platform.is.desktop" class="personal-top col-12 row justify-left bg-white shadow-2">
+          <div class="desktop-only">
             <jdenticon class="personal-head-canvas" :address="address" :size="60" />
           </div>
           <div class="col-7 col-md-7 col-lg-6 col-xl-5 col-xs-10 text-left row justify-left margin-left-10">
@@ -26,14 +26,42 @@
             </div>
           </div>
           <div class="personal-qr row justify-left text-left">
-            <span class="right-line"></span>
+            <span class="right-line desktop-only"></span>
             <div class="row justify-center" @click="showAddrQr">
               <vue-qr class="personal-qr-container" :size="103" :text="address"></vue-qr>
             </div>
           </div>
   
         </div>
-        <div class="personal-bottom shadow-2 bg-white row col-12 justify-left">
+        <div v-if="$q.platform.is.mobile" class="col-12 row justify-left bg-white shadow-2 padding-10 border-r-6">
+          <div class="desktop-only">
+            <jdenticon class="personal-head-canvas" :address="address" :size="60" />
+          </div>
+          <div class="col-12 text-left row justify-left margin-left-10">
+            <div>
+              <span v-if="!userNickname" class="text-black font-22 vertical-align-middle">
+                {{$t('HELLO')}}
+              </span>
+              <span v-else class="text-black font-22 vertical-align-middle">
+                {{$t('HELLO')+'，'}}
+              </span>
+              <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
+            </div>
+            <div class="col-12 text-three row margin-t-10">
+              <span class="col-10">{{address}}</span>
+              
+              <q-btn class="text-secondary col-2" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
+            </div>
+          </div>
+          <div class="personal-qr row justify-left text-left">
+            <span class="right-line desktop-only"></span>
+            <div class="row justify-center" @click="showAddrQr">
+              <vue-qr class="personal-qr-container" :size="103" :text="address"></vue-qr>
+            </div>
+          </div>
+  
+        </div>
+        <div class="personal-bottom shadow-2 bg-white row col-12 justify-left margin-t-20">
           <div class="personal-bottom-title">
             <i class="material-icons">email</i>
             <span>
@@ -327,7 +355,6 @@ export default {
     //   }
     // },
     reset(props) {
-      debugger
       this.password = ''
       this.confirmPassword = ''
       this.$v.password.$reset()

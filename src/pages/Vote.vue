@@ -14,7 +14,7 @@
                       </q-btn>
                       <q-btn flat round  color="secondary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
                       </q-btn>
-</template>
+            </template>
               
             <q-td slot="body-cell-address"  slot-scope="props" :props="props">
               <div class="text-secondary vote-table-address-td" @click="viewAccountInfo(props.row)">
