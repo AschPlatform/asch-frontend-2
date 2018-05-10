@@ -18,7 +18,7 @@
                 <p class="font-14 text-three">{{$t('HOME_TIPES')}}</p>
               </div>
             </div>
-            <div class="col-md-6 col-xs-12 row justify-end items-center">
+            <div class="col-md-6 col-xs-12 row justify-end items-center" v-if="$q.platform.is.desktop">
               <div class="home-top-btn-container">
                 <i class="material-icons font-24 vertical-align-middle text-eight">call_missed</i>
                 <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
@@ -29,13 +29,24 @@
                 <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('RECEIVE')" flat @click="showAddrQr" />
               </div>
             </div>
+            <div class="col-md-6 col-xs-12 row justify-center items-center" v-if="$q.platform.is.mobile">
+              <div class="home-top-btn-container">
+                <i class="material-icons font-24 vertical-align-middle text-eight">call_missed</i>
+                <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
+            </div>
+            <span class="btn-container-line"></span>
+            <div class="home-top-btn-container">
+                <i class="material-icons material-icons font-24 vertical-align-middle text-eight">call_missed_outgoing</i>
+                <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('RECEIVE')" flat @click="showAddrQr" />
+            </div>
+            </div>
           </q-card-main>
         </q-card>
       </div>
     </div>
   
     <div class="home-bottom no-border row col no-shadow">
-      <div class="home-bottom-left col-md-4 col-xs-12 balance-panel">
+      <div class="home-bottom-left col-md-4 col-xs-12 balance-panel" v-if="$q.platform.is.desktop">
         <div class="home-bottom-left-container bg-white shadow-1">
           <q-card class="no-shadow">
             <q-card-title>
@@ -84,8 +95,57 @@
           </q-card>
         </div>
       </div>
-      <div class="col-md-8 col-xs-12 bg-white">
-        <trans-record-container :userInfo="userInfo" />
+      <div class="col-md-4 col-xs-12 home-bottom-left" v-if="$q.platform.is.mobile">
+        <div class="shadow-1 home-bottom-left-container bg-white padding-bottom-30">
+          <q-card class="no-shadow">
+            <q-card-title>
+              <i class="material-icons font-24 vertical-align-middle text-secondary">account_balance_wallet</i>
+              <span class="margin-left-10 text-black font-22 font-weight">
+               {{$t('BALANCE')}}
+              </span>
+              <span class="margin-left-10 text-three font-16 font-weight">
+                {{$t('MAIN_ASSET')}}
+             </span>
+              <span class="qr-right-container" @click="showAddrQr">
+                <vue-qr class="add-qr-container" :size="20" :text="address"></vue-qr>
+             </span>
+            </q-card-title>
+            <q-card-main>
+              <span class="text-secondary font-22 font-weight">
+                {{userInfo.account.xas | fee}}
+                </span>
+              <span class="text-secondary font-12">XAS</span>
+  
+              <div class="text-three font-12 font-weight">
+                {{address}}
+                <q-btn class="text-secondary font-12" v-clipboard="address || 'no data'" @success="info('copy senderId success...')" size="xs" flat round icon="content copy" />
+              </div>
+  
+            </q-card-main>
+            <q-card-main>
+              <q-list class="no-border" v-if="balances.length" highlight>
+                <q-item class="blances-container shadow-1 bg-white" v-for="(balance,idx) in  balances" :key="idx">
+                  <q-item-side>
+                    <q-item-tile>
+                      <i class="material-icons font-44 vertical-align-middle text-eight">fiber_manual_record</i>
+                    </q-item-tile>
+                  </q-item-side>
+                  <q-item-main class="text-five font-16 font-weight" :label="balance.currency" />
+                  <q-item-side right>
+                    <q-item-tile class="text-five font-16">
+                      {{balance.balance | fee(balance.asset.precision)}}
+                      <q-btn class="text-secondary" flat round icon="arrow forward" @click="$router.push({name:'assets',params:{asset:balance}})" />
+                    </q-item-tile>
+                  </q-item-side>
+                </q-item>
+              </q-list>
+              <q-btn class="home-all-btn q-hoverable bg-secondary text-white q-btn-rounded" color="secondary" @click="assets" flat :label="$t('SEE_ALL_ASSETS')" />
+            </q-card-main>
+          </q-card>
+        </div>
+      </div>
+      <div class="col-md-8 col-xs-12 bg-white shadow-1">
+        <trans-record-container  :userInfo="userInfo" />
       </div>
     </div>
   </div>
@@ -280,6 +340,7 @@ export default {
 .q-table-title {
   font-weight: 600 !important;
 }
+
 
 @media screen and (max-width: 500px) {
   .home-bottom-left {
