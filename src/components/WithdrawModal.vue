@@ -37,7 +37,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import { QField, QInput, QModal, QSelect, QBtn } from 'quasar'
-import { secondPwd } from '../utils/validators'
+import { secondPwd, amountStrReg } from '../utils/validators'
 import { required } from 'vuelidate/lib/validators'
 import { toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
@@ -70,9 +70,7 @@ export default {
       amount: {
         required,
         gtZero(value) {
-          value = Number(value)
-          if (this._.isNaN(value)) return false
-          return value > 0
+          return amountStrReg.test(value)
         },
         getPrecision(value) {
           let arr = value.split('.')

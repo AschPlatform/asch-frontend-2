@@ -62,7 +62,7 @@ import {
   QModal
 } from 'quasar'
 import { required, maxLength, minLength, between, numeric } from 'vuelidate/lib/validators'
-import { assetName, secondPwdReg } from '../utils/validators'
+import { assetName, secondPwdReg, amountStrReg } from '../utils/validators'
 import { confirm, toastError, toast, translateErrMsg } from '../utils/util'
 import { dealGiantNumber } from '../utils/asch'
 import asch from '../utils/asch-v2'
@@ -116,9 +116,7 @@ export default {
         maxLength: maxLength(30),
         minLength: minLength(1),
         isNumber(value) {
-          value = Number(value)
-          if (this._.isNaN(value)) return false
-          return value > 0
+          return amountStrReg.test(value)
         },
         getPrecision(value) {
           let arr = value.split('.')

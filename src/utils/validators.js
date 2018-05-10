@@ -8,6 +8,7 @@ export const nicknameReg = /^[a-z0-9_]{2,20}$/
 export const proposalTitleReg = /^[A-Za-z0-9_\-+!@$% ]{10,100}$/
 export const gatewayNameReg = /^[A-Za-z0-9]{3,16}$/
 export const assetSymbolReg = /^[A-Z]{3,6}$/
+export const amountStrReg = /^\d+(\.\d+)?$/
 // bip 39 validator
 export const bip39 = () => {
   return withParams({ type: this.bip39 }, value => {

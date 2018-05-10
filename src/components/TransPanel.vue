@@ -49,7 +49,7 @@
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
-import { secondPwd } from '../utils/validators'
+import { secondPwd, amountStrReg } from '../utils/validators'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
@@ -78,9 +78,7 @@ export default {
       amount: {
         required,
         gtZero(value) {
-          value = Number(value)
-          if (this._.isNaN(value)) return false
-          return value > 0
+          return amountStrReg.test(value)
         },
         getPrecision(value) {
           let arr = value.split('.')

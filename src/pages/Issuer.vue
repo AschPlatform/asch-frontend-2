@@ -161,10 +161,10 @@
         <div v-if="dialog.form == 2 ">
           <q-field 
             :label="$t('ISSUE_NUMBER')"
-            error-label="error"
             :label-width="4"
+            :error-label="$t('ERR_ASSET_TOPLIMIT_NOT_CORRECT2')"
           >
-            <q-input  @blur="$v.issuerNum.$touch" v-model="form.issuerNum" :error-label="$t('ERR_ASSET_TOPLIMIT_NOT_CORRECT2')"
+            <q-input  @blur="$v.issuerNum.$touch" v-model="issuerNum" 
             :error="$v.issuerNum.$error"/>
         </q-field>
         </div>
@@ -205,7 +205,7 @@
 
 <script>
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
-import { secondPwdReg } from '../utils/validators'
+import { secondPwdReg, amountStrReg } from '../utils/validators'
 import { createFlags, dealGiantNumber, fullTimestamp } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
@@ -328,10 +328,7 @@ export default {
         message: '',
         form: 0 // 1 writeoff ; 2 publish ; 3 setting
       },
-      form: {
-        issuerNum: '',
-        type: 'ACL'
-      },
+      issuerNum: '',
       agreement: {
         title: '',
         tips: '',
@@ -349,16 +346,10 @@ export default {
       minLength: minLength(1),
       maxLength: maxLength(30),
       isNumber(value) {
-        value = Number(value)
-        if (this._.isNaN(value)) return false
-        return value > 0
+        return amountStrReg.test(value)
       },
       getPrecision(value) {
-        let arr = value.split('.')
-        if (arr.length === 1) {
-          return true
-        }
-        return false
+        return value.indexOf('.') === -1
       }
     }
   },
