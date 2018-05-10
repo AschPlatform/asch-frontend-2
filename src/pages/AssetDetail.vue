@@ -13,9 +13,13 @@
      
       </q-card-title>
       <q-card-main class="row col-12">
-        <assets-panel class="margin-l-15 col-auto" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
-        <assets-panel class="margin-l-15 col-auto" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
-        <q-card v-if="isCross && address" class="col-auto bg-white asset-detail-card-h margin-l-30">
+        <assets-panel class="margin-l-15 col-auto" v-if="!isCross && $q.platform.is.desktop" type='inner' :asset="asset" @transfer="transfer"  />
+        <assets-panel class="col-12" v-if="!isCross && $q.platform.is.mobile" type='inner' :asset="asset" @transfer="transfer"  />
+
+        <assets-panel class="margin-l-15 col-auto" v-else-if="isCross && $q.platform.is.desktop" type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
+        <assets-panel class="col-12" v-else-if="isCross && $q.platform.is.mobile" type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
+
+        <q-card v-if="isCross && address && $q.platform.is.desktop" class="col-auto bg-white asset-detail-card-h margin-l-30">
           <q-card-main>
             <p class="font-22 text-black margin-b-0">{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
             <div>
@@ -28,7 +32,39 @@
             </div>
           </q-card-main>
         </q-card>
-        <q-card v-if="!isCross && assetDetail" class="bg-white col-auto assetDetail-card-content margin-l-30">
+        <q-card v-if="isCross && address && $q.platform.is.mobile" class="col-12 bg-white asset-detail-card-h margin-top-20">
+          <q-card-main>
+            <p class="font-22 text-black margin-b-0">{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
+            <div>
+              <span class="font-14 text-three">{{address}}</span>
+              <q-btn v-clipboard="address || 'no data'" @success="info('copy senderId success...')" color="secondary" size="xs" flat round icon="content copy" />
+            </div>
+            <div class="row justify-center" @click="showAddrQr">
+              <vue-qr v-if="isCross" :size="80" :text="address?'bitcoin:'+address:'no data'"></vue-qr>
+              <vue-qr v-else :size="80" :text="address || 'no data'"></vue-qr>
+            </div>
+          </q-card-main>
+        </q-card>
+
+        <q-card v-if="!isCross && assetDetail && $q.platform.is.desktop" class="bg-white col-auto assetDetail-card-content margin-l-30">
+          <q-card-main>
+            <table>
+              <tr class="margin-t-20">
+                <td>{{$t('ISSUER')+':'}}</td>
+                <td>{{issuerName}}</td>
+              </tr>
+              <tr class="margin-t-20">
+                <td>{{$t('DAPP_COIN_TOTAL_AMOUNT')+':'}}</td>
+                <td>{{assetDetail.maximum |fee(assetDetail.precision)}}</td>
+              </tr>
+              <tr class="margin-t-20">
+                <td>{{$t('DAPP_COIN_CURRENT_QUANTITY')+':'}}</td>
+                <td>{{assetDetail.quantity | fee(assetDetail.precision) }}</td>
+              </tr>
+            </table>
+          </q-card-main>
+        </q-card>
+        <q-card v-if="!isCross && assetDetail && $q.platform.is.mobile" class="col-12 bg-white col-auto assetDetail-card-content  margin-top-20">
           <q-card-main>
             <table>
               <tr class="margin-t-20">
@@ -47,7 +83,15 @@
           </q-card-main>
         </q-card>
   
-        <q-card v-if="asset.asset" class="assetDetail-card-content bg-white col-auto margin-l-30">
+        <q-card v-if="asset.asset && $q.platform.is.desktop" class="assetDetail-card-content bg-white col-auto margin-l-30">
+          <q-card-main>
+            <p class="text-black font-22">{{$t('CURRENCY_INTRODUCE')}}</p>
+            <p>
+              {{asset.asset.desc}}
+            </p>
+          </q-card-main>
+        </q-card>
+        <q-card v-if="asset.asset && $q.platform.is.mobile" class="col-12 assetDetail-card-content bg-white col-auto margin-top-20">
           <q-card-main>
             <p class="text-black font-22">{{$t('CURRENCY_INTRODUCE')}}</p>
             <p>

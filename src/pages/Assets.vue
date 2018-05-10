@@ -25,7 +25,7 @@
       </q-card-title>
       <q-card-main class="row justify-left gutter-md">
         <assets-panel v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"  v-if="$q.platform.is.desktop"/>
-        <assets-panel v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"  v-if="$q.platform.is.mobile"/>
+        <assets-panel class="col-12" v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"  v-if="$q.platform.is.mobile"/>
         <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
         <q-card class="col-3 shadow-2 more-assets-container" v-if="$q.platform.is.desktop">
           <div class="more-assets-btn row justify-center items-center" @click="moreAssets">
