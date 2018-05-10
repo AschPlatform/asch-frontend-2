@@ -1,17 +1,17 @@
 <template>
   <q-page class="self-center blocks-container">
     <div class="blocks-content row">
-      <div class="col-9">
+      <div class="col-md-9 col-xs-12">
         <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
           <template slot="top-left" slot-scope="props">
-                <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
-        </template>
+                    <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
+</template>
 
-        <template slot="top-right" slot-scope="props">
-          <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
-          <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
-          <q-btn class="text-secondary" flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-        </template>
+<template slot="top-right" slot-scope="props">
+  <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
+  <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
+  <q-btn class="text-secondary" flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+</template>
 
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
             <div class="my-label text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
@@ -40,9 +40,51 @@
           </q-td>
         </q-table>
       </div>
-      <div class="col-3">
+      <div  v-if="$q.platform.is.desktop" class="col-md-3 col-xs-12">
         <div class="blocks-container-right">
-        <q-card class="q-px-sm">
+          <q-card class="q-px-sm">
+          <q-card-title>
+          {{$t('DELEGATE_INFO')}}
+          </q-card-title>
+          <q-card-separator />
+          <q-card-main class="blocks-padding-40" align="center" v-if="!this.isDelegate">
+            <q-btn class="" color="secondary" @click="registerDelegate">{{$t('DELEGATE_REGISTER')}}</q-btn>
+            <span class="block margin-t-10 font-12">{{$t('NOT_DELEGATE')}}</span>
+          </q-card-main>
+          <q-card-main align="center" v-else>
+            <div v-if="delegate">
+              <span class="block margin-t-20 text-secondary font-30 font-weight">{{delegate.name}}</span>
+            <span class="block margin-t-20">
+              {{$t('DELEGATE_POLLRATE')+':'}}
+              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval+'%'}}</a>
+              </span>
+            <span class="block margin-t-10">
+              {{$t('DELEGATE_RANK')+':'}}
+              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.rate}}</a>
+              </span>
+            </div>
+            
+          </q-card-main>
+        </q-card>
+        <q-card class="q-px-sm margin-t-20" v-if="this.isDelegate">
+          <q-card-title>
+          {{$t('MY_FORGING')}}
+          </q-card-title>
+          <q-card-separator />
+          <q-card-main class="padding-b-40" v-if="delegate" align="center">
+            <q-btn class="font-30" @click="changeData" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
+            <span class="block">
+              {{$t('DELEGATE_VOTERATE')+':'}}
+              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline" href="javascript:;">{{delegate.productivity+'%'}}</a>
+            </span>
+          </q-card-main>
+        </q-card>
+        </div>
+      </div>
+
+       <div v-if="$q.platform.is.mobile" class="col-md-3 col-xs-12 margin-t-20">
+        <div>
+          <q-card class="q-px-sm">
           <q-card-title>
           {{$t('DELEGATE_INFO')}}
           </q-card-title>
@@ -480,10 +522,8 @@ export default {
     filter(val) {
       this.getBlockDetail()
     },
-    isOwn(val) {
-    },
-    pagination(val) {
-    }
+    isOwn(val) {},
+    pagination(val) {}
   }
 }
 </script>

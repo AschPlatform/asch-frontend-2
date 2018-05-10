@@ -1,23 +1,23 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <q-page class="personal-container">
+  <q-page>
     <q-card class="no-shadow" v-if="user">
       <!-- <q-card-title>
-            {{$t('PERSONAL')}}
-          </q-card-title> -->
+              {{$t('PERSONAL')}}
+            </q-card-title> -->
       <q-card-main class="row col-12 justify-center">
-        <div class="personal-top col-12 row justify-left bg-white shadow-2">
-          <div>
+        <div class="col-12 row justify-left shadow-2 bg-white personal-top" v-if="$q.platform.is.desktop">
+          <div class="desktop-only">
             <jdenticon class="personal-head-canvas" :address="address" :size="60" />
           </div>
           <div class="col-7 col-md-7 col-lg-6 col-xl-5 col-xs-10 text-left row justify-left margin-left-10">
             <div>
               <span v-if="!userNickname" class="text-black font-22 vertical-align-middle">
-                {{$t('HELLO')}}
-              </span>
+                  {{$t('HELLO')}}
+                </span>
               <span v-else class="text-black font-22 vertical-align-middle">
-                {{$t('HELLO')+'，'}}
-              </span>
+                  {{$t('HELLO')+'，'}}
+                </span>
               <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
             <div class="col-12 text-three">
@@ -26,84 +26,107 @@
             </div>
           </div>
           <div class="personal-qr row justify-left text-left">
-            <span class="right-line"></span>
+            <span class="right-line desktop-only"></span>
             <div class="row justify-center" @click="showAddrQr">
               <vue-qr class="personal-qr-container" :size="103" :text="address"></vue-qr>
             </div>
           </div>
   
         </div>
-        <div class="personal-bottom shadow-2 bg-white row col-12 justify-left">
+        <div class="col-12 row justify-left shadow-2 bg-white padding-10 border-r-6" v-if="$q.platform.is.mobile">
+          <div class="desktop-only">
+            <jdenticon class="personal-head-canvas" :address="address" :size="60" />
+          </div>
+          <div class="col-12 text-left row justify-left margin-left-10">
+            <div>
+              <span v-if="!userNickname" class="text-black font-22 vertical-align-middle">
+                  {{$t('HELLO')}}
+                </span>
+              <span v-else class="text-black font-22 vertical-align-middle">
+                  {{$t('HELLO')+'，'}}
+                </span>
+              <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
+            </div>
+            <div class="col-12 text-three row margin-t-10">
+              <span class="col-10 line-height-36 font-12">{{address}}</span>
+              <q-btn class="col-2 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
+            </div>
+          </div>
+          <div class="col-12 row justify-center text-left personal-qr">
+            <span class="right-line desktop-only"></span>
+            <div class="row justify-center" @click="showAddrQr">
+              <vue-qr class="personal-qr-container" :size="103" :text="address"></vue-qr>
+            </div>
+          </div>
+  
+        </div>
+        <div class="personal-bottom shadow-2 bg-white row col-12 justify-left margin-t-20">
           <div class="personal-bottom-title">
             <i class="material-icons">email</i>
             <span>
-              {{$t('MESSAGE_DETAILS')}}
-            </span>
+                {{$t('MESSAGE_DETAILS')}}
+              </span>
           </div>
           <table class="personal-table q-table bordered highlight responsive ">
             <tbody class='info-tbody'>
               <tr>
                 <td class="bottom-left-link text-three font-18">
-                <i class="material-icons font-22 personal-icon">lock outline</i>
-                {{$t('SECOND_PASSWORD')}}
+                  <i class="material-icons font-22 personal-icon">lock outline</i> {{$t('SECOND_PASSWORD')}}
                 </td>
                 <td>
                   <span v-if="secondSignature" class="text-black font-18">
-                    {{$t('ALREADY_SET')}}
-                  </span>
+                      {{$t('ALREADY_SET')}}
+                    </span>
                   <a v-else class="text-secondary" @click="secondPwdShow=true">
-                    {{$t('SET_NOW')}}
-                  </a>
+                      {{$t('SET_NOW')}}
+                    </a>
                 </td>
               </tr>
               <!-- <tr>
-                              <td>{{$t('PUBLIC_KEY')}}</td>
-                              <td>{{user.account.publicKey}} 
-                                <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
-                   callLockPanel           </td>
-                            </tr> -->
+                                <td>{{$t('PUBLIC_KEY')}}</td>
+                                <td>{{user.account.publicKey}} 
+                                  <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
+                     callLockPanel           </td>
+                              </tr> -->
               <tr>
                 <td class="bottom-left-link text-three font-18">
-                <i class="material-icons font-22 personal-icon">settings</i>
-                  {{$t('LOCK_POSITION_CONF')}}
+                  <i class="material-icons font-22 personal-icon">settings</i> {{$t('LOCK_POSITION_CONF')}}
                 </td>
                 <td>
                   <div class="font-18" v-if="lockInfo">
                     <span class="font-18">
-                      {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
-                    </span>
+                        {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
+                      </span>
                     <a class="text-secondary" @click="callLockPanel">{{$t('EDIT')}}</a>
                     <a v-if="this.lockInfo.expire" class="text-blue" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
                   <a v-else class="text-secondary" @click="callLockPanel">
-                    {{$t('SET_NOW')}}
-                  </a>
+                      {{$t('SET_NOW')}}
+                    </a>
                 </td>
               </tr>
               <tr>
                 <td class="bottom-left-link text-three font-18">
-              <i class="material-icons font-22 personal-icon">account_circle</i>
-                  {{$t('AGENT_INFO')}}
+                  <i class="material-icons font-22 personal-icon">account_circle</i> {{$t('AGENT_INFO')}}
                 </td>
                 <td>
                   <span class="font-18" v-if="isAgent || isDelegate === 1">
-                                  {{$t('IS_AGENT')}}
-                                </span>
+                                    {{$t('IS_AGENT')}}
+                                  </span>
                   <a v-else class="text-secondary" @click="callDelegatePanel">
-                                  {{$t('REGISTER_AGENT')}}
-                                </a>
+                                    {{$t('REGISTER_AGENT')}}
+                                  </a>
                 </td>
               </tr>
               <tr>
                 <td class="bottom-left-link text-three font-18">
-                   <i class="material-icons font-22 personal-icon">person</i>
-                  {{$t('GATEWAY_CANDIDATE')}}
+                  <i class="material-icons font-22 personal-icon">person</i> {{$t('GATEWAY_CANDIDATE')}}
                 </td>
                 <td>
                   <div @click="jump2Doc">
                     <a class="text-secondary">
-                                    {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
-                                  </a>
+                                      {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
+                                    </a>
                   </div>
                 </td>
               </tr>
@@ -122,19 +145,19 @@
     <q-dialog v-model="secondPwdShow">
       <span slot="title">{{$t('SET_SECOND_PASSWORD')}}</span>
       <div slot="body" class="row justify-left">
-        <q-field class="col-12 secondPwdField" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
+        <q-field class="col-12 secondPwd-field" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
           <q-input @blur="$v.password.$touch" :placeholder="$t('SECOND_PASSWORD_TIP')" type="password" v-model="password" />
         </q-field>
-        <q-field class="col-12 secondPwdField" :label="$t('CONFIRM')" :label-width="2" :error="$v.confirmPassword.$error" :error-label="$t('ERR_TWO_INPUTS_NOT_EQUAL')">
+        <q-field class="col-12 secondPwd-field" :label="$t('CONFIRM')" :label-width="2" :error="$v.confirmPassword.$error" :error-label="$t('ERR_TWO_INPUTS_NOT_EQUAL')">
           <q-input @blur="$v.confirmPassword.$touch" :placeholder="$t('SECOND_PASSWORD_CONFIRM')" type="password" v-model="confirmPassword" />
         </q-field>
       </div>
       <template slot="buttons" class="row justify-between" slot-scope="props">
-        <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="reset(props)"/>
-        <q-btn class="col-3 self-lef margin-left-10" color="secondary" @click="setPwd(props.ok)">
-                        {{$t('CONFIRM')}}
-                      </q-btn>
-      </template>
+          <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="reset(props)"/>
+          <q-btn class="col-3 self-lef margin-left-10" color="secondary" @click="setPwd(props.ok)">
+                          {{$t('CONFIRM')}}
+                        </q-btn>
+</template>
     </q-dialog>
 
     <q-dialog v-model="nicknameFormShow" >
@@ -172,7 +195,7 @@
 
 <template slot="buttons" slot-scope="props">
   <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()" />
-  <q-btn class="col-3 self-lef" color="secondary"  @click="setNickname(props.ok)">
+  <q-btn class="col-3 self-lef" color="secondary" @click="setNickname(props.ok)">
     {{$t('CONFIRM')}}
   </q-btn>
 </template>
@@ -327,7 +350,6 @@ export default {
     //   }
     // },
     reset(props) {
-      debugger
       this.password = ''
       this.confirmPassword = ''
       this.$v.password.$reset()
@@ -720,7 +742,7 @@ export default {
   color: #000000;
 }
 
-.secondPwdField {
+.secondPwd-field {
   width: 180px;
 }
 </style>

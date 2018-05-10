@@ -6,7 +6,8 @@
       <span class="font-22 text-black vertical-align-middle">{{$t('ALL_GATEWAY')}}</span>
     </div>
     <div class="row gutter-sm">
-      <gateway-item  v-for="(item, idx) in gateways" :item="item" :key="idx" @open="showDetail" />
+      <gateway-item class="col-4"  v-for="(item, idx) in gateways" :item="item" :key="idx" @open="showDetail" v-if="$q.platform.is.desktop"/>
+      <gateway-item class="col-12"  v-for="(item, idx) in gateways" :item="item" :key="idx" @open="showDetail" v-if="$q.platform.is.mobile"/>
       <q-btn :disabled="loading" v-if="pagination.rowsNumber>gateways.length" :label="$t('LOAD_MORE')" @click="loadMore" />
     </div>
     <!-- CouncilModal -->
