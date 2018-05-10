@@ -12,7 +12,7 @@
         <assets-panel class="assets-panel-container col-12" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" v-if="$q.platform.is.mobile"/>
         <assets-panel class="" v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"  v-if="$q.platform.is.desktop"/>
         <assets-panel class="col-12" v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"  v-if="$q.platform.is.mobile"/>
-        <q-btn class="load-more-btn col-3 bg-white text-black"  :label="$t('LOAD_MORE')" @click="loadMoreInner" v-if="$q.platform.is.desktop"/>
+        <q-btn class="load-more-btn col-3 bg-white text-black"  :label="$t('LOAD_MORE')" @click="loadMoreInner" v-if="$q.platform.is.desktop&&(innerPagination.rowsNumber>innerBalance.length)"/>
         <q-btn class="load-more-btn col-11 bg-white text-black"  :label="$t('LOAD_MORE')" @click="loadMoreInner" v-if="$q.platform.is.mobile&&(innerPagination.rowsNumber>innerBalance.length)"/>
       </q-card-main>
     </q-card>
