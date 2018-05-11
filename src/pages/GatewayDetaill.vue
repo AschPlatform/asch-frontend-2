@@ -68,8 +68,8 @@
           </q-card>
         </div>
         <div v-if="gateway && $q.platform.is.mobile" class="col-12">
-          <q-card class="gateway-modal-right-card no-shadow" align="left">
-            <div class=" modal-right-container shadow-2">
+          <q-card class="no-shadow" align="left">
+            <div class="shadow-2 bg-white">
               <q-card-title class="bg-nine">
                 <span class="font-22 text-black font-weight">{{gateway.name}}</span>
               </q-card-title>
@@ -78,12 +78,12 @@
               </q-card-main>
             </div>
           </q-card>
-          <q-card class="gateway-modal-right-card no-shadow" align="left">
-            <div class="modal-right-container modal-right-container-bottom shadow-2 row">
+          <q-card class="no-shadow margin-top-20" align="left">
+            <div class="row shadow-2 bg-white">
               <q-card-title class="bg-nine self-start bottom-container-top">
                 <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
               </q-card-title>
-              <q-card-main class="self-center bottom-container-bottom">
+              <q-card-main class="self-center bottom-container-bottom height-62">
                 <span class="font-24 text-secondary">{{gateway.createTime?compileTimeStamp(gateway.createTime):getTimeFromHight(gateway.lastUpdateHeight)}}</span>
               </q-card-main>
             </div>
