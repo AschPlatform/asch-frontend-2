@@ -1,7 +1,7 @@
 <template>
   <div>
-    <q-table class="home-table-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
-      <template slot="top-right" slot-scope="props">
+    <q-table class="no-shadow" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
+    <template slot="top-right" slot-scope="props">
         <q-btn-toggle class="bg-secondary text-white" flat rounded icon="fiber_manual_record" v-model="type" 
     toggle-color="negative"  toggle-text-color="white"
     :options="[
@@ -63,8 +63,7 @@
       </q-popover>
     </q-td>
   </q-table>
-  
-</div>
+  </div>
 </template>
 
 <script>
@@ -367,10 +366,6 @@ export default {
 <style lang="stylus" scoped>
 .trans-table {
   margin-top: 3%;
-}
-
-.home-table-container {
-  min-height: 500px;
 }
 
 .q-table-title {

@@ -1,6 +1,6 @@
 <template>
-  <q-card class="transfer-container  no-shadow q-p-lg">
-    <div class="transfer-content shadow-2">
+  <q-card class="transfer-container no-shadow q-p-lg">
+    <div class="shadow-2 transfer-content padding-20" v-if="$q.platform.is.desktop">
       <q-card-title>
         <span class="text-tertiary font-22">
             <i class="material-icons">border_color</i>
@@ -24,6 +24,37 @@
         <div class="col-12" v-if="$q.platform.is.mobile">
           <trans-panel class="col-12" :asset="asset" :user="user">
             <div class="col-12" slot="btns" slot-scope="props">
+              <q-btn big class="transfer-accounts-btn" :disable="btnDisable" color="secondary" @click="sender(props.send)" :label="$t('TRS_TYPE_TRANSFER')" />
+            </div>
+          </trans-panel>
+        </div>
+      </q-card-main>
+    </div>
+
+    <div class="transfer-content shadow-2" v-if="$q.platform.is.mobile">
+      <q-card-title>
+        <span class="text-tertiary font-22">
+            <i class="material-icons">border_color</i>
+            </span>
+        <span class="text-tertiary font-22">
+            {{$t('TRS_TYPE_TRANSFER')}}
+            </span>
+        <span class="text-secondary font-12">
+         {{$t('PAY_TIP')}}
+           </span>
+      </q-card-title>
+      <span class="transfer-title-line"></span>
+      <q-card-main class="row justify-left">
+        <div class="col-10" v-if="$q.platform.is.desktop">
+          <trans-panel class="col-12" :asset="asset" :user="user">
+            <div class="col-12" slot="btns" slot-scope="props">
+              <q-btn big class="transfer-accounts-btn" :disable="btnDisable" color="secondary" @click="sender(props.send)" :label="$t('TRS_TYPE_TRANSFER')" />
+            </div>
+          </trans-panel>
+        </div>
+        <div class="col-12" v-if="$q.platform.is.mobile">
+          <trans-panel class="col-12" :asset="asset" :user="user">
+            <div class="col-12 row justify-center" slot="btns" slot-scope="props">
               <q-btn big class="transfer-accounts-btn" :disable="btnDisable" color="secondary" @click="sender(props.send)" :label="$t('TRS_TYPE_TRANSFER')" />
             </div>
           </trans-panel>
@@ -92,7 +123,6 @@ export default {
 }
 
 .transfer-content {
-  padding: 40px;
   border-radius: 6px;
   background: #ffffff;
 }

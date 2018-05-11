@@ -4,27 +4,27 @@
   
       <q-toolbar class="head-top row justify-between bg-white">
         <div class="head-top-left">
-         <q-btn flat @click="showLeft=!showLeft">
-          <q-icon name="menu" class="text-faded" />
-         </q-btn>
-         <div class="head-top-left-container">
-          <span class="font-18 text-black font-weight">
-            {{$t(' LATEST_BLOCK_HEIGHT')}}
-          </span>
-           <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-          <i class="height-icon material-icons material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-          <span class="font-30 text-secondary margin-left-10 font-weight vertical-align-sub">{{latestBlock.height}}</span>
-         </div>
-         <span class="head-top-left-line vertical-align-middle"></span>
-         <div class="head-top-left-container  vertical-align-middle">
-          <span class="font-18 text-black font-weight vertical-align-middle">
-            {{$t(' TIME_LAST')}}
-          </span>
-          <span class="font-22 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
-         </div>
+          <q-btn flat @click="showLeft=!showLeft">
+            <q-icon name="menu" class="text-faded" />
+          </q-btn>
+          <div class="mobile-hide head-top-left-container">
+            <span class="font-18 text-black font-weight">
+              {{$t(' LATEST_BLOCK_HEIGHT')}}
+            </span>
+            <i class="height-icon material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+            <i class="height-icon material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+            <i class="height-icon material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+            <span class="font-30 text-secondary margin-left-10 font-weight vertical-align-sub">{{latestBlock.height}}</span>
+          </div>
+          <span class="head-top-left-line vertical-align-middle"></span>
+          <div class="mobile-hide head-top-left-container  vertical-align-middle">
+            <span class="font-18 text-black font-weight vertical-align-middle">
+              {{$t(' TIME_LAST')}}
+            </span>
+            <span class="font-22 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
+          </div>
         </div>
-
+  
         <q-btn flat @click="logout">
           <q-tooltip>
             {{$t('EXIT')}}
@@ -37,12 +37,12 @@
   
     <q-layout-drawer class="bg-seven main-left-list-container" v-model="showLeft" side="left">
       <!--
-                          Use <q-item> component
-                          instead of <q-item> for
-                          internal vue-router navigation
-                        -->
+                            Use <q-item> component
+                            instead of <q-item> for
+                            internal vue-router navigation
+                          -->
       <q-list no-border link inset-delimiter>
-        <q-list-header class="header-container row justify-left"  >
+        <q-list-header class="header-container row justify-left">
           <div class="header-left row justify-center items-center" @click="toHome">
             <span class="menu-logo"></span>
           </div>
@@ -67,15 +67,15 @@
           <q-item-side icon="gavel" />
           <q-item-main :label="$t('PROPOSAL')" />
         </q-item>
-         <q-item class="list-item-container" item :to="getRouterConf('gateway')">
+        <q-item class="list-item-container" item :to="getRouterConf('gateway')">
           <q-item-side icon="apps" />
           <q-item-main :label="$t('GATEWAY')" />
         </q-item>
         <!-- <q-item class="list-item-container" item :to="getRouterConf('council')">
-          <q-item-side icon="compare arrows" />
-          <q-item-main :label="$t('COUNCIL')" />
-        </q-item> -->
-          <q-item class="list-item-container" item :to="getRouterConf('delegates')">
+            <q-item-side icon="compare arrows" />
+            <q-item-main :label="$t('COUNCIL')" />
+          </q-item> -->
+        <q-item class="list-item-container" item :to="getRouterConf('delegates')">
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
         </q-item>
@@ -92,13 +92,13 @@
           <q-item-main :label="$t('PERSONAL')" />
         </q-item>
         <!-- <q-item item :to="getRouterConf('forging')">
-                <q-item-side icon="gavel" />
-                <q-item-main :label="$t('FORGING')" />
-              </q-item> -->
+                  <q-item-side icon="gavel" />
+                  <q-item-main :label="$t('FORGING')" />
+                </q-item> -->
         <!-- <q-item class="list-item-container" item :to="getRouterConf('peers')">
-          <q-item-side icon="share" />
-          <q-item-main :label="$t('PEERS')" />
-        </q-item> -->
+            <q-item-side icon="share" />
+            <q-item-main :label="$t('PEERS')" />
+          </q-item> -->
         <q-item class="list-item-container" item :to="getRouterConf('issuer')">
           <q-item-side icon="send" />
           <q-item-main :label="$t('TRS_TYPE_UIA_ISSUE')" />
@@ -128,12 +128,30 @@
       <!-- <float-menu v-if="this.showFloatBtns" :router="$router" :userObj="user" /> -->
       <trans-info-modal class="code-modal-container" :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false" />
     </q-page-container>
-
+  
     <q-ajax-bar ref="bar" position="top" color="orange" />
-
-   <q-layout-footer class="no-shadow footer-container row justify-between">
-    <span class="footer-introduce font-12">@2018 copyright</span>
-    <span class="footer-introduce font-12 float-right">1.4.0</span>
+  
+    <q-layout-footer class="no-shadow footer-container ">
+      <div class="desktop-hide row justify-center height-36">
+        <span class="font-18 text-black font-weight height-36">
+              {{$t(' LATEST_BLOCK_HEIGHT')}}
+        </span>
+        <i class="material-icons text-secondary font-22 margin-right-5 height-36">equalizer</i>
+        <i class="material-icons text-secondary font-22 margin-right-5 height-36">equalizer</i>
+        <i class="material-icons text-secondary font-22 margin-right-5 height-36">equalizer</i>
+        <span class=" text-secondary font-30 margin-left-10 font-weight height-36">{{latestBlock.height}}</span>
+      </div>
+      <div class="desktop-hide row justify-center height-36">
+        <span class="font-18 text-black font-weight vertical-align-middle">
+              {{$t(' TIME_LAST')}}
+          </span>
+        <span class="font-22 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
+      </div>
+      <div class="row justify-between height-36">
+        <span class="footer-introduce font-12">@2018 copyright</span>
+        <span class="footer-introduce font-12">1.4.0</span>
+      </div>
+  
     </q-layout-footer>
   </q-layout>
 </template>
@@ -534,8 +552,6 @@ body {
 
 .footer-container {
   background: #f0f3f6;
-  height: 40px;
-  line-height: 40px;
 }
 
 .footer-introduce {
