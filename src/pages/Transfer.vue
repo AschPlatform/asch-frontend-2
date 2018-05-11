@@ -60,11 +60,13 @@ export default {
   async mounted() {},
   computed: {
     ...mapGetters(['userInfo', 'balances']),
-    transferContentCSS(){
-      return this.$q.platform.is.desktop ? "shadow-2 transfer-content padding-20" : "transfer-content shadow-2"
+    transferContentCSS() {
+      return this.$q.platform.is.desktop
+        ? 'shadow-2 transfer-content padding-20'
+        : 'transfer-content shadow-2'
     },
-    transferBtnCSS(){
-      return this.$q.platform.is.desktop ? "row justify-left col-12" : "row justify-center col-12"
+    transferBtnCSS() {
+      return this.$q.platform.is.desktop ? 'row justify-left col-12' : 'row justify-center col-12'
     },
     user() {
       return this.userInfo

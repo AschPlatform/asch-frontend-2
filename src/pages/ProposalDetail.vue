@@ -1,36 +1,49 @@
 <template>
   <q-page>
-    <q-card class="padding-20 q-mx-xl q-my-xl" color="white" text-color="black" v-if="$q.platform.is.desktop">
-      <q-card-title class="padding-l-0">
+    <q-card :class="proposalDetailCSS" color="white" text-color="black">
+      <q-card-title class="col-12 padding-l-0">
         <q-icon size="18px" name="border color" />
         {{$t('proposal.SHOW')}}
         <q-btn color="warning" slot="right" class="row items-center" @click="back">
           <q-icon name="reply" /> {{$t('CANCEL')}}
         </q-btn>
       </q-card-title>
-        <q-card-separator class="q-my-lg bg-999 no-border-top"/>
-        <div class="row">
-          <q-field :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-10 font-16">
-            <q-input readonly hide-underline v-model="detail.title" value=""/>
-          </q-field>
+      <q-card-separator class="col-12 q-my-lg bg-999 no-border-top"/>
+      <div class="row col-12">
+        <q-field :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-10 font-16">
+          <q-input readonly hide-underline v-model="detail.title" value=""/>
+        </q-field>
         </div>
-        <div class="row">
+        <div class="row col-12">
           <q-field :label-width="2" :label="$t('proposal.SELECT_P_TYPE')" class="col-10 font-16">
             <q-input readonly hide-underline v-model="dealWithType" value=""/>
             <!-- <span>{{detail.content | jparse('name', false)}}</span> -->
           </q-field>
         </div>
-        <div class="row">
-          <q-field :label-width="4" class="col-5 font-16" :label="$t('proposal.SELECT_P_PERIOD')">
+        <div class="row col-12">
+          <!-- <q-field :label-width="4" class="col-5 font-16" :label="$t('proposal.SELECT_P_PERIOD')">
             <q-input readonly hide-underline value="" v-model="time_buffer"></q-input>
           </q-field>
           <span class="self-center col-1 font-16" align="center">{{$t('TO')}}</span>
           <q-field class="col-3 q-ml-xl font-16">
             <q-input readonly hide-underline value="" v-model="time_end"></q-input>
+          </q-field> -->
+        <q-field :label-width="12" class="col-md-3 col-xs-12 font-16" :label="$t('proposal.SELECT_P_PERIOD')">
+        </q-field>
+
+        <q-field :label-width="4" class="col-md-4 font-16">
+            <q-input readonly hide-underline value="" v-model="time_buffer"></q-input>
+        </q-field>
+        <q-field :label-width="4" class="col-md-1 font-16" :label="$t('TO')">
           </q-field>
-        </div>
+          <!-- <span class="self-center col-1 font-16" align="center">{{$t('TO')}}</span> -->
+        <q-field class="col-md-4 q-ml-xl font-16">
+            <q-input readonly hide-underline value="" v-model="time_end"></q-input>
+        </q-field>
+   
+      </div>
     </q-card>
-    <q-card class="row padding-20 margin-top-20" color="white" text-color="black" v-if="$q.platform.is.mobile">
+    <q-card class="mobile-hide" color="white" text-color="black" v-if="$q.platform.is.mobile">
       <q-card-title class="col-12 padding-l-0">
         <q-icon size="18px" name="border color" />
         {{$t('proposal.SHOW')}}
@@ -255,7 +268,13 @@
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
-import { deCompileContent, compileTimeStamp, toast, toastError, getTimeFromTrade } from '../utils/util'
+import {
+  deCompileContent,
+  compileTimeStamp,
+  toast,
+  toastError,
+  getTimeFromTrade
+} from '../utils/util'
 import { secondPwd } from '../utils/validators'
 import MemberIndicator from '../components/MemberIndicator'
 import {
@@ -433,6 +452,11 @@ export default {
   computed: {
     ...mapGetters(['userInfo']),
     ...mapState(['latestBlock']),
+    proposalDetailCSS() {
+      return this.$q.platform.is.desktop
+        ? 'padding-20 q-mx-xl q-my-xl'
+        : 'row padding-20 margin-top-20'
+    },
     // enpower
     dealWithType() {
       switch (this.detail.topic) {
