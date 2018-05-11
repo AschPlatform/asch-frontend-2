@@ -11,7 +11,7 @@
         </q-btn> -->
       </div>
       <div class="row q-px-md gutter-md">
-        <div class="col-8">
+        <div class="col-8" v-if="$q.platform.is.desktop">
           <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading" row-key="address" hide-bottom>
   
             <q-td slot="body-cell-operation" slot-scope="props" :props="props">
@@ -28,7 +28,46 @@
   
           </q-table>
         </div>
-        <div v-if="gateway" class="col-4">
+        <div class="col-12" v-if="$q.platform.is.mobile">
+          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading" row-key="address" hide-bottom>
+  
+            <q-td slot="body-cell-operation" slot-scope="props" :props="props">
+              <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">
+                {{$t('CHECK')}}
+              </div>
+            </q-td>
+  
+            <!-- <q-td slot="body-cell-"  slot-scope="props" :props="props">
+              <div class="text-primary" @click="viewAccountInfo(props.row)">
+                {{$t('CHECK')}}
+              </div>
+            </q-td> -->
+  
+          </q-table>
+        </div>
+        <div v-if="gateway && $q.platform.is.desktop" class="col-4">
+          <q-card class="gateway-modal-right-card no-shadow" align="left">
+            <div class=" modal-right-container shadow-2">
+              <q-card-title class="bg-nine">
+                <span class="font-22 text-black font-weight">{{gateway.name}}</span>
+              </q-card-title>
+              <q-card-main>
+                <span class="font-16 text-five">{{gateway.desc}}</span>
+              </q-card-main>
+            </div>
+          </q-card>
+          <q-card class="gateway-modal-right-card no-shadow" align="left">
+            <div class="modal-right-container modal-right-container-bottom shadow-2 row">
+              <q-card-title class="bg-nine self-start bottom-container-top">
+                <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
+              </q-card-title>
+              <q-card-main class="self-center bottom-container-bottom">
+                <span class="font-24 text-secondary">{{gateway.createTime?compileTimeStamp(gateway.createTime):getTimeFromHight(gateway.lastUpdateHeight)}}</span>
+              </q-card-main>
+            </div>
+          </q-card>
+        </div>
+        <div v-if="gateway && $q.platform.is.mobile" class="col-12">
           <q-card class="gateway-modal-right-card no-shadow" align="left">
             <div class=" modal-right-container shadow-2">
               <q-card-title class="bg-nine">
@@ -181,12 +220,12 @@ export default {
 <style lang="stylus" scoped>
 .gatewayDetail-container {
   padding: 20px;
-}
 
-.gatewayDetail-content {
-  background: #ffffff !important;
-  padding-bottom: 40px;
-  border-radius: 6px;
+  .gatewayDetail-content {
+    background: #ffffff !important;
+    padding-bottom: 40px;
+    border-radius: 6px;
+  }
 }
 
 .q-table-top {
