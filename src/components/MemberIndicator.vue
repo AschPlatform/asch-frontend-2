@@ -1,14 +1,6 @@
 <template>
   <div class="row justify-around q-my-lg member-container">
-    <q-field class="col-5 align-center" v-if="$q.platform.is.desktop">
-      <div class="column">
-        <p class="col-1">{{$t(title_pre)}}</p>
-        <div class="col-auto">
-          <q-chips-input color="primary" class="col-auto member-content-chips-1" inverted readonly v-model="contentPre" disable/>
-        </div>
-      </div>
-    </q-field>
-    <q-field class="col-12 align-center" v-if="$q.platform.is.mobile">
+    <q-field class="col-md-5 col-xs-12 align-center">
       <div class="column">
         <p class="col-1">{{$t(title_pre)}}</p>
         <div class="col-auto">
@@ -17,14 +9,10 @@
       </div>
     </q-field>
     
-    <q-icon size="33px" class="padding-t-40" name="keyboard arrow right" v-if="$q.platform.is.desktop" />
-    <q-icon size="33px" class="padding-t-40" name="keyboard arrow down" v-if="$q.platform.is.mobile" />
+    <q-icon size="33px" class="mobile-hide padding-t-40" name="keyboard arrow right" />
+    <q-icon size="33px" class="desktop-hide padding-t-40" name="keyboard arrow down"/>
 
-    <q-field class="col-5"  v-if="$q.platform.is.desktop">
-      <p>{{$t(title_post)}}</p>
-      <q-chips-input color="primary" class="col-5 member-content-chips-2" inverted readonly v-model="contentPost" disable/>
-    </q-field>
-    <q-field class="col-12"  v-if="$q.platform.is.mobile">
+    <q-field class="col-md-5 col-xs-12">
       <p>{{$t(title_post)}}</p>
       <q-chips-input color="primary" class="col-5 member-content-chips-2" inverted readonly v-model="contentPost" disable/>
     </q-field>
