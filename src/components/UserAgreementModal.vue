@@ -1,5 +1,5 @@
 <template>
-  <q-modal class="user-agreement-container" v-model="show" minimized>
+  <q-modal :class="userAgreementCSS" v-model="show">
     <q-card class="col-12 no-shadow" >
       <div class="bg-secondary height-62 padding-l-20">
       <span class="text-white font-24 font-weight">{{title}}</span>
@@ -65,14 +65,18 @@ export default {
     cancel() {
       this.$emit('cancel')
     }
+  },
+  computed: {
+    userAgreementCSS() {
+      return this.$q.platform.is.desktop
+        ? 'minimized user-agreement-desktop-container'
+        : 'maximized user-agreement-mobile-container'
+    }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.user-agreement-container {
-}
-
 .agreement-btn-2 {
   margin-left: 20px;
 }

@@ -40,50 +40,8 @@
           </q-td>
         </q-table>
       </div>
-      <div  v-if="$q.platform.is.desktop" class="col-md-3 col-xs-12">
-        <div class="blocks-container-right">
-          <q-card class="q-px-sm">
-          <q-card-title>
-          {{$t('DELEGATE_INFO')}}
-          </q-card-title>
-          <q-card-separator />
-          <q-card-main class="blocks-padding-40" align="center" v-if="!this.isDelegate">
-            <q-btn class="" color="secondary" @click="registerDelegate">{{$t('DELEGATE_REGISTER')}}</q-btn>
-            <span class="block margin-t-10 font-12">{{$t('NOT_DELEGATE')}}</span>
-          </q-card-main>
-          <q-card-main align="center" v-else>
-            <div v-if="delegate">
-              <span class="block margin-t-20 text-secondary font-30 font-weight">{{delegate.name}}</span>
-            <span class="block margin-t-20">
-              {{$t('DELEGATE_POLLRATE')+':'}}
-              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval+'%'}}</a>
-              </span>
-            <span class="block margin-t-10">
-              {{$t('DELEGATE_RANK')+':'}}
-              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.rate}}</a>
-              </span>
-            </div>
-            
-          </q-card-main>
-        </q-card>
-        <q-card class="q-px-sm margin-t-20" v-if="this.isDelegate">
-          <q-card-title>
-          {{$t('MY_FORGING')}}
-          </q-card-title>
-          <q-card-separator />
-          <q-card-main class="padding-b-40" v-if="delegate" align="center">
-            <q-btn class="font-30" @click="changeData" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
-            <span class="block">
-              {{$t('DELEGATE_VOTERATE')+':'}}
-              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline" href="javascript:;">{{delegate.productivity+'%'}}</a>
-            </span>
-          </q-card-main>
-        </q-card>
-        </div>
-      </div>
-
-       <div v-if="$q.platform.is.mobile" class="col-md-3 col-xs-12 margin-t-20">
-        <div>
+      <div :class="blockRightCSS">
+        <div :class="blockRightContentCSS">
           <q-card class="q-px-sm">
           <q-card-title>
           {{$t('DELEGATE_INFO')}}
@@ -486,6 +444,12 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo']),
+    blockRightCSS() {
+      return this.$q.platform.is.desktop ? 'col-md-3 col-xs-12' : 'col-md-3 col-xs-12 margin-top-20'
+    },
+    blockRightContentCSS() {
+      return this.$q.platform.is.desktop ? 'blocks-container-right' : ''
+    },
     user() {
       return this.userInfo
     },
