@@ -6,11 +6,11 @@
               {{$t('PERSONAL')}}
             </q-card-title> -->
       <q-card-main class="row col-12 justify-center">
-        <div class="col-12 row justify-left shadow-2 bg-white personal-top" v-if="$q.platform.is.desktop">
+        <div :class="personalTopCSS">
           <div class="desktop-only">
             <jdenticon class="personal-head-canvas" :address="address" :size="60" />
           </div>
-          <div class="col-7 col-md-7 col-lg-6 col-xl-5 col-xs-10 text-left row justify-left margin-left-10">
+          <div class="col-md-6 col-xs-12 text-left row justify-left margin-left-10">
             <div>
               <span v-if="!userNickname" class="text-black font-22 vertical-align-middle">
                   {{$t('HELLO')}}
@@ -25,7 +25,7 @@
               <q-btn class="text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
             </div>
           </div>
-          <div class="personal-qr row justify-left text-left">
+          <div :class="personalTopQrCSS">
             <span class="right-line desktop-only"></span>
             <div class="row justify-center" @click="showAddrQr">
               <vue-qr class="personal-qr-container" :size="103" :text="address"></vue-qr>
@@ -33,7 +33,8 @@
           </div>
   
         </div>
-        <div class="col-12 row justify-left shadow-2 bg-white padding-10 border-r-6" v-if="$q.platform.is.mobile">
+
+        <div class="desktop-hide mobile-hide col-12 row justify-left shadow-2 bg-white padding-10 border-r-6">
           <div class="desktop-only">
             <jdenticon class="personal-head-canvas" :address="address" :size="60" />
           </div>
@@ -94,7 +95,7 @@
                 </td>
                 <td>
                   <div class="font-18" v-if="lockInfo">
-                    <span class="font-18">
+                    <span class="font-18 white-space-initial">
                         {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
                       </span>
                     <a class="text-secondary" @click="callLockPanel">{{$t('EDIT')}}</a>
@@ -582,6 +583,16 @@ export default {
   async mounted() {},
   computed: {
     ...mapGetters(['userInfo', 'latestBlock']),
+    personalTopCSS() {
+      return this.$q.platform.is.desktop
+        ? 'col-12 row justify-left shadow-2 bg-white personal-top'
+        : 'col-12 row justify-left shadow-2 bg-white padding-10 border-r-6'
+    },
+    personalTopQrCSS() {
+      return this.$q.platform.is.desktop
+        ? 'col-md-3 col-xs-12 personal-qr row justify-left text-left'
+        : 'col-md-3 col-xs-12 personal-qr row justify-center text-left'
+    },
     user() {
       return this.userInfo
     },
@@ -744,5 +755,9 @@ export default {
 
 .secondPwd-field {
   width: 180px;
+}
+
+.white-space-initial{
+  white-space: initial
 }
 </style>
