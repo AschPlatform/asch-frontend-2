@@ -22,12 +22,12 @@
             <p v-if="currency" >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
         </q-field>
         <q-field v-if="secondSignature" class="col-12 margin-top-54">
-          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
+          <q-input :float-label="$t('TRS_TYPE_SECOND_PASSWORD')" v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
         </q-field>
        
         <div class="row col-12 justify-around q-mt-lg margin-top-54">
-          <q-btn class="col-4" outline big color="secondary"  @click="close" :label="$t('label.cancel')"/>
-          <q-btn class="col-4" big color="secondary" @click="withdraw" :label="$t('WITHDRAW')"/>
+          <q-btn class="col-4" outline big color="secondary" :label="$t('label.cancel')" @click="close" />
+          <q-btn class="col-4" big color="secondary" :disable="btnDisable" :label="$t('WITHDRAW')" @click="withdraw"/>
         </div>
       </div>
     </div>
@@ -41,6 +41,7 @@ import { secondPwd, amountStrReg } from '../utils/validators'
 import { required } from 'vuelidate/lib/validators'
 import { toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
+import { BigNumber } from 'bignumber.js'
 
 export default {
   name: 'WithdrawModal',
@@ -59,7 +60,8 @@ export default {
       balance: '',
       precision: 0,
       fee: '',
-      balances: []
+      balances: [],
+      btnDisable: false
     }
   },
   validations: {
@@ -114,7 +116,10 @@ export default {
       if (this.$v.form.$error) {
         return null
       }
-      let amount = this.form.amount * Math.pow(10, this.precision).toFixed(0)
+      let amount = BigNumber(this.form.amount)
+        .times(Math.pow(10, this.precision))
+        .toString()
+
       let trans = asch.withdrawGateway(
         this.form.address,
         this.asset.asset.gateway,
@@ -129,13 +134,25 @@ export default {
         this.close()
       } else {
         translateErrMsg(this.$t, res.error)
+        this.disableBtn('btnDisable')
       }
     },
     close() {
+      this.form = {
+        address: '',
+        amount: '',
+        currency: ''
+      }
       this.$emit('close')
     },
     info(msg) {
       toast(msg)
+    },
+    disableBtn(model) {
+      this[model] = true
+      this._.delay(() => {
+        this[model] = false
+      }, 3000)
     }
   },
   computed: {
