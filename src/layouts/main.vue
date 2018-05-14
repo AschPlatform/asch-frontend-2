@@ -11,12 +11,10 @@
             <span class="font-18 text-black font-weight">
               {{$t(' LATEST_BLOCK_HEIGHT')}}
             </span>
-            <i class="height-icon material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-            <i class="height-icon material-icons vertical-align-middle text-secondary font-22">equalizer</i>
-            <i class="height-icon material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+            <i v-for='n in 3' :key=n class="height-icon material-icons vertical-align-middle text-secondary font-22">equalizer</i>
             <span class="font-30 text-secondary margin-left-10 font-weight vertical-align-sub">{{latestBlock.height}}</span>
           </div>
-          <span class="head-top-left-line vertical-align-middle"></span>
+          <span class="mobile-hide head-top-left-line vertical-align-middle"></span>
           <div class="mobile-hide head-top-left-container  vertical-align-middle">
             <span class="font-18 text-black font-weight vertical-align-middle">
               {{$t(' TIME_LAST')}}
@@ -24,6 +22,10 @@
             <span class="font-22 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
           </div>
         </div>
+
+       <div class="desktop-hide text-black" >
+         {{clientPathName}}
+       </div>
   
         <q-btn flat @click="logout">
           <q-tooltip>
@@ -132,20 +134,18 @@
     <q-ajax-bar ref="bar" position="top" color="orange" />
   
     <q-layout-footer class="no-shadow footer-container ">
-      <div class="desktop-hide row justify-center height-36">
-        <span class="font-18 text-black font-weight height-36">
+      <div class="desktop-hide row justify-left height-36 footer-introduce">
+        <span class="font-14 text-black font-weight height-36">
               {{$t(' LATEST_BLOCK_HEIGHT')}}
         </span>
-        <i class="material-icons text-secondary font-22 margin-right-5 height-36">equalizer</i>
-        <i class="material-icons text-secondary font-22 margin-right-5 height-36">equalizer</i>
-        <i class="material-icons text-secondary font-22 margin-right-5 height-36">equalizer</i>
-        <span class=" text-secondary font-30 margin-left-10 font-weight height-36">{{latestBlock.height}}</span>
+        <i v-for="n in 3" :key=n class="material-icons text-secondary font-18 margin-right-minus-5 height-36">equalizer</i>
+        <span class="text-secondary font-24 margin-left-10 font-weight height-36">{{latestBlock.height}}</span>
       </div>
-      <div class="desktop-hide row justify-center height-36">
-        <span class="font-18 text-black font-weight vertical-align-middle">
+      <div class="desktop-hide row justify-left height-36 footer-introduce">
+        <span class="font-14 text-black font-weight vertical-align-middle">
               {{$t(' TIME_LAST')}}
           </span>
-        <span class="font-22 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
+        <span class="font-18 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
       </div>
       <div class="row justify-between height-36">
         <span class="footer-introduce font-12">©2018 copyright</span>
@@ -379,6 +379,39 @@ export default {
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
     },
+    clientPathName() {
+      if (this.$route.path == '/home') {
+        return this.$t('HOME')
+      } else if (this.$route.path == '/assets') {
+        return this.$t('ASSET')
+      } else if (this.$route.path == '/assetDetail') {
+        return this.$t('ASSET')
+      } else if (this.$route.path == '/transfer') {
+        return this.$t('TRANSFER')
+      } else if (this.$route.path == '/proposal') {
+        return this.$t('PROPOSAL')
+      } else if (this.$route.path == '/launchProposal') {
+        return this.$t('PROPOSAL')
+      } else if (this.$route.path == '/proposalDetail') {
+        return this.$t('PROPOSAL')
+      } else if (this.$route.path == '/gateway') {
+        return this.$t('GATEWAY')
+      } else if (this.$route.path == '/gatewayDetail') {
+        return this.$t('GATEWAY')
+      } else if (this.$route.path == '/vote/delegates') {
+        return this.$t('TRS_TYPE_VOTE')
+      } else if (this.$route.path == '/blocks') {
+        return this.$t('BLOCKS')
+      } else if (this.$route.path == '/applications') {
+        return this.$t('APPLICATIONS')
+      } else if (this.$route.path == '/personal') {
+        return this.$t('PERSONAL')
+      } else if (this.$route.path == '/issuer') {
+        return this.$t('TRS_TYPE_UIA_ISSUE')
+      } else {
+        return this.$t('ASCH_CLIENT')
+      }
+    },
     assets() {
       if (this.userInfo) {
         let balances = this.balances
@@ -489,7 +522,7 @@ body {
 }
 
 .height-icon {
-  margin-right: -9px;
+  margin-right: -5px;
 }
 
 .all-page-container {
@@ -563,12 +596,6 @@ body {
   ::-webkit-scrollbar {
     width: 0;
     height: 0;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .head-top-left-line {
-    display: none;
   }
 }
 </style>

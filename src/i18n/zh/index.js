@@ -113,6 +113,7 @@ const lang = {
   ASSET: '资产',
   ABOUT: '关于',
   MESSAGE_DETAILS: '信息详情',
+  ASCH_CLIENT: '阿希客户端',
 
   // home
   BALANCE: '钱包余额',
