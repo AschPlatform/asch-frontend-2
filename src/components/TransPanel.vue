@@ -49,11 +49,12 @@
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
-import { secondPwd } from '../utils/validators'
+import { secondPwd, amountStrReg } from '../utils/validators'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
 import { QField, QInput, QSelect } from 'quasar'
+import { BigNumber } from 'bignumber.js'
 
 export default {
   props: ['user', 'asset', 'showTitle'],
@@ -78,9 +79,7 @@ export default {
       amount: {
         required,
         gtZero(value) {
-          value = Number(value)
-          if (this._.isNaN(value)) return false
-          return value > 0
+          return amountStrReg.test(value)
         },
         getPrecision(value) {
           let arr = value.split('.')
@@ -127,7 +126,9 @@ export default {
         return false
       }
 
-      amount = (amount * Math.pow(10, this.precision)).toFixed(0)
+      amount = BigNumber(amount)
+        .times(Math.pow(10, this.precision))
+        .toString()
       let trans = {}
       if (this.form.currency === 'XAS') {
         trans = asch.transferXAS(amount, receiver, remark, this.user.secret, this.secondPwd)

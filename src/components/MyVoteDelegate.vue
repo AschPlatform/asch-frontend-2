@@ -63,11 +63,6 @@ export default {
         this.disableBtn('btnDisable')
         return
       }
-      if (this.isDelegate) {
-        toastWarn(this.$t('DELEGATE_CAN_NOT_BE_AGENT'))
-        this.disableBtn('btnDisable')
-        return
-      }
       // this.isSetAgent ? this.cancelAgent() : this.setAgent()
       if (this.agentName) {
         this.cancelAgent()
