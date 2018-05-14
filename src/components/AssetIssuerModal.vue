@@ -1,5 +1,5 @@
 <template>
-  <q-modal v-model="show" minimized :no-esc-dismiss="true">
+  <q-modal :class="assetIssuerCSS" v-model="show"  :no-esc-dismiss="true">
   <q-card v-if="user" class="padding-b-40">
      <div class="padding-20 bg-secondary">
       <span class="text-white font-22">
@@ -146,6 +146,9 @@ export default {
     user() {
       return this.userInfo
     },
+    assetIssuerCSS() {
+      return this.$q.platform.is.desktop ? 'minimized' : 'maximized'
+    },
     secondSignature() {
       return this.user ? this.user.account.secondPublicKey : null
     },
@@ -171,5 +174,4 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
 </style>

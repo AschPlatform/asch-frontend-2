@@ -148,7 +148,7 @@
         <span class="font-22 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
       </div>
       <div class="row justify-between height-36">
-        <span class="footer-introduce font-12">@2018 copyright</span>
+        <span class="footer-introduce font-12">©2018 copyright</span>
         <span class="footer-introduce font-12">1.4.0</span>
       </div>
   
