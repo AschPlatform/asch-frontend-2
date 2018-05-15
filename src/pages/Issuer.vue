@@ -6,7 +6,7 @@
   
           <template slot="top-right" slot-scope="props">
                     <q-btn  :label="$t('REGISTERED_ASSETS')" color="secondary"  @click="assetRegister" />
-</template>
+          </template>
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
             <div>
@@ -52,33 +52,8 @@
 
         </q-table>
       </div>
-      <div class="col-md-3 col-xs-12" v-if="$q.platform.is.desktop">
-        <div class="padding-l-20">
-         <q-card>
-           <div class="text-black height-62 padding-l-20 q-table-top">
-             <span class="font-22">{{$t('ISSUER')}}</span>
-          </div>
-          <q-card-main>
-            <div v-if="issuer">
-              <p class="font-16 text-black">
-                {{issuer.name}}
-              </p>
-              <p class="font-16 text-five">
-                {{issuer.desc}}
-              </p>
-            </div>
-            <div class="text-center padding-b-20" v-else>
-              <p>{{$t('NO_ISSUER_INFO')}}</p>
-              <q-btn class="cursor-pointer" color="secondary" @click="issuerRegister" >{{$t('REGISTERED_PUBLISHER')}}</q-btn>
-            </div>
-          </q-card-main>
-         </q-card>
-        </div>
-    
-        <!-- <assets-records :userObj="userInfo" /> -->
-      </div>
-      <div class="col-md-3 col-xs-12 margin-top-20" v-if="$q.platform.is.mobile">
-        <div>
+      <div :class="issuerCSS" >
+        <div :class="issuerRightCSS">
          <q-card>
            <div class="text-black height-62 padding-l-20 q-table-top">
              <span class="font-22">{{$t('ISSUER')}}</span>
@@ -603,6 +578,12 @@ export default {
     ...mapGetters(['userInfo', 'issuer']),
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
+    },
+    issuerCSS() {
+      return this.$q.platform.is.desktop ? 'col-md-3 col-xs-12' : 'col-md-3 col-xs-12 margin-top-20'
+    },
+    issuerRightCSS() {
+      return this.$q.platform.is.desktop ? 'padding-l-20' : ''
     },
     pwdValid() {
       return !secondPwdReg.test(this.secondPwd)

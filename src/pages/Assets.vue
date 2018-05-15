@@ -4,41 +4,31 @@
       <q-card-title>
         <i class="material-icons font-22 vertical-align-middle text-secondary ">person</i>
         <span class="font-22 text-black">
-                 {{$t('X_ASSETS')}}
-            </span>
+                   {{$t('X_ASSETS')}}
+              </span>
       </q-card-title>
       <q-card-main class="row justify-left gutter-md">
-        <assets-panel class="assets-panel-container" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" v-if="$q.platform.is.desktop"/>
-        <assets-panel class="assets-panel-container col-12" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" v-if="$q.platform.is.mobile"/>
-        <assets-panel class="" v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"  v-if="$q.platform.is.desktop"/>
-        <assets-panel class="col-12" v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open"  v-if="$q.platform.is.mobile"/>
-        <q-btn class="load-more-btn col-3 bg-white text-black"  :label="$t('LOAD_MORE')" @click="loadMoreInner" v-if="$q.platform.is.desktop"/>
-        <q-btn class="load-more-btn col-11 bg-white text-black"  :label="$t('LOAD_MORE')" @click="loadMoreInner" v-if="$q.platform.is.mobile&&(innerPagination.rowsNumber>innerBalance.length)"/>
+        <assets-panel :class="innerCSS" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" />
+  
+        <assets-panel :class="innerAllCSS" v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open" />
+  
+        <q-btn :class="innerBtnCSS" :label="$t('LOAD_MORE')" @click="loadMoreInner" v-if="innerPagination.rowsNumber>innerBalance.length" />
       </q-card-main>
     </q-card>
     <q-card class="assets-container-bottom no-shadow">
       <q-card-title>
         <i class="material-icons text-secondary vertical-align-middle font-22">person</i>
         <span class="font-22 text-black">
-               {{$t('CROSS_ASSETS')}}
-              </span>
+                 {{$t('CROSS_ASSETS')}}
+                </span>
       </q-card-title>
       <q-card-main class="row justify-left gutter-md">
-        <assets-panel v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"  v-if="$q.platform.is.desktop"/>
-        <assets-panel v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"  v-if="$q.platform.is.mobile"/>
+        <assets-panel :class="innerAllCSS" v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"/>
+
         <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
-        <q-card class="col-3 shadow-2 more-assets-container" v-if="$q.platform.is.desktop">
+        <q-card :class="outerBtnCSS">
           <div class="more-assets-btn row justify-center items-center" @click="moreAssets">
-            <span>
-                   {{$t('MORE_ASSETS')}}
-                </span>
-          </div>
-        </q-card>
-        <q-card class="col-11 shadow-2 more-assets-container" v-if="$q.platform.is.mobile">
-          <div class="more-assets-btn row justify-center items-center" @click="moreAssets">
-            <span>
-                   {{$t('MORE_ASSETS')}}
-                </span>
+            <span>{{$t('MORE_ASSETS')}}</span>
           </div>
         </q-card>
       </q-card-main>
@@ -196,6 +186,24 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo']),
+    innerCSS() {
+      return this.$q.platform.is.desktop
+        ? 'assets-panel-container'
+        : 'col-12 assets-panel-container'
+    },
+    innerAllCSS() {
+      return this.$q.platform.is.desktop ? null : 'col-12'
+    },
+    innerBtnCSS() {
+      return this.$q.platform.is.desktop
+        ? 'load-more-btn col-3 bg-white text-black'
+        : 'load-more-btn col-11 bg-white text-black'
+    },
+    outerBtnCSS() {
+      return this.$q.platform.is.desktop
+        ? 'col-3 shadow-2 more-assets-container'
+        : 'col-11 shadow-2 more-assets-container'
+    },
     user() {
       return this.userInfo
     },

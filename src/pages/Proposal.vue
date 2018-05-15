@@ -1,24 +1,19 @@
 <template>
   <q-page class="padding-20">
     <div class="proposal-content bg-white shadow-2 border-r-6">
-       <q-btn-group class="float-right margin-bottom-10" v-if="$q.platform.is.mobile">
+      <q-btn-group class="desktop-hide float-right margin-bottom-10">
         <q-btn class="font-18" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
       </q-btn-group>
       <q-btn-group outline>
-        <q-btn class="font-22 proposal-content-top-btn" flat color="secondary" :label="$t('proposal.TITLE_ALL')" @click="changeState('all')" v-if="$q.platform.is.desktop"/>
-        <q-btn class="font-22 proposal-content-top-btn" flat :label="$t('proposal.TITLE_PROCESS')" @click="changeState('ongoing')" v-if="$q.platform.is.desktop"/>
-        <q-btn class="font-22 proposal-content-top-btn" flat :label="$t('proposal.TITLE_ACTIVED')" @click="changeState('activated')" v-if="$q.platform.is.desktop"/>
-        <q-btn class="font-22 proposal-content-top-btn" flat :label="$t('proposal.TITLE_EXPIRED')" @click="changeState('expired')" v-if="$q.platform.is.desktop"/>
-
-        <q-btn class="font-12 proposal-content-top-btn" flat color="secondary" :label="$t('proposal.TITLE_ALL')" @click="changeState('all')" v-if="$q.platform.is.mobile"/>
-        <q-btn class="font-12 proposal-content-top-btn" flat :label="$t('proposal.TITLE_PROCESS')" @click="changeState('ongoing')" v-if="$q.platform.is.mobile"/>
-        <q-btn class="font-12 proposal-content-top-btn" flat :label="$t('proposal.TITLE_ACTIVED')" @click="changeState('activated')" v-if="$q.platform.is.mobile"/>
-        <q-btn class="font-12 proposal-content-top-btn" flat :label="$t('proposal.TITLE_EXPIRED')" @click="changeState('expired')" v-if="$q.platform.is.mobile"/>
+        <q-btn :class="proposalBtnCSS" flat color="secondary" :label="$t('proposal.TITLE_ALL')" @click="changeState('all')" />
+        <q-btn :class="proposalBtnCSS" flat :label="$t('proposal.TITLE_PROCESS')" @click="changeState('ongoing')" />
+        <q-btn :class="proposalBtnCSS" flat :label="$t('proposal.TITLE_ACTIVED')" @click="changeState('activated')" />
+        <q-btn :class="proposalBtnCSS" flat :label="$t('proposal.TITLE_EXPIRED')" @click="changeState('expired')" />
       </q-btn-group>
-      <q-btn-group class="float-right" v-if="$q.platform.is.desktop">
+      <q-btn-group class="mobile-hide float-right">
         <q-btn class="font-18" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
       </q-btn-group>
-     
+  
       <q-table class="no-shadow margin-t-20" :data="proposalDetail" :columns="columns" row-key="no" :pagination.sync="pagination" @request="request">
         <q-td slot="body-cell-desc" slot-scope="props" :props="props">
           {{props.value.substring(0,20) + '...'}}
@@ -183,10 +178,17 @@ export default {
       this.getProposalsFunc()
     },
     callModal() {
-      this.$router.push({ name: 'launchProposal' })
+      this.$router.push({
+        name: 'launchProposal'
+      })
     },
     callShowModal(tid) {
-      this.$router.push({ name: 'proposalDetail', params: { tid: tid } })
+      this.$router.push({
+        name: 'proposalDetail',
+        params: {
+          tid: tid
+        }
+      })
       // this.isDetailShow = true
     },
     stt(obj) {
@@ -199,7 +201,13 @@ export default {
       return `${start} - ${end}`
     }
   },
-  computed: {},
+  computed: {
+    proposalBtnCSS() {
+      return this.$q.platform.is.desktop
+        ? 'font-22 proposal-content-top-btn'
+        : 'font-12 proposal-content-top-btn'
+    }
+  },
   mounted() {
     this.getProposalsFunc()
   }
