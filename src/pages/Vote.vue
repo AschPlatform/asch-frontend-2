@@ -34,7 +34,7 @@
           </q-table>
         </div>
 
-        <div :class="voteRightCSS">
+        <div :class="voteRightClass">
           <div>
           <vote-record />
           <my-vote-delegate class="margin-t-20" :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetail" />
@@ -305,8 +305,8 @@ export default {
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
     },
-    voteRightCSS() {
-      return this.$q.platform.is.desktop
+    voteRightClass() {
+      return this.isDesk
         ? 'col-md-4 col-xs-12 vote-right-container'
         : 'col-md-4 col-xs-12 margin-t-20'
     },

@@ -52,8 +52,8 @@
 
         </q-table>
       </div>
-      <div :class="issuerCSS" >
-        <div :class="issuerRightCSS">
+      <div :class="issuerClass" >
+        <div :class="issuerRightClass">
          <q-card>
            <div class="text-black height-62 padding-l-20 q-table-top">
              <span class="font-22">{{$t('ISSUER')}}</span>
@@ -579,11 +579,11 @@ export default {
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
     },
-    issuerCSS() {
-      return this.$q.platform.is.desktop ? 'col-md-3 col-xs-12' : 'col-md-3 col-xs-12 margin-top-20'
+    issuerClass() {
+      return this.isDesk ? 'col-md-3 col-xs-12' : 'col-md-3 col-xs-12 margin-top-20'
     },
-    issuerRightCSS() {
-      return this.$q.platform.is.desktop ? 'padding-l-20' : ''
+    issuerRightClass() {
+      return this.isDesk ? 'padding-l-20' : ''
     },
     pwdValid() {
       return !secondPwdReg.test(this.secondPwd)

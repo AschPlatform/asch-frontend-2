@@ -8,11 +8,11 @@
               </span>
       </q-card-title>
       <q-card-main class="row justify-left gutter-md">
-        <assets-panel :class="innerCSS" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" />
+        <assets-panel :class="innerClass" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" />
   
-        <assets-panel :class="innerAllCSS" v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open" />
+        <assets-panel :class="innerAllClass" v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open" />
   
-        <q-btn :class="innerBtnCSS" :label="$t('LOAD_MORE')" @click="loadMoreInner" v-if="innerPagination.rowsNumber>innerBalance.length" />
+        <q-btn :class="innerBtnClass" :label="$t('LOAD_MORE')" @click="loadMoreInner" v-if="innerPagination.rowsNumber>innerBalance.length" />
       </q-card-main>
     </q-card>
     <q-card class="assets-container-bottom no-shadow">
@@ -23,10 +23,10 @@
                 </span>
       </q-card-title>
       <q-card-main class="row justify-left gutter-md">
-        <assets-panel :class="innerAllCSS" v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"/>
+        <assets-panel :class="innerAllClass" v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"/>
 
         <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
-        <q-card :class="outerBtnCSS">
+        <q-card :class="outerBtnClass">
           <div class="more-assets-btn row justify-center items-center" @click="moreAssets">
             <span>{{$t('MORE_ASSETS')}}</span>
           </div>
@@ -186,21 +186,21 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo']),
-    innerCSS() {
-      return this.$q.platform.is.desktop
+    innerClass() {
+      return this.isDesk
         ? 'assets-panel-container'
         : 'col-12 assets-panel-container'
     },
-    innerAllCSS() {
-      return this.$q.platform.is.desktop ? null : 'col-12'
+    innerAllClass() {
+      return this.isDesk ? '' : 'col-12'
     },
-    innerBtnCSS() {
-      return this.$q.platform.is.desktop
+    innerBtnClass() {
+      return this.isDesk
         ? 'load-more-btn col-3 bg-white text-black'
         : 'load-more-btn col-11 bg-white text-black'
     },
-    outerBtnCSS() {
-      return this.$q.platform.is.desktop
+    outerBtnClass() {
+      return this.isDesk
         ? 'col-3 shadow-2 more-assets-container'
         : 'col-11 shadow-2 more-assets-container'
     },

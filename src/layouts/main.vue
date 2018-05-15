@@ -2,7 +2,7 @@
   <q-layout ref="layout" view="lHh Lpr lff">
     <q-layout-header class="no-shadow">
   
-      <q-toolbar class="head-top row justify-between bg-white">
+      <q-toolbar class="head-mobile-top row justify-between bg-white">
         <div class="head-top-left">
           <q-btn flat @click="showLeft=!showLeft">
             <q-icon name="menu" class="text-faded" />
@@ -134,14 +134,14 @@
     <q-ajax-bar ref="bar" position="top" color="orange" />
   
     <q-layout-footer class="no-shadow footer-container ">
-      <div class="desktop-hide row justify-left height-36 footer-introduce">
+      <div class="desktop-hide row justify-left height-28 footer-introduce">
         <span class="font-14 text-black font-weight height-36">
               {{$t(' LATEST_BLOCK_HEIGHT')}}
         </span>
         <i v-for="n in 3" :key=n class="material-icons text-secondary font-18 margin-right-minus-5 height-36">equalizer</i>
         <span class="text-secondary font-24 margin-left-10 font-weight height-36">{{latestBlock.height}}</span>
       </div>
-      <div class="desktop-hide row justify-left height-36 footer-introduce">
+      <div class="desktop-hide row justify-left height-28 footer-introduce">
         <span class="font-14 text-black font-weight vertical-align-middle">
               {{$t(' TIME_LAST')}}
           </span>
@@ -380,36 +380,26 @@ export default {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
     },
     clientPathName() {
-      if (this.$route.path == '/home') {
-        return this.$t('HOME')
-      } else if (this.$route.path == '/assets') {
-        return this.$t('ASSET')
-      } else if (this.$route.path == '/assetDetail') {
-        return this.$t('ASSET')
-      } else if (this.$route.path == '/transfer') {
-        return this.$t('TRANSFER')
-      } else if (this.$route.path == '/proposal') {
-        return this.$t('PROPOSAL')
-      } else if (this.$route.path == '/launchProposal') {
-        return this.$t('PROPOSAL')
-      } else if (this.$route.path == '/proposalDetail') {
-        return this.$t('PROPOSAL')
-      } else if (this.$route.path == '/gateway') {
-        return this.$t('GATEWAY')
-      } else if (this.$route.path == '/gatewayDetail') {
-        return this.$t('GATEWAY')
-      } else if (this.$route.path == '/vote/delegates') {
-        return this.$t('TRS_TYPE_VOTE')
-      } else if (this.$route.path == '/blocks') {
-        return this.$t('BLOCKS')
-      } else if (this.$route.path == '/applications') {
-        return this.$t('APPLICATIONS')
-      } else if (this.$route.path == '/personal') {
-        return this.$t('PERSONAL')
-      } else if (this.$route.path == '/issuer') {
-        return this.$t('TRS_TYPE_UIA_ISSUE')
-      } else {
-        return this.$t('ASCH_CLIENT')
+      let pathObj = {
+        home: 'HOME',
+        assets: 'ASSET',
+        assetDetail: 'ASSET',
+        transfer: 'TRANSFER',
+        proposal: 'PROPOSAL',
+        launchProposal: 'PROPOSAL',
+        proposalDetail: 'PROPOSAL',
+        gateway: 'GATEWAY',
+        gatewayDetail: 'GATEWAY',
+        delegates: 'TRS_TYPE_VOTE',
+        blocks: 'BLOCKS',
+        applications: 'APPLICATIONS',
+        personal: 'PERSONAL',
+        issuer: 'TRS_TYPE_UIA_ISSUE'
+      }
+      for (var key in pathObj) {
+        if (this.$route.name === key) {
+          return this.$t(pathObj[key])
+        }
       }
     },
     assets() {
@@ -516,6 +506,10 @@ body {
   border-bottom: 2px solid #eaeceb;
 }
 
+.head-mobile-top {
+  height: 40px;
+}
+
 .head-bottom {
   padding: 30px;
   background: #ffffff;
@@ -590,6 +584,11 @@ body {
 .footer-introduce {
   padding: 0 10px;
   color: #999999;
+}
+
+.height-28 {
+  height: 28px;
+  line-height: 36px;
 }
 
 .transfer-modal-container {

@@ -1,6 +1,6 @@
 <template>
   <q-card class="transfer-container no-shadow q-p-lg">
-    <div :class="transferContentCSS">
+    <div :class="transferContentClass">
       <q-card-title>
         <span class="text-tertiary font-22">
             <i class="material-icons">border_color</i>
@@ -16,7 +16,7 @@
       <q-card-main class="row justify-left">
         <div class="row col-md-10 col-xs-12">
           <trans-panel class="col-12" :asset="asset" :user="user">
-            <div :class="transferBtnCSS" slot="btns" slot-scope="props">
+            <div :class="transferBtnClass" slot="btns" slot-scope="props">
               <q-btn big class="col-6" :disable="btnDisable" color="secondary" @click="sender(props.send)" :label="$t('TRS_TYPE_TRANSFER')" />
             </div>
           </trans-panel>
@@ -60,13 +60,13 @@ export default {
   async mounted() {},
   computed: {
     ...mapGetters(['userInfo', 'balances']),
-    transferContentCSS() {
-      return this.$q.platform.is.desktop
+    transferContentClass() {
+      return this.isDesk
         ? 'shadow-2 transfer-content padding-20'
         : 'transfer-content shadow-2'
     },
-    transferBtnCSS() {
-      return this.$q.platform.is.desktop ? 'row justify-left col-12' : 'row justify-center col-12'
+    transferBtnClass() {
+      return this.isDesk ? 'row justify-left col-12' : 'row justify-center col-12'
     },
     user() {
       return this.userInfo

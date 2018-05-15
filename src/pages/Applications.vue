@@ -33,7 +33,6 @@
               <q-btn class="btn shadow-0" outline text-color="secondary" :label="$t('CHECK')" rounded @click="check(dapp)" />
             </q-card-actions>
           </q-card>
-
         </div>
         <q-btn v-if="dapps.length < pagination.rowsNumber" :label="$t('LOAD_MORE')" @click="loadMore" />
       </q-card-main>

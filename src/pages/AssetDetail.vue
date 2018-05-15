@@ -13,11 +13,11 @@
      
       </q-card-title>
       <q-card-main class="row col-12">
-        <assets-panel :class="assetDetailInnerCSS" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
+        <assets-panel :class="assetDetailInnerClass" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
 
-        <assets-panel :class="assetDetailInnerCSS" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
+        <assets-panel :class="assetDetailInnerClass" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
 
-        <q-card :class="assetDetailOuterCSS" v-if="isCross && address">
+        <q-card :class="assetDetailOuterClass" v-if="isCross && address">
           <q-card-main>
             <p class="font-22 text-black margin-b-0">{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
             <div>
@@ -31,7 +31,7 @@
           </q-card-main>
         </q-card>
 
-        <q-card v-if="!isCross && assetDetail" :class="assetDetailOuterCSS">
+        <q-card v-if="!isCross && assetDetail" :class="assetDetailOuterClass">
           <q-card-main>
             <table>
               <tr class="margin-t-20">
@@ -50,7 +50,7 @@
           </q-card-main>
         </q-card>
   
-        <q-card v-if="asset.asset" :class="assetDetailOuterCSS">
+        <q-card v-if="asset.asset" :class="assetDetailOuterClass">
           <q-card-main>
             <p class="text-black font-22">{{$t('CURRENCY_INTRODUCE')}}</p>
             <p>
@@ -213,11 +213,11 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo']),
-    assetDetailInnerCSS() {
-      return this.$q.platform.is.desktop ? 'margin-l-15 col-auto' : 'col-12'
+    assetDetailInnerClass() {
+      return this.isDesk ? 'margin-l-15 col-auto' : 'col-12'
     },
-    assetDetailOuterCSS() {
-      return this.$q.platform.is.desktop
+    assetDetailOuterClass() {
+      return this.isDesk
         ? 'col-auto bg-white asset-detail-card-h margin-l-30'
         : 'col-12 bg-white asset-detail-card-h margin-top-20'
     },

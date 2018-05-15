@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <q-card :class="proposalLaunchCSS" color="white" text-color="black">
+    <q-card :class="proposalLaunchClass" color="white" text-color="black">
       <q-card-title class="col-12 font-22 padding-l-0">
         <q-icon size="18px" name="border color" /> {{$t('proposal.LAUNCH')}}
         <q-btn color="secondary" slot="right" class="row items-center" @click="hideModal">
@@ -35,7 +35,7 @@
       </div>
     </q-card>
   
-    <q-card :class="proposalLaunchCSS" v-show="this.first_type !== null" color="white" text-color="black">
+    <q-card :class="proposalLaunchClass" v-show="this.first_type !== null" color="white" text-color="black">
       <q-card-title class="col-12 font-22 padding-l-0">
         <q-icon size="18px" name="border color" /> {{$t('proposal.CONTENT')}}
       </q-card-title>
@@ -869,8 +869,8 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo']),
-    proposalLaunchCSS() {
-      return this.$q.platform.is.desktop
+    proposalLaunchClass() {
+      return this.isDesk
         ? 'padding-20 q-mx-xl q-my-xl'
         : 'row col-12 padding-20 margin-top-20'
     },

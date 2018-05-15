@@ -6,12 +6,23 @@
           <i class="material-icons vertical-align-sub font-24 text-black">border_color</i>
           <h5 class="q-px-md inline-block">{{$t('GATEWAY_PARTICULARS')}}</h5>
           </span>
-        <!-- <q-btn color="secondary" class="self-center" @click="$router.push('gateway')">
+        <q-btn color="secondary" class="self-center" @click="$router.push('gateway')">
           {{$t('CANCEL')}}
-        </q-btn> -->
+        </q-btn>
       </div>
       <div class="row q-px-md gutter-md">
         <div class="col-md-8 col-xs-12">
+         <q-card class="mobile-only no-shadow margin-bottom-20" align="left">
+            <div class="bg-white shadow-2">
+              <q-card-title class="bg-nine">
+                <span class="font-22 text-black font-weight">{{gateway.name}}</span>
+              </q-card-title>
+              <q-card-main class="word-wrap-break">
+              {{gateway.desc}}
+              </q-card-main>
+            </div>
+          </q-card>
+
           <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading" row-key="address" hide-bottom>
   
             <q-td slot="body-cell-operation" slot-scope="props" :props="props">
@@ -29,8 +40,8 @@
           </q-table>
         </div>
 
-        <div v-if="gateway" class="col-md-4 col-xs-12">
-          <q-card class="no-shadow" align="left">
+        <div v-if="gateway" :class="gatewayDetailClass">
+          <q-card class="desktop-only no-shadow" align="left">
             <div class="bg-white shadow-2">
               <q-card-title class="bg-nine">
                 <span class="font-22 text-black font-weight">{{gateway.name}}</span>
@@ -169,7 +180,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['latestBlock'])
+    ...mapGetters(['latestBlock']),
+    gatewayDetailClass() {
+      return this.isDesk ? 'col-md-4 col-xs-12' : 'col-md-4 col-xs-12 margin-top-minus-28'
+    }
   },
   watch: {
     gateway(val) {
@@ -222,5 +236,9 @@ export default {
 
 .word-wrap-break {
   word-wrap: break-word;
+}
+
+.margin-top-minus-28 {
+  margin-top: -28px;
 }
 </style>

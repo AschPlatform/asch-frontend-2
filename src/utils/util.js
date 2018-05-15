@@ -1,5 +1,6 @@
 import { SessionStorage, Notify, Dialog } from 'quasar'
 import AschJs from 'asch-js'
+// import { platform } from 'os'
 
 export const alertMsg = (content, duration = 500) => {
   this.$q.notify({
@@ -95,7 +96,7 @@ export const getTimeFromHight = (block, currentHight) => {
   return AschJs.utils.format.fullTimestamp(time)
 }
 
-export const getTimeFromTrade = (obj) => {
+export const getTimeFromTrade = obj => {
   let { tTimestamp, tHeight, endHeight } = obj
   let d = new Date(AschJs.utils.format.fullTimestamp(tTimestamp))
   let start = d.getTime()

@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <q-card :class="proposalDetailCSS" color="white" text-color="black">
+    <q-card :class="proposalDetailClass" color="white" text-color="black">
       <q-card-title class="col-12 padding-l-0">
         <q-icon size="18px" name="border color" /> {{$t('proposal.SHOW')}}
         <q-btn color="secondary" slot="right" class="row items-center" @click="back">
@@ -35,7 +35,7 @@
       </div>
     </q-card>
   
-    <q-card :class="proposalDetailCSS" color="white" text-color="black">
+    <q-card :class="proposalDetailClass" color="white" text-color="black">
       <!-- below is content of the proposal -->
       <q-card-title class="col-12 padding-l-0">
         <q-icon size="18px" name="border color" /> {{$t('proposal.CONTENT')}}
@@ -101,7 +101,7 @@
       </q-card-main>
     </q-card>
   
-    <q-card :class="proposalDetailCSS" color="white" text-color="black">
+    <q-card :class="proposalDetailClass" color="white" text-color="black">
       <q-card-title class="col-12 padding-l-0">
         <q-icon size="18px" name="border color" /> {{$t('proposal.VOTE_DETAIL')}}
       </q-card-title>
@@ -317,10 +317,8 @@ export default {
   computed: {
     ...mapGetters(['userInfo']),
     ...mapState(['latestBlock']),
-    proposalDetailCSS() {
-      return this.$q.platform.is.desktop
-        ? 'padding-20 q-mx-xl q-my-xl'
-        : 'row padding-20 margin-top-20'
+    proposalDetailClass() {
+      return this.isDesk ? 'padding-20 q-mx-xl q-my-xl' : 'row padding-20 margin-top-20'
     },
     // enpower
     dealWithType() {

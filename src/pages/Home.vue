@@ -18,7 +18,7 @@
                 <p class="font-14 text-three">{{$t('HOME_TIPES')}}</p>
               </div>
             </div>
-            <div :class="homeTopRightCSS">
+            <div :class="homeTopRightClass">
               <div class="home-top-btn-container">
                 <i class="material-icons font-24 vertical-align-middle text-eight">call_missed</i>
                 <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
@@ -35,7 +35,7 @@
     </div>
   
     <div class="home-bottom no-border row col no-shadow">
-      <div :class="homeBottomLeftCSS">
+      <div :class="homeBottomLeftClass">
         <div class="home-bottom-left-container bg-white shadow-1 padding-bottom-30">
           <q-card class="no-shadow">
             <q-card-title>
@@ -173,13 +173,13 @@ export default {
   mounted() {},
   computed: {
     ...mapGetters(['userInfo', 'balances']),
-    homeTopRightCSS() {
-      return this.$q.platform.is.desktop
+    homeTopRightClass() {
+      return this.isDesk
         ? 'col-md-6 col-xs-12 row justify-end items-center'
         : 'col-md-6 col-xs-12 row justify-center items-center'
     },
-    homeBottomLeftCSS() {
-      return this.$q.platform.is.desktop
+    homeBottomLeftClass() {
+      return this.isDesk
         ? 'col-md-4 col-xs-12 padding-right-20 balance-panel'
         : 'col-md-4 col-xs-12 padding-right-0 margin-bottom-20'
     },
@@ -231,7 +231,6 @@ export default {
   height: 30px;
   background: #ccc;
 }
-
 
 .home-bottom-left-container {
   height: 100%;

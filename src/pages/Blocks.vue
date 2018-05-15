@@ -40,8 +40,8 @@
           </q-td>
         </q-table>
       </div>
-      <div :class="blockRightCSS">
-        <div :class="blockRightContentCSS">
+      <div :class="blockRightClass">
+        <div :class="blockRightContentClass">
           <q-card class="q-px-sm">
           <q-card-title>
           {{$t('DELEGATE_INFO')}}
@@ -444,11 +444,11 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo']),
-    blockRightCSS() {
-      return this.$q.platform.is.desktop ? 'col-md-3 col-xs-12' : 'col-md-3 col-xs-12 margin-top-20'
+    blockRightClass() {
+      return this.isDesk ? 'col-md-3 col-xs-12' : 'col-md-3 col-xs-12 margin-top-20'
     },
-    blockRightContentCSS() {
-      return this.$q.platform.is.desktop ? 'blocks-container-right' : ''
+    blockRightContentClass() {
+      return this.isDesk ? 'blocks-container-right' : ''
     },
     user() {
       return this.userInfo

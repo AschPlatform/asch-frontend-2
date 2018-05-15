@@ -2,13 +2,13 @@
   <q-page class="padding-20">
     <div class="proposal-content bg-white shadow-2 border-r-6">
       <q-btn-group class="desktop-hide float-right margin-bottom-10">
-        <q-btn class="font-18" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
+        <q-btn class="font-14 new-launch" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
       </q-btn-group>
       <q-btn-group outline>
-        <q-btn :class="proposalBtnCSS" flat color="secondary" :label="$t('proposal.TITLE_ALL')" @click="changeState('all')" />
-        <q-btn :class="proposalBtnCSS" flat :label="$t('proposal.TITLE_PROCESS')" @click="changeState('ongoing')" />
-        <q-btn :class="proposalBtnCSS" flat :label="$t('proposal.TITLE_ACTIVED')" @click="changeState('activated')" />
-        <q-btn :class="proposalBtnCSS" flat :label="$t('proposal.TITLE_EXPIRED')" @click="changeState('expired')" />
+        <q-btn :class="proposalBtnClass" flat color="secondary" :label="$t('proposal.TITLE_ALL')" @click="changeState('all')" />
+        <q-btn :class="proposalBtnClass" flat :label="$t('proposal.TITLE_PROCESS')" @click="changeState('ongoing')" />
+        <q-btn :class="proposalBtnClass" flat :label="$t('proposal.TITLE_ACTIVED')" @click="changeState('activated')" />
+        <q-btn :class="proposalBtnClass" flat :label="$t('proposal.TITLE_EXPIRED')" @click="changeState('expired')" />
       </q-btn-group>
       <q-btn-group class="mobile-hide float-right">
         <q-btn class="font-18" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
@@ -202,10 +202,8 @@ export default {
     }
   },
   computed: {
-    proposalBtnCSS() {
-      return this.$q.platform.is.desktop
-        ? 'font-22 proposal-content-top-btn'
-        : 'font-12 proposal-content-top-btn'
+    proposalBtnClass() {
+      return this.isDesk ? 'font-22 proposal-content-top-btn' : 'font-12 proposal-content-top-btn'
     }
   },
   mounted() {
@@ -225,5 +223,9 @@ export default {
 
 .proposal-content-top-btn:hover {
   color: #000000;
+}
+
+.new-launch {
+  min-height: 0;
 }
 </style>

@@ -1,10 +1,15 @@
 
 <template>
-  <q-page :class="agentDetailCSS">
-    <div v-if="userAccount" :class="agentDetailContentCSS">
-      <div class="col-12 padding-l-15">
+  <q-page :class="agentDetailClass">
+    <div v-if="userAccount" :class="agentDetailContentClass">
+      <div :class="agentDetailTitleClass">
+        <div>
         <i class="material-icons vertical-align-middle font-24 text-secondary">perm_identity</i>
         <span class="font-24 vertical-align-middle font-weight">{{$t('VOTE_DELEGATE_DETAIL')}}</span>
+        </div>
+        <q-btn color="secondary" slot="right" class="row items-center" @click="back">
+          <q-icon name="reply" /> {{$t('CANCEL')}}
+        </q-btn>
       </div>
   
       <q-card v-if="userAccount" class="desktop-hide col-md-3 padding-20 col-xs-12 margin-t-15 no-shadow">
@@ -172,6 +177,9 @@ export default {
       this.pagination = this.paginationDeafult
       this.getDatas()
     },
+    back() {
+      this.$router.back()
+    },
     viewAccountInfo(row, isRecord = false) {
       if (isRecord) {
         this.$root.$emit('openAccountModal', row.address)
@@ -250,11 +258,14 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo']),
-    agentDetailCSS() {
-      return this.$q.platform.is.desktop ? 'padding-20 border-r-6' : 'border-r-6'
+    agentDetailClass() {
+      return this.isDesk ? 'padding-20 border-r-6' : 'border-r-6'
     },
-    agentDetailContentCSS() {
-      return this.$q.platform.is.desktop ? 'row padding-10 bg-white' : 'row bg-white'
+    agentDetailContentClass() {
+      return this.isDesk ? 'row padding-10 bg-white' : 'row bg-white'
+    },
+    agentDetailTitleClass() {
+      return this.isDesk ? 'row justify-between col-12 padding-l-15 margin-top-20' : 'row justify-between col-12 padding-l-15 padding-right-20 margin-top-20'
     },
     dynamicCol() {
       if (this.selectedTab === 'records') {

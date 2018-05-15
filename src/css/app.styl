@@ -321,8 +321,18 @@ input.q-input-target
   margin-left: 7px;
   margin-top: 1px;
 
-@media screen and (max-width: 500px) {
-  .home-table-container .q-table-top .q-table-title {
-    font-size: 16px;
+.trans-record-container {
+  .q-table-top{
+    padding 0 12px
+  }
+  .q-table-control {
+    .trans-record-btns {
+      button{
+       min-height: 0;
+      }
+    }
+    .q-table-title {
+      font-size:16px!important
+    }
   }
 }

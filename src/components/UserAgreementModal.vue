@@ -1,5 +1,5 @@
 <template>
-  <q-modal :class="userAgreementCSS" v-model="show">
+  <q-modal :class="userAgreementClass" v-model="show">
     <q-card class="col-12 no-shadow" >
       <div class="bg-secondary height-62 padding-l-20">
       <span class="text-white font-24 font-weight">{{title}}</span>
@@ -67,8 +67,8 @@ export default {
     }
   },
   computed: {
-    userAgreementCSS() {
-      return this.$q.platform.is.desktop
+    userAgreementClass() {
+      return this.isDesk
         ? 'minimized user-agreement-desktop-container'
         : 'maximized user-agreement-mobile-container'
     }
