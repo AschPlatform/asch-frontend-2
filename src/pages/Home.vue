@@ -18,16 +18,16 @@
                 <p class="font-14 text-three">{{$t('HOME_TIPES')}}</p>
               </div>
             </div>
-            <div class="col-md-6 col-xs-12 row justify-end items-center">
+            <div :class="homeTopRightClass">
               <div class="home-top-btn-container">
                 <i class="material-icons font-24 vertical-align-middle text-eight">call_missed</i>
                 <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
-              </div>
-              <span class="btn-container-line"></span>
-              <div class="home-top-btn-container">
+            </div>
+            <span class="btn-container-line"></span>
+            <div class="home-top-btn-container">
                 <i class="material-icons material-icons font-24 vertical-align-middle text-eight">call_missed_outgoing</i>
                 <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('RECEIVE')" flat @click="showAddrQr" />
-              </div>
+            </div>
             </div>
           </q-card-main>
         </q-card>
@@ -35,8 +35,8 @@
     </div>
   
     <div class="home-bottom no-border row col no-shadow">
-      <div class="home-bottom-left col-md-4 col-xs-12 balance-panel">
-        <div class="home-bottom-left-container bg-white shadow-1">
+      <div :class="homeBottomLeftClass">
+        <div class="home-bottom-left-container bg-white shadow-1 padding-bottom-30">
           <q-card class="no-shadow">
             <q-card-title>
               <i class="material-icons font-24 vertical-align-middle text-secondary">account_balance_wallet</i>
@@ -84,8 +84,8 @@
           </q-card>
         </div>
       </div>
-      <div class="col-md-8 col-xs-12 bg-white">
-        <trans-record-container :userInfo="userInfo" />
+      <div class="col-md-8 col-xs-12 bg-white shadow-1">
+        <trans-record-container  :userInfo="userInfo" />
       </div>
     </div>
   </div>
@@ -173,6 +173,16 @@ export default {
   mounted() {},
   computed: {
     ...mapGetters(['userInfo', 'balances']),
+    homeTopRightClass() {
+      return this.isDesk
+        ? 'col-md-6 col-xs-12 row justify-end items-center'
+        : 'col-md-6 col-xs-12 row justify-center items-center'
+    },
+    homeBottomLeftClass() {
+      return this.isDesk
+        ? 'col-md-4 col-xs-12 padding-right-20 balance-panel'
+        : 'col-md-4 col-xs-12 padding-right-0 margin-bottom-20'
+    },
     user() {
       return this.userInfo
     },
@@ -220,10 +230,6 @@ export default {
   width: 1px;
   height: 30px;
   background: #ccc;
-}
-
-.home-bottom-left {
-  padding-right: 20px;
 }
 
 .home-bottom-left-container {
@@ -279,16 +285,5 @@ export default {
 
 .q-table-title {
   font-weight: 600 !important;
-}
-
-@media screen and (max-width: 500px) {
-  .home-bottom-left {
-    padding-right: 0;
-    margin-bottom: 20px;
-  }
-
-  .home-table-container .q-table-top .q-table-title {
-    font-size: 16px;
-  }
 }
 </style>

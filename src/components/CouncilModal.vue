@@ -2,7 +2,7 @@
   <q-modal v-model="show" maximized no-esc-dismiss>
     <div class="no-wrap q-pa-md row justify-between">
       <h5 class="q-px-md inline-block">{{$t('COUNCIL_MEMBER')}}</h5>
-      <q-btn color="warning" class="self-center" @click="closeModal">
+      <q-btn color="secondary" class="self-center" @click="closeModal">
         {{$t('CANCEL')}}
       </q-btn>
     </div>

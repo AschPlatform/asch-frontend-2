@@ -8,8 +8,8 @@
             <q-search class="full-width" inverted v-model="filter" color="none" />
           </q-toolbar> -->
   
-    <div class="row moreAssetModal-container col-12 justify-between">
-      <q-card class="col-5" v-for="(currency,idx) in currencies" :key="idx">
+    <div :class="moreAssetClass">
+      <q-card :class="moreAssetCardClass" v-for="(currency,idx) in currencies" :key="idx">
         <q-card-main>
           <div class="col-12">
           <i class="material-icons font-24 vertical-align-middle text-eight">fiber_manual_record</i>
@@ -124,6 +124,14 @@ export default {
     }
   },
   computed: {
+    moreAssetClass() {
+      return this.isDesk
+        ? 'row assetModal-container col-12 justify-between'
+        : 'row col-12 justify-between assetModal-container-mobile'
+    },
+    moreAssetCardClass() {
+      return this.isDesk ? 'col-5' : 'col-12 margin-top-20'
+    },
     assetMap() {
       let assetMap = {}
       if (this.assets && this.asset.length) {
@@ -145,7 +153,11 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.moreAssetModal-container {
+.assetModal-container-mobile {
+  padding: 20px 20px 40px 20px;
+}
+
+.assetModal-container {
   padding: 40px 20px;
 }
 

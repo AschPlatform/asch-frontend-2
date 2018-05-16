@@ -3,7 +3,7 @@
     <q-tab default name=""  color="secondary" slot="title" icon="people" @click="type = 1" :label="$t('VOTE_RECORD')" />
     <q-tab name="" color="secondary" slot="title" icon="face" @click="type = 2" :label="$t('MY_VOTERS')" />
     <!-- target -->
-    <q-tab-pane name="" keep-alive>
+    <q-tab-pane class="padding-0" name="" keep-alive>
       <q-table :no-data-label="$t('table.noData')"
       :data="dataList"
       :filter="filter" color="secondary"

@@ -1,121 +1,125 @@
 <template>
-  <q-page class="proposal-detail-container">
-    <q-card color="white" text-color="black" class="padding-20 q-mx-xl q-my-xl">
-      <q-card-title class="padding-l-0">
-        <q-icon size="18px" name="border color" />
-        {{$t('proposal.SHOW')}}
-        <q-btn color="warning" slot="right" class="row items-center" @click="back">
+  <q-page>
+    <q-card :class="proposalDetailClass" color="white" text-color="black">
+      <q-card-title class="col-12 padding-l-0">
+        <q-icon size="18px" name="border color" /> {{$t('proposal.SHOW')}}
+        <q-btn color="secondary" slot="right" class="row items-center" @click="back">
           <q-icon name="reply" /> {{$t('CANCEL')}}
         </q-btn>
       </q-card-title>
-        <q-card-separator class="q-my-lg bg-999 no-border-top"/>
-        <div class="row">
-          <q-field :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-10 font-16">
-            <q-input readonly hide-underline v-model="detail.title" value=""/>
-          </q-field>
-        </div>
-        <div class="row">
-          <q-field :label-width="2" :label="$t('proposal.SELECT_P_TYPE')" class="col-10 font-16">
-            <q-input readonly hide-underline v-model="dealWithType" value=""/>
-            <!-- <span>{{detail.content | jparse('name', false)}}</span> -->
-          </q-field>
-        </div>
-        <div class="row">
-          <q-field :label-width="4" class="col-5 font-16" :label="$t('proposal.SELECT_P_PERIOD')">
-            <q-input readonly hide-underline value="" v-model="time_buffer"></q-input>
-          </q-field>
-          <span class="self-center col-1 font-16" align="center">{{$t('TO')}}</span>
-          <q-field class="col-3 q-ml-xl font-16">
-            <q-input readonly hide-underline value="" v-model="time_end"></q-input>
-          </q-field>
-        </div>
+      <q-card-separator class="col-12 q-my-lg bg-999 no-border-top" />
+      <div class="row col-12">
+        <q-field :label-width="2" :label="$t('proposal.SELECT_P_TITLE')" class="col-10 font-16">
+          <q-input readonly hide-underline v-model="detail.title" value="" />
+        </q-field>
+      </div>
+      <div class="row col-12">
+        <q-field :label-width="2" :label="$t('proposal.SELECT_P_TYPE')" class="col-10 font-16">
+          <q-input readonly hide-underline v-model="dealWithType" value="" />
+          <!-- <span>{{detail.content | jparse('name', false)}}</span> -->
+        </q-field>
+      </div>
+      <div class="row col-12">
+        <q-field :label-width="8" class="col-md-2 col-xs-12 font-16" :label="$t('proposal.SELECT_P_PERIOD')">
+        </q-field>
+  
+        <q-field class="col-md-2 col-xs-5 font-16">
+          <q-input readonly hide-underline value="" v-model="time_buffer"></q-input>
+        </q-field>
+        <q-field class="col-md-1 col-xs-2 font-16" :label="$t('TO')">
+        </q-field>
+        <q-field class="col-md-2 col-xs-5 font-16">
+          <q-input readonly hide-underline value="" v-model="time_end"></q-input>
+        </q-field>
+  
+      </div>
     </q-card>
-    <q-card color="white" text-color="black" class="padding-20 q-mx-xl q-my-xl">
+  
+    <q-card :class="proposalDetailClass" color="white" text-color="black">
       <!-- below is content of the proposal -->
-      <q-card-title class="padding-l-0">
-        <q-icon size="18px" name="border color" />
-        {{$t('proposal.CONTENT')}}
+      <q-card-title class="col-12 padding-l-0">
+        <q-icon size="18px" name="border color" /> {{$t('proposal.CONTENT')}}
       </q-card-title>
-      <q-card-separator class="q-my-lg bg-999 no-border-top"/>
-      <q-card-main>
-
-          <!-- below is net new page -->
-          <div class="col-12" v-if="this.detail.topic === 'gateway_register'" id="new">
-            <div class="row">
-              <q-field class="block col-5 font-16" label-width="4" :label="$t('LAUNCH_MODAL.NET_NAME')">
-                <q-input readonly hide-underline v-model="content.name" value=""/>
-              </q-field>
-            </div>
-            <div class="row">
-              <q-field class="block col-5 font-16" label-width="4" :error-label="$t('LAUNCH_MODAL.NET_CURRENCY_TIP')" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
-                <q-input readonly hide-underline v-model="content.currency.symbol" value=""></q-input>
-              </q-field>
-            </div>
-            <div class="row">
-              <q-field class="block col-5 font-16" label-width="4" :error-label="$t('LAUNCH_MODAL.PRECISION_TIP')" :label="$t('PRECISION')">
-                <q-input readonly hide-underline v-model="content.currency.precision" value=""></q-input>
-              </q-field>
-            </div>
-            <div class="row">
-              <q-field class="block col-10 font-16" label-width="2" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.CURRENCY_BRIEF')">
-                <q-input type="textarea" readonly hide-underline v-model="content.currency.desc" value=""></q-input>
-              </q-field>
-            </div>
-            <div class="row">
-              <q-field class="block col-2 font-16" label-width="10" :error-label="$t('ERR.ERR_3_15')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-                <q-input readonly hide-underline v-model="content.minimumMembers" value=""></q-input>
-              </q-field>
-            </div>
-            <div class="row">
-              <q-field class="col-2 font-16" label-width="10" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
-                <q-input disabled readonly hide-underline v-model="content.interval" value="" color="black">{{$t('LAUNCH_MODAL.DAY')}}</q-input>
-              </q-field>
-            </div>
-            <div class="row">
-              <q-field class="col-10 font-16" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
-                <q-input type="textarea" value="" readonly hide-underline v-model="detail.desc"></q-input>
-              </q-field>
-            </div>
+      <q-card-separator class="col-12 q-my-lg bg-999 no-border-top" />
+      <q-card-main class="col-12 padding-0">
+  
+        <!-- below is net new page -->
+        <div class="col-12" v-if="this.detail.topic === 'gateway_register'" id="new">
+          <div class="row col-12">
+            <q-field class="block col-6 font-16" label-width="4" :label="$t('LAUNCH_MODAL.NET_NAME')">
+              <q-input readonly hide-underline v-model="content.name" value="" />
+            </q-field>
           </div>
-
-          <!-- below is net init page -->
-          <div class="col-12" v-if="this.detail.topic === 'gateway_init'" id="init">
-            <div class="row">
-              <q-field class="col-8 font-16" label-width="2" :label="$t('LAUNCH_MODAL.NET_NAME')">
-                <q-input readonly hide-underline value="" v-model="content.gateway"></q-input>
-              </q-field>
-            </div>
-            <div class="row">
-              <q-field class="col-9 font-16" label-width="2" :label="$t('LAUNCH_MODAL.PROPOSE')">
-                <q-input readonly hide-underline value="" v-model="memberString" type="textarea" :suffix="$t('LAUNCH_MODAL.PROPOSE_END')" disabled></q-input>
-              </q-field>
-            </div>
+          <div class="row col-12">
+            <q-field class="block col-12 font-16" label-width="2" :error-label="$t('LAUNCH_MODAL.NET_CURRENCY_TIP')" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
+              <q-input readonly hide-underline v-model="content.currency.symbol" value=""></q-input>
+            </q-field>
           </div>
-
-          <!-- below is member memberIndicator -->
-          <member-indicator v-if="isIndicatorShow" :memberPost="postMemberList" :memberPre="preMemberList" :showCounter="showCounter" :type="this.detail.topic"></member-indicator>
+          <div class="row col-12">
+            <q-field class="block col-6 font-16" label-width="4" :error-label="$t('LAUNCH_MODAL.PRECISION_TIP')" :label="$t('PRECISION')">
+              <q-input readonly hide-underline v-model="content.currency.precision" value=""></q-input>
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="block col-12 font-16" label-width="2" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.CURRENCY_BRIEF')">
+              <q-input type="textarea" readonly hide-underline v-model="content.currency.desc" value=""></q-input>
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="block col-6 font-16" label-width="4" :error-label="$t('ERR.ERR_3_15')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
+              <q-input readonly hide-underline v-model="content.minimumMembers" value=""></q-input>
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="col-6 font-16" label-width="4" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
+              <q-input disabled readonly hide-underline v-model="content.interval" value="" color="black">{{$t('LAUNCH_MODAL.DAY')}}</q-input>
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="col-12 font-16" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
+              <q-input type="textarea" value="" readonly hide-underline v-model="detail.desc"></q-input>
+            </q-field>
+          </div>
+        </div>
+  
+        <!-- below is net init page -->
+        <div class="col-12" v-if="this.detail.topic === 'gateway_init'" id="init">
+          <div class="row col-12">
+            <q-field class="col-8 font-16" label-width="2" :label="$t('LAUNCH_MODAL.NET_NAME')">
+              <q-input readonly hide-underline value="" v-model="content.gateway"></q-input>
+            </q-field>
+          </div>
+          <div class="row">
+            <q-field class="col-9 font-16" label-width="2" :label="$t('LAUNCH_MODAL.PROPOSE')">
+              <q-input readonly hide-underline value="" v-model="memberString" type="textarea" :suffix="$t('LAUNCH_MODAL.PROPOSE_END')" disabled></q-input>
+            </q-field>
+          </div>
+        </div>
+  
+        <!-- below is member memberIndicator -->
+        <member-indicator v-if="isIndicatorShow" :memberPost="postMemberList" :memberPre="preMemberList" :showCounter="showCounter" :type="this.detail.topic"></member-indicator>
       </q-card-main>
     </q-card>
-    <q-card color="white" text-color="black" class="padding-20 q-mx-xl q-my-xl">
-      <q-card-title class="padding-l-0">
-        <q-icon size="18px" name="border color" />
-        {{$t('proposal.VOTE_DETAIL')}}
+  
+    <q-card :class="proposalDetailClass" color="white" text-color="black">
+      <q-card-title class="col-12 padding-l-0">
+        <q-icon size="18px" name="border color" /> {{$t('proposal.VOTE_DETAIL')}}
       </q-card-title>
-      <q-card-separator class="q-my-lg bg-999 no-border-top"/>
+      <q-card-separator class="col-12 q-my-lg bg-999 no-border-top" />
       <!-- below is vote status -->
-      <q-card-main>
+      <q-card-main class="col-12 padding-0">
         <p class="font-16">{{$t('proposal.VOTE_STATUS', {number: voteTotalNum, rate: votePassRate})}}</p>
         <p class="font-16">{{$t('LAUNCH_MODAL.VOTE_LIST')}}</p>
         <q-field>
-          <q-chips-input chips-color="secondary" color="secondary" class="col-5" inverted readonly v-model="voteList" disable>
+          <q-chips-input chips-color="secondary" color="secondary" class="col-md-5 col-xs-12" inverted readonly v-model="voteList" disable>
           </q-chips-input>
         </q-field>
       </q-card-main>
-
-      <q-card-separator class="q-my-lg bg-999 no-border-top"/>
+  
+      <q-card-separator class="col-12 q-my-lg bg-999 no-border-top" />
       <!-- below is func btn -->
       <div class="row col-12" v-show="!isBtnAble">
-        <q-field v-if="secondSignature" class="col-8 font-16"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="2">
+        <q-field v-if="secondSignature" class="col-8 font-16" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="2">
           <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
         </q-field>
       </div>
@@ -123,12 +127,19 @@
         <q-btn color="secondary" class="col-4" :label="$t(btnInfo)" @click="active" :disabled="isBtnAble"></q-btn>
       </q-card-main>
     </q-card>
+  
   </q-page>
 </template>
 
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex'
-import { deCompileContent, compileTimeStamp, toast, toastError, getTimeFromTrade } from '../utils/util'
+import {
+  deCompileContent,
+  compileTimeStamp,
+  toast,
+  toastError,
+  getTimeFromTrade
+} from '../utils/util'
 import { secondPwd } from '../utils/validators'
 import MemberIndicator from '../components/MemberIndicator'
 import {
@@ -306,6 +317,9 @@ export default {
   computed: {
     ...mapGetters(['userInfo']),
     ...mapState(['latestBlock']),
+    proposalDetailClass() {
+      return this.isDesk ? 'padding-20 q-mx-xl q-my-xl' : 'row padding-20 margin-top-20'
+    },
     // enpower
     dealWithType() {
       switch (this.detail.topic) {

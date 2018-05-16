@@ -3,18 +3,17 @@
   <q-page class="vote-container">
     <div class="row vote-content bg-white">
       <div class="col-md-8 col-xs-12 no-shadow bg-white">
-        <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST')"
-          :rows-per-page-options="[15]">
+        <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST')" :rows-per-page-options="[15]">
   
           <template slot="top-right" slot-scope="props">
-                      <q-btn v-if="selected.length" color="secondary" flat round  icon="thumb up" @click="vote" >
-                        <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
-                      </q-btn>
-                      <q-btn flat round  icon="refresh" color="secondary" @click="refresh" >
-                      </q-btn>
-                      <q-btn flat round  color="secondary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
-                      </q-btn>
-            </template>
+              <q-btn v-if="selected.length" color="secondary" flat round  icon="thumb up" @click="vote" >
+                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
+              </q-btn>
+              <q-btn flat round  icon="refresh" color="secondary" @click="refresh" >
+              </q-btn>
+              <q-btn flat round  color="secondary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
+              </q-btn>
+          </template>
               
             <q-td slot="body-cell-address"  slot-scope="props" :props="props">
               <div class="text-secondary vote-table-address-td" @click="viewAccountInfo(props.row)">
@@ -35,14 +34,7 @@
           </q-table>
         </div>
 
-        <div v-if="$q.platform.is.desktop" class="col-md-4 col-xs-12 vote-right-container">
-          <div>
-          <vote-record />
-          <my-vote-delegate class="margin-t-20" :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetail" />
-          </div> 
-        </div>
-
-        <div v-if="$q.platform.is.mobile" class="col-md-4 col-xs-12 margin-t-20">
+        <div :class="voteRightClass">
           <div>
           <vote-record />
           <my-vote-delegate class="margin-t-20" :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetail" />
@@ -312,6 +304,11 @@ export default {
     ...mapGetters(['userInfo']),
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
+    },
+    voteRightClass() {
+      return this.isDesk
+        ? 'col-md-4 col-xs-12 vote-right-container'
+        : 'col-md-4 col-xs-12 margin-t-20'
     },
     paginationDeafult() {
       return {
