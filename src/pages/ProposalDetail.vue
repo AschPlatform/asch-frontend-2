@@ -222,7 +222,7 @@ export default {
         tid: this.$route.params.tid
       })
       this.detail = res.proposal
-      this.time_buffer = compileTimeStamp(this.detail.t_timestamp)
+      this.time_buffer = compileTimeStamp(this.detail.timestamp)
       this.envalueEnd()
       this.content = deCompileContent(this.detail.content)
       this.content.interval = Math.round(this.content.updateInterval / 8640)
@@ -308,7 +308,7 @@ export default {
     },
     envalueEnd() {
       this.time_end = getTimeFromTrade({
-        tTimestamp: this.detail.t_timestamp,
+        tTimestamp: this.detail.timestamp,
         tHeight: this.detail.t_height,
         endHeight: this.detail.endHeight
       })

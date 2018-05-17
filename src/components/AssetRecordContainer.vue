@@ -300,9 +300,9 @@ export default {
             }
           },
           {
-            name: 't_timestamp',
+            name: 'timestamp',
             label: this.$t('DATE'),
-            field: 't_timestamp',
+            field: 'timestamp',
             format: value => {
               return this.formatTimestamp(value)
             }
@@ -332,9 +332,9 @@ export default {
             }
           },
           {
-            name: 't_timestamp',
+            name: 'timestamp',
             label: this.$t('DATE'),
-            field: 't_timestamp',
+            field: 'timestamp',
             format: value => {
               return this.formatTimestamp(value)
             }

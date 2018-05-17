@@ -60,7 +60,7 @@ export default {
       let pageNo = this.pagination.page
       let res = await api.myAssetTransactions({
         address: this.user.account.address,
-        orderBy: 't_timestamp:desc',
+        orderBy: 'timestamp:desc',
         limit: limit,
         offset: (pageNo - 1) * limit
       })
