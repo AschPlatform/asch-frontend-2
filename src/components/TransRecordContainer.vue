@@ -1,8 +1,8 @@
 <template>
   <div>
-    <q-table class="home-table-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
-      <template slot="top-right" slot-scope="props">
-        <q-btn-toggle class="bg-secondary text-white" flat rounded icon="fiber_manual_record" v-model="type" 
+    <q-table class="no-shadow trans-record-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
+    <template slot="top-right" slot-scope="props">
+        <q-btn-toggle :class="transRecordBtnClass" flat rounded icon="fiber_manual_record" v-model="type" 
     toggle-color="negative"  toggle-text-color="white"
     :options="[
       {label: $t('TRS_TYPE_TRANSFER_RECORD'), value: 2},
@@ -63,8 +63,7 @@
       </q-popover>
     </q-td>
   </q-table>
-  
-</div>
+  </div>
 </template>
 
 <script>
@@ -345,6 +344,9 @@ export default {
         ]
       }
     },
+    transRecordBtnClass() {
+      return this.isDesk ? 'bg-secondary text-white' : 'trans-record-btns bg-secondary text-white'
+    },
     tableTitle() {
       const t = this.$t
       return this.type === 1
@@ -367,10 +369,6 @@ export default {
 <style lang="stylus" scoped>
 .trans-table {
   margin-top: 3%;
-}
-
-.home-table-container {
-  min-height: 500px;
 }
 
 .q-table-title {

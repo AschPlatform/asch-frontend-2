@@ -113,6 +113,7 @@ const lang = {
   ASSET: '资产',
   ABOUT: '关于',
   MESSAGE_DETAILS: '信息详情',
+  ASCH_CLIENT: '阿希客户端',
 
   // home
   BALANCE: '钱包余额',
@@ -424,7 +425,8 @@ const lang = {
   SET_NOW: '立刻设置',
   LOCK_POSITION_CONF: '锁仓设置:',
   HIGHEST_LOCK: '最高可锁仓',
-  LOCK_DETAIL: '已锁仓额度：{amount} XAS 锁仓截止时间: {date}',
+  LOCK_DETAIL: '已锁仓额度：{amount} XAS',
+  LOCK_DETAIL_TIME: '锁仓截止时间: {date}',
   AGENT_INFO: '代理人身份:',
   IS_AGENT: '您已经是代理人或受托人',
   REGISTER_AGENT: '注册成为代理人',

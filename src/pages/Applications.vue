@@ -13,27 +13,8 @@
         <q-toggle v-model="installed" :label="$t('DAPP_INSTALL_LIST')" color="secondary" />
       </q-card-title>
       <q-card-main class="row">
-        <div class="col-sm-6 col-md-4 col-lg-3 row justify-center">
-          <q-card inline color="white" text-color="black" v-for="(dapp,idx) in dapps" class="col-10 assets-panel-content" :key="idx" v-if="$q.platform.is.desktop">
-            <q-card-media>
-              <img :ref="'img'+idx" :src="dapp.icon"  @error="onError(idx)" />
-            </q-card-media>
-            <q-card-title align="center">
-              {{dapp.name}}
-              <div slot="center" class="row items-center">
-              </div>
-            </q-card-title>
-            <q-card-main>
-              <p class="text-faded">{{dapp.desc}}</p>
-            </q-card-main>
-            <q-card-separator />
-            <q-card-actions class="justify-around">
-              <q-btn class="btn shadow-0" outline text-color="secondary" :label="$t('CHAINS_OVERVIEW')" rounded @click="balance(dapp)" />
-              <q-btn class="btn shadow-0" outline text-color="secondary" :label="$t('DEPOSIT')" rounded @click="depositFunc(dapp)" />
-              <q-btn class="btn shadow-0" outline text-color="secondary" :label="$t('CHECK')" rounded @click="check(dapp)" />
-            </q-card-actions>
-          </q-card>
-          <q-card inline color="white" text-color="black" v-for="(dapp,idx) in dapps" class="col-12 assets-panel-content" :key="idx" v-if="$q.platform.is.mobile">
+        <div class="row col-sm-6 col-md-4 col-lg-3 row justify-center">
+          <q-card inline color="white" text-color="black" v-for="(dapp,idx) in dapps" class="col-md-10 col-xs-12 assets-panel-content" :key="idx">
             <q-card-media>
               <img :ref="'img'+idx" :src="dapp.icon"  @error="onError(idx)" />
             </q-card-media>
@@ -543,7 +524,6 @@ export default {
 }
 
 .assets-panel-content {
-  // margin: 15px 30px;
   background: #ffffff;
   cursor: pointer;
   min-width: 250px;
@@ -554,7 +534,6 @@ export default {
 }
 
 .underline {
-  // margin: 0 !important
   border-bottom: 1px solid black;
 }
 

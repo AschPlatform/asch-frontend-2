@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-around q-my-lg member-container">
-    <q-field class="col-5 align-center ">
+    <q-field class="col-md-5 col-xs-12 align-center">
       <div class="column">
         <p class="col-1">{{$t(title_pre)}}</p>
         <div class="col-auto">
@@ -8,12 +8,17 @@
         </div>
       </div>
     </q-field>
-    <q-icon size="33px" class="padding-t-40" name="keyboard arrow right" />
-    <q-field class="col-5">
+    
+    <q-icon size="33px" class="mobile-hide padding-t-40" name="keyboard arrow right" />
+    <q-icon size="33px" class="desktop-hide padding-t-40" name="keyboard arrow down"/>
+
+    <q-field class="col-md-5 col-xs-12">
       <p>{{$t(title_post)}}</p>
       <q-chips-input color="primary" class="col-5 member-content-chips-2" inverted readonly v-model="contentPost" disable/>
     </q-field>
+
   </div>
+  
 </template>
 
 <script>

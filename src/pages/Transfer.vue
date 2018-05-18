@@ -1,6 +1,6 @@
 <template>
-  <q-card class="transfer-container  no-shadow q-p-lg">
-    <div class="transfer-content shadow-2">
+  <q-card class="transfer-container no-shadow q-p-lg">
+    <div :class="transferContentClass">
       <q-card-title>
         <span class="text-tertiary font-22">
             <i class="material-icons">border_color</i>
@@ -14,17 +14,10 @@
       </q-card-title>
       <span class="transfer-title-line"></span>
       <q-card-main class="row justify-left">
-        <div class="col-10" v-if="$q.platform.is.desktop">
+        <div class="row col-md-10 col-xs-12">
           <trans-panel class="col-12" :asset="asset" :user="user">
-            <div class="col-12" slot="btns" slot-scope="props">
-              <q-btn big class="transfer-accounts-btn" :disable="btnDisable" color="secondary" @click="sender(props.send)" :label="$t('TRS_TYPE_TRANSFER')" />
-            </div>
-          </trans-panel>
-        </div>
-        <div class="col-12" v-if="$q.platform.is.mobile">
-          <trans-panel class="col-12" :asset="asset" :user="user">
-            <div class="col-12" slot="btns" slot-scope="props">
-              <q-btn big class="transfer-accounts-btn" :disable="btnDisable" color="secondary" @click="sender(props.send)" :label="$t('TRS_TYPE_TRANSFER')" />
+            <div :class="transferBtnClass" slot="btns" slot-scope="props">
+              <q-btn big class="col-6" :disable="btnDisable" color="secondary" @click="sender(props.send)" :label="$t('TRS_TYPE_TRANSFER')" />
             </div>
           </trans-panel>
         </div>
@@ -67,6 +60,14 @@ export default {
   async mounted() {},
   computed: {
     ...mapGetters(['userInfo', 'balances']),
+    transferContentClass() {
+      return this.isDesk
+        ? 'shadow-2 transfer-content padding-20'
+        : 'transfer-content shadow-2'
+    },
+    transferBtnClass() {
+      return this.isDesk ? 'row justify-left col-12' : 'row justify-center col-12'
+    },
     user() {
       return this.userInfo
     },
@@ -92,18 +93,12 @@ export default {
 }
 
 .transfer-content {
-  padding: 40px;
   border-radius: 6px;
   background: #ffffff;
 }
 
 .transfer-description {
   display: inline-block;
-}
-
-.transfer-accounts-btn {
-  width: 50%;
-  max-width: 400px;
 }
 
 .transfer-title-line {

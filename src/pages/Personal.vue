@@ -6,11 +6,11 @@
               {{$t('PERSONAL')}}
             </q-card-title> -->
       <q-card-main class="row col-12 justify-center">
-        <div class="col-12 row justify-left shadow-2 bg-white personal-top" v-if="$q.platform.is.desktop">
+        <div :class="personalTopClass">
           <div class="desktop-only">
             <jdenticon class="personal-head-canvas" :address="address" :size="60" />
           </div>
-          <div class="col-7 col-md-7 col-lg-6 col-xl-5 col-xs-10 text-left row justify-left margin-left-10">
+          <div class="col-md-6 col-xs-12 text-left row justify-left margin-left-10">
             <div>
               <span v-if="!userNickname" class="text-black font-22 vertical-align-middle">
                   {{$t('HELLO')}}
@@ -20,60 +20,34 @@
                 </span>
               <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
-            <div class="col-12 text-three">
-              {{address}}
-              <q-btn class="text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
+            <div class="row col-12 justify-left text-three">
+              <span class="col-md-8 col-xs-10 height-36">{{address}}</span>
+              <!-- {{address}} -->
+              <q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
             </div>
           </div>
-          <div class="personal-qr row justify-left text-left">
+          <div :class="personalTopQrClass">
             <span class="right-line desktop-only"></span>
             <div class="row justify-center" @click="showAddrQr">
               <vue-qr class="personal-qr-container" :size="103" :text="address"></vue-qr>
             </div>
           </div>
-  
         </div>
-        <div class="col-12 row justify-left shadow-2 bg-white padding-10 border-r-6" v-if="$q.platform.is.mobile">
-          <div class="desktop-only">
-            <jdenticon class="personal-head-canvas" :address="address" :size="60" />
-          </div>
-          <div class="col-12 text-left row justify-left margin-left-10">
-            <div>
-              <span v-if="!userNickname" class="text-black font-22 vertical-align-middle">
-                  {{$t('HELLO')}}
-                </span>
-              <span v-else class="text-black font-22 vertical-align-middle">
-                  {{$t('HELLO')+'，'}}
-                </span>
-              <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
-            </div>
-            <div class="col-12 text-three row margin-t-10">
-              <span class="col-10 line-height-36 font-12">{{address}}</span>
-              <q-btn class="col-2 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
-            </div>
-          </div>
-          <div class="col-12 row justify-center text-left personal-qr">
-            <span class="right-line desktop-only"></span>
-            <div class="row justify-center" @click="showAddrQr">
-              <vue-qr class="personal-qr-container" :size="103" :text="address"></vue-qr>
-            </div>
-          </div>
-  
-        </div>
+
         <div class="personal-bottom shadow-2 bg-white row col-12 justify-left margin-t-20">
-          <div class="personal-bottom-title">
+          <div :class="personalIconClass">
             <i class="material-icons">email</i>
             <span>
                 {{$t('MESSAGE_DETAILS')}}
               </span>
           </div>
           <table class="personal-table q-table bordered highlight responsive ">
-            <tbody class='info-tbody'>
-              <tr>
-                <td class="bottom-left-link text-three font-18">
+            <tbody class='row info-tbody'>
+              <tr class="row col-12">
+                <td class="col-md-2 col-xs-6 bottom-left-link text-three font-18">
                   <i class="material-icons font-22 personal-icon">lock outline</i> {{$t('SECOND_PASSWORD')}}
                 </td>
-                <td>
+                <td :class="personalRightClass">
                   <span v-if="secondSignature" class="text-black font-18">
                       {{$t('ALREADY_SET')}}
                     </span>
@@ -88,29 +62,31 @@
                                   <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
                      callLockPanel           </td>
                               </tr> -->
-              <tr>
-                <td class="bottom-left-link text-three font-18">
-                  <i class="material-icons font-22 personal-icon">settings</i> {{$t('LOCK_POSITION_CONF')}}
+              <tr class="row col-12">
+                <td class="col-md-2 col-xs-4 bottom-left-link text-three font-18 padding-0">
+                  <i class="material-icons font-22 personal-icon">settings</i>
+                  <span>{{$t('LOCK_POSITION_CONF')}}</span>
                 </td>
-                <td>
-                  <div class="font-18" v-if="lockInfo">
-                    <span class="font-18">
-                        {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount),date:this.lockInfo.time})}}
+                <td :class="personalRightTwoClass">
+                  <div :class="personalFontClass" v-if="lockInfo">
+                    <span class="white-space-initial">
+                        {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount)})}}
                       </span>
-                    <a class="text-secondary" @click="callLockPanel">{{$t('EDIT')}}</a>
-                    <a v-if="this.lockInfo.expire" class="text-blue" @click="unlock">{{$t('UNLOCK')}}</a>
+                    <span class="white-space-initial">{{$t('LOCK_DETAIL_TIME',{date:this.lockInfo.time})}}</span>
+                    <a :class="personalClickClass" @click="callLockPanel">{{$t('EDIT')}}</a>
+                    <a v-if="this.lockInfo.expire" :class="personalUnLockClass" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
                   <a v-else class="text-secondary" @click="callLockPanel">
                       {{$t('SET_NOW')}}
                     </a>
                 </td>
               </tr>
-              <tr>
-                <td class="bottom-left-link text-three font-18">
+              <tr class="row col-12 margin-top-10">
+                <td class="col-md-2 col-xs-6 bottom-left-link text-three font-18">
                   <i class="material-icons font-22 personal-icon">account_circle</i> {{$t('AGENT_INFO')}}
                 </td>
-                <td>
-                  <span class="font-18" v-if="isAgent || isDelegate === 1">
+                <td :class="personalRightClass">
+                  <span :class="personalFontClass" v-if="isAgent || isDelegate === 1">
                                     {{$t('IS_AGENT')}}
                                   </span>
                   <a v-else class="text-secondary" @click="callDelegatePanel">
@@ -118,11 +94,11 @@
                                   </a>
                 </td>
               </tr>
-              <tr>
-                <td class="bottom-left-link text-three font-18">
+              <tr class="row col-12">
+                <td class="col-md-2 col-xs-5 bottom-left-link text-three font-18">
                   <i class="material-icons font-22 personal-icon">person</i> {{$t('GATEWAY_CANDIDATE')}}
                 </td>
-                <td>
+                <td :class="personalRightThreeClass">
                   <div @click="jump2Doc">
                     <a class="text-secondary">
                                       {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
@@ -142,7 +118,7 @@
       </div>
     </q-dialog>
   
-    <q-dialog v-model="secondPwdShow">
+    <q-dialog :class="personalLockClass" v-model="secondPwdShow">
       <span slot="title">{{$t('SET_SECOND_PASSWORD')}}</span>
       <div slot="body" class="row justify-left">
         <q-field class="col-12 secondPwd-field" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
@@ -201,7 +177,7 @@
 </template>
     </q-dialog>
 
-    <q-dialog v-model="lockPanelShow" >
+    <q-dialog :class="personalLockClass" v-model="lockPanelShow">
       <span slot="title">{{$t('LOCK_POSITION_CONF')}}</span>
       <div slot="body" class="row justify-center" >
         <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError" :helper="numLimit">
@@ -224,8 +200,8 @@
         </q-field>
       </div>
 <template slot="buttons" slot-scope="props">
-  <q-btn :label="$t('label.cancel')" class="col-2 self-lef" color="secondary" outline @click="props.cancel()" />
-  <q-btn class="col-2 self-lef" color="secondary" @click="editLock(props.ok)">
+  <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()" />
+  <q-btn class="col-3 self-lef" color="secondary" @click="editLock(props.ok)">
     {{$t('TRS_TYPE_LOCK')}}
   </q-btn>
 </template>
@@ -582,6 +558,42 @@ export default {
   async mounted() {},
   computed: {
     ...mapGetters(['userInfo', 'latestBlock']),
+    personalTopClass() {
+      return this.isDesk
+        ? 'col-12 row justify-left shadow-2 bg-white personal-top-desktop'
+        : 'col-12 row justify-left shadow-2 bg-white border-r-6 personal-top-mobile'
+    },
+    personalTopQrClass() {
+      return this.isDesk
+        ? 'col-md-3 col-xs-12 personal-qr row justify-left text-left'
+        : 'col-md-3 col-xs-12 personal-qr row justify-center text-left'
+    },
+    personalIconClass() {
+      return this.isDesk
+        ? 'personal-bottom-title margin-left-24'
+        : 'personal-bottom-title margin-left-10'
+    },
+    personalRightClass() {
+      return this.isDesk ? 'col-md-10 col-xs-6' : 'col-md-10 col-xs-6 text-right'
+    },
+    personalRightTwoClass() {
+      return this.isDesk ? 'col-md-10 col-xs-8' : 'col-md-10 col-xs-8 text-right'
+    },
+    personalRightThreeClass() {
+      return this.isDesk ? 'col-md-10 col-xs-7' : 'col-md-10 col-xs-7 text-right'
+    },
+    personalFontClass() {
+      return this.isDesk ? 'font-18' : 'font-12'
+    },
+    personalClickClass() {
+      return this.isDesk ? 'text-secondary font-18' : 'text-secondary font-12'
+    },
+    personalUnLockClass() {
+      return this.isDesk ? 'text-blue font-18' : 'text-blue font-12'
+    },
+    personalLockClass() {
+      return this.isDesk ? 'minimized' : 'maximized'
+    },
     user() {
       return this.userInfo
     },
@@ -645,11 +657,15 @@ export default {
   padding: 20px;
 }
 
-.personal-top {
+.personal-top-desktop {
   padding: 28px 30px;
   width: 100%;
   border-radius: 6px;
   margin-bottom: 28px;
+}
+
+.personal-top-mobile {
+  padding: 20px 0px;
 }
 
 .personal-head-canvas {
@@ -704,15 +720,11 @@ export default {
   font-size: 18px;
 }
 
-.personal-bottom-title {
-  margin-left: 22px;
-}
-
 .personal-bottom-title i {
   color: #43aea8;
   vertical-align: text-bottom;
   font-size: 22px;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .personal-bottom-title span {
@@ -744,5 +756,13 @@ export default {
 
 .secondPwd-field {
   width: 180px;
+}
+
+.white-space-initial {
+  white-space: initial;
+}
+
+.text-right {
+  text-align: right;
 }
 </style>
