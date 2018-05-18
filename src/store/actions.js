@@ -4,7 +4,6 @@ export const someAction = (state) => {
 */
 import { api, api2 } from '../utils/api'
 import asch from '../utils/asch-v2'
-import { getCache } from '../utils/util'
 
 export default {
   // get user infomation (balances / nick) / update
@@ -238,8 +237,8 @@ export default {
     return api2.chains(params)
   },
   // api2 post actions
-  postProposal: ({ commit }, params) => {
-    const secret = getCache('user').secret
+  postProposal: ({ commit, state }, params) => {
+    let secret = state.userInfo.secret
     let trans = asch.createProposal(
       params.title,
       params.desc,
@@ -252,8 +251,8 @@ export default {
     return api.broadcastTransaction(trans)
   },
   // vote proposal
-  voteProposal: ({ commit }, params) => {
-    const secret = getCache('user').secret
+  voteProposal: ({ commit, state }, params) => {
+    let secret = state.userInfo.secret
     let trans = asch.voteProposal(
       params.tid,
       secret,
@@ -262,8 +261,8 @@ export default {
     return api.broadcastTransaction(trans)
   },
   // active proposal
-  activeProposal: ({ commit }, params) => {
-    const secret = getCache('user').secret
+  activeProposal: ({ commit, state }, params) => {
+    let secret = state.userInfo.secret
     let trans = asch.activateProposal(
       params.tid,
       secret,
@@ -272,8 +271,8 @@ export default {
     return api.broadcastTransaction(trans)
   },
   // deposit
-  deposit: ({ commit }, params) => {
-    const secret = getCache('user').secret
+  deposit: ({ commit, state }, params) => {
+    let secret = state.userInfo.secret
     let trans = asch.depositDapp(
       params.name,
       params.currency,
