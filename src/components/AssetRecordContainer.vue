@@ -37,7 +37,7 @@
     </q-td>
 
     <q-td slot="body-cell-crossAmount" slot-scope="props" :props="props">
-      {{props.value | fee(props.row.percision)}}
+      {{props.value | fee(props.row.asset.percision)}}
     </q-td>
 
     <q-td slot="body-cell-senderId" class="table-address" slot-scope="props" :props="props">
@@ -291,9 +291,9 @@ export default {
             align: 'center'
           },
           {
-            name: 'processed',
+            name: 'ready',
             label: this.$t('PROCESSED'),
-            field: 'processed',
+            field: 'ready',
             align: 'center',
             format: value => {
               return value === 1 ? this.$t('DONE') : this.$t('PROCESS')
@@ -323,9 +323,15 @@ export default {
             align: 'center'
           },
           {
-            name: 'processed',
+            name: 'signs',
+            label: this.$t('CONFIRMATIONS'),
+            field: 'signs',
+            align: 'center'
+          },
+          {
+            name: 'ready',
             label: this.$t('PROCESSED'),
-            field: 'processed',
+            field: 'ready',
             align: 'center',
             format: value => {
               return value === 1 ? this.$t('DONE') : this.$t('PROCESS')

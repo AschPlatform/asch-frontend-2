@@ -309,7 +309,7 @@ export default {
     envalueEnd() {
       this.time_end = getTimeFromTrade({
         tTimestamp: this.detail.timestamp,
-        tHeight: this.detail.t_height,
+        tHeight: this.detail.height,
         endHeight: this.detail.endHeight
       })
     }

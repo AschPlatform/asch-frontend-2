@@ -217,13 +217,13 @@ export default {
     },
     showEndTime(obj) {
       return getTimeFromTrade({
-        tTimestamp: obj.t_timestamp,
-        tHeight: obj.t_height,
+        tTimestamp: obj.timestamp,
+        tHeight: obj.height,
         endHeight: obj.account.lockHeight
       })
     },
     showTime(obj) {
-      return obj.t_timestamp
+      return obj.timestamp
     },
     showName(obj, isRecord = false) {
       if (isRecord) {

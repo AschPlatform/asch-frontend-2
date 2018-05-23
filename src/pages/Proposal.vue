@@ -192,10 +192,10 @@ export default {
       // this.isDetailShow = true
     },
     stt(obj) {
-      let start = compileTimeStamp(obj.t_timestamp)
+      let start = compileTimeStamp(obj.timestamp)
       let end = getTimeFromTrade({
-        tTimestamp: obj.t_timestamp,
-        tHeight: obj.t_height,
+        tTimestamp: obj.timestamp,
+        tHeight: obj.height,
         endHeight: obj.endHeight
       })
       return `${start} - ${end}`

@@ -287,7 +287,7 @@ export default {
         {
           name: 'timestamp',
           label: this.$t('DATE'),
-          field: 't_timestamp',
+          field: 'timestamp',
           align: 'center',
           format: value => {
             return fullTimestamp(value)
@@ -450,7 +450,7 @@ export default {
           this.$v.issuerNum.$touch()
           if (this.$v.issuerNum.$error) {
           }
-          let realAmount = dealGiantNumber(this.form.issuerNum, this.row.precision)
+          let realAmount = dealGiantNumber(this.issuerNum, this.row.precision)
 
           let trans = asch.issueAsset(
             this.row.name,
