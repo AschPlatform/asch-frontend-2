@@ -409,7 +409,9 @@ export default {
       return validated
     },
     onError(idx) {
-      this.$refs['img' + idx][0].src = defaultIcon
+      if (this.$refs['img' + idx]) {
+        this.$refs['img' + idx][0].src = defaultIcon
+      }
     },
     createMyDapp() {
       openURL('https://github.com/AschPlatform/asch/tree/master/docs/dapp_docs')
