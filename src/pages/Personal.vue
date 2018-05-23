@@ -136,7 +136,7 @@
 </template>
     </q-dialog>
 
-    <q-dialog v-model="nicknameFormShow" >
+    <q-dialog :class="personalLockClass" v-model="nicknameFormShow" >
       <span  slot="title">{{$t('SET_NICKNAME')}}</span>
       <div slot="body" class="row justify-center margin-t-54" >
         <q-field class="col-12" :error="$v.nickname.$error" :error-label="$t('ERR_NICKNAME')">
@@ -145,9 +145,10 @@
          <q-field class="col-12" v-show="secondSignature"  :error="secondPwdError" :label-width="4"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
           <q-input @blur="validateSecondPwd" :float-label="$t('TRS_TYPE_SECOND_PASSWORD')" type="password" v-model="secondPwd"  />
         </q-field>
-        <table class="personal-table-container q-table bordered  responsive margin-t-20">
-          <tbody>
-            <tr>
+        <div :class="tableClass">
+          <table class="col-12 q-table bordered personal-table-container responsive margin-t-20">
+            <tbody>
+              <tr>
               <td>{{$t('CHAR_NUM')}}</td>
                <td>2</td>
                <td>3</td>
@@ -155,8 +156,8 @@
                <td>5</td>
                <td>6-10</td>
                <td>11-20</td>
-            </tr>
-            <tr>
+              </tr>
+              <tr>
               <td>{{$t('PRICE')}}</td>
                 <td>200 XAS</td>
                 <td>100 XAS</td>
@@ -164,9 +165,11 @@
                 <td>40 XAS</td>
                 <td>10 XAS</td>
                 <td>1 XAS</td>
-            </tr>
-          </tbody>
-        </table>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+     
       </div>
 
 <template slot="buttons" slot-scope="props">
@@ -594,6 +597,9 @@ export default {
     personalLockClass() {
       return this.isDesk ? 'minimized' : 'maximized'
     },
+    tableClass() {
+      return this.isDesk ? 'col-12' : 'col-12 table-container'
+    },
     user() {
       return this.userInfo
     },
@@ -744,6 +750,10 @@ export default {
 
 .bottom-left-link {
   width: 20%;
+}
+
+.table-container{
+  overflow: scroll;
 }
 
 .personal-table-container tbody td {

@@ -12,7 +12,7 @@
         </div>
      
       </q-card-title>
-      <q-card-main class="row col-12">
+      <q-card-main class="row col-12 asset-cards-container">
         <assets-panel :class="assetDetailInnerClass" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
 
         <assets-panel :class="assetDetailInnerClass" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
@@ -256,5 +256,13 @@ export default {
 .assetDetail-card-content {
   min-width: 300px;
   height: 160px;
+}
+
+.asset-detail-qr-container {
+  overflow: hidden;
+}
+
+.asset-cards-container {
+  min-width: 1376px;
 }
 </style>
