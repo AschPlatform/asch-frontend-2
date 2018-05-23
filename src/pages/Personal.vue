@@ -195,7 +195,7 @@
           format24h
         />
         </q-field>
-        <q-field v-show="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+        <q-field v-if="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
           <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
         </q-field>
       </div>
