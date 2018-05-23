@@ -239,7 +239,6 @@ export default {
 
 <style lang="stylus" scoped>
 .assets-container {
-  padding: 20px;
   background: #e7ebee;
 }
 
