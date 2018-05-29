@@ -149,7 +149,7 @@
       </div>
       <div class="row justify-between height-36">
         <span class="footer-introduce font-12">©2018 copyright</span>
-        <span class="footer-introduce font-12">{{version.version}} {{version.build}}</span>
+        <span class="footer-introduce font-12">{{version.version}} {{version.net}} {{version.build}}</span>
       </div>
   
     </q-layout-footer>
