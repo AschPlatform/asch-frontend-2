@@ -12,7 +12,7 @@
         </div>
      
       </q-card-title>
-      <q-card-main class="row col-12 asset-cards-container">
+      <q-card-main :class="assetCardsContainerClass">
         <assets-panel :class="assetDetailInnerClass" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
 
         <assets-panel :class="assetDetailInnerClass" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
@@ -220,6 +220,11 @@ export default {
       return this.isDesk
         ? 'col-auto bg-white asset-detail-card-h margin-l-30'
         : 'col-12 bg-white asset-detail-card-h margin-top-20'
+    },
+    assetCardsContainerClass() {
+      return this.isDesk
+        ? 'row col-12 asset-cards-container'
+        : 'row col-12'
     },
     isCross() {
       if (this.asset.currency === 'XAS') return false

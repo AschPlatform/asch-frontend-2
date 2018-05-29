@@ -11,8 +11,9 @@
         <assets-panel :class="innerClass" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" />
   
         <assets-panel :class="innerAllClass" v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open" />
-  
-        <q-btn :class="innerBtnClass" :label="$t('LOAD_MORE')" @click="loadMoreInner" v-if="innerPagination.rowsNumber>innerBalance.length" />
+        <div v-if="innerPagination.rowsNumber>innerBalance.length"  :class="innerBtnClass">
+          <q-btn class="bg-white custom-focus-none" :label="$t('LOAD_MORE')" @click="loadMoreInner" no-ripple />
+        </div>
       </q-card-main>
     </q-card>
     <q-card class="assets-container-bottom no-shadow">
@@ -22,12 +23,12 @@
                  {{$t('CROSS_ASSETS')}}
                 </span>
       </q-card-title>
-      <q-card-main class="row justify-left gutter-md">
+      <q-card-main :class="cardMainClass">
         <assets-panel :class="innerAllClass" v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"/>
 
         <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
         <q-card :class="outerBtnClass">
-          <div class="more-assets-btn row justify-center items-center" @click="moreAssets">
+          <div class="more-assets-btn row justify-center items-center shadow-1" @click="moreAssets">
             <span>{{$t('MORE_ASSETS')}}</span>
           </div>
         </q-card>
@@ -187,22 +188,25 @@ export default {
   computed: {
     ...mapGetters(['userInfo']),
     innerClass() {
-      return this.isDesk
-        ? 'assets-panel-container'
-        : 'col-12 assets-panel-container'
+      return this.isDesk ? 'assets-panel-container' : 'col-12 assets-panel-container'
     },
     innerAllClass() {
       return this.isDesk ? '' : 'col-12'
     },
     innerBtnClass() {
       return this.isDesk
-        ? 'load-more-btn col-3 bg-white text-black'
-        : 'load-more-btn col-11 bg-white text-black'
+        ? 'load-more-btn col-4 padding-top-32 text-black'
+        : 'load-more-btn col-12 text-black'
+    },
+    cardMainClass() {
+      return this.isDesk
+        ? 'row justify-left gutter-md'
+        : 'row justify-left gutter-md padding-bottom-60'
     },
     outerBtnClass() {
       return this.isDesk
-        ? 'col-3 shadow-2 more-assets-container'
-        : 'col-11 shadow-2 more-assets-container'
+        ? 'col-4 shadow-2 more-assets-container no-shadow'
+        : 'col-12 shadow-2 more-assets-container no-shadow'
     },
     user() {
       return this.userInfo
@@ -243,12 +247,12 @@ export default {
 }
 
 .more-assets-container {
-  padding: 30px;
+  // padding: 0px;
   min-width: 300px;
   height: 161px;
   cursor: pointer;
-  background: #ffffff;
-  margin: 30px;
+  background: transparent;
+  // margin: 32px;
 }
 
 .more-assets {
@@ -260,13 +264,26 @@ export default {
 
 .more-assets-btn {
   width: 100%;
-  height: 100%;
+  height: 161px;
+  background: #ffffff;
 }
 
 .load-more-btn {
-  height: 160px;
-  margin-left: 30px;
+  height: 161px;
   margin-top: 30px;
   min-width: 300px;
+  padding-top: 0;
+  background: transparent;
+
+  button:hover {
+    background: #ffffff !important;
+  }
+
+  button {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: #ffffff;
+  }
 }
 </style>
