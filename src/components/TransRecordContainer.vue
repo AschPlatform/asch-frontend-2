@@ -1,18 +1,18 @@
 <template>
   <div>
-    <q-table hide-header separator="none" class="no-shadow trans-record-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
+    <record-table></record-table>
+    <!-- <q-table hide-header separator="none" class="no-shadow trans-record-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
     <template slot="top-right" slot-scope="props">
         <q-btn-toggle :class="transRecordBtnClass" flat rounded icon="fiber_manual_record" v-model="type" 
     toggle-color="negative"  toggle-text-color="white"
     :options="[
       {label: $t('TRS_TYPE_TRANSFER_RECORD'), value: 2},
       {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},]" />
-        <!-- <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" /> -->
     </template>
-
     <q-td slot="body-cell-currency" slot-scope="props" :props="props">
       <q-chip small color="secondary">{{ props.value }}</q-chip>
     </q-td>
+    
 
     <q-td slot="body-cell-id" slot-scope="props" :props="props">
       <div v-if="props.value" class="my-label" >
@@ -62,11 +62,10 @@
     <q-td slot="body-cell-args" slot-scope="props" :props="props">
       {{props.value}}
       <q-popover  v-if="props.row" ref="popover-msg" style="max-width: 150px;">
-        <!-- <pre class="light-paragraph">{{props.row.args}}</pre> -->
         <pre class="light-paragraph">{{dueArg(props.row.args)}}</pre>
       </q-popover>
     </q-td>
-  </q-table>
+  </q-table> -->
   </div>
 </template>
 
@@ -75,6 +74,7 @@ import { fullTimestamp, convertFee } from '../utils/asch'
 import { QTable, QTd, QTableColumns, QTooltip, QBtnToggle, QPopover, QChip } from 'quasar'
 import { transTypes } from '../utils/constants'
 import { mapActions } from 'vuex'
+import RecordTable from '../components/RecordTable'
 
 export default {
   name: 'TransRecordContainer',
@@ -86,7 +86,8 @@ export default {
     QTooltip,
     QBtnToggle,
     QPopover,
-    QChip
+    QChip,
+    RecordTable
   },
   data() {
     return {
