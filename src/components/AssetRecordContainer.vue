@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-table :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
+    <q-table separator="none" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
       <template slot="top-right" slot-scope="props">
         <q-btn-toggle v-if="isCross" v-model="type" outline
     toggle-color="secondary"

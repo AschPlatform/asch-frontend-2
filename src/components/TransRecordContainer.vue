@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-table class="no-shadow trans-record-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
+    <q-table hide-header separator="none" class="no-shadow trans-record-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
     <template slot="top-right" slot-scope="props">
         <q-btn-toggle :class="transRecordBtnClass" flat rounded icon="fiber_manual_record" v-model="type" 
     toggle-color="negative"  toggle-text-color="white"
@@ -124,7 +124,7 @@ export default {
       let pageNo = this.pagination.page
       let condition = {
         // TODO 参数 bug
-        senderId: this.userInfo.account.address,
+        // senderId: this.userInfo.account.address,
         orderBy: 'timestamp:desc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -134,10 +134,11 @@ export default {
       }
       let res
       if (this.type === 1) {
+        condition.senderId = this.userInfo.account.address
         res = await this.getTransactions(condition)
         this.trans = res.transactions
       } else {
-        condition.ownerId = condition.senderId
+        condition.ownerId = this.userInfo.account.address
         res = await this.getTransfers(condition)
         this.trans = res.transfers
       }
