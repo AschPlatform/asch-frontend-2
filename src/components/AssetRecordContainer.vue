@@ -291,9 +291,9 @@ export default {
             align: 'center'
           },
           {
-            name: 'ready',
+            name: 'processed',
             label: this.$t('PROCESSED'),
-            field: 'ready',
+            field: 'processed',
             align: 'center',
             format: value => {
               return value === 1 ? this.$t('DONE') : this.$t('PROCESS')

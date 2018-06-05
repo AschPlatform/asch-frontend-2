@@ -1,12 +1,16 @@
 <template>
   <q-layout>
     <q-page-container class="login-container">
+      
       <div class="login-center row justify-center">
-        <div class="main-logo" />
-        <q-page padding class="login-content row justify-center">
-          <div class="main-page layout-padding row justify-center ">
-            <img class="login-ball" ref="img" :src="loginBallImg" alt="login ball">
-            <q-card v-if="registerStep==0" class="login-panel">
+        <div class="mobile-only row justify-center items-center mobile-logo bg-primary">
+         <span class="mobile-icon"></span>
+        </div>  
+        <div class="desktop-only main-logo" />
+        <q-page padding :class="loginContentClass">
+          <div :class="mainPageClass">
+            <img class="desktop-only login-ball" ref="img" :src="loginBallImg" alt="login ball">
+            <q-card v-if="registerStep==0" :class="loginPanelClass">
               <q-card-title class="">
                 <span class="lite-orange card-font">
                       {{$t('LOGIN')}}
@@ -38,7 +42,7 @@
                 </div>
               </q-card-main>
             </q-card>
-            <q-card  v-show="registerStep==1" class="register-panel">
+            <q-card  v-show="registerStep==1" :class="registerPanelClass">
               <q-card-title class="lite-orange card-font">
                 <span class="lite-orange card-font">
                 {{$t('CREATE_MASTER_PASSWORD')}}
@@ -253,6 +257,20 @@ export default {
     removeCache('currentServer')
   },
   computed: {
+    loginPanelClass() {
+      return this.isDesk ? 'login-panel' : 'login-panel width-100'
+    },
+    registerPanelClass() {
+      return this.isDesk ? 'register-panel' : 'register-panel width-100'
+    },
+    loginContentClass() {
+      return this.isDesk ? 'row justify-center' : 'row justify-center width-100'
+    },
+    mainPageClass() {
+      return this.isDesk
+        ? 'layout-padding row justify-center main-page'
+        : ' row justify-center main-page-mobile'
+    },
     serverOpts() {
       let opts = officialPeers.map(server => {
         let opt = {
@@ -292,23 +310,29 @@ html, body {
   position: relative;
 }
 
-.login-container {
-  // position: relative;
-}
-
 .login-center {
+  position: relative;
   width: 100%;
   height: 300px;
   position: absolute;
   top: calc(50% - 150px);
   background: #ff5000;
-}
 
-.login-container {
-  // background: #dddddd;
-}
+  .mobile-logo {
+    position: absolute;
+    width: 100%;
+    height: 58px;
+    top: -140px;
+    text-align: center;
 
-.login-content {
+    .mobile-icon {
+      display: block;
+      width: 175px;
+      height: 38px;
+      background: url('../assets/loginWhite.png') no-repeat center center;
+      background-size: cover;
+    }
+  }
 }
 
 .main-page {
@@ -386,34 +410,12 @@ html, body {
   margin-top: -30px !important;
 }
 
-@media screen and (max-width: 500px) {
-  .login-ball {
-    display: none;
-  }
-
-  .main-logo {
-    display: none;
-  }
-
-  .login-panel {
-    width: 100%;
-  }
-
-  .main-page {
-    height: 364px;
-  }
-
-  .register-panel {
-    width: 100%;
-  }
-
-  .login-content {
-    width: 100%;
-  }
-
-  .main-page {
-    width: 100%;
-    padding: 0 10px !important;
-  }
+.main-page-mobile {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 364px;
+  padding: 0 10px !important;
+  margin-top: -32px;
 }
 </style>

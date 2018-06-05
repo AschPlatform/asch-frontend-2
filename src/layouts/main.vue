@@ -50,7 +50,7 @@
           </div>
           <div class="header-right margin-left-10" @click="toHome">
             <span class="header-right-top">阿希客户端</span>
-            <span class="header-right-bottom font-12">Asch Client V1.4.0</span>
+            <span class="header-right-bottom font-12">Asch Client {{version.version}}-{{version.net}}</span>
           </div>
         </q-list-header>
         <q-item class="list-item-container" item :to="getRouterConf('home')">
@@ -149,7 +149,7 @@
       </div>
       <div class="row justify-between height-36">
         <span class="footer-introduce font-12">©2018 copyright</span>
-        <span class="footer-introduce font-12">1.4.0</span>
+        <span class="footer-introduce font-12">{{version.version}} {{version.net}} {{version.build}}</span>
       </div>
   
     </q-layout-footer>
