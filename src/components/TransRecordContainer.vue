@@ -10,6 +10,10 @@
         <!-- <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" /> -->
     </template>
 
+    <q-td slot="body-cell-currency" slot-scope="props" :props="props">
+      <q-chip small color="secondary">{{ props.value }}</q-chip>
+    </q-td>
+
     <q-td slot="body-cell-id" slot-scope="props" :props="props">
       <div v-if="props.value" class="my-label" >
         {{props.value.substring(0,7)}}
@@ -68,7 +72,7 @@
 
 <script>
 import { fullTimestamp, convertFee } from '../utils/asch'
-import { QTable, QTd, QTableColumns, QTooltip, QBtnToggle, QPopover } from 'quasar'
+import { QTable, QTd, QTableColumns, QTooltip, QBtnToggle, QPopover, QChip } from 'quasar'
 import { transTypes } from '../utils/constants'
 import { mapActions } from 'vuex'
 
@@ -81,7 +85,8 @@ export default {
     QTableColumns,
     QTooltip,
     QBtnToggle,
-    QPopover
+    QPopover,
+    QChip
   },
   data() {
     return {
@@ -211,6 +216,11 @@ export default {
             name: 'id',
             label: 'ID',
             field: 'id'
+          },
+          {
+            name: 'currency',
+            label: 'ID',
+            field: 'currency'
           },
           {
             name: 'type',
