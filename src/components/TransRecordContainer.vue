@@ -1,6 +1,6 @@
 <template>
   <div>
-    <record-table></record-table>
+    <record-table :data="trans" :options="toggleBtn" :maxPage="maxPage" @changePage="changePage"></record-table>
     <!-- <q-table hide-header separator="none" class="no-shadow trans-record-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
     <template slot="top-right" slot-scope="props">
         <q-btn-toggle :class="transRecordBtnClass" flat rounded icon="fiber_manual_record" v-model="type" 
@@ -93,6 +93,7 @@ export default {
     return {
       trans: [],
       loading: false,
+      maxPage: 0,
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -102,7 +103,17 @@ export default {
       filter: '',
       row: null,
       modalInfoShow: false,
-      type: 2
+      type: 2,
+      toggleBtn: [
+        {
+          label: this.$t('DAPP_TRANSACTION_RECORD'),
+          value: 1
+        },
+        {
+          label: this.$t('TRS_TYPE_TRANSFER_RECORD'),
+          value: 2
+        }
+      ]
     }
   },
   methods: {
@@ -147,10 +158,28 @@ export default {
         condition.ownerId = this.userInfo.account.address
         res = await this.getTransfers(condition)
         this.trans = res.transfers
+        let items = []
+        res.transfers.forEach(e => {
+          let temp = {
+            col1: [],
+            col2: [],
+            fee: []
+          }
+          e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
+          temp.col1.push(fullTimestamp(e.timestamp))
+          temp.col2.push(e.transaction.message)
+          temp.col2.push(this.$t('REMARK'))
+          temp.fee.push(convertFee(e.amount, 8))
+          temp.fee.push(e.currency)
+          console.log(temp)
+          items.push(temp)
+        })
+        this.trans = items
       }
 
       // set max
       this.pagination.rowsNumber = res.count
+      this.maxPage = Math.ceil(this.pagination.rowsNumber / this.pagination.rowsPerPage)
       this.loading = false
       return res
     },
@@ -198,6 +227,10 @@ export default {
       args = args.replace(/\[/g, '')
       args = args.replace(/\]/g, '')
       return args
+    },
+    changePage(num) {
+      this.pagination.page = num
+      this.getTrans()
     }
   },
   mounted() {

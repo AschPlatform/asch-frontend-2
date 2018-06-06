@@ -1,35 +1,51 @@
 <template>
   <div class="table-container">
+    <div class="q-table-top relative-position row">
+      <div class="q-table-control">
+        <div class="q-table-title">TITLE</div>
+      </div>
+      <div class="q-table-separator col"></div>
+      <div class="q-table-control">
+        <q-btn-toggle :class="transRecordBtnClass" flat rounded icon="fiber_manual_record" v-model="type" 
+        toggle-color="negative"  toggle-text-color="white"
+        :options="options" />
+      </div>
+    </div>
     <div class="scroll q-table-middle">
-      <table class="q-table modified">
-        <tr v-for="(item, index) in this.items" :key="index">
-          <td>
+      <div class="q-table modified">
+        <div id="tr" v-for="(item, index) in this.data" :key="index" class="justify-between row">
+          <div id="td" class="col-xs-12 col-md-5">
             <p>{{item.col1[0]}}</p>
             <p>{{item.col1[1]}}</p>
-          </td>
-          <td>
+          </div>
+          <div>
+            <span class="number col-xs-12 col-md-3">{{item.fee[0]}}</span><span class="fee">{{item.fee[1]}}</span>
+          </div>
+          <div id="td" class="col-xs-12 col-md-3">
             <p>{{item.col2[0]}}</p>
             <p>{{item.col2[1]}}</p>
-          </td>
-          <td v-if="item.col3">
-            <p>{{item.col3[0]}}</p>
-            <p>{{item.col3[1]}}</p>
-          </td>
-          <td>
-            <span class="number">{{item.fee[0]}}</span><span class="fee">{{item.fee[1]}}</span>
-          </td>
-        </tr>
-      </table>
+          </div>
+        </div>
+      </div>
     </div>
+    <q-pagination v-model="page" :min="1" :max="Number(this.maxPage)" :max-pages="6" @input="changePage" direction-links></q-pagination>
   </div>
 </template>
 
 <script>
+import { QPagination, QBtnToggle } from 'quasar'
+
 export default {
   name: 'RecordTable',
-  props: ['data'],
+  props: ['data', 'options', 'maxPage'],
+  components: {
+    QPagination,
+    QBtnToggle
+  },
   data() {
     return {
+      type: '',
+      page: 0,
       items: [
         // structure of the item
         // {
@@ -55,31 +71,41 @@ export default {
         //   }
         // }
         {
-          col1: ['SYSTEM', '注册发行商 2016-12-06 15:36:56'],
+          col1: ['SYSTEM', '2016-12-06 15:36:56'],
           col2: ['请收款', '备注'],
           fee: ['+10000', 'BTS']
         },
         {
-          col1: ['Asd4fg518F416a1w6g1V981', '注册发行商 2016-12-06 15:36:56'],
+          col1: ['Asd4fg518F416a1w6g1V981', '2016-12-06 15:36:56'],
           col2: ['请收款', '备注'],
           fee: ['+10000', 'XAS']
         },
         {
-          col1: ['SYSTEM', '注册发行商 2016-12-06 15:36:56'],
-          col2: ['请收款, BITCH', '备注'],
+          col1: ['SYSTEM', '2016-12-06 15:36:56'],
+          col2: ['请收款, BITCASH', '备注'],
           fee: ['-10000', 'BTC']
         },
         {
-          col1: ['SYSTEM', '注册发行商 2016-12-06 15:36:56'],
+          col1: ['SYSTEM', '2016-12-06 15:36:56'],
           col2: ['请收款', '备注'],
           fee: ['+0.165', 'XCT']
         },
         {
-          col1: ['SYSTEM', '注册发行商 2016-12-06 15:36:56'],
+          col1: ['SYSTEM', '2016-12-06 15:36:56'],
           col2: ['请收款', '备注'],
           fee: ['+0.165', 'XCT']
         }
       ]
+    }
+  },
+  methods: {
+    changePage(num) {
+      this.$emit('changePage', num)
+    }
+  },
+  computed: {
+    transRecordBtnClass() {
+      return this.isDesk ? 'bg-secondary text-white' : 'trans-record-btns bg-secondary text-white'
     }
   }
 }
@@ -87,10 +113,11 @@ export default {
 
 <style lang="stylus" scoped>
   .modified
-    tr
+    #tr
       padding 10px 6px
-      td
+      #td
         p
+         display block
          margin 0
          font-size 14px
          &:nth-child(1)
@@ -98,11 +125,11 @@ export default {
           font-weight bold
          &:nth-child(2)
           color #999
-        .fee
-          margin-left 5px
-          color #43aea8
-          font-size 14px
-        .number
-          font-size 18px
+  .fee
+    margin-left 5px
+    color #43aea8
+    font-size 14px
+  .number
+    font-size 18px
 </style>
 
