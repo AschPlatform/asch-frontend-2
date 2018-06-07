@@ -41,7 +41,7 @@ export default {
     assetIcon() {
       let icons = {
         'XAS': xas,
-        'WITHINCHAINASSET': xasChainAssets,
+        'WITHIN_CHAIN_ASSET': xasChainAssets,
         'WITHDRAW': withdraw,
         'TRANSFER': transfer,
         'RECEIPT': receipt,
@@ -49,7 +49,7 @@ export default {
         'FEE': fee,
         'BCH': bch,
         'BTC': btc,
-        'CHAINTRANSFER': chainTransfer
+        'CHAIN_TRANSFER': chainTransfer
       }
       return icons.XAS
     },
