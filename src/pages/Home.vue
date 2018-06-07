@@ -85,7 +85,7 @@
         </div>
       </div>
       <div class="col-md-8 col-xs-12 bg-white shadow-1">
-        <trans-record-container  :userInfo="userInfo" />
+        <trans-record-container :userInfo="userInfo" class="table"/>
       </div>
     </div>
   </div>
@@ -285,5 +285,9 @@ export default {
 
 .q-table-title {
   font-weight: 600 !important;
+}
+
+.table {
+  height 100%
 }
 </style>

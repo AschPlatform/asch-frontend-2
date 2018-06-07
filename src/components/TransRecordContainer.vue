@@ -1,6 +1,6 @@
 <template>
   <div>
-    <record-table :data="trans" :options="toggleBtn" :maxPage="maxPage" @changePage="changePage"></record-table>
+    <record-table :data="trans" :options="toggleBtn" :maxPage="maxPage" @changePage="changePage" @changeType="changeType" :title="computedTitle" class="table"></record-table>
     <!-- <q-table hide-header separator="none" class="no-shadow trans-record-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
     <template slot="top-right" slot-scope="props">
         <q-btn-toggle :class="transRecordBtnClass" flat rounded icon="fiber_manual_record" v-model="type" 
@@ -93,11 +93,11 @@ export default {
     return {
       trans: [],
       loading: false,
-      maxPage: 0,
+      maxPage: 1,
       pagination: {
         page: 1,
         rowsNumber: 0,
-        rowsPerPage: 10
+        rowsPerPage: 3
       },
 
       filter: '',
@@ -154,10 +154,25 @@ export default {
         condition.senderId = this.userInfo.account.address
         res = await this.getTransactions(condition)
         this.trans = res.transactions
+        let temps = []
+        res.transactions.forEach(e => {
+          let temp = {
+            col1: [],
+            col2: [],
+            fee: []
+          }
+          temp.col1.push(this.getTransType(e.type))
+          temp.col1.push(fullTimestamp(e.timestamp))
+          temp.col2.push(this.dueArg(e.args))
+          temp.col2.push(this.$t('ARGS'))
+          temp.fee.push('-' + convertFee(e.fee))
+          temp.fee.push('XAS')
+          temps.push(temp)
+        })
+        this.trans = temps
       } else {
         condition.ownerId = this.userInfo.account.address
         res = await this.getTransfers(condition)
-        this.trans = res.transfers
         let items = []
         res.transfers.forEach(e => {
           let temp = {
@@ -165,11 +180,18 @@ export default {
             col2: [],
             fee: []
           }
-          e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
+          let plag = ''
+          if (e.recipientId === this.userInfo.address) {
+            plag = '+'
+            temp.col1.push(e.senderId)
+          } else {
+            plag = '-'
+            e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
+          }
           temp.col1.push(fullTimestamp(e.timestamp))
           temp.col2.push(e.transaction.message)
           temp.col2.push(this.$t('REMARK'))
-          temp.fee.push(convertFee(e.amount, 8))
+          temp.fee.push(plag + convertFee(e.amount, 8))
           temp.fee.push(e.currency)
           console.log(temp)
           items.push(temp)
@@ -206,8 +228,9 @@ export default {
       this.pagination = {
         page: 1,
         rowsNumber: 0,
-        rowsPerPage: 10
+        rowsPerPage: 3
       }
+      this.maxPage = 1
     },
     getName(props) {
       let flag = this.matchSelf(props.value)
@@ -231,10 +254,15 @@ export default {
     changePage(num) {
       this.pagination.page = num
       this.getTrans()
+    },
+    changeType(num) {
+      console.log('detected change')
+      this.type = num
     }
   },
   mounted() {
     this.getTrans()
+    console.log(this)
   },
   computed: {
     dynamicCol() {
@@ -397,6 +425,9 @@ export default {
       return this.type === 1
         ? t('DAPP_TRANSACTION_RECORD_LATELY')
         : t('TRS_TYPE_TRANSFER_RECORD_LATELY')
+    },
+    computedTitle() {
+      return this.type === 1 ? this.toggleBtn[0].label : this.toggleBtn[1].label
     }
   },
   watch: {
@@ -404,6 +435,7 @@ export default {
       this.getTrans()
     },
     type(val) {
+      console.log('WATCH CHANGE')
       this.resetQuery()
       this.getTrans()
     }
@@ -418,5 +450,9 @@ export default {
 
 .q-table-title {
   font-weight: 600 !important;
+}
+
+.table {
+  height 100%
 }
 </style>
