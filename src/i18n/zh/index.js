@@ -477,6 +477,7 @@ const lang = {
   ERR_SHOULD_EQUAL: '替换两方应该数量相等',
   EXIT: '退出',
   CANCEL_VOTE: '撤票',
+  NO_REMARK: '无备注',
 
   // ERROR
   AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',

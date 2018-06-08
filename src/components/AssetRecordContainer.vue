@@ -1,16 +1,16 @@
 <template>
   <div>
-    <q-table separator="none" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
+    <record-table :data="trans" :options="toggleBtn" :maxPage="maxPage" @changePage="changePage" @changeType="changeType" :title="computedTitle" class="table"></record-table>
+    <!-- <q-table separator="none" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
       <template slot="top-right" slot-scope="props">
         <q-btn-toggle v-if="isCross" v-model="type" outline
-    toggle-color="secondary"
-    :options="[
-      {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},
-      {label: $t('DEPOSIT')+$t('RECORD'), value: 2},
-      {label: $t('WITHDRAW')+$t('RECORD'), value: 3}
-    ]" />
-        <!-- <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" /> -->
-</template>
+        toggle-color="secondary"
+        :options="[
+          {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},
+          {label: $t('DEPOSIT')+$t('RECORD'), value: 2},
+          {label: $t('WITHDRAW')+$t('RECORD'), value: 3}
+        ]" />
+      </template>
 
     <q-td slot="body-cell-id" slot-scope="props" :props="props">
       <div v-if="props.value" class="my-label" >
@@ -21,8 +21,8 @@
 
     <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
       <q-btn @click="getDataInfo(props)" icon="remove red eye" size="sm" flat color="secondary" >
-          <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-        </q-btn>
+        <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
+      </q-btn>
     </q-td>
 
     <q-td slot="body-cell-message" slot-scope="props" :props="props">
@@ -58,7 +58,7 @@
       </div>
       <div v-else>SYSTEM</div>
     </q-td>
-  </q-table>
+  </q-table> -->
 </div>
 </template>
 
@@ -67,6 +67,7 @@ import { fullTimestamp, convertFee } from '../utils/asch'
 import { QBtn, QTable, QTd, QTableColumns, QTooltip, QBtnToggle } from 'quasar'
 import { transTypes } from '../utils/constants'
 import { mapActions, mapGetters } from 'vuex'
+import RecordTable from '../components/RecordTable'
 
 export default {
   name: 'AssetRecordContainer',
@@ -77,12 +78,14 @@ export default {
     QTd,
     QTableColumns,
     QTooltip,
-    QBtnToggle
+    QBtnToggle,
+    RecordTable
   },
   data() {
     return {
       trans: [],
       loading: false,
+      maxPage: 1,
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -136,7 +139,31 @@ export default {
       let res
       if (this.type === 1) {
         res = await this.getTransfers(condition)
-        this.trans = res.transfers
+        let items = []
+        res.transfers.forEach(e => {
+          let temp = {
+            col1: [],
+            col2: [],
+            fee: []
+          }
+          let plag = ''
+          if (e.recipientId === this.userInfo.address) {
+            plag = '+'
+            temp.col1.push(e.senderId)
+          } else {
+            plag = '-'
+            e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
+          }
+          temp.col1.push(fullTimestamp(e.timestamp))
+          temp.col2.push(e.transaction.message || this.$t('NO_REMARK'))
+          temp.col2.push(this.$t('REMARK'))
+          temp.fee.push(plag + convertFee(e.amount, 8))
+          temp.fee.push(e.currency)
+          temp.iconKey = e.currency
+          console.log(temp)
+          items.push(temp)
+        })
+        this.trans = items
       } else if (this.type === 2) {
         condition = {
           address: this.userInfo.account.address,
@@ -144,7 +171,30 @@ export default {
         }
         res = await this.getMyCurrencyDeposits(condition)
         if (res.success && res.deposits) {
-          this.trans = res.deposits
+          let items = []
+          res.deposits.forEach(e => {
+            let temp = {
+              col1: [],
+              col2: [],
+              fee: []
+            }
+            // if (e.recipientId === this.userInfo.address) {
+            //   plag = '+'
+            //   temp.col1.push(e.senderId)
+            // } else {
+            //   plag = '-'
+            //   e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
+            // }
+            temp.col1.push(e.address)
+            temp.col1.push(this.filterState(e.processed) + '  ' + fullTimestamp(e.timestamp))
+            temp.col2.push(String(e.confirmations))
+            temp.col2.push(this.$t('CONFIRMATIONS'))
+            temp.fee.push(convertFee(e.amount, e.asset.precision))
+            temp.fee.push(e.currency)
+            temp.iconKey = e.currency
+            items.push(temp)
+          })
+          this.trans = items
         } else {
           this.trans = []
         }
@@ -155,7 +205,30 @@ export default {
         }
         res = await this.getMyCurrencyWithdrawals(condition)
         if (res.success && res.withdrawals) {
-          this.trans = res.withdrawals
+          let items = []
+          res.withdrawals.forEach(e => {
+            let temp = {
+              col1: [],
+              col2: [],
+              fee: []
+            }
+            // if (e.recipientId === this.userInfo.address) {
+            //   plag = '+'
+            //   temp.col1.push(e.senderId)
+            // } else {
+            //   plag = '-'
+            //   e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
+            // }
+            temp.col1.push(e.recipientId)
+            temp.col1.push(this.filterState(e.ready) + '  ' + fullTimestamp(e.timestamp))
+            temp.col2.push(String(e.signs))
+            temp.col2.push(this.$t('CONFIRMATIONS'))
+            temp.fee.push(convertFee(e.amount, e.asset.precision))
+            temp.fee.push(e.currency)
+            temp.iconKey = e.currency
+            items.push(temp)
+          })
+          this.trans = items
         } else {
           this.trans = []
         }
@@ -181,6 +254,7 @@ export default {
     },
     resetTable() {
       this.pageNo = 1
+      this.maxPage = 1
     },
     getTransType(val) {
       return this.$t(transTypes[val])
@@ -191,6 +265,19 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 10
       }
+      this.maxPage = 1
+    },
+    changePage() {
+      this.getTrans()
+    },
+    changeType(num) {
+      this.type = num
+    },
+    filterState(num) {
+      if (num === 0) {
+        return this.$t('PROCESS')
+      }
+      return this.$t('DONE')
     }
   },
   mounted() {
@@ -363,6 +450,35 @@ export default {
           break
       }
       return str
+    },
+    toggleBtn() {
+      if (this.isCross) {
+        return [
+          {
+            label: this.$t('DAPP_TRANSACTION_RECORD'),
+            value: 1
+          },
+          {
+            label: this.$t('DEPOSIT_RECORD'),
+            value: 2
+          },
+          {
+            label: this.$t('WITHDRAW_RECORD'),
+            value: 3
+          }
+        ]
+      }
+      return 'none'
+    },
+    computedTitle() {
+      switch (this.type) {
+        case 1:
+          return this.$t('DAPP_TRANSACTION_RECORD')
+        case 2:
+          return this.$t('DEPOSIT_RECORD')
+        case 3:
+          return this.$t('WITHDRAW_RECORD')
+      }
     }
   },
   watch: {

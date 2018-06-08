@@ -97,21 +97,21 @@ export default {
       pagination: {
         page: 1,
         rowsNumber: 0,
-        rowsPerPage: 3
+        rowsPerPage: 10
       },
 
       filter: '',
       row: null,
       modalInfoShow: false,
-      type: 2,
+      type: 1,
       toggleBtn: [
-        {
-          label: this.$t('DAPP_TRANSACTION_RECORD'),
-          value: 1
-        },
         {
           label: this.$t('TRS_TYPE_TRANSFER_RECORD'),
           value: 2
+        },
+        {
+          label: this.$t('DAPP_TRANSACTION_RECORD'),
+          value: 1
         }
       ]
     }
@@ -167,6 +167,7 @@ export default {
           temp.col2.push(this.$t('ARGS'))
           temp.fee.push('-' + convertFee(e.fee))
           temp.fee.push('XAS')
+          temp.iconKey = 'FEE'
           temps.push(temp)
         })
         this.trans = temps
@@ -189,10 +190,11 @@ export default {
             e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
           }
           temp.col1.push(fullTimestamp(e.timestamp))
-          temp.col2.push(e.transaction.message)
+          temp.col2.push(e.transaction.message || this.$t('NO_REMARK'))
           temp.col2.push(this.$t('REMARK'))
           temp.fee.push(plag + convertFee(e.amount, 8))
           temp.fee.push(e.currency)
+          temp.iconKey = e.currency
           console.log(temp)
           items.push(temp)
         })
@@ -228,7 +230,7 @@ export default {
       this.pagination = {
         page: 1,
         rowsNumber: 0,
-        rowsPerPage: 3
+        rowsPerPage: 10
       }
       this.maxPage = 1
     },
@@ -256,7 +258,6 @@ export default {
       this.getTrans()
     },
     changeType(num) {
-      console.log('detected change')
       this.type = num
     }
   },
@@ -427,7 +428,7 @@ export default {
         : t('TRS_TYPE_TRANSFER_RECORD_LATELY')
     },
     computedTitle() {
-      return this.type === 1 ? this.toggleBtn[0].label : this.toggleBtn[1].label
+      return this.type === 1 ? this.toggleBtn[1].label : this.toggleBtn[0].label
     }
   },
   watch: {
