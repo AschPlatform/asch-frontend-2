@@ -107,11 +107,11 @@ export default {
       toggleBtn: [
         {
           label: this.$t('TRS_TYPE_TRANSFER_RECORD'),
-          value: 2
+          value: 1
         },
         {
           label: this.$t('DAPP_TRANSACTION_RECORD'),
-          value: 1
+          value: 2
         }
       ]
     }
@@ -150,7 +150,7 @@ export default {
         condition.currency = this.currency
       }
       let res
-      if (this.type === 1) {
+      if (this.type === 2) {
         condition.senderId = this.userInfo.account.address
         res = await this.getTransactions(condition)
         this.trans = res.transactions
@@ -195,7 +195,6 @@ export default {
           temp.fee.push(plag + convertFee(e.amount, 8))
           temp.fee.push(e.currency)
           temp.iconKey = e.currency
-          console.log(temp)
           items.push(temp)
         })
         this.trans = items
@@ -263,7 +262,6 @@ export default {
   },
   mounted() {
     this.getTrans()
-    console.log(this)
   },
   computed: {
     dynamicCol() {
@@ -428,7 +426,7 @@ export default {
         : t('TRS_TYPE_TRANSFER_RECORD_LATELY')
     },
     computedTitle() {
-      return this.type === 1 ? this.toggleBtn[1].label : this.toggleBtn[0].label
+      return this.type === 2 ? this.toggleBtn[1].label : this.toggleBtn[0].label
     }
   },
   watch: {
@@ -436,7 +434,6 @@ export default {
       this.getTrans()
     },
     type(val) {
-      console.log('WATCH CHANGE')
       this.resetQuery()
       this.getTrans()
     }

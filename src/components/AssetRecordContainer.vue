@@ -160,7 +160,6 @@ export default {
           temp.fee.push(plag + convertFee(e.amount, 8))
           temp.fee.push(e.currency)
           temp.iconKey = e.currency
-          console.log(temp)
           items.push(temp)
         })
         this.trans = items

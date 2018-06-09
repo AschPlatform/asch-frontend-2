@@ -85,12 +85,10 @@ export default {
       this.$emit('changePage', num)
     },
     changeType(num) {
-      console.log(num, this.type)
-      this.$emit('changeType', this.type)
+      this.$emit('changeType', num)
     }
   },
   mounted() {
-    console.log(isDesktop)
   },
   computed: {
     transRecordBtnClass() {
