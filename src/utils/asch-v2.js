@@ -18,7 +18,9 @@ const convertSecondPwd = pwd => {
 }
 
 const convertFee = trans => {
-  let { type } = trans
+  let {
+    type
+  } = trans
   let fee = feeFuncMap[type](trans)
   fee = fee * Math.pow(10, 8)
   trans.fee = fee
@@ -378,12 +380,12 @@ const asch = {
     )
   },
   // 网关提现
-  withdrawGateway: (address, gateway, currency, amount, secret, secondPwd = '') => {
+  withdrawGateway: (address, gateway, currency, amount, fee, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertFee({
         type: 403,
         fee: 10000000,
-        args: [address, gateway, currency, amount],
+        args: [address, gateway, currency, amount, fee],
         secret,
         secondSecret: secondPwd
       })

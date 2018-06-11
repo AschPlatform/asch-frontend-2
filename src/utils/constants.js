@@ -13,6 +13,12 @@ const langsOpts = [
   }
 ]
 
+const fees = {
+  'ETH': 150000,
+  'BCH': 1000,
+  'BTC': 10000
+}
+
 const officialPeers = [
   // {
   //   ip: '107.191.41.208',
@@ -387,4 +393,4 @@ const transTypes = {
   404: 'TRS_TYPE_GATEWAY_WITHDRAW_CONFIRM'
 }
 
-export { urls, langsOpts, transTypes, officialPeers }
+export { urls, langsOpts, transTypes, officialPeers, fees }
