@@ -135,8 +135,7 @@ const lang = {
   SAVE_PASSWORD: '保存主密码',
   CONFIRM_PASSWORD: '确认主密码',
   INPUT_PASSWORD_AGAIN: '请重新输入您的主密码',
-  NEW_PWD_TIP_2:
-    '请确保您已安全保存主密码，如果您失去您的主密码，您的帐户将永远无法再打开，您将失去您所有的XAS',
+  NEW_PWD_TIP_2: '请确保您已安全保存主密码，如果您失去您的主密码，您的帐户将永远无法再打开，您将失去您所有的XAS',
   CONFIRM: '确认',
   CANCEL: '返回',
   CANCEL_LOGIN: '返回登录',
@@ -204,8 +203,7 @@ const lang = {
   PASSWORD_RULE_TIP: '输入8到16位数字和字母组合',
   INPUT_AGAIN: '再次输入',
   PASSWORD: '密码',
-  SUBMIT_SECOND_PASSWORD_TIP:
-    '请确定您已经安全保存了二级密码，一旦丢失，您在Asch系统中的财产将无法找回，设置二级密码需要5XAS手续费',
+  SUBMIT_SECOND_PASSWORD_TIP: '请确定您已经安全保存了二级密码，一旦丢失，您在Asch系统中的财产将无法找回，设置二级密码需要5XAS手续费',
   SUBMIT: '提交',
   ALREADY_SET: '已设置',
   NOT_SET: '未设置',
@@ -321,6 +319,7 @@ const lang = {
   // dialog
   OPERATION_REQUIRES_FEE: '该操作需要消耗手续费',
   REQUIRES_FEE: '需要消耗手续费',
+  ERR_FEE_INVALID: '手续费不能为空，且不小于默认值 {fee}',
 
   // FRAGIL SET
   FRAGIL_PRE: '账户将在区块高度大于 ',
@@ -361,8 +360,7 @@ const lang = {
   DESCRIBE_OF_DISTRIBUTOR: '请输入描述',
   CHAINS_OVERVIEW: '资产概况',
   USER_AGREEMENT_MODAL_TIPS: '*注册成为代理人将消耗 100 XAS',
-  USER_AGREEMENT_MODAL_CONTENT:
-    ' Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互',
+  USER_AGREEMENT_MODAL_CONTENT: ' Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互',
   LOCK_DETAIL_TIP: '请设置锁仓额度',
   RETREAT_VOTE_SUCCESS: '撤销投票成功',
   DELEGATE_LIST_DETAILS: '受托人详情列表',
@@ -385,8 +383,7 @@ const lang = {
   PROPOSAL: '提案',
   COUNCIL: '理事会',
   DEPOSIT_NO_ADDR_TIP: '您尚未开通 {currency} 钱包收款地址',
-  DEPOSIT_TIP:
-    '请将 {currency}充值到上述地址，该地址仅支持接收 {currency}，如果需要转入其他 token，请切换到相对应的 token 获取转入地址 钱包收款地址',
+  DEPOSIT_TIP: '请将 {currency}充值到上述地址，该地址仅支持接收 {currency}，如果需要转入其他 token，请切换到相对应的 token 获取转入地址 钱包收款地址',
   DEPOSIT_TIP2: '*为避免造成财产损失，请务必确认您的提现地址，本操作无法撤销',
   OPEN_ADDR: '开通',
   VOTE_DELEGATE: '票权代理人',
@@ -434,8 +431,7 @@ const lang = {
   UNLOCK: '解锁',
   NUM: '额度',
   UNLOCK_TIME_TIPS: '到达高度(时间)后，可以手动解锁额度',
-  UNLOCK_TIPS:
-    '锁仓后，该部分额度将无法用于投票/转账在内的日常消耗，请根据实际情况预留出投票/转账等需要用到的额度',
+  UNLOCK_TIPS: '锁仓后，该部分额度将无法用于投票/转账在内的日常消耗，请根据实际情况预留出投票/转账等需要用到的额度',
   SET_UNLOCK_TIME: '选择时间',
   HEIGHT_NOT_ARRIVE: '未到解锁时间',
   NO_ISSUER_INFO: '您还不是发行商',

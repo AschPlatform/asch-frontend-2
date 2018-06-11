@@ -12,7 +12,9 @@
         </q-field>
         <q-field class="col-12 margin-top-54" :error-label="$t('ERR_AMOUNT_INVALID')">
          <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error"  />
-         <p class="text-right">{{$t('REQUIRES_FEE' )}}{{ fee|fee(precision)}}{{currency}}</p>
+        </q-field>
+        <q-field class="col-12 margin-top-54" :error-label="$t('ERR_FEE_INVALID',{fee:fee})">
+         <q-input :float-label="$t('FEES')" @blur="$v.form.fee.$touch" v-model="form.fee" :error="$v.form.fee.$error"  />
         </q-field>
         <q-field class="col-12 margin-top-54" >
           <q-select
@@ -40,6 +42,8 @@ import { QField, QInput, QModal, QSelect, QBtn } from 'quasar'
 import { secondPwd, amountStrReg } from '../utils/validators'
 import { required } from 'vuelidate/lib/validators'
 import { toast, translateErrMsg } from '../utils/util'
+import { convertFee } from '../utils/asch'
+import { fees } from '../utils/constants'
 import asch from '../utils/asch-v2'
 import { BigNumber } from 'bignumber.js'
 
@@ -54,7 +58,7 @@ export default {
       form: {
         address: '',
         amount: '',
-        fee: '0.1',
+        fee: '',
         currency: ''
       },
       balance: '',
@@ -72,7 +76,7 @@ export default {
       amount: {
         required,
         gtZero(value) {
-          return amountStrReg.test(value)
+          return amountStrReg.test(value) && Number(value) > 0
         },
         getPrecision(value) {
           let arr = value.split('.')
@@ -81,6 +85,24 @@ export default {
           } else {
             return arr[1].length <= this.precision
           }
+        }
+      },
+      fee: {
+        required,
+        gtZero(value) {
+          return amountStrReg.test(value) && Number(value) > 0
+        },
+        getPrecision(value) {
+          if (!value) return false
+          let arr = value.split('.')
+          if (arr.length === 1) {
+            return true
+          } else {
+            return arr[1].length <= this.precision
+          }
+        },
+        largeThan(val) {
+          return Number(val) >= this.fee
         }
       }
     },
@@ -120,11 +142,16 @@ export default {
         .times(Math.pow(10, this.precision))
         .toString()
 
+      let fee = BigNumber(this.form.fee)
+        .times(Math.pow(10, this.precision))
+        .toString()
+
       let trans = asch.withdrawGateway(
         this.form.address,
         this.asset.asset.gateway,
         this.asset.currency,
         amount,
+        fee,
         this.user.secret,
         this.secondPwd
       )
@@ -141,6 +168,7 @@ export default {
       this.form = {
         address: '',
         amount: '',
+        fee: '',
         currency: ''
       }
       this.$emit('close')
@@ -186,17 +214,30 @@ export default {
     }
   },
   watch: {
-    currency(val) {
-      if (val && this.assetsMap[val]) {
-        this.balance = this.assetsMap[val].balance
-        this.precision = this.assetsMap[val].asset.precision
-        this.fee = this.assetsMap[val].asset.fee
-      } else {
-        return ''
-      }
-    },
+    // currency(val) {
+    //   // TODO
+    //   if (val && this.assetsMap[val]) {
+    //     this.balance = this.assetsMap[val].balance
+    //     this.precision = this.assetsMap[val].asset.precision
+    //     this.form.fee = convertFee(fees[val], this.precision)
+    //     this.fee = convertFee(fees[val], this.precision)
+    //   } else {
+    //     return ''
+    //   }
+    // },
     show(val) {
-      if (this.asset) this.currency = this.asset.currency || this.asset.symbol
+      if (this.asset) {
+        let currency = this.asset.currency || this.asset.symbol
+        this.currency = currency
+        if (currency && this.assetsMap[currency]) {
+          this.balance = this.assetsMap[currency].balance
+          this.precision = this.assetsMap[currency].asset.precision
+          this.form.fee = convertFee(fees[currency], this.precision)
+          this.fee = convertFee(fees[currency], this.precision)
+        } else {
+          return ''
+        }
+      }
     },
     user(val) {
       if (val) this.getOutBalances()
