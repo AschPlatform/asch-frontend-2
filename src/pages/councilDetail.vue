@@ -71,6 +71,7 @@
 <script>
 import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
+import { compileTimeStamp, getTimeFromHight } from '../utils/util'
 
 export default {
   name: 'councilDetail',
