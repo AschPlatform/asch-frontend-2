@@ -473,6 +473,7 @@ const lang = {
   ERR_SHOULD_EQUAL: '替换两方应该数量相等',
   EXIT: '退出',
   CANCEL_VOTE: '撤票',
+  NO_REMARK: '无备注',
 
   // ERROR
   AGENT_CAN_NOT_SET_AGENT: '代理人不能设置代理人',
@@ -611,6 +612,7 @@ const lang = {
   ARGS: '参数',
   DEPOSIT_RECORD: '充值记录',
   WITHDRAW_RECORD: '提现记录',
+  ASCH: '阿希客户端',
 
   // ==============  quasar i18n  =================
 

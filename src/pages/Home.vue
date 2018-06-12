@@ -15,7 +15,6 @@
                       {{$t('HELLO')+','}}
                       </span>
                 <a class="set-nickname font-14 bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="toPersonalSetNickname">{{$t('SET_NICKNAME')}}</a> <span v-else class="font-22 vertical-align-middle">{{userNickname}}</span>
-                  <asset-icon/>
                 <p class="font-14 text-three">{{$t('HOME_TIPES')}}</p>
               </div>
             </div>
@@ -87,7 +86,7 @@
         </div>
       </div>
       <div class="col-md-8 col-xs-12 bg-white shadow-1">
-        <trans-record-container  :userInfo="userInfo" />
+        <trans-record-container :userInfo="userInfo" class="table"/>
       </div>
     </div>
   </div>
@@ -95,7 +94,6 @@
 
 <script>
 import Jdenticon from '../components/Jdenticon'
-import AssetIcon from '../components/AssetIcon'
 import TransRecordContainer from '../components/TransRecordContainer'
 import { toast } from '../utils/util'
 import VueQr from 'vue-qr'
@@ -123,7 +121,6 @@ export default {
   components: {
     VueQr,
     Jdenticon,
-    AssetIcon,
     QCard,
     QCardMain,
     QCardTitle,
@@ -289,5 +286,9 @@ export default {
 
 .q-table-title {
   font-weight: 600 !important;
+}
+
+.table {
+  height 100%
 }
 </style>

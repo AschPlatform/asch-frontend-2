@@ -1,4 +1,4 @@
-import { SessionStorage, Notify, Dialog } from 'quasar'
+import { SessionStorage, Notify, Dialog, Platform } from 'quasar'
 import AschJs from 'asch-js'
 // import { platform } from 'os'
 
@@ -87,6 +87,10 @@ export const getCurrentSeverUrl = () => {
   } else {
     return false
   }
+}
+
+export const isDesktop = () => {
+  return Platform.is.desktop
 }
 
 // TODO: untest
