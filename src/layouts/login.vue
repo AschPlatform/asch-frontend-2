@@ -343,9 +343,11 @@ html, body {
 
 .login-panel {
   width: 513px;
+  height 412px
   position: relative;
   background: #ffffff;
   padding: 30px 0 40px 0;
+  margin-top: -40px;
 }
 
 .login-ball {

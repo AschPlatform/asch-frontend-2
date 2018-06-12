@@ -366,7 +366,7 @@ const lang = {
   DELEGATE_LIST_DETAILS: '受托人详情列表',
   SECOND_PASSWORD_TIP: '为了保障您的资金安全，请设置8位数以上的密码',
   SECOND_PASSWORD_CONFIRM: '请确认密码',
-  CANAEL: '取消',
+  // CANCEL: '取消',
   TO: '至',
   RECIPIENT_NAME_ADDRESS: '请输入需要转账的账户名或者钱包地址',
   RECORD: '记录',
