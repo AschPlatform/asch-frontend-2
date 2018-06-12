@@ -612,6 +612,7 @@ const lang = {
   ARGS: '参数',
   DEPOSIT_RECORD: '充值记录',
   WITHDRAW_RECORD: '提现记录',
+  ASCH: '阿希客户端',
 
   // ==============  quasar i18n  =================
 

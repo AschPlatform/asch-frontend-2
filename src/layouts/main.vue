@@ -49,7 +49,7 @@
             <span class="menu-logo"></span>
           </div>
           <div class="header-right margin-left-10" @click="toHome">
-            <span class="header-right-top">阿希客户端</span>
+            <span class="header-right-top">{{$t('ASCH')}}</span>
             <span class="header-right-bottom font-12">Asch Client {{version.version}}-{{version.net}}</span>
           </div>
         </q-list-header>
@@ -73,10 +73,10 @@
           <q-item-side icon="apps" />
           <q-item-main :label="$t('GATEWAY')" />
         </q-item>
-        <!-- <q-item class="list-item-container" item :to="getRouterConf('council')">
+        <q-item class="list-item-container" item :to="getRouterConf('council')">
             <q-item-side icon="compare arrows" />
             <q-item-main :label="$t('COUNCIL')" />
-          </q-item> -->
+          </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('delegates')">
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
@@ -149,7 +149,7 @@
       </div>
       <div class="row justify-between height-36">
         <span class="footer-introduce font-12">©2018 copyright</span>
-        <span class="footer-introduce font-12">{{version.version}} {{version.net === 'localnet' ? 'testnet' : version.net}} {{version.build}}</span>
+        <span class="footer-introduce font-12">{{version.version}} {{version.net}} {{version.build}}</span>
       </div>
   
     </q-layout-footer>
