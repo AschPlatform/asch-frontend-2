@@ -41,7 +41,7 @@
                 {{$t('MESSAGE_DETAILS')}}
               </span>
           </div>
-          <table class="personal-table q-table bordered highlight responsive ">
+          <table class="personal-table q-mt-md q-table bordered highlight responsive ">
             <tbody class='row info-tbody'>
               <tr class="row col-12">
                 <td class="col-md-2 col-xs-6 bottom-left-link text-three font-18">
@@ -56,12 +56,6 @@
                   </a>
                 </td>
               </tr>
-              <!-- <tr>
-                                <td>{{$t('PUBLIC_KEY')}}</td>
-                                <td>{{user.account.publicKey}} 
-                                  <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
-                     callLockPanel           </td>
-                              </tr> -->
               <tr class="row col-12">
                 <td class="col-md-2 col-xs-4 bottom-left-link text-three font-18 padding-0">
                   <i class="material-icons font-22 personal-icon">settings</i>
@@ -81,7 +75,7 @@
                   </a>
                 </td>
               </tr>
-              <tr class="row col-12 margin-top-10">
+              <tr class="row col-12">
                 <td class="col-md-2 col-xs-6 bottom-left-link text-three font-18">
                   <i class="material-icons font-22 personal-icon">account_circle</i> {{$t('AGENT_INFO')}}
                 </td>
