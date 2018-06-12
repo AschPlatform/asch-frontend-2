@@ -21,9 +21,9 @@
               <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
             <div class="row col-12 justify-left text-three">
-              <span class="col-md-6 col-xs-8 height-36">{{address}}</span>
+              <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" /></span>
               <!-- {{address}} -->
-              <q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
+              <!-- <q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" /> -->
             </div>
           </div>
           <div :class="personalTopQrClass">
