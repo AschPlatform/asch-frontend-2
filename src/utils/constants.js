@@ -6,11 +6,11 @@ const langsOpts = [
   {
     label: 'English',
     value: 'en'
-  },
-  {
-    label: 'Deutsch',
-    value: 'de'
   }
+  // {
+  //   label: 'Deutsch',
+  //   value: 'de'
+  // }
 ]
 
 const fees = {

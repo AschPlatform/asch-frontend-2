@@ -158,7 +158,7 @@ export default {
     height 100%
     padding-bottom 90px
   .q-table-middle
-    padding 0 20px
+    padding 10px 20px 0 20px
   #pagination
     right 33px
     bottom 33px
