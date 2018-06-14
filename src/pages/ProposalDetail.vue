@@ -63,7 +63,7 @@
           </div>
           <div class="row col-12">
             <q-field class="block col-10 font-16" label-width="2" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.CURRENCY_BRIEF')">
-              <q-input class="border-1" type="textarea" readonly hide-underline v-model="content.currency.desc" value=""></q-input>
+              <q-input class="border-1 textareaInner" type="textarea" readonly hide-underline v-model="content.currency.desc" value=""></q-input>
             </q-field>
           </div>
           <div class="row col-12">
@@ -78,7 +78,7 @@
           </div>
           <div class="row col-12">
             <q-field class="col-10 font-16" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
-              <q-input class="border-1" type="textarea" value="" readonly hide-underline v-model="detail.desc"></q-input>
+              <q-input class="border-1 textareaInner" type="textarea" value="" readonly hide-underline v-model="detail.desc"></q-input>
             </q-field>
           </div>
         </div>
@@ -395,6 +395,9 @@ export default {
   border 1px solid #999
   padding-left 10px
   min-height 50px
+
+.textareaInner
+  padding-top 15px
 
 .inline-flex
   display inline-flex
