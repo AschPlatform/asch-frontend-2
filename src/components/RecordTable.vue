@@ -17,7 +17,7 @@
         :options="options" @input="changeType" />
       </div>
     </div>
-    <span v-if="isDesktop" class="transfer-title-line"></span>
+    <span v-if="isDesktop && isShowLine" class="transfer-title-line"></span>
     <div class="scroll q-table-middle">
       <div class="q-table modified">
         <div id="tr" v-if="dataInfo.length > 0" v-for="(item, index) in dataInfo" :key="index" class="justify-between row">
@@ -54,9 +54,9 @@
         </div>
       </div>
     </div>
-    <span v-if="isDesktop" class="transfer-title-line"></span>
-    <q-pagination v-if="isDesktop" id="pagination" color="secondary" v-model="page" :min="1" :max="Number(this.maxPage)" :max-pages="3" @input="changePage" direction-links class="absolute-bottom-right"></q-pagination>
-    <q-pagination v-else id="pagination" color="secondary" v-model="page" :min="1" :max="Number(this.maxPage)" :max-pages="3" @input="changePage" direction-links class="absolute-bottom-center"></q-pagination>
+    <span v-if="isDesktop && isShowLine" class="transfer-title-line"></span>
+    <q-pagination v-if="isDesktop && isShowLine" id="pagination" color="secondary" v-model="page" :min="1" :max="Number(this.maxPage)" :max-pages="3" @input="changePage" direction-links class="absolute-bottom-right"></q-pagination>
+    <q-pagination v-if="!isDesktop && isShowLine" id="pagination" color="secondary" v-model="page" :min="1" :max="Number(this.maxPage)" :max-pages="3" @input="changePage" direction-links class="absolute-bottom-center"></q-pagination>
   </div>
 </template>
 
@@ -113,6 +113,9 @@ export default {
     },
     isDesktop() {
       return isDesktop()
+    },
+    isShowLine() {
+      return this.dataInfo.length !== 0
     }
   }
 }

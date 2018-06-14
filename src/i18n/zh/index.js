@@ -528,6 +528,7 @@ const lang = {
   LAUNCH_MODAL: {
     MEMBER_SUGGEST_PRE: '我提议',
     MEMBER_SUGGEST_POST: '等{number}人成为网关成员',
+    MEMBER_SUGGEST: '我提议\n{member}\n等\n{number}\n人成为网关成员',
     MEMBER_NUMBER: '成员数量',
     MEMBER_MEMBER: '成员信息',
     MEMBER_REASON: '更新成员原因',
@@ -579,8 +580,8 @@ const lang = {
     PERIOD_TITLE: '我提议修改当前理事会成员任职周期由{pre}替换为{post}',
     ADD_TITLE: '我提议增加如下受托人成为新的理事会成员',
     REMOVE_TITLE: '我提议撤销如下理事会成员',
-    INIT_TIP_PRE: '初始化前成员数量{number}名',
-    INIT_TIP_POST: '初始化后成员数量{number}名',
+    INIT_TIP_PRE: '初始化前成员数量:\n{number}名',
+    INIT_TIP_POST: '初始化后成员数量:\n{number}名',
     MEMBER_TIP_PRE: '变更前成员:',
     MEMBER_TIP_POST: '变更后成员:',
     INSTEAD_TITLE_PRE: '我提议撤销如下理事会成员',

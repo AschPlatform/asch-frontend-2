@@ -13,8 +13,8 @@
             <q-card v-if="registerStep==0" :class="loginPanelClass">
               <q-card-title class="">
                 <span class="lite-orange card-font">
-                      {{$t('LOGIN')}}
-                    </span>
+                  {{$t('LOGIN')}}
+                </span>
                 <div slot="right">
                   <q-select class="col-auto " chips color="secondary" v-model="lang" :options="langsOpts" />
                 </div>
