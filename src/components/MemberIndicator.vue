@@ -54,6 +54,8 @@ export default {
           return this.$t('DETAIL_MODAL.INIT_TIP_PRE', { number: this.memberPre.length })
         case 'gateway_update_member':
           return this.$t('DETAIL_MODAL.MEMBER_TIP_PRE')
+        case 'council_change':
+          return this.$t('LAUNCH_MODAL.INSTEAD_PRE')
       }
     },
     title_post() {
@@ -62,6 +64,8 @@ export default {
           return this.$t('DETAIL_MODAL.INIT_TIP_POST', { number: this.memberPost.length })
         case 'gateway_update_member':
           return this.$t('DETAIL_MODAL.MEMBER_TIP_POST')
+        case 'council_change':
+          return this.$t('LAUNCH_MODAL.INSTEAD_POST')
       }
     },
     contentPre() {

@@ -237,7 +237,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances', 'getIssuer']),
+    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances', 'getIssuer', 'registGateway']),
     ...mapMutations([
       'updateUserInfo',
       'setUserInfo',
@@ -373,6 +373,7 @@ export default {
       //   this.setUserInfo(user)
       // }
     }
+    this.registGateway({})
   },
   computed: {
     ...mapGetters(['latestBlock', 'version', 'userInfo', 'balances']),
