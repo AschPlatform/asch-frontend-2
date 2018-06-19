@@ -552,7 +552,12 @@ export default {
     },
     lowerName(val) {}
   },
-  async mounted() {},
+  async mounted() {
+    if (this.lockInfo) {
+      this.time = this.lockInfo.time
+      this.num = convertFee(this.lockInfo.amount, 8)
+    }
+  },
   computed: {
     ...mapGetters(['userInfo', 'latestBlock']),
     personalTopClass() {
