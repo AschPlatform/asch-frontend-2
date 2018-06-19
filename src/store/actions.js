@@ -281,5 +281,17 @@ export default {
       params.secondSecret || ''
     )
     return api.broadcastTransaction(trans)
+  },
+  // regist gateway follower
+  registGateway: ({ commit, state }, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.registerGateway(
+      params.gateway || 'bitcoin',
+      params.publicKey || '864703035e16a3526f3ac9b6a182296ebeda292ac0b1975d55b0f2ae95a79488',
+      params.desc || 'This is what we are tring to descpt what we do',
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
   }
 }

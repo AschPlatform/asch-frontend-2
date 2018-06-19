@@ -17,10 +17,10 @@
         <q-field :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_TYPE')" :label="$t('proposal.SELECT_P_TYPE')" class="col-md-8 col-xs-12 font-16 text-four">
           <q-select color="white" v-model="first_type" :options="proposalType" @change="detectChange" @blur="$v.first_type.$touch()" :error="$v.first_type.$error" />
         </q-field>
-        <q-field :label-width="2" class="col-md-8 col-xs-12 q-ml-lg font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change'">
+        <q-field :label-width="2" :label="$t('proposal.SELECT_P_COUNCIL')" class="col-md-8 col-xs-12 font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change' || this.first_type === 'period' ">
           <q-select v-model="p_selected" :options="councilList" @blur="$v.p_selected.$touch()" :error="$v.p_selected.$error" :placeholder="$t('proposal.SELECT_P_COUNCIL')" />
         </q-field>
-        <q-field class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_NET')" :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type !== 'new_n' && this.first_type !== null">
+        <q-field class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_NET')" :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'init' || this.first_type === 'member_n' && this.first_type !== 'new' && this.first_type !== null">
           <q-select v-model="p_selected" :options="netList" @change="val => {console.log(val)}" @blur="$v.p_selected.$touch()" :error="$v.p_selected.isSelected" :placeholder="$t('proposal.SELECT_P_NET')" />
         </q-field>
       </div>
@@ -29,7 +29,7 @@
               <q-datetime min="2018-04-05" v-model="p_time_start" @blur="$v.p_time_start.$touch()" :error="$v.p_time_start.$error" />
             </q-field>
             <span class="self-center col-1 font-16" align="center">{{$t('TO')}}</span> -->
-        <q-field :helper="$t('AT_LEAST_7DAY')" :label-width="4" class="col-md-4 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_PERIOD')">
+        <q-field :helper="$t('AT_LEAST_7DAY')" :label-width="2" class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_PERIOD')">
           <q-datetime :min="tomorrow" v-model="p_time_end" @blur="$v.p_time_end.$touch()" :error="$v.p_time_end.$error" />
         </q-field>
       </div>
@@ -177,8 +177,11 @@
           </div>
   
           <!-- below is remove page -->
-          <div class="col-12" v-show="this.second_type === 'remove' && this.first_type === 'change'" id="remove">
+          <div class="col-12" v-show="this.first_type === 'remove'" id="remove">
             <div class="">
+              <q-field class="font-16 text-four" label-width="1" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.REMOVE_OBJECT')">
+                <q-select align="center" color="secondary" chips filter v-model="p_selected" :options="councilList"></q-select>
+              </q-field>
               <q-field class="font-16 text-four" label-width="1" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.REMOVE_REASON')">
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
               </q-field>
@@ -186,13 +189,14 @@
           </div>
   
           <!-- below is period page -->
-          <div class="col-12" v-show="this.second_type === 'period' && this.first_type === 'change'" id="remove">
+          <div class="col-12" v-show="this.first_type === 'period'" id="remove">
             <div class="row">
-              <q-field :label-width="4" :label="$t('proposal.SELECT_P_PERIOD')" class="col-3 font-16 text-four">
+              <!-- <q-field :label-width="4" :label="$t('proposal.SELECT_P_PERIOD')" class="col-3 font-16 text-four">
                 <q-input :suffix="$t('LAUNCH_MODAL.DAY')" type="number" disabled readonly v-model="PERIOD.pre" />
-              </q-field>
-              <span class="self-center q-ml-lg">{{$t('LAUNCH_MODAL.INSTEAD_POST')}}</span>
-              <q-field class="col-3 q-ml-xl font-16 text-four" :error-label="$t('ERR.ERR_1_30')">
+              </q-field> -->
+              <!-- <span class="self-center q-ml-lg">{{$t('LAUNCH_MODAL.INSTEAD_POST')}}</span> -->
+              <!-- <span class="self-center q-ml-lg">{{$t('LAUNCH_MODAL.PERIOD_SHIFT', {pre: 3})}}</span> -->
+              <q-field class="col-9 font-16 text-four" label-width="8" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_SHIFT', {pre: PERIOD.pre})">
                 <q-input :suffix="$t('LAUNCH_MODAL.DAY')" type="number" @blur="$v.PERIOD.post.$touch()" :error="$v.PERIOD.post.$error" v-model="PERIOD.post" />
               </q-field>
             </div>
@@ -204,7 +208,7 @@
           </div>
   
           <!-- below is member page -->
-          <div class="col-12" v-show="this.second_type === 'member' && this.first_type === 'change'" id="remove">
+          <div class="col-12" v-show="this.first_type === 'change'" id="remove">
             <div class="row">
               <q-field :label-width="4" :error-label="$t('ERR.ERR_REQUIRE_TYPE')" :label="$t('proposal.SELECT_MEMBER_ACTION')" class="col-3 font-16 text-four">
                 <q-select v-model="MEMBER.type_selected" @blur="$v.MEMBER.instead_post.$touch()" :error="$v.MEMBER.instead_post.$error" :options="MEMBER.type" />
@@ -232,11 +236,12 @@
                 <q-select chips multiple filter v-model="MEMBER.instead_post" :options="delegateList"></q-select>
               </q-field>
             </div>
-            <div class="row justify-around q-my-lg">
+            <member-indicator :type="countedType"></member-indicator>
+            <!-- <div class="row justify-around q-my-lg">
               <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_PRE')" class="col-5" inverted readonly v-model="MEMBER.show_pre" disable/>
               <q-icon size="33px" name="keyboard arrow right" />
               <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="MEMBER.show_post" disable/>
-            </div>
+            </div> -->
           </div>
           <div class="row col-12" v-show="this.first_type !== null">
             <q-field v-if="secondSignature" class="col-6 font-16 text-four" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
@@ -263,6 +268,7 @@ import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/li
 import { mapActions, mapGetters } from 'vuex'
 import { secondPwd, proposalTitleReg, assetSymbolReg, gatewayNameReg } from '../utils/validators'
 import { toastError, toast } from '../utils/util'
+import MemberIndicator from '../components/MemberIndicator'
 import {
   QField,
   QModal,
@@ -300,7 +306,8 @@ export default {
     QChipsInput,
     QIcon,
     QPage,
-    QBtn
+    QBtn,
+    MemberIndicator
   },
   props: ['show'],
   data() {
@@ -322,22 +329,26 @@ export default {
       // options for total
       proposalType: [
         // protential of council options
-        // {
-        //   label: this.$t('proposal.SELECT_NEWCOUNCIL'),
-        //   value: 'new'
-        // },
-        // {
-        //   label: this.$t('proposal.SELECT_CHANGECOUNCIL'),
-        //   value: 'change'
-        // },
+        {
+          label: this.$t('proposal.SELECT_NEWCOUNCIL'),
+          value: 'new'
+        },
+        {
+          label: this.$t('proposal.SELECT_CHANGECOUNCIL'),
+          value: 'change'
+        },
+        {
+          label: this.$t('proposal.SELECT_CHANGEPERIOD'),
+          value: 'period'
+        },
+        {
+          label: this.$t('proposal.SELECT_REMOVECOUNCIL'),
+          value: 'remove'
+        },
         {
           label: this.$t('proposal.SELECT_NEWNET'),
           value: 'new_n'
         },
-        // {
-        //   label: this.$t('proposal.SELECT_CHANGENET'),
-        //   value: 'change_n'
-        // },
         {
           label: this.$t('proposal.SELECT_INITNET'),
           value: 'init'
@@ -414,8 +425,8 @@ export default {
       },
       REMOVE: {},
       PERIOD: {
-        pre: null,
-        post: null
+        pre: 0,
+        post: 0
       },
       MEMBER: {
         type: [
@@ -886,6 +897,14 @@ export default {
         return 'gateway_period'
       } else if (this.first_type === 'member_n') {
         return 'gateway_update_member'
+      } else if (this.first_type === 'new') {
+        return 'council_register'
+      } else if (this.first_type === 'change') {
+        return 'council_update_mumber'
+      } else if (this.first_type === 'period') {
+        return 'council_update'
+      } else if (this.first_type === 'remove') {
+        return 'council_revoke'
       }
     },
     endHeight() {
@@ -967,6 +986,14 @@ export default {
         return this.p_selected.minimumMembers
       }
       return 0
+    },
+    upperTargetSelect() {
+      switch (this.first_type) {
+        case 'new':
+          return this.$t('proposal.SELECT_P_COUNCIL')
+        case 'new_n':
+          return this.$t('proposal.SELECT_P_NET')
+      }
     }
   },
   watch: {

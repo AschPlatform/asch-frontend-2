@@ -21,9 +21,9 @@
               <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
             <div class="row col-12 justify-left text-three">
-              <span class="col-md-8 col-xs-10 height-36">{{address}}</span>
+              <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" /></span>
               <!-- {{address}} -->
-              <q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" />
+              <!-- <q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" /> -->
             </div>
           </div>
           <div :class="personalTopQrClass">
@@ -41,7 +41,7 @@
                 {{$t('MESSAGE_DETAILS')}}
               </span>
           </div>
-          <table class="personal-table q-table bordered highlight responsive ">
+          <table class="personal-table q-mt-md q-table bordered highlight responsive ">
             <tbody class='row info-tbody'>
               <tr class="row col-12">
                 <td class="col-md-2 col-xs-6 bottom-left-link text-three font-18">
@@ -49,19 +49,13 @@
                 </td>
                 <td :class="personalRightClass">
                   <span v-if="secondSignature" class="text-black font-18">
-                      {{$t('ALREADY_SET')}}
-                    </span>
+                    {{$t('ALREADY_SET')}}
+                  </span>
                   <a v-else class="text-secondary" @click="secondPwdShow=true">
-                      {{$t('SET_NOW')}}
-                    </a>
+                    {{$t('SET_NOW')}}
+                  </a>
                 </td>
               </tr>
-              <!-- <tr>
-                                <td>{{$t('PUBLIC_KEY')}}</td>
-                                <td>{{user.account.publicKey}} 
-                                  <q-btn v-clipboard="user.account.publicKey || 'no data'" @success="info('copy success')" flat icon="content copy" />
-                     callLockPanel           </td>
-                              </tr> -->
               <tr class="row col-12">
                 <td class="col-md-2 col-xs-4 bottom-left-link text-three font-18 padding-0">
                   <i class="material-icons font-22 personal-icon">settings</i>
@@ -70,28 +64,28 @@
                 <td :class="personalRightTwoClass">
                   <div :class="personalFontClass" v-if="lockInfo">
                     <span class="white-space-initial">
-                        {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount)})}}
-                      </span>
+                      {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount)})}}
+                    </span>
                     <span class="white-space-initial">{{$t('LOCK_DETAIL_TIME',{date:this.lockInfo.time})}}</span>
                     <a :class="personalClickClass" @click="callLockPanel">{{$t('EDIT')}}</a>
                     <a v-if="this.lockInfo.expire" :class="personalUnLockClass" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
                   <a v-else class="text-secondary" @click="callLockPanel">
-                      {{$t('SET_NOW')}}
-                    </a>
+                    {{$t('SET_NOW')}}
+                  </a>
                 </td>
               </tr>
-              <tr class="row col-12 margin-top-10">
+              <tr class="row col-12">
                 <td class="col-md-2 col-xs-6 bottom-left-link text-three font-18">
                   <i class="material-icons font-22 personal-icon">account_circle</i> {{$t('AGENT_INFO')}}
                 </td>
                 <td :class="personalRightClass">
                   <span :class="personalFontClass" v-if="isAgent || isDelegate === 1">
-                                    {{$t('IS_AGENT')}}
-                                  </span>
+                    {{$t('IS_AGENT')}}
+                  </span>
                   <a v-else class="text-secondary" @click="callDelegatePanel">
-                                    {{$t('REGISTER_AGENT')}}
-                                  </a>
+                    {{$t('REGISTER_AGENT')}}
+                  </a>
                 </td>
               </tr>
               <tr class="row col-12">
@@ -101,8 +95,8 @@
                 <td :class="personalRightThreeClass">
                   <div @click="jump2Doc">
                     <a class="text-secondary">
-                                      {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
-                                    </a>
+                      {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
+                    </a>
                   </div>
                 </td>
               </tr>
@@ -180,7 +174,7 @@
 </template>
     </q-dialog>
 
-    <q-dialog :class="personalLockClass" v-model="lockPanelShow">
+    <q-dialog :class="personalLockClass" style="min-height: 120px" v-model="lockPanelShow">
       <span slot="title">{{$t('LOCK_POSITION_CONF')}}</span>
       <div slot="body" class="row justify-center" >
         <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError" :helper="numLimit">
@@ -238,9 +232,9 @@ import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
 let today = new Date()
-// today = date.addToDate(today, {
-//   days: 31
-// })
+today = date.addToDate(today, {
+  days: 31
+})
 
 export default {
   props: ['userObj'],

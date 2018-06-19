@@ -13,8 +13,8 @@
             <q-card v-if="registerStep==0" :class="loginPanelClass">
               <q-card-title class="">
                 <span class="lite-orange card-font">
-                      {{$t('LOGIN')}}
-                    </span>
+                  {{$t('LOGIN')}}
+                </span>
                 <div slot="right">
                   <q-select class="col-auto " chips color="secondary" v-model="lang" :options="langsOpts" />
                 </div>
@@ -343,9 +343,11 @@ html, body {
 
 .login-panel {
   width: 513px;
+  height 412px
   position: relative;
   background: #ffffff;
   padding: 30px 0 40px 0;
+  margin-top: -40px;
 }
 
 .login-ball {

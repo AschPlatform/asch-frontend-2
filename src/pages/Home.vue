@@ -15,7 +15,6 @@
                       {{$t('HELLO')+','}}
                       </span>
                 <a class="set-nickname font-14 bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="toPersonalSetNickname">{{$t('SET_NICKNAME')}}</a> <span v-else class="font-22 vertical-align-middle">{{userNickname}}</span>
-                  <asset-icon/>
                 <p class="font-14 text-three">{{$t('HOME_TIPES')}}</p>
               </div>
             </div>
@@ -69,7 +68,8 @@
                 <q-item class="blances-container shadow-1 bg-white" v-for="(balance,idx) in  balances" :key="idx">
                   <q-item-side>
                     <q-item-tile>
-                      <i class="material-icons font-44 vertical-align-middle text-eight">fiber_manual_record</i>
+                      <!-- <i class="material-icons font-44 vertical-align-middle text-eight">fiber_manual_record</i> -->
+                      <asset-icon class="vertical-align-middle q-ml-sm" :iconKey="balance.currency.toUpperCase()"></asset-icon>
                     </q-item-tile>
                   </q-item-side>
                   <q-item-main class="text-five font-16 font-weight" :label="balance.currency" />
@@ -87,7 +87,7 @@
         </div>
       </div>
       <div class="col-md-8 col-xs-12 bg-white shadow-1">
-        <trans-record-container  :userInfo="userInfo" />
+        <trans-record-container :userInfo="userInfo" class="table"/>
       </div>
     </div>
   </div>
@@ -95,11 +95,11 @@
 
 <script>
 import Jdenticon from '../components/Jdenticon'
-import AssetIcon from '../components/AssetIcon'
 import TransRecordContainer from '../components/TransRecordContainer'
 import { toast } from '../utils/util'
 import VueQr from 'vue-qr'
 import { mapGetters } from 'vuex'
+import AssetIcon from '../components/AssetIcon'
 import {
   QCard,
   QCardMain,
@@ -123,7 +123,6 @@ export default {
   components: {
     VueQr,
     Jdenticon,
-    AssetIcon,
     QCard,
     QCardMain,
     QCardTitle,
@@ -139,7 +138,8 @@ export default {
     TransRecordContainer,
     QIcon,
     QListHeader,
-    QAjaxBar
+    QAjaxBar,
+    AssetIcon
   },
   data() {
     return {
@@ -289,5 +289,9 @@ export default {
 
 .q-table-title {
   font-weight: 600 !important;
+}
+
+.table {
+  height 100%
 }
 </style>
