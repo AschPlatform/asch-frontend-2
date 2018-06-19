@@ -84,7 +84,7 @@ const officialPeers = [
 
 const urls = {
   server: {
-    development: 'http://47.94.37.201:4096',
+    development: 'http://192.168.1.104:4096',
     // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192',
     production: 'http://47.75.26.122:4096'
@@ -216,11 +216,11 @@ const urls = {
     },
     // 获取理事会列表
     councils: {
-      url: '/api/v2/councils'
+      url: '/api/v2/groups'
     },
     // 根据名称获取理事会详情
     council: {
-      url: '/api/v2/councils/:name'
+      url: '/api/v2/groups/:address'
     },
     // 获取提案列表
     proposals: {

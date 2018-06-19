@@ -4,21 +4,21 @@
       <div class="no-wrap q-pa-md row justify-between">
         <span>
           <i class="material-icons vertical-align-sub font-24 text-black">border_color</i>
-          <h5 class="q-px-md inline-block">{{$t('GATEWAY_PARTICULARS')}}</h5>
+          <h5 class="q-px-md inline-block">{{$t('COUNCIL_PARTICULARS')}}</h5>
           </span>
-        <q-btn color="secondary" class="self-center" @click="$router.push('gateway')">
+        <!-- <q-btn color="secondary" class="self-center" @click="$router.push('gateway')">
           {{$t('CANCEL')}}
-        </q-btn>
+        </q-btn> -->
       </div>
       <div class="row q-px-md gutter-md">
         <div class="col-md-8 col-xs-12">
          <q-card class="mobile-only no-shadow margin-bottom-20" align="left">
             <div class="bg-white shadow-2">
               <q-card-title class="bg-nine">
-                <span class="font-22 text-black font-weight">{{gateway.name}}</span>
+                <span class="font-22 text-black font-weight">{{group.name}}</span>
               </q-card-title>
               <q-card-main class="word-wrap-break">
-              {{gateway.desc}}
+              {{group.updateInterval}}
               </q-card-main>
             </div>
           </q-card>
@@ -40,14 +40,14 @@
           </q-table>
         </div>
 
-        <div v-if="gateway" :class="gatewayDetailClass">
+        <div v-if="group" :class="gatewayDetailClass">
           <q-card class="desktop-only no-shadow" align="left">
             <div class="bg-white shadow-2">
               <q-card-title class="bg-nine">
-                <span class="font-22 text-black font-weight">{{gateway.name}}</span>
+                <span class="font-22 text-black font-weight">{{group.name}}</span>
               </q-card-title>
               <q-card-main class="word-wrap-break">
-              {{gateway.desc}}
+              {{group.updateInterval}}
               </q-card-main>
             </div>
           </q-card>
@@ -57,7 +57,7 @@
                 <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
               </q-card-title>
               <q-card-main class="self-center bottom-container-bottom height-62">
-                <span class="font-24 text-secondary">{{gateway.createTime?compileTimeStamp(gateway.createTime):getTimeFromHight(gateway.lastUpdateHeight)}}</span>
+                <span class="font-24 text-secondary">{{compileTimeStamp(group.createTime)}}</span>
               </q-card-main>
             </div>
           </q-card>
@@ -89,71 +89,48 @@ export default {
     return {
       columns: [
         {
-          name: 'gateway',
+          name: 'name',
           required: true,
           label: this.$t('COUNCIL_PAGE.MEMBER'),
           align: 'center',
-          field: 'gateway'
+          field: 'name'
         },
         {
-          name: 'desc',
+          name: 'weight',
           required: true,
           label: this.$t('DESCRIBE'),
           align: 'center',
-          field: 'desc'
+          field: 'weight'
         },
         {
           name: 'address',
           required: true,
           label: this.$t('COUNCIL_PAGE.ADDRESS'),
           align: 'center',
-          field: 'address'
-        },
-        {
-          name: 'elected',
-          required: true,
-          label: this.$t('ELECTED'),
-          align: 'center',
-          field: 'elected'
-        },
-        {
-          name: 'operation',
-          required: true,
-          label: this.$t('COUNCIL_PAGE.OPERATION'),
-          align: 'center',
-          field: 'operation'
+          field: 'member'
         }
       ],
-      pagination: {
-        page: 1,
-        rowsNumber: 0,
-        rowsPerPage: 1
-      },
       loading: false,
       datas: [],
-      gateway: null
+      group: null
     }
   },
   methods: {
-    ...mapActions(['getGatewayDelegates']),
+    ...mapActions(['getCouncil']),
     viewAccountInfo(row) {
       this.$root.$emit('openAccountModal', row.address)
     },
     async loadData() {
-      let limit = this.pagination.rowsPerPage
-      let pageNo = this.pagination.page
-      let res = await this.getGatewayDelegates({
-        limit: limit,
-        offset: (pageNo - 1) * limit,
-        name: this.gateway.name
+      let res = await this.getCouncil({
+        address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj'
       })
       if (res.success) {
-        this.datas = res.datas
+        this.group = res.group
+        this.datas = res.group.members
       }
     },
     async request(props) {
       this.loading = true
-      this.pagination = props.pagination
       this.filter = props.filter
       await this.loadData()
       this.loading = false
@@ -169,14 +146,7 @@ export default {
     }
   },
   mounted() {
-    let { gateway } = this.$route.params
-    if (!gateway) {
-      this.$router.push('gateway')
-    }
-    this.gateway = gateway
-    if (gateway && gateway.agent) {
-      this.loadData()
-    }
+    this.loadData()
   },
   computed: {
     ...mapGetters(['latestBlock']),
@@ -185,7 +155,7 @@ export default {
     }
   },
   watch: {
-    gateway(val) {
+    group(val) {
       if (val) this.loadData()
     }
   }
