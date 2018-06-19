@@ -25,9 +25,9 @@
 
           <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading" row-key="address" hide-bottom>
   
-            <q-td slot="body-cell-operation" slot-scope="props" :props="props">
-              <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">
-                {{$t('CHECK')}}
+            <q-td slot="body-cell-address" slot-scope="props" :props="props">
+              <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.member)">
+                {{props.row.member}}
               </div>
             </q-td>
   
@@ -64,7 +64,10 @@
         </div>
       </div>
     </div>
-  
+
+    <div class="col-12 shadow-1">
+      <trans-record-container :userInfo="councilAccount" class="table"/>
+    </div>
   </q-page>
 </template>
 
@@ -72,6 +75,7 @@
 import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { compileTimeStamp, getTimeFromHight } from '../utils/util'
+import TransRecordContainer from '../components/TransRecordContainer'
 
 export default {
   name: 'councilDetail',
@@ -83,7 +87,8 @@ export default {
     QCardTitle,
     QCardMain,
     QBtn,
-    QTd
+    QTd,
+    TransRecordContainer
   },
   data() {
     return {
@@ -98,7 +103,7 @@ export default {
         {
           name: 'weight',
           required: true,
-          label: this.$t('DESCRIBE'),
+          label: this.$t('WEIGHT'),
           align: 'center',
           field: 'weight'
         },
@@ -117,9 +122,6 @@ export default {
   },
   methods: {
     ...mapActions(['getCouncil']),
-    viewAccountInfo(row) {
-      this.$root.$emit('openAccountModal', row.address)
-    },
     async loadData() {
       let res = await this.getCouncil({
         address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj'
@@ -143,20 +145,33 @@ export default {
     },
     getTimeFromHight(height) {
       return getTimeFromHight(this.latestBlock, height)
+    },
+    viewAccountInfo(row) {
+      this.$root.$emit('openAccountModal', row)
     }
   },
   mounted() {
     this.loadData()
   },
   computed: {
-    ...mapGetters(['latestBlock']),
+    ...mapGetters(['latestBlock', 'userInfo']),
     gatewayDetailClass() {
       return this.isDesk ? 'col-md-4 col-xs-12' : 'col-md-4 col-xs-12 margin-top-minus-28'
+    },
+    councilAccount() {
+      return {
+        address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj',
+        account: {
+          address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj'
+        }
+      }
     }
   },
   watch: {
-    group(val) {
-      if (val) this.loadData()
+    userInfo(val) {
+      if (val) {
+        this.loadData()
+      }
     }
   }
 }

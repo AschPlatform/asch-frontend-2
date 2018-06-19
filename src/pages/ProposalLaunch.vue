@@ -329,22 +329,22 @@ export default {
       // options for total
       proposalType: [
         // protential of council options
-        {
-          label: this.$t('proposal.SELECT_NEWCOUNCIL'),
-          value: 'new'
-        },
-        {
-          label: this.$t('proposal.SELECT_CHANGECOUNCIL'),
-          value: 'change'
-        },
-        {
-          label: this.$t('proposal.SELECT_CHANGEPERIOD'),
-          value: 'period'
-        },
-        {
-          label: this.$t('proposal.SELECT_REMOVECOUNCIL'),
-          value: 'remove'
-        },
+        // {
+        //   label: this.$t('proposal.SELECT_NEWCOUNCIL'),
+        //   value: 'new'
+        // },
+        // {
+        //   label: this.$t('proposal.SELECT_CHANGECOUNCIL'),
+        //   value: 'change'
+        // },
+        // {
+        //   label: this.$t('proposal.SELECT_CHANGEPERIOD'),
+        //   value: 'period'
+        // },
+        // {
+        //   label: this.$t('proposal.SELECT_REMOVECOUNCIL'),
+        //   value: 'remove'
+        // },
         {
           label: this.$t('proposal.SELECT_NEWNET'),
           value: 'new_n'

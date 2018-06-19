@@ -185,16 +185,18 @@ export default {
           if (e.recipientId === this.userInfo.address) {
             plag = '+'
             temp.col1.push(e.senderId)
+            temp.iconKey = 'RECEIPT'
           } else {
             plag = '-'
             e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
+            temp.iconKey = 'PAY'
           }
           temp.col1.push(fullTimestamp(e.timestamp))
           temp.col2.push(e.transaction.message || this.$t('NO_REMARK'))
           temp.col2.push(this.$t('REMARK'))
           temp.fee.push(plag + convertFee(e.amount, 8))
           temp.fee.push(e.currency)
-          temp.iconKey = 'TRANSFER'
+          // temp.iconKey = 'TRANSFER'
           items.push(temp)
         })
         this.trans = items
@@ -395,7 +397,6 @@ export default {
             },
             type: 'number'
           },
-
           {
             name: 'amount',
             label: this.$t('AMOUNTS'),
