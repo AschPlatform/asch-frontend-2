@@ -456,6 +456,33 @@ export default {
         show_pre: [],
         show_post: []
       },
+      typeMap: {
+        'new_n': 'gateway_register',
+        'init': 'gateway_init',
+        'period_n': 'gateway_period',
+        'member_n': 'gateway_update_member',
+        'new': 'council_register',
+        'change': 'council_update_mumber',
+        'period': 'council_update',
+        'remove': 'council_revoke'
+      //   if (this.first_type === 'new_n') {
+      //   return 'gateway_register'
+      // } else if (this.first_type === 'init') {
+      //   return 'gateway_init'
+      // } else if (this.first_type === 'period_n') {
+      //   return 'gateway_period'
+      // } else if (this.first_type === 'member_n') {
+      //   return 'gateway_update_member'
+      // } else if (this.first_type === 'new') {
+      //   return 'council_register'
+      // } else if (this.first_type === 'change') {
+      //   return 'council_update_mumber'
+      // } else if (this.first_type === 'period') {
+      //   return 'council_update'
+      // } else if (this.first_type === 'remove') {
+      //   return 'council_revoke'
+      // }
+      },
       tomorrow
     }
   },
@@ -889,23 +916,7 @@ export default {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
     },
     countedType() {
-      if (this.first_type === 'new_n') {
-        return 'gateway_register'
-      } else if (this.first_type === 'init') {
-        return 'gateway_init'
-      } else if (this.first_type === 'period_n') {
-        return 'gateway_period'
-      } else if (this.first_type === 'member_n') {
-        return 'gateway_update_member'
-      } else if (this.first_type === 'new') {
-        return 'council_register'
-      } else if (this.first_type === 'change') {
-        return 'council_update_mumber'
-      } else if (this.first_type === 'period') {
-        return 'council_update'
-      } else if (this.first_type === 'remove') {
-        return 'council_revoke'
-      }
+      return this.typeMap[this.first_type]
     },
     endHeight() {
       let currentHeight = this.userInfo.latestBlock.height
