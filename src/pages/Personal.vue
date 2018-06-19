@@ -232,9 +232,9 @@ import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
 let today = new Date()
-// today = date.addToDate(today, {
-//   days: 31
-// })
+today = date.addToDate(today, {
+  days: 31
+})
 
 export default {
   props: ['userObj'],
