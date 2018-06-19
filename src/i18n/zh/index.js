@@ -543,6 +543,7 @@ const lang = {
     BRIEF_TIP: '请输入简要描述',
     DAY: '天',
     REMOVE_COUNCIL: '我提议撤销理事会',
+    GATEWAY_MEMBER_UPDATE: '我提议撤销\n\n{pre}\n\n并提议\n\n{post}\n\n成为新的网关成员。',
     REMOVE_COUNCIL_TIP1: '我提议撤销',
     REMOVE_COUNCIL_TIP2: '并提议',
     REMOVE_COUNCIL_TIP3: '成为新的网关成员。',

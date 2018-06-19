@@ -194,7 +194,7 @@ export default {
           temp.col2.push(this.$t('REMARK'))
           temp.fee.push(plag + convertFee(e.amount, 8))
           temp.fee.push(e.currency)
-          temp.iconKey = e.currency
+          temp.iconKey = 'TRANSFER'
           items.push(temp)
         })
         this.trans = items

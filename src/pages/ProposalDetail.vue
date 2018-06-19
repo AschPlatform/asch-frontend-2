@@ -82,7 +82,23 @@
             </q-field>
           </div>
         </div>
-  
+        <!-- below is member change page -->
+        <div class="col-12" v-if="this.detail.topic === 'gateway_update_member'" id="update_member">
+          <div class="row col-12">
+            <q-field class="col-10 font-16" label-width="2" :label="$t('LAUNCH_MODAL.NET_NAME')">
+              <q-input class="border-1" readonly hide-underline value="" v-model="content.gateway"></q-input>
+            </q-field>
+          </div>
+          <div class="row">
+            <q-field class="col-10 font-16" label-width="2">
+              <!-- <q-input class="border-1" readonly hide-underline value="" v-model="memberString" type="textarea" disabled>{{$t('LAUNCH_MODAL.PROPOSE_END')}}</q-input> -->
+              <p class="break">
+                {{$t('LAUNCH_MODAL.GATEWAY_MEMBER_UPDATE', {pre: content.from, post: content.to})}}
+              </p>
+            </q-field>
+          </div>
+        </div>
+
         <!-- below is net init page -->
         <div class="col-12" v-if="this.detail.topic === 'gateway_init'" id="init">
           <div class="row col-12">

@@ -10,7 +10,7 @@
     </q-field> -->
     <div class="partLeft col-md-5 col-xs-12 align-center">
       <div class="part-title">{{$t(title_pre)}}</div>
-      <q-chip square color="white" text-color="secondary" class="chip" v-for="(item, idx) in memberPre" :key="idx">{{item}}</q-chip>
+      <q-chip square color="white" text-color="secondary" class="chip" v-for="(item, idx) in contentPre" :key="idx">{{item}}</q-chip>
     </div>
     
     <q-icon size="33px" class="mobile-hide padding-t-40" name="keyboard arrow right" />
@@ -23,7 +23,7 @@
     
     <div class="partRight col-md-5 col-xs-12 align-center">
       <div class="part-title">{{$t(title_post)}}</div>
-      <q-chip square color="white" text-color="secondary" class="chip" v-for="(item, idx) in memberPost" :key="idx">{{item}}</q-chip>
+      <q-chip square color="white" text-color="secondary" class="chip" v-for="(item, idx) in contentPost" :key="idx">{{item}}</q-chip>
     </div>
   </div>
   

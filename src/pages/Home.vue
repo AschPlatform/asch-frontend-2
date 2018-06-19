@@ -68,7 +68,8 @@
                 <q-item class="blances-container shadow-1 bg-white" v-for="(balance,idx) in  balances" :key="idx">
                   <q-item-side>
                     <q-item-tile>
-                      <i class="material-icons font-44 vertical-align-middle text-eight">fiber_manual_record</i>
+                      <!-- <i class="material-icons font-44 vertical-align-middle text-eight">fiber_manual_record</i> -->
+                      <asset-icon class="vertical-align-middle q-ml-sm" :iconKey="balance.currency.toUpperCase()"></asset-icon>
                     </q-item-tile>
                   </q-item-side>
                   <q-item-main class="text-five font-16 font-weight" :label="balance.currency" />
@@ -98,6 +99,7 @@ import TransRecordContainer from '../components/TransRecordContainer'
 import { toast } from '../utils/util'
 import VueQr from 'vue-qr'
 import { mapGetters } from 'vuex'
+import AssetIcon from '../components/AssetIcon'
 import {
   QCard,
   QCardMain,
@@ -136,7 +138,8 @@ export default {
     TransRecordContainer,
     QIcon,
     QListHeader,
-    QAjaxBar
+    QAjaxBar,
+    AssetIcon
   },
   data() {
     return {
