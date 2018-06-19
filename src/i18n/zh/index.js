@@ -465,6 +465,7 @@ const lang = {
   GATEWAY: '网关',
   ALL_GATEWAY: '全部网关',
   GATEWAY_PARTICULARS: '网关详情页',
+  COUNCIL_PARTICULARS: '理事会详情页',
   CREATE_TIME: '创建时间',
   ELECTED: '当选状态',
   UPDATE_LIMIT: '最低更新频率:',

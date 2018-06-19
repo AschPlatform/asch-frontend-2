@@ -100,9 +100,9 @@ export default [
         component: load('ProposalDetail')
       },
       {
-        path: 'council',
-        name: 'council',
-        component: load('Council')
+        path: 'councilDetail',
+        name: 'councilDetail',
+        component: load('councilDetail')
       },
       {
         path: 'gateway',
