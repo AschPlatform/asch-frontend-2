@@ -1,5 +1,5 @@
 <template>
-  <q-modal :class="assetIssuerClass" v-model="show"  :no-esc-dismiss="true">
+  <q-modal :class="assetIssuerClass" content-class="modal-content-limit" v-model="show"  :no-esc-dismiss="true">
   <q-card v-if="user" class="padding-b-40">
      <div class="padding-20 bg-secondary">
       <span class="text-white font-22">

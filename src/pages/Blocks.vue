@@ -72,7 +72,7 @@
           </q-card-title>
           <q-card-separator />
           <q-card-main class="padding-b-40" v-if="delegate" align="center">
-            <q-btn class="font-30" @click="changeData" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
+            <q-btn class="font-30" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
             <span class="block">
               {{$t('DELEGATE_VOTERATE')+':'}}
               <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline" href="javascript:;">{{delegate.productivity+'%'}}</a>
@@ -434,6 +434,7 @@ export default {
     },
     changeData() {
       this.isOwn = !this.isOwn
+      this.blocksData = []
       this.getBlocks(this.defaultPage, '')
     }
   },

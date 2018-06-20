@@ -1,5 +1,5 @@
 <template>
-  <q-modal content-classes="deposit-modal-container row justify-center" v-model="show" :no-esc-dismiss="true">
+  <q-modal content-classes="modal-content-limit deposit-modal-container row justify-center" v-model="show" :no-esc-dismiss="true">
     <div class="col-12 widthdraw-modal-content">
       <!-- <h4>{{$t('WITHDRAW')}}</h4> -->
       <div class="bg-secondary padding-40 height-62">

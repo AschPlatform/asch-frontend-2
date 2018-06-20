@@ -65,7 +65,7 @@
             </q-card-main>
             <q-card-main>
               <q-list class="no-border" v-if="balances.length" highlight>
-                <q-item class="blances-container shadow-1 bg-white" v-for="(balance,idx) in  balances" :key="idx">
+                <q-item class="blances-container shadow-1 bg-white" v-for="(balance,idx) in  balances" :to="{name:'assetDetail',params:{asset:balance, user: userInfo}}"  :key="idx">
                   <q-item-side>
                     <q-item-tile>
                       <!-- <i class="material-icons font-44 vertical-align-middle text-eight">fiber_manual_record</i> -->

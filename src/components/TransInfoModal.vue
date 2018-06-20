@@ -1,5 +1,5 @@
 <template>
-<q-modal minimized no-backdrop-dismiss  v-model="show" content-css="padding: 20px">
+<q-modal minimized content-class="modal-content-limit" no-backdrop-dismiss  v-model="show" content-css="padding: 20px">
       <big>{{$t('DAPP_DETAIL')}}</big>
       <table v-if="row" class="q-table horizontal-separator highlight loose ">
         <tbody class='info-tbody'>

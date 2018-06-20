@@ -594,7 +594,7 @@ export default {
       return this.isDesk ? 'text-blue font-18' : 'text-blue font-12'
     },
     personalLockClass() {
-      return this.isDesk ? 'minimized' : 'maximized'
+      return this.isDesk ? 'minimized modal-content-limit' : 'maximized'
     },
     tableClass() {
       return this.isDesk ? 'col-12' : 'col-12 table-container'
