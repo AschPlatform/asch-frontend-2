@@ -151,14 +151,16 @@
         </tbody>
       </table>
       <br/>
-      <q-btn
-        color="secondary"
-        @click="()=>{
-          this.modalInfoShow = false
-          this.row = {}
-          }"
-        :label="$t('label.close')"
-      />
+      <div class="align-center">
+        <q-btn
+          color="secondary"
+          @click="()=>{
+            this.modalInfoShow = false
+            this.row = {}
+            }"
+          :label="$t('label.close')"
+        />
+      </div>
     </q-modal>
 
     <user-agreement-modal :show="isModalShow" @confirm="callRegister" @cancel="closeModal" :title="$t('DELEGATE_TITLE')" :content="$t('AGREEMENT_DELEGATE_TITLE_CONTENT')" :tips="$t('DELEGATE_TITLE')+$t('COST_FEE',{num:100})"/>

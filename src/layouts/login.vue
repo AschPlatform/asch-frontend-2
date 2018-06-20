@@ -11,12 +11,14 @@
           <div :class="mainPageClass">
             <img class="desktop-only login-ball" ref="img" :src="loginBallImg" alt="login ball">
             <q-card v-if="registerStep==0" :class="loginPanelClass">
-              <q-card-title class="">
-                <span class="lite-orange card-font">
-                  {{$t('LOGIN')}}
-                </span>
-                <div slot="right">
-                  <q-select class="col-auto " chips color="secondary" v-model="lang" :options="langsOpts" />
+              <q-card-title class="title-row">
+                <div class="col-10">
+                  <span class="lite-orange card-font col-10">
+                    {{$t('LOGIN')}}
+                  </span>
+                </div>
+                <div slot="right" class="col-2">
+                  <q-select class="col-2" chips color="secondary" v-model="lang" :options="langsOpts" />
                 </div>
               </q-card-title>
               <q-card-main class="row col-10 justify-center ">
