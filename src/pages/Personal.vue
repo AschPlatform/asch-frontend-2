@@ -458,7 +458,7 @@ export default {
       if (res.success) {
         toast(t('INF_OPERATION_SUCCEEDED'))
       } else {
-        translateErrMsg(res.error, t)
+        translateErrMsg(t, res.error)
       }
       this.userAgreementShow = false
     },
@@ -521,7 +521,7 @@ export default {
       if (res.success === true) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
       } else {
-        translateErrMsg(res.error, this.$t)
+        translateErrMsg(this.$t, res.error)
       }
     },
     jump2Doc() {

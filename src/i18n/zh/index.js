@@ -611,7 +611,8 @@ const lang = {
     ERR_REQUIRE_TIME: '建议将结束时间设置在一周以后，以留有足够的时间让用户发现、评估项目并投票',
     ERR_REQUIRE_DETAIL: '请选择提案详情',
     ERR_REQUIRE_NUMBER: '成员应在7-33人之间',
-    ERR_REQUIRE_MEMBER: '请提名候选人'
+    ERR_REQUIRE_MEMBER: '请提名候选人',
+    INVALID_LOCK_HEIGHT: '锁仓高度不正确'
   },
   LASTEST_UPDATE_TIME: '最后更新日期',
   ARGS: '参数',
