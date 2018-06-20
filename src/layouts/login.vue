@@ -311,15 +311,15 @@ html, body {
 }
 
 .login-center {
-  position: relative;
+  position: fixed;
   width: 100%;
   height: 300px;
-  position: absolute;
+  // position: absolute;
   top: calc(50% - 150px);
   background: #ff5000;
 
   .mobile-logo {
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 58px;
     top: -140px;
@@ -362,7 +362,8 @@ html, body {
   background-size: 100%;
   width: 350px;
   height: 78px;
-  margin: auto;
+  margin: 0 auto;
+  margin-top 120px
 }
 
 .options-panel {

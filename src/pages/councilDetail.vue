@@ -12,7 +12,7 @@
       </div>
       <div class="row q-px-md gutter-md">
         <div class="col-md-8 col-xs-12">
-         <q-card class="mobile-only no-shadow margin-bottom-20" align="left">
+         <!-- <q-card class="mobile-only no-shadow margin-bottom-20" align="left">
             <div class="bg-white shadow-2">
               <q-card-title class="bg-nine">
                 <span class="font-22 text-black font-weight">{{group.name}}</span>
@@ -21,7 +21,7 @@
               {{group.updateInterval}}
               </q-card-main>
             </div>
-          </q-card>
+          </q-card> -->
 
           <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" @request="request" :loading="loading" row-key="address" hide-bottom>
   
@@ -161,6 +161,7 @@ export default {
   },
   mounted() {
     this.loadData()
+    this.getGroupAccount()
   },
   computed: {
     ...mapGetters(['latestBlock', 'userInfo']),
