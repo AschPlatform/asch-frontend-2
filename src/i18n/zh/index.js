@@ -619,6 +619,8 @@ const lang = {
   WITHDRAW_RECORD: '提现记录',
   ASCH: '阿希客户端',
 
+  // new one in 06 / 19
+
   // ==============  quasar i18n  =================
 
   lang: 'zh-hans',
