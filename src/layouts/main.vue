@@ -115,7 +115,7 @@
       <!-- common component with event -->
       <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false" />
   
-      <q-modal class="transfer-modal-container" v-model="transShow" no-backdrop-dismiss>
+      <q-modal class="transfer-modal-container" content-class="modal-content-limit" v-model="transShow" no-backdrop-dismiss>
         <div class="col-8">
           <trans-panel :showTitle="true" :assets="assets" :asset="asset" :user="userInfo">
             <div slot="btns" slot-scope="props" class="row col-12 justify-between">

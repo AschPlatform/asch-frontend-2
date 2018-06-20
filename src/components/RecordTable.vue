@@ -25,7 +25,11 @@
           <div id="td" class="col-xs-12 col-md-6 row justify-left">
             <asset-icon id="asset-icon" :iconKey="item.iconKey" class="q-mr-xs" />
             <div id="main-info" class="inline ">
-              <p>{{item.col1[0]}}</p>
+              <p v-clipboard="item.col1[0] || 'no data'" @success="info('copy balance success...')">{{item.col1[0].slice(0, 12)}}
+                <q-tooltip>
+                  {{item.col1[0]}}
+                </q-tooltip>
+              </p>
               <p>{{item.col1[1]}}</p>
             </div>
           </div>
@@ -62,7 +66,7 @@
 
 <script>
 import { QPagination, QBtnToggle, QTooltip } from 'quasar'
-import { isDesktop } from '../utils/util'
+import { isDesktop, toast } from '../utils/util'
 import AssetIcon from '../components/AssetIcon'
 
 export default {
@@ -77,7 +81,8 @@ export default {
   data() {
     return {
       type: 1,
-      page: 1
+      page: 1,
+      isDisable: false
     }
   },
   methods: {
@@ -86,6 +91,16 @@ export default {
     },
     changeType(num) {
       this.$emit('changeType', num)
+    },
+    info(msg) {
+      if (this.isDisable === true) {
+        return
+      }
+      this.isDisable = true
+      setTimeout(() => {
+        this.isDisable = false
+      }, 2000)
+      toast(msg)
     }
   },
   mounted() {

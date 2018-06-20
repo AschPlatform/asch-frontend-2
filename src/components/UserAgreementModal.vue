@@ -1,5 +1,5 @@
 <template>
-  <q-modal :class="userAgreementClass" v-model="show">
+  <q-modal :class="userAgreementClass" content-class="modal-content-limit" v-model="show">
     <q-card class="col-12 no-shadow" >
       <div class="bg-secondary height-62 padding-l-20">
       <span class="text-white font-24 font-weight">{{title}}</span>

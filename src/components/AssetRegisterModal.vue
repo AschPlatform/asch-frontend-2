@@ -1,5 +1,5 @@
 <template>
-  <q-modal :class="assetRegisterClass" v-model="show"  :no-esc-dismiss="true">
+  <q-modal :class="assetRegisterClass" content-class="modal-content-limit" v-model="show"  :no-esc-dismiss="true">
   <q-card v-if="user" class="padding-b-40">
     <div class="padding-20 bg-secondary">
       <span class="text-white font-22">{{$t('TRS_TYPE_UIA_ASSET')}}</span>
@@ -7,7 +7,7 @@
     </div>
     <q-card-main class="row justify-center ">
       <q-field class="col-md-8 col-xs-12" :label="$t('ASSET_NAME')" :label-width="3" :error="$v.assets.name.$error" :error-label="$t('ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS')" :count="6">
-        <q-input @blur="$v.assets.name.$touch" upper-case v-model="assets.name" clearable />
+        <q-input @blur="$v.assets.name.$touch" v-model="assets.name" clearable />
       </q-field>
       <q-field class="col-md-8 col-xs-12" :label="$t('DESCRIBE')" :label-width="3" :error="$v.assets.desc.$error" :row="6" :count="500" :error-label="$t('ERR_MISSING_ASSET_DESCRIPTION')">
         <q-input @blur="$v.assets.desc.$touch" type="textarea" v-model="assets.desc" clearable />

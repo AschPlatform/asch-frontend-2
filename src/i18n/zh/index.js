@@ -415,7 +415,7 @@ const lang = {
   NICKNAME: '昵称',
   INPUT_NICKNAME: '请输入你想设置的昵称',
   ERR_NICKNAME: '昵称输入有误,应为3-20位小写字母与数字的组合',
-  NICKNAME_TIP: '昵称可用于转账，请慎重填写，最多2-20个字符',
+  NICKNAME_TIP: '昵称可用于转账，请慎重填写，最多3-20个字符',
   CHAR_NUM: '字符数',
   PRICE: '价格',
   NICKNAME_PRICE: '昵称价格对应表',
@@ -611,13 +611,16 @@ const lang = {
     ERR_REQUIRE_TIME: '建议将结束时间设置在一周以后，以留有足够的时间让用户发现、评估项目并投票',
     ERR_REQUIRE_DETAIL: '请选择提案详情',
     ERR_REQUIRE_NUMBER: '成员应在7-33人之间',
-    ERR_REQUIRE_MEMBER: '请提名候选人'
+    ERR_REQUIRE_MEMBER: '请提名候选人',
+    INVALID_LOCK_HEIGHT: '锁仓高度不正确'
   },
   LASTEST_UPDATE_TIME: '最后更新日期',
   ARGS: '参数',
   DEPOSIT_RECORD: '充值记录',
   WITHDRAW_RECORD: '提现记录',
   ASCH: '阿希客户端',
+
+  // new one in 06 / 19
 
   // ==============  quasar i18n  =================
 

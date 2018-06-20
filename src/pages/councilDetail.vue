@@ -12,7 +12,7 @@
       </div>
       <div class="row q-px-md gutter-md">
         <div class="col-md-8 col-xs-12">
-         <q-card class="mobile-only no-shadow margin-bottom-20" align="left">
+         <!-- <q-card class="mobile-only no-shadow margin-bottom-20" align="left">
             <div class="bg-white shadow-2">
               <q-card-title class="bg-nine">
                 <span class="font-22 text-black font-weight">{{group.name}}</span>
@@ -21,13 +21,13 @@
               {{group.updateInterval}}
               </q-card-main>
             </div>
-          </q-card>
+          </q-card> -->
 
-          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading" row-key="address" hide-bottom>
+          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" @request="request" :loading="loading" row-key="address" hide-bottom>
   
-            <q-td slot="body-cell-operation" slot-scope="props" :props="props">
-              <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">
-                {{$t('CHECK')}}
+            <q-td slot="body-cell-address" slot-scope="props" :props="props">
+              <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.member)">
+                {{props.row.member}}
               </div>
             </q-td>
   
@@ -44,14 +44,14 @@
           <q-card class="desktop-only no-shadow" align="left">
             <div class="bg-white shadow-2">
               <q-card-title class="bg-nine">
-                <span class="font-22 text-black font-weight">{{group.name}}</span>
+                <span class="font-22 text-black font-weight">{{$t('DAPP_BANLANCE_DETAIL')}}</span>
               </q-card-title>
               <q-card-main class="word-wrap-break">
-              {{group.updateInterval}}
+              {{accountLeft | fee}} XAS
               </q-card-main>
             </div>
           </q-card>
-          <q-card class="no-shadow margin-top-20" align="left">
+          <!-- <q-card class="no-shadow margin-top-20" align="left">
             <div class="bg-white modal-right-container-bottom shadow-2 row">
               <q-card-title class="bg-nine self-start bottom-container-top">
                 <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
@@ -60,11 +60,14 @@
                 <span class="font-24 text-secondary">{{compileTimeStamp(group.createTime)}}</span>
               </q-card-main>
             </div>
-          </q-card>
+          </q-card> -->
         </div>
       </div>
     </div>
-  
+
+    <div class="col-12 shadow-1 bg-white">
+      <trans-record-container :userInfo="councilAccount" class="table"/>
+    </div>
   </q-page>
 </template>
 
@@ -72,6 +75,7 @@
 import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { compileTimeStamp, getTimeFromHight } from '../utils/util'
+import TransRecordContainer from '../components/TransRecordContainer'
 
 export default {
   name: 'councilDetail',
@@ -83,7 +87,8 @@ export default {
     QCardTitle,
     QCardMain,
     QBtn,
-    QTd
+    QTd,
+    TransRecordContainer
   },
   data() {
     return {
@@ -98,7 +103,7 @@ export default {
         {
           name: 'weight',
           required: true,
-          label: this.$t('DESCRIBE'),
+          label: this.$t('WEIGHT'),
           align: 'center',
           field: 'weight'
         },
@@ -112,14 +117,12 @@ export default {
       ],
       loading: false,
       datas: [],
-      group: null
+      group: null,
+      accountLeft: 0
     }
   },
   methods: {
-    ...mapActions(['getCouncil']),
-    viewAccountInfo(row) {
-      this.$root.$emit('openAccountModal', row.address)
-    },
+    ...mapActions(['getCouncil', 'getAccountsInfo']),
     async loadData() {
       let res = await this.getCouncil({
         address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj'
@@ -127,6 +130,14 @@ export default {
       if (res.success) {
         this.group = res.group
         this.datas = res.group.members
+      }
+    },
+    async getGroupAccount() {
+      let res = await this.getAccountsInfo({
+        address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj'
+      })
+      if (res.success) {
+        this.accountLeft = res.account.xas
       }
     },
     async request(props) {
@@ -143,20 +154,35 @@ export default {
     },
     getTimeFromHight(height) {
       return getTimeFromHight(this.latestBlock, height)
+    },
+    viewAccountInfo(row) {
+      this.$root.$emit('openAccountModal', row)
     }
   },
   mounted() {
     this.loadData()
+    this.getGroupAccount()
   },
   computed: {
-    ...mapGetters(['latestBlock']),
+    ...mapGetters(['latestBlock', 'userInfo']),
     gatewayDetailClass() {
       return this.isDesk ? 'col-md-4 col-xs-12' : 'col-md-4 col-xs-12 margin-top-minus-28'
+    },
+    councilAccount() {
+      return {
+        address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj',
+        account: {
+          address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj'
+        }
+      }
     }
   },
   watch: {
-    group(val) {
-      if (val) this.loadData()
+    userInfo(val) {
+      if (val) {
+        this.loadData()
+        this.getGroupAccount()
+      }
     }
   }
 }

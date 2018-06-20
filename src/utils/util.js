@@ -129,8 +129,10 @@ export const getTimeFromTrade = obj => {
 }
 
 export const translateErrMsg = (t, input) => {
+  console.log(input)
   if (typeof input === 'string') {
-    input = input.split(':')[0]
+    input = input.split(':')[1]
+    console.log(input)
     var translateMap = [
       {
         error: 'Failed to verify second signature',
@@ -162,21 +164,22 @@ export const translateErrMsg = (t, input) => {
         key: 'ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP'
       },
       {
-        error: 'Invalid lock height',
-        key: 'Invalid lock height'
-      },
-      {
         error: 'Currency not supported',
         key: 'Currency not supported'
+      },
+      {
+        error: 'Invalid lock height',
+        key: 'ERR.INVALID_LOCK_HEIGHT'
       },
       {
         error: 'Agent cannot set agent',
         key: 'AGENT_CAN_NOT_SET_AGENT'
       }
     ]
-
+    console.log(t('HOW_TO_BE'))
     for (var idx = 0; idx < translateMap.length; idx++) {
       if (input.indexOf(translateMap[idx].error) > -1) {
+        console.log(translateMap[idx].key)
         toastError(t(translateMap[idx].key))
         // console.log(translateMap[idx].chinese);
         return

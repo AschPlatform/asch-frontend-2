@@ -72,7 +72,7 @@
           </q-card-title>
           <q-card-separator />
           <q-card-main class="padding-b-40" v-if="delegate" align="center">
-            <q-btn class="font-30" @click="changeData" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
+            <q-btn class="font-30" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
             <span class="block">
               {{$t('DELEGATE_VOTERATE')+':'}}
               <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline" href="javascript:;">{{delegate.productivity+'%'}}</a>
@@ -151,14 +151,16 @@
         </tbody>
       </table>
       <br/>
-      <q-btn
-        color="secondary"
-        @click="()=>{
-          this.modalInfoShow = false
-          this.row = {}
-          }"
-        :label="$t('label.close')"
-      />
+      <div class="align-center">
+        <q-btn
+          color="secondary"
+          @click="()=>{
+            this.modalInfoShow = false
+            this.row = {}
+            }"
+          :label="$t('label.close')"
+        />
+      </div>
     </q-modal>
 
     <user-agreement-modal :show="isModalShow" @confirm="callRegister" @cancel="closeModal" :title="$t('DELEGATE_TITLE')" :content="$t('AGREEMENT_DELEGATE_TITLE_CONTENT')" :tips="$t('DELEGATE_TITLE')+$t('COST_FEE',{num:100})"/>
@@ -182,7 +184,7 @@ import {
   QInput,
   QTd
 } from 'quasar'
-import { toast, toastInfo, translateErrMsg, prompt } from '../utils/util'
+import { toast, toastWarn, translateErrMsg, prompt } from '../utils/util'
 import { fullTimestamp } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
@@ -385,15 +387,15 @@ export default {
     },
     async registerDelegate() {
       if (!this.user.account.name) {
-        toastInfo(this.$t('PLEASE_SET_NAME'))
+        toastWarn(this.$t('PLEASE_SET_NAME'))
         return null
       }
       if (!this.user.account.isDelegate === 0) {
-        toastInfo(this.$t('AGENT_ALREADY'))
+        toastWarn(this.$t('AGENT_ALREADY'))
         return null
       }
       if (this.user.account.isAgent) {
-        toastInfo(this.$t('AGENT_CAN_NOT_BE_DELEGATE'))
+        toastWarn(this.$t('AGENT_CAN_NOT_BE_DELEGATE'))
         return null
       }
       this.isModalShow = true
@@ -434,6 +436,7 @@ export default {
     },
     changeData() {
       this.isOwn = !this.isOwn
+      this.blocksData = []
       this.getBlocks(this.defaultPage, '')
     }
   },

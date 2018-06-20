@@ -458,7 +458,7 @@ export default {
       if (res.success) {
         toast(t('INF_OPERATION_SUCCEEDED'))
       } else {
-        translateErrMsg(res.error, t)
+        translateErrMsg(t, res.error)
       }
       this.userAgreementShow = false
     },
@@ -479,8 +479,6 @@ export default {
         toast(this.$t('INF_POSITIONLOCK_SET_SUCCESS'))
         this.locked = true
         this.lockPanelShow = false
-        this.num = 0
-        this.time = 0
       } else {
         translateErrMsg(this.$t, res.error)
       }
@@ -523,7 +521,7 @@ export default {
       if (res.success === true) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
       } else {
-        translateErrMsg(res.error, this.$t)
+        translateErrMsg(this.$t, res.error)
       }
     },
     jump2Doc() {
@@ -594,7 +592,7 @@ export default {
       return this.isDesk ? 'text-blue font-18' : 'text-blue font-12'
     },
     personalLockClass() {
-      return this.isDesk ? 'minimized' : 'maximized'
+      return this.isDesk ? 'minimized modal-content-limit' : 'maximized'
     },
     tableClass() {
       return this.isDesk ? 'col-12' : 'col-12 table-container'

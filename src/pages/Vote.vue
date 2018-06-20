@@ -193,6 +193,7 @@ export default {
     // below are original funcs
     refresh() {
       this.pagination = this.paginationDeafult
+      this.selected = []
       this.getDelegates()
     },
     async request(props) {
@@ -314,7 +315,7 @@ export default {
       return {
         page: 1,
         rowsNumber: 0,
-        rowsPerPage: 10
+        rowsPerPage: 15
       }
     },
     selectedDelegate() {
