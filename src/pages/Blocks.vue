@@ -53,7 +53,7 @@
           </q-card-main>
           <q-card-main align="center" v-else>
             <div v-if="delegate">
-              <span class="block margin-t-20 text-secondary font-30 font-weight">{{delegate.name}}</span>
+              <span class="block margin-t-20 text-secondary font-30 font-weight delegate-nick">{{delegate.name}}</span>
             <span class="block margin-t-20">
               {{$t('DELEGATE_POLLRATE')+':'}}
               <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval+'%'}}</a>
@@ -514,4 +514,7 @@ export default {
   border: 1px solid #cccccc;
   border-radius: 15px;
 }
+
+.delegate-nick
+  word-wrap: break-word;
 </style>
