@@ -619,6 +619,7 @@ const lang = {
   DEPOSIT_RECORD: '充值记录',
   WITHDRAW_RECORD: '提现记录',
   ASCH: '阿希客户端',
+  NO_ARGS: '无参数',
 
   // new one in 06 / 19
 

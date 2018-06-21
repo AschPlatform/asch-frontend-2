@@ -194,7 +194,7 @@ export default {
           temp.col1.push(fullTimestamp(e.timestamp))
           temp.col2.push(e.transaction.message || this.$t('NO_REMARK'))
           temp.col2.push(this.$t('REMARK'))
-          temp.fee.push(plag + convertFee(e.amount, 8))
+          temp.fee.push(plag + convertFee(e.amount, e.asset ? e.asset.precision : 8))
           temp.fee.push(e.currency)
           // temp.iconKey = 'TRANSFER'
           items.push(temp)
@@ -248,11 +248,14 @@ export default {
       }
     },
     dueArg(args) {
-      args = args.replace(/,/g, '\n')
-      args = args.replace(/"/g, '')
-      args = args.replace(/\[/g, '')
-      args = args.replace(/\]/g, '')
-      return args
+      if (args) {
+        args = args.replace(/,/g, '\n')
+        args = args.replace(/"/g, '')
+        args = args.replace(/\[/g, '')
+        args = args.replace(/\]/g, '')
+        return args
+      }
+      return this.$t('NO_ARGS')
     },
     changePage(num) {
       this.pagination.page = num

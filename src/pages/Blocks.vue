@@ -2,13 +2,14 @@
   <q-page class="self-center blocks-container">
     <div class="blocks-content row">
       <div class="col-md-9 col-xs-12">
-        <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
+        <q-table :data="blocksData" :rows-per-page-options="[10]" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
           <template slot="top-left" slot-scope="props">
                     <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
 </template>
 
 <template slot="top-right" slot-scope="props">
-  <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
+  <!-- <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" @input="searchData(val)" :model='filter' type="number" :debounce="600" /> -->
+  <q-input type="number" v-model="filter" @input="searchData"/>
   <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
   <q-btn class="text-secondary" flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
 </template>
@@ -337,6 +338,7 @@ export default {
       return res
     },
     async getBlockDetail() {
+      debugger
       let res = await this.blockDetail({
         height: this.filter
       })
@@ -438,6 +440,11 @@ export default {
       this.isOwn = !this.isOwn
       this.blocksData = []
       this.getBlocks(this.defaultPage, '')
+    },
+    searchData(val) {
+      console.log(val)
+      this.filter = val
+      this.getBlockDetail()
     }
   },
   mounted() {
@@ -486,9 +493,10 @@ export default {
         this.init()
       }
     },
-    filter(val) {
-      this.getBlockDetail()
-    },
+    // filter(val) {
+    //   debugger
+    //   this.getBlockDetail()
+    // },
     isOwn(val) {},
     pagination(val) {}
   }
@@ -512,6 +520,7 @@ export default {
 
 .blocks-search {
   border: 1px solid #cccccc;
+  width 150px
   border-radius: 15px;
 }
 
