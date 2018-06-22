@@ -23,7 +23,7 @@
         </q-item>
 
         <q-item class="text-primary font-22" v-if="type=='inner'">
-        {{asset.balance | fee(asset.precision)}} 
+        {{asset.balance | fee(asset.asset ? asset.asset.precision : 8)}} 
         </q-item>
 
         <q-item class="text-secondary font-22" v-if="type=='outer'">
@@ -55,6 +55,7 @@ import {
   QBtn,
   QItemMain
 } from 'quasar'
+import { convertFee } from '../utils/asch'
 
 export default {
   name: 'AssetPanel',
@@ -85,6 +86,9 @@ export default {
     },
     open() {
       this.$emit('open', this.asset)
+    },
+    convertFee(num, pre) {
+      return convertFee(num, pre)
     }
   },
   computed: {}

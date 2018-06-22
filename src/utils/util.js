@@ -129,10 +129,8 @@ export const getTimeFromTrade = obj => {
 }
 
 export const translateErrMsg = (t, input) => {
-  console.log(input)
   if (typeof input === 'string') {
     input = input.split(':')[1]
-    console.log(input)
     var translateMap = [
       {
         error: 'Failed to verify second signature',
@@ -176,12 +174,9 @@ export const translateErrMsg = (t, input) => {
         key: 'AGENT_CAN_NOT_SET_AGENT'
       }
     ]
-    console.log(t('HOW_TO_BE'))
     for (var idx = 0; idx < translateMap.length; idx++) {
       if (input.indexOf(translateMap[idx].error) > -1) {
-        console.log(translateMap[idx].key)
         toastError(t(translateMap[idx].key))
-        // console.log(translateMap[idx].chinese);
         return
       }
     }

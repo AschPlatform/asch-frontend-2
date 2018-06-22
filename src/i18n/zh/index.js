@@ -414,8 +414,8 @@ const lang = {
   SET_NICKNAME: '请设置昵称',
   NICKNAME: '昵称',
   INPUT_NICKNAME: '请输入你想设置的昵称',
-  ERR_NICKNAME: '昵称输入有误,应为3-20位小写字母与数字的组合',
-  NICKNAME_TIP: '昵称可用于转账，请慎重填写，最多3-20个字符',
+  ERR_NICKNAME: '昵称输入有误,应为2-20位小写字母与数字的组合',
+  NICKNAME_TIP: '昵称可用于转账，请慎重填写，最多2-20个字符',
   CHAR_NUM: '字符数',
   PRICE: '价格',
   NICKNAME_PRICE: '昵称价格对应表',
@@ -619,6 +619,7 @@ const lang = {
   DEPOSIT_RECORD: '充值记录',
   WITHDRAW_RECORD: '提现记录',
   ASCH: '阿希客户端',
+  NO_ARGS: '无参数',
 
   // new one in 06 / 19
 

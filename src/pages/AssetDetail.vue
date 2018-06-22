@@ -25,7 +25,7 @@
               <q-btn v-clipboard="address || 'no data'" @success="info('copy senderId success...')" color="secondary" size="xs" flat round icon="content copy" />
             </div>
             <div class="row justify-center" @click="showAddrQr">
-              <vue-qr v-if="isCross" :size="80" :text="address?'bitcoin:'+address:'no data'"></vue-qr>
+              <vue-qr v-if="isCross" :size="80" :text="address ? 'bitcoin:'+ address:'no data'"></vue-qr>
               <vue-qr v-else :size="80" :text="address || 'no data'"></vue-qr>
             </div>
           </q-card-main>
@@ -40,7 +40,7 @@
               </tr>
               <tr class="margin-t-20">
                 <td>{{$t('DAPP_COIN_TOTAL_AMOUNT')+':'}}</td>
-                <td>{{assetDetail.maximum |fee(assetDetail.precision)}}</td>
+                <td>{{assetDetail.maximum | fee(assetDetail.precision)}}</td>
               </tr>
               <tr class="margin-t-20">
                 <td>{{$t('DAPP_COIN_CURRENT_QUANTITY')+':'}}</td>

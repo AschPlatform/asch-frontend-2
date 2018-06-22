@@ -66,7 +66,7 @@ export default {
         : 'transfer-content shadow-2'
     },
     transferBtnClass() {
-      return this.isDesk ? 'row justify-left col-12' : 'row justify-center col-12'
+      return this.isDesk ? 'row justify-center col-12' : 'row justify-center col-12'
     },
     user() {
       return this.userInfo
