@@ -38,13 +38,13 @@
           <div :class="personalIconClass">
             <i class="material-icons">email</i>
             <span>
-                {{$t('MESSAGE_DETAILS')}}
-              </span>
+              {{$t('MESSAGE_DETAILS')}}
+            </span>
           </div>
           <table class="personal-table q-mt-md q-table bordered highlight responsive ">
             <tbody class='row info-tbody'>
               <tr class="row col-12">
-                <td class="col-md-2 col-xs-6 bottom-left-link text-three font-18">
+                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-18">
                   <i class="material-icons font-22 personal-icon">lock outline</i> {{$t('SECOND_PASSWORD')}}
                 </td>
                 <td :class="personalRightClass">
@@ -57,7 +57,7 @@
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-2 col-xs-4 bottom-left-link text-three font-18 padding-0">
+                <td class="col-md-3 col-xs-4 bottom-left-link text-three font-18 padding-0">
                   <i class="material-icons font-22 personal-icon">settings</i>
                   <span>{{$t('LOCK_POSITION_CONF')}}</span>
                 </td>
@@ -76,7 +76,7 @@
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-2 col-xs-6 bottom-left-link text-three font-18">
+                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-18">
                   <i class="material-icons font-22 personal-icon">account_circle</i> {{$t('AGENT_INFO')}}
                 </td>
                 <td :class="personalRightClass">
@@ -89,7 +89,7 @@
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-2 col-xs-5 bottom-left-link text-three font-18">
+                <td class="col-md-3 col-xs-5 bottom-left-link text-three font-18">
                   <i class="material-icons font-22 personal-icon">person</i> {{$t('GATEWAY_CANDIDATE')}}
                 </td>
                 <td :class="personalRightThreeClass">
@@ -574,13 +574,13 @@ export default {
         : 'personal-bottom-title margin-left-10'
     },
     personalRightClass() {
-      return this.isDesk ? 'col-md-10 col-xs-6' : 'col-md-10 col-xs-6 text-right'
+      return this.isDesk ? 'col-md-9 col-xs-6' : 'col-md-9 col-xs-6 text-right'
     },
     personalRightTwoClass() {
-      return this.isDesk ? 'col-md-10 col-xs-8' : 'col-md-10 col-xs-8 text-right'
+      return this.isDesk ? 'col-md-9 col-xs-8' : 'col-md-9 col-xs-8 text-right'
     },
     personalRightThreeClass() {
-      return this.isDesk ? 'col-md-10 col-xs-7' : 'col-md-10 col-xs-7 text-right'
+      return this.isDesk ? 'col-md-9 col-xs-7' : 'col-md-9 col-xs-7 text-right'
     },
     personalFontClass() {
       return this.isDesk ? 'font-18' : 'font-12'

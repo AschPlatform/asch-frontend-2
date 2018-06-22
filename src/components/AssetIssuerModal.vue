@@ -41,7 +41,7 @@ import {
   QModal
 } from 'quasar'
 import { required, maxLength } from 'vuelidate/lib/validators'
-import { confirm, toastWarn, translateErrMsg } from '../utils/util'
+import { confirm, toast, toastWarn, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
 import { secondPwdReg } from '../utils/validators'
 import { mapActions, mapGetters } from 'vuex'
@@ -121,6 +121,7 @@ export default {
               this.user.issuer = true
               this.done()
               this.close()
+              toast(this.$t('ISSUE_SUCCESS'))
             } else {
               translateErrMsg(this.$t, res.error)
               this.done()
