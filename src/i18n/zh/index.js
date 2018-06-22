@@ -364,7 +364,7 @@ const lang = {
   LOCK_DETAIL_TIP: '请设置锁仓额度',
   RETREAT_VOTE_SUCCESS: '撤销投票成功',
   DELEGATE_LIST_DETAILS: '受托人详情列表',
-  SECOND_PASSWORD_TIP: '为了保障您的资金安全，请设置8位数以上的密码',
+  SECOND_PASSWORD_TIP: '请设置8位数以上的密码',
   SECOND_PASSWORD_CONFIRM: '请确认密码',
   // CANCEL: '取消',
   TO: '至',

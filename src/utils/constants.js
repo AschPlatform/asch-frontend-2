@@ -335,7 +335,7 @@ const urls = {
     agents: {
       url: '/api/v2/agents'
     },
-    // 获取指定资产详情
+    // 获取代理人代理列表
     agentsSupporter: {
       url: '/api/v2/agents/:name/clienteles'
     },

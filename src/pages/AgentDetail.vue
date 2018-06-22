@@ -217,7 +217,6 @@ export default {
       return obj.account[content]
     },
     showEndTime(obj) {
-      console.log(obj, this.latestBlock.height)
       return getTimeFromEndHeight({
         endHeight: obj.account.lockHeight,
         currentHeight: this.latestBlock.height
