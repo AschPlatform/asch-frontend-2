@@ -537,7 +537,7 @@ const lang = {
     PERIOD: 'Tenure Cycle',
     PERIOD_NET: 'Minimum Update Frequency',
     NET_NEW_LABEL: 'At least fill in a default currency and must be all capitals.',
-    PERSON: 'First Name',
+    PERSON: 'PERSON(S)',
     BRIEF: 'Brief',
     BRIEF_TIP: 'Input Brief Introduction',
     DAY: 'Day',
@@ -620,7 +620,7 @@ const lang = {
   lang: 'zh-hans',
   label: {
     clear: 'Clear',
-    ok: 'Ok',
+    ok: 'Confirm',
     cancel: 'Cancel',
     close: 'Close',
     set: 'Set',
