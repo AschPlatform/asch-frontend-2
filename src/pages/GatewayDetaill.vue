@@ -18,7 +18,7 @@
                 <span class="font-22 text-black font-weight">{{gateway.name}}</span>
               </q-card-title>
               <q-card-main class="word-wrap-break">
-              {{gateway.desc}}
+                {{gateway.desc}}
               </q-card-main>
             </div>
           </q-card>
@@ -237,6 +237,8 @@ export default {
 
 .word-wrap-break {
   word-wrap: break-word;
+  padding 40px
+  font-size 18px
 }
 
 .margin-top-minus-28 {

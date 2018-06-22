@@ -8,7 +8,7 @@
     <span v-if="message" slot="message">{{message}}</span>
 
     <div slot="body">
-      <div class="row justify-center"> 
+      <div class="row justify-center no-scroll"> 
         <vue-qr :text="text || ''" />
       </div>
     </div>
@@ -45,4 +45,6 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
+.no-scroll
+  height 190px
 </style>

@@ -219,7 +219,7 @@ const lang = {
   DELEGATE: 'Delegate',
   PRODUCED_NUMBER: 'Number of produced blocks',
   USERNAME: 'User Name',
-  TOTAL_PEOPLES: 'Totally %{count} people',
+  TOTAL_PEOPLES: 'Totally \n %{count} \n people',
 
   // model - account detail
   ACCOUNT_DETAIL: 'Account Detail',
@@ -465,6 +465,7 @@ const lang = {
   GATEWAY: 'Gateway',
   ALL_GATEWAY: 'Gateway',
   GATEWAY_PARTICULARS: 'Gateway Particulars',
+  COUNCIL_PARTICULARS: 'Council Detail',
   CREATE_TIME: 'Create Time',
   ELECTED: 'Elected',
   UPDATE_LIMIT: 'Update Limit:',
@@ -536,7 +537,7 @@ const lang = {
     PERIOD: 'Tenure Cycle',
     PERIOD_NET: 'Minimum Update Frequency',
     NET_NEW_LABEL: 'At least fill in a default currency and must be all capitals.',
-    PERSON: 'First Name',
+    PERSON: 'PERSON(S)',
     BRIEF: 'Brief',
     BRIEF_TIP: 'Input Brief Introduction',
     DAY: 'Day',
@@ -586,7 +587,7 @@ const lang = {
     INSTEAD_TITLE_POST: 'add the following delegates to be the council members'
   },
   COUNCIL_PAGE: {
-    MODAL_TITLE: 'Member(Total{number}Person)',
+    MODAL_TITLE: 'Member(Total \n {number} \n person)',
     MEMBER: 'Member',
     ADDRESS: 'Address',
     OPERATION: 'Operation',
@@ -618,37 +619,37 @@ const lang = {
 
   lang: 'zh-hans',
   label: {
-    clear: '清空',
-    ok: '确认',
-    cancel: '取消',
+    clear: 'Clear',
+    ok: 'Confirm',
+    cancel: 'Cancel',
     close: 'Close',
-    set: '设置',
-    select: '选择',
-    reset: '重置',
-    remove: '移除',
-    update: '更新',
-    create: '创建',
-    search: '搜索',
-    filter: '过滤',
-    refresh: '刷新'
+    set: 'Set',
+    select: 'Select',
+    reset: 'Reset',
+    remove: 'Remove',
+    update: 'Update',
+    create: 'Create',
+    search: 'Search',
+    filter: 'Filter',
+    refresh: 'Refresh'
   },
   date: {
-    days: '星期日_星期一_星期二_星期三_星期四_星期五_星期六'.split('_'),
-    daysShort: '日_一_二_三_四_五_六'.split('_'),
-    months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
-    monthsShort: '一_二_三_四_五_六_七_八_九_十_十一_十二'.split('_'),
+    days: 'SUNDAY_MONDAY_TUESDAY_WEDNESDAY_THURSDAY_FRIDAY_SATURDAY'.split('_'),
+    daysShort: 'SUN_MON_TUE_WED_THU_FRI_SAT'.split('_'),
+    months: 'JAN_FEB_MAR_APR_MAY_JUN_JUL_AUG_SEP_OCT_NOV_DEC'.split('_'),
+    monthsShort: '1_2_3_4_5_6_7_8_9_10_11_12'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false
   },
   pullToRefresh: {
-    pull: '下拉刷新',
-    release: '释放刷新',
-    refresh: '正在刷新...'
+    pull: 'Pull to refresh',
+    release: 'Release',
+    refresh: 'Refreshing...'
   },
   table: {
-    noData: '没有可用数据',
-    noResults: '找不到匹配的数据',
-    loading: '正在加载...',
+    noData: 'No data',
+    noResults: 'Not marched',
+    loading: 'loading...',
     selectedRows: rows =>
       rows > 1 ? `${rows} selected row(s).` : `${rows === 0 ? 'No' : '1'} selected rows.`,
     rowsPerPage: '每页的行数:',

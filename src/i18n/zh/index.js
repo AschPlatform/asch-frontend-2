@@ -364,7 +364,7 @@ const lang = {
   LOCK_DETAIL_TIP: '请设置锁仓额度',
   RETREAT_VOTE_SUCCESS: '撤销投票成功',
   DELEGATE_LIST_DETAILS: '受托人详情列表',
-  SECOND_PASSWORD_TIP: '为了保障您的资金安全，请设置8位数以上的密码',
+  SECOND_PASSWORD_TIP: '请设置8位数以上的密码',
   SECOND_PASSWORD_CONFIRM: '请确认密码',
   // CANCEL: '取消',
   TO: '至',
@@ -539,7 +539,7 @@ const lang = {
     PERIOD: '任职周期',
     PERIOD_NET: '最低更新频率',
     NET_NEW_LABEL: '至少填写一种默认币种，且必须是全部大写字母',
-    PERSON: '名',
+    PERSON: '位',
     BRIEF: '简要描述',
     BRIEF_TIP: '请输入简要描述',
     DAY: '天',
@@ -620,6 +620,7 @@ const lang = {
   WITHDRAW_RECORD: '提现记录',
   ASCH: '阿希客户端',
   NO_ARGS: '无参数',
+  ISSUE_SUCCESS: '注册发行商成功',
 
   // new one in 06 / 19
 

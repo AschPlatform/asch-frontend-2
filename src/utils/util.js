@@ -128,6 +128,36 @@ export const getTimeFromTrade = obj => {
   return total.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
 }
 
+export const getTimeFromEndHeight = ({endHeight, currentHeight}) => {
+  let now = new Date().getTime()
+  let gap = (endHeight - currentHeight) * 10000
+  return getFormedTime(now + gap)
+}
+
+export const getFormedTime = (timestamp) => {
+  let time = new Date(timestamp)
+  let month = time.getMonth() + 1
+  let day = time.getDate()
+  if (day < 10) {
+    day = '0' + day
+  }
+  let h = time.getHours()
+  let m = time.getMinutes()
+  let s = time.getSeconds()
+  if (h < 10) {
+    h = '0' + h
+  }
+
+  if (m < 10) {
+    m = '0' + m
+  }
+
+  if (s < 10) {
+    s = '0' + s
+  }
+  return time.getFullYear() + '/' + month + '/' + day + ' ' + h + ':' + m + ':' + s
+}
+
 export const translateErrMsg = (t, input) => {
   if (typeof input === 'string') {
     input = input.split(':')[1]

@@ -3,7 +3,7 @@
     <q-card class="col-12 shadow-0">
       <div class="geteway-top justify-between">
         <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
-        <span class="font-22 text-black vertical-align-middle">{{$t('DAPP_INSTALL_LIST')}}</span>
+        <span class="font-22 text-black vertical-align-middle">{{$t('APPLICATIONS')}}</span>
         <div slot="right" class="float-right row items-center inline">
           <q-btn color="secondary" form-inverted class="inverted" :label="$t('CREATE_MY_DAPP')" @click="createMyDapp" />
         </div>
@@ -66,10 +66,12 @@
   
       </table>
       <br/>
-      <q-btn color="primary" @click="()=>{
-            this.modalInfoShow = false
-            this.dappBalances = {}
-            }" :label="$t('label.close')" />
+      <div class="align-center">
+        <q-btn color="secondary" @click="()=>{
+          this.modalInfoShow = false
+          this.dappBalances = {}
+          }" :label="$t('label.close')" />
+      </div>
     </q-modal>
   
     <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
@@ -528,7 +530,7 @@ export default {
 .assets-panel-content {
   background: #ffffff;
   cursor: pointer;
-  min-width: 250px;
+  min-width: 295px;
 }
 
 .tab-panel-container {

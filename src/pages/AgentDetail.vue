@@ -8,7 +8,7 @@
         <span class="font-24 vertical-align-middle font-weight">{{$t('VOTE_DELEGATE_DETAIL')}}</span>
         </div>
         <q-btn color="secondary" slot="right" class="row items-center" @click="back">
-          <q-icon name="reply" /> {{$t('CANCEL')}}
+          <q-icon name="reply" />
         </q-btn>
       </div>
   
@@ -31,7 +31,7 @@
   
       <q-card class="col-md-9 col-xs-12 no-shadow">
         <q-card-main v-if="userInfo">
-          <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1 col-9 " align="justify">
+          <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1 col-9 " align="right">
             <q-tab default name="supporters" slot="title" color="secondary" icon="people" :label="$t('AGENT_VOTE_DETAIL')" />
             <q-tab name="records" slot="title" icon="face" color="secondary" :label="$t('AGENT_VOTE_RECORDS')" />
             <div>
@@ -54,6 +54,7 @@
           </q-td>
           <q-td slot="body-cell-lockHeight"  slot-scope="props" :props="props">
             {{showEndTime(props.row)}}
+            <!-- {{props.row}} -->
           </q-td>
           <q-td slot="body-cell-xas"  slot-scope="props" :props="props">
             {{showContent(props.row, 'weight') | fee(8)}}
@@ -125,7 +126,7 @@ import {
   QIcon
 } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
-import { getTimeFromTrade } from '../utils/util'
+import { getTimeFromEndHeight } from '../utils/util'
 import { convertFee } from '../utils/asch'
 
 export default {
@@ -216,10 +217,9 @@ export default {
       return obj.account[content]
     },
     showEndTime(obj) {
-      return getTimeFromTrade({
-        tTimestamp: obj.timestamp,
-        tHeight: obj.height,
-        endHeight: obj.account.lockHeight
+      return getTimeFromEndHeight({
+        endHeight: obj.account.lockHeight,
+        currentHeight: this.latestBlock.height
       })
     },
     showTime(obj) {
@@ -257,7 +257,7 @@ export default {
     this.getAgentInfo()
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userInfo', 'latestBlock']),
     agentDetailClass() {
       return this.isDesk ? 'padding-20 border-r-6' : 'border-r-6'
     },
