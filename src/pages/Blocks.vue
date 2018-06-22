@@ -8,7 +8,7 @@
 </template>
 
 <template slot="top-right" slot-scope="props">
-  <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
+  <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" @keyup.enter="getBlockDetail" @keyup.delete="delSearch"/>
   <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
   <q-btn class="text-secondary" flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
 </template>
@@ -337,13 +337,23 @@ export default {
       return res
     },
     async getBlockDetail() {
-      let res = await this.blockDetail({
-        height: this.filter
-      })
-      this.pagination.rowsNumber = 1
-      this.blocksData = [res.block]
-      this.loading = false
-      return res
+      if (this.filter) {
+        let res = await this.blockDetail({
+          height: this.filter
+        })
+        this.pagination.rowsNumber = 1
+        this.blocksData = [res.block]
+        this.loading = false
+        return res
+      } else {
+        this.getBlocks()
+      }
+    },
+    delSearch() {
+      let searchStr = this.filter + ''
+      if (searchStr.length === 1) {
+        this.filter = ''
+      }
     },
     async getDelegate() {
       let res = await this.blockforging({
@@ -356,7 +366,7 @@ export default {
       return res
     },
     init() {
-      this.getBlocks()
+      if (!this.filter) this.getBlocks()
       this.getDelegate()
     },
     formatTimestamp(timestamp) {
@@ -485,9 +495,6 @@ export default {
       if (val) {
         this.init()
       }
-    },
-    filter(val) {
-      this.getBlockDetail()
     },
     isOwn(val) {},
     pagination(val) {}
