@@ -2,7 +2,7 @@
   <q-page class="self-center blocks-container">
     <div class="blocks-content row">
       <div class="col-md-9 col-xs-12">
-        <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
+        <q-table :data="blocksData" :rows-per-page-options="[10]" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
           <template slot="top-left" slot-scope="props">
                     <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
 </template>
@@ -53,7 +53,7 @@
           </q-card-main>
           <q-card-main align="center" v-else>
             <div v-if="delegate">
-              <span class="block margin-t-20 text-secondary font-30 font-weight">{{delegate.name}}</span>
+              <span class="block margin-t-20 text-secondary font-30 font-weight delegate-nick">{{delegate.name}}</span>
             <span class="block margin-t-20">
               {{$t('DELEGATE_POLLRATE')+':'}}
               <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval+'%'}}</a>
@@ -448,6 +448,10 @@ export default {
       this.isOwn = !this.isOwn
       this.blocksData = []
       this.getBlocks(this.defaultPage, '')
+    },
+    searchData(val) {
+      this.filter = val
+      this.getBlockDetail()
     }
   },
   mounted() {
@@ -519,6 +523,10 @@ export default {
 
 .blocks-search {
   border: 1px solid #cccccc;
+  width 150px
   border-radius: 15px;
 }
+
+.delegate-nick
+  word-wrap: break-word;
 </style>

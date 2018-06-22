@@ -4,7 +4,7 @@
       <q-card-title class="col-12 font-22 padding-l-0">
         <q-icon size="18px" name="border color" /> {{$t('proposal.LAUNCH')}}
         <q-btn color="secondary" slot="right" class="row items-center" @click="hideModal">
-          <q-icon name="reply" /> {{$t('CANCEL')}}
+          <q-icon name="reply" />
         </q-btn>
       </q-card-title>
       <q-card-separator class="col-12 q-my-lg bg-999 no-border-top" />
@@ -681,7 +681,6 @@ export default {
       return content
     },
     async launchProposal() {
-      debugger
       // if (this.first_type === 'new' || this.first_type === 'new_n') {
       let valid = this.checkValidate(this.first_type)
       if (!valid) {
@@ -792,7 +791,6 @@ export default {
       this.delegateList = total
     },
     checkValidate(action) {
-      debugger
       // total set first
       if (
         !this.$v.p_title.$invalid &&

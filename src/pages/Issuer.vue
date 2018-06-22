@@ -2,7 +2,7 @@
   <q-page class="issuer-container">
     <div class="bg-white padding-20 row issuer-content">
       <div class="col-md-9 col-xs-12">
-        <q-table :data="assets" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('MY_ASSETS')">
+        <q-table :data="assets" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('MY_ASSETS')" :rows-per-page-options="[10]">
   
           <template slot="top-right" slot-scope="props">
                     <q-btn  :label="$t('REGISTERED_ASSETS')" color="secondary"  @click="assetRegister" />

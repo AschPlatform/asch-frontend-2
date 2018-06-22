@@ -6,7 +6,7 @@
     leave-active-class="animated fadeOut" 
      mode="out-in">
       <div v-if="delegatesData" class="col-12 shadow-1">
-        <q-table no-data-label="HELL!" :data="delegatesData" :filter="filter" color="primary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns"  @request="request" :pagination.sync="pagination"  :loading="loading" >
+        <q-table no-data-label="HELL!" :data="delegatesData" :filter="filter" color="primary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns"  @request="request" :pagination.sync="pagination"  :loading="loading" :rows-per-page-options="[10]">
         
           <template slot="top-right" slot-scope="props">
             <q-btn v-if="selected.length" color="negative" flat round  icon="delete" @click="repeal" >

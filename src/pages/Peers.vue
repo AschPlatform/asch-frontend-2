@@ -3,7 +3,7 @@
     <div class="padding-20 bg-white border-r-6">
       <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
         <div class="col-12">
-          <q-table :data="peers" :filter="filter" color="secondary" row-key="ip" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PEER_LIST')">
+          <q-table :data="peers" :filter="filter" color="secondary" row-key="ip" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PEER_LIST')" :rows-per-page-options="[10]">
   
             <template slot="top-right" slot-scope="props">
                 <q-toggle v-model="official" color="secondary"  />
