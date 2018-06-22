@@ -66,10 +66,12 @@
   
       </table>
       <br/>
-      <q-btn color="primary" @click="()=>{
-            this.modalInfoShow = false
-            this.dappBalances = {}
-            }" :label="$t('label.close')" />
+      <div class="align-center">
+        <q-btn color="secondary" @click="()=>{
+          this.modalInfoShow = false
+          this.dappBalances = {}
+          }" :label="$t('label.close')" />
+      </div>
     </q-modal>
   
     <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
@@ -528,7 +530,7 @@ export default {
 .assets-panel-content {
   background: #ffffff;
   cursor: pointer;
-  min-width: 250px;
+  min-width: 295px;
 }
 
 .tab-panel-container {
