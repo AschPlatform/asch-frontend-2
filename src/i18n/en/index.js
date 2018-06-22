@@ -636,8 +636,8 @@ const lang = {
   date: {
     days: 'SUNDAY_MONDAY_TUESDAY_WEDNESDAY_THURSDAY_FRIDAY_SATURDAY'.split('_'),
     daysShort: 'SUN_MON_TUE_WED_THU_FRI_SAT'.split('_'),
-    months: '_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
-    monthsShort: '一_二_三_四_五_六_七_八_九_十_十一_十二'.split('_'),
+    months: 'JAN_FEB_MAR_APR_MAY_JUN_JUL_AUG_SEP_OCT_NOV_DEC'.split('_'),
+    monthsShort: '1_2_3_4_5_6_7_8_9_10_11_12'.split('_'),
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false
   },
