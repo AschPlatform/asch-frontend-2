@@ -12,11 +12,11 @@
             <img class="desktop-only login-ball" ref="img" :src="loginBallImg" alt="login ball">
             <q-card v-if="registerStep==0" :class="loginPanelClass">
               <q-card-title >
-                <div class="row"> 
-                  <span class="col-9 lite-orange card-font">
+                <div class="row justify-between"> 
+                  <span class="col-md-3 col-xs-6 lite-orange card-font">
                     {{$t('LOGIN')}}
                   </span>
-                  <div class="col-3">
+                  <div class="col-md-3 col-xs-6">
                     <q-select  chips color="secondary" v-model="lang" :options="langsOpts" />
                   </div>
                 </div>

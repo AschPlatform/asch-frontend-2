@@ -23,7 +23,7 @@
             </div>
           </q-card> -->
 
-          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" @request="request" :loading="loading" row-key="address" hide-bottom>
+          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" @request="request" :loading="loading" row-key="address" :rows-per-page-options="[10]" hide-bottom>
   
             <q-td slot="body-cell-address" slot-scope="props" :props="props">
               <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.member)">

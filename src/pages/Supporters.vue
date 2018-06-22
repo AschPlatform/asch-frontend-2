@@ -5,6 +5,7 @@
       <q-table :data="supports" :filter="filter" color="primary"
         :columns="columns"  @request="request" :pagination.sync="pagination" 
         :loading="loading" :title="$t('TOTAL_PEOPLES',{count:pagination.rowsNumber})"
+        :rows-per-page-options="[10]"
         >
         
           <template slot="top-right" slot-scope="props">
