@@ -237,7 +237,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances', 'getIssuer']),
+    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances', 'getIssuer', 'registGateway']),
     ...mapMutations([
       'updateUserInfo',
       'setUserInfo',
@@ -332,7 +332,8 @@ export default {
     // }
   },
   beforeMount() {
-    let lang = this.$i18n.locale || 'zh'
+    let lang = this.$i18n.locale = getCache('locale')
+    console.log(lang)
     import(`src/i18n/${lang}`).then(lang => {
       this.$q.i18n.set(lang.default)
     })
@@ -373,6 +374,7 @@ export default {
       //   this.setUserInfo(user)
       // }
     }
+    // this.registGateway({})
   },
   computed: {
     ...mapGetters(['latestBlock', 'version', 'userInfo', 'balances']),

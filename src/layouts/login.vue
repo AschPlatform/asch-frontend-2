@@ -11,15 +11,16 @@
           <div :class="mainPageClass">
             <img class="desktop-only login-ball" ref="img" :src="loginBallImg" alt="login ball">
             <q-card v-if="registerStep==0" :class="loginPanelClass">
-              <q-card-title class="title-row">
-                <div class="col-10">
-                  <span class="lite-orange card-font col-10">
+              <q-card-title >
+                <div class="row justify-between"> 
+                  <span class="col-md-3 col-xs-6 lite-orange card-font">
                     {{$t('LOGIN')}}
                   </span>
+                  <div class="col-md-3 col-xs-6">
+                    <q-select  chips color="secondary" v-model="lang" :options="langsOpts" />
+                  </div>
                 </div>
-                <div slot="right" class="col-2">
-                  <q-select class="col-2" chips color="secondary" v-model="lang" :options="langsOpts" />
-                </div>
+                
               </q-card-title>
               <q-card-main class="row col-10 justify-center ">
                 <q-field class="col-10" :error="$v.secret.$error" :error-label="$t('ERR_VIOLATE_BIP39')">
@@ -290,6 +291,7 @@ export default {
   watch: {
     lang(lang) {
       this.locale = this.$i18n.locale = lang
+      setCache('locale', lang)
       import(`src/i18n/${lang}`).then(lang => {
         this.$q.i18n.set(lang.default)
       })

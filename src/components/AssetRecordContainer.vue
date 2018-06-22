@@ -1,65 +1,7 @@
 <template>
   <div>
     <record-table :data="trans" :options="toggleBtn" :maxPage="maxPage" @changePage="changePage" @changeType="changeType" :title="computedTitle" class="table"></record-table>
-    <!-- <q-table separator="none" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
-      <template slot="top-right" slot-scope="props">
-        <q-btn-toggle v-if="isCross" v-model="type" outline
-        toggle-color="secondary"
-        :options="[
-          {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},
-          {label: $t('DEPOSIT')+$t('RECORD'), value: 2},
-          {label: $t('WITHDRAW')+$t('RECORD'), value: 3}
-        ]" />
-      </template>
-
-    <q-td slot="body-cell-id" slot-scope="props" :props="props">
-      <div v-if="props.value" class="my-label" >
-        {{props.value.substring(0,7)}}
-        <q-tooltip>{{props.value}}</q-tooltip>
-      </div>
-    </q-td>
-
-    <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-      <q-btn @click="getDataInfo(props)" icon="remove red eye" size="sm" flat color="secondary" >
-        <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-      </q-btn>
-    </q-td>
-
-    <q-td slot="body-cell-message" slot-scope="props" :props="props">
-      {{props.value}}
-      <q-popover v-if="props.value" ref="popover-msg">
-        <div class="light-paragraph">{{props.value}}</div>
-      </q-popover>
-    </q-td>
-
-    <q-td slot="body-cell-amount" slot-scope="props" :props="props">
-      {{getAmountNFee(props.row)}}
-    </q-td>
-
-    <q-td slot="body-cell-crossAmount" slot-scope="props" :props="props">
-      {{props.value | fee(props.row.asset.percision)}}
-    </q-td>
-
-    <q-td slot="body-cell-senderId" class="table-address" slot-scope="props" :props="props">
-      <a @click="getAccountInfo(props.row.senderId)">
-              {{matchSelf(props.value)?'Me':props.value}}
-            </a>
-      <q-tooltip v-if="!matchSelf(props.value)">{{props.value}}</q-tooltip>
-    </q-td>
-
-    <q-td slot="body-cell-recipientId" slot-scope="props" :props="props">
-      <div v-if="props.value">
-        <a @click="getAccountInfo(props.row.recipientId)">
-                {{matchSelf(props.value)?'Me':props.value}}
-              </a>
-        <q-tooltip v-if="!matchSelf(props.value)" ref="popover-rec">
-          {{props.value}}
-        </q-tooltip>
-      </div>
-      <div v-else>SYSTEM</div>
-    </q-td>
-  </q-table> -->
-</div>
+  </div>
 </template>
 
 <script>
@@ -157,7 +99,7 @@ export default {
           temp.col1.push(fullTimestamp(e.timestamp))
           temp.col2.push(e.transaction.message || this.$t('NO_REMARK'))
           temp.col2.push(this.$t('REMARK'))
-          temp.fee.push(plag + convertFee(e.amount, 8))
+          temp.fee.push(plag + convertFee(e.amount, e.asset ? e.asset.precision : 8))
           temp.fee.push(e.currency)
           temp.iconKey = e.currency
           items.push(temp)

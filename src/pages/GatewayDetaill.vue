@@ -7,7 +7,7 @@
           <h5 class="q-px-md inline-block">{{$t('GATEWAY_PARTICULARS')}}</h5>
           </span>
         <q-btn color="secondary" class="self-center" @click="$router.push('gateway')">
-          {{$t('CANCEL')}}
+          <q-icon name="reply" />
         </q-btn>
       </div>
       <div class="row q-px-md gutter-md">
@@ -23,7 +23,7 @@
             </div>
           </q-card>
 
-          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading" row-key="address" hide-bottom>
+          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading" row-key="address" :rows-per-page-options="[10]" hide-bottom>
   
             <q-td slot="body-cell-operation" slot-scope="props" :props="props">
               <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd } from 'quasar'
+import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd, QIcon } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { compileTimeStamp, getTimeFromHight } from '../utils/util'
 
@@ -83,7 +83,8 @@ export default {
     QCardTitle,
     QCardMain,
     QBtn,
-    QTd
+    QTd,
+    QIcon
   },
   data() {
     return {

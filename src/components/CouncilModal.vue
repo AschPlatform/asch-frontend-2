@@ -15,6 +15,7 @@
           :pagination.sync="pagination"
           @request="request"
           :loading="loading"
+          :rows-per-page-options="[10]"
         >
         <q-td slot="body-cell-operation"  slot-scope="props" :props="props">
           <div class="text-primary" @click="viewAccountInfo(props.row)">

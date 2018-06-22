@@ -23,7 +23,7 @@
             </div>
           </q-card> -->
 
-          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" @request="request" :loading="loading" row-key="address" hide-bottom>
+          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" @request="request" :loading="loading" row-key="address" :rows-per-page-options="[10]" hide-bottom>
   
             <q-td slot="body-cell-address" slot-scope="props" :props="props">
               <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.member)">
@@ -46,8 +46,8 @@
               <q-card-title class="bg-nine">
                 <span class="font-22 text-black font-weight">{{$t('DAPP_BANLANCE_DETAIL')}}</span>
               </q-card-title>
-              <q-card-main class="word-wrap-break">
-              {{accountLeft | fee}} XAS
+              <q-card-main class="word-wrap-break q-card-main q-card-container padding-b-40 padding-t-40">
+              <span class="font-30 text-secondary">{{accountLeft | fee}}</span><span class="q-pl-xs">XAS</span>
               </q-card-main>
             </div>
           </q-card>
@@ -63,11 +63,11 @@
           </q-card> -->
         </div>
       </div>
+      <div class="col-12 bg-white q-px-md q-py-md">
+        <trans-record-container :userInfo="councilAccount" class="table"/>
+      </div>
     </div>
 
-    <div class="col-12 shadow-1 bg-white">
-      <trans-record-container :userInfo="councilAccount" class="table"/>
-    </div>
   </q-page>
 </template>
 
@@ -194,7 +194,7 @@ export default {
 
   .gatewayDetail-content {
     background: #ffffff !important;
-    padding-bottom: 40px;
+    padding-bottom: 20px;
     border-radius: 6px;
   }
 }
