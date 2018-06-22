@@ -338,7 +338,6 @@ export default {
       return res
     },
     async getBlockDetail() {
-      debugger
       let res = await this.blockDetail({
         height: this.filter
       })
@@ -442,7 +441,6 @@ export default {
       this.getBlocks(this.defaultPage, '')
     },
     searchData(val) {
-      console.log(val)
       this.filter = val
       this.getBlockDetail()
     }

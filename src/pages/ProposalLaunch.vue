@@ -681,7 +681,6 @@ export default {
       return content
     },
     async launchProposal() {
-      debugger
       // if (this.first_type === 'new' || this.first_type === 'new_n') {
       let valid = this.checkValidate(this.first_type)
       if (!valid) {
@@ -792,7 +791,6 @@ export default {
       this.delegateList = total
     },
     checkValidate(action) {
-      debugger
       // total set first
       if (
         !this.$v.p_title.$invalid &&

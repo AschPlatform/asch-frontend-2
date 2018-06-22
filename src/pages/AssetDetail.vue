@@ -147,9 +147,6 @@ export default {
     }
   },
   async mounted() {
-    console.log(this.asset)
-    console.log(this.$route)
-    console.log(this.isCross)
     let { asset = null, user = null } = this.$route.params
     if (!asset || !asset.currency) {
       this.$router.push('/assets')
