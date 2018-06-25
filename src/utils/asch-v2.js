@@ -42,11 +42,12 @@ const asch = {
     )
   },
   // 设置昵称
-  setName: (name, secret, secondPwd = '') => {
+  setName: (name, fee, secret, secondPwd = '') => {
+    console.log(name, fee)
     return AschJS.transaction.createTransactionEx(
       convertFee({
         type: 2,
-        fee: 10000000,
+        fee: fee,
         args: [name],
         secret,
         secondSecret: secondPwd
@@ -399,7 +400,9 @@ const feeFuncMap = {
   },
   2: trs => {
     let len = trs.args[0].length
-    if (len === 3) {
+    if (len === 2) {
+      return 200
+    } else if (len === 3) {
       return 100
     } else if (len === 4) {
       return 80

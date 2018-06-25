@@ -163,15 +163,13 @@
             </tbody>
           </table>
         </div>
-     
       </div>
-
-<template slot="buttons" slot-scope="props">
-  <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()" />
-  <q-btn class="col-3 self-lef" color="secondary" @click="setNickname(props.ok)">
-    {{$t('CONFIRM')}}
-  </q-btn>
-</template>
+      <template slot="buttons" slot-scope="props">
+        <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()" />
+        <q-btn class="col-3 self-lef" color="secondary" @click="setNickname(props.ok)">
+          {{$t('CONFIRM')}}
+        </q-btn>
+      </template>
     </q-dialog>
 
     <q-dialog :class="personalLockClass" style="min-height: 120px" v-model="lockPanelShow">
@@ -419,13 +417,28 @@ export default {
         toastError(this.$t('ERR_NICKNAME'))
         return null
       } else {
-        let trans = asch.setName(this.nickname, this.user.secret, this.secondPwd)
+        let fee
+        let len = this.nickname.length
+        if (len === 2) {
+          fee = 20000000000
+        } else if (len === 3) {
+          fee = 10000000000
+        } else if (len === 4) {
+          fee = 8000000000
+        } else if (len === 5) {
+          fee = 4000000000
+        } else if (len <= 10) {
+          fee = 1000000000
+        } else {
+          fee = 100000000
+        }
+        let trans = asch.setName(this.nickname, fee, this.user.secret, this.secondPwd)
         let res = await this.broadcastTransaction(trans)
         if (res.success) {
           toast(this.$t('INF_OPERATION_SUCCEEDED'))
           this.nicknameFormShow = false
         } else {
-          toastError(res.error, this.$t)
+          translateErrMsg(this.$t, res.error)
         }
       }
     },

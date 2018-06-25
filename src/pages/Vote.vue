@@ -205,7 +205,6 @@ export default {
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
       let res = await this.delegates({
-        address: this.userInfo.account.address,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -282,7 +281,7 @@ export default {
       let trans = asch.repealAgent(this.userInfo.secret, secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success) {
-        toast('INF_OPERATION_SUCCEEDED')
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
       } else {
         translateErrMsg(this.$t, res.error)
       }

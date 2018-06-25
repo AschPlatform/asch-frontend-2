@@ -236,6 +236,10 @@ export default {
   getAllChains: ({ commit }, params) => {
     return api2.chains(params)
   },
+  // get installed chains
+  getInstalledChains: ({ commit }, params) => {
+    return api2.chainsInstalled(params)
+  },
   // api2 post actions
   postProposal: ({ commit, state }, params) => {
     let secret = state.userInfo.secret

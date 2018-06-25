@@ -18,7 +18,7 @@
             {{$t('AGENT_DETAIL')}}
           </q-card-title>
           <q-card-main class="padding-20" align="center">
-            <div class="text-secondary font-30 margin-t-20">
+            <div class="text-secondary font-30 margin-t-20 break-word">
               {{user.account.agent || user.account.name}}
             </div>
             <div>
@@ -38,9 +38,26 @@
               <!-- come from VR page -->
               <q-table :no-data-label="$t('table.noData')" :data="datas" :filter="filter" color="secondary" :columns="dynamicCol" row-key="id" :loading="loading" :rows-per-page-options="[10]">
                 <template slot="top-right" slot-scope="props">
-                        <q-btn flat round  icon="refresh" color="secondary" @click="refresh" />
-</template>
-           
+                  <q-btn flat round  icon="refresh" color="secondary" @click="refresh" />
+                </template>
+          
+          <q-td slot="body-cell-address"  slot-scope="props" :props="props">
+            <div class="text-secondary vote-table-address-td" @click="viewAccountInfo(props.row)">
+              {{props.value}}
+            </div>
+          </q-td>
+          <q-td slot="body-cell-username" slot-scope="props" :props="props">
+            <div>
+              {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
+            </div>
+          </q-td>
+          <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
+              {{(Number(props.value))+'%'}}
+          </q-td>
+          <q-td slot="body-cell-productivity"  slot-scope="props" :props="props">
+              {{props.value+'%'}}
+          </q-td>
+
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
             <div class="text-secondary" @click="viewAccountInfo(props.row)">
               {{props.value}}
@@ -92,7 +109,7 @@
         {{$t('AGENT_DETAIL')}}
       </q-card-title>
       <q-card-main class="padding-20" align="center">
-        <div class="text-secondary font-30 margin-t-20">
+        <div class="text-secondary font-30 margin-t-20 break-word">
           {{user.account.agent || user.account.name}}
         </div>
         <div>
@@ -288,9 +305,26 @@ export default {
           //   field: 'address'
           // },
           {
-            name: 'voteTime',
-            label: this.$t('VOTE_TIME'),
+            name: 'address',
+            label: this.$t('ADDRESS'),
+            field: 'address'
+          },
+          {
+            name: 'productivity',
+            label: this.$t('PRODUCTIVITY'),
             field: 'productivity'
+          },
+          {
+            name: 'producedblocks',
+            label: this.$t('PRODUCED_BLOCKS'),
+            field: 'producedblocks',
+            align: 'center',
+            type: 'number'
+          },
+          {
+            name: 'approval',
+            label: this.$t('APPROVAL'),
+            field: 'approval'
           }
         ]
       } else {
@@ -311,11 +345,6 @@ export default {
             name: 'lockHeight',
             label: this.$t('LOCK_TIME'),
             field: 'lockHeight'
-          },
-          {
-            name: 'agent',
-            label: this.$t('AUTHOR_TIME'),
-            field: 'agent'
           }
         ]
       }
@@ -359,4 +388,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  .break-word
+    word-break break-word
 </style>

@@ -366,7 +366,7 @@ const lang = {
   DELEGATE_LIST_DETAILS: 'Detailed list of Delegates',
   SECOND_PASSWORD_TIP: ' To keep your assets safe, please set a password with more than 8 digits',
   SECOND_PASSWORD_CONFIRM: 'Please confirm the password',
-  CANAEL: 'Cancel',
+  // CANAEL: 'Cancel',
   TO: 'To',
   RECIPIENT_NAME_ADDRESS: 'Please input name or wallet address',
   RECORD: 'Record',
@@ -474,6 +474,7 @@ const lang = {
   ERR_SHOULD_EQUAL: 'The two-party substitution should be equal in number',
   EXIT: 'Exit',
   CANCEL_VOTE: 'Cancel Vote',
+  NO_REMARK: 'No Remark',
 
   // ERROR
   AGENT_CAN_NOT_SET_AGENT: 'Agent can not set agent',
@@ -528,6 +529,7 @@ const lang = {
   LAUNCH_MODAL: {
     MEMBER_SUGGEST_PRE: 'I propose',
     MEMBER_SUGGEST_POST: 'Wait for {number} people to become members of the gateway',
+    MEMBER_SUGGEST: 'I propose\n{member}\nthose\n{number}\npersons to be the member of gateway   ',
     MEMBER_NUMBER: 'Member Number',
     MEMBER_MEMBER: 'Member Information',
     MEMBER_REASON: 'Reason For Updating Members',
@@ -542,16 +544,19 @@ const lang = {
     BRIEF_TIP: 'Input Brief Introduction',
     DAY: 'Day',
     REMOVE_COUNCIL: 'I propose to revoke the Council',
+    GATEWAY_MEMBER_UPDATE: 'I propose to withdraw\n\n{pre}\n\nand suggest\n\n{post}\n\nto be the new member of our gateway',
     REMOVE_COUNCIL_TIP1: 'I propose to withdraw',
     REMOVE_COUNCIL_TIP2: 'And propose',
     REMOVE_COUNCIL_TIP3: 'Become a new gateway member。',
     REMOVE_REASON: 'Revoke Reason',
+    REMOVE_OBJECT: 'Revoke Object',
     PERIOD_REASON: 'Reason for changing tenure cycle',
     INIT_REASON: 'Reason for gateway initialization',
     READ_TIP1: 'Conscientiously abide by the agreement on community self-government',
     READ_TIP2: ' Issue proposal will consume 100 XAS',
     INSTEAD_PRE: 'Pre Change Members',
     INSTEAD_POST: ' Post Change Member',
+    PERIOD_SHIFT: 'I propose the the change the minimum update period from\n{pre}\nchange to:',
     NET_PERIOD: ' Gateway minimum update frequency parameters',
     PRECISION_TIP: 'Need to fill in precision, 0-16',
     CURRENCY_BRIEF: 'Currency Brief ',
@@ -606,7 +611,10 @@ const lang = {
     ERR_REQUIRE_TIME: 'It is recommended to set the end time after one week to allow enough time for the users to find, evaluate, and vote on the project.',
     ERR_REQUIRE_DETAIL: 'Please choose proposal details',
     ERR_REQUIRE_NUMBER: 'Member number is in 7-33',
-    ERR_REQUIRE_MEMBER: 'Please nominate the candidates'
+    ERR_REQUIRE_MEMBER: 'Please nominate the candidates',
+    INVALID_LOCK_HEIGHT: 'Invalid lock height',
+    ACCOUNT_NOT_FOUND: 'Your account seems empty',
+    INVALID_ISSUER_NAME: 'Invalid issuer name'
   },
   LASTEST_UPDATE_TIME: 'Last Update Time',
   ARGS: 'Args',
@@ -614,6 +622,7 @@ const lang = {
   WITHDRAW_RECORD: 'Withdraw Record',
   ASCH: 'ASCH Client',
   NO_ARGS: 'NO ARGUMENTS',
+  ISSUE_SUCCESS: 'Regist Issuer successfully',
 
   // ==============  quasar i18n  =================
 

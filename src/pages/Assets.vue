@@ -205,7 +205,7 @@ export default {
     },
     outerBtnClass() {
       return this.isDesk
-        ? 'col-4 shadow-2 more-assets-container no-shadow'
+        ? 'col-auto shadow-2 more-assets-container no-shadow'
         : 'col-12 shadow-2 more-assets-container no-shadow'
     },
     user() {

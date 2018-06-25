@@ -368,7 +368,7 @@ const lang = {
   SECOND_PASSWORD_CONFIRM: '请确认密码',
   // CANCEL: '取消',
   TO: '至',
-  RECIPIENT_NAME_ADDRESS: '请输入需要转账的账户名或者钱包地址',
+  RECIPIENT_NAME_ADDRESS: '请输入对方钱包地址或昵称',
   RECORD: '记录',
   MAIN_ASSET: '主资产',
   SEE_ALL_ASSETS: '查看全部资产',
@@ -612,7 +612,9 @@ const lang = {
     ERR_REQUIRE_DETAIL: '请选择提案详情',
     ERR_REQUIRE_NUMBER: '成员应在7-33人之间',
     ERR_REQUIRE_MEMBER: '请提名候选人',
-    INVALID_LOCK_HEIGHT: '锁仓高度不正确'
+    INVALID_LOCK_HEIGHT: '锁仓高度不正确',
+    ACCOUNT_NOT_FOUND: '账户余额为空',
+    INVALID_ISSUER_NAME: '发行商名称违法'
   },
   LASTEST_UPDATE_TIME: '最后更新日期',
   ARGS: '参数',
@@ -621,8 +623,6 @@ const lang = {
   ASCH: '阿希客户端',
   NO_ARGS: '无参数',
   ISSUE_SUCCESS: '注册发行商成功',
-
-  // new one in 06 / 19
 
   // ==============  quasar i18n  =================
 

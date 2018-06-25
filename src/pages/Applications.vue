@@ -196,6 +196,7 @@ export default {
       'appInstalled',
       'appListApi',
       'getAllChains',
+      'getInstalledChains',
       'dappContract',
       'deposit',
       'account'
@@ -211,15 +212,15 @@ export default {
       let pageNo = this.pagination.page
       let res = {}
       if (this.installed) {
-        res = await this.getAllChains({
+        res = await this.getInstalledChains({
           limit: limit,
           offset: (pageNo - 1) * limit
         })
       } else {
         res = await this.getAllChains({
           limit: limit,
-          // offset: (pageNo - 1) * limit
-          offset: 9
+          offset: (pageNo - 1) * limit
+          // offset: 9
         })
       }
       if (pageNo === 1) {
@@ -346,13 +347,6 @@ export default {
           amount: amount,
           secondSecret: this.form.secondPwd
         }
-        // trans = createInTransfer(
-        //   transactionId,
-        //   this.form.depositName,
-        //   amount,
-        //   this.user.secret,
-        //   this.form.secondPwd
-        // )
         res = await this.deposit(trans)
       } else if (form === 2) {
         let type = 2 // 这里的type指的是合约标号，而非主链的交易类型
@@ -487,16 +481,6 @@ export default {
             }
           })
         )
-        // } else {
-        //   assets = this.dappBalances.map((item, idx) => {
-        //     return {
-        //       key: idx + 1,
-        //       label: item.currency,
-        //       value: item.currency
-        //     }
-        //   })
-        // }
-
         return assets
       } else {
         return []
