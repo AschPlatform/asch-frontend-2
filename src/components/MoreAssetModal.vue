@@ -1,6 +1,6 @@
 <template>
-  <q-modal content-classes="modal-content-limit row justify-center" v-model="show" minimized no-backdrop-dismiss	 :no-esc-dismiss="true">
-    <div class="bg-secondary padding-20 height-62 col-12">
+  <q-modal :content-classes="contentClass" v-model="show" no-backdrop-dismiss	 :no-esc-dismiss="true">
+    <div class="bg-secondary title height-62 col-12">
       <span class="text-white font-18">{{$t('MORE_ASSETS')}}</span>
     </div> 
     <div :class="moreAssetClass">
@@ -14,7 +14,9 @@
         </q-card-main>
       </q-card>
     </div>
-    <q-btn class="float-right bg-secondary text-white q-my-md" flat :label="$t('label.close')" @click="close" />
+    <div class="row justify-center q-px-md">
+      <q-btn :class="btnClass" flat :label="$t('label.close')" @click="close" />
+    </div>
   </q-modal>
 </template>
 
@@ -136,6 +138,12 @@ export default {
         })
       }
       return assetMap
+    },
+    contentClass() {
+      return this.isDesk ? 'row justify-center' : ''
+    },
+    btnClass() {
+      return this.isDesk ? 'bg-secondary text-white q-my-md' : 'full-width bg-secondary text-white q-my-md q-px-md'
     }
   },
   watch: {
@@ -162,4 +170,6 @@ export default {
   border-radius: 15px;
   min-height: 20px;
 }
+.title
+  padding 0 20px
 </style>

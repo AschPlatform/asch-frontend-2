@@ -519,7 +519,7 @@ const lang = {
     SELECT_INITNET: 'Initiate Gateway',
     SELECT_NETPERIOD: 'Gateway Period',
     SELECT_NETMEMBER: 'Update Member',
-    VOTE_STATUS: 'A total of {number} people participated in the vote, with a rate of {rate}%%',
+    VOTE_STATUS: 'A total of {number} people participated in the vote, with a rate of {rate}%',
     ACTIVATED: 'Activated',
     EXPIRED: 'Expired',
     ACTIVE: 'Active',

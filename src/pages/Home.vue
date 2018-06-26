@@ -173,7 +173,8 @@ export default {
     // get transactions
     receive() {}
   },
-  mounted() {},
+  mounted() {
+  },
   computed: {
     ...mapGetters(['userInfo', 'balances']),
     homeTopRightClass() {
