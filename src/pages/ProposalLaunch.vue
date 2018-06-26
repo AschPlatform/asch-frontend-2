@@ -79,7 +79,7 @@
             </div>
             <div class="row col-12">
               <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.NET_CURRENCY_TIP')" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
-                <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" upper-case type="text" v-model="NEW.currency" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.currency.$error"></q-input>
+                <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" type="text" v-model="NEW.currency" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.currency.$error"></q-input>
               </q-field>
             </div>
             <div class="row col-12">
@@ -687,13 +687,6 @@ export default {
         toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
         return
       }
-      // } else {
-      //   let result = this.checkValidate(this.second_type)
-      //   if (!result) {
-      //     toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
-      //     return
-      //   }
-      // }
       let obj = {}
       obj.content = this.compileContent()
       obj.title = this.p_title

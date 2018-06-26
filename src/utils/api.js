@@ -27,16 +27,6 @@ const fetch = (url, data, method, postHeaders) => {
   }
 
   // TODO find server
-  // let server = nodeService.getCurrentServer()
-
-  // if (!nodeService.isStaticServer()) {
-  //   let retryTimes = 0
-  //   while (!server.isServerAvalible(true) && retryTimes++ < 10) {
-  //     console.log('current server unavalible')
-  //     nodeService.changeServer(true)
-  //     server = nodeService.getCurrentServer()
-  //   }
-  // }
   let selectedServerUrl = getCurrentSeverUrl()
   // let realUrl = urls.server.caos + url
   let realUrl = !selectedServerUrl

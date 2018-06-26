@@ -22,7 +22,7 @@
             </q-td>
             <q-td slot="body-cell-username" slot-scope="props" :props="props">
               <div>
-                {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
+                {{props.row.name}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
               </div>
             </q-td>
             <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
@@ -42,44 +42,39 @@
         </div>
 
     </div>
+      <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
 
-        <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
-
-        <span slot="title">{{$t('VOTE_TITLE')}}</span>
-        <span slot="message">{{$t('VOTE_TIP')}}
-          <br/>
-          {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
-        </span>
-          <div slot="body">
-            <q-field class="q-mb-lg" v-if="secondSignature"
-              :label="$t('TRS_TYPE_SECOND_PASSWORD')"
-              :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
-              :label-width="4"
-            >
-              <q-input v-model="secondPwd" type="password" />
-            </q-field>
+      <span slot="title">{{$t('VOTE_TITLE')}}</span>
+      <span slot="message">{{$t('VOTE_TIP')}}
+        <br/>
+        {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
+      </span>
+        <div slot="body">
+          <q-field class="q-mb-lg" v-if="secondSignature"
+            :label="$t('TRS_TYPE_SECOND_PASSWORD')"
+            :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
+            :label-width="4"
+          >
+            <q-input v-model="secondPwd" type="password" />
+          </q-field>
           <table class="q-table horizontal-separator highlight loose ">
-              <tbody class='info-tbody'>
-                <tr>
-                  <td >{{$t('DAPP_NAME')}}</td>
-                  <td >{{$t('ADDRESS')}}</td>
-                </tr>
-                <tr v-for="delegate in selected" :key="delegate.address">
-                  <td >{{delegate.name}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
-                  <td >{{delegate.address}} </td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-<template slot="buttons" slot-scope="props">
-  <q-btn flat color="secondary" :label="$t('label.cancel')" @click="props.cancel" />
-  <q-btn flat color="secondary" :label="$t('label.ok')" @click="props.ok" />
-</template>
-        </q-dialog>
-    <!-- this should review -->
-    
-    <!-- <agent-detail-modal :user="userInfo" :show="agentDetailModal" @close="agentDetailModal=false" /> -->
-    <!-- <router-view class="col-5" :userObj="userObj"></router-view> -->
+            <tbody class='info-tbody'>
+              <tr>
+                <td >{{$t('DAPP_NAME')}}</td>
+                <td >{{$t('ADDRESS')}}</td>
+              </tr>
+              <tr v-for="delegate in selected" :key="delegate.address">
+                <td >{{delegate.name}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
+                <td >{{delegate.address}} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <template slot="buttons" slot-scope="props">
+          <q-btn flat color="secondary" :label="$t('label.cancel')" @click="props.cancel" />
+          <q-btn flat color="secondary" :label="$t('label.ok')" @click="props.ok" />
+        </template>
+      </q-dialog>
   </q-page>
 </template>
 
@@ -233,6 +228,7 @@ export default {
       )
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
+        this.selected = []
         toast(this.$t('INF_VOTE_SUCCESS'))
       } else {
         translateErrMsg(this.$t, res.error)

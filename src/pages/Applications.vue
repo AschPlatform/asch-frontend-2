@@ -237,10 +237,6 @@ export default {
       await this.getBalance(row)
       this.modalInfoShow = true
     },
-    // async viewMyBanlance(row) {
-    //   await this.getBalance(row, true)
-    //   this.modalInfoShow = true
-    // },
     async getBalance(row, userFlag = false) {
       let res
       let objxas = []
@@ -491,7 +487,6 @@ export default {
     userInfo(val) {
       if (val) {
         this.getDapps()
-        // if (!val.assets) this.$root.$emit('getAssetsList')
       }
     },
     pageNo(val) {

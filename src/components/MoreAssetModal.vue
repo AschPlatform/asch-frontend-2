@@ -2,17 +2,11 @@
   <q-modal content-classes="modal-content-limit row justify-center" v-model="show" minimized no-backdrop-dismiss	 :no-esc-dismiss="true">
     <div class="bg-secondary padding-40 height-62 col-12">
       <span class="text-white font-22">{{$t('MORE_ASSETS')}}</span>
-      <!-- <q-btn class="float-right height-62" flat :label="$t('label.close')" @click="close" /> -->
     </div> 
-    <!-- <q-toolbar slot="header">
-            <q-search class="full-width" inverted v-model="filter" color="none" />
-          </q-toolbar> -->
-  
     <div :class="moreAssetClass">
       <q-card :class="moreAssetCardClass" v-for="(currency,idx) in currencies" :key="idx">
         <q-card-main>
           <div class="col-12">
-          <!-- <i class="material-icons font-24 vertical-align-middle text-eight">fiber_manual_record</i> -->
           <asset-icon :iconKey="currency.symbol" class="font-24 vertical-align-middle text-eight"></asset-icon>
             <span class="font-18 text-five vertical-align-middle">{{assetsInfo(currency)}}</span>
             <q-btn class="moreAssetModal-btn bg-primary text-white float-right" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
@@ -45,7 +39,6 @@ import { secondPwd } from '../utils/validators'
 import { required, minValue } from 'vuelidate/lib/validators'
 import { toast } from '../utils/util'
 import AssetIcon from '../components/AssetIcon'
-// import { convertFee } from '../utils/asch'
 
 export default {
   name: 'DepositModal',
@@ -120,7 +113,6 @@ export default {
       toast(msg)
     },
     assetsInfo(asset) {
-      // let balance = convertFee(asset.balance, asset.precision)
       return `${asset.symbol}  `
     },
     deposit(asset) {

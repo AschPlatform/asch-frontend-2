@@ -123,9 +123,6 @@ export default {
           value: asset.symbol
         }
       })
-      // if (this.asset && !this.asset.hasAdd) {
-      //   arr.push({ label: this.asset.symbol, value: this.asset.symbol })
-      // }
       return arr
     },
     address() {
@@ -153,8 +150,6 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .deposit-modal-container {
-  // width: 20%;
-  // min-width: 400px;
 }
 
 .deposit-text {

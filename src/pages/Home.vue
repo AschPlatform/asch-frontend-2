@@ -68,7 +68,6 @@
                 <q-item class="blances-container shadow-1 bg-white" v-for="(balance,idx) in  balances" :to="{name:'assetDetail',params:{asset:balance, user: userInfo}}"  :key="idx">
                   <q-item-side>
                     <q-item-tile>
-                      <!-- <i class="material-icons font-44 vertical-align-middle text-eight">fiber_manual_record</i> -->
                       <asset-icon class="vertical-align-middle q-ml-sm" :iconKey="balance.currency.toUpperCase()"></asset-icon>
                     </q-item-tile>
                   </q-item-side>

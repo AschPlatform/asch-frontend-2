@@ -15,12 +15,10 @@
      <jdenticon class="transfer-jdenticon" :address="form.receiver" :size="60" />
     </div>
     <div class="transfer-bottom-container" v-if="user && user.account" >
-       <!-- <div class="col-3" style="display:inline-block">{{$t('RECIPIENT')+':'}}</div> -->
       <q-field class="col-8 text-four" :label="$t('RECIPIENT')+':'" :label-width="3" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')">
         <q-input class="col-8" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error"  :placeholder="$t('RECIPIENT_NAME_ADDRESS')"/>
       </q-field>
       <q-field class="col-12" :label="$t('DAPP_CATEGORY')+':'" :label-width="3">
-        <!-- <q-input v-if="currency" disable :float-label="$t('DAPP_CATEGORY')" v-model="currency" /> -->
          <q-select
           v-model="form.currency"
           :options="assetsOpt" />

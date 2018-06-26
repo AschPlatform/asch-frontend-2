@@ -2,9 +2,6 @@
   <!-- if you want automatic padding use "layout-padding" class -->
   <q-page>
     <q-card class="no-shadow" v-if="user">
-      <!-- <q-card-title>
-              {{$t('PERSONAL')}}
-            </q-card-title> -->
       <q-card-main class="row col-12 justify-center">
         <div :class="personalTopClass">
           <div class="desktop-only">
@@ -22,8 +19,6 @@
             </div>
             <div class="row col-12 justify-left text-three">
               <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" /></span>
-              <!-- {{address}} -->
-              <!-- <q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" /> -->
             </div>
           </div>
           <div :class="personalTopQrClass">
@@ -301,25 +296,6 @@ export default {
   },
   methods: {
     ...mapActions(['broadcastTransaction', 'setName']),
-    // async setLock() {
-    //   if (this.lockError) {
-    //     return
-    //   }
-    //   if (this.secondSignature) {
-    //     toastError(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
-    //     return
-    //   }
-    //   let trans = asch.setLock(this.lockHeight, this.amount, this.user.secret, this.secondPwd)
-    //   let res = await this.broadcastTransaction(trans)
-    //   if (res.success === true) {
-    //     console.log(res)
-    //     toast(this.$t('INF_POSITIONLOCK_SET_SUCCESS'))
-    //     this.locked = true
-    //   } else {
-    //     console.log(res)
-    //     translateErrMsg(this.$t, res.error)
-    //   }
-    // },
     reset(props) {
       this.password = ''
       this.confirmPassword = ''

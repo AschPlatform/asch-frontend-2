@@ -538,7 +538,7 @@ const lang = {
     NET_CURRENCY_TIP: '至少填写一种默认币种，且必须是全部大写字母，多个币种用","隔开',
     PERIOD: '任职周期',
     PERIOD_NET: '最低更新频率',
-    NET_NEW_LABEL: '至少填写一种默认币种，且必须是全部大写字母',
+    NET_NEW_LABEL: '需要大写字母',
     PERSON: '位',
     BRIEF: '简要描述',
     BRIEF_TIP: '请输入简要描述',

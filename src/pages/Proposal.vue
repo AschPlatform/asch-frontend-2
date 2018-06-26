@@ -32,14 +32,10 @@
         </q-td>
         <q-td slot="body-cell-activated" slot-scope="props" :props="props">
           <q-btn flat color="secondary" :label="($t('CHECK'))" @click="callShowModal(props.row.tid)">
-            <!-- {{operationBtn(props.value)}} -->
           </q-btn>
         </q-td>
         <q-td slot="body-cell-period" slot-scope="props" :props="props">
-          <!-- <q-btn flat :label="$t('proposal.OPERATION')" color="primary"> -->
-          <!-- {{props.value | jparse('updateInterval', true) || 'N/A'}} -->
           {{stt(props.row)}}
-          <!-- </q-btn> -->
         </q-td>
       </q-table>
     </div>
@@ -83,13 +79,6 @@ export default {
           align: 'center',
           field: 'tid'
         },
-        // {
-        //   name: 'initiator',
-        //   required: true,
-        //   label: this.$t('proposal.INITIATOR'),
-        //   align: 'center',
-        //   field: 'initiator'
-        // },
         {
           name: 'topic',
           required: true,
@@ -111,13 +100,6 @@ export default {
           align: 'center',
           field: 'desc'
         },
-        // {
-        //   name: 'approve',
-        //   required: true,
-        //   label: this.$t('proposal.APPROVE'),
-        //   align: 'center',
-        //   field: 'approve'
-        // },
         {
           name: 'activated',
           required: true,

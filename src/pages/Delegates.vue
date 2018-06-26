@@ -24,23 +24,11 @@
           </div>
         </q-td>
         <q-td slot="body-cell-nickname"  slot-scope="props" :props="props">
-          <!-- <div> -->
-            {{props.value}}
-            <!-- <q-icon v-if="props.row.voted" name="check circle" color="positive"/> -->
-          <!-- </div> -->
+          {{props.value}}
         </q-td>
         <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
-          <!-- <div> -->
-            {{(Number(props.value)*100)+'%'}}
-            <!-- <q-icon v-if="props.row.voted" name="check circle" color="positive"/> -->
-          <!-- </div> -->
+          {{(Number(props.value)*100)+'%'}}
         </q-td>
-        <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-          <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
-            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-          </q-btn>
-          <q-icon color="positive" v-if="props.row.voted" name="icon-chrome" />
-        </q-td> -->
       </q-table>
     </div>
     <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
@@ -100,12 +88,6 @@ export default {
       filter: '',
       loading: false,
       columns: [
-        // {
-        //   name: 'opt',
-        //   field: 'rate',
-        //   label: this.$t('OPERATION'),
-        //   align: 'center'
-        // },
         {
           name: 'rate',
           label: this.$t('RANKING'),

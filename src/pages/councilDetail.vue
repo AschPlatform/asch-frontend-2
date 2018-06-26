@@ -4,39 +4,17 @@
       <div class="no-wrap q-pa-md row justify-between">
         <span>
           <i class="material-icons vertical-align-sub font-24 text-black">border_color</i>
-          <h5 class="q-px-md inline-block">{{$t('COUNCIL_PARTICULARS')}}</h5>
-          </span>
-        <!-- <q-btn color="secondary" class="self-center" @click="$router.push('gateway')">
-          {{$t('CANCEL')}}
-        </q-btn> -->
+          <h5 class="q-px-md inline-block q-mt-none">{{$t('COUNCIL_PARTICULARS')}}</h5>
+        </span>
       </div>
       <div class="row q-px-md gutter-md">
         <div class="col-md-8 col-xs-12">
-         <!-- <q-card class="mobile-only no-shadow margin-bottom-20" align="left">
-            <div class="bg-white shadow-2">
-              <q-card-title class="bg-nine">
-                <span class="font-22 text-black font-weight">{{group.name}}</span>
-              </q-card-title>
-              <q-card-main class="word-wrap-break">
-              {{group.updateInterval}}
-              </q-card-main>
-            </div>
-          </q-card> -->
-
           <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" @request="request" :loading="loading" row-key="address" :rows-per-page-options="[10]" hide-bottom>
-  
             <q-td slot="body-cell-address" slot-scope="props" :props="props">
               <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.member)">
                 {{props.row.member}}
               </div>
             </q-td>
-  
-            <!-- <q-td slot="body-cell-"  slot-scope="props" :props="props">
-              <div class="text-primary" @click="viewAccountInfo(props.row)">
-                {{$t('CHECK')}}
-              </div>
-            </q-td> -->
-  
           </q-table>
         </div>
 
@@ -51,16 +29,6 @@
               </q-card-main>
             </div>
           </q-card>
-          <!-- <q-card class="no-shadow margin-top-20" align="left">
-            <div class="bg-white modal-right-container-bottom shadow-2 row">
-              <q-card-title class="bg-nine self-start bottom-container-top">
-                <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
-              </q-card-title>
-              <q-card-main class="self-center bottom-container-bottom height-62">
-                <span class="font-24 text-secondary">{{compileTimeStamp(group.createTime)}}</span>
-              </q-card-main>
-            </div>
-          </q-card> -->
         </div>
       </div>
       <div class="col-12 bg-white q-px-md q-py-md">

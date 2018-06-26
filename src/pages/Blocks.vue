@@ -254,16 +254,6 @@ export default {
           type: 'string',
           align: 'right'
         },
-        // {
-        //   label: this.$t('TOTAL') + this.$t('AMOUNTS'),
-        //   field: 'totalAmount',
-        //   align: 'right'
-        // },
-        // {
-        //   label: this.$t('TOTAL') + this.$t('FEES'),
-        //   field: 'totalFee',
-        //   align: 'right'
-        // },
         {
           name: 'reward',
           label: this.$t('REWARDS'),
@@ -274,8 +264,6 @@ export default {
       modalInfoShow: false,
       row: {},
       type: 0,
-      // is this user delegate
-      // isDelegate: false,
       dialogShow: false,
       isModalShow: false,
       form: {
@@ -361,7 +349,6 @@ export default {
       })
       if (res.success === true) {
         this.delegate = res.delegate
-        // this.isDelegate = true
       }
       return res
     },

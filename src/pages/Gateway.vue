@@ -9,8 +9,6 @@
       <gateway-item class="col-md-4 col-xs-12"  v-for="(item, idx) in gateways" :item="item" :key="idx" @open="showDetail"/>
       <q-btn :disabled="loading" v-if="pagination.rowsNumber>gateways.length" :label="$t('LOAD_MORE')" @click="loadMore" />
     </div>
-    <!-- CouncilModal -->
-    <!-- <gateway-modal class="no-shadow" v-if="gateway" :item="gateway" :show="show" @close="show=false" /> -->
   </q-page>
 </template>
 

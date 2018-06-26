@@ -30,13 +30,6 @@
                 {{$t('CHECK')}}
               </div>
             </q-td>
-  
-            <!-- <q-td slot="body-cell-"  slot-scope="props" :props="props">
-              <div class="text-primary" @click="viewAccountInfo(props.row)">
-                {{$t('CHECK')}}
-              </div>
-            </q-td> -->
-  
           </q-table>
         </div>
 

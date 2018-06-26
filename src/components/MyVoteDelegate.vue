@@ -27,7 +27,6 @@
         </div>
       <q-btn  class="margin-t-10" color="secondary" :disable="btnDisable" @click="action">{{$t(btnInfo)}}</q-btn>
       <p class="margin-t-10" v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:convertFeeAmount()})}}</p>
-      <!-- <a class="text-blue" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a> -->
     </q-card-main>
   </q-card>
 </template>
@@ -65,7 +64,6 @@ export default {
         this.disableBtn('btnDisable')
         return
       }
-      // this.isSetAgent ? this.cancelAgent() : this.setAgent()
       if (this.agentName) {
         this.cancelAgent()
       } else {
