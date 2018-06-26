@@ -43,7 +43,6 @@ const asch = {
   },
   // 设置昵称
   setName: (name, fee, secret, secondPwd = '') => {
-    console.log(name, fee)
     return AschJS.transaction.createTransactionEx(
       convertFee({
         type: 2,
