@@ -1,7 +1,9 @@
 <template>
   <q-card class="q-px-sm">
     <q-card-title>
-    {{!isGonnaSet ? this.$t('VOTE_DELEGATE') : this.$t('VOTE_SET')}}
+      <span>
+        {{!isGonnaSet ? this.$t('VOTE_DELEGATE') : this.$t('VOTE_SET')}}
+      </span>
     </q-card-title>
     <q-card-separator />
     <q-card-main v-if="isSetAgent">
@@ -20,7 +22,7 @@
     </q-card-main>
     <q-card-main class="padding-t-b-40" align="center" v-if="!isGonnaSet && !isSetAgent">
       <div v-if="agentName">
-         <span class="font-30 text-black vertical-align-sub margin-left-24">{{agentName}}</span>
+         <span class="font-30 text-black vertical-align-sub margin-left-24 " style="word-break:break-all;">{{agentName}}</span>
         (<a class="text-blue cursor-pointer" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a>)
         </div>
       <q-btn  class="margin-t-10" color="secondary" :disable="btnDisable" @click="action">{{$t(btnInfo)}}</q-btn>

@@ -311,5 +311,9 @@ api2.gatewayDelegates = params => {
 api2.chains = params => {
   return fetch(urls.v2.chains, params, 'get')
 }
+// 获取所有已注册侧链
+api2.chainsInstalled = params => {
+  return fetch(urls.v2.chainsInstalled, params, 'get')
+}
 
 export { api, api2 }

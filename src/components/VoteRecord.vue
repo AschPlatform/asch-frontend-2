@@ -116,7 +116,7 @@ export default {
       pagination: {
         page: 1,
         rowsNumber: 0,
-        rowsPerPage: 10
+        rowsPerPage: 35
       },
       loading: false,
       dialogShow: false,

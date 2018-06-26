@@ -200,6 +200,14 @@ export const translateErrMsg = (t, input) => {
         key: 'ERR.INVALID_LOCK_HEIGHT'
       },
       {
+        error: 'Invalid issuer name',
+        key: 'ERR.INVALID_ISSUER_NAME'
+      },
+      {
+        error: 'Sender account not found',
+        key: 'ERR.ACCOUNT_NOT_FOUND'
+      },
+      {
         error: 'Agent cannot set agent',
         key: 'AGENT_CAN_NOT_SET_AGENT'
       }
