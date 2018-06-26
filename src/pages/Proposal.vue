@@ -1,5 +1,9 @@
 <template>
-  <q-page class="padding-20">
+  <q-page class="proposal-container">
+    <div class="geteway-top">
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-20 text-black vertical-align-middle">{{$t('PROPOSAL')}}</span>
+    </div>
     <div class="proposal-content bg-white shadow-2 border-r-6">
       <q-btn-group class="desktop-hide float-right margin-bottom-10">
         <q-btn class="font-14 new-launch" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
@@ -185,7 +189,7 @@ export default {
   },
   computed: {
     proposalBtnClass() {
-      return this.isDesk ? 'font-22 proposal-content-top-btn' : 'font-12 proposal-content-top-btn'
+      return this.isDesk ? 'font-18 proposal-content-top-btn' : 'font-12 proposal-content-top-btn'
     }
   },
   mounted() {
@@ -195,6 +199,11 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.proposal-container
+  padding 20px
+.geteway-top {
+  margin-bottom: 20px;
+}
 .proposal-content {
   padding: 20px;
 }

@@ -1,8 +1,8 @@
 <template>
-  <q-modal content-classes="modal-content-limit deposit-modal-container row justify-center" v-model="show" :no-esc-dismiss="true">
+  <q-modal content-classes="withdraw-modal-container row justify-center" v-model="show" :no-esc-dismiss="true">
     <div class="col-12 widthdraw-modal-content">
       <div class="bg-secondary padding-40 height-62">
-        <span class="text-white font-24">{{$t('WITHDRAW')}} </span>
+        <span class="text-white font-18">{{$t('WITHDRAW')}} </span>
         <span class="font-12 text-white">{{$t('DEPOSIT_TIP2')}} </span>
         </div>
       <div  class="row justify-center padding-40">
@@ -233,8 +233,9 @@ export default {
 <style lang="stylus" scoped>
 .widthdraw-modal-content {
   padding-bottom: 54px;
+  max-width 490px
 }
-.deposit-modal-container
+.withdraw-modal-container
   max-width 490px
 .margin-top-54 {
   margin-top: 54px;

@@ -1,7 +1,7 @@
 <template>
   <q-modal content-classes="modal-content-limit row justify-center" v-model="show" minimized no-backdrop-dismiss	 :no-esc-dismiss="true">
-    <div class="bg-secondary padding-40 height-62 col-12">
-      <span class="text-white font-22">{{$t('MORE_ASSETS')}}</span>
+    <div class="bg-secondary padding-20 height-62 col-12">
+      <span class="text-white font-18">{{$t('MORE_ASSETS')}}</span>
     </div> 
     <div :class="moreAssetClass">
       <q-card :class="moreAssetCardClass" v-for="(currency,idx) in currencies" :key="idx">
@@ -9,7 +9,7 @@
           <div class="col-12">
           <asset-icon :iconKey="currency.symbol" class="font-24 vertical-align-middle text-eight"></asset-icon>
             <span class="font-18 text-five vertical-align-middle">{{assetsInfo(currency)}}</span>
-            <q-btn class="moreAssetModal-btn bg-primary text-white float-right" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
+            <q-btn class="moreAssetModal-btn bg-primary text-white q-ml-lg" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
           </div>
         </q-card-main>
       </q-card>
@@ -126,7 +126,7 @@ export default {
         : 'row col-12 justify-between assetModal-container-mobile'
     },
     moreAssetCardClass() {
-      return this.isDesk ? 'col-5' : 'col-12 margin-top-20'
+      return this.isDesk ? 'col-6' : 'col-12 margin-top-20'
     },
     assetMap() {
       let assetMap = {}

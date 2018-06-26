@@ -64,7 +64,7 @@
       <asset-record-container class="bg-white" :isCross="isCross" :currency="asset.currency" />
     </div>
      <deposit-modal :user="userInfo"  :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
-    <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
+    <withdraw-modal :user="userInfo" :asset="asset" :show="true" @close="withdrawPanelShow=false" />
   </q-page>
 </template>
 
@@ -223,8 +223,8 @@ export default {
     },
     assetCardsContainerClass() {
       return this.isDesk
-        ? 'row col-12 asset-cards-container'
-        : 'row col-12'
+        ? 'row col-10 asset-cards-container'
+        : 'row col-10'
     },
     isCross() {
       if (this.asset.currency === 'XAS') return false

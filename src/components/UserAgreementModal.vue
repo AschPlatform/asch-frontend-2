@@ -2,7 +2,7 @@
   <q-modal :class="userAgreementClass" content-class="modal-content-limit" v-model="show">
     <q-card class="col-12 no-shadow" >
       <div class="bg-secondary height-62 padding-l-20">
-      <span class="text-white font-24 font-weight">{{title}}</span>
+      <span class="text-white font-18 font-weight">{{title}}</span>
       </div>
       <q-card-separator />
       <q-card-main class="q-px-lg margin-t-20">

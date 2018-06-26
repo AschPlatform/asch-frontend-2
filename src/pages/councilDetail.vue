@@ -3,8 +3,8 @@
     <div class="gatewayDetail-content">
       <div class="no-wrap q-pa-md row justify-between">
         <span>
-          <i class="material-icons vertical-align-sub font-24 text-black">border_color</i>
-          <h5 class="q-px-md inline-block q-mt-none">{{$t('COUNCIL_PARTICULARS')}}</h5>
+          <i class="material-icons vertical-align-sub font-20 text-black">border_color</i>
+          <h5 class="q-px-md inline-block font-18 q-my-none">{{$t('COUNCIL_PARTICULARS')}}</h5>
         </span>
       </div>
       <div class="row q-px-md gutter-md">

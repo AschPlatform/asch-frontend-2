@@ -3,7 +3,7 @@
     <div class="col-12 padding-b-54 ">
       <!-- <h4>{{$t('DEPOSIT')}}</h4> -->
       <div class="bg-secondary padding-40 height-62">
-        <span class="text-white font-24">{{$t('DEPOSIT')}}</span>
+        <span class="text-white font-18">{{$t('DEPOSIT')}}</span>
       </div>
       <div v-if="account&&account.outAddress">
         <vue-qr class="depositmodal-account-content" :size="200" :text="account.outAddress?'bitcoin:'+account.outAddress:'no data'"></vue-qr>
@@ -21,7 +21,7 @@
         </div>
       </div>
       <div class="padding-40" v-else>
-      <h5>{{$t('DEPOSIT_NO_ADDR_TIP',{ currency: currency })}}</h5>
+      <h5 class="font-18">{{$t('DEPOSIT_NO_ADDR_TIP',{ currency: currency })}}</h5>
       <q-field >
       <q-select
         v-model="currency"

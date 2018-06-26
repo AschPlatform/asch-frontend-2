@@ -5,7 +5,7 @@
         <q-item v-if="type=='inner'">
           <q-item-side v-if="asset.url" :avatar="asset.url" />
           <q-item-main>
-            <q-item-tile class="asset-currency font-24 text-five vertical-align-middle" label>
+            <q-item-tile class="asset-currency font-18 text-five vertical-align-middle" label>
               {{asset.currency}}
             </q-item-tile>
           </q-item-main>

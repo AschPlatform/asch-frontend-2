@@ -3,7 +3,7 @@
     <div class="shadow-1 bg-white">
      <q-card-title align="left">
       <i class="material-icons vertical-align-sub font-24 text-secondary">opacity</i>
-      <span class="text-black font-24">
+      <span class="text-black font-20">
         {{item.name}}{{$t('GATEWAY')}}
         </span>
 

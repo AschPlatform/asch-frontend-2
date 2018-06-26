@@ -900,8 +900,8 @@ export default {
     ...mapGetters(['userInfo']),
     proposalLaunchClass() {
       return this.isDesk
-        ? 'padding-20 q-mx-xl q-my-xl'
-        : 'row col-12 padding-20 margin-top-20'
+        ? 'padding-siut q-mx-xl q-my-xl'
+        : 'row col-12 padding-siut margin-top-20'
     },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
@@ -1019,4 +1019,6 @@ export default {
 .no-border-top {
   margin-top: 0 !important;
 }
+.padding-siut
+  padding 20px
 </style>

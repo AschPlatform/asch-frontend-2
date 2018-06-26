@@ -1,5 +1,9 @@
 <template>
   <q-page class="issuer-container">
+    <div class="geteway-top">
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-20 text-black vertical-align-middle">{{$t('TRS_TYPE_UIA_ISSUE')}}</span>
+    </div>
     <div class="bg-white padding-20 row issuer-content">
       <div class="col-md-9 col-xs-12">
         <q-table :data="assets" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('MY_ASSETS')" :rows-per-page-options="[10]">
@@ -29,7 +33,7 @@
         <div :class="issuerRightClass">
          <q-card>
            <div class="text-black height-62 padding-l-20 q-table-top">
-             <span class="font-22">{{$t('ISSUER')}}</span>
+             <span class="font-18">{{$t('ISSUER')}}</span>
           </div>
           <q-card-main>
             <div v-if="issuer">
@@ -563,6 +567,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.geteway-top {
+  margin-bottom: 20px;
+}
 .issuer-container {
   padding: 20px;
   border-radius: 6px;

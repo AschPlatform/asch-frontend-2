@@ -1,6 +1,10 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <q-page class="vote-container">
+    <div class="geteway-top">
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-20 text-black vertical-align-middle">{{$t('TRS_TYPE_VOTE')}}</span>
+    </div>
     <div class="row vote-content bg-white">
       <div class="col-md-8 col-xs-12 no-shadow bg-white">
         <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST')" :rows-per-page-options="[10]">
@@ -335,6 +339,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.geteway-top {
+  margin-bottom: 20px;
+}
 .vote-container {
   padding: 20px;
 }
