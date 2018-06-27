@@ -2,8 +2,8 @@
   <q-page class="assets-container">
     <q-card class="assets-container-top no-shadow">
       <q-card-title>
-        <i class="material-icons font-22 vertical-align-middle text-secondary ">person</i>
-        <span class="font-22 text-black">
+        <i class="material-icons font-30 vertical-align-middle text-secondary ">person</i>
+        <span class="font-20 text-black">
                    {{$t('X_ASSETS')}}
               </span>
       </q-card-title>
@@ -18,8 +18,8 @@
     </q-card>
     <q-card class="assets-container-bottom no-shadow">
       <q-card-title>
-        <i class="material-icons text-secondary vertical-align-middle font-22">person</i>
-        <span class="font-22 text-black">
+        <i class="material-icons font-30 text-secondary vertical-align-middle">person</i>
+        <span class="font-20 text-black">
                  {{$t('CROSS_ASSETS')}}
                 </span>
       </q-card-title>
@@ -38,7 +38,6 @@
     <deposit-modal :user="userInfo" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
   
     <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
-    <!-- <asset-detail-modal :show="assetDetailModalShow" :asset="asset" @close="assetDetailModalShow=false" :userInfo="userInfo" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" /> -->
     <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
   </q-page>
 </template>
@@ -159,8 +158,6 @@ export default {
       this.moreAssetsModalShow = true
     },
     open(asset) {
-      // this.asset = asset
-      // this.assetDetailModalShow = true
       this.$router.push({
         name: 'assetDetail',
         params: {

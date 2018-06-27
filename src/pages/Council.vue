@@ -8,11 +8,6 @@
       <council-snippet class="col-md-4 col-xs-12"  v-for="(item, idx) in councils" :item="item" :key="idx" @callModal="switchModal"/>
       <q-btn :disabled="loading" v-if="pagination.rowsNumber>councils.length" :label="$t('LOAD_MORE')" @click="loadMore" />
     </div>
-      <!-- <div class="row"> -->
-        <!-- <council-snippet v-if="councils !== []" v-for="(item, idx) in councils" :item="item" :key="idx" @callModal="switchModal"></council-snippet> -->
-      <!-- </div> -->
-      <!-- CouncilModal -->
-      <!-- <council-modal :item="activeItem" :show="isModalShow" @callModal="switchModal"></council-modal> -->
   </q-page>
 </template>
 <script>
@@ -52,8 +47,6 @@ export default {
   methods: {
     ...mapActions(['getCouncils']),
     switchModal(val) {
-      // this.isModalShow = val.status
-      // this.activeItem = val.item
       this.$router.push({ name: 'councilDetail', params: { val } })
     },
     async getAllCouncils() {

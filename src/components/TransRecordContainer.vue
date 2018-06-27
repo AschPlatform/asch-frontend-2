@@ -76,7 +76,6 @@ export default {
       let pageNo = this.pagination.page
       let condition = {
         // TODO 参数 bug
-        // senderId: this.userInfo.account.address,
         orderBy: 'timestamp:desc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -131,7 +130,6 @@ export default {
           temp.col2.push(this.$t('REMARK'))
           temp.fee.push(plag + convertFee(e.amount, e.asset ? e.asset.precision : 8))
           temp.fee.push(e.currency)
-          // temp.iconKey = 'TRANSFER'
           items.push(temp)
         })
         this.trans = items
@@ -207,12 +205,6 @@ export default {
     dynamicCol() {
       if (this.type === 1) {
         return [
-          // {
-          //   name: 'opt',
-          //   label: this.$t('OPERATION'),
-          //   field: 'opt',
-          //   align: 'center'
-          // },
           {
             name: 'id',
             label: 'ID',
@@ -233,29 +225,6 @@ export default {
               return this.getTransType(value)
             }
           },
-          // {
-          //   name: 'senderId',
-          //   label: this.$t('SENDER'),
-          //   field: 'senderId',
-          //   align: 'center',
-          //   format: value => {
-          //     let isMySelf = this.matchSelf(value)
-          //     return isMySelf ? 'Me' : value
-          //   }
-          // },
-          // {
-          //   name: 'recipientId',
-          //   label: this.$t('RECIPIENT'),
-          //   field: 'recipientId',
-          //   align: 'center',
-          //   format: value => {
-          //     if (value === '') {
-          //       return 'SYSTEM'
-          //     }
-          //     let isMySelf = this.matchSelf(value)
-          //     return isMySelf ? 'Me' : value
-          //   }
-          // },
           {
             name: 'timestamp',
             label: this.$t('DATE'),
@@ -290,15 +259,6 @@ export default {
             },
             align: 'center'
           }
-          // {
-          //   name: 'message',
-          //   label: this.$t('REMARK'),
-          //   field: 'message',
-          //   filter: true,
-          //   // sortable: true,
-          //   type: 'string',
-          //   width: '120px'
-          // }
         ]
       } else {
         return [

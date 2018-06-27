@@ -3,7 +3,7 @@
     <q-card class="col-12 shadow-0">
       <div class="geteway-top justify-between">
         <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
-        <span class="font-22 text-black vertical-align-middle">{{$t('APPLICATIONS')}}</span>
+        <span class="font-20 text-black vertical-align-middle">{{$t('APPLICATIONS')}}</span>
         <div slot="right" class="float-right row items-center inline">
           <q-btn color="secondary" form-inverted class="inverted" :label="$t('CREATE_MY_DAPP')" @click="createMyDapp" />
         </div>
@@ -237,10 +237,6 @@ export default {
       await this.getBalance(row)
       this.modalInfoShow = true
     },
-    // async viewMyBanlance(row) {
-    //   await this.getBalance(row, true)
-    //   this.modalInfoShow = true
-    // },
     async getBalance(row, userFlag = false) {
       let res
       let objxas = []
@@ -491,7 +487,6 @@ export default {
     userInfo(val) {
       if (val) {
         this.getDapps()
-        // if (!val.assets) this.$root.$emit('getAssetsList')
       }
     },
     pageNo(val) {

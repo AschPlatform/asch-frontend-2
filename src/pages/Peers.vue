@@ -154,9 +154,6 @@ export default {
     }
   },
   computed: {
-    // peersList() {
-    //   return this.peers
-    // },
     user() {
       return this.userObj
     },
@@ -214,12 +211,6 @@ export default {
           field: 'port',
           align: 'center'
         }
-        // {
-        //   name: 'ping',
-        //   label: 'Ping(mm)',
-        //   field: 'ping',
-        //   align: 'center'
-        // }
       ]
       return this.official ? officialCol : defaultCol
     },

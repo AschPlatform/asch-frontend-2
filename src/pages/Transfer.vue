@@ -2,10 +2,10 @@
   <q-card class="transfer-container no-shadow q-p-lg">
     <div :class="transferContentClass">
       <q-card-title>
-        <span class="text-tertiary font-22">
+        <span class="text-tertiary font-18">
             <i class="material-icons">border_color</i>
             </span>
-        <span class="text-tertiary font-22">
+        <span class="text-tertiary font-18">
             {{$t('TRS_TYPE_TRANSFER')}}
             </span>
         <span class="text-secondary font-12">

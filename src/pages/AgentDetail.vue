@@ -79,9 +79,6 @@
           <q-td slot="body-cell-agent"  slot-scope="props" :props="props">
             {{showTime(props.row) | time}}
           </q-td>
-          <!-- <q-td slot="body-cell-weight"  slot-scope="props" :props="props">
-            {{showContent(props.row, 'weight') | fee(8)}}
-          </q-td> -->
           <!-- vote record overview -->
           <q-td slot="body-cell-delegate"  slot-scope="props" :props="props">
             <div class="text-secondary" @click="viewAccountInfo(props.row, true)">
@@ -91,12 +88,6 @@
           <q-td slot="body-cell-voteTime"  slot-scope="props" :props="props">
             {{showTime(props.row) | time}}
           </q-td>
-          <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-            <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-            </q-btn>
-            <q-icon color="positive" v-if="props.row.voted" name="icon-chrome" />
-          </q-td> -->
         </q-table>
     </div>
     </q-tabs>
@@ -223,7 +214,6 @@ export default {
       }
 
       // set max
-      // this.pagination.rowsNumber = res.delegates.length
       this.loading = false
       return res
     },

@@ -2,9 +2,6 @@
   <!-- if you want automatic padding use "layout-padding" class -->
   <q-page>
     <q-card class="no-shadow" v-if="user">
-      <!-- <q-card-title>
-              {{$t('PERSONAL')}}
-            </q-card-title> -->
       <q-card-main class="row col-12 justify-center">
         <div :class="personalTopClass">
           <div class="desktop-only">
@@ -22,8 +19,6 @@
             </div>
             <div class="row col-12 justify-left text-three">
               <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" /></span>
-              <!-- {{address}} -->
-              <!-- <q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" /> -->
             </div>
           </div>
           <div :class="personalTopQrClass">
@@ -37,28 +32,28 @@
         <div class="personal-bottom shadow-2 bg-white row col-12 justify-left margin-t-20">
           <div :class="personalIconClass">
             <i class="material-icons">email</i>
-            <span>
+            <span class="font-18">
               {{$t('MESSAGE_DETAILS')}}
             </span>
           </div>
           <table class="personal-table q-mt-md q-table bordered highlight responsive ">
             <tbody class='row info-tbody'>
-              <tr class="row col-12">
-                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-18">
-                  <i class="material-icons font-22 personal-icon">lock outline</i> {{$t('SECOND_PASSWORD')}}
+                <tr class="row col-12">
+                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-16">
+                  <i class="material-icons font-16 personal-icon">lock outline</i> {{$t('SECOND_PASSWORD')}}
                 </td>
                 <td :class="personalRightClass">
                   <span v-if="secondSignature" class="text-black font-18">
                     {{$t('ALREADY_SET')}}
                   </span>
-                  <a v-else class="text-secondary" @click="secondPwdShow=true">
+                  <a v-else class="text-secondary font-16" @click="secondPwdShow=true">
                     {{$t('SET_NOW')}}
                   </a>
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-3 col-xs-4 bottom-left-link text-three font-18 padding-0">
-                  <i class="material-icons font-22 personal-icon">settings</i>
+                <td class="col-md-3 col-xs-4 bottom-left-link text-three font-16 padding-0">
+                  <i class="material-icons font-16 personal-icon">settings</i>
                   <span>{{$t('LOCK_POSITION_CONF')}}</span>
                 </td>
                 <td :class="personalRightTwoClass">
@@ -70,31 +65,31 @@
                     <a :class="personalClickClass" @click="callLockPanel">{{$t('EDIT')}}</a>
                     <a v-if="this.lockInfo.expire" :class="personalUnLockClass" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
-                  <a v-else class="text-secondary" @click="callLockPanel">
+                  <a v-else class="text-secondary font-16" @click="callLockPanel">
                     {{$t('SET_NOW')}}
                   </a>
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-18">
-                  <i class="material-icons font-22 personal-icon">account_circle</i> {{$t('AGENT_INFO')}}
+                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-16">
+                  <i class="material-icons font-16 personal-icon">account_circle</i> {{$t('AGENT_INFO')}}
                 </td>
                 <td :class="personalRightClass">
                   <span :class="personalFontClass" v-if="isAgent || isDelegate === 1">
                     {{$t('IS_AGENT')}}
                   </span>
-                  <a v-else class="text-secondary" @click="callDelegatePanel">
+                  <a v-else class="text-secondary font-16" @click="callDelegatePanel">
                     {{$t('REGISTER_AGENT')}}
                   </a>
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-3 col-xs-5 bottom-left-link text-three font-18">
-                  <i class="material-icons font-22 personal-icon">person</i> {{$t('GATEWAY_CANDIDATE')}}
+                <td class="col-md-3 col-xs-5 bottom-left-link text-three font-16">
+                  <i class="material-icons font-16 personal-icon">person</i> {{$t('GATEWAY_CANDIDATE')}}
                 </td>
                 <td :class="personalRightThreeClass">
                   <div @click="jump2Doc">
-                    <a class="text-secondary">
+                    <a class="text-secondary font-16">
                       {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
                     </a>
                   </div>
@@ -301,25 +296,6 @@ export default {
   },
   methods: {
     ...mapActions(['broadcastTransaction', 'setName']),
-    // async setLock() {
-    //   if (this.lockError) {
-    //     return
-    //   }
-    //   if (this.secondSignature) {
-    //     toastError(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
-    //     return
-    //   }
-    //   let trans = asch.setLock(this.lockHeight, this.amount, this.user.secret, this.secondPwd)
-    //   let res = await this.broadcastTransaction(trans)
-    //   if (res.success === true) {
-    //     console.log(res)
-    //     toast(this.$t('INF_POSITIONLOCK_SET_SUCCESS'))
-    //     this.locked = true
-    //   } else {
-    //     console.log(res)
-    //     translateErrMsg(this.$t, res.error)
-    //   }
-    // },
     reset(props) {
       this.password = ''
       this.confirmPassword = ''
@@ -733,7 +709,7 @@ export default {
 
 .personal-bottom a {
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .personal-bottom-title i {

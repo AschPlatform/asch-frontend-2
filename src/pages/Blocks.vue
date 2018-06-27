@@ -1,17 +1,21 @@
 <template>
   <q-page class="self-center blocks-container">
+    <div class="geteway-top">
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-20 text-black vertical-align-middle">{{$t('BLOCKS')}}</span>
+    </div>
     <div class="blocks-content row">
       <div class="col-md-9 col-xs-12">
         <q-table :data="blocksData" :rows-per-page-options="[10]" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
           <template slot="top-left" slot-scope="props">
-                    <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
-</template>
+            {{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}
+          </template>
 
-<template slot="top-right" slot-scope="props">
-  <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" @keyup.enter="getBlockDetail" @keyup.delete="delSearch"/>
-  <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
-  <q-btn class="text-secondary" flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-</template>
+          <template slot="top-right" slot-scope="props">
+            <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" @keyup.enter="getBlockDetail" @keyup.delete="delSearch"/>
+            <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
+            <q-btn class="text-secondary" flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+          </template>
 
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
             <div class="my-label text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
@@ -254,16 +258,6 @@ export default {
           type: 'string',
           align: 'right'
         },
-        // {
-        //   label: this.$t('TOTAL') + this.$t('AMOUNTS'),
-        //   field: 'totalAmount',
-        //   align: 'right'
-        // },
-        // {
-        //   label: this.$t('TOTAL') + this.$t('FEES'),
-        //   field: 'totalFee',
-        //   align: 'right'
-        // },
         {
           name: 'reward',
           label: this.$t('REWARDS'),
@@ -274,8 +268,6 @@ export default {
       modalInfoShow: false,
       row: {},
       type: 0,
-      // is this user delegate
-      // isDelegate: false,
       dialogShow: false,
       isModalShow: false,
       form: {
@@ -361,7 +353,6 @@ export default {
       })
       if (res.success === true) {
         this.delegate = res.delegate
-        // this.isDelegate = true
       }
       return res
     },
@@ -507,6 +498,12 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.geteway-top {
+  margin-bottom: 20px;
+}
+.gateway-container {
+  padding: 20px;
+}
 .blocks-container {
   padding: 20px;
 }

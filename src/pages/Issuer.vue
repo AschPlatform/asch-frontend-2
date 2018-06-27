@@ -1,5 +1,9 @@
 <template>
   <q-page class="issuer-container">
+    <div class="geteway-top">
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-20 text-black vertical-align-middle">{{$t('TRS_TYPE_UIA_ISSUE')}}</span>
+    </div>
     <div class="bg-white padding-20 row issuer-content">
       <div class="col-md-9 col-xs-12">
         <q-table :data="assets" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('MY_ASSETS')" :rows-per-page-options="[10]">
@@ -10,42 +14,15 @@
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
             <div>
-              <!-- <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-              </q-btn> -->
-              <!-- <q-btn @click="transferAsset(props)" icon="send" size="sm" flat color="primary" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRANSFER')}}</q-tooltip>
-              </q-btn> -->
               <q-btn @click="publish(props.row)" icon="publish" size="sm" flat color="secondary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_UIA_ISSUE')}}</q-tooltip>
               </q-btn>
-              <!-- <q-fab flat color="orange" icon="settings" direction="right" size="sm" >
-                <q-tooltip slot="tooltip" anchor="top middle" self="bottom middle"  :offset="[0, 10]" >
-                  {{$t('TRS_TYPE_UIA_FLAGS')}}
-                </q-tooltip>
-                <q-fab-action color="primary" @click="changeModal(props.row)" icon="transform">
-                  <q-tooltip anchor="top middle" se00000lf="bottom middle" :offset="[0, 10]">{{$t('CHANGE_ACL_MODAL')}}</q-tooltip>
-                </q-fab-action>
-                <q-fab-action color="primary" @click="addACL(props.row)" icon="add">
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.create') + ACLStr(props.row.acl)}}</q-tooltip>
-                </q-fab-action>
-                <q-fab-action color="primary" @click="removeACL(props.row)" icon="remove">
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('label.remove') + ACLStr(props.row.acl)}}</q-tooltip>
-                </q-fab-action>
-                <q-fab-action color="negative" @click="writeoff(props.row)" icon="delete">
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DELETE')}}</q-tooltip>
-                </q-fab-action>
-              </q-fab> -->
             </div>
           </q-td>
 
           <q-td slot="body-cell-maximum"  slot-scope="props" :props="props">
             {{props.value | fee(props.row.precision)}}
           </q-td>
-
-          <!-- <q-td slot="body-cell-quantity"  slot-scope="props" :props="props">
-            {{props.value | fee(props.row.precision)}}
-          </q-td> -->
           <q-td slot="body-cell-quantity"  slot-scope="props" :props="props">
             {{props.value | fee(props.row.precision)}}
           </q-td>
@@ -56,7 +33,7 @@
         <div :class="issuerRightClass">
          <q-card>
            <div class="text-black height-62 padding-l-20 q-table-top">
-             <span class="font-22">{{$t('ISSUER')}}</span>
+             <span class="font-18">{{$t('ISSUER')}}</span>
           </div>
           <q-card-main>
             <div v-if="issuer">
@@ -270,20 +247,6 @@ export default {
           // filter: true,
           sort: true
         },
-        // {
-        //   label: this.$t('CANCELLATION'),
-        //   field: 'writeoff',
-        //   align: 'center',
-        //   format: val => {
-        //     return val === 0 ? 'normal' : 'writeoff'
-        //   }
-        // },
-        // {
-        //   name: 'allowWriteoff',
-        //   label: this.$t('ALLOW_WWB'),
-        //   field: 'allowWriteoff',
-        //   align: 'center'
-        // }
         {
           name: 'timestamp',
           label: this.$t('DATE'),
@@ -555,19 +518,6 @@ export default {
       })
       await this.getAssets()
     }
-    // formValid(type) {
-    //   let formWithPwd = this.secondSignature ? this.pwdValid : false
-    //   switch (type) {
-    //     case 1:
-    //       return formWithPwd
-    //     case 2:
-    //       return this.secondSignature
-    //         ? this.$v.issuerNum.$error || this.pwdValid
-    //         : this.$v.issuerNum.$error
-    //     case 3:
-    //       return formWithPwd
-    //   }
-    // }
   },
   async mounted() {
     if (this.userInfo) {
@@ -617,6 +567,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.geteway-top {
+  margin-bottom: 20px;
+}
 .issuer-container {
   padding: 20px;
   border-radius: 6px;

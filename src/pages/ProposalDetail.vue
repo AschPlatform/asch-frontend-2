@@ -16,7 +16,6 @@
       <div class="row col-12">
         <q-field :label-width="2" :label="$t('proposal.SELECT_P_TYPE')" class="col-10 font-16">
           <q-input class="border-1" readonly hide-underline v-model="dealWithType" value="" />
-          <!-- <span>{{detail.content | jparse('name', false)}}</span> -->
         </q-field>
       </div>
       <div class="row col-12">
@@ -25,14 +24,6 @@
           {{$t('TO')}}
           <q-input class="border-1 col-5 inline-flex" readonly hide-underline value="" v-model="time_end"></q-input>
         </q-field>
-  
-        <!-- <q-field class="col-md-2 col-xs-5 font-16">
-        </q-field> -->
-        <!-- <q-field class="col-md-1 col-xs-2 font-16" :label="$t('TO')">
-        </q-field> -->
-        <!-- <q-field class="col-md-2 col-xs-5 font-16">
-        </q-field> -->
-  
       </div>
     </q-card>
   
@@ -129,10 +120,7 @@
       <!-- below is vote status -->
       <q-card-main class="col-12 padding-0">
         <p class="font-16">{{$t('proposal.VOTE_STATUS', {number: voteTotalNum, rate: votePassRate})}}</p>
-        <!-- <p class="font-16">{{$t('LAUNCH_MODAL.VOTE_LIST')}}</p> -->
         <q-field label-width="2" :label="$t('LAUNCH_MODAL.VOTE_LIST')" class="vote-list">
-          <!-- <q-chips-input square chips-color="secondary" color="secondary" class="col-md-5 col-xs-12" inverted readonly v-model="voteList" disable>
-          </q-chips-input> -->
           <q-chip square v-for="(item, idx) in voteList" color="white" text-color="secondary" :key="idx" class="chip">{{item}}</q-chip>
         </q-field>
       </q-card-main>
@@ -287,16 +275,6 @@ export default {
         this.preMemberList = ls
         this.postMemberList = ls
       }
-      // if (this.detail.activated === 1) {
-      //   this.btnInfo = 'proposal.ACTIVATED'
-      //   this.isBtnAble = false
-      // } else if (this.detail.endHeight < this.latestBlock.height) {
-      //   this.btnInfo = 'proposal.EXPIRED'
-      //   this.isBtnAble = false
-      // } else {
-      //   this.btnInfo = 'proposal.ACTIVE'
-      //   this.isBtnAble = true
-      // }
     },
     async activePro() {
       let res = await this.activeProposal({

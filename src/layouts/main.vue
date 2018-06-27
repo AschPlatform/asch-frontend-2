@@ -38,11 +38,6 @@
     </q-layout-header>
   
     <q-layout-drawer class="bg-seven main-left-list-container" v-model="showLeft" side="left">
-      <!--
-                            Use <q-item> component
-                            instead of <q-item> for
-                            internal vue-router navigation
-                          -->
       <q-list no-border link inset-delimiter>
         <q-list-header class="header-container row justify-left">
           <div class="header-left row justify-center items-center" @click="toHome">
@@ -93,14 +88,6 @@
           <q-item-side icon="person" />
           <q-item-main :label="$t('PERSONAL')" />
         </q-item>
-        <!-- <q-item item :to="getRouterConf('forging')">
-                  <q-item-side icon="gavel" />
-                  <q-item-main :label="$t('FORGING')" />
-                </q-item> -->
-        <!-- <q-item class="list-item-container" item :to="getRouterConf('peers')">
-            <q-item-side icon="share" />
-            <q-item-main :label="$t('PEERS')" />
-          </q-item> -->
         <q-item class="list-item-container" item :to="getRouterConf('issuer')">
           <q-item-side icon="send" />
           <q-item-main :label="$t('TRS_TYPE_UIA_ISSUE')" />
@@ -127,7 +114,6 @@
       </q-modal>
   
       <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText" />
-      <!-- <float-menu v-if="this.showFloatBtns" :router="$router" :userObj="user" /> -->
       <trans-info-modal class="code-modal-container" :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false" />
     </q-page-container>
   
