@@ -653,7 +653,7 @@ const lang = {
     CURRENCY_NOT_SUPPORTED: '不支持当前币种',
     PEMISSION_DENIED: '请求被拒绝',
     GATEWAY_ACCOUNT_NOT_EXIST: '网关账户不存在',
-    ALREADY_SUBMIT: '网关账户不存在',
+    ALREADY_SUBMIT: '已经提交',
     TRANSACTION_NOT_EXIST: '提现交易不存在',
     DUP_WITHDRAW_SIG: '重复提现签名',
     INVALID_PROPOSAL_TITLE: '提案名称不正确',
