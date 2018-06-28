@@ -268,7 +268,7 @@ export default {
 }
 
 .asset-cards-container {
-  // min-width: 1376px;
+  min-width: 1366px;
 }
 .break-word
   word-break break-word
