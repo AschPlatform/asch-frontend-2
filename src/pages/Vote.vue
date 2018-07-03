@@ -97,7 +97,7 @@ import {
   QInput,
   QTooltip
 } from 'quasar'
-import { toast, toastWarn, translateErrMsg, toastError } from '../utils/util'
+import { toast, toastWarn, translateErrMsg } from '../utils/util'
 // import { createVote } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
