@@ -82,7 +82,7 @@
         <q-field class="col-12" :label-width="4">
           <q-select :float-label="$t('ASSET')" filter v-model="form.depositName" :options="assetsOpt" :error="$v.form.depositName.$error" error-label="error" />
         </q-field>
-        <q-field :label-width="4" class="col-12">
+        <q-field :label-width="4" :error-label="$t('ERR_ASSET_PRECISION_NOT_CORRECT')" class="col-12">
           <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :error="$v.form.amount.$error" error-label="error" />
         </q-field>
         <q-field v-if="dialog.form==3" :label-width="4" class="col-12">
@@ -103,9 +103,10 @@
 <script>
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
 import { createInnerTransaction, check58 } from '../utils/asch'
-import { required, minValue, numeric } from 'vuelidate/lib/validators'
+import { required, minValue } from 'vuelidate/lib/validators'
 import { secondPwdReg } from '../utils/validators'
 import { mapActions, mapGetters } from 'vuex'
+import { BigNumber } from 'bignumber.js'
 
 import defaultIcon from '../assets/dapps.png'
 import {
@@ -167,7 +168,7 @@ export default {
       balanceType: 0, // 0 dapp, 1 user
       form: {
         depositName: '',
-        amount: null,
+        amount: '',
         address: null,
         secondPwd: ''
       },
@@ -180,8 +181,15 @@ export default {
     form: {
       amount: {
         required,
-        numeric,
-        minValue: minValue(1)
+        // numeric,
+        minValue: minValue(0),
+        outPrecision(val) {
+          if (this.selectedAssets && val !== '') {
+            let str = BigNumber(val).times(Math.pow(10, this.selectedAssets.precision)).toString()
+            return str.indexOf('.') === -1 && str.indexOf('-') === -1
+          }
+          return false
+        }
       },
       depositName: {
         required
@@ -325,8 +333,8 @@ export default {
     },
     async onOk() {
       this.$v.form.$touch()
-      if (this.$v.form.$error || (this.secondSignature && this.secondPwdError)) {
-        toastWarn('error')
+      if (this.$v.form.$error || this.$v.form.$invalid || (this.secondSignature && this.secondPwdError)) {
+        toastWarn(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
         this.dialogShow = true
         return
       }

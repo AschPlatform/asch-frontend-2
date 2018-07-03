@@ -225,7 +225,7 @@ export default {
         this.selected = []
         return
       }
-      if (this.selectedDelegate.length >= 33) {
+      if (this.selectedDelegate.length > 33) {
         toastWarn(this.$t('ERR.NO_MORE_THAN_33'))
         return
       }
