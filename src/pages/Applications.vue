@@ -83,7 +83,7 @@
           <q-select :float-label="$t('ASSET')" filter v-model="form.depositName" :options="assetsOpt" :error="$v.form.depositName.$error" error-label="error" />
         </q-field>
         <q-field :label-width="4" class="col-12">
-          <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="0" :error="$v.form.amount.$error" error-label="error" />
+          <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :error="$v.form.amount.$error" error-label="error" />
         </q-field>
         <q-field v-if="dialog.form==3" :label-width="4" class="col-12">
           <q-input :float-label="$t('ADDRESS')" @blur="validateAddr" v-model="form.address" :error="this.addressError" :error-label="$t('ERR_TOAST_ACCOUNT_INVALID_RECIPIENT')" />

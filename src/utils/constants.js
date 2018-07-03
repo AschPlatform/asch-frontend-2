@@ -84,11 +84,12 @@ const officialPeers = [
 
 const urls = {
   server: {
-    // development: 'http://192.168.1.104:4096',
-    development: 'http://47.94.37.201:4006',
+    development: 'http://192.168.1.38:4096',
+    // development: 'http://47.94.37.201:4006',
     // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192',
-    production: 'http://47.75.26.122:4096'
+    // production: 'http://47.75.26.122:4096'
+    production: 'http://192.168.1.38:4096'
   },
   // 登录接口
   loginApi: {
