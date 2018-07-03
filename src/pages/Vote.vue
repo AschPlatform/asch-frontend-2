@@ -97,7 +97,7 @@ import {
   QInput,
   QTooltip
 } from 'quasar'
-import { toast, toastWarn, translateErrMsg } from '../utils/util'
+import { toast, toastWarn, translateErrMsg, toastError } from '../utils/util'
 // import { createVote } from '../utils/asch'
 import asch from '../utils/asch-v2'
 import { mapActions, mapGetters } from 'vuex'
@@ -223,6 +223,10 @@ export default {
     async onOk() {
       if (this.selectedDelegate.length === 0) {
         this.selected = []
+        return
+      }
+      if (this.selectedDelegate.length >= 33) {
+        toastWarn(this.$t('ERR.NO_MORE_THAN_33'))
         return
       }
       let trans = asch.voteDelegate(

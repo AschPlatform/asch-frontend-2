@@ -688,7 +688,8 @@ const lang = {
     VERIFY_SIG_FAILED: 'Verify signature failed',
     INVALID_TRANSACTION_FUNC: 'Invalid transaction function',
     CONTRACT_NOT_EXIST: 'Contract not exist',
-    UNSUPPORTED_TRANS_TYPE: 'Unsupported transaction type'
+    UNSUPPORTED_TRANS_TYPE: 'Unsupported transaction type',
+    NO_MORE_THAN_33: 'You cannot vote more than 33 at the same time'
   },
   LASTEST_UPDATE_TIME: 'Last Update Time',
   ARGS: 'Args',

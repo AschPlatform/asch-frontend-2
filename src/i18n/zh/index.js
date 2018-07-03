@@ -688,7 +688,8 @@ const lang = {
     VERIFY_SIG_FAILED: '核实签名失败',
     INVALID_TRANSACTION_FUNC: '交易功能非法',
     CONTRACT_NOT_EXIST: '合约不存在',
-    UNSUPPORTED_TRANS_TYPE: '不支持的交易类型'
+    UNSUPPORTED_TRANS_TYPE: '不支持的交易类型',
+    NO_MORE_THAN_33: '不能同时投多于33票'
   },
   LASTEST_UPDATE_TIME: '最后更新日期',
   ARGS: '参数',
