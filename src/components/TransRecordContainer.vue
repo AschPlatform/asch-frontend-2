@@ -181,12 +181,10 @@ export default {
       }
     },
     dueArg(args) {
-      if (args) {
-        args = args.replace(/,/g, '\n')
-        args = args.replace(/"/g, '')
-        args = args.replace(/\[/g, '')
-        args = args.replace(/\]/g, '')
-        return args
+      let content = JSON.parse(args)
+      if (content.length !== 0) {
+        let str = content.join(' , ')
+        return str
       }
       return this.$t('NO_ARGS')
     },

@@ -83,11 +83,11 @@ export default {
     return {
       columns: [
         {
-          name: 'gateway',
+          name: 'name',
           required: true,
           label: this.$t('COUNCIL_PAGE.MEMBER'),
           align: 'center',
-          field: 'gateway'
+          field: 'name'
         },
         {
           name: 'desc',

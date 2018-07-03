@@ -125,7 +125,7 @@
         </q-field>
       </q-card-main>
   
-      <q-card-separator class="col-12 q-my-lg bg-999 no-border-top" />
+      <q-card-separator v-show="!isBtnAble" class="col-12 q-my-lg bg-999 no-border-top" />
       <!-- below is func btn -->
       <div class="row col-12" v-show="!isBtnAble">
         <q-field v-if="secondSignature" class="col-8 font-16" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="2">
@@ -319,7 +319,7 @@ export default {
     ...mapGetters(['userInfo']),
     ...mapState(['latestBlock']),
     proposalDetailClass() {
-      return this.isDesk ? 'padding-20 card-margin q-my-xl padding-top-0' : 'row padding-20 margin-top-20 padding-top-0'
+      return this.isDesk ? 'card-margin q-my-xl padding-top-0' : 'row margin-top-20 padding-top-0'
     },
     // enpower
     dealWithType() {
@@ -401,6 +401,7 @@ export default {
 
 .card-margin
   margin 36px
+  padding 20px
 
 .chip
   margin 0 5px 5px 0

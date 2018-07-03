@@ -43,7 +43,7 @@
                   <i class="material-icons font-16 personal-icon">lock outline</i> {{$t('SECOND_PASSWORD')}}
                 </td>
                 <td :class="personalRightClass">
-                  <span v-if="secondSignature" class="text-black font-18">
+                  <span v-if="secondSignature" class="text-black font-16">
                     {{$t('ALREADY_SET')}}
                   </span>
                   <a v-else class="text-secondary font-16" @click="secondPwdShow=true">
@@ -572,13 +572,13 @@ export default {
       return this.isDesk ? 'col-md-9 col-xs-7' : 'col-md-9 col-xs-7 text-right'
     },
     personalFontClass() {
-      return this.isDesk ? 'font-18' : 'font-12'
+      return this.isDesk ? 'font-16' : 'font-12'
     },
     personalClickClass() {
-      return this.isDesk ? 'text-secondary font-18' : 'text-secondary font-12'
+      return this.isDesk ? 'text-secondary font-16' : 'text-secondary font-12'
     },
     personalUnLockClass() {
-      return this.isDesk ? 'text-blue font-18' : 'text-blue font-12'
+      return this.isDesk ? 'text-secondary font-16' : 'text-secondary font-12'
     },
     personalLockClass() {
       return this.isDesk ? 'minimized modal-content-limit' : 'maximized'

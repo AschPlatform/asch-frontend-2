@@ -1,5 +1,5 @@
 <template>
-  <div class="col-10 transPanel-container modal-content-limit" v-if="asset">
+  <div class="col-10 transPanel-container" v-if="asset">
     <div class="bg-secondary transfer-top-container" v-if="showTitle">
       <span class="text-white font-18">
         <i class="material-icons">border_color</i>

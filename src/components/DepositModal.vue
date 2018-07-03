@@ -1,5 +1,5 @@
 <template>
-  <q-modal class="deposit-modal-container" content-classes="modal-content-limit row justify-center" v-model="show" no-backdrop-dismiss :no-esc-dismiss="true">
+  <q-modal class="deposit-modal-container" content-classes="row justify-center" v-model="show" no-backdrop-dismiss :no-esc-dismiss="true">
     <div class="col-12 padding-b-54 ">
       <!-- <h4>{{$t('DEPOSIT')}}</h4> -->
       <div class="bg-secondary padding-40 height-62">

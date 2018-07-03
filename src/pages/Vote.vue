@@ -225,6 +225,10 @@ export default {
         this.selected = []
         return
       }
+      if (this.selectedDelegate.length > 33) {
+        toastWarn(this.$t('ERR.NO_MORE_THAN_33'))
+        return
+      }
       let trans = asch.voteDelegate(
         this.selectedDelegate.join(','),
         this.userInfo.secret,
