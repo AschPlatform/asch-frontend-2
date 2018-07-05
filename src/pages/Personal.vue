@@ -535,7 +535,6 @@ export default {
   },
   async mounted() {
     if (this.lockInfo) {
-      console.log(this.lockInfo)
       this.time = this.lockInfo.time
       this.num = convertFee(this.lockInfo.amount, 8)
     }
