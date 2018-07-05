@@ -5,7 +5,7 @@
       <div :class="agentDetailTitleClass">
         <div>
         <i class="material-icons vertical-align-middle font-24 text-secondary">perm_identity</i>
-        <span class="font-24 vertical-align-middle font-weight">{{$t('VOTE_DELEGATE_DETAIL')}}</span>
+        <span class="font-24 vertical-align-middle font-weight">{{$t('AGENT_DETAIL')}}</span>
         </div>
         <q-btn color="secondary" slot="right" class="row items-center" @click="back">
           <q-icon name="reply" />
@@ -97,7 +97,7 @@
     <q-card v-if="userAccount" class="mobile-hide col-md-3 col-xs-12 margin-t-15 no-shadow">
       <div class="shadow-2 bg-white">
       <q-card-title class="bg-nine text-black font-22 height-62">
-        {{$t('AGENT_DETAIL')}}
+        {{$t('VOTE_DELEGATE_DETAIL')}}
       </q-card-title>
       <q-card-main class="padding-20" align="center">
         <div class="text-secondary font-30 margin-t-20 break-word">

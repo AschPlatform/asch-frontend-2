@@ -578,7 +578,9 @@ export default {
         maxValue: maxValue(16)
       },
       currencyBrief: {
-        required
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(256)
       }
     },
     INIT: {

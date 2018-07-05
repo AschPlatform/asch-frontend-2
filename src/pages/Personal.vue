@@ -178,7 +178,7 @@
           <!-- <p class="text-secondary font-12">{{$t('UNLOCK_TIPS')}}</p> -->
           <q-datetime
           v-model="time"
-          :min="today"
+          :min="miniumTime"
           popover
           :float-label="$t('SET_UNLOCK_TIME')"
           type="datetime" 
@@ -224,11 +224,6 @@ import {
 import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
-let today = new Date()
-today = date.addToDate(today, {
-  days: 31
-})
-
 export default {
   props: ['userObj'],
   components: {
@@ -270,7 +265,6 @@ export default {
       userAgreementShow: false,
       num: '',
       time: '',
-      today,
       numError: false,
       btnDisable: false,
       isDisable: false
@@ -635,6 +629,20 @@ export default {
       } else {
         return ''
       }
+    },
+    miniumTime() {
+      let minTime
+      if (this.time) {
+        minTime = date.addToDate(this.time, {
+          days: 31
+        })
+      } else {
+        let today = new Date()
+        minTime = date.addToDate(today, {
+          days: 31
+        })
+      }
+      return minTime
     }
   },
   watch: {
