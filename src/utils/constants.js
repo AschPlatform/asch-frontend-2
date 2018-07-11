@@ -89,7 +89,8 @@ const urls = {
     // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192',
     // production: 'http://47.75.26.122:4096'
-    production: 'http://192.168.1.38:4096'
+    // production: 'http://192.168.1.38:4096'
+    production: 'http://127.0.0.1:4096'
   },
   // 登录接口
   loginApi: {
