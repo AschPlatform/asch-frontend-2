@@ -3,7 +3,6 @@
 </template>
 <script>
 import Jdenticon from 'jdenticon'
-// import { setTimeout } from 'timers';
 
 export default {
   name: 'Jdenticon',
@@ -21,7 +20,6 @@ export default {
   },
   watch: {
     address(val) {
-      console.log(val)
       this.$nextTick(() => {
         Jdenticon()
       })
