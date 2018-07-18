@@ -178,8 +178,8 @@
           <!-- <p class="text-secondary font-12">{{$t('UNLOCK_TIPS')}}</p> -->
           <q-datetime
           v-model="time"
-          :min="miniumTime"
           popover
+          :min="miniumTime"
           :float-label="$t('SET_UNLOCK_TIME')"
           type="datetime" 
           format24h
@@ -632,10 +632,17 @@ export default {
     },
     miniumTime() {
       let minTime
-      if (this.time) {
-        minTime = date.addToDate(this.time, {
-          days: 31
-        })
+      if (this.lockInfo) {
+        if (this.lockInfo.time) {
+          minTime = date.addToDate(this.lockInfo.time, {
+            days: 31
+          })
+        } else {
+          let today = new Date()
+          minTime = date.addToDate(today, {
+            days: 31
+          })
+        }
       } else {
         let today = new Date()
         minTime = date.addToDate(today, {
