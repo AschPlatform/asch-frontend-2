@@ -170,7 +170,7 @@
     <q-dialog :class="personalLockClass" style="min-height: 120px" v-model="lockPanelShow">
       <span slot="title">{{$t('LOCK_POSITION_CONF')}}</span>
       <div slot="body" class="row justify-center" >
-        <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError" :helper="numLimit">
+        <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError || $v.num.$error" :error-label="$t('ERR_LOCKAMOUNT', {num:lockableNum})" :helper="numLimit">
           <q-input @blur="validateNum" :placeholder="$t('LOCK_DETAIL_TIP')" type="number" :decimals="0" v-model="num" />
         </q-field>
          <q-field class="col-10" :label="$t('HEIGHT')" color="black" :label-width="3" :error="$v.time.$error" 
@@ -285,7 +285,12 @@ export default {
         return nicknameReg.test(value)
       }
     },
-    num: {},
+    num: {
+      required,
+      isValid(val) {
+        return this.lockableNum < val
+      }
+    },
     time: {}
   },
   methods: {
@@ -650,6 +655,13 @@ export default {
         })
       }
       return minTime
+    },
+    lockableNum() {
+      if (this.user && this.user.account && this.user.account.xas) {
+        let left = convertFee(this.user.account.xas)
+        return left - 1.1
+      }
+      return 0
     }
   },
   watch: {

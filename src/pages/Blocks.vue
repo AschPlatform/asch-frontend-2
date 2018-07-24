@@ -95,10 +95,10 @@
             <td >{{'ID'}}</td>
             <td >{{row.id}}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td >{{'VERSION'}}</td>
             <td >{{row.version}}</td>
-          </tr>
+          </tr> -->
           <tr v-clipboard="this.formatTimestamp(row.timestamp) || 'no data'" @success="info('copy date success...')">
             <td >{{$t('DATE')}}</td>
             <td >{{this.formatTimestamp(row.timestamp)}}</td>
@@ -112,25 +112,25 @@
             <td class="text-secondary">{{row.previousBlock}}</td>
           </tr>
           <tr>
-            <td >{{$t('TOTAL_AMOUNTS')}}</td>
+            <td >{{$t('TRANSACTIONS_COUNT')}}</td>
             <td >{{row.numberOfTransactions}}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td >{{$t('TOTAL_AMOUNTS')}}</td>
             <td >{{row.totalAmount}}</td>
           </tr>
           <tr >
-            <td >{{$t('REWARD')}}</td>
+            <td >{{$t('REWARDS')}}</td>
             <td >{{row.reward | fee}}</td>
-          </tr>
+          </tr> -->
           <tr >
             <td >{{$t('PAYLOAD_HASH')}}</td>
             <td >{{row.payloadHash}}</td>
           </tr>
-          <tr @click="()=>{modalInfoShow = false;showAccountInfo(row.generatorId)}">
+          <!-- <tr @click="()=>{modalInfoShow = false;showAccountInfo(row.generatorId)}">
             <td >{{$t('PRODUCER')}}</td>
             <td class="text-secondary">{{row.generatorId }}</td>
-          </tr>
+          </tr> -->
           <tr >
             <td >{{$t('PRODUCER_PUBKEY')}}</td>
             <td >{{row.generatorPublicKey}}</td>
