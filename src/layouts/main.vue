@@ -237,7 +237,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances', 'getIssuer', 'registGateway']),
+    ...mapActions([
+      'refreshAccounts',
+      'getAccountsInfo',
+      'getBalances',
+      'getIssuer',
+      'registGateway'
+    ]),
     ...mapMutations([
       'updateUserInfo',
       'setUserInfo',
@@ -332,11 +338,16 @@ export default {
     // }
   },
   beforeMount() {
-    let lang = this.$i18n.locale = getCache('locale')
+    let lang = (this.$i18n.locale = getCache('locale'))
     console.log(lang)
     import(`src/i18n/${lang}`).then(lang => {
       this.$q.i18n.set(lang.default)
     })
+    if (window && window.location && process.env.NODE_ENV === 'production') {
+      const location = window.location
+      let server = location.protocol + '//' + location.hostname + ':' + location.port || 80
+      setCache('currentServer', server)
+    }
   },
   async mounted() {
     let user = this.userInfo || getCache('user') || null

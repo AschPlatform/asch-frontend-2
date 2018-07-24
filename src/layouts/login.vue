@@ -255,6 +255,13 @@ export default {
     import(`src/i18n/zh`).then(lang => {
       this.$q.i18n.set(lang.default)
     })
+    if (window && window.location && process.env.NODE_ENV === 'production') {
+      console.log(process.env.NODE_ENV)
+      const location = window.location
+      let server = location.protocol + '//' + location.hostname + ':' + location.port || 80
+      console.log(server)
+      setCache('currentServer', server)
+    }
   },
   created() {
     removeCache('currentServer')
@@ -347,7 +354,7 @@ html, body {
 
 .login-panel {
   width: 513px;
-  height 412px
+  height: 412px;
   position: relative;
   background: #ffffff;
   padding: 30px 0 40px 0;
@@ -367,7 +374,7 @@ html, body {
   width: 350px;
   height: 78px;
   margin: 0 auto;
-  margin-top 120px
+  margin-top: 120px;
 }
 
 .options-panel {
