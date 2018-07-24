@@ -181,9 +181,8 @@ export default {
       }
     },
     dueArg(args) {
-      let content = JSON.parse(args)
-      if (content.length !== 0) {
-        let str = content.join(' , ')
+      if (args.length !== 0) {
+        let str = args.join(' , ')
         return str
       }
       return this.$t('NO_ARGS')
