@@ -79,7 +79,7 @@
             </div>
             <div class="row col-12">
               <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.NET_CURRENCY_TIP')" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
-                <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" upper-case type="text" v-model="NEW.currency" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.currency.$error"></q-input>
+                <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" type="text" v-model="NEW.currency" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.currency.$error"></q-input>
               </q-field>
             </div>
             <div class="row col-12">
@@ -94,7 +94,7 @@
             </div>
             <div class="row col-12">
               <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_3_33')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-                <q-input type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :suffix="$t('LAUNCH_MODAL.PERSON')"></q-input>
+                <q-input type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :placeholder="$t('LAUNCH_MODAL.PERSON')"></q-input>
               </q-field>
             </div>
             <!-- <div class="row">
@@ -104,7 +104,7 @@
               </div> -->
             <div class="row col-12">
               <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
-                <q-input type="number" v-model="NEW.period" @blur="$v.NEW.period.$touch()" :error="$v.NEW.period.$error" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
+                <q-input type="number" v-model="NEW.period" @blur="$v.NEW.period.$touch()" :error="$v.NEW.period.$error" :placeholder="$t('LAUNCH_MODAL.DAY')"></q-input>
               </q-field>
             </div>
             <div class="row col-12">
@@ -578,7 +578,9 @@ export default {
         maxValue: maxValue(16)
       },
       currencyBrief: {
-        required
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(256)
       }
     },
     INIT: {
@@ -687,13 +689,6 @@ export default {
         toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
         return
       }
-      // } else {
-      //   let result = this.checkValidate(this.second_type)
-      //   if (!result) {
-      //     toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
-      //     return
-      //   }
-      // }
       let obj = {}
       obj.content = this.compileContent()
       obj.title = this.p_title
@@ -907,8 +902,8 @@ export default {
     ...mapGetters(['userInfo']),
     proposalLaunchClass() {
       return this.isDesk
-        ? 'padding-20 q-mx-xl q-my-xl'
-        : 'row col-12 padding-20 margin-top-20'
+        ? 'padding-siut q-mx-xl q-my-xl'
+        : 'row col-12 padding-siut margin-top-20'
     },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
@@ -1026,4 +1021,6 @@ export default {
 .no-border-top {
   margin-top: 0 !important;
 }
+.padding-siut
+  padding 20px
 </style>

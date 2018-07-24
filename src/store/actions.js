@@ -80,12 +80,6 @@ export default {
   myAssets: ({ commit }, params) => {
     return api.myAssets(params)
   },
-  // getIssuer: ({ commit, state }, params) => {
-  //   return api.issuer(params).then(res => {
-  //     commit('setIssuer', res.issuer)
-  //     return res
-  //   })
-  // },
   assetAcl: ({ commit }, params) => {
     return api.assetAcl(params)
   },
@@ -236,6 +230,10 @@ export default {
   getAllChains: ({ commit }, params) => {
     return api2.chains(params)
   },
+  // get installed chains
+  getInstalledChains: ({ commit }, params) => {
+    return api2.chainsInstalled(params)
+  },
   // api2 post actions
   postProposal: ({ commit, state }, params) => {
     let secret = state.userInfo.secret
@@ -287,8 +285,8 @@ export default {
     let secret = state.userInfo.secret
     let trans = asch.registerGateway(
       params.gateway || 'bitcoin',
-      params.publicKey || '864703035e16a3526f3ac9b6a182296ebeda292ac0b1975d55b0f2ae95a79488',
-      params.desc || 'This is what we are tring to descpt what we do',
+      params.publicKey || 'f97241ca42cacdc23c89d7acae94f396c583f28311c6c30de190ea940e86f09d',
+      params.desc || 'Hey dont say3',
       secret,
       params.secondSecret || ''
     )

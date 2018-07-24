@@ -1,10 +1,10 @@
 <template>
-  <div class="col-10 transPanel-container modal-content-limit" v-if="asset">
+  <div class="col-10 transPanel-container" v-if="asset">
     <div class="bg-secondary transfer-top-container" v-if="showTitle">
-      <span class="text-white font-22">
+      <span class="text-white font-18">
         <i class="material-icons">border_color</i>
       </span>
-      <span class="text-white font-22">
+      <span class="text-white font-18">
             {{$t('TRS_TYPE_TRANSFER')}}
       </span>
       <span class="text-white font-12">
@@ -15,19 +15,17 @@
      <jdenticon class="transfer-jdenticon" :address="form.receiver" :size="60" />
     </div>
     <div class="transfer-bottom-container" v-if="user && user.account" >
-       <!-- <div class="col-3" style="display:inline-block">{{$t('RECIPIENT')+':'}}</div> -->
       <q-field class="col-8 text-four" :label="$t('RECIPIENT')+':'" :label-width="3" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')">
-        <q-input class="col-8" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error"  :placeholder="$t('RECIPIENT_NAME_ADDRESS')"/>
+        <q-input class="col-8 font-12" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error"  :placeholder="$t('RECIPIENT_NAME_ADDRESS')"/>
       </q-field>
       <q-field class="col-12" :label="$t('DAPP_CATEGORY')+':'" :label-width="3">
-        <!-- <q-input v-if="currency" disable :float-label="$t('DAPP_CATEGORY')" v-model="currency" /> -->
          <q-select
           v-model="form.currency"
           :options="assetsOpt" />
           <p class="text-secondary font-12" v-if="form.currency" >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
       </q-field>
       <q-field class="col-12" :label="$t('AMOUNTS')+':'" :label-width="3" :error-label="$t('ERR_AMOUNT_INVALID')">
-        <q-input  @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error"  />
+        <q-input class="font-12"  @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error"  />
       </q-field>
       <q-field v-if="secondSignature" class="col-12"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
         <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />

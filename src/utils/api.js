@@ -27,16 +27,6 @@ const fetch = (url, data, method, postHeaders) => {
   }
 
   // TODO find server
-  // let server = nodeService.getCurrentServer()
-
-  // if (!nodeService.isStaticServer()) {
-  //   let retryTimes = 0
-  //   while (!server.isServerAvalible(true) && retryTimes++ < 10) {
-  //     console.log('current server unavalible')
-  //     nodeService.changeServer(true)
-  //     server = nodeService.getCurrentServer()
-  //   }
-  // }
   let selectedServerUrl = getCurrentSeverUrl()
   // let realUrl = urls.server.caos + url
   let realUrl = !selectedServerUrl
@@ -310,6 +300,10 @@ api2.gatewayDelegates = params => {
 // 获取所有已注册侧链
 api2.chains = params => {
   return fetch(urls.v2.chains, params, 'get')
+}
+// 获取所有已注册侧链
+api2.chainsInstalled = params => {
+  return fetch(urls.v2.chainsInstalled, params, 'get')
 }
 
 export { api, api2 }

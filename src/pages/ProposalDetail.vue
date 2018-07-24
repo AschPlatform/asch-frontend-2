@@ -16,7 +16,6 @@
       <div class="row col-12">
         <q-field :label-width="2" :label="$t('proposal.SELECT_P_TYPE')" class="col-10 font-16">
           <q-input class="border-1" readonly hide-underline v-model="dealWithType" value="" />
-          <!-- <span>{{detail.content | jparse('name', false)}}</span> -->
         </q-field>
       </div>
       <div class="row col-12">
@@ -25,14 +24,6 @@
           {{$t('TO')}}
           <q-input class="border-1 col-5 inline-flex" readonly hide-underline value="" v-model="time_end"></q-input>
         </q-field>
-  
-        <!-- <q-field class="col-md-2 col-xs-5 font-16">
-        </q-field> -->
-        <!-- <q-field class="col-md-1 col-xs-2 font-16" :label="$t('TO')">
-        </q-field> -->
-        <!-- <q-field class="col-md-2 col-xs-5 font-16">
-        </q-field> -->
-  
       </div>
     </q-card>
   
@@ -129,15 +120,12 @@
       <!-- below is vote status -->
       <q-card-main class="col-12 padding-0">
         <p class="font-16">{{$t('proposal.VOTE_STATUS', {number: voteTotalNum, rate: votePassRate})}}</p>
-        <!-- <p class="font-16">{{$t('LAUNCH_MODAL.VOTE_LIST')}}</p> -->
         <q-field label-width="2" :label="$t('LAUNCH_MODAL.VOTE_LIST')" class="vote-list">
-          <!-- <q-chips-input square chips-color="secondary" color="secondary" class="col-md-5 col-xs-12" inverted readonly v-model="voteList" disable>
-          </q-chips-input> -->
           <q-chip square v-for="(item, idx) in voteList" color="white" text-color="secondary" :key="idx" class="chip">{{item}}</q-chip>
         </q-field>
       </q-card-main>
   
-      <q-card-separator class="col-12 q-my-lg bg-999 no-border-top" />
+      <q-card-separator v-show="!isBtnAble" class="col-12 q-my-lg bg-999 no-border-top" />
       <!-- below is func btn -->
       <div class="row col-12" v-show="!isBtnAble">
         <q-field v-if="secondSignature" class="col-8 font-16" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="2">
@@ -287,16 +275,6 @@ export default {
         this.preMemberList = ls
         this.postMemberList = ls
       }
-      // if (this.detail.activated === 1) {
-      //   this.btnInfo = 'proposal.ACTIVATED'
-      //   this.isBtnAble = false
-      // } else if (this.detail.endHeight < this.latestBlock.height) {
-      //   this.btnInfo = 'proposal.EXPIRED'
-      //   this.isBtnAble = false
-      // } else {
-      //   this.btnInfo = 'proposal.ACTIVE'
-      //   this.isBtnAble = true
-      // }
     },
     async activePro() {
       let res = await this.activeProposal({
@@ -341,7 +319,7 @@ export default {
     ...mapGetters(['userInfo']),
     ...mapState(['latestBlock']),
     proposalDetailClass() {
-      return this.isDesk ? 'padding-20 card-margin q-my-xl padding-top-0' : 'row padding-20 margin-top-20 padding-top-0'
+      return this.isDesk ? 'card-margin q-my-xl padding-top-0' : 'row margin-top-20 padding-top-0'
     },
     // enpower
     dealWithType() {
@@ -423,6 +401,7 @@ export default {
 
 .card-margin
   margin 36px
+  padding 20px
 
 .chip
   margin 0 5px 5px 0

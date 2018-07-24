@@ -119,13 +119,6 @@ export default {
               col2: [],
               fee: []
             }
-            // if (e.recipientId === this.userInfo.address) {
-            //   plag = '+'
-            //   temp.col1.push(e.senderId)
-            // } else {
-            //   plag = '-'
-            //   e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
-            // }
             temp.col1.push(e.address)
             temp.col1.push(this.filterState(e.processed) + '  ' + fullTimestamp(e.timestamp))
             temp.col2.push(String(e.confirmations))
@@ -153,13 +146,6 @@ export default {
               col2: [],
               fee: []
             }
-            // if (e.recipientId === this.userInfo.address) {
-            //   plag = '+'
-            //   temp.col1.push(e.senderId)
-            // } else {
-            //   plag = '-'
-            //   e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
-            // }
             temp.col1.push(e.recipientId)
             temp.col1.push(this.filterState(e.ready) + '  ' + fullTimestamp(e.timestamp))
             temp.col2.push(String(e.signs))
@@ -235,21 +221,6 @@ export default {
             field: 'opt',
             align: 'center'
           },
-          // {
-          //   name: 'id',
-          //   label: 'ID',
-          //   field: 'id'
-          // },
-          // {
-          //   name: 'type',
-          //   label: this.$t('TYPE'),
-          //   field: 'type',
-          //   align: 'center',
-          //   filter: true,
-          //   format: value => {
-          //     return this.getTransType(value)
-          //   }
-          // },
           {
             name: 'senderId',
             label: this.$t('SENDER'),

@@ -2,9 +2,6 @@
   <!-- if you want automatic padding use "layout-padding" class -->
   <q-page>
     <q-card class="no-shadow" v-if="user">
-      <!-- <q-card-title>
-              {{$t('PERSONAL')}}
-            </q-card-title> -->
       <q-card-main class="row col-12 justify-center">
         <div :class="personalTopClass">
           <div class="desktop-only">
@@ -22,8 +19,6 @@
             </div>
             <div class="row col-12 justify-left text-three">
               <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" /></span>
-              <!-- {{address}} -->
-              <!-- <q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" /> -->
             </div>
           </div>
           <div :class="personalTopQrClass">
@@ -37,28 +32,28 @@
         <div class="personal-bottom shadow-2 bg-white row col-12 justify-left margin-t-20">
           <div :class="personalIconClass">
             <i class="material-icons">email</i>
-            <span>
-                {{$t('MESSAGE_DETAILS')}}
-              </span>
+            <span class="font-18">
+              {{$t('MESSAGE_DETAILS')}}
+            </span>
           </div>
           <table class="personal-table q-mt-md q-table bordered highlight responsive ">
             <tbody class='row info-tbody'>
-              <tr class="row col-12">
-                <td class="col-md-2 col-xs-6 bottom-left-link text-three font-18">
-                  <i class="material-icons font-22 personal-icon">lock outline</i> {{$t('SECOND_PASSWORD')}}
+                <tr class="row col-12">
+                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-16">
+                  <i class="material-icons font-16 personal-icon">lock outline</i> {{$t('SECOND_PASSWORD')}}
                 </td>
                 <td :class="personalRightClass">
-                  <span v-if="secondSignature" class="text-black font-18">
+                  <span v-if="secondSignature" class="text-black font-16">
                     {{$t('ALREADY_SET')}}
                   </span>
-                  <a v-else class="text-secondary" @click="secondPwdShow=true">
+                  <a v-else class="text-secondary font-16" @click="secondPwdShow=true">
                     {{$t('SET_NOW')}}
                   </a>
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-2 col-xs-4 bottom-left-link text-three font-18 padding-0">
-                  <i class="material-icons font-22 personal-icon">settings</i>
+                <td class="col-md-3 col-xs-4 bottom-left-link text-three font-16 padding-0">
+                  <i class="material-icons font-16 personal-icon">settings</i>
                   <span>{{$t('LOCK_POSITION_CONF')}}</span>
                 </td>
                 <td :class="personalRightTwoClass">
@@ -70,31 +65,31 @@
                     <a :class="personalClickClass" @click="callLockPanel">{{$t('EDIT')}}</a>
                     <a v-if="this.lockInfo.expire" :class="personalUnLockClass" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
-                  <a v-else class="text-secondary" @click="callLockPanel">
+                  <a v-else class="text-secondary font-16" @click="callLockPanel">
                     {{$t('SET_NOW')}}
                   </a>
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-2 col-xs-6 bottom-left-link text-three font-18">
-                  <i class="material-icons font-22 personal-icon">account_circle</i> {{$t('AGENT_INFO')}}
+                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-16">
+                  <i class="material-icons font-16 personal-icon">account_circle</i> {{$t('AGENT_INFO')}}
                 </td>
                 <td :class="personalRightClass">
                   <span :class="personalFontClass" v-if="isAgent || isDelegate === 1">
                     {{$t('IS_AGENT')}}
                   </span>
-                  <a v-else class="text-secondary" @click="callDelegatePanel">
+                  <a v-else class="text-secondary font-16" @click="callDelegatePanel">
                     {{$t('REGISTER_AGENT')}}
                   </a>
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-2 col-xs-5 bottom-left-link text-three font-18">
-                  <i class="material-icons font-22 personal-icon">person</i> {{$t('GATEWAY_CANDIDATE')}}
+                <td class="col-md-3 col-xs-5 bottom-left-link text-three font-16">
+                  <i class="material-icons font-16 personal-icon">person</i> {{$t('GATEWAY_CANDIDATE')}}
                 </td>
                 <td :class="personalRightThreeClass">
                   <div @click="jump2Doc">
-                    <a class="text-secondary">
+                    <a class="text-secondary font-16">
                       {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
                     </a>
                   </div>
@@ -163,21 +158,19 @@
             </tbody>
           </table>
         </div>
-     
       </div>
-
-<template slot="buttons" slot-scope="props">
-  <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()" />
-  <q-btn class="col-3 self-lef" color="secondary" @click="setNickname(props.ok)">
-    {{$t('CONFIRM')}}
-  </q-btn>
-</template>
+      <template slot="buttons" slot-scope="props">
+        <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()" />
+        <q-btn class="col-3 self-lef" color="secondary" @click="setNickname(props.ok)">
+          {{$t('CONFIRM')}}
+        </q-btn>
+      </template>
     </q-dialog>
 
     <q-dialog :class="personalLockClass" style="min-height: 120px" v-model="lockPanelShow">
       <span slot="title">{{$t('LOCK_POSITION_CONF')}}</span>
       <div slot="body" class="row justify-center" >
-        <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError" :helper="numLimit">
+        <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError || $v.num.$error" :error-label="$t('ERR_LOCKAMOUNT', {num:lockableNum})" :helper="numLimit">
           <q-input @blur="validateNum" :placeholder="$t('LOCK_DETAIL_TIP')" type="number" :decimals="0" v-model="num" />
         </q-field>
          <q-field class="col-10" :label="$t('HEIGHT')" color="black" :label-width="3" :error="$v.time.$error" 
@@ -185,8 +178,8 @@
           <!-- <p class="text-secondary font-12">{{$t('UNLOCK_TIPS')}}</p> -->
           <q-datetime
           v-model="time"
-          :min="today"
           popover
+          :min="miniumTime"
           :float-label="$t('SET_UNLOCK_TIME')"
           type="datetime" 
           format24h
@@ -231,11 +224,6 @@ import {
 import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
-let today = new Date()
-today = date.addToDate(today, {
-  days: 31
-})
-
 export default {
   props: ['userObj'],
   components: {
@@ -277,7 +265,6 @@ export default {
       userAgreementShow: false,
       num: '',
       time: '',
-      today,
       numError: false,
       btnDisable: false,
       isDisable: false
@@ -298,30 +285,16 @@ export default {
         return nicknameReg.test(value)
       }
     },
-    num: {},
+    num: {
+      required,
+      isValid(val) {
+        return this.lockableNum < val
+      }
+    },
     time: {}
   },
   methods: {
     ...mapActions(['broadcastTransaction', 'setName']),
-    // async setLock() {
-    //   if (this.lockError) {
-    //     return
-    //   }
-    //   if (this.secondSignature) {
-    //     toastError(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
-    //     return
-    //   }
-    //   let trans = asch.setLock(this.lockHeight, this.amount, this.user.secret, this.secondPwd)
-    //   let res = await this.broadcastTransaction(trans)
-    //   if (res.success === true) {
-    //     console.log(res)
-    //     toast(this.$t('INF_POSITIONLOCK_SET_SUCCESS'))
-    //     this.locked = true
-    //   } else {
-    //     console.log(res)
-    //     translateErrMsg(this.$t, res.error)
-    //   }
-    // },
     reset(props) {
       this.password = ''
       this.confirmPassword = ''
@@ -419,13 +392,28 @@ export default {
         toastError(this.$t('ERR_NICKNAME'))
         return null
       } else {
-        let trans = asch.setName(this.nickname, this.user.secret, this.secondPwd)
+        let fee
+        let len = this.nickname.length
+        if (len === 2) {
+          fee = 20000000000
+        } else if (len === 3) {
+          fee = 10000000000
+        } else if (len === 4) {
+          fee = 8000000000
+        } else if (len === 5) {
+          fee = 4000000000
+        } else if (len <= 10) {
+          fee = 1000000000
+        } else {
+          fee = 100000000
+        }
+        let trans = asch.setName(this.nickname, fee, this.user.secret, this.secondPwd)
         let res = await this.broadcastTransaction(trans)
         if (res.success) {
           toast(this.$t('INF_OPERATION_SUCCEEDED'))
           this.nicknameFormShow = false
         } else {
-          toastError(res.error, this.$t)
+          translateErrMsg(this.$t, res.error)
         }
       }
     },
@@ -574,22 +562,22 @@ export default {
         : 'personal-bottom-title margin-left-10'
     },
     personalRightClass() {
-      return this.isDesk ? 'col-md-10 col-xs-6' : 'col-md-10 col-xs-6 text-right'
+      return this.isDesk ? 'col-md-9 col-xs-6' : 'col-md-9 col-xs-6 text-right'
     },
     personalRightTwoClass() {
-      return this.isDesk ? 'col-md-10 col-xs-8' : 'col-md-10 col-xs-8 text-right'
+      return this.isDesk ? 'col-md-9 col-xs-8' : 'col-md-9 col-xs-8 text-right'
     },
     personalRightThreeClass() {
-      return this.isDesk ? 'col-md-10 col-xs-7' : 'col-md-10 col-xs-7 text-right'
+      return this.isDesk ? 'col-md-9 col-xs-7' : 'col-md-9 col-xs-7 text-right'
     },
     personalFontClass() {
-      return this.isDesk ? 'font-18' : 'font-12'
+      return this.isDesk ? 'font-16' : 'font-12'
     },
     personalClickClass() {
-      return this.isDesk ? 'text-secondary font-18' : 'text-secondary font-12'
+      return this.isDesk ? 'text-secondary font-16' : 'text-secondary font-12'
     },
     personalUnLockClass() {
-      return this.isDesk ? 'text-blue font-18' : 'text-blue font-12'
+      return this.isDesk ? 'text-secondary font-16' : 'text-secondary font-12'
     },
     personalLockClass() {
       return this.isDesk ? 'minimized modal-content-limit' : 'maximized'
@@ -646,6 +634,34 @@ export default {
       } else {
         return ''
       }
+    },
+    miniumTime() {
+      let minTime
+      if (this.lockInfo) {
+        if (this.lockInfo.time) {
+          minTime = date.addToDate(this.lockInfo.time, {
+            days: 31
+          })
+        } else {
+          let today = new Date()
+          minTime = date.addToDate(today, {
+            days: 31
+          })
+        }
+      } else {
+        let today = new Date()
+        minTime = date.addToDate(today, {
+          days: 31
+        })
+      }
+      return minTime
+    },
+    lockableNum() {
+      if (this.user && this.user.account && this.user.account.xas) {
+        let left = convertFee(this.user.account.xas)
+        return left - 1.1
+      }
+      return 0
     }
   },
   watch: {
@@ -720,7 +736,7 @@ export default {
 
 .personal-bottom a {
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .personal-bottom-title i {

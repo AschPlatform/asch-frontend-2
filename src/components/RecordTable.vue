@@ -3,7 +3,7 @@
     <div class="q-table-top relative-position bg-white justify-between q-px-xs row">
       <div class="q-table-control">
         <i class="material-icons font-24 vertical-align-middle text-secondary">account_balance_wallet</i>
-        <div class="q-table-title margin-left-10">{{title}}</div>
+        <div class="q-table-title font-18 margin-left-10">{{title}}</div>
       </div>
       <div class="q-table-separator col"></div>
       <div v-if="isDesktop" class="q-table-control">

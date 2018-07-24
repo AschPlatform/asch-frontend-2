@@ -1,6 +1,10 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <q-page class="vote-container">
+    <div class="geteway-top">
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-20 text-black vertical-align-middle">{{$t('TRS_TYPE_VOTE')}}</span>
+    </div>
     <div class="row vote-content bg-white">
       <div class="col-md-8 col-xs-12 no-shadow bg-white">
         <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST')" :rows-per-page-options="[10]">
@@ -22,7 +26,7 @@
             </q-td>
             <q-td slot="body-cell-username" slot-scope="props" :props="props">
               <div>
-                {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
+                {{props.row.name}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
               </div>
             </q-td>
             <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
@@ -42,44 +46,39 @@
         </div>
 
     </div>
+      <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
 
-        <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
-
-        <span slot="title">{{$t('VOTE_TITLE')}}</span>
-        <span slot="message">{{$t('VOTE_TIP')}}
-          <br/>
-          {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
-        </span>
-          <div slot="body">
-            <q-field class="q-mb-lg" v-if="secondSignature"
-              :label="$t('TRS_TYPE_SECOND_PASSWORD')"
-              :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
-              :label-width="4"
-            >
-              <q-input v-model="secondPwd" type="password" />
-            </q-field>
+      <span slot="title">{{$t('VOTE_TITLE')}}</span>
+      <span slot="message">{{$t('VOTE_TIP')}}
+        <br/>
+        {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
+      </span>
+        <div slot="body">
+          <q-field class="q-mb-lg" v-if="secondSignature"
+            :label="$t('TRS_TYPE_SECOND_PASSWORD')"
+            :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
+            :label-width="4"
+          >
+            <q-input v-model="secondPwd" type="password" />
+          </q-field>
           <table class="q-table horizontal-separator highlight loose ">
-              <tbody class='info-tbody'>
-                <tr>
-                  <td >{{$t('DAPP_NAME')}}</td>
-                  <td >{{$t('ADDRESS')}}</td>
-                </tr>
-                <tr v-for="delegate in selected" :key="delegate.address">
-                  <td >{{delegate.name}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
-                  <td >{{delegate.address}} </td>
-                </tr>
-              </tbody>
-            </table>
-            </div>
-<template slot="buttons" slot-scope="props">
-  <q-btn flat color="secondary" :label="$t('label.cancel')" @click="props.cancel" />
-  <q-btn flat color="secondary" :label="$t('label.ok')" @click="props.ok" />
-</template>
-        </q-dialog>
-    <!-- this should review -->
-    
-    <!-- <agent-detail-modal :user="userInfo" :show="agentDetailModal" @close="agentDetailModal=false" /> -->
-    <!-- <router-view class="col-5" :userObj="userObj"></router-view> -->
+            <tbody class='info-tbody'>
+              <tr>
+                <td >{{$t('DAPP_NAME')}}</td>
+                <td >{{$t('ADDRESS')}}</td>
+              </tr>
+              <tr v-for="delegate in selected" :key="delegate.address">
+                <td >{{delegate.name}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
+                <td >{{delegate.address}} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <template slot="buttons" slot-scope="props">
+          <q-btn flat color="secondary" :label="$t('label.cancel')" @click="props.cancel" />
+          <q-btn flat color="secondary" :label="$t('label.ok')" @click="props.ok" />
+        </template>
+      </q-dialog>
   </q-page>
 </template>
 
@@ -205,7 +204,6 @@ export default {
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
       let res = await this.delegates({
-        address: this.userInfo.account.address,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -227,6 +225,10 @@ export default {
         this.selected = []
         return
       }
+      if (this.selectedDelegate.length > 33) {
+        toastWarn(this.$t('ERR.NO_MORE_THAN_33'))
+        return
+      }
       let trans = asch.voteDelegate(
         this.selectedDelegate.join(','),
         this.userInfo.secret,
@@ -234,6 +236,7 @@ export default {
       )
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
+        this.selected = []
         toast(this.$t('INF_VOTE_SUCCESS'))
       } else {
         translateErrMsg(this.$t, res.error)
@@ -282,7 +285,7 @@ export default {
       let trans = asch.repealAgent(this.userInfo.secret, secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success) {
-        toast('INF_OPERATION_SUCCEEDED')
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
       } else {
         translateErrMsg(this.$t, res.error)
       }
@@ -340,6 +343,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.geteway-top {
+  margin-bottom: 20px;
+}
 .vote-container {
   padding: 20px;
 }

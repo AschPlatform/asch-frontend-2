@@ -84,10 +84,12 @@ const officialPeers = [
 
 const urls = {
   server: {
-    // development: 'http://192.168.1.104:4096',
-    development: 'http://47.94.37.201:4006',
+    development: 'http://47.75.26.122:4096',
+    // development: 'http://47.94.37.201:4006',
     // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192',
+    // production: 'http://47.75.26.122:4096'
+    // production: 'http://192.168.1.38:4096'
     production: 'http://47.75.26.122:4096'
   },
   // 登录接口
@@ -335,7 +337,7 @@ const urls = {
     agents: {
       url: '/api/v2/agents'
     },
-    // 获取指定资产详情
+    // 获取代理人代理列表
     agentsSupporter: {
       url: '/api/v2/agents/:name/clienteles'
     },
@@ -346,6 +348,9 @@ const urls = {
     // 获取所有已注册侧链
     chains: {
       url: '/api/v2/chains'
+    },
+    chainsInstalled: {
+      url: '/api/v2/chains/installed'
     }
   },
 

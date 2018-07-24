@@ -18,21 +18,6 @@
       <q-field class="col-md-8 col-xs-12" :label="$t('PRECISION')" :helper="$t('ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16')" :error="$v.assets.precision.$error" :label-width="3"  :error-label="$t('ERR_ASSET_PRECISION_NOT_CORRECT')">
         <q-input @blur="$v.assets.precision.$touch" v-model="assets.precision" :decimals="0" :step="1"  type="number"/>
       </q-field>
-      <!-- <q-field class="col-8" :label="$t('STRATEGY')" :helper="$t('STRATEGY_WARNING')"  :label-width="3" >
-        <q-input v-model="assets.strategy"  type="textarea"  :row="6" />
-      </q-field>
-      <q-field class="col-8" :label="$t('ALLOW_WRITEOFF')"  :label-width="3" >
-        <q-radio v-model="assets.allowWriteoff" :val="0" color="faded" :label="notAllow" />
-      <q-radio v-model="assets.allowWriteoff" :val="1" color="positive" :label="allow" style="margin-left: 10px" />
-      </q-field>
-      <q-field class="col-8" :label="$t('ALLOW_WHITELIST')"  :label-width="3"  >
-        <q-radio v-model="assets.allowWhitelist" :val="0" color="faded" :label="notAllow" />
-        <q-radio v-model="assets.allowWhitelist" :val="1" color="positive" :label="allow" style="margin-left: 10px" />
-      </q-field>
-      <q-field class="col-8" :label="$t('ALLOW_BLACKLIST')"  :label-width="3" >
-        <q-radio v-model="assets.allowBlacklist" :val="0" color="faded" :label="notAllow" />
-      <q-radio v-model="assets.allowBlacklist" :val="1" color="positive" :label="allow" style="margin-left: 10px" />
-      </q-field> -->
       <q-field v-if="secondSignature" class="col-md-8 col-xs-12" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
         <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
@@ -131,15 +116,6 @@ export default {
         numeric,
         between: between(0, 16)
       }
-      // allowWriteoff: {
-      //   required
-      // },
-      // allowWhitelist: {
-      //   required
-      // },
-      // allowBlacklist: {
-      //   required
-      // }
     }
   },
   methods: {
@@ -165,8 +141,6 @@ export default {
         const { name, desc, maximum, precision } = this.assets
 
         let assetName = name
-        // console.log(parseInt(maximum) * Math.pow(10, precision))
-        // let num = (parseInt(maximum) * Math.pow(10, precision)).toString()
         let realMaximum = dealGiantNumber(maximum, precision)
 
         confirm(

@@ -50,10 +50,10 @@
           </q-card-main>
         </q-card>
   
-        <q-card v-if="asset.asset" :class="assetDetailOuterClass">
+        <q-card v-if="asset.asset" :class="assetDetailOuterClass" style="max-width: 300px; overflow-y: scroll">
           <q-card-main>
             <p class="text-black font-22">{{$t('CURRENCY_INTRODUCE')}}</p>
-            <p>
+            <p class="break-word">
               {{asset.asset.desc}}
             </p>
           </q-card-main>
@@ -268,6 +268,8 @@ export default {
 }
 
 .asset-cards-container {
-  min-width: 1376px;
+  min-width: 1366px;
 }
+.break-word
+  word-break break-word
 </style>

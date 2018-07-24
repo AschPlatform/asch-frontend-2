@@ -3,14 +3,12 @@
   <q-page class="gateway-container">
     <div class="geteway-top">
       <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
-      <span class="font-22 text-black vertical-align-middle">{{$t('ALL_GATEWAY')}}</span>
+      <span class="font-20 text-black vertical-align-middle">{{$t('ALL_GATEWAY')}}</span>
     </div>
     <div class="row gutter-sm">
       <gateway-item class="col-md-4 col-xs-12"  v-for="(item, idx) in gateways" :item="item" :key="idx" @open="showDetail"/>
       <q-btn :disabled="loading" v-if="pagination.rowsNumber>gateways.length" :label="$t('LOAD_MORE')" @click="loadMore" />
     </div>
-    <!-- CouncilModal -->
-    <!-- <gateway-modal class="no-shadow" v-if="gateway" :item="gateway" :show="show" @close="show=false" /> -->
   </q-page>
 </template>
 

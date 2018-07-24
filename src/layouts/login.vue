@@ -31,7 +31,6 @@
                 </div>
                 <div class="row col-10 q-mt-lg">
                   <p></p>
-                  <!-- <q-checkbox class="col-auto" v-model="remember">{{$t('KEEP_SESSION')}}</q-checkbox> -->
                 </div>
               </q-card-main>
               <q-card-main class="row col-10 justify-center ">
