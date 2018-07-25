@@ -909,7 +909,7 @@ export default {
     },
     confirm() {
       this.showAgreement = false
-      this.agreeOptions.push('one');
+      this.agreeOptions.push('one')
     }
   },
   computed: {
