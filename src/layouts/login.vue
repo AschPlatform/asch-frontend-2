@@ -254,7 +254,7 @@ export default {
     import(`src/i18n/zh`).then(lang => {
       this.$q.i18n.set(lang.default)
     })
-    if (window && window.location) {
+    if (window && window.location && process.env.NODE_ENV === 'production') {
       const location = window.location
       let server = location.protocol + '//' + location.hostname + ':' + location.port || 80
       setCache('currentServer', server)
