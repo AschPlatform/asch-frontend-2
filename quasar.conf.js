@@ -12,14 +12,10 @@ module.exports = ctx => {
       // 'fontawesome'
     ],
     supportIE: true,
-    vendor: {
-      add: [],
-      remove: []
-    },
     build: {
       scopeHoisting: true,
       vueRouterMode: 'hash',
-      // gzip: true,
+      gzip: true,
       // analyze: true,
       // extractCSS: false,
       // useNotifier: false,

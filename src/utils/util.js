@@ -82,8 +82,7 @@ export const removeCache = key => {
 export const getCurrentSeverUrl = () => {
   let currentServer = getCache('currentServer')
   if (currentServer) {
-    let { ip, port } = currentServer
-    return 'http://' + ip + ':' + port
+    return currentServer
   } else {
     return false
   }
