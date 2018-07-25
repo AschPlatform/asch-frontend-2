@@ -249,21 +249,21 @@ export default {
         {
           label: this.$t('PRODUCER'),
           name: 'generatorId',
-          field: 'generatorId'
+          field: 'generatorPublicKey'
         },
         {
           name: 'numberOfTransactions',
           label: this.$t('TRANSACTIONS_COUNT'),
-          field: 'count',
+          field: 'numberOfTransactions',
           type: 'string',
           align: 'right'
-        },
-        {
-          name: 'reward',
-          label: this.$t('REWARDS'),
-          field: 'reward',
-          align: 'right'
         }
+        // {
+        //   name: 'reward',
+        //   label: this.$t('REWARDS'),
+        //   field: 'reward',
+        //   align: 'right'
+        // }
       ],
       modalInfoShow: false,
       row: {},
