@@ -262,7 +262,7 @@
         </q-card-main>
       </transition-group>
     </q-card>
-    <user-agreement-modal :show="showAgreement" @confirm="confirm" @cancel="showAgreement=false" :title="$t('ERR_READ_ALL')" :tips="''" :content="$t('AGREEMENT_ASSET_CONTENT')" />
+    <user-agreement-modal :show="userAgreementShow" @confirm="confirm" @cancel="userAgreementShow=false" :title="$t('ERR_READ_ALL')" :tips="''" :content="$t('AGREEMENT_ASSET_CONTENT')" />
   </q-page>
 </template>
 
@@ -904,11 +904,10 @@ export default {
       }
     },
     showAgreement() {
-      console.log('click ')
-      this.showAgreement = true
+      this.userAgreementShow = true
     },
     confirm() {
-      this.showAgreement = false
+      this.userAgreementShow = false
       this.agreeOptions.push('one')
     }
   },
