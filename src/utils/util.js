@@ -563,6 +563,10 @@ export const translateErrMsg = (t, input) => {
         key: 'ERR.CONTRACT_NOT_EXIST'
       },
       {
+        error: 'Invalid second signature',
+        key: 'ERR_TOAST_SECONDKEY_WRONG'
+      },
+      {
         error: 'Unsupported transaction type',
         key: 'ERR.UNSUPPORTED_TRANS_TYPE'
       }
