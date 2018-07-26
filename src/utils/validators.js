@@ -19,7 +19,7 @@ export const bip39 = () => {
 }
 export const assetName = () => {
   return withParams({
-    type: this.assetName
+    // type: this.assetName
   }, value => {
     return assetNameReg.test(value)
   })

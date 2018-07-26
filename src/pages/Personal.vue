@@ -120,8 +120,8 @@
       <template slot="buttons" class="row justify-between" slot-scope="props">
           <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="reset(props)"/>
           <q-btn class="col-3 self-lef margin-left-10" color="secondary" @click="setPwd(props.ok)">
-                          {{$t('CONFIRM')}}
-                        </q-btn>
+            {{$t('CONFIRM')}}
+          </q-btn>
 </template>
     </q-dialog>
 
@@ -589,7 +589,9 @@ export default {
       return this.userInfo
     },
     secondSignature() {
-      return this.user ? this.user.account.secondPublicKey : null
+      if (this.user && this.user.account && this.user.account.secondPublicKey) {
+        return this.user ? this.user.account.secondPublicKey : null
+      }
     },
     lockState() {
       if (this.user && this.user.account) {
@@ -600,19 +602,27 @@ export default {
       return !secondPwdReg.test(this.secondPwd)
     },
     address() {
-      return this.userInfo && this.userInfo.account ? this.userInfo.account.address : 'nothing'
+      if (this.userInfo && this.userInfo.account && this.userInfo.account.address) {
+        return this.userInfo && this.userInfo.account ? this.userInfo.account.address : 'nothing'
+      }
     },
     userNickname() {
-      return this.user.account.name
+      if (this.user && this.user.account && this.user.account.name) {
+        return this.user.account.name
+      }
     },
     isDelegate() {
-      return this.user.account.isDelegate
+      if (this.user && this.user.account) {
+        return this.user.account.isDelegate
+      }
     },
     isAgent() {
-      return this.user.account.isAgent
+      if (this.user && this.user.account) {
+        return this.user.account.isAgent
+      }
     },
     lockInfo() {
-      if (this.user.account.isLocked) {
+      if (this.user && this.user.account && this.user.account.isLocked) {
         let { timestamp, height } = this.latestBlock
         let lockHeight = this.user.account.lockHeight
         let diff = lockHeight - height
@@ -627,7 +637,7 @@ export default {
       }
     },
     numLimit() {
-      if (this.user) {
+      if (this.user && this.user.account) {
         let amount = convertFee(this.user.account.balance)
         const t = this.$t
         return amount > 1 ? `${t('BALANCE')}: ${amount}, ${t('HIGHEST_LOCK')}: ${amount - 1}` : ''
@@ -659,7 +669,10 @@ export default {
     lockableNum() {
       if (this.user && this.user.account && this.user.account.xas) {
         let left = convertFee(this.user.account.xas)
-        return left - 1.1
+        if (left <= 1.1) {
+          return left + 'XAS' + this.$t('ACCOUNT_LEFT_UNSUFF')
+        }
+        return (left - 2.1).toFixed() + 'XAS'
       }
       return 0
     }
@@ -787,5 +800,8 @@ export default {
 
 .text-right {
   text-align: right;
+}
+.modal-content-limit > div{
+  max-width: 600px;
 }
 </style>

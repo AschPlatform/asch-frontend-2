@@ -79,7 +79,7 @@
             </div>
             <div class="row col-12">
               <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.NET_CURRENCY_TIP')" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
-                <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" type="text" v-model="NEW.currency" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.currency.$error"></q-input>
+                <q-input type="text" v-model="NEW.currency" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.currency.$error"></q-input>
               </q-field>
             </div>
             <div class="row col-12">
@@ -251,7 +251,9 @@
         </q-card-main>
   
         <q-card-main v-show="this.first_type !== null" key="agreement">
-          <q-checkbox color="secondary" v-model="agreeOptions" val="one" :label="$t('LAUNCH_MODAL.READ_TIP1')" />
+          <q-checkbox color="secondary" v-model="agreeOptions" val="one" readonly>
+            <a class="agreeBtn text-secondary" @click="showAgreement">{{$t('LAUNCH_MODAL.READ_TIP1')}}</a>
+          </q-checkbox>
           <br><br>
           <q-checkbox color="secondary" v-model="agreeOptions" val="two" :label="$t('LAUNCH_MODAL.READ_TIP2')" />
           <div class="row justify-center margin-top-20">
@@ -260,6 +262,7 @@
         </q-card-main>
       </transition-group>
     </q-card>
+    <user-agreement-modal :show="userAgreementShow" @confirm="confirm" @cancel="userAgreementShow=false" :title="$t('ERR_READ_ALL')" :tips="''" :content="$t('AGREEMENT_ASSET_CONTENT')" />
   </q-page>
 </template>
 
@@ -269,6 +272,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { secondPwd, proposalTitleReg, assetSymbolReg, gatewayNameReg } from '../utils/validators'
 import { toastError, toast } from '../utils/util'
 import MemberIndicator from '../components/MemberIndicator'
+import UserAgreementModal from '../components/UserAgreementModal'
 import {
   QField,
   QModal,
@@ -307,12 +311,14 @@ export default {
     QIcon,
     QPage,
     QBtn,
-    MemberIndicator
+    MemberIndicator,
+    UserAgreementModal
   },
   props: ['show'],
   data() {
     return {
       secondPwd: '',
+      userAgreementShow: false,
       // overall setting
       p_title: null,
       first_type: null,
@@ -896,6 +902,13 @@ export default {
         show_pre: [],
         show_post: []
       }
+    },
+    showAgreement() {
+      this.userAgreementShow = true
+    },
+    confirm() {
+      this.userAgreementShow = false
+      this.agreeOptions.push('one')
     }
   },
   computed: {
@@ -1023,4 +1036,7 @@ export default {
 }
 .padding-siut
   padding 20px
+.agreeBtn
+  text-decoration: none
+  margin-left: 8px
 </style>
