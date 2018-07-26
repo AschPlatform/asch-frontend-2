@@ -414,7 +414,7 @@ export default {
       }
     },
     createMyDapp() {
-      openURL('https://github.com/AschPlatform/asch/tree/master/docs/dapp_docs')
+      openURL('https://github.com/AschPlatform/asch-docs/tree/master/dapp/api')
     }
   },
   async mounted() {
