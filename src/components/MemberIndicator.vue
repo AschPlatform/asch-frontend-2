@@ -38,7 +38,9 @@ export default {
     title_pre() {
       switch (this.type) {
         case 'gateway_init':
-          return this.$t('DETAIL_MODAL.INIT_TIP_PRE', { number: this.memberPre.length })
+          return this.$t('DETAIL_MODAL.INIT_TIP_PRE', {
+            number: this.memberPre ? this.memberPre.length : ''
+          })
         case 'gateway_update_member':
           return this.$t('DETAIL_MODAL.MEMBER_TIP_PRE')
         case 'council_change':
@@ -48,7 +50,9 @@ export default {
     title_post() {
       switch (this.type) {
         case 'gateway_init':
-          return this.$t('DETAIL_MODAL.INIT_TIP_POST', { number: this.memberPost.length })
+          return this.$t('DETAIL_MODAL.INIT_TIP_POST', {
+            number: this.memberPost ? this.memberPost.length : ''
+          })
         case 'gateway_update_member':
           return this.$t('DETAIL_MODAL.MEMBER_TIP_POST')
         case 'council_change':
@@ -89,14 +93,20 @@ export default {
     align-items: flex-start;
   }
 }
-.part-title
-  font-size 14px
-  margin 0 0 14px 0
-  font-weight 600
-.chip
-  margin 0 5px 5px 0
-  border 1px solid #5CB8B3
-.partLeft, .partRight
-  border 1px solid #5cb8b3
-  padding 10px
+
+.part-title {
+  font-size: 14px;
+  margin: 0 0 14px 0;
+  font-weight: 600;
+}
+
+.chip {
+  margin: 0 5px 5px 0;
+  border: 1px solid #5CB8B3;
+}
+
+.partLeft, .partRight {
+  border: 1px solid #5cb8b3;
+  padding: 10px;
+}
 </style>
