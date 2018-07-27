@@ -8,25 +8,25 @@
             <div class="col-md-6 col-xs-12 row justify-left">
               <jdenticon class="desktop-only home-jdenticon" :address="user.account.address" :size="60" />
               <div class="home-top-set-nickname">
-                <span v-if="!userNickname" class="text-black font-22 vertical-align-middle font-weight">
+                <span v-if="!userNickname" class="text-black font-20 vertical-align-middle font-weight">
                       {{$t('HELLO')}}
                       </span>
-                <span v-else class="text-black font-22 vertical-align-middle font-weight">
+                <span v-else class="text-black font-20 vertical-align-middle font-weight">
                       {{$t('HELLO')+','}}
                       </span>
-                <a class="set-nickname font-14 bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="toPersonalSetNickname">{{$t('SET_NICKNAME')}}</a> <span v-else class="font-22 vertical-align-middle">{{userNickname}}</span>
+                <a class="set-nickname font-14 bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="toPersonalSetNickname">{{$t('SET_NICKNAME')}}</a> <span v-else class="font-20 vertical-align-middle">{{userNickname}}</span>
                 <p class="font-14 text-three">{{$t('HOME_TIPES')}}</p>
               </div>
             </div>
             <div :class="homeTopRightClass">
               <div class="home-top-btn-container">
                 <i class="material-icons font-24 vertical-align-middle text-eight">call_missed</i>
-                <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
+                <q-btn class="text-secondary font-18 font-weight" size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
             </div>
             <span class="btn-container-line"></span>
             <div class="home-top-btn-container">
                 <i class="material-icons material-icons font-24 vertical-align-middle text-eight">call_missed_outgoing</i>
-                <q-btn class="text-secondary font-24 font-weight" size="xs" :label="$t('RECEIVE')" flat @click="showAddrQr" />
+                <q-btn class="text-secondary font-18 font-weight" size="xs" :label="$t('RECEIVE')" flat @click="showAddrQr" />
             </div>
             </div>
           </q-card-main>
@@ -41,7 +41,7 @@
           <q-card class="no-shadow">
             <q-card-title>
               <i class="material-icons font-24 vertical-align-middle text-secondary">account_balance_wallet</i>
-              <span class="margin-left-10 text-black font-22 font-weight">
+              <span class="margin-left-10 text-black font-18 font-weight">
                {{$t('BALANCE')}}
               </span>
               <span class="margin-left-10 text-three font-16 font-weight">
@@ -52,7 +52,7 @@
              </span>
             </q-card-title>
             <q-card-main>
-              <span class="text-secondary font-22 font-weight">
+              <span class="text-secondary font-20 font-weight">
                 {{userInfo.account.xas | fee}}
                 </span>
               <span class="text-secondary font-12">XAS</span>
@@ -65,10 +65,10 @@
             </q-card-main>
             <q-card-main>
               <q-list class="no-border" v-if="balances.length" highlight>
-                <q-item class="blances-container shadow-1 bg-white" v-for="(balance,idx) in  balances" :key="idx">
+                <q-item class="blances-container shadow-1 bg-white" v-for="(balance,idx) in  balances" :to="{name:'assetDetail',params:{asset:balance, user: userInfo}}"  :key="idx">
                   <q-item-side>
                     <q-item-tile>
-                      <i class="material-icons font-44 vertical-align-middle text-eight">fiber_manual_record</i>
+                      <asset-icon class="vertical-align-middle q-ml-sm" :iconKey="balance.currency.toUpperCase()"></asset-icon>
                     </q-item-tile>
                   </q-item-side>
                   <q-item-main class="text-five font-16 font-weight" :label="balance.currency" />
@@ -86,7 +86,7 @@
         </div>
       </div>
       <div class="col-md-8 col-xs-12 bg-white shadow-1">
-        <trans-record-container  :userInfo="userInfo" />
+        <trans-record-container :userInfo="userInfo" class="table"/>
       </div>
     </div>
   </div>
@@ -98,6 +98,7 @@ import TransRecordContainer from '../components/TransRecordContainer'
 import { toast } from '../utils/util'
 import VueQr from 'vue-qr'
 import { mapGetters } from 'vuex'
+import AssetIcon from '../components/AssetIcon'
 import {
   QCard,
   QCardMain,
@@ -136,7 +137,8 @@ export default {
     TransRecordContainer,
     QIcon,
     QListHeader,
-    QAjaxBar
+    QAjaxBar,
+    AssetIcon
   },
   data() {
     return {
@@ -171,7 +173,8 @@ export default {
     // get transactions
     receive() {}
   },
-  mounted() {},
+  mounted() {
+  },
   computed: {
     ...mapGetters(['userInfo', 'balances']),
     homeTopRightClass() {
@@ -286,5 +289,9 @@ export default {
 
 .q-table-title {
   font-weight: 600 !important;
+}
+
+.table {
+  height 100%
 }
 </style>

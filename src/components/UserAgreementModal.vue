@@ -1,13 +1,12 @@
 <template>
-  <q-modal :class="userAgreementClass" v-model="show">
+  <q-modal :class="userAgreementClass" content-class="modal-content-limit" v-model="show">
     <q-card class="col-12 no-shadow" >
       <div class="bg-secondary height-62 padding-l-20">
-      <span class="text-white font-24 font-weight">{{title}}</span>
+      <span class="text-white font-18 font-weight">{{title}}</span>
       </div>
       <q-card-separator />
       <q-card-main class="q-px-lg margin-t-20">
         <q-scroll-area style="height: 300px" class="shadow-1 q-px-sm q-py-lg">
-            <!-- <div v-html="content"></div> -->
           <vue-markdown :source="content"></vue-markdown>
         </q-scroll-area>
         <div class="row justify-between user-agree-content">

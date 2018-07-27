@@ -1,12 +1,11 @@
 <template>
-  <q-card class="col-4 assets-panel-content no-shadow">
+  <q-card class="col-auto assets-panel-content no-shadow">
     <q-card-main class="shadow-1 bg-white">
       <div @click="open">
         <q-item v-if="type=='inner'">
           <q-item-side v-if="asset.url" :avatar="asset.url" />
           <q-item-main>
-            <!-- <span class="assets-panel-content-ball"></span> -->
-            <q-item-tile class="asset-currency font-24 text-five vertical-align-middle" label>
+            <q-item-tile class="asset-currency font-18 text-five vertical-align-middle" label>
               {{asset.currency}}
             </q-item-tile>
           </q-item-main>
@@ -15,7 +14,6 @@
         <q-item v-if="type=='outer'">
           <q-item-side v-if="asset.url" :avatar="asset.url" />
           <q-item-main>
-            <!-- <span class="assets-panel-content-ball"></span> -->
             <q-item-tile class="asset-currency font-24 text-five vertical-align-middle" label>
               {{asset.currency}}
             </q-item-tile>
@@ -23,7 +21,7 @@
         </q-item>
 
         <q-item class="text-primary font-22" v-if="type=='inner'">
-        {{asset.balance | fee(asset.precision)}} 
+        {{asset.balance | fee(asset.asset ? asset.asset.precision : 8)}} 
         </q-item>
 
         <q-item class="text-secondary font-22" v-if="type=='outer'">
@@ -55,6 +53,7 @@ import {
   QBtn,
   QItemMain
 } from 'quasar'
+import { convertFee } from '../utils/asch'
 
 export default {
   name: 'AssetPanel',
@@ -85,6 +84,9 @@ export default {
     },
     open() {
       this.$emit('open', this.asset)
+    },
+    convertFee(num, pre) {
+      return convertFee(num, pre)
     }
   },
   computed: {}
@@ -93,8 +95,6 @@ export default {
 
 <style lang="stylus" scoped>
 .assets-panel-content {
-  // margin: 15px 30px;
-  // background: #ffffff;
   cursor: pointer;
   min-width: 300px;
 }
@@ -118,7 +118,6 @@ export default {
 }
 
 .asset-balance {
-  // display: block;
 }
 
 .q-btn:hover {

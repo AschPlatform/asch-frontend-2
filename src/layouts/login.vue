@@ -11,13 +11,16 @@
           <div :class="mainPageClass">
             <img class="desktop-only login-ball" ref="img" :src="loginBallImg" alt="login ball">
             <q-card v-if="registerStep==0" :class="loginPanelClass">
-              <q-card-title class="">
-                <span class="lite-orange card-font">
-                      {{$t('LOGIN')}}
-                    </span>
-                <div slot="right">
-                  <q-select class="col-auto " chips color="secondary" v-model="lang" :options="langsOpts" />
+              <q-card-title >
+                <div class="row justify-between"> 
+                  <span class="col-md-3 col-xs-6 lite-orange card-font">
+                    {{$t('LOGIN')}}
+                  </span>
+                  <div class="col-md-3 col-xs-6">
+                    <q-select  chips color="secondary" v-model="lang" :options="langsOpts" />
+                  </div>
                 </div>
+                
               </q-card-title>
               <q-card-main class="row col-10 justify-center ">
                 <q-field class="col-10" :error="$v.secret.$error" :error-label="$t('ERR_VIOLATE_BIP39')">
@@ -28,7 +31,6 @@
                 </div>
                 <div class="row col-10 q-mt-lg">
                   <p></p>
-                  <!-- <q-checkbox class="col-auto" v-model="remember">{{$t('KEEP_SESSION')}}</q-checkbox> -->
                 </div>
               </q-card-main>
               <q-card-main class="row col-10 justify-center ">
@@ -252,6 +254,11 @@ export default {
     import(`src/i18n/zh`).then(lang => {
       this.$q.i18n.set(lang.default)
     })
+    if (window && window.location && process.env.NODE_ENV === 'production') {
+      const location = window.location
+      let server = location.protocol + '//' + location.hostname + ':' + location.port || 80
+      setCache('currentServer', server)
+    }
   },
   created() {
     removeCache('currentServer')
@@ -288,13 +295,14 @@ export default {
   watch: {
     lang(lang) {
       this.locale = this.$i18n.locale = lang
+      setCache('locale', lang)
       import(`src/i18n/${lang}`).then(lang => {
         this.$q.i18n.set(lang.default)
       })
     },
     serverUrl(server) {
       if (server) {
-        setCache('currentServer', server)
+        setCache('currentServer', `http://${server.ip}:${server.port}`)
       }
     }
   }
@@ -311,15 +319,15 @@ html, body {
 }
 
 .login-center {
-  position: relative;
+  position: fixed;
   width: 100%;
   height: 300px;
-  position: absolute;
+  // position: absolute;
   top: calc(50% - 150px);
   background: #ff5000;
 
   .mobile-logo {
-    position: absolute;
+    position: relative;
     width: 100%;
     height: 58px;
     top: -140px;
@@ -343,9 +351,11 @@ html, body {
 
 .login-panel {
   width: 513px;
+  height: 412px;
   position: relative;
   background: #ffffff;
   padding: 30px 0 40px 0;
+  margin-top: -40px;
 }
 
 .login-ball {
@@ -360,7 +370,8 @@ html, body {
   background-size: 100%;
   width: 350px;
   height: 78px;
-  margin: auto;
+  margin: 0 auto;
+  margin-top: 120px;
 }
 
 .options-panel {

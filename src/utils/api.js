@@ -27,16 +27,6 @@ const fetch = (url, data, method, postHeaders) => {
   }
 
   // TODO find server
-  // let server = nodeService.getCurrentServer()
-
-  // if (!nodeService.isStaticServer()) {
-  //   let retryTimes = 0
-  //   while (!server.isServerAvalible(true) && retryTimes++ < 10) {
-  //     console.log('current server unavalible')
-  //     nodeService.changeServer(true)
-  //     server = nodeService.getCurrentServer()
-  //   }
-  // }
   let selectedServerUrl = getCurrentSeverUrl()
   // let realUrl = urls.server.caos + url
   let realUrl = !selectedServerUrl
@@ -311,60 +301,9 @@ api2.gatewayDelegates = params => {
 api2.chains = params => {
   return fetch(urls.v2.chains, params, 'get')
 }
-
-// const canRetry = ret => {
-//   // return ret.error && /blockchain/.test(ret.error.toLowerCase()) && !nodeService.isStaticServer()
-//   return false
-// }
-
-/**
-const postService = {
-  postWithRetry: (trans, countDown, cb) => {
-    let retryOrCallbak = data => {
-      if (countDown <= 0) {
-        let error = 1
-        cb(error, data)
-        return
-      }
-
-      console.log('change server and retry broadcast transaction')
-      // nodeService.changeServer(true)
-      postService.postWithRetry(trans, countDown - 1, cb)
-    }
-
-    api
-      .broadcastTransaction(trans)
-      .success((data, status, headers, config) => {
-        if (data.success) {
-          cb(null, data)
-          // console.log('broadcastTransaction-success',data);
-          return
-        } else if (canRetry(data)) {
-          retryOrCallbak(data)
-          return
-        }
-        // 失败返回
-        // console.log('broadcastTransaction-fail',data);
-        // 统一管理错误信息
-        translateErrMsg(null, data.error)
-        cb(null, data)
-      })
-      .error((data, status, headers, config) => {
-        retryOrCallbak(data)
-      })
-  },
-  retryPost: (createTransFunc, callback, retryTimes) => {
-    let trans = createTransFunc()
-    let maxRetry = retryTimes | 5
-    this.postWithRetry(trans, maxRetry, callback)
-  },
-  post: trans => {
-    return api.broadcastTransaction(trans)
-  },
-  writeoff: trans => {
-    return api.broadcastTransaction(trans)
-  }
+// 获取所有已注册侧链
+api2.chainsInstalled = params => {
+  return fetch(urls.v2.chainsInstalled, params, 'get')
 }
-*/
 
 export { api, api2 }

@@ -3,7 +3,7 @@
     <q-card class="col-12 shadow-0">
       <div class="geteway-top justify-between">
         <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
-        <span class="font-22 text-black vertical-align-middle">{{$t('DAPP_INSTALL_LIST')}}</span>
+        <span class="font-20 text-black vertical-align-middle">{{$t('APPLICATIONS')}}</span>
         <div slot="right" class="float-right row items-center inline">
           <q-btn color="secondary" form-inverted class="inverted" :label="$t('CREATE_MY_DAPP')" @click="createMyDapp" />
         </div>
@@ -66,10 +66,12 @@
   
       </table>
       <br/>
-      <q-btn color="primary" @click="()=>{
-            this.modalInfoShow = false
-            this.dappBalances = {}
-            }" :label="$t('label.close')" />
+      <div class="align-center">
+        <q-btn color="secondary" @click="()=>{
+          this.modalInfoShow = false
+          this.dappBalances = {}
+          }" :label="$t('label.close')" />
+      </div>
     </q-modal>
   
     <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
@@ -80,8 +82,8 @@
         <q-field class="col-12" :label-width="4">
           <q-select :float-label="$t('ASSET')" filter v-model="form.depositName" :options="assetsOpt" :error="$v.form.depositName.$error" error-label="error" />
         </q-field>
-        <q-field :label-width="4" class="col-12">
-          <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :decimals="0" :error="$v.form.amount.$error" error-label="error" />
+        <q-field :label-width="4" :error-label="$t('ERR_ASSET_PRECISION_NOT_CORRECT')" class="col-12">
+          <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :error="$v.form.amount.$error" error-label="error" />
         </q-field>
         <q-field v-if="dialog.form==3" :label-width="4" class="col-12">
           <q-input :float-label="$t('ADDRESS')" @blur="validateAddr" v-model="form.address" :error="this.addressError" :error-label="$t('ERR_TOAST_ACCOUNT_INVALID_RECIPIENT')" />
@@ -101,9 +103,10 @@
 <script>
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
 import { createInnerTransaction, check58 } from '../utils/asch'
-import { required, minValue, numeric } from 'vuelidate/lib/validators'
+import { required, minValue } from 'vuelidate/lib/validators'
 import { secondPwdReg } from '../utils/validators'
 import { mapActions, mapGetters } from 'vuex'
+import { BigNumber } from 'bignumber.js'
 
 import defaultIcon from '../assets/dapps.png'
 import {
@@ -165,7 +168,7 @@ export default {
       balanceType: 0, // 0 dapp, 1 user
       form: {
         depositName: '',
-        amount: null,
+        amount: '',
         address: null,
         secondPwd: ''
       },
@@ -178,8 +181,15 @@ export default {
     form: {
       amount: {
         required,
-        numeric,
-        minValue: minValue(1)
+        // numeric,
+        minValue: minValue(0),
+        outPrecision(val) {
+          if (this.selectedAssets && val !== '') {
+            let str = BigNumber(val).times(Math.pow(10, this.selectedAssets.precision)).toString()
+            return str.indexOf('.') === -1 && str.indexOf('-') === -1
+          }
+          return false
+        }
       },
       depositName: {
         required
@@ -194,6 +204,7 @@ export default {
       'appInstalled',
       'appListApi',
       'getAllChains',
+      'getInstalledChains',
       'dappContract',
       'deposit',
       'account'
@@ -209,15 +220,15 @@ export default {
       let pageNo = this.pagination.page
       let res = {}
       if (this.installed) {
-        res = await this.getAllChains({
+        res = await this.getInstalledChains({
           limit: limit,
           offset: (pageNo - 1) * limit
         })
       } else {
         res = await this.getAllChains({
           limit: limit,
-          // offset: (pageNo - 1) * limit
-          offset: 9
+          offset: (pageNo - 1) * limit
+          // offset: 9
         })
       }
       if (pageNo === 1) {
@@ -234,10 +245,6 @@ export default {
       await this.getBalance(row)
       this.modalInfoShow = true
     },
-    // async viewMyBanlance(row) {
-    //   await this.getBalance(row, true)
-    //   this.modalInfoShow = true
-    // },
     async getBalance(row, userFlag = false) {
       let res
       let objxas = []
@@ -326,8 +333,8 @@ export default {
     },
     async onOk() {
       this.$v.form.$touch()
-      if (this.$v.form.$error || (this.secondSignature && this.secondPwdError)) {
-        toastWarn('error')
+      if (this.$v.form.$error || this.$v.form.$invalid || (this.secondSignature && this.secondPwdError)) {
+        toastWarn(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
         this.dialogShow = true
         return
       }
@@ -344,13 +351,6 @@ export default {
           amount: amount,
           secondSecret: this.form.secondPwd
         }
-        // trans = createInTransfer(
-        //   transactionId,
-        //   this.form.depositName,
-        //   amount,
-        //   this.user.secret,
-        //   this.form.secondPwd
-        // )
         res = await this.deposit(trans)
       } else if (form === 2) {
         let type = 2 // 这里的type指的是合约标号，而非主链的交易类型
@@ -414,7 +414,7 @@ export default {
       }
     },
     createMyDapp() {
-      openURL('https://github.com/AschPlatform/asch/tree/master/docs/dapp_docs')
+      openURL('https://github.com/AschPlatform/asch-docs/tree/master/dapp/api')
     }
   },
   async mounted() {
@@ -485,16 +485,6 @@ export default {
             }
           })
         )
-        // } else {
-        //   assets = this.dappBalances.map((item, idx) => {
-        //     return {
-        //       key: idx + 1,
-        //       label: item.currency,
-        //       value: item.currency
-        //     }
-        //   })
-        // }
-
         return assets
       } else {
         return []
@@ -505,7 +495,6 @@ export default {
     userInfo(val) {
       if (val) {
         this.getDapps()
-        // if (!val.assets) this.$root.$emit('getAssetsList')
       }
     },
     pageNo(val) {
@@ -528,7 +517,7 @@ export default {
 .assets-panel-content {
   background: #ffffff;
   cursor: pointer;
-  min-width: 250px;
+  min-width: 295px;
 }
 
 .tab-panel-container {

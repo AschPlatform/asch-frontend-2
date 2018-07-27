@@ -1,76 +1,15 @@
 <template>
   <div>
-    <q-table class="no-shadow trans-record-container" :data="trans" :columns="dynamicCol" row-key="id" :pagination.sync="pagination" @request="request" :loading="loading" :filter="filter" :title="tableTitle">
-    <template slot="top-right" slot-scope="props">
-        <q-btn-toggle :class="transRecordBtnClass" flat rounded icon="fiber_manual_record" v-model="type" 
-    toggle-color="negative"  toggle-text-color="white"
-    :options="[
-      {label: $t('TRS_TYPE_TRANSFER_RECORD'), value: 2},
-      {label: $t('DAPP_TRANSACTION_RECORD'), value: 1},]" />
-        <!-- <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" /> -->
-    </template>
-
-    <q-td slot="body-cell-id" slot-scope="props" :props="props">
-      <div v-if="props.value" class="my-label" >
-        {{props.value.substring(0,7)}}
-        <q-tooltip>{{props.value}}</q-tooltip>
-      </div>
-    </q-td>
-
-    <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-      <q-btn @click="getDataInfo(props)" icon="remove red eye" size="sm" flat color="secondary" >
-          <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-        </q-btn>
-    </q-td>
-
-    <q-td slot="body-cell-message" slot-scope="props" :props="props">
-      {{showMemo(props.row)}}
-      <q-popover v-if="props.row.transaction.message" ref="popover-msg">
-        <div class="light-paragraph">{{props.row.transaction.message}}</div>
-      </q-popover>
-    </q-td>
-
-    <q-td slot="body-cell-amount" slot-scope="props">
-      {{getAmountNFee(props.row)}}
-    </q-td>
-
-    <q-td slot="body-cell-senderId" class="table-address" slot-scope="props" :props="props">
-      <div >
-        <a @click="getAccountInfo(props.row.senderId)">
-              {{matchSelf(props.value)?'Me':props.value}}
-            </a>
-        <q-tooltip v-if="!matchSelf(props.value)">{{props.value}}</q-tooltip>
-      </div>
-    </q-td>
-
-    <q-td slot="body-cell-recipientId" slot-scope="props" :props="props">
-      <div v-if="props.value">
-        <a @click="getAccountInfo(props.row.recipientId)">
-                {{getName(props)}}
-              </a>
-        <q-tooltip v-if="!matchSelf(props.value)" ref="popover-rec">
-          {{props.value}}
-        </q-tooltip>
-      </div>
-      <div v-else>SYSTEM</div>
-    </q-td>
-
-    <q-td slot="body-cell-args" slot-scope="props" :props="props">
-      {{props.value}}
-      <q-popover  v-if="props.row" ref="popover-msg" style="max-width: 150px;">
-        <!-- <pre class="light-paragraph">{{props.row.args}}</pre> -->
-        <pre class="light-paragraph">{{dueArg(props.row.args)}}</pre>
-      </q-popover>
-    </q-td>
-  </q-table>
+    <record-table :data="trans" :options="toggleBtn" :maxPage="maxPage" @changePage="changePage" @changeType="changeType" :title="computedTitle" class="table"></record-table>
   </div>
 </template>
 
 <script>
 import { fullTimestamp, convertFee } from '../utils/asch'
-import { QTable, QTd, QTableColumns, QTooltip, QBtnToggle, QPopover } from 'quasar'
+import { QTable, QTd, QTableColumns, QTooltip, QBtnToggle, QPopover, QChip } from 'quasar'
 import { transTypes } from '../utils/constants'
 import { mapActions } from 'vuex'
+import RecordTable from '../components/RecordTable'
 
 export default {
   name: 'TransRecordContainer',
@@ -81,12 +20,15 @@ export default {
     QTableColumns,
     QTooltip,
     QBtnToggle,
-    QPopover
+    QPopover,
+    QChip,
+    RecordTable
   },
   data() {
     return {
       trans: [],
       loading: false,
+      maxPage: 1,
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -96,7 +38,17 @@ export default {
       filter: '',
       row: null,
       modalInfoShow: false,
-      type: 2
+      type: 1,
+      toggleBtn: [
+        {
+          label: this.$t('TRS_TYPE_TRANSFER_RECORD'),
+          value: 1
+        },
+        {
+          label: this.$t('DAPP_TRANSACTION_RECORD'),
+          value: 2
+        }
+      ]
     }
   },
   methods: {
@@ -124,7 +76,6 @@ export default {
       let pageNo = this.pagination.page
       let condition = {
         // TODO 参数 bug
-        senderId: this.userInfo.account.address,
         orderBy: 'timestamp:desc',
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -133,17 +84,60 @@ export default {
         condition.currency = this.currency
       }
       let res
-      if (this.type === 1) {
+      if (this.type === 2) {
+        condition.senderId = this.userInfo.account.address
         res = await this.getTransactions(condition)
         this.trans = res.transactions
+        let temps = []
+        res.transactions.forEach(e => {
+          let temp = {
+            col1: [],
+            col2: [],
+            fee: []
+          }
+          temp.col1.push(this.getTransType(e.type))
+          temp.col1.push(fullTimestamp(e.timestamp))
+          temp.col2.push(this.dueArg(e.args))
+          temp.col2.push(this.$t('ARGS'))
+          temp.fee.push('-' + convertFee(e.fee))
+          temp.fee.push('XAS')
+          temp.iconKey = 'FEE'
+          temps.push(temp)
+        })
+        this.trans = temps
       } else {
-        condition.ownerId = condition.senderId
+        condition.ownerId = this.userInfo.account.address
         res = await this.getTransfers(condition)
-        this.trans = res.transfers
+        let items = []
+        res.transfers.forEach(e => {
+          let temp = {
+            col1: [],
+            col2: [],
+            fee: []
+          }
+          let plag = ''
+          if (e.recipientId === this.userInfo.address) {
+            plag = '+'
+            temp.col1.push(e.senderId)
+            temp.iconKey = 'RECEIPT'
+          } else {
+            plag = '-'
+            e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
+            temp.iconKey = 'PAY'
+          }
+          temp.col1.push(fullTimestamp(e.timestamp))
+          temp.col2.push(e.transaction.message || this.$t('NO_REMARK'))
+          temp.col2.push(this.$t('REMARK'))
+          temp.fee.push(plag + convertFee(e.amount, e.asset ? e.asset.precision : 8))
+          temp.fee.push(e.currency)
+          items.push(temp)
+        })
+        this.trans = items
       }
 
       // set max
       this.pagination.rowsNumber = res.count
+      this.maxPage = Math.ceil(this.pagination.rowsNumber / this.pagination.rowsPerPage)
       this.loading = false
       return res
     },
@@ -172,6 +166,7 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 10
       }
+      this.maxPage = 1
     },
     getName(props) {
       let flag = this.matchSelf(props.value)
@@ -186,11 +181,18 @@ export default {
       }
     },
     dueArg(args) {
-      args = args.replace(/,/g, '\n')
-      args = args.replace(/"/g, '')
-      args = args.replace(/\[/g, '')
-      args = args.replace(/\]/g, '')
-      return args
+      if (args.length !== 0) {
+        let str = args.join(' , ')
+        return str
+      }
+      return this.$t('NO_ARGS')
+    },
+    changePage(num) {
+      this.pagination.page = num
+      this.getTrans()
+    },
+    changeType(num) {
+      this.type = num
     }
   },
   mounted() {
@@ -200,16 +202,15 @@ export default {
     dynamicCol() {
       if (this.type === 1) {
         return [
-          // {
-          //   name: 'opt',
-          //   label: this.$t('OPERATION'),
-          //   field: 'opt',
-          //   align: 'center'
-          // },
           {
             name: 'id',
             label: 'ID',
             field: 'id'
+          },
+          {
+            name: 'currency',
+            label: 'ID',
+            field: 'currency'
           },
           {
             name: 'type',
@@ -221,29 +222,6 @@ export default {
               return this.getTransType(value)
             }
           },
-          // {
-          //   name: 'senderId',
-          //   label: this.$t('SENDER'),
-          //   field: 'senderId',
-          //   align: 'center',
-          //   format: value => {
-          //     let isMySelf = this.matchSelf(value)
-          //     return isMySelf ? 'Me' : value
-          //   }
-          // },
-          // {
-          //   name: 'recipientId',
-          //   label: this.$t('RECIPIENT'),
-          //   field: 'recipientId',
-          //   align: 'center',
-          //   format: value => {
-          //     if (value === '') {
-          //       return 'SYSTEM'
-          //     }
-          //     let isMySelf = this.matchSelf(value)
-          //     return isMySelf ? 'Me' : value
-          //   }
-          // },
           {
             name: 'timestamp',
             label: this.$t('DATE'),
@@ -278,15 +256,6 @@ export default {
             },
             align: 'center'
           }
-          // {
-          //   name: 'message',
-          //   label: this.$t('REMARK'),
-          //   field: 'message',
-          //   filter: true,
-          //   // sortable: true,
-          //   type: 'string',
-          //   width: '120px'
-          // }
         ]
       } else {
         return [
@@ -323,7 +292,6 @@ export default {
             },
             type: 'number'
           },
-
           {
             name: 'amount',
             label: this.$t('AMOUNTS'),
@@ -352,6 +320,9 @@ export default {
       return this.type === 1
         ? t('DAPP_TRANSACTION_RECORD_LATELY')
         : t('TRS_TYPE_TRANSFER_RECORD_LATELY')
+    },
+    computedTitle() {
+      return this.type === 2 ? this.toggleBtn[1].label : this.toggleBtn[0].label
     }
   },
   watch: {
@@ -373,5 +344,9 @@ export default {
 
 .q-table-title {
   font-weight: 600 !important;
+}
+
+.table {
+  height 100%
 }
 </style>

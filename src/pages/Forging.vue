@@ -33,7 +33,7 @@
   
     <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
       <div class="col-12 ">
-        <q-table class="trans-table" :data="blocks" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
+        <q-table class="trans-table" :data="blocks" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')" :rows-per-page-options="[10]">
   
           <template slot="top-right" slot-scope="props">
             <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />

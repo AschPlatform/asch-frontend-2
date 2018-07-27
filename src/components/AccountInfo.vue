@@ -22,7 +22,9 @@
       </tbody>
     </table>
     <br/>
-    <q-btn color="secondary" @click="close" :label="$t('label.close')" />
+    <div class="align-center">
+      <q-btn class="" color="secondary" @click="close" :label="$t('label.close')" />
+    </div>
   </q-modal>
 </template>
 

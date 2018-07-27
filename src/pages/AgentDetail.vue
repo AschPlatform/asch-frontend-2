@@ -5,10 +5,10 @@
       <div :class="agentDetailTitleClass">
         <div>
         <i class="material-icons vertical-align-middle font-24 text-secondary">perm_identity</i>
-        <span class="font-24 vertical-align-middle font-weight">{{$t('VOTE_DELEGATE_DETAIL')}}</span>
+        <span class="font-24 vertical-align-middle font-weight">{{$t('AGENT_DETAIL')}}</span>
         </div>
         <q-btn color="secondary" slot="right" class="row items-center" @click="back">
-          <q-icon name="reply" /> {{$t('CANCEL')}}
+          <q-icon name="reply" />
         </q-btn>
       </div>
   
@@ -18,7 +18,7 @@
             {{$t('AGENT_DETAIL')}}
           </q-card-title>
           <q-card-main class="padding-20" align="center">
-            <div class="text-secondary font-30 margin-t-20">
+            <div class="text-secondary font-30 margin-t-20 break-word">
               {{user.account.agent || user.account.name}}
             </div>
             <div>
@@ -31,16 +31,33 @@
   
       <q-card class="col-md-9 col-xs-12 no-shadow">
         <q-card-main v-if="userInfo">
-          <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1 col-9 " align="justify">
+          <q-tabs v-model="selectedTab" no-pane-border inverted class="tab-container shadow-1 col-9 " align="right">
             <q-tab default name="supporters" slot="title" color="secondary" icon="people" :label="$t('AGENT_VOTE_DETAIL')" />
             <q-tab name="records" slot="title" icon="face" color="secondary" :label="$t('AGENT_VOTE_RECORDS')" />
             <div>
               <!-- come from VR page -->
               <q-table :no-data-label="$t('table.noData')" :data="datas" :filter="filter" color="secondary" :columns="dynamicCol" row-key="id" :loading="loading" :rows-per-page-options="[10]">
                 <template slot="top-right" slot-scope="props">
-                        <q-btn flat round  icon="refresh" color="secondary" @click="refresh" />
-</template>
-           
+                  <q-btn flat round  icon="refresh" color="secondary" @click="refresh" />
+                </template>
+          
+          <q-td slot="body-cell-address"  slot-scope="props" :props="props">
+            <div class="text-secondary vote-table-address-td" @click="viewAccountInfo(props.row)">
+              {{props.value}}
+            </div>
+          </q-td>
+          <q-td slot="body-cell-username" slot-scope="props" :props="props">
+            <div>
+              {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
+            </div>
+          </q-td>
+          <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
+              {{(Number(props.value))+'%'}}
+          </q-td>
+          <q-td slot="body-cell-productivity"  slot-scope="props" :props="props">
+              {{props.value+'%'}}
+          </q-td>
+
           <q-td slot="body-cell-address"  slot-scope="props" :props="props">
             <div class="text-secondary" @click="viewAccountInfo(props.row)">
               {{props.value}}
@@ -54,6 +71,7 @@
           </q-td>
           <q-td slot="body-cell-lockHeight"  slot-scope="props" :props="props">
             {{showEndTime(props.row)}}
+            <!-- {{props.row}} -->
           </q-td>
           <q-td slot="body-cell-xas"  slot-scope="props" :props="props">
             {{showContent(props.row, 'weight') | fee(8)}}
@@ -61,9 +79,6 @@
           <q-td slot="body-cell-agent"  slot-scope="props" :props="props">
             {{showTime(props.row) | time}}
           </q-td>
-          <!-- <q-td slot="body-cell-weight"  slot-scope="props" :props="props">
-            {{showContent(props.row, 'weight') | fee(8)}}
-          </q-td> -->
           <!-- vote record overview -->
           <q-td slot="body-cell-delegate"  slot-scope="props" :props="props">
             <div class="text-secondary" @click="viewAccountInfo(props.row, true)">
@@ -73,12 +88,6 @@
           <q-td slot="body-cell-voteTime"  slot-scope="props" :props="props">
             {{showTime(props.row) | time}}
           </q-td>
-          <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-            <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-            </q-btn>
-            <q-icon color="positive" v-if="props.row.voted" name="icon-chrome" />
-          </q-td> -->
         </q-table>
     </div>
     </q-tabs>
@@ -88,10 +97,10 @@
     <q-card v-if="userAccount" class="mobile-hide col-md-3 col-xs-12 margin-t-15 no-shadow">
       <div class="shadow-2 bg-white">
       <q-card-title class="bg-nine text-black font-22 height-62">
-        {{$t('AGENT_DETAIL')}}
+        {{$t('VOTE_DELEGATE_DETAIL')}}
       </q-card-title>
       <q-card-main class="padding-20" align="center">
-        <div class="text-secondary font-30 margin-t-20">
+        <div class="text-secondary font-30 margin-t-20 break-word">
           {{user.account.agent || user.account.name}}
         </div>
         <div>
@@ -125,7 +134,7 @@ import {
   QIcon
 } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
-import { getTimeFromTrade } from '../utils/util'
+import { getTimeFromEndHeight } from '../utils/util'
 import { convertFee } from '../utils/asch'
 
 export default {
@@ -205,7 +214,6 @@ export default {
       }
 
       // set max
-      // this.pagination.rowsNumber = res.delegates.length
       this.loading = false
       return res
     },
@@ -216,10 +224,9 @@ export default {
       return obj.account[content]
     },
     showEndTime(obj) {
-      return getTimeFromTrade({
-        tTimestamp: obj.timestamp,
-        tHeight: obj.height,
-        endHeight: obj.account.lockHeight
+      return getTimeFromEndHeight({
+        endHeight: obj.account.lockHeight,
+        currentHeight: this.latestBlock.height
       })
     },
     showTime(obj) {
@@ -257,7 +264,7 @@ export default {
     this.getAgentInfo()
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userInfo', 'latestBlock']),
     agentDetailClass() {
       return this.isDesk ? 'padding-20 border-r-6' : 'border-r-6'
     },
@@ -288,9 +295,26 @@ export default {
           //   field: 'address'
           // },
           {
-            name: 'voteTime',
-            label: this.$t('VOTE_TIME'),
+            name: 'address',
+            label: this.$t('ADDRESS'),
+            field: 'address'
+          },
+          {
+            name: 'productivity',
+            label: this.$t('PRODUCTIVITY'),
             field: 'productivity'
+          },
+          {
+            name: 'producedblocks',
+            label: this.$t('PRODUCED_BLOCKS'),
+            field: 'producedblocks',
+            align: 'center',
+            type: 'number'
+          },
+          {
+            name: 'approval',
+            label: this.$t('APPROVAL'),
+            field: 'approval'
           }
         ]
       } else {
@@ -311,11 +335,6 @@ export default {
             name: 'lockHeight',
             label: this.$t('LOCK_TIME'),
             field: 'lockHeight'
-          },
-          {
-            name: 'agent',
-            label: this.$t('AUTHOR_TIME'),
-            field: 'agent'
           }
         ]
       }
@@ -359,4 +378,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+  .break-word
+    word-break break-word
 </style>

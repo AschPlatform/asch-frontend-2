@@ -1,9 +1,8 @@
 <template>
-  <q-modal content-classes="row justify-center" v-model="show" :no-esc-dismiss="true">
+  <q-modal content-classes="withdraw-modal-container row justify-center" v-model="show" :no-esc-dismiss="true">
     <div class="col-12 widthdraw-modal-content">
-      <!-- <h4>{{$t('WITHDRAW')}}</h4> -->
       <div class="bg-secondary padding-40 height-62">
-        <span class="text-white font-24">{{$t('WITHDRAW')}} </span>
+        <span class="text-white font-18">{{$t('WITHDRAW')}} </span>
         <span class="font-12 text-white">{{$t('DEPOSIT_TIP2')}} </span>
         </div>
       <div  class="row justify-center padding-40">
@@ -196,9 +195,6 @@ export default {
           value: asset.symbol
         }
       })
-      // if (this.asset && !this.asset.hasAdd) {
-      //   arr.push({ label: this.asset.symbol, value: this.asset.symbol })
-      // }
       return arr
     },
     assetsMap() {
@@ -214,17 +210,6 @@ export default {
     }
   },
   watch: {
-    // currency(val) {
-    //   // TODO
-    //   if (val && this.assetsMap[val]) {
-    //     this.balance = this.assetsMap[val].balance
-    //     this.precision = this.assetsMap[val].asset.precision
-    //     this.form.fee = convertFee(fees[val], this.precision)
-    //     this.fee = convertFee(fees[val], this.precision)
-    //   } else {
-    //     return ''
-    //   }
-    // },
     show(val) {
       if (this.asset) {
         let currency = this.asset.currency || this.asset.symbol
@@ -248,8 +233,10 @@ export default {
 <style lang="stylus" scoped>
 .widthdraw-modal-content {
   padding-bottom: 54px;
+  max-width 490px
 }
-
+.withdraw-modal-container
+  max-width 490px
 .margin-top-54 {
   margin-top: 54px;
 }

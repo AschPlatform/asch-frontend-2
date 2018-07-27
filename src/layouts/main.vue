@@ -1,5 +1,5 @@
 <template>
-  <q-layout ref="layout" view="lHh Lpr lff">
+  <q-layout ref="layout" view="lHh Lpr lFf">
     <q-layout-header class="no-shadow">
   
       <q-toolbar class="head-mobile-top row justify-between bg-white">
@@ -38,18 +38,13 @@
     </q-layout-header>
   
     <q-layout-drawer class="bg-seven main-left-list-container" v-model="showLeft" side="left">
-      <!--
-                            Use <q-item> component
-                            instead of <q-item> for
-                            internal vue-router navigation
-                          -->
       <q-list no-border link inset-delimiter>
         <q-list-header class="header-container row justify-left">
           <div class="header-left row justify-center items-center" @click="toHome">
             <span class="menu-logo"></span>
           </div>
           <div class="header-right margin-left-10" @click="toHome">
-            <span class="header-right-top">阿希客户端</span>
+            <span class="header-right-top">{{$t('ASCH')}}</span>
             <span class="header-right-bottom font-12">Asch Client {{version.version}}-{{version.net}}</span>
           </div>
         </q-list-header>
@@ -73,10 +68,10 @@
           <q-item-side icon="apps" />
           <q-item-main :label="$t('GATEWAY')" />
         </q-item>
-        <!-- <q-item class="list-item-container" item :to="getRouterConf('council')">
+        <q-item class="list-item-container" item :to="getRouterConf('councilDetail')">
             <q-item-side icon="compare arrows" />
             <q-item-main :label="$t('COUNCIL')" />
-          </q-item> -->
+          </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('delegates')">
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
@@ -93,14 +88,6 @@
           <q-item-side icon="person" />
           <q-item-main :label="$t('PERSONAL')" />
         </q-item>
-        <!-- <q-item item :to="getRouterConf('forging')">
-                  <q-item-side icon="gavel" />
-                  <q-item-main :label="$t('FORGING')" />
-                </q-item> -->
-        <!-- <q-item class="list-item-container" item :to="getRouterConf('peers')">
-            <q-item-side icon="share" />
-            <q-item-main :label="$t('PEERS')" />
-          </q-item> -->
         <q-item class="list-item-container" item :to="getRouterConf('issuer')">
           <q-item-side icon="send" />
           <q-item-main :label="$t('TRS_TYPE_UIA_ISSUE')" />
@@ -115,7 +102,7 @@
       <!-- common component with event -->
       <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false" />
   
-      <q-modal class="transfer-modal-container" v-model="transShow" no-backdrop-dismiss>
+      <q-modal class="transfer-modal-container" content-class="modal-content-limit" v-model="transShow" no-backdrop-dismiss>
         <div class="col-8">
           <trans-panel :showTitle="true" :assets="assets" :asset="asset" :user="userInfo">
             <div slot="btns" slot-scope="props" class="row col-12 justify-between">
@@ -127,7 +114,6 @@
       </q-modal>
   
       <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText" />
-      <!-- <float-menu v-if="this.showFloatBtns" :router="$router" :userObj="user" /> -->
       <trans-info-modal class="code-modal-container" :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false" />
     </q-page-container>
   
@@ -237,7 +223,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['refreshAccounts', 'getAccountsInfo', 'getBalances', 'getIssuer']),
+    ...mapActions([
+      'refreshAccounts',
+      'getAccountsInfo',
+      'getBalances',
+      'getIssuer',
+      'registGateway'
+    ]),
     ...mapMutations([
       'updateUserInfo',
       'setUserInfo',
@@ -332,10 +324,16 @@ export default {
     // }
   },
   beforeMount() {
-    let lang = this.$i18n.locale || 'zh'
+    let lang = (this.$i18n.locale = getCache('locale'))
+    console.log(lang)
     import(`src/i18n/${lang}`).then(lang => {
       this.$q.i18n.set(lang.default)
     })
+    if (window && window.location && process.env.NODE_ENV === 'production') {
+      const location = window.location
+      let server = location.protocol + '//' + location.hostname + ':' + location.port || 80
+      setCache('currentServer', server)
+    }
   },
   async mounted() {
     let user = this.userInfo || getCache('user') || null
@@ -373,6 +371,7 @@ export default {
       //   this.setUserInfo(user)
       // }
     }
+    // this.registGateway({})
   },
   computed: {
     ...mapGetters(['latestBlock', 'version', 'userInfo', 'balances']),

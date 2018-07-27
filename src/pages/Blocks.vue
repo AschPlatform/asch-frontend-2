@@ -1,17 +1,21 @@
 <template>
   <q-page class="self-center blocks-container">
+    <div class="geteway-top">
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-20 text-black vertical-align-middle">{{$t('BLOCKS')}}</span>
+    </div>
     <div class="blocks-content row">
       <div class="col-md-9 col-xs-12">
-        <q-table :data="blocksData" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
+        <q-table :data="blocksData" :rows-per-page-options="[10]" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
           <template slot="top-left" slot-scope="props">
-                    <big>{{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}</big>
-</template>
+            {{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}
+          </template>
 
-<template slot="top-right" slot-scope="props">
-  <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" :debounce="600" />
-  <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
-  <q-btn class="text-secondary" flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-</template>
+          <template slot="top-right" slot-scope="props">
+            <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" @keyup.enter="getBlockDetail" @keyup.delete="delSearch"/>
+            <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
+            <q-btn class="text-secondary" flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+          </template>
 
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
             <div class="my-label text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
@@ -53,7 +57,7 @@
           </q-card-main>
           <q-card-main align="center" v-else>
             <div v-if="delegate">
-              <span class="block margin-t-20 text-secondary font-30 font-weight">{{delegate.name}}</span>
+              <span class="block margin-t-20 text-secondary font-30 font-weight delegate-nick">{{delegate.name}}</span>
             <span class="block margin-t-20">
               {{$t('DELEGATE_POLLRATE')+':'}}
               <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval+'%'}}</a>
@@ -72,7 +76,7 @@
           </q-card-title>
           <q-card-separator />
           <q-card-main class="padding-b-40" v-if="delegate" align="center">
-            <q-btn class="font-30" @click="changeData" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
+            <q-btn class="font-30" flat text-color="secondary">{{delegate.producedblocks}}</q-btn>
             <span class="block">
               {{$t('DELEGATE_VOTERATE')+':'}}
               <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline" href="javascript:;">{{delegate.productivity+'%'}}</a>
@@ -91,10 +95,10 @@
             <td >{{'ID'}}</td>
             <td >{{row.id}}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td >{{'VERSION'}}</td>
             <td >{{row.version}}</td>
-          </tr>
+          </tr> -->
           <tr v-clipboard="this.formatTimestamp(row.timestamp) || 'no data'" @success="info('copy date success...')">
             <td >{{$t('DATE')}}</td>
             <td >{{this.formatTimestamp(row.timestamp)}}</td>
@@ -108,25 +112,25 @@
             <td class="text-secondary">{{row.previousBlock}}</td>
           </tr>
           <tr>
-            <td >{{$t('TOTAL_AMOUNTS')}}</td>
+            <td >{{$t('TRANSACTIONS_COUNT')}}</td>
             <td >{{row.numberOfTransactions}}</td>
           </tr>
-          <tr>
+          <!-- <tr>
             <td >{{$t('TOTAL_AMOUNTS')}}</td>
             <td >{{row.totalAmount}}</td>
           </tr>
           <tr >
-            <td >{{$t('REWARD')}}</td>
+            <td >{{$t('REWARDS')}}</td>
             <td >{{row.reward | fee}}</td>
-          </tr>
+          </tr> -->
           <tr >
             <td >{{$t('PAYLOAD_HASH')}}</td>
             <td >{{row.payloadHash}}</td>
           </tr>
-          <tr @click="()=>{modalInfoShow = false;showAccountInfo(row.generatorId)}">
+          <!-- <tr @click="()=>{modalInfoShow = false;showAccountInfo(row.generatorId)}">
             <td >{{$t('PRODUCER')}}</td>
             <td class="text-secondary">{{row.generatorId }}</td>
-          </tr>
+          </tr> -->
           <tr >
             <td >{{$t('PRODUCER_PUBKEY')}}</td>
             <td >{{row.generatorPublicKey}}</td>
@@ -151,14 +155,16 @@
         </tbody>
       </table>
       <br/>
-      <q-btn
-        color="secondary"
-        @click="()=>{
-          this.modalInfoShow = false
-          this.row = {}
-          }"
-        :label="$t('label.close')"
-      />
+      <div class="align-center">
+        <q-btn
+          color="secondary"
+          @click="()=>{
+            this.modalInfoShow = false
+            this.row = {}
+            }"
+          :label="$t('label.close')"
+        />
+      </div>
     </q-modal>
 
     <user-agreement-modal :show="isModalShow" @confirm="callRegister" @cancel="closeModal" :title="$t('DELEGATE_TITLE')" :content="$t('AGREEMENT_DELEGATE_TITLE_CONTENT')" :tips="$t('DELEGATE_TITLE')+$t('COST_FEE',{num:100})"/>
@@ -182,7 +188,7 @@ import {
   QInput,
   QTd
 } from 'quasar'
-import { toast, toastInfo, translateErrMsg, prompt } from '../utils/util'
+import { toast, toastWarn, translateErrMsg, prompt } from '../utils/util'
 import { fullTimestamp } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
@@ -243,37 +249,25 @@ export default {
         {
           label: this.$t('PRODUCER'),
           name: 'generatorId',
-          field: 'generatorId'
+          field: 'generatorPublicKey'
         },
         {
           name: 'numberOfTransactions',
           label: this.$t('TRANSACTIONS_COUNT'),
-          field: 'count',
+          field: 'numberOfTransactions',
           type: 'string',
           align: 'right'
-        },
-        // {
-        //   label: this.$t('TOTAL') + this.$t('AMOUNTS'),
-        //   field: 'totalAmount',
-        //   align: 'right'
-        // },
-        // {
-        //   label: this.$t('TOTAL') + this.$t('FEES'),
-        //   field: 'totalFee',
-        //   align: 'right'
-        // },
-        {
-          name: 'reward',
-          label: this.$t('REWARDS'),
-          field: 'reward',
-          align: 'right'
         }
+        // {
+        //   name: 'reward',
+        //   label: this.$t('REWARDS'),
+        //   field: 'reward',
+        //   align: 'right'
+        // }
       ],
       modalInfoShow: false,
       row: {},
       type: 0,
-      // is this user delegate
-      // isDelegate: false,
       dialogShow: false,
       isModalShow: false,
       form: {
@@ -335,13 +329,23 @@ export default {
       return res
     },
     async getBlockDetail() {
-      let res = await this.blockDetail({
-        height: this.filter
-      })
-      this.pagination.rowsNumber = 1
-      this.blocksData = [res.block]
-      this.loading = false
-      return res
+      if (this.filter) {
+        let res = await this.blockDetail({
+          height: this.filter
+        })
+        this.pagination.rowsNumber = 1
+        this.blocksData = [res.block]
+        this.loading = false
+        return res
+      } else {
+        this.getBlocks()
+      }
+    },
+    delSearch() {
+      let searchStr = this.filter + ''
+      if (searchStr.length === 1) {
+        this.filter = ''
+      }
     },
     async getDelegate() {
       let res = await this.blockforging({
@@ -349,12 +353,11 @@ export default {
       })
       if (res.success === true) {
         this.delegate = res.delegate
-        // this.isDelegate = true
       }
       return res
     },
     init() {
-      this.getBlocks()
+      if (!this.filter) this.getBlocks()
       this.getDelegate()
     },
     formatTimestamp(timestamp) {
@@ -385,15 +388,15 @@ export default {
     },
     async registerDelegate() {
       if (!this.user.account.name) {
-        toastInfo(this.$t('PLEASE_SET_NAME'))
+        toastWarn(this.$t('PLEASE_SET_NAME'))
         return null
       }
       if (!this.user.account.isDelegate === 0) {
-        toastInfo(this.$t('AGENT_ALREADY'))
+        toastWarn(this.$t('AGENT_ALREADY'))
         return null
       }
       if (this.user.account.isAgent) {
-        toastInfo(this.$t('AGENT_CAN_NOT_BE_DELEGATE'))
+        toastWarn(this.$t('AGENT_CAN_NOT_BE_DELEGATE'))
         return null
       }
       this.isModalShow = true
@@ -434,7 +437,12 @@ export default {
     },
     changeData() {
       this.isOwn = !this.isOwn
+      this.blocksData = []
       this.getBlocks(this.defaultPage, '')
+    },
+    searchData(val) {
+      this.filter = val
+      this.getBlockDetail()
     }
   },
   mounted() {
@@ -483,9 +491,6 @@ export default {
         this.init()
       }
     },
-    filter(val) {
-      this.getBlockDetail()
-    },
     isOwn(val) {},
     pagination(val) {}
   }
@@ -493,6 +498,12 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.geteway-top {
+  margin-bottom: 20px;
+}
+.gateway-container {
+  padding: 20px;
+}
 .blocks-container {
   padding: 20px;
 }
@@ -509,6 +520,10 @@ export default {
 
 .blocks-search {
   border: 1px solid #cccccc;
+  width 150px
   border-radius: 15px;
 }
+
+.delegate-nick
+  word-wrap: break-word;
 </style>

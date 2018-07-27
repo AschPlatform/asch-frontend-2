@@ -3,11 +3,11 @@
     <div class="gatewayDetail-content">
       <div class="no-wrap q-pa-md row justify-between">
         <span>
-          <i class="material-icons vertical-align-sub font-24 text-black">border_color</i>
-          <h5 class="q-px-md inline-block">{{$t('GATEWAY_PARTICULARS')}}</h5>
+          <i class="material-icons vertical-align-sub font-18 text-black">border_color</i>
+          <h5 class="q-px-md inline-block q-my-none font-18">{{$t('GATEWAY_PARTICULARS')}}</h5>
           </span>
         <q-btn color="secondary" class="self-center" @click="$router.push('gateway')">
-          {{$t('CANCEL')}}
+          <q-icon name="reply" />
         </q-btn>
       </div>
       <div class="row q-px-md gutter-md">
@@ -18,25 +18,18 @@
                 <span class="font-22 text-black font-weight">{{gateway.name}}</span>
               </q-card-title>
               <q-card-main class="word-wrap-break">
-              {{gateway.desc}}
+                {{gateway.desc}}
               </q-card-main>
             </div>
           </q-card>
 
-          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading" row-key="address" hide-bottom>
+          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" :data="datas" :columns="columns" :pagination.sync="pagination" @request="request" :loading="loading" row-key="address" :rows-per-page-options="[10]" hide-bottom>
   
             <q-td slot="body-cell-operation" slot-scope="props" :props="props">
               <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">
                 {{$t('CHECK')}}
               </div>
             </q-td>
-  
-            <!-- <q-td slot="body-cell-"  slot-scope="props" :props="props">
-              <div class="text-primary" @click="viewAccountInfo(props.row)">
-                {{$t('CHECK')}}
-              </div>
-            </q-td> -->
-  
           </q-table>
         </div>
 
@@ -69,7 +62,7 @@
 </template>
 
 <script>
-import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd } from 'quasar'
+import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd, QIcon } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { compileTimeStamp, getTimeFromHight } from '../utils/util'
 
@@ -83,17 +76,18 @@ export default {
     QCardTitle,
     QCardMain,
     QBtn,
-    QTd
+    QTd,
+    QIcon
   },
   data() {
     return {
       columns: [
         {
-          name: 'gateway',
+          name: 'name',
           required: true,
           label: this.$t('COUNCIL_PAGE.MEMBER'),
           align: 'center',
-          field: 'gateway'
+          field: 'name'
         },
         {
           name: 'desc',
@@ -236,6 +230,8 @@ export default {
 
 .word-wrap-break {
   word-wrap: break-word;
+  padding 40px
+  font-size 18px
 }
 
 .margin-top-minus-28 {

@@ -1,23 +1,21 @@
 <template>
-  <q-modal content-classes="row justify-center" v-model="show" minimized no-backdrop-dismiss	 :no-esc-dismiss="true">
-    <div class="bg-secondary padding-40 height-62 col-12">
-      <span class="text-white font-22">{{$t('MORE_ASSETS')}}</span>
-      <q-btn class="float-right height-62" flat :label="$t('label.close')" @click="close" />
+  <q-modal :content-classes="contentClass" v-model="show" no-backdrop-dismiss	 :no-esc-dismiss="true">
+    <div class="bg-secondary title height-62 col-12">
+      <span class="text-white font-18">{{$t('MORE_ASSETS')}}</span>
     </div> 
-    <!-- <q-toolbar slot="header">
-            <q-search class="full-width" inverted v-model="filter" color="none" />
-          </q-toolbar> -->
-  
     <div :class="moreAssetClass">
       <q-card :class="moreAssetCardClass" v-for="(currency,idx) in currencies" :key="idx">
         <q-card-main>
           <div class="col-12">
-          <i class="material-icons font-24 vertical-align-middle text-eight">fiber_manual_record</i>
+          <asset-icon :iconKey="currency.symbol" class="font-24 vertical-align-middle text-eight"></asset-icon>
             <span class="font-18 text-five vertical-align-middle">{{assetsInfo(currency)}}</span>
-            <q-btn class="moreAssetModal-btn bg-primary text-white float-right" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
+            <q-btn class="moreAssetModal-btn bg-primary text-white q-ml-lg" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
           </div>
         </q-card-main>
       </q-card>
+    </div>
+    <div class="row justify-center q-px-md">
+      <q-btn :class="btnClass" flat :label="$t('label.close')" @click="close" />
     </div>
   </q-modal>
 </template>
@@ -42,7 +40,7 @@ import {
 import { secondPwd } from '../utils/validators'
 import { required, minValue } from 'vuelidate/lib/validators'
 import { toast } from '../utils/util'
-// import { convertFee } from '../utils/asch'
+import AssetIcon from '../components/AssetIcon'
 
 export default {
   name: 'DepositModal',
@@ -60,7 +58,8 @@ export default {
     QItemTile,
     QItemMain,
     QCardActions,
-    QBtn
+    QBtn,
+    AssetIcon
   },
   data() {
     return {
@@ -116,7 +115,6 @@ export default {
       toast(msg)
     },
     assetsInfo(asset) {
-      // let balance = convertFee(asset.balance, asset.precision)
       return `${asset.symbol}  `
     },
     deposit(asset) {
@@ -130,7 +128,7 @@ export default {
         : 'row col-12 justify-between assetModal-container-mobile'
     },
     moreAssetCardClass() {
-      return this.isDesk ? 'col-5' : 'col-12 margin-top-20'
+      return this.isDesk ? 'col-6' : 'col-12 margin-top-20'
     },
     assetMap() {
       let assetMap = {}
@@ -140,6 +138,12 @@ export default {
         })
       }
       return assetMap
+    },
+    contentClass() {
+      return this.isDesk ? 'row justify-center' : ''
+    },
+    btnClass() {
+      return this.isDesk ? 'bg-secondary text-white q-my-md' : 'full-width bg-secondary text-white q-my-md q-px-md'
     }
   },
   watch: {
@@ -166,4 +170,6 @@ export default {
   border-radius: 15px;
   min-height: 20px;
 }
+.title
+  padding 0 20px
 </style>

@@ -51,10 +51,10 @@ export default {
         'BTC': btc,
         'CHAIN_TRANSFER': chainTransfer
       }
-      return icons.XAS
+      return this.iconKey ? icons[this.iconKey] ? icons[this.iconKey] : icons['WITHIN_CHAIN_ASSET'] : icons.XAS
     },
     iconSize() {
-      return this.size ? this.size : '20'
+      return this.size ? this.size : '28'
     }
   }
 }

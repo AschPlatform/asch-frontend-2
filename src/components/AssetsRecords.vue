@@ -5,6 +5,7 @@
     color="primary"
     :title="$t('OPERATION_RECORD')"
     :data="recordData.transactions"
+    :rows-per-page-options="[10]"
     :columns="columns"
     :filter="filter"
     row-key="id"

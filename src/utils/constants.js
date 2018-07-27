@@ -6,11 +6,11 @@ const langsOpts = [
   {
     label: 'English',
     value: 'en'
-  },
-  {
-    label: 'Deutsch',
-    value: 'de'
   }
+  // {
+  //   label: 'Deutsch',
+  //   value: 'de'
+  // }
 ]
 
 const fees = {
@@ -20,59 +20,77 @@ const fees = {
 }
 
 const officialPeers = [
+  // {
+  //   ip: '107.191.41.208',
+  //   port: 80,
+  //   local: 'US1'
+  // },
+  // {
+  //   ip: '45.76.98.139',
+  //   port: 80,
+  //   local: 'JP1'
+  // },
+  // {
+  //   ip: '45.63.27.97',
+  //   port: 80,
+  //   local: 'US2'
+  // },
+  // {
+  //   ip: '45.76.99.134',
+  //   port: 80,
+  //   local: 'JP2'
+  // },
+  // {
+  //   ip: '104.238.180.37',
+  //   port: 80,
+  //   local: 'US3'
+  // },
+  // {
+  //   ip: '45.32.254.236',
+  //   port: 80,
+  //   local: 'JP3'
+  // },
+  // {
+  //   ip: '108.61.181.76',
+  //   port: 80,
+  //   local: 'JP4'
+  // },
+  // {
+  //   ip: '222.161.26.230',
+  //   port: 9999,
+  //   local: 'CN1'
+  // },
+  // {
+  //   ip: '222.161.26.231',
+  //   port: 9999,
+  //   local: 'CN2'
+  // }
   {
-    ip: '107.191.41.208',
-    port: 80,
-    local: 'US1'
+    ip: '47.75.26.122',
+    port: 4096,
+    local: 'test1'
   },
   {
-    ip: '45.76.98.139',
-    port: 80,
-    local: 'JP1'
+    ip: '47.75.26.122',
+    port: 4097,
+    local: 'test2'
   },
   {
-    ip: '45.63.27.97',
-    port: 80,
-    local: 'US2'
-  },
-  {
-    ip: '45.76.99.134',
-    port: 80,
-    local: 'JP2'
-  },
-  {
-    ip: '104.238.180.37',
-    port: 80,
-    local: 'US3'
-  },
-  {
-    ip: '45.32.254.236',
-    port: 80,
-    local: 'JP3'
-  },
-  {
-    ip: '108.61.181.76',
-    port: 80,
-    local: 'JP4'
-  },
-  {
-    ip: '222.161.26.230',
-    port: 9999,
-    local: 'CN1'
-  },
-  {
-    ip: '222.161.26.231',
-    port: 9999,
-    local: 'CN2'
+    ip: '47.75.26.122',
+    port: 4098,
+    local: 'test3'
   }
 ]
 
 const urls = {
   server: {
-    development: 'http://47.94.37.201:4096',
+    development: 'http://47.75.26.122:4096',
+    // development: 'http://47.94.37.201:4006',
     // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192',
-    production: 'http://47.94.37.201:4096'
+    // production: 'http://47.75.26.122:4096'
+    // production: 'http://192.168.1.38:4096'
+    production: 'http://localhost:4096'
   },
   // 登录接口
   loginApi: {
@@ -201,11 +219,11 @@ const urls = {
     },
     // 获取理事会列表
     councils: {
-      url: '/api/v2/councils'
+      url: '/api/v2/groups'
     },
     // 根据名称获取理事会详情
     council: {
-      url: '/api/v2/councils/:name'
+      url: '/api/v2/groups/:address'
     },
     // 获取提案列表
     proposals: {
@@ -319,7 +337,7 @@ const urls = {
     agents: {
       url: '/api/v2/agents'
     },
-    // 获取指定资产详情
+    // 获取代理人代理列表
     agentsSupporter: {
       url: '/api/v2/agents/:name/clienteles'
     },
@@ -330,6 +348,9 @@ const urls = {
     // 获取所有已注册侧链
     chains: {
       url: '/api/v2/chains'
+    },
+    chainsInstalled: {
+      url: '/api/v2/chains/installed'
     }
   },
 

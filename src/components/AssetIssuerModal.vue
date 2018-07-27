@@ -1,5 +1,5 @@
 <template>
-  <q-modal :class="assetIssuerClass" v-model="show"  :no-esc-dismiss="true">
+  <q-modal :class="assetIssuerClass" content-class="modal-content-limit" v-model="show"  :no-esc-dismiss="true">
   <q-card v-if="user" class="padding-b-40">
      <div class="padding-20 bg-secondary">
       <span class="text-white font-22">
@@ -12,7 +12,7 @@
         <q-input @blur="$v.issuer.name.$touch" v-model="issuer.name" clearable :disable="!!user.issuer" />
       </q-field>
       <q-field class="col-md-8 col-xs-12" :label="$t('DESCRIBE')" :label-width="2" :error="$v.issuer.desc.$error" :row="5" :count="500" :error-label="$t('DESCRIBE_OF_DISTRIBUTOR')">
-        <q-input @blur="$v.issuer.desc.$touch" type="textarea" v-model="issuer.desc" clearable  :disable="!!user.issuer"/>
+        <q-input @blur="$v.issuer.desc.$touch" type="textarea" v-model="issuer.desc" clearable  :disable="!!user.issuer" :max-height="100" :maxlength="1000" />
       </q-field>
       <q-field v-if="!user.issuer && secondSignature" class="col-md-8 col-xs-12" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
         <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
@@ -41,7 +41,7 @@ import {
   QModal
 } from 'quasar'
 import { required, maxLength } from 'vuelidate/lib/validators'
-import { confirm, toastWarn, translateErrMsg } from '../utils/util'
+import { confirm, toast, toastWarn, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
 import { secondPwdReg } from '../utils/validators'
 import { mapActions, mapGetters } from 'vuex'
@@ -121,6 +121,7 @@ export default {
               this.user.issuer = true
               this.done()
               this.close()
+              toast(this.$t('ISSUE_SUCCESS'))
             } else {
               translateErrMsg(this.$t, res.error)
               this.done()

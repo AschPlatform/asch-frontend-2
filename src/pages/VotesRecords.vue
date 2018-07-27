@@ -6,7 +6,7 @@
     leave-active-class="animated fadeOut" 
      mode="out-in">
       <div v-if="delegatesData" class="col-12 shadow-1">
-        <q-table no-data-label="HELL!" :data="delegatesData" :filter="filter" color="primary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns"  @request="request" :pagination.sync="pagination"  :loading="loading" >
+        <q-table no-data-label="HELL!" :data="delegatesData" :filter="filter" color="primary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns"  @request="request" :pagination.sync="pagination"  :loading="loading" :rows-per-page-options="[10]">
         
           <template slot="top-right" slot-scope="props">
             <q-btn v-if="selected.length" color="negative" flat round  icon="delete" @click="repeal" >
@@ -28,12 +28,6 @@
               {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
             </div>
           </q-td>
-          <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-            <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-            </q-btn>
-            <q-icon color="positive" v-if="props.row.voted" name="icon-chrome" />
-          </q-td> -->
         </q-table>
       </div>
       </transition>
@@ -93,12 +87,6 @@ export default {
       filter: '',
       loading: false,
       columns: [
-        // {
-        //   name: 'opt',
-        //   field: 'rate',
-        //   label: this.$t('OPERATION'),
-        //   align: 'center'
-        // },
         {
           name: 'rate',
           label: this.$t('RANKING'),

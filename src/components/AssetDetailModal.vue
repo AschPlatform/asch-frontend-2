@@ -1,5 +1,5 @@
 <template>
-  <q-modal content-classes="row justify-center" v-model="show" maximized :no-esc-dismiss="true">
+  <q-modal content-classes="modal-content-limit row justify-center" v-model="show" maximized :no-esc-dismiss="true">
     <q-modal-layout>
         <q-toolbar class="bg-secondary" slot="header">
           <q-toolbar-title>
@@ -10,17 +10,6 @@
           <q-btn flat :label="$t('label.close')" @click="close"/>
         </q-toolbar>
         <div class="row layout-padding">
-          <!-- <q-card class="col-6">
-            <q-card-title>
-              {{$t('BALANCE')}}
-            </q-card-title>
-            <q-card-main>
-              {{asset.balance | fee}}{{asset.currency}}
-            </q-card-main>
-            <q-card-actions>
-              <q-btn flat :label="$t('TRS_TYPE_TRANSFER')" @click="transfer" />
-            </q-card-actions>
-          </q-card> -->
           
           <assets-panel v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"/>
           <assets-panel v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw"/>

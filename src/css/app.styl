@@ -70,6 +70,9 @@ $bg-ten=#f0f3f6
 .font-22
  font-size:22px !important
 
+.font-20
+ font-size:20px !important
+
 .font-18
  font-size:18px !important
 
@@ -83,9 +86,11 @@ $bg-ten=#f0f3f6
  font-size:12px !important   
 
 .q-table-title
- font-weight: 500
- font-size: 22px
-
+ font-weight: 400
+ font-size: 18px
+.q-card-title
+  span
+   font-size 18px !important
 .vertical-align-middle
  vertical-align: middle !important;    
 
@@ -152,7 +157,7 @@ $bg-ten=#f0f3f6
  padding: 40px 0;
 
 .padding-t-40
- padding-top:40px
+ padding-top:40px !important
 
 .padding-b-40  
  padding-bottom: 40px;
@@ -167,7 +172,7 @@ $bg-ten=#f0f3f6
  padding-left: 0px;
 
 .padding-20
- padding: 20px;
+ padding: 20px 20px;
 
 .padding-b-54 
  padding-bottom: 54px;
@@ -214,10 +219,13 @@ $bg-ten=#f0f3f6
 .bg-hover-white
   background: #ffffff
 
+.modal-content
+  max-width: 600px !important
+
 .modal-header    
  background: #43aea8
  color: #ffffff
- font-size: 22px
+ font-size: 18px
 
 .modal-body
  padding 20px 24px
@@ -262,7 +270,7 @@ $bg-ten=#f0f3f6
  color:#000000
 
 .q-table tbody td
- border 1px solid #dddddd   
+//  border 1px solid #dddddd   
  text-align: center   
 
 .cursor-pointer
@@ -288,6 +296,8 @@ $bg-ten=#f0f3f6
 .q-table th
  text-align: center    
 
+.personal-table tbody
+  
 .personal-table tbody td 
  border: none
  text-align: left 
@@ -296,10 +306,13 @@ $bg-ten=#f0f3f6
  padding: 0 !important
 
 input.q-input-target   
- font-size: 12px 
+ font-size: 12px
+ color: #000
+ margin auto
 
 .proposal-detail-container input.q-input-target 
  font-size: 16px 
+ margin auto
 
 .login-container textarea 
  min-height: 0px !important
@@ -310,9 +323,13 @@ input.q-input-target
 .home-table-container .q-table-top
  background: #ffffff
 
+.q-if-inner
+  margin auto
+
 .q-field-label-inner
- color: #000000
- font-size: 18px 
+ color: #333333
+ font-weight: 600
+ font-size: 14px 
 
 .personal-icon
  width: 20px
@@ -320,6 +337,9 @@ input.q-input-target
 
 .text-decoration-none
  text-decoration:none
+
+.q-field-label
+  // margin: auto
 
 .q-field-label-inner-center .q-field-label-inner
  justify-content:center
@@ -336,6 +356,9 @@ input.q-input-target
     padding 0 12px
   }
   .q-table-control {
+    .big{
+      font-size: 18px
+    }
     .trans-record-btns {
       button{
        min-height: 0;
@@ -353,3 +376,12 @@ input.q-input-target
   }
 }
 
+.modal-content-limit
+  min-width: 450px
+
+.align-center
+  text-align: center
+
+.q-table-bottom
+  div:nth-child(3)
+   display: none

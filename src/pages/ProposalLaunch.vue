@@ -4,7 +4,7 @@
       <q-card-title class="col-12 font-22 padding-l-0">
         <q-icon size="18px" name="border color" /> {{$t('proposal.LAUNCH')}}
         <q-btn color="secondary" slot="right" class="row items-center" @click="hideModal">
-          <q-icon name="reply" /> {{$t('CANCEL')}}
+          <q-icon name="reply" />
         </q-btn>
       </q-card-title>
       <q-card-separator class="col-12 q-my-lg bg-999 no-border-top" />
@@ -17,10 +17,10 @@
         <q-field :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_TYPE')" :label="$t('proposal.SELECT_P_TYPE')" class="col-md-8 col-xs-12 font-16 text-four">
           <q-select color="white" v-model="first_type" :options="proposalType" @change="detectChange" @blur="$v.first_type.$touch()" :error="$v.first_type.$error" />
         </q-field>
-        <q-field :label-width="2" class="col-md-8 col-xs-12 q-ml-lg font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change'">
+        <q-field :label-width="2" :label="$t('proposal.SELECT_P_COUNCIL')" class="col-md-8 col-xs-12 font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change' || this.first_type === 'period' ">
           <q-select v-model="p_selected" :options="councilList" @blur="$v.p_selected.$touch()" :error="$v.p_selected.$error" :placeholder="$t('proposal.SELECT_P_COUNCIL')" />
         </q-field>
-        <q-field class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_NET')" :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type !== 'new_n' && this.first_type !== null">
+        <q-field class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_NET')" :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'init' || this.first_type === 'member_n' && this.first_type !== 'new' && this.first_type !== null">
           <q-select v-model="p_selected" :options="netList" @change="val => {console.log(val)}" @blur="$v.p_selected.$touch()" :error="$v.p_selected.isSelected" :placeholder="$t('proposal.SELECT_P_NET')" />
         </q-field>
       </div>
@@ -29,7 +29,7 @@
               <q-datetime min="2018-04-05" v-model="p_time_start" @blur="$v.p_time_start.$touch()" :error="$v.p_time_start.$error" />
             </q-field>
             <span class="self-center col-1 font-16" align="center">{{$t('TO')}}</span> -->
-        <q-field :helper="$t('AT_LEAST_7DAY')" :label-width="4" class="col-md-4 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_PERIOD')">
+        <q-field :helper="$t('AT_LEAST_7DAY')" :label-width="2" class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_PERIOD')">
           <q-datetime :min="tomorrow" v-model="p_time_end" @blur="$v.p_time_end.$touch()" :error="$v.p_time_end.$error" />
         </q-field>
       </div>
@@ -65,7 +65,7 @@
             </div>
             <div class="">
               <q-field class="col-8" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
-                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
           </div>
@@ -79,7 +79,7 @@
             </div>
             <div class="row col-12">
               <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.NET_CURRENCY_TIP')" :label="$t('LAUNCH_MODAL.NET_CURRENCY')">
-                <q-input :float-label="$t('LAUNCH_MODAL.NET_NEW_LABEL')" upper-case type="text" v-model="NEW.currency" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.currency.$error"></q-input>
+                <q-input type="text" v-model="NEW.currency" @blur="$v.NEW.currency.$touch()" :error="$v.NEW.currency.$error"></q-input>
               </q-field>
             </div>
             <div class="row col-12">
@@ -94,7 +94,7 @@
             </div>
             <div class="row col-12">
               <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_3_33')" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-                <q-input type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :suffix="$t('LAUNCH_MODAL.PERSON')"></q-input>
+                <q-input type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :placeholder="$t('LAUNCH_MODAL.PERSON')"></q-input>
               </q-field>
             </div>
             <!-- <div class="row">
@@ -104,12 +104,12 @@
               </div> -->
             <div class="row col-12">
               <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
-                <q-input type="number" v-model="NEW.period" @blur="$v.NEW.period.$touch()" :error="$v.NEW.period.$error" :suffix="$t('LAUNCH_MODAL.DAY')"></q-input>
+                <q-input type="number" v-model="NEW.period" @blur="$v.NEW.period.$touch()" :error="$v.NEW.period.$error" :placeholder="$t('LAUNCH_MODAL.DAY')"></q-input>
               </q-field>
             </div>
             <div class="row col-12">
               <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
-                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
           </div>
@@ -124,7 +124,7 @@
             </div>
             <div class="row col-12">
               <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.INIT_REASON')">
-                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
           </div>
@@ -146,7 +146,7 @@
             </div>
             <div class="row">
               <q-field class="col-9 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.PERIOD_REASON')">
-                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
           </div>
@@ -171,40 +171,44 @@
                 </div> -->
             <div class="row col-12">
               <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.MEMBER_REASON')">
-                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
           </div>
   
           <!-- below is remove page -->
-          <div class="col-12" v-show="this.second_type === 'remove' && this.first_type === 'change'" id="remove">
+          <div class="col-12" v-show="this.first_type === 'remove'" id="remove">
             <div class="">
+              <q-field class="font-16 text-four" label-width="1" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.REMOVE_OBJECT')">
+                <q-select align="center" color="secondary" chips filter v-model="p_selected" :options="councilList"></q-select>
+              </q-field>
               <q-field class="font-16 text-four" label-width="1" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.REMOVE_REASON')">
-                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
           </div>
   
           <!-- below is period page -->
-          <div class="col-12" v-show="this.second_type === 'period' && this.first_type === 'change'" id="remove">
+          <div class="col-12" v-show="this.first_type === 'period'" id="remove">
             <div class="row">
-              <q-field :label-width="4" :label="$t('proposal.SELECT_P_PERIOD')" class="col-3 font-16 text-four">
+              <!-- <q-field :label-width="4" :label="$t('proposal.SELECT_P_PERIOD')" class="col-3 font-16 text-four">
                 <q-input :suffix="$t('LAUNCH_MODAL.DAY')" type="number" disabled readonly v-model="PERIOD.pre" />
-              </q-field>
-              <span class="self-center q-ml-lg">{{$t('LAUNCH_MODAL.INSTEAD_POST')}}</span>
-              <q-field class="col-3 q-ml-xl font-16 text-four" :error-label="$t('ERR.ERR_1_30')">
+              </q-field> -->
+              <!-- <span class="self-center q-ml-lg">{{$t('LAUNCH_MODAL.INSTEAD_POST')}}</span> -->
+              <!-- <span class="self-center q-ml-lg">{{$t('LAUNCH_MODAL.PERIOD_SHIFT', {pre: 3})}}</span> -->
+              <q-field class="col-9 font-16 text-four" label-width="8" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_SHIFT', {pre: PERIOD.pre})">
                 <q-input :suffix="$t('LAUNCH_MODAL.DAY')" type="number" @blur="$v.PERIOD.post.$touch()" :error="$v.PERIOD.post.$error" v-model="PERIOD.post" />
               </q-field>
             </div>
             <div class="row">
               <q-field class="col-9 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.PERIOD_REASON')">
-                <q-input type="textarea" v-model="brief" @blur="$v.PERIOD.post.$touch()" :error="$v.PERIOD.post.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')"></q-input>
+                <q-input type="textarea" v-model="brief" @blur="$v.PERIOD.post.$touch()" :error="$v.PERIOD.post.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
           </div>
   
           <!-- below is member page -->
-          <div class="col-12" v-show="this.second_type === 'member' && this.first_type === 'change'" id="remove">
+          <div class="col-12" v-show="this.first_type === 'change'" id="remove">
             <div class="row">
               <q-field :label-width="4" :error-label="$t('ERR.ERR_REQUIRE_TYPE')" :label="$t('proposal.SELECT_MEMBER_ACTION')" class="col-3 font-16 text-four">
                 <q-select v-model="MEMBER.type_selected" @blur="$v.MEMBER.instead_post.$touch()" :error="$v.MEMBER.instead_post.$error" :options="MEMBER.type" />
@@ -232,11 +236,12 @@
                 <q-select chips multiple filter v-model="MEMBER.instead_post" :options="delegateList"></q-select>
               </q-field>
             </div>
-            <div class="row justify-around q-my-lg">
+            <member-indicator :type="countedType"></member-indicator>
+            <!-- <div class="row justify-around q-my-lg">
               <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_PRE')" class="col-5" inverted readonly v-model="MEMBER.show_pre" disable/>
               <q-icon size="33px" name="keyboard arrow right" />
               <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="MEMBER.show_post" disable/>
-            </div>
+            </div> -->
           </div>
           <div class="row col-12" v-show="this.first_type !== null">
             <q-field v-if="secondSignature" class="col-6 font-16 text-four" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
@@ -246,7 +251,9 @@
         </q-card-main>
   
         <q-card-main v-show="this.first_type !== null" key="agreement">
-          <q-checkbox color="secondary" v-model="agreeOptions" val="one" :label="$t('LAUNCH_MODAL.READ_TIP1')" />
+          <q-checkbox color="secondary" v-model="agreeOptions" val="one" readonly>
+            <a class="agreeBtn text-secondary" @click="showAgreement">{{$t('LAUNCH_MODAL.READ_TIP1')}}</a>
+          </q-checkbox>
           <br><br>
           <q-checkbox color="secondary" v-model="agreeOptions" val="two" :label="$t('LAUNCH_MODAL.READ_TIP2')" />
           <div class="row justify-center margin-top-20">
@@ -255,6 +262,7 @@
         </q-card-main>
       </transition-group>
     </q-card>
+    <user-agreement-modal :show="userAgreementShow" @confirm="confirm" @cancel="userAgreementShow=false" :title="$t('ERR_READ_ALL')" :tips="''" :content="$t('AGREEMENT_ASSET_CONTENT')" />
   </q-page>
 </template>
 
@@ -263,6 +271,8 @@ import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/li
 import { mapActions, mapGetters } from 'vuex'
 import { secondPwd, proposalTitleReg, assetSymbolReg, gatewayNameReg } from '../utils/validators'
 import { toastError, toast } from '../utils/util'
+import MemberIndicator from '../components/MemberIndicator'
+import UserAgreementModal from '../components/UserAgreementModal'
 import {
   QField,
   QModal,
@@ -300,12 +310,15 @@ export default {
     QChipsInput,
     QIcon,
     QPage,
-    QBtn
+    QBtn,
+    MemberIndicator,
+    UserAgreementModal
   },
   props: ['show'],
   data() {
     return {
       secondPwd: '',
+      userAgreementShow: false,
       // overall setting
       p_title: null,
       first_type: null,
@@ -330,14 +343,18 @@ export default {
         //   label: this.$t('proposal.SELECT_CHANGECOUNCIL'),
         //   value: 'change'
         // },
+        // {
+        //   label: this.$t('proposal.SELECT_CHANGEPERIOD'),
+        //   value: 'period'
+        // },
+        // {
+        //   label: this.$t('proposal.SELECT_REMOVECOUNCIL'),
+        //   value: 'remove'
+        // },
         {
           label: this.$t('proposal.SELECT_NEWNET'),
           value: 'new_n'
         },
-        // {
-        //   label: this.$t('proposal.SELECT_CHANGENET'),
-        //   value: 'change_n'
-        // },
         {
           label: this.$t('proposal.SELECT_INITNET'),
           value: 'init'
@@ -414,8 +431,8 @@ export default {
       },
       REMOVE: {},
       PERIOD: {
-        pre: null,
-        post: null
+        pre: 0,
+        post: 0
       },
       MEMBER: {
         type: [
@@ -444,6 +461,33 @@ export default {
         memberList: [],
         show_pre: [],
         show_post: []
+      },
+      typeMap: {
+        'new_n': 'gateway_register',
+        'init': 'gateway_init',
+        'period_n': 'gateway_period',
+        'member_n': 'gateway_update_member',
+        'new': 'council_register',
+        'change': 'council_update_mumber',
+        'period': 'council_update',
+        'remove': 'council_revoke'
+      //   if (this.first_type === 'new_n') {
+      //   return 'gateway_register'
+      // } else if (this.first_type === 'init') {
+      //   return 'gateway_init'
+      // } else if (this.first_type === 'period_n') {
+      //   return 'gateway_period'
+      // } else if (this.first_type === 'member_n') {
+      //   return 'gateway_update_member'
+      // } else if (this.first_type === 'new') {
+      //   return 'council_register'
+      // } else if (this.first_type === 'change') {
+      //   return 'council_update_mumber'
+      // } else if (this.first_type === 'period') {
+      //   return 'council_update'
+      // } else if (this.first_type === 'remove') {
+      //   return 'council_revoke'
+      // }
       },
       tomorrow
     }
@@ -540,7 +584,9 @@ export default {
         maxValue: maxValue(16)
       },
       currencyBrief: {
-        required
+        required,
+        minLength: minLength(1),
+        maxLength: maxLength(256)
       }
     },
     INIT: {
@@ -643,20 +689,12 @@ export default {
       return content
     },
     async launchProposal() {
-      debugger
       // if (this.first_type === 'new' || this.first_type === 'new_n') {
       let valid = this.checkValidate(this.first_type)
       if (!valid) {
         toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
         return
       }
-      // } else {
-      //   let result = this.checkValidate(this.second_type)
-      //   if (!result) {
-      //     toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
-      //     return
-      //   }
-      // }
       let obj = {}
       obj.content = this.compileContent()
       obj.title = this.p_title
@@ -754,7 +792,6 @@ export default {
       this.delegateList = total
     },
     checkValidate(action) {
-      debugger
       // total set first
       if (
         !this.$v.p_title.$invalid &&
@@ -865,28 +902,27 @@ export default {
         show_pre: [],
         show_post: []
       }
+    },
+    showAgreement() {
+      this.userAgreementShow = true
+    },
+    confirm() {
+      this.userAgreementShow = false
+      this.agreeOptions.push('one')
     }
   },
   computed: {
     ...mapGetters(['userInfo']),
     proposalLaunchClass() {
       return this.isDesk
-        ? 'padding-20 q-mx-xl q-my-xl'
-        : 'row col-12 padding-20 margin-top-20'
+        ? 'padding-siut q-mx-xl q-my-xl'
+        : 'row col-12 padding-siut margin-top-20'
     },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
     },
     countedType() {
-      if (this.first_type === 'new_n') {
-        return 'gateway_register'
-      } else if (this.first_type === 'init') {
-        return 'gateway_init'
-      } else if (this.first_type === 'period_n') {
-        return 'gateway_period'
-      } else if (this.first_type === 'member_n') {
-        return 'gateway_update_member'
-      }
+      return this.typeMap[this.first_type]
     },
     endHeight() {
       let currentHeight = this.userInfo.latestBlock.height
@@ -967,6 +1003,14 @@ export default {
         return this.p_selected.minimumMembers
       }
       return 0
+    },
+    upperTargetSelect() {
+      switch (this.first_type) {
+        case 'new':
+          return this.$t('proposal.SELECT_P_COUNCIL')
+        case 'new_n':
+          return this.$t('proposal.SELECT_P_NET')
+      }
     }
   },
   watch: {
@@ -990,4 +1034,9 @@ export default {
 .no-border-top {
   margin-top: 0 !important;
 }
+.padding-siut
+  padding 20px
+.agreeBtn
+  text-decoration: none
+  margin-left: 8px
 </style>
