@@ -513,7 +513,7 @@ export default {
       }
     },
     jump2Doc() {
-      openURL('https://github.com/AschPlatform/asch/tree/master/docs')
+      openURL('https://github.com/AschPlatform/asch-docs')
     },
     convertFee(value) {
       return convertFee(value)
