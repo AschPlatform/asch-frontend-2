@@ -13,8 +13,8 @@
         <q-toggle v-model="installed" :label="$t('DAPP_INSTALL_LIST')" color="secondary" />
       </q-card-title>
       <q-card-main class="row">
-        <div class="row col-sm-6 col-md-4 col-lg-3 row justify-center">
-          <q-card inline color="white" text-color="black" v-for="(dapp,idx) in dapps" class="col-md-10 col-xs-12 assets-panel-content" :key="idx">
+        <div class="row">
+          <q-card inline color="white" text-color="black" v-for="(dapp,idx) in dapps" class="col-lg-3 col-md-10 col-xs-12 assets-panel-content" :key="idx">
             <q-card-media>
               <img :ref="'img'+idx" :src="dapp.icon"  @error="onError(idx)" />
             </q-card-media>
@@ -518,6 +518,8 @@ export default {
   background: #ffffff;
   cursor: pointer;
   min-width: 295px;
+  margin-right: 39px;
+  margin-top: 39px;
 }
 
 .tab-panel-container {
