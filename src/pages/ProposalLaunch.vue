@@ -908,7 +908,9 @@ export default {
     },
     confirm() {
       this.userAgreementShow = false
-      this.agreeOptions.push('one')
+      if (this.agreeOptions.indexOf('one') < 0) {
+        this.agreeOptions.push('one')
+      }
     }
   },
   computed: {
