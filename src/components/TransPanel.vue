@@ -179,6 +179,11 @@ export default {
       this.balance = balance
       this.precision = precision
     }
+
+    console.log(this.$el)
+    // let el = this.$el.querySelector('.panelBtn')
+    // let end = document.createElement('div', {css: 'col-12 primary'})
+    // el.append(end)
   },
   computed: {
     ...mapGetters(['balances', 'userInfo']),

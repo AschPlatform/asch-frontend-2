@@ -415,7 +415,7 @@ const lang = {
   NICKNAME: '昵称',
   INPUT_NICKNAME: '请输入你想设置的昵称',
   ERR_NICKNAME: '昵称输入有误,应为2-20位小写字母与数字的组合',
-  ERR_LOCKAMOUNT: '锁仓需要花费0.1 XAS,为了保障你锁仓后的正常使用，您需要预留出至少1.1XAS，您最多可以锁仓{num}',
+  ERR_LOCKAMOUNT: '锁仓需要花费0.1 XAS， 为了保障你锁仓后的正常使用，您需要预留出至少1.1XAS，您最多可以锁仓{num}',
   NICKNAME_TIP: '昵称可用于转账，请慎重填写，最多2-20个字符',
   CHAR_NUM: '字符数',
   PRICE: '价格',
