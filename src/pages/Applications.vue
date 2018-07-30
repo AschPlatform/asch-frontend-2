@@ -80,16 +80,16 @@
   
       <div class="row" slot="body">
         <q-field class="col-12" :label-width="4">
-          <q-select :float-label="$t('ASSET')" filter v-model="form.depositName" :options="assetsOpt" :error="$v.form.depositName.$error" error-label="error" />
+          <q-select :placeholder="$t('ASSET')" filter v-model="form.depositName" :options="assetsOpt" :error="$v.form.depositName.$error" error-label="error" />
         </q-field>
         <q-field :label-width="4" :error-label="$t('ERR_ASSET_PRECISION_NOT_CORRECT')" class="col-12">
-          <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :error="$v.form.amount.$error" error-label="error" />
+          <q-input :placeholder="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :error="$v.form.amount.$error" error-label="error" @keyup.delete="delSearch" />
         </q-field>
         <q-field v-if="dialog.form==3" :label-width="4" class="col-12">
-          <q-input :float-label="$t('ADDRESS')" @blur="validateAddr" v-model="form.address" :error="this.addressError" :error-label="$t('ERR_TOAST_ACCOUNT_INVALID_RECIPIENT')" />
+          <q-input :placeholder="$t('ADDRESS')" @blur="validateAddr" v-model="form.address" :error="this.addressError" :error-label="$t('ERR_TOAST_ACCOUNT_INVALID_RECIPIENT')" />
         </q-field>
         <q-field v-if="secondSignature" class="col-12" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="secondPwdError" :label-width="2">
-          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="form.secondPwd" type="password" @blur="validateSecondPwd" />
+          <q-input :placeholder="$t('ACCOUNT_TYPE2_HINT')" v-model="form.secondPwd" type="password" @blur="validateSecondPwd" />
         </q-field>
       </div>
       <template slot="buttons" slot-scope="props">
@@ -415,6 +415,12 @@ export default {
     },
     createMyDapp() {
       openURL('https://github.com/AschPlatform/asch-docs/tree/master/dapp/api')
+    },
+    delSearch() {
+      let searchStr = this.form.amount + ''
+      if (searchStr.length === 1) {
+        this.form.amount = ''
+      }
     }
   },
   async mounted() {

@@ -716,12 +716,23 @@ export default {
     async getAllGate() {
       let res = await this.getGateways()
       let ls = []
-      res.gateways.forEach(o => {
-        return ls.push({
-          label: o.name,
-          value: o
+      if (this.first_type === 'member_n') {
+        res.gateways.forEach(o => {
+          if (o.validatorNumber > 0) {
+            return ls.push({
+              label: o.name,
+              value: o
+            })
+          }
         })
-      })
+      } else {
+        res.gateways.forEach(o => {
+          return ls.push({
+            label: o.name,
+            value: o
+          })
+        })
+      }
       this.netList = ls
     },
     async getAllDelegates() {
@@ -750,7 +761,7 @@ export default {
           return
         }
         return ls.push({
-          label: o.address,
+          label: o.name,
           value: o.address
         })
       })

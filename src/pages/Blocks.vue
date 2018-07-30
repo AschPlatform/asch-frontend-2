@@ -24,7 +24,7 @@
           </q-td>
           <q-td slot="body-cell-height"  slot-scope="props" :props="props">
             <div class="text-secondary" @click="()=>showBlockInfo(props.row.id)" >
-              {{props.value }}
+              {{props.value}}
             </div>
           </q-td>
           <q-td slot="body-cell-reward"  slot-scope="props" :props="props">

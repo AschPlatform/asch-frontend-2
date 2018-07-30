@@ -22,11 +22,17 @@
       <div class="q-table modified">
         <div id="tr" v-if="dataInfo.length > 0" v-for="(item, index) in dataInfo" :key="index" class="justify-between row">
        
-          <div id="td" class="col-xs-12 col-md-6 row justify-left">
+          <div id="td" class="col-xs-12 col-md-4 row justify-left">
             <asset-icon id="asset-icon" :iconKey="item.iconKey" class="q-mr-xs" />
             <div id="main-info" class="inline ">
-              <p v-clipboard="item.col1[0] || 'no data'" @success="info('copy balance success...')">{{item.col1[0].slice(0, 12)}}
-                <q-tooltip>
+              <p v-if="clip.col1" v-clipboard="item.col1[0] || 'no data'" @success="info($t('COPY_SUCCESS'))">{{item.col1[0].slice(0, 12)}}
+                <q-tooltip> 
+                  {{item.col1[0]}}
+                </q-tooltip>
+              </p>
+              <p v-else>
+                {{item.col1[0].slice(0, 12)}}
+                <q-tooltip> 
                   {{item.col1[0]}}
                 </q-tooltip>
               </p>
@@ -34,7 +40,12 @@
             </div>
           </div>
           <div v-if="isDesktop" id="backup" class="col-xs-12 col-md-2">
-            <p>{{item.col2[0].slice(0, 7)}}
+            <p v-if="clip.col2" v-clipboard="item.col2[0] || 'no data'" @success="info($t('COPY_SUCCESS'))">{{item.col2[0].slice(0, 7)}}
+              <q-tooltip>
+                {{item.col2[0]}}
+              </q-tooltip>
+            </p>
+            <p v-else>{{item.col2[0].slice(0, 7)}}
               <q-tooltip>
                 {{item.col2[0]}}
               </q-tooltip>
@@ -46,6 +57,22 @@
             <span>{{item.col2[0].slice(0, 7)}}
               <q-tooltip>
                 {{item.col2[0]}}
+              </q-tooltip>
+            </span>
+          </div>
+          <div v-if="isDesktop" id="transId" class="col-xs-12 col-md-2">
+            <p v-clipboard="item.tid || 'no data'" @success="info($t('COPY_SUCCESS'))">{{item.tid.slice(0, 5)}}
+              <q-tooltip>
+                {{item.tid}}
+              </q-tooltip>
+            </p>
+            <p>{{$t('TRANS_ID')}}</p>
+          </div>
+          <div v-else id="backup" class="col-xs-12 col-md-2">
+            <span>{{$t('TRANS_ID')}}</span>
+            <span>{{item.tid.slice(0, 7)}}
+              <q-tooltip>
+                {{item.tid}}
               </q-tooltip>
             </span>
           </div>
@@ -71,7 +98,7 @@ import AssetIcon from '../components/AssetIcon'
 
 export default {
   name: 'RecordTable',
-  props: ['data', 'options', 'maxPage', 'title', 'iconKey'],
+  props: ['data', 'options', 'maxPage', 'title', 'iconKey', 'clip'],
   components: {
     QPagination,
     QBtnToggle,
@@ -166,6 +193,18 @@ export default {
       #account
         text-align right 
         padding: 6px 0;
+      #transId
+        p
+          text-align left
+          display block
+          margin 0
+          font-size 14px
+          &:nth-child(1)
+            color #000
+            font-weight bold
+          &:nth-child(2)
+            color #999
+            font-size 12px
   .fee
     margin-left 5px
     color #43aea8
@@ -217,6 +256,17 @@ export default {
             font-size 10px
             margin 5px 0
     #backup
+      span
+        font-size 10px !important
+        text-align left !important
+        color #666
+        &:nth-child(1)
+          text-align left !important
+          font-weight bold
+        &:nth-child(2)
+          text-align left
+
+    #transId
       span
         font-size 10px !important
         text-align left !important
