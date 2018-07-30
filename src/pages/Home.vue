@@ -53,9 +53,17 @@
             </q-card-title>
             <q-card-main>
               <span class="text-secondary font-20 font-weight">
-                {{userInfo.account.xas | fee}}
-                </span>
+                {{totalBalance}}
+              </span>
               <span class="text-secondary font-12">XAS</span>
+              <br />
+              <div class="border-top row">
+                <span v-if="userInfo.account.isLocked === 1" class="text-three font-12 font-weight">
+                  {{$t('AVALABLE')}}: {{totalBalance - freezedBalance}} XAS
+                  <br />
+                  {{$t('FREEZED') + freezedBalance}} XAS
+                </span>
+              </div>
   
               <div class="text-three font-12 font-weight">
                 {{address}}
@@ -99,6 +107,7 @@ import { toast } from '../utils/util'
 import VueQr from 'vue-qr'
 import { mapGetters } from 'vuex'
 import AssetIcon from '../components/AssetIcon'
+import { convertFee } from '../utils/asch'
 import {
   QCard,
   QCardMain,
@@ -177,6 +186,12 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo', 'balances']),
+    totalBalance() {
+      return Number(convertFee(this.userInfo.account.xas)) + Number(convertFee(this.userInfo.account.weight))
+    },
+    freezedBalance() {
+      return Number(convertFee(this.userInfo.account.weight))
+    },
     homeTopRightClass() {
       return this.isDesk
         ? 'col-md-6 col-xs-12 row justify-end items-center'
@@ -293,5 +308,10 @@ export default {
 
 .table {
   height 100%
+}
+
+.border-top {
+  margin-top 7px;
+  margin-bottom 7px;
 }
 </style>

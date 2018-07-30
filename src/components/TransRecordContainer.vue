@@ -123,7 +123,14 @@ export default {
             temp.iconKey = 'RECEIPT'
           } else {
             plag = '-'
-            e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
+            // let eclips = e.recipientId.slice(0, 5) + '...' + e.recipientId.slice(-5)
+            if (e.recipientName) {
+              temp.col1.push(e.recipientName)
+              temp.needClip = false
+            } else {
+              temp.col1.push(e.recipientId)
+              temp.needClip = true
+            }
             temp.iconKey = 'PAY'
           }
           temp.col1.push(fullTimestamp(e.timestamp))
@@ -184,7 +191,8 @@ export default {
     },
     dueArg(args) {
       if (args.length !== 0) {
-        let str = args.join(' , ')
+        let str = args.join(',')
+        str = str.replace(/,/g, ', ')
         return str
       }
       return this.$t('NO_ARGS')
