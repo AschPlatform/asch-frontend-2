@@ -25,7 +25,7 @@
       <q-field >
       <q-select
         v-model="currency"
-        :float-label="$t('DAPP_CATEGORY')"
+        :float-label="$t('DAPP_CATEGORY_COST')"
         :options="assetsOpt" />
       </q-field>
       <q-field v-if="secondSignature"

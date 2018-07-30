@@ -1,6 +1,6 @@
 <template>
   <div>
-    <record-table :data="trans" :options="toggleBtn" :maxPage="maxPage" @changePage="changePage" @changeType="changeType" :title="computedTitle" class="table"></record-table>
+    <record-table :data="trans" :options="toggleBtn" :maxPage="maxPage" @changePage="changePage" @changeType="changeType" :title="computedTitle" :clip="{col1: false, col2: true}" class="table"></record-table>
   </div>
 </template>
 
@@ -102,6 +102,7 @@ export default {
           temp.fee.push(plag + convertFee(e.amount, e.asset ? e.asset.precision : 8))
           temp.fee.push(e.currency)
           temp.iconKey = e.currency
+          temp.tid = e.tid
           items.push(temp)
         })
         this.trans = items
@@ -126,6 +127,7 @@ export default {
             temp.fee.push(convertFee(e.amount, e.asset.precision))
             temp.fee.push(e.currency)
             temp.iconKey = e.currency
+            temp.tid = e.tid
             items.push(temp)
           })
           this.trans = items
@@ -153,6 +155,7 @@ export default {
             temp.fee.push(convertFee(e.amount, e.asset.precision))
             temp.fee.push(e.currency)
             temp.iconKey = e.currency
+            temp.tid = e.tid
             items.push(temp)
           })
           this.trans = items
@@ -163,6 +166,7 @@ export default {
 
       // set max
       this.pagination.rowsNumber = res.count
+      this.maxPage = Math.ceil(this.pagination.rowsNumber / this.pagination.rowsPerPage)
       this.loading = false
       return res
     },
@@ -194,7 +198,8 @@ export default {
       }
       this.maxPage = 1
     },
-    changePage() {
+    changePage(num) {
+      this.pagination.page = num
       this.getTrans()
     },
     changeType(num) {
@@ -352,7 +357,7 @@ export default {
       let str
       switch (this.type) {
         case 1:
-          str = t('DAPP_TRANSACTION_RECORD')
+          str = t('DAPP_TRANSACTION_RECORD_LATELY')
           break
         case 2:
           str = t('DEPOSIT_RECORD')
@@ -367,7 +372,7 @@ export default {
       if (this.isCross) {
         return [
           {
-            label: this.$t('DAPP_TRANSACTION_RECORD'),
+            label: this.$t('DAPP_TRANSACTION_RECORD_LATELY'),
             value: 1
           },
           {
@@ -385,7 +390,7 @@ export default {
     computedTitle() {
       switch (this.type) {
         case 1:
-          return this.$t('DAPP_TRANSACTION_RECORD')
+          return this.$t('DAPP_TRANSACTION_RECORD_LATELY')
         case 2:
           return this.$t('DEPOSIT_RECORD')
         case 3:
