@@ -184,7 +184,6 @@ export default {
         // numeric,
         minValue: minValue(0),
         outPrecision(val) {
-          console.log(val)
           if (this.selectedAssets && val !== '') {
             let str = BigNumber(val).times(Math.pow(10, this.selectedAssets.precision)).toString()
             return str.indexOf('.') === -1 && str.indexOf('-') === -1
