@@ -120,6 +120,7 @@ export default {
           if (e.recipientId === this.userInfo.address) {
             plag = '+'
             temp.col1.push(e.senderId)
+            temp.needClip = true
             temp.iconKey = 'RECEIPT'
           } else {
             plag = '-'
