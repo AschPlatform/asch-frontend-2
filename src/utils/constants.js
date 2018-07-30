@@ -66,17 +66,17 @@ const officialPeers = [
   //   local: 'CN2'
   // }
   {
-    ip: 'localhost:4096',
+    ip: 'localhost',
     port: 4096,
     local: 'test1'
   },
   {
-    ip: 'localhost:4096',
+    ip: 'localhost',
     port: 4096,
     local: 'test2'
   },
   {
-    ip: 'localhost:4096',
+    ip: 'localhost',
     port: 4096,
     local: 'test3'
   }
