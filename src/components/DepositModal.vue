@@ -8,7 +8,7 @@
       <div v-if="account&&account.outAddress">
         <vue-qr class="depositmodal-account-content" :size="200" :text="account.outAddress?'bitcoin:'+account.outAddress:'no data'"></vue-qr>
         <br />
-        <div class="col-6 text-center font-14" >{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info('copy success...')" flat color="secondary" icon='content copy' round/></div>
+        <div class="col-6 text-center font-14" >{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info($t('COPY_SUCCESS'))" flat color="secondary" icon='content copy' round/></div>
         <div class="padding-40 deposit-text col-6 font-14 text-five">{{$t('DEPOSIT_TIP',{ currency: currency })}}</div>
         <q-field class="padding-40 col-9" >
           <q-select

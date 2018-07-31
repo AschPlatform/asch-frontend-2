@@ -97,6 +97,7 @@ export default {
           }
           temp.col1.push(this.getTransType(e.type))
           temp.col1.push(fullTimestamp(e.timestamp))
+          console.log(temp.col1)
           temp.col2.push(this.dueArg(e.args))
           temp.col2.push(this.$t('ARGS'))
           temp.fee.push('-' + convertFee(e.fee))
@@ -191,7 +192,7 @@ export default {
       }
     },
     dueArg(args) {
-      if (args.length !== 0) {
+      if (args && args.length !== 0) {
         let str = args.join(',')
         str = str.replace(/,/g, ', ')
         return str

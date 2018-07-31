@@ -11,23 +11,23 @@
             <td >{{$t('TYPE')}}</td>
             <td >{{getTransType(row.type)}}</td>
           </tr> -->
-          <tr  v-clipboard="row.senderId || 'no data'" @success="info('copy senderId success...')">
+          <tr  v-clipboard="row.senderId || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{$t('SENDER')}}</td>
             <td >{{row.senderId}}</td>
           </tr>
-          <tr v-clipboard="row.recipientId || 'no data'" @success="info('copy recipientId success...')">
+          <tr v-clipboard="row.recipientId || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{$t('RECIPIENT')}}</td>
             <td >{{row.recipientId}}</td>
           </tr>
-          <tr v-clipboard="this.formatTimestamp(row.timestamp) || 'no data'" @success="info('copy date success...')">
+          <tr v-clipboard="this.formatTimestamp(row.timestamp) || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{$t('DATE')}}</td>
             <td >{{this.formatTimestamp(row.timestamp)}}</td>
           </tr>
-          <tr v-clipboard="getAmountNFee(row) || 'no data'" @success="info('copy amount success...')">
+          <tr v-clipboard="getAmountNFee(row) || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{this.$t('AMOUNTS')}}</td>
             <td >{{getAmountNFee(row)}}</td>
           </tr>
-          <tr v-clipboard="row.message || 'no data'" @success="info('copy message success...')">
+          <tr v-clipboard="row.message || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{$t('REMARK')}}</td>
             <td >{{row.message}}</td>
           </tr>
