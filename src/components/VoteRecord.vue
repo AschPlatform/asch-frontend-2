@@ -49,7 +49,6 @@
     </q-tab-pane>
     <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
 
-      <span slot="title">{{$t('DELETE_VOTE_TITLE')}}</span>
       <span slot="message">
         {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}</span>
       <div slot="body">

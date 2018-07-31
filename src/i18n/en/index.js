@@ -9,6 +9,7 @@ const lang = {
   PRODUCER: 'Producer',
   TRANSACTIONS: 'Transaction',
   AMOUNTS: 'Amount',
+  AMOUNTS_FEE: 'Amount，you should notice the cost of fee',
   FEES: 'Fee',
   REWARDS: 'Reward',
   TYPE: 'Type',
@@ -303,6 +304,7 @@ const lang = {
   ERR_TOAST_ACCOUNT_ALREADY_LOCKED: 'Already locked',
   ERR_TOAST_ACCOUNT_INVALID_RECIPIENT: 'Wrong recipent address',
   ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP: 'There is something wrong with your local time',
+  ERR_TOAST_VOTE_OVERDOSE: 'Vote number exceeded',
   ERR_READ_ALL: 'Please read and tick the notes carefully.',
   // toast info
   INF_REGISTER_SUCCESS: 'Register success !',

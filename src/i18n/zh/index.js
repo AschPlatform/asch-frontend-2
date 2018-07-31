@@ -304,6 +304,7 @@ const lang = {
   ERR_TOAST_ACCOUNT_ALREADY_LOCKED: '已经锁仓',
   ERR_TOAST_ACCOUNT_INVALID_RECIPIENT: '接受地址错误',
   ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP: '时间戳错误',
+  ERR_TOAST_VOTE_OVERDOSE: '投票总数超出上限',
   ERR_READ_ALL: '请仔细阅读并勾选须知',
   // toast info
   INF_REGISTER_SUCCESS: '注册成功',
