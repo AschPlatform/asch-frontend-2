@@ -84,10 +84,10 @@ const officialPeers = [
 
 const urls = {
   server: {
-    development: 'http://192.168.1.76:4096',
+    development: 'http://192.168.1.78:7800',
     // development: 'http://47.94.37.201:4006',
     // development: 'http://39.106.250.196:4096',
-    // development: 'http://39.106.182.193:8192',
+    // development: 'http://39.106.182.193:8192'
     // production: 'http://47.75.26.122:4096'
     // production: 'http://192.168.1.38:4096'
     production: 'http://localhost:4096'
@@ -392,11 +392,13 @@ const transTypes = {
   301: 'TRS_TYPE_VOTE_PROPOSAL',
   302: 'TRS_TYPE_ACTIVATE_PROPOSAL',
 
-  400: 'TRS_TYPE_REGISTER_GATEWAY',
-  401: 'TRS_TYPE_OPEN_GATEWAY_ACCOUNT',
+  400: 'TRS_TYPE_OPEN_GATEWAY_ACCOUNT',
+  401: 'TRS_TYPE_REGISTER_GATEWAY',
   402: 'TRS_TYPE_GATEWAY_DEPOSIT',
   403: 'TRS_TYPE_GATEWAY_WITHDRAW',
   404: 'TRS_TYPE_GATEWAY_WITHDRAW_CONFIRM',
+  405: 'TRS_TYPE_GATEWAY_WITHDRAW_SIGNATURE',
+  406: 'TRS_TYPE_GATEWAY_WITHDRAW_TRANSACTION',
 
   500: 'TRS_TYPE_GROUP_VOTE',
   501: 'TRS_TYPE_GROUP_ACTIVE',

@@ -48,17 +48,19 @@ const lang = {
   TRS_TYPE_SET_AGENT: '设置投票代理人',
   TRS_TYPE_REPEAL_AGENT: '取消投票代理',
   TRS_TYPE_ACTIVATE_DELEGATE: '激活提案',
-  TRS_TYPE_REPEAL_VOTE: '受托人投票',
+  TRS_TYPE_REPEAL_VOTE: '撤销投票',
 
   TRS_TYPE_LAUNCH_PROPOSAL: '发起提案',
   TRS_TYPE_VOTE_PROPOSAL: '对提案投票',
   TRS_TYPE_ACTIVATE_PROPOSAL: '激活提案',
 
-  TRS_TYPE_REGISTER_GATEWAY: '开通网关收款地址',
-  TRS_TYPE_OPEN_GATEWAY_ACCOUNT: '网关开户',
+  TRS_TYPE_REGISTER_GATEWAY: '注册网关候选人',
+  TRS_TYPE_OPEN_GATEWAY_ACCOUNT: '开通网关收款地址',
   TRS_TYPE_GATEWAY_DEPOSIT: '网关充值',
   TRS_TYPE_GATEWAY_WITHDRAW: '网关提现',
   TRS_TYPE_GATEWAY_WITHDRAW_CONFIRM: '网关提现确认',
+  TRS_TYPE_GATEWAY_WITHDRAW_SIGNATURE: '提交提现签名',
+  TRS_TYPE_GATEWAY_WITHDRAW_TRANSACTION: '网关提现交易',
 
   TRS_TYPE_GROUP_VOTE: '理事会投票',
   TRS_TYPE_GROUP_ACTIVE: '理事会激活',
@@ -563,7 +565,7 @@ const lang = {
     PERIOD_REASON: '任职周期更改原因',
     INIT_REASON: '初始化原因',
     READ_TIP1: '自觉遵守《社区自治用户协议书》',
-    READ_TIP2: '发布提案将消耗 100 XAS',
+    READ_TIP2: '发布提案将消耗 10 XAS',
     INSTEAD_PRE: '变更前',
     INSTEAD_POST: '变更后',
     PERIOD_SHIFT: '我提议修改当前理事会由最低更新频率\n{pre}\n更改为:',
@@ -810,7 +812,8 @@ const lang = {
   ACCOUNT_LEFT_UNSUFF: ',  您的余额不足，锁仓会失败',
   TRANS_ID: '交易ID',
   FREEZED: '已锁仓：',
-  AVALABLE: '可用：'
+  AVALABLE: '可用：',
+  ERR_TOAST_ALREADY_VOTED: '已经投票给该账号'
 }
 
 export default lang
