@@ -103,6 +103,7 @@ export default {
           temp.fee.push(e.currency)
           temp.iconKey = e.currency
           temp.tid = e.tid
+          temp.needClip = true
           items.push(temp)
         })
         this.trans = items
@@ -128,6 +129,7 @@ export default {
             temp.fee.push(e.currency)
             temp.iconKey = e.currency
             temp.tid = e.tid
+            temp.needClip = true
             items.push(temp)
           })
           this.trans = items
@@ -156,6 +158,7 @@ export default {
             temp.fee.push(e.currency)
             temp.iconKey = e.currency
             temp.tid = e.tid
+            temp.needClip = true
             items.push(temp)
           })
           this.trans = items
