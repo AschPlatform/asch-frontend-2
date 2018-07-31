@@ -330,7 +330,7 @@ const lang = {
   // dialog
   OPERATION_REQUIRES_FEE: 'This operation costs a fee',
   REQUIRES_FEE: 'Need to cost a fee',
-  ERR_FEE_INVALID: 'The fee cannot be empty and cannot be less than the default value {fee}',
+  ERR_FEE_INVALID: 'The fee cannot be empty or less than the default value {fee}',
 
   // FRAGIL SET
   FRAGIL_PRE: 'Account will be unlocked when the block height ',
@@ -340,7 +340,7 @@ const lang = {
   FRAGIL_HOUR: 'Hour',
   FRAGIL_MIN: 'Minute',
   FRAGIL_SEC: 'Second to unlock ',
-  FRAGIL_RANGE: 'The lock time should range from 1 to 10 000 000 block intervals',
+  FRAGIL_RANGE: 'Range from 1 to 10 000 000 block intervals',
   FRAGIL_UNLOCK: 'Unlock later',
 
   // deposit
@@ -372,10 +372,10 @@ const lang = {
   CHAINS_OVERVIEW: 'Asset Profile',
   USER_AGREEMENT_MODAL_TIPS: '*Registering as an agent will cost 100 XAS',
   USER_AGREEMENT_MODAL_CONTENT: ' Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互',
-  LOCK_DETAIL_TIP: 'Please set the lock limit, this will cost you 0.1 XAS',
+  LOCK_DETAIL_TIP: 'Lock limit, cost you 0.1 XAS',
   RETREAT_VOTE_SUCCESS: 'Cancel Vote Success',
   DELEGATE_LIST_DETAILS: 'Detailed list of Delegates',
-  SECOND_PASSWORD_TIP: ' To keep your assets safe, please set a password with more than 8 digits, this will cost you 5 XAS',
+  SECOND_PASSWORD_TIP: 'Password with more than 8 digits, cost you 5 XAS',
   SECOND_PASSWORD_CONFIRM: 'Please confirm the password',
   // CANAEL: 'Cancel',
   TO: 'To',

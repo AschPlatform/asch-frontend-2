@@ -322,7 +322,7 @@ export default {
         }
       }
       let res = await this.blocks(condition)
-      this.blocksData = res.blocks
+      this.blocksData = res.blocks.reverse()
       // set max
       this.pagination.rowsNumber = res.count
       this.loading = false
