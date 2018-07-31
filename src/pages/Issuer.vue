@@ -60,23 +60,23 @@
         <big>{{$t('DAPP_DETAIL')}}</big>
         <table class="q-table horizontal-separator highlight loose ">
           <tbody class='info-tbody'>
-            <tr v-clipboard="row.name || 'no data'" @success="info('copy name success...')">
+            <tr v-clipboard="row.name || 'no data'" @success="info($t('COPY_SUCCESS'))">
               <td >{{$t('ASSET_NAME')}}</td>
               <td >{{row.name}}</td>
             </tr>
-            <tr  v-clipboard="row.maximumShow || 'no data'" @success="info('copy maximum success...')">
+            <tr  v-clipboard="row.maximumShow || 'no data'" @success="info($t('COPY_SUCCESS'))">
               <td >{{$t('MAXIMUM')}}</td>
               <td >{{row.maximumShow}}</td>
             </tr>
-            <tr v-clipboard="row.precision || 'no data'" @success="info('copy precision success...')">
+            <tr v-clipboard="row.precision || 'no data'" @success="info($t('COPY_SUCCESS'))">
               <td >{{$t('PRECISION')}}</td>
               <td >{{row.precision}}</td>
             </tr>
-            <tr v-clipboard="row.quantity || 'no data'" @success="info('copy quantity success...')">
+            <tr v-clipboard="row.quantity || 'no data'" @success="info($t('COPY_SUCCESS'))">
               <td >{{$t('QUANTITY')}}</td>
               <td >{{row.quantityShow}}</td>
             </tr>
-            <tr v-clipboard="row.writeoff?'normal':'writeoff'" @success="info('copy message success...')">
+            <tr v-clipboard="row.writeoff?'normal':'writeoff'" @success="info($t('COPY_SUCCESS'))">
               <td >{{$t('CANCELLATION')}}</td>
               <td >{{row.writeoff?'writeoff':'normal'}}</td>
             </tr>

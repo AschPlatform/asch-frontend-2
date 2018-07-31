@@ -59,7 +59,7 @@
               <br />
               <div class="border-top row">
                 <span v-if="userInfo.account.isLocked === 1" class="text-three font-12 font-weight">
-                  {{$t('AVALABLE')}}: {{totalBalance - freezedBalance}} XAS
+                  {{$t('AVALABLE')}}{{availableBalance}} XAS
                   <br />
                   {{$t('FREEZED') + freezedBalance}} XAS
                 </span>
@@ -67,7 +67,7 @@
   
               <div class="text-three font-12 font-weight">
                 {{address}}
-                <q-btn class="text-secondary font-12" v-clipboard="address || 'no data'" @success="info('copy senderId success...')" size="xs" flat round icon="content copy" />
+                <q-btn class="text-secondary font-12" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" size="xs" flat round icon="content copy" />
               </div>
   
             </q-card-main>
@@ -108,6 +108,7 @@ import VueQr from 'vue-qr'
 import { mapGetters } from 'vuex'
 import AssetIcon from '../components/AssetIcon'
 import { convertFee } from '../utils/asch'
+import { BigNumber } from 'bignumber.js'
 import {
   QCard,
   QCardMain,
@@ -187,10 +188,18 @@ export default {
   computed: {
     ...mapGetters(['userInfo', 'balances']),
     totalBalance() {
-      return Number(convertFee(this.userInfo.account.xas)) + Number(convertFee(this.userInfo.account.weight))
+      let a = new BigNumber(convertFee(this.userInfo.account.xas))
+      let b = new BigNumber(convertFee(this.userInfo.account.weight))
+      return a.plus(b).toNumber()
     },
     freezedBalance() {
-      return Number(convertFee(this.userInfo.account.weight))
+      return new BigNumber(convertFee(this.userInfo.account.weight)).toNumber()
+    },
+    availableBalance() {
+      let a = new BigNumber(this.totalBalance)
+      let b = new BigNumber(this.freezedBalance)
+      let c = a.minus(b).toNumber()
+      return c
     },
     homeTopRightClass() {
       return this.isDesk

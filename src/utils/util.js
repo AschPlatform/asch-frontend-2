@@ -567,6 +567,14 @@ export const translateErrMsg = (t, input) => {
         key: 'ERR_TOAST_SECONDKEY_WRONG'
       },
       {
+        error: 'Maximum number of votes exceeded',
+        key: 'ERR_TOAST_VOTE_OVERDOSE'
+      },
+      {
+        error: 'Delegate already voted',
+        key: 'ERR_TOAST_ALREADY_VOTED'
+      },
+      {
         error: 'Unsupported transaction type',
         key: 'ERR.UNSUPPORTED_TRANS_TYPE'
       }

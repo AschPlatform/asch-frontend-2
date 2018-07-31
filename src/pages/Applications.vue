@@ -433,10 +433,8 @@ export default {
     }
   },
   async mounted() {
-    // console.log(this.$refs)
     if (this.user) {
       this.getDapps()
-      // this.$root.$emit('getAssetsList')
     }
   },
   computed: {

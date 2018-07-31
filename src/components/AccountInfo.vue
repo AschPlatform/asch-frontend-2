@@ -3,7 +3,7 @@
     <big>{{$t('DAPP_DETAIL')}}</big>
     <table class="q-table horizontal-separator highlight loose accountinfo-table margin-t-20">
       <tbody class='info-tbody'>
-        <tr disable v-clipboard="account.address || 'no data'" @success="info('copy address success...')" >
+        <tr disable v-clipboard="account.address || 'no data'" @success="info($t('COPY_SUCCESS'))" >
           <td>{{$t('ADDRESS')}}</td>
           <td class="text-secondary cursor-pointer">{{account.address}}</td>
         </tr>
@@ -11,7 +11,7 @@
           <td>{{$t('NICKNAME')}}</td>
           <td>{{account.name}}</td>
         </tr>
-        <tr v-clipboard="account.xas || 'no data'" @success="info('copy balance success...')">
+        <tr v-clipboard="account.xas || 'no data'" @success="info($t('COPY_SUCCESS'))">
           <td>{{$t('BALANCE')}}</td>
           <td>{{account.xas | fee}}&nbsp;&nbsp;XAS</td>
         </tr>

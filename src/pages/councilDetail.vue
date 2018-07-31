@@ -95,7 +95,7 @@ export default {
       let res = await this.getCouncil({
         address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj'
       })
-      if (res.success) {
+      if (res.success && res.group) {
         this.group = res.group
         this.datas = res.group.members
       }
@@ -104,7 +104,7 @@ export default {
       let res = await this.getAccountsInfo({
         address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj'
       })
-      if (res.success) {
+      if (res.success && res.account) {
         this.accountLeft = res.account.xas
       }
     },

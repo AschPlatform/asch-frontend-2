@@ -48,17 +48,19 @@ const lang = {
   TRS_TYPE_SET_AGENT: '设置投票代理人',
   TRS_TYPE_REPEAL_AGENT: '取消投票代理',
   TRS_TYPE_ACTIVATE_DELEGATE: '激活提案',
-  TRS_TYPE_REPEAL_VOTE: '受托人投票',
+  TRS_TYPE_REPEAL_VOTE: '撤销投票',
 
   TRS_TYPE_LAUNCH_PROPOSAL: '发起提案',
   TRS_TYPE_VOTE_PROPOSAL: '对提案投票',
   TRS_TYPE_ACTIVATE_PROPOSAL: '激活提案',
 
-  TRS_TYPE_REGISTER_GATEWAY: '网关候选人注册',
-  TRS_TYPE_OPEN_GATEWAY_ACCOUNT: '网关开户',
+  TRS_TYPE_REGISTER_GATEWAY: '注册网关候选人',
+  TRS_TYPE_OPEN_GATEWAY_ACCOUNT: '开通网关收款地址',
   TRS_TYPE_GATEWAY_DEPOSIT: '网关充值',
   TRS_TYPE_GATEWAY_WITHDRAW: '网关提现',
   TRS_TYPE_GATEWAY_WITHDRAW_CONFIRM: '网关提现确认',
+  TRS_TYPE_GATEWAY_WITHDRAW_SIGNATURE: '提交提现签名',
+  TRS_TYPE_GATEWAY_WITHDRAW_TRANSACTION: '网关提现交易',
 
   TRS_TYPE_GROUP_VOTE: '理事会投票',
   TRS_TYPE_GROUP_ACTIVE: '理事会激活',
@@ -287,7 +289,7 @@ const lang = {
   ERR_INVALID_REMARK: '备注输入内容不正确',
   ERR_NO_BALANCE: '余额不足，请先充值',
   ERR_NO_DEPOSIT_COIN: '请选择充值的币种',
-  ERR_PUBLISHER_NOT_EMPTY: '必须输入发行商名称以及描述',
+  ERR_PUBLISHER_NOT_EMPTY: '请按照要求填写表单',
   ERR_NO_PUBLISHER_REGISTERED_YET: '你还没有注册发行商',
   ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS: '请输入3-6位大写字母',
   ERR_MISSING_ASSET_DESCRIPTION: '请输入资产描述',
@@ -304,6 +306,7 @@ const lang = {
   ERR_TOAST_ACCOUNT_ALREADY_LOCKED: '已经锁仓',
   ERR_TOAST_ACCOUNT_INVALID_RECIPIENT: '接受地址错误',
   ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP: '时间戳错误',
+  ERR_TOAST_VOTE_OVERDOSE: '投票总数超出上限',
   ERR_READ_ALL: '请仔细阅读并勾选须知',
   // toast info
   INF_REGISTER_SUCCESS: '注册成功',
@@ -364,8 +367,8 @@ const lang = {
   // ============== new add =================
   AT_LEAST_7DAY: '(建议将结束时间设置在一周以后，以留有足够的时间让用户发现、评估项目并投票。)',
   CURRENCY_INTRODUCE: '币种介绍',
-  NAME_OF_DISTRIBUTOR: '请输入名称',
-  DESCRIBE_OF_DISTRIBUTOR: '请输入描述',
+  NAME_OF_DISTRIBUTOR: '请输入名称，长度在15字符以内',
+  DESCRIBE_OF_DISTRIBUTOR: '请输入内容，长度在500字符长度以内',
   CHAINS_OVERVIEW: '资产概况',
   USER_AGREEMENT_MODAL_TIPS: '*注册成为代理人将消耗 100 XAS',
   USER_AGREEMENT_MODAL_CONTENT: ' Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互',
@@ -398,7 +401,7 @@ const lang = {
   VOTE_DELEGATE_DETAIL: '代理人详情',
   VOTE_CANCEL: '撤销代理人',
   VOTE_SET: '设置代理人',
-  VOTE_DELEGATE_TIP: '请输入代理人昵称',
+  VOTE_DELEGATE_TIP: '请输入代理人昵称，这会消耗0.1XAS',
   ALL_BLOCKS: '全部区块',
   NOT_DELEGATE: '您还不是受托人',
   CHECK: '查看',
@@ -562,7 +565,7 @@ const lang = {
     PERIOD_REASON: '任职周期更改原因',
     INIT_REASON: '初始化原因',
     READ_TIP1: '自觉遵守《社区自治用户协议书》',
-    READ_TIP2: '发布提案将消耗 100 XAS',
+    READ_TIP2: '发布提案将消耗 10 XAS',
     INSTEAD_PRE: '变更前',
     INSTEAD_POST: '变更后',
     PERIOD_SHIFT: '我提议修改当前理事会由最低更新频率\n{pre}\n更改为:',
@@ -809,7 +812,8 @@ const lang = {
   ACCOUNT_LEFT_UNSUFF: ',  您的余额不足，锁仓会失败',
   TRANS_ID: '交易ID',
   FREEZED: '已锁仓：',
-  AVALABLE: '可用：'
+  AVALABLE: '可用：',
+  ERR_TOAST_ALREADY_VOTED: '已经投票给该账号'
 }
 
 export default lang

@@ -18,7 +18,7 @@
               <p>{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
               <div>
                 {{address}} 
-                <q-btn v-clipboard="address || 'no data'" @success="info('copy senderId success...')" size="xs"  flat round icon="compare arrows" />
+                <q-btn v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" size="xs"  flat round icon="compare arrows" />
               </div>
                <div class="row justify-center" @click="showAddrQr">
                <vue-qr :size="100" :text="address ? address:'no data'"></vue-qr>

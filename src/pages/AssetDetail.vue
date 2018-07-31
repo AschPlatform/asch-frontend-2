@@ -22,7 +22,7 @@
             <p class="font-22 text-black margin-b-0">{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
             <div>
               <span class="font-14 text-three">{{address}}</span>
-              <q-btn v-clipboard="address || 'no data'" @success="info('copy senderId success...')" color="secondary" size="xs" flat round icon="content copy" />
+              <q-btn v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" color="secondary" size="xs" flat round icon="content copy" />
             </div>
             <div class="row justify-center" @click="showAddrQr">
               <vue-qr v-if="isCross" :size="80" :text="address ? 'bitcoin:'+ address:'no data'"></vue-qr>

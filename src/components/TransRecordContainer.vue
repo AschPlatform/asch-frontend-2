@@ -191,7 +191,7 @@ export default {
       }
     },
     dueArg(args) {
-      if (args.length !== 0) {
+      if (args && args.length !== 0) {
         let str = args.join(',')
         str = str.replace(/,/g, ', ')
         return str

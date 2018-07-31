@@ -162,8 +162,10 @@ export default {
         remark: '',
         currency: ''
       }
-      this.$v.form.$reset()
-      this.$v.secondPwd.$reset()
+      this.$nextTick(() => {
+        this.$v.form.$reset()
+        this.$v.secondPwd.$reset()
+      })
     },
     async refreshBalances() {
       let res = await this.getBalances({ address: this.user.account.address })
