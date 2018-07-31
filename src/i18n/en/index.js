@@ -145,7 +145,7 @@ const lang = {
   SAVE_PASSWORD: 'Save Master Secret',
   CONFIRM_PASSWORD: 'Confirm master secret',
   INPUT_PASSWORD_AGAIN: 'Please re-type your master secret',
-  NEW_PWD_TIP_2: 'Make sure you have saved your master secret in a safe place. If you lost it or forget it, your account will not be available and you will lost all your XAS.',
+  NEW_PWD_TIP_2: 'Make sure you have saved your master secret in a safe place. Otherwise, your might not be available and you will lost all your XAS.',
   CONFIRM: 'Confirm',
   CANCEL: 'Cancel',
   CANCEL_LOGIN: 'Back',
@@ -162,7 +162,7 @@ const lang = {
   // transfer/pay
   SEND: 'Send',
   ALREADY_LOCKED: 'The transaction is rejected due to the account lock.',
-  PAY_TIP: '  *Please make sure you send to the correct address. This operation cannot be cancelled.',
+  PAY_TIP: '  *Make sure you send to the correct address. This operation cannot be cancelled.',
 
   // peers
   PEER_LIST: 'Peer List',
@@ -262,7 +262,7 @@ const lang = {
 
   // model - vote
   VOTE_TITLE: 'Vote for delegate',
-  VOTE_TIP: 'Please confirm your vote. You can choose up to 33 people in one vote.',
+  VOTE_TIP: 'You can choose up to 33 people in one vote.',
 
   // toast errors
   ERR_INPUT_PASSWORD: 'Please input secret',
@@ -291,12 +291,12 @@ const lang = {
   ERR_NO_DEPOSIT_COIN: 'No choose coin, Please Choose',
   ERR_PUBLISHER_NOT_EMPTY: 'Please follow the requirement to fill these blanks',
   ERR_NO_PUBLISHER_REGISTERED_YET: 'You have not registered a publisher yet',
-  ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS: 'Please enter 3-6 capital letters for the asset name',
+  ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS: 'Please enter 3-6 capital letters',
   ERR_MISSING_ASSET_DESCRIPTION: 'Please enter an asset description',
   ERR_ASSET_TOPLIMIT_NOT_CORRECT: 'The top limit you entered is not correct',
-  ERR_ASSET_TOPLIMIT_NOT_CORRECT2: 'The total supply should be an integer from 1 to 30 that does not contain a decimal point',
+  ERR_ASSET_TOPLIMIT_NOT_CORRECT2: 'It should be integer from 1 to 30 that does not contain a decimal point',
   ERR_ASSET_PRECISION_NOT_CORRECT: 'The precision for the asset you entered is not correct',
-  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: 'The asset precision must be an integer between 0 and 16',
+  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: 'This must be an integer between 0 and 16',
   // toast error was bound here
   ERR_TOAST_SECONDKEY_WRONG: 'Your second password is wrong',
   ERR_TOAST_TRANSACTION_AMOUNT_WRONG: 'Transaction amount wrong',
@@ -330,7 +330,7 @@ const lang = {
   // dialog
   OPERATION_REQUIRES_FEE: 'This operation costs a fee',
   REQUIRES_FEE: 'Need to cost a fee',
-  ERR_FEE_INVALID: 'The fee cannot be empty and cannot be less than the default value {fee}',
+  ERR_FEE_INVALID: 'The fee cannot be empty or less than the default value {fee}',
 
   // FRAGIL SET
   FRAGIL_PRE: 'Account will be unlocked when the block height ',
@@ -340,7 +340,7 @@ const lang = {
   FRAGIL_HOUR: 'Hour',
   FRAGIL_MIN: 'Minute',
   FRAGIL_SEC: 'Second to unlock ',
-  FRAGIL_RANGE: 'The lock time should range from 1 to 10 000 000 block intervals',
+  FRAGIL_RANGE: 'Range from 1 to 10 000 000 block intervals',
   FRAGIL_UNLOCK: 'Unlock later',
 
   // deposit
@@ -372,10 +372,10 @@ const lang = {
   CHAINS_OVERVIEW: 'Asset Profile',
   USER_AGREEMENT_MODAL_TIPS: '*Registering as an agent will cost 100 XAS',
   USER_AGREEMENT_MODAL_CONTENT: ' Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互',
-  LOCK_DETAIL_TIP: 'Please set the lock limit, this will cost you 0.1 XAS',
+  LOCK_DETAIL_TIP: 'Lock limit, cost you 0.1 XAS',
   RETREAT_VOTE_SUCCESS: 'Cancel Vote Success',
   DELEGATE_LIST_DETAILS: 'Detailed list of Delegates',
-  SECOND_PASSWORD_TIP: ' To keep your assets safe, please set a password with more than 8 digits',
+  SECOND_PASSWORD_TIP: 'Password with more than 8 digits, cost you 5 XAS',
   SECOND_PASSWORD_CONFIRM: 'Please confirm the password',
   // CANAEL: 'Cancel',
   TO: 'To',
@@ -565,7 +565,7 @@ const lang = {
     PERIOD_REASON: 'Reason for changing tenure cycle',
     INIT_REASON: 'Reason for gateway initialization',
     READ_TIP1: 'Conscientiously abide by the agreement on community self-government',
-    READ_TIP2: ' Issue proposal will consume 100 XAS',
+    READ_TIP2: ' Issue proposal will consume 10 XAS',
     INSTEAD_PRE: 'Pre Change Members',
     INSTEAD_POST: ' Post Change Member',
     PERIOD_SHIFT: 'I propose the the change the minimum update period from\n{pre}\nchange to:',
