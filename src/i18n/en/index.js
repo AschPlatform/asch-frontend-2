@@ -401,7 +401,7 @@ const lang = {
   VOTE_DELEGATE_DETAIL: 'Agent Detail',
   VOTE_CANCEL: 'Cancel Agent',
   VOTE_SET: 'Set Agent',
-  VOTE_DELEGATE_TIP: 'Please input name or wallet address',
+  VOTE_DELEGATE_TIP: 'Please input name or wallet address, this will cost 0.1 XAS',
   ALL_BLOCKS: 'All Blocks',
   NOT_DELEGATE: 'Not Delegate',
   CHECK: 'Check',
