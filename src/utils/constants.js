@@ -84,7 +84,7 @@ const officialPeers = [
 
 const urls = {
   server: {
-    development: 'http://192.168.1.78:7800',
+    development: 'http://192.168.1.128:4096',
     // development: 'http://47.94.37.201:4006',
     // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192',
@@ -405,4 +405,10 @@ const transTypes = {
   504: 'TRS_TYPE_GROUP_REPLACEMEMBER'
 }
 
-export { urls, langsOpts, transTypes, officialPeers, fees }
+export {
+  urls,
+  langsOpts,
+  transTypes,
+  officialPeers,
+  fees
+}
