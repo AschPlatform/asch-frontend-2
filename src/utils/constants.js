@@ -405,4 +405,10 @@ const transTypes = {
   504: 'TRS_TYPE_GROUP_REPLACEMEMBER'
 }
 
-export { urls, langsOpts, transTypes, officialPeers, fees }
+export {
+  urls,
+  langsOpts,
+  transTypes,
+  officialPeers,
+  fees
+}

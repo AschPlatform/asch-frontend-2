@@ -14,9 +14,11 @@
       </q-card-title>
       <q-card-main class="row">
         <div class="row">
-          <q-card inline color="white" text-color="black" v-for="(dapp,idx) in dapps" class="col-lg-3 col-md-10 col-xs-12 assets-panel-content" :key="idx">
-            <q-card-media>
-              <img :ref="'img'+idx" :src="dapp.icon"  @error="onError(idx)" />
+          <q-card inline color="white" text-color="black" v-for="(dapp,idx) in dapps" class="col-lg-3 col-md-10 col-xs-12 assets-panel-content padding-b-20 border-r-6" :key="idx">
+            <q-card-media class="dapp-top-img">
+              <div class="dapp-img-container">
+                <img :ref="'img'+idx" :src="dapp.icon" @error="onError(idx)" />
+              </div>
             </q-card-media>
             <q-card-title align="center">
               {{dapp.name}}
@@ -24,7 +26,7 @@
               </div>
             </q-card-title>
             <q-card-main>
-              <p class="text-faded">{{dapp.desc}}</p>
+              <p class="text-faded margin-b-0">{{dapp.desc}}</p>
             </q-card-main>
             <q-card-separator />
             <q-card-actions class="justify-around">
@@ -185,7 +187,9 @@ export default {
         minValue: minValue(0),
         outPrecision(val) {
           if (this.selectedAssets && val !== '') {
-            let str = BigNumber(val).times(Math.pow(10, this.selectedAssets.precision)).toString()
+            let str = BigNumber(val)
+              .times(Math.pow(10, this.selectedAssets.precision))
+              .toString()
             return str.indexOf('.') === -1 && str.indexOf('-') === -1
           }
           return false
@@ -333,7 +337,11 @@ export default {
     },
     async onOk() {
       this.$v.form.$touch()
-      if (this.$v.form.$error || this.$v.form.$invalid || (this.secondSignature && this.secondPwdError)) {
+      if (
+        this.$v.form.$error ||
+        this.$v.form.$invalid ||
+        (this.secondSignature && this.secondPwdError)
+      ) {
         toastWarn(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
         this.dialogShow = true
         return
@@ -411,6 +419,7 @@ export default {
     onError(idx) {
       if (this.$refs['img' + idx]) {
         this.$refs['img' + idx][0].src = defaultIcon
+        this.$refs['img' + idx][0].classList = ['imgFull']
       }
     },
     createMyDapp() {
@@ -424,6 +433,7 @@ export default {
     }
   },
   async mounted() {
+    // console.log(this.$refs)
     if (this.user) {
       this.getDapps()
       // this.$root.$emit('getAssetsList')
@@ -546,5 +556,33 @@ export default {
 
 .btn {
   min-width: 60px;
+}
+
+.dapp-top-img {
+  width: 100%;
+  // height: 222px;
+  .dapp-img-container{
+    padding-top:10px;
+  }
+  img {
+    width: 50%;
+    margin-left: 25%;
+  }
+}
+
+.text-faded {
+  min-height: 33.3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.imgFull {
+  width: 100% !important;
+  height: 100%;
+  margin-left: 0 !important;
+  margin-top:-10px !important;
 }
 </style>
