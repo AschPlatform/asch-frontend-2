@@ -134,6 +134,10 @@ export default {
             }
             temp.iconKey = 'PAY'
           }
+          const dotIndex = e.amount.indexOf('.')
+          if (dotIndex > 0) {
+            e.amount = e.amount.substring(0, dotIndex)
+          }
           temp.col1.push(fullTimestamp(e.timestamp))
           temp.col2.push(e.transaction.message || this.$t('NO_REMARK'))
           temp.col2.push(this.$t('REMARK'))
@@ -358,6 +362,6 @@ export default {
 }
 
 .table {
-  height 100%
+  height: 100%;
 }
 </style>

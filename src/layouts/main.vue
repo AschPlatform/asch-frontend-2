@@ -325,7 +325,6 @@ export default {
   },
   beforeMount() {
     let lang = (this.$i18n.locale = getCache('locale'))
-    console.log(lang)
     import(`src/i18n/${lang}`).then(lang => {
       this.$q.i18n.set(lang.default)
     })

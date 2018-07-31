@@ -84,7 +84,7 @@ const officialPeers = [
 
 const urls = {
   server: {
-    development: 'http://192.168.1.78:7800',
+    development: 'http://47.75.26.122:8192',
     // development: 'http://47.94.37.201:4006',
     // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192'
@@ -357,8 +357,8 @@ const urls = {
   // 区分 local 与 mainnet 的请求头参数
   magics: {
     development: '594fe0f3',
-    production: '594fe0f3'
-    // production: '5f5b3cf5'
+    // production: '594fe0f3'
+    production: '5f5b3cf5'
   }
 }
 
