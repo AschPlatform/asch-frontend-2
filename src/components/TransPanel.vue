@@ -34,7 +34,7 @@
         <q-input disable  v-model="form.fee" />
       </q-field>
       <q-field class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')" >
-        <q-input :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
+        <q-input ref="remark" :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
       </q-field>
       <div class="panelBtn col-6">
         <slot name="btns" :send="send" :cancel="cancel" />
@@ -162,10 +162,11 @@ export default {
         remark: '',
         currency: ''
       }
-      this.$nextTick(() => {
+      // this.$refs.remark.focus()
+      this._.delay(() => {
         this.$v.form.$reset()
         this.$v.secondPwd.$reset()
-      })
+      }, 60)
     },
     async refreshBalances() {
       let res = await this.getBalances({ address: this.user.account.address })
