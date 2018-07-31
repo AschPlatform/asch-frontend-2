@@ -22,16 +22,22 @@
       <div class="q-table modified">
         <div id="tr" v-if="dataInfo.length > 0" v-for="(item, index) in dataInfo" :key="index" class="justify-between row">
        
-          <div id="td" class="col-xs-12 col-md-4 row justify-left">
+          <div id="td" class="col-xs-12 col-md-3 row justify-left">
             <asset-icon id="asset-icon" :iconKey="item.iconKey" class="q-mr-xs" />
             <div id="main-info" class="inline ">
-              <p v-if="clip.col1" v-clipboard="item.col1[0] || 'no data'" @success="info($t('COPY_SUCCESS'))">{{item.col1[0].slice(0, 12)}}
+              <!-- <p v-if="clip.col1" v-clipboard="item.col1[0] || 'no data'" @success="info($t('COPY_SUCCESS'))">{{item.col1[0].slice(0, 12)}}
+                <q-tooltip> 
+                  {{item.col1[0]}}
+                </q-tooltip>
+              </p> -->
+              <p v-if="item.needClip">
+                {{item.col1[0].slice(0, 5) + '...' + item.col1[0].slice(-5)}}
                 <q-tooltip> 
                   {{item.col1[0]}}
                 </q-tooltip>
               </p>
               <p v-else>
-                {{item.col1[0].slice(0, 12)}}
+                {{item.col1[0]}}
                 <q-tooltip> 
                   {{item.col1[0]}}
                 </q-tooltip>
@@ -39,40 +45,40 @@
               <p>{{item.col1[1]}}</p>
             </div>
           </div>
+          <div v-if="isDesktop" id="transId" class="col-xs-12 col-md-2">
+            <p v-clipboard="item.tid || 'no data'" @success="info($t('COPY_SUCCESS'))">{{item.tid.slice(0,8)}}
+              <q-tooltip>
+                {{$t('TRANS_ID') + ':  ' + item.tid}}
+              </q-tooltip>
+            </p>
+            <!-- <p>{{$t('TRANS_ID')}}</p> -->
+          </div>
+          <div v-else id="transId" class="col-xs-12 col-md-2">
+            <span>{{$t('TRANS_ID')}}</span>
+            <span>{{item.tid.slice(0, 7)}}
+              <q-tooltip>
+                {{item.tid}}
+              </q-tooltip>
+            </span>
+          </div>
           <div v-if="isDesktop" id="backup" class="col-xs-12 col-md-2">
-            <p v-if="clip.col2" v-clipboard="item.col2[0] || 'no data'" @success="info($t('COPY_SUCCESS'))">{{item.col2[0].slice(0, 7)}}
+            <p v-if="clip.col2" v-clipboard="item.col2[0] || 'no data'" @success="info($t('COPY_SUCCESS'))">{{item.col2[0]}}
               <q-tooltip>
                 {{item.col2[0]}}
               </q-tooltip>
             </p>
-            <p v-else>{{item.col2[0].slice(0, 7)}}
+            <p v-else>{{item.col2[0]}}
               <q-tooltip>
                 {{item.col2[0]}}
               </q-tooltip>
             </p>
-            <p>{{item.col2[1]}}</p>
+            <!-- <p>{{item.col2[1]}}</p> -->
           </div>
           <div v-else id="backup" class="col-xs-12 col-md-2">
             <span>{{item.col2[1]}}</span>
             <span>{{item.col2[0].slice(0, 7)}}
               <q-tooltip>
                 {{item.col2[0]}}
-              </q-tooltip>
-            </span>
-          </div>
-          <div v-if="isDesktop" id="transId" class="col-xs-12 col-md-2">
-            <p v-clipboard="item.tid || 'no data'" @success="info($t('COPY_SUCCESS'))">{{item.tid.slice(0, 5)}}
-              <q-tooltip>
-                {{item.tid}}
-              </q-tooltip>
-            </p>
-            <p>{{$t('TRANS_ID')}}</p>
-          </div>
-          <div v-else id="backup" class="col-xs-12 col-md-2">
-            <span>{{$t('TRANS_ID')}}</span>
-            <span>{{item.tid.slice(0, 7)}}
-              <q-tooltip>
-                {{item.tid}}
               </q-tooltip>
             </span>
           </div>
@@ -180,13 +186,20 @@ export default {
           font-size 12px
       #backup
         p
-          text-align left
-          display block
-          margin 0
-          font-size 14px
+          text-align: left;
+          display: block;
+          margin: 0;
+          font-size: 14px;
+          overflow: hidden;
+          max-height: 30px;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          height: 100%;
+          -webkit-box-orient: vertical;
           &:nth-child(1)
             color #000
-            font-weight bold
+            font-size 12px
           &:nth-child(2)
             color #999
             font-size 12px
@@ -195,13 +208,20 @@ export default {
         padding: 6px 0;
       #transId
         p
-          text-align left
-          display block
-          margin 0
-          font-size 14px
+          text-align: left;
+          display: block;
+          margin: 0;
+          font-size: 14px;
+          overflow: hidden;
+          max-height: 30px;
+          text-overflow: ellipsis;
+          word-wrap: break-word;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          height: 100%;
+          -webkit-box-orient: vertical;
           &:nth-child(1)
             color #000
-            font-weight bold
           &:nth-child(2)
             color #999
             font-size 12px
@@ -247,14 +267,13 @@ export default {
           color #ED3E42
         .fee
           fon-size 13px
-      #main-info
-        p
-          &:nth-child(1)
-            font-size 13px
-            color #48AEA7
-          &:nth-child(2)
-            font-size 10px
-            margin 5px 0
+  #main-info
+    p
+      &:nth-child(1)
+        font-weight 400 !important
+      &:nth-child(2)
+        font-size 10px
+        margin 5px 0
     #backup
       span
         font-size 10px !important
