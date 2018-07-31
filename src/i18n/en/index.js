@@ -145,7 +145,7 @@ const lang = {
   SAVE_PASSWORD: 'Save Master Secret',
   CONFIRM_PASSWORD: 'Confirm master secret',
   INPUT_PASSWORD_AGAIN: 'Please re-type your master secret',
-  NEW_PWD_TIP_2: 'Make sure you have saved your master secret in a safe place. If you lost it or forget it, your account will not be available and you will lost all your XAS.',
+  NEW_PWD_TIP_2: 'Make sure you have saved your master secret in a safe place. Otherwise, your might not be available and you will lost all your XAS.',
   CONFIRM: 'Confirm',
   CANCEL: 'Cancel',
   CANCEL_LOGIN: 'Back',
@@ -162,7 +162,7 @@ const lang = {
   // transfer/pay
   SEND: 'Send',
   ALREADY_LOCKED: 'The transaction is rejected due to the account lock.',
-  PAY_TIP: '  *Please make sure you send to the correct address. This operation cannot be cancelled.',
+  PAY_TIP: '  *Make sure you send to the correct address. This operation cannot be cancelled.',
 
   // peers
   PEER_LIST: 'Peer List',
@@ -262,7 +262,7 @@ const lang = {
 
   // model - vote
   VOTE_TITLE: 'Vote for delegate',
-  VOTE_TIP: 'Please confirm your vote. You can choose up to 33 people in one vote.',
+  VOTE_TIP: 'You can choose up to 33 people in one vote.',
 
   // toast errors
   ERR_INPUT_PASSWORD: 'Please input secret',
@@ -291,12 +291,12 @@ const lang = {
   ERR_NO_DEPOSIT_COIN: 'No choose coin, Please Choose',
   ERR_PUBLISHER_NOT_EMPTY: 'Please follow the requirement to fill these blanks',
   ERR_NO_PUBLISHER_REGISTERED_YET: 'You have not registered a publisher yet',
-  ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS: 'Please enter 3-6 capital letters for the asset name',
+  ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS: 'Please enter 3-6 capital letters',
   ERR_MISSING_ASSET_DESCRIPTION: 'Please enter an asset description',
   ERR_ASSET_TOPLIMIT_NOT_CORRECT: 'The top limit you entered is not correct',
-  ERR_ASSET_TOPLIMIT_NOT_CORRECT2: 'The total supply should be an integer from 1 to 30 that does not contain a decimal point',
+  ERR_ASSET_TOPLIMIT_NOT_CORRECT2: 'It should be integer from 1 to 30 that does not contain a decimal point',
   ERR_ASSET_PRECISION_NOT_CORRECT: 'The precision for the asset you entered is not correct',
-  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: 'The asset precision must be an integer between 0 and 16',
+  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: 'This must be an integer between 0 and 16',
   // toast error was bound here
   ERR_TOAST_SECONDKEY_WRONG: 'Your second password is wrong',
   ERR_TOAST_TRANSACTION_AMOUNT_WRONG: 'Transaction amount wrong',
