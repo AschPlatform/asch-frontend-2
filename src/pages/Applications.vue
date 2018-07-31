@@ -560,8 +560,7 @@ export default {
 
 .dapp-top-img {
   width: 100%;
-  height: 222px;
-
+  // height: 222px;
   .dapp-img-container{
     padding-top:10px;
   }
