@@ -7,7 +7,7 @@
       <span class="text-white font-18">
             {{$t('TRS_TYPE_TRANSFER')}}
       </span>
-      <span class="text-white font-12">
+      <span v-if="isDesk" class="text-white font-12">
          {{$t('PAY_TIP')}}
       </span>
     </div>

@@ -3,7 +3,7 @@
     <div class="col-12 widthdraw-modal-content">
       <div class="bg-secondary padding-40 height-62">
         <span class="text-white font-18">{{$t('WITHDRAW')}} </span>
-        <span class="font-12 text-white">{{$t('DEPOSIT_TIP2')}} </span>
+        <span v-if="isDesk" class="font-12 text-white">{{$t('DEPOSIT_TIP2')}} </span>
         </div>
       <div  class="row justify-center padding-40">
         <q-field class="col-12 margin-top-54" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" >

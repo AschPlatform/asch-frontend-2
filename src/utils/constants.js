@@ -66,17 +66,17 @@ const officialPeers = [
   //   local: 'CN2'
   // }
   {
-    ip: 'wallet.asch.cn',
-    port: 80,
+    ip: 'https://wallet.asch.cn',
+    port: null,
     local: 'Node 1'
   },
   {
-    ip: '107.191.41.208',
-    port: 80,
+    ip: 'http://107.191.41.208',
+    port: null,
     local: 'Node 2'
   },
   {
-    ip: '47.93.138.148',
+    ip: 'http://47.93.138.148',
     port: 8192,
     local: 'Node 3'
   }
