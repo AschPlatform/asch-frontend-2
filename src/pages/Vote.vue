@@ -19,6 +19,12 @@
               </q-btn>
           </template>
               
+          <!-- <q-tr slot="body" slot-scope="props" :props="props" class="cursor-pointer">
+            <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                {{ col.value }}
+            </q-td>
+          </q-tr> -->
+
             <q-td slot="body-cell-address"  slot-scope="props" :props="props">
               <div class="text-secondary vote-table-address-td" @click="viewAccountInfo(props.row)">
                 {{props.value}}
@@ -91,6 +97,7 @@ import {
   QTabPane,
   QIcon,
   QTable,
+  QTr,
   QTd,
   QBtn,
   QField,
@@ -118,6 +125,7 @@ export default {
     MyVoteDelegate,
     QIcon,
     QTable,
+    QTr,
     QBtn,
     QTd,
     QField,
@@ -346,6 +354,7 @@ export default {
 .geteway-top {
   margin-bottom: 20px;
 }
+
 .vote-container {
   padding: 20px;
 }
@@ -374,4 +383,6 @@ export default {
 .vote-table-address-td {
   cursor: pointer;
 }
+
+
 </style>
