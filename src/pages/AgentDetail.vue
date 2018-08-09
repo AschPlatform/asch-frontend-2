@@ -52,7 +52,7 @@
             </div>
           </q-td>
           <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
-              {{(Number(props.value))+'%'}}
+              {{props.value | approval}}
           </q-td>
           <q-td slot="body-cell-productivity"  slot-scope="props" :props="props">
               {{props.value+'%'}}

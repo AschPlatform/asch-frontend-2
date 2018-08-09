@@ -23,7 +23,7 @@
               <td >{{$t('RANKING')}}</td>
               <td >{{delegate.rate}}</td>
               <td >{{$t('APPROVAL')}}</td>
-              <td >{{delegate.approval+'%'}}</td>
+              <td >{{delegate.approval | approval}}</td>
             </tr>
           </tbody>
         </table>

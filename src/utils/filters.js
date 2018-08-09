@@ -89,6 +89,15 @@ const filters = {
       return obj[arg][arg2]
     }
     return obj[arg]
+  },
+  approval: (value) => {
+    let val = Number(value)
+    if (val !== 0) {
+      val = val > 0.01 ? val.toFixed(2) : 0.01
+    } else {
+      val = 0
+    }
+    return val + ' %'
   }
 }
 export default filters

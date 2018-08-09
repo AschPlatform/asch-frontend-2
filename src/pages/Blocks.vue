@@ -60,7 +60,7 @@
               <span class="block margin-t-20 text-secondary font-30 font-weight delegate-nick">{{delegate.name}}</span>
             <span class="block margin-t-20">
               {{$t('DELEGATE_POLLRATE')+':'}}
-              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval+'%'}}</a>
+              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval | approval}}</a>
               </span>
             <span class="block margin-t-10">
               {{$t('DELEGATE_RANK')+':'}}

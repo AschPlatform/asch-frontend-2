@@ -27,7 +27,7 @@
           {{props.value}}
         </q-td>
         <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
-          {{(Number(props.value)*100)+'%'}}
+          {{props.value | approval}}
         </q-td>
       </q-table>
     </div>
