@@ -159,7 +159,7 @@ export const getFormedTime = (timestamp) => {
 
 export const translateErrMsg = (t, input) => {
   if (typeof input === 'string') {
-    input = input.split(':')[1]
+    let filtedInput = input.split(':')[1] === undefined ? input : input.split(':')[1]
     var translateMap = [
       {
         error: 'Failed to verify second signature',
@@ -580,11 +580,11 @@ export const translateErrMsg = (t, input) => {
       }
     ]
     for (var idx = 0; idx < translateMap.length; idx++) {
-      if (input.indexOf(translateMap[idx].error) > -1) {
+      if (filtedInput.indexOf(translateMap[idx].error) > -1) {
         toastError(t(translateMap[idx].key))
         return
       }
     }
-    toastError(input)
+    toastError(filtedInput)
   }
 }
