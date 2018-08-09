@@ -140,16 +140,16 @@
         <tbody v-if="type==3" class='info-tbody'>
           <tr>
             <td>{{'ID'}}</td>
-            <td>{{$t('CONFIRMATIONS')}}</td>
+            <!-- <td>{{$t('CONFIRMATIONS')}}</td> -->
             <td>{{$t('AMOUNTS')}}</td>
             <td>{{$t('FEES')}}</td>
             <td>{{$t('DATE')}}</td>
           </tr>
           <tr v-for="trans in row" :key="trans.id">
             <td >{{trans.id}}</td>
-            <td >{{trans.confirmations }}</td>
+            <!-- <td >{{trans.confirmations }}</td> -->
             <td >{{trans.amount | fee}}</td>
-            <td >{{trans.fee }}</td>
+            <td >{{trans.fee | fee }}</td>
             <td >{{trans.timestamp | time}}</td>
           </tr>
         </tbody>

@@ -47,7 +47,7 @@
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
-import { secondPwd, amountStrReg, receiverReg } from '../utils/validators'
+import { secondPwd, amountStrReg, receiver } from '../utils/validators'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
@@ -90,7 +90,7 @@ export default {
       },
       receiver: {
         required,
-        address: receiverReg()
+        address: receiver()
       },
       remark: {
         maxLength: maxLength(255)

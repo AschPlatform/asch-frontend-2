@@ -66,18 +66,18 @@ const officialPeers = [
   //   local: 'CN2'
   // }
   {
-    ip: 'https://wallet.asch.cn',
-    port: null,
+    ip: 'https://node1.asch.cn',
+    port: 80,
     local: 'Node 1'
   },
   {
-    ip: 'http://107.191.41.208',
-    port: null,
+    ip: 'http://node2.asch.cn',
+    port: 80,
     local: 'Node 2'
   },
   {
-    ip: 'http://47.93.138.148',
-    port: 8192,
+    ip: 'http://node3.asch.cn',
+    port: 80,
     local: 'Node 3'
   }
 ]
@@ -85,6 +85,7 @@ const officialPeers = [
 const urls = {
   server: {
     development: 'http://192.168.1.103:4096',
+    // development: 'testnet1.asch.cn:80',
     // development: 'http://47.94.37.201:4006',
     // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192'
