@@ -677,7 +677,7 @@ const lang = {
     ALREADY_ACTIVATED: '已经激活',
     VOTE_NOT_ENOUGH: '投票数量不足',
     INVALID_ISSUER_DESC: '发行描述非法',
-    NEED_ISSUER_NAME: '需要发行商名字',
+    ISSUER_NAME_ALREADY_EXIST: '发行商名称已存在',
     ACCOUNT_ALREADY_ISSUER: '该账号已作为发行商',
     INVALID_SYMBOL: '资产图标非法',
     INVALID_DESC: '资产描述非法',

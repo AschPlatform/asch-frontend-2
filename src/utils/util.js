@@ -456,7 +456,7 @@ export const translateErrMsg = (t, input) => {
       },
       {
         error: 'Issuer name already exists',
-        key: 'ERR.NEED_ISSUER_NAME'
+        key: 'ERR.ISSUER_NAME_ALREADY_EXIST'
       },
       {
         error: 'Account is already an issuer',

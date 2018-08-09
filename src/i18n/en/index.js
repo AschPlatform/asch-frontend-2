@@ -677,7 +677,7 @@ const lang = {
     ALREADY_ACTIVATED: 'Already activated',
     VOTE_NOT_ENOUGH: 'Votes not enough',
     INVALID_ISSUER_DESC: 'Invalid issue descrpition',
-    NEED_ISSUER_NAME: 'Need issuer name',
+    ISSUER_NAME_ALREADY_EXIST: 'Issuer name already registed',
     ACCOUNT_ALREADY_ISSUER: 'Account already a issuer',
     INVALID_SYMBOL: 'Invalid symbol',
     INVALID_DESC: 'Invalid asset descripition',
