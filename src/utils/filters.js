@@ -98,6 +98,13 @@ const filters = {
       val = 0
     }
     return val + ' %'
+  },
+  eclipse: (str='', head = 5, tail = 5) => {
+    if (str.length > head + tail) {
+      return str.slice(0, head) + '...' + str.slice(-tail)
+    } else {
+      return str
+    }
   }
 }
 export default filters
