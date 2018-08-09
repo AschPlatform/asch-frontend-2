@@ -63,7 +63,7 @@ api.myvotes = params => {
 }
 // 获取最新区块 params => generatorPublicKey
 api.blocks = params => {
-  return fetch(urls.blocksApi, params, 'get')
+  return fetch(urls.v2.blocksApi, params, 'get')
 }
 // 受托人模块
 api.blockforging = params => {

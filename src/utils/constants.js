@@ -66,25 +66,26 @@ const officialPeers = [
   //   local: 'CN2'
   // }
   {
-    ip: 'https://wallet.asch.cn',
-    port: null,
+    ip: 'https://node1.asch.cn',
+    port: 80,
     local: 'Node 1'
   },
   {
-    ip: 'http://107.191.41.208',
-    port: null,
+    ip: 'http://node2.asch.cn',
+    port: 80,
     local: 'Node 2'
   },
   {
-    ip: 'http://47.93.138.148',
-    port: 8192,
+    ip: 'http://node3.asch.cn',
+    port: 80,
     local: 'Node 3'
   }
 ]
 
 const urls = {
   server: {
-    development: 'http://47.75.26.122:8192',
+    development: 'http://192.168.1.78:7800',
+    // development: 'testnet1.asch.cn:80',
     // development: 'http://47.94.37.201:4006',
     // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192'
@@ -351,12 +352,16 @@ const urls = {
     },
     chainsInstalled: {
       url: '/api/v2/chains/installed'
+    },
+    blocksApi: {
+      mock: '/data/blockchain/blocks.json',
+      url: '/api/v2/blocks'
     }
   },
 
   // 区分 local 与 mainnet 的请求头参数
   magics: {
-    development: '5f5b3cf5',
+    development: '594fe0f3',
     // production: '594fe0f3'
     production: '5f5b3cf5'
   }

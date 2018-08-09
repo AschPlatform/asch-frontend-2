@@ -60,7 +60,7 @@
               <span class="block margin-t-20 text-secondary font-30 font-weight delegate-nick">{{delegate.name}}</span>
             <span class="block margin-t-20">
               {{$t('DELEGATE_POLLRATE')+':'}}
-              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval+'%'}}</a>
+              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval | approval}}</a>
               </span>
             <span class="block margin-t-10">
               {{$t('DELEGATE_RANK')+':'}}
@@ -140,16 +140,16 @@
         <tbody v-if="type==3" class='info-tbody'>
           <tr>
             <td>{{'ID'}}</td>
-            <td>{{$t('CONFIRMATIONS')}}</td>
+            <!-- <td>{{$t('CONFIRMATIONS')}}</td> -->
             <td>{{$t('AMOUNTS')}}</td>
             <td>{{$t('FEES')}}</td>
             <td>{{$t('DATE')}}</td>
           </tr>
           <tr v-for="trans in row" :key="trans.id">
             <td >{{trans.id}}</td>
-            <td >{{trans.confirmations }}</td>
+            <!-- <td >{{trans.confirmations }}</td> -->
             <td >{{trans.amount | fee}}</td>
-            <td >{{trans.fee }}</td>
+            <td >{{trans.fee | fee }}</td>
             <td >{{trans.timestamp | time}}</td>
           </tr>
         </tbody>
@@ -249,12 +249,12 @@ export default {
         {
           label: this.$t('PRODUCER'),
           name: 'generatorId',
-          field: 'generatorPublicKey'
+          field: 'delegate'
         },
         {
           name: 'numberOfTransactions',
           label: this.$t('TRANSACTIONS_COUNT'),
-          field: 'numberOfTransactions',
+          field: 'count',
           type: 'string',
           align: 'right'
         }
