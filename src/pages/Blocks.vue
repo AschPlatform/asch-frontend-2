@@ -249,12 +249,12 @@ export default {
         {
           label: this.$t('PRODUCER'),
           name: 'generatorId',
-          field: 'generatorPublicKey'
+          field: 'delegate'
         },
         {
           name: 'numberOfTransactions',
           label: this.$t('TRANSACTIONS_COUNT'),
-          field: 'numberOfTransactions',
+          field: 'count',
           type: 'string',
           align: 'right'
         }
