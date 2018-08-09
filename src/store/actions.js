@@ -180,6 +180,10 @@ export default {
     return api2.balances(params)
   },
 
+  getBlockDetail: ({ commit }, params) => {
+    return api2.blockDetail(params)
+  },
+
   getBalance: ({ commit }, params) => {
     return api2.balance(params)
   },

@@ -12,7 +12,7 @@
           </template>
 
           <template slot="top-right" slot-scope="props">
-            <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" @keyup.enter="getBlockDetail" @keyup.delete="delSearch"/>
+            <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" @keyup.enter="getBlock" @keyup.delete="delSearch"/>
             <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
             <q-btn class="text-secondary" flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
           </template>
@@ -281,7 +281,7 @@ export default {
   methods: {
     ...mapActions([
       'blocks',
-      'blockDetail',
+      'getBlockDetail',
       'blockforging',
       'forgingStatus',
       'getTransactions',
@@ -322,16 +322,16 @@ export default {
         }
       }
       let res = await this.blocks(condition)
-      this.blocksData = res.blocks.reverse()
+      this.blocksData = res.blocks
       // set max
       this.pagination.rowsNumber = res.count
       this.loading = false
       return res
     },
-    async getBlockDetail() {
-      if (this.filter) {
-        let res = await this.blockDetail({
-          height: this.filter
+    async getBlock() {
+      if (this.filter && this.filter <= this.latestBlock.height) {
+        let res = await this.getBlockDetail({
+          filter: this.filter
         })
         this.pagination.rowsNumber = 1
         this.blocksData = [res.block]
@@ -451,7 +451,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userInfo', 'latestBlock']),
     blockRightClass() {
       return this.isDesk ? 'col-md-3 col-xs-12' : 'col-md-3 col-xs-12 margin-top-20'
     },

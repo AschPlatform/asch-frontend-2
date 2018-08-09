@@ -356,6 +356,10 @@ const urls = {
     blocksApi: {
       mock: '/data/blockchain/blocks.json',
       url: '/api/v2/blocks'
+    },
+    blocksDetail: {
+      mock: '/data/blockchain/blocks.json',
+      url: '/api/v2/blocks/:filter'
     }
   },
 

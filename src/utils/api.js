@@ -154,6 +154,10 @@ api.dappMyBalance = ({ appid, address }) => {
 
 const api2 = {}
 
+//  区块详情
+api2.blockDetail = params => {
+  return fetch(urls.v2.blocksDetail, params, 'get')
+}
 // 账户查询
 api2.accounts = params => {
   return fetch(urls.v2.accounts, params, 'get')
