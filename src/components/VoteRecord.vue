@@ -187,6 +187,7 @@ export default {
         this.selected = []
         toast(this.$t('RETREAT_VOTE_SUCCESS'))
       } else {
+        this.selected = []
         translateErrMsg(this.$t, res.error)
       }
       this.secondPwd = ''

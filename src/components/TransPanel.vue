@@ -7,7 +7,7 @@
       <span class="text-white font-18">
             {{$t('TRS_TYPE_TRANSFER')}}
       </span>
-      <span class="text-white font-12">
+      <span v-if="isDesk" class="text-white font-12">
          {{$t('PAY_TIP')}}
       </span>
     </div>
@@ -47,7 +47,7 @@
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch-v2'
-import { secondPwd, amountStrReg } from '../utils/validators'
+import { secondPwd, amountStrReg, receiverReg } from '../utils/validators'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
@@ -89,8 +89,8 @@ export default {
         }
       },
       receiver: {
-        required
-        // address: address()
+        required,
+        address: receiverReg()
       },
       remark: {
         maxLength: maxLength(255)

@@ -38,7 +38,7 @@
             </div>
           </q-td>
           <q-td slot="body-cell-numberOfTransactions"  slot-scope="props" :props="props">
-            <div class="text-secondary" @click="()=>showTransInfo(props.row.id)" >
+            <div class="text-secondary" @click="()=>showTransInfo(props.row.height)" >
               {{props.value}}
             </div>
           </q-td>
@@ -284,7 +284,7 @@ export default {
       'blockDetail',
       'blockforging',
       'forgingStatus',
-      'transactions',
+      'getTransactions',
       'broadcastTransaction'
     ]),
     async refresh() {
@@ -376,9 +376,9 @@ export default {
     async showAccountInfo(address) {
       this.$root.$emit('openAccountModal', address)
     },
-    async showTransInfo(blockId) {
-      let res = await this.transactions({
-        blockId: blockId
+    async showTransInfo(height) {
+      let res = await this.getTransactions({
+        height: height
       })
       if (res.success === true) {
         this.row = res.transactions
@@ -501,9 +501,11 @@ export default {
 .geteway-top {
   margin-bottom: 20px;
 }
+
 .gateway-container {
   padding: 20px;
 }
+
 .blocks-container {
   padding: 20px;
 }
@@ -520,10 +522,11 @@ export default {
 
 .blocks-search {
   border: 1px solid #cccccc;
-  width 150px
+  width: 150px;
   border-radius: 15px;
 }
 
-.delegate-nick
+.delegate-nick {
   word-wrap: break-word;
+}
 </style>

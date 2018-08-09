@@ -302,7 +302,9 @@ export default {
     },
     serverUrl(server) {
       if (server) {
-        setCache('currentServer', `http://${server.ip}:${server.port}`)
+        const { ip, port = null } = server
+        const serverUrl = port ? ip + ':' + port : ip
+        setCache('currentServer', serverUrl)
       }
     }
   }

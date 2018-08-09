@@ -35,3 +35,8 @@ export const address = () => {
     return addressReg.test(value)
   })
 }
+export const receiverReg = () => {
+  return withParams({}, value => {
+    return addressReg.test(value) || nicknameReg.test(value)
+  })
+}

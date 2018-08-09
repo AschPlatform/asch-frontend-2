@@ -18,7 +18,7 @@
           </q-table>
         </div>
 
-        <div v-if="group" :class="gatewayDetailClass">
+        <div v-if="accountLeft" :class="gatewayDetailClass">
           <q-card class="desktop-only no-shadow" align="left">
             <div class="bg-white shadow-2">
               <q-card-title class="bg-nine">
@@ -86,14 +86,15 @@ export default {
       loading: false,
       datas: [],
       group: null,
-      accountLeft: 0
+      accountLeft: 0,
+      address: 'GADQ2bozmxjBfYHDQx3uwtpwXmdhafUdkN'
     }
   },
   methods: {
     ...mapActions(['getCouncil', 'getAccountsInfo']),
     async loadData() {
       let res = await this.getCouncil({
-        address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj'
+        address: this.address
       })
       if (res.success && res.group) {
         this.group = res.group
@@ -102,7 +103,7 @@ export default {
     },
     async getGroupAccount() {
       let res = await this.getAccountsInfo({
-        address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj'
+        address: this.address
       })
       if (res.success && res.account) {
         this.accountLeft = res.account.xas
@@ -138,9 +139,9 @@ export default {
     },
     councilAccount() {
       return {
-        address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj',
+        address: this.address,
         account: {
-          address: 'G3sQzuWpvXZjxhoYnvvJvnfUUEo8aNzKdj'
+          address: this.address
         }
       }
     }
