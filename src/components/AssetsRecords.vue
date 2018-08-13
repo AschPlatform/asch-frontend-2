@@ -5,6 +5,7 @@
     color="primary"
     :title="$t('OPERATION_RECORD')"
     :data="recordData.transactions"
+    :rows-per-page-options="[10]"
     :columns="columns"
     :filter="filter"
     row-key="id"
@@ -60,7 +61,7 @@ export default {
       let pageNo = this.pagination.page
       let res = await api.myAssetTransactions({
         address: this.user.account.address,
-        orderBy: 't_timestamp:desc',
+        orderBy: 'timestamp:desc',
         limit: limit,
         offset: (pageNo - 1) * limit
       })
@@ -90,6 +91,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
 
 </style>

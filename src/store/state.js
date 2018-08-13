@@ -1,4 +1,9 @@
 export default {
   userInfo: null,
-  isLogin: false
+  isLogin: false,
+  latestBlock: {},
+  version: {},
+  balances: [],
+  issuer: null,
+  outAssets: {}
 }

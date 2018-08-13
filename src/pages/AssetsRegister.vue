@@ -32,14 +32,14 @@
         <q-radio v-model="assets.allowBlacklist" :val="0" color="faded" :label="notAllow" />
       <q-radio v-model="assets.allowBlacklist" :val="1" color="positive" :label="allow" style="margin-left: 10px" />
       </q-field>
-      <q-field v-show="secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+      <q-field v-if="secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
         <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
     </q-card-main>
     <q-card-separator />
     <q-card-main class="row col-12 justify-center ">
       <div class="row col-10 justify-end">
-        <q-btn :loading="loading" big class="col-auto " color="primary" @click="submit">
+        <q-btn :loading="loading" big class="col-auto" color="secondary" @click="submit">
           {{$t('SUBMIT')}}
         </q-btn>
       </div>
@@ -59,10 +59,10 @@ import {
   QBtn,
   QRadio
 } from 'quasar'
-import { api, translateErrMsg } from '../utils/api'
+import { api } from '../utils/api'
 import { required, maxLength, between, numeric, minValue } from 'vuelidate/lib/validators'
 import { assetName, secondPwdReg } from '../utils/validators'
-import { confirm, toastError, toast } from '../utils/util'
+import { confirm, toastError, toast, translateErrMsg } from '../utils/util'
 import { createAsset, dealBigNumber } from '../utils/asch'
 
 export default {
@@ -213,7 +213,7 @@ export default {
       return this.userObj
     },
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.user ? this.user.account.secondPublicKey : null
     },
     allow() {
       return this.$t('ALLOW')
@@ -257,6 +257,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
 
 </style>

@@ -23,7 +23,7 @@
               <td >{{$t('RANKING')}}</td>
               <td >{{delegate.rate}}</td>
               <td >{{$t('APPROVAL')}}</td>
-              <td >{{delegate.approval+'%'}}</td>
+              <td >{{delegate.approval | approval}}</td>
             </tr>
           </tbody>
         </table>
@@ -33,7 +33,7 @@
   
     <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
       <div class="col-12 ">
-        <q-table class="trans-table" :data="blocks" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
+        <q-table class="trans-table" :data="blocks" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')" :rows-per-page-options="[10]">
   
           <template slot="top-right" slot-scope="props">
             <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
@@ -89,8 +89,8 @@
 </template>
 
 <script>
-import { api, translateErrMsg } from '../utils/api'
-import { toast } from '../utils/util'
+import { api } from '../utils/api'
+import { toast, translateErrMsg } from '../utils/util'
 import { fullTimestamp, createDelegate } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 
@@ -258,7 +258,7 @@ export default {
       if (this.user) return this.user.account.publicKey
     },
     secondSignature() {
-      return this.user && this.user.account ? this.user.account.secondSignature : null
+      return this.user && this.user.account ? this.user.account.secondPublicKey : null
     },
     pwdValid() {
       return !secondPwdReg.test(this.form.secondPwd)
@@ -274,6 +274,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
 
 </style>

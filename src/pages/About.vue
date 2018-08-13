@@ -2,7 +2,6 @@
   <q-page padding class="flex flex-center">
     <q-card inline class="q-ma-sm col-6">
       <q-item>
-        <q-item-side :avatar="avatar" />
         <q-item-main>
           <q-item-tile label>Caos</q-item-tile>
           <q-item-tile sublabel>Javascript developer at Asch</q-item-tile>
@@ -59,10 +58,9 @@
 </style>
 
 <script>
-import avatar from '../assets/caos.jpg'
-import { api, translateErrMsg } from '../utils/api'
+import { api } from '../utils/api'
 import { createVote } from '../utils/asch'
-import { toast } from '../utils/util'
+import { toast, translateErrMsg } from '../utils/util'
 import {
   QCard,
   QCardTitle,
@@ -70,6 +68,7 @@ import {
   QCardSeparator,
   QCardActions,
   QItemTile,
+  QItemMain,
   openURL,
   QTimeline,
   QTimelineEntry
@@ -84,11 +83,11 @@ export default {
     QCardActions,
     QItemTile,
     QTimeline,
-    QTimelineEntry
+    QTimelineEntry,
+    QItemMain
   },
   data() {
     return {
-      avatar: avatar,
       secondPwd: '',
       delegate: null,
       channelShow: false,
@@ -152,7 +151,7 @@ export default {
       return this.userObj
     },
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.user ? this.user.account.secondPublicKey : null
     }
   },
   watch: {
@@ -167,6 +166,6 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 </style>
 

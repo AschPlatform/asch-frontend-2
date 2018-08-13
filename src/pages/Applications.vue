@@ -1,169 +1,155 @@
 <template>
-  <div class="tab-panel-container row ">
-    <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-      <div class="col-12 shadow-1">
-        <q-table :data="appsData?appsData.dapps:[]" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DAPP_LIST')">
-  
-          <template slot="top-right" slot-scope="props">
-             <q-toggle v-model="installed" :label="$t('DAPP_INSTALL_LIST')" color="secondary" @change="(val)=>console.log(val)" />
-              <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-          </template>
-
-          <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-              <q-btn v-if="!installed" @click="viewAppBanlance(props.row)" icon="account balance wallet" size="sm" flat color="primary" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_BANLANCE_DETAIL')}}</q-tooltip>
-              </q-btn>
-              <q-btn v-if="installed" @click="viewMyBanlance(props.row)" icon="account balance wallet" size="sm" flat color="primary" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_BANLANCE_DETAIL')}}</q-tooltip>
-              </q-btn>
-              <q-btn @click="deposit(props.row)" icon="shopping cart" size="sm" flat color="primary" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DEPOSIT')}}</q-tooltip>
-              </q-btn>
-              <q-btn @click="download(props.row)" icon="file download" size="sm" flat color="primary" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DOWNLOAD')}}</q-tooltip>
-              </q-btn>
-              <q-fab v-if="installed" flat color="orange" icon="settings" direction="right" size="sm" >
-                <q-tooltip slot="tooltip" anchor="top middle" self="bottom middle"  :offset="[0, 10]" >
-                  {{$t('TRS_TYPE_UIA_FLAGS')}}
-                </q-tooltip>
-                <q-fab-action @click="withDraw(props.row)" icon="monetization on" size="sm"  color="primary" >
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_WITHDRAWAL')}}</q-tooltip>
-                </q-fab-action>
-                <q-fab-action @click="innerTrans(props.row)" icon="swap horiz" size="sm" color="primary" >
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_TRANSFER')}}</q-tooltip>
-                </q-fab-action>
-              </q-fab>
-          </q-td>
-
-          <q-td slot="body-cell-id"  slot-scope="props" :props="props">
-            <div class="my-label" >
-              {{props.value.substring(0,7)}}
-              <q-tooltip>{{props.value}}</q-tooltip>
-            </div>
-          </q-td>
-          <q-td slot="body-cell-icon"  slot-scope="props" :props="props">
-            <img v-if="props.row.icon" :src="props.row.icon" style="height:40px" :onerror="props.row.icon = defaultIcon">
-          </q-td>
-          <q-td slot="body-cell-desc"  slot-scope="props" :props="props">
-            <div class="my-label" >
-              {{props.value.substring(0,20)}}
-              <q-tooltip>{{props.value}}</q-tooltip>
-            </div>
-          </q-td>
-          <q-td slot="body-cell-category"  slot-scope="props" :props="props">
-            {{props.value | category($t)}}
-          </q-td>
-
-        </q-table>
+  <q-page class="tab-panel-container row">
+    <q-card class="col-12 shadow-0">
+      <div class="geteway-top justify-between">
+        <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+        <span class="font-20 text-black vertical-align-middle">{{$t('APPLICATIONS')}}</span>
+        <div slot="right" class="float-right row items-center inline">
+          <q-btn color="secondary" form-inverted class="inverted" :label="$t('CREATE_MY_DAPP')" @click="createMyDapp" />
+        </div>
       </div>
-     
-      </transition>
-
-    <q-modal minimized no-backdrop-dismiss  v-model="modalInfoShow" content-css="padding: 20px">
+      <q-card-title>
+        {{$t('DAPP_LIST')}}
+        <q-toggle v-model="installed" :label="$t('DAPP_INSTALL_LIST')" color="secondary" />
+      </q-card-title>
+      <q-card-main class="row">
+        <div class="row">
+          <q-card inline color="white" text-color="black" v-for="(dapp,idx) in dapps" class="col-lg-3 col-md-10 col-xs-12 assets-panel-content padding-b-20 border-r-6" :key="idx">
+            <q-card-media class="dapp-top-img">
+              <div class="dapp-img-container">
+                <img :ref="'img'+idx" :src="dapp.icon" @error="onError(idx)" />
+              </div>
+            </q-card-media>
+            <q-card-title align="center">
+              {{dapp.name}}
+              <div slot="center" class="row items-center">
+              </div>
+            </q-card-title>
+            <q-card-main>
+              <p class="text-faded margin-b-0">{{dapp.desc}}</p>
+            </q-card-main>
+            <q-card-separator />
+            <q-card-actions class="justify-around">
+              <q-btn class="btn shadow-0" outline text-color="secondary" :label="$t('CHAINS_OVERVIEW')" rounded @click="balance(dapp)" />
+              <q-btn class="btn shadow-0" outline text-color="secondary" :label="$t('DEPOSIT')" rounded @click="depositFunc(dapp)" />
+              <q-btn class="btn shadow-0" outline text-color="secondary" :label="$t('CHECK')" rounded @click="check(dapp)" />
+            </q-card-actions>
+          </q-card>
+        </div>
+        <q-btn v-if="dapps.length < pagination.rowsNumber" :label="$t('LOAD_MORE')" @click="loadMore" />
+      </q-card-main>
+    </q-card>
+  
+    <q-modal minimized no-backdrop-dismiss v-model="modalInfoShow" content-css="padding: 20px">
       <big>{{$t('DAPP_DETAIL')}}</big>
-        <table class="q-table horizontal-separator highlight loose ">
-          <thead>
-            <tr v-if="balanceType==0">
-              <th>{{$t('DAPP_SUPPORT_COIN')}}</th>
-              <th>{{$t('DAPP_COIN_CURRENT_QUANTITY')}}</th>
-              <th>{{'DAPP'+$t('BALANCE')}}</th>
-            </tr>
-            <tr v-if="balanceType==1">
-              <th>{{$t('DAPP_SUPPORT_COIN')}}</th>
-              <th>{{'DAPP'+$t('BALANCE')}}</th>
-            </tr>
-          </thead>
-          <tbody v-if="balanceType==0" class='info-tbody'>
-            <tr v-for="b in dappBalances" :key="b.currency" >
-              <td >{{b.currency}}</td>
-              <td >
-                {{b.quantityShow | unit($t)}} 
-                
-              </td>
-              <td >{{b.balanceShow}}</td>
-            </tr>
-          </tbody>
-          <tbody v-if="balanceType==1" class='info-tbody'>
-            <tr v-for="b in dappBalances" :key="b.currency" >
-              <td >{{b.currency}}</td>
-              <td >{{b.balance | fee}}</td>
-            </tr>
-          </tbody>
-          
-        </table>
+      <table class="q-table horizontal-separator highlight loose ">
+        <thead>
+          <tr v-if="balanceType==0">
+            <th>{{$t('DAPP_SUPPORT_COIN')}}</th>
+            <th>{{'DAPP'+$t('BALANCE')}}</th>
+          </tr>
+          <tr v-if="balanceType==1">
+            <th>{{$t('DAPP_SUPPORT_COIN')}}</th>
+            <th>{{'DAPP'+$t('BALANCE')}}</th>
+          </tr>
+        </thead>
+        <tbody v-if="balanceType==0" class='info-tbody'>
+          <tr v-for="b in dappBalances" :key="b.currency">
+            <td>{{b.currency}}</td>
+            <td>{{b.balance | fee(b.asset.precision)}}</td>
+          </tr>
+        </tbody>
+        <tbody v-if="balanceType==1" class='info-tbody'>
+          <tr v-for="b in dappBalances" :key="b.currency">
+            <td>{{b.currency}}</td>
+            <td>{{b.balance | fee(b.precision)}}</td>
+          </tr>
+        </tbody>
+  
+      </table>
       <br/>
-      <q-btn
-        color="primary"
-        @click="()=>{
+      <div class="align-center">
+        <q-btn color="secondary" @click="()=>{
           this.modalInfoShow = false
           this.dappBalances = {}
-          }"
-        :label="$t('label.close')"
-      />
+          }" :label="$t('label.close')" />
+      </div>
     </q-modal>
-
-    <q-dialog
-      v-model="dialogShow"
-      prevent-close
-      @ok="onOk"
-      @cancel="onCancel"
-    >
-      <!-- This or use "title" prop on <q-dialog> -->
+  
+    <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
       <span slot="title">{{dialog.title}}</span>
       <span slot="message">{{dialog.message}}</span>
-
+  
       <div class="row" slot="body">
-        <q-field 
-          class="col-12"
-          :label-width="4">
-          <q-select :float-label="$t('ASSET')" filter v-model="form.depositName" 
-          :options="assetsOpt"  :error="$v.form.depositName.$error" error-label="error" />
+        <q-field class="col-12" :label-width="4">
+          <q-select :placeholder="$t('ASSET')" filter v-model="form.depositName" :options="assetsOpt" :error="$v.form.depositName.$error" error-label="error" />
         </q-field>
-        <q-field 
-            :label-width="4"
-            class="col-12"
-          >
-            <q-input :float-label="$t('AMOUNTS')"  @blur="$v.form.amount.$touch" 
-            v-model="form.amount" type="number" :decimals="0" :error="$v.form.amount.$error" error-label="error" />
+        <q-field :label-width="4" :error-label="$t('ERR_ASSET_PRECISION_NOT_CORRECT')" class="col-12">
+          <q-input :placeholder="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :error="$v.form.amount.$error" error-label="error" @keyup.delete="delSearch" />
         </q-field>
-        <q-field 
-            v-if="dialog.form==3"
-            :label-width="4"
-            class="col-12"
-          >
-            <q-input :float-label="$t('ADDRESS')"  @blur="validateAddr" 
-            v-model="form.address" :error="this.addressError" :error-label="$t('ERR_TOAST_ACCOUNT_INVALID_RECIPIENT')" />
+        <q-field v-if="dialog.form==3" :label-width="4" class="col-12">
+          <q-input :placeholder="$t('ADDRESS')" @blur="validateAddr" v-model="form.address" :error="this.addressError" :error-label="$t('ERR_TOAST_ACCOUNT_INVALID_RECIPIENT')" />
         </q-field>
-        <q-field v-if="secondSignature"
-          class="col-12"
-          :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
-          :error="secondPwdError"
-          :label-width="2"
-        >
-          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="form.secondPwd" type="password" @blur="validateSecondPwd" />
+        <q-field v-if="secondSignature" class="col-12" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="secondPwdError" :label-width="2">
+          <q-input :placeholder="$t('ACCOUNT_TYPE2_HINT')" v-model="form.secondPwd" type="password" @blur="validateSecondPwd" />
         </q-field>
       </div>
       <template slot="buttons" slot-scope="props">
-        <q-btn flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
-        <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
+          <q-btn flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
+          <q-btn flat color="primary" :label="$t('label.ok')" @click="props.ok" />
       </template>
     </q-dialog>
-    </div>
+    </q-page>
 </template>
 
 <script>
-import { api, translateErrMsg } from '../utils/api'
-import { toast, toastWarn } from '../utils/util'
-import { createInTransfer, createInnerTransaction, check58 } from '../utils/asch'
-import { required, minValue, numeric } from 'vuelidate/lib/validators'
+import { toast, toastWarn, translateErrMsg } from '../utils/util'
+import { createInnerTransaction, check58 } from '../utils/asch'
+import { required, minValue } from 'vuelidate/lib/validators'
 import { secondPwdReg } from '../utils/validators'
+import { mapActions, mapGetters } from 'vuex'
+import { BigNumber } from 'bignumber.js'
+
 import defaultIcon from '../assets/dapps.png'
+import {
+  QPage,
+  QModal,
+  QDialog,
+  QField,
+  QInput,
+  QBtn,
+  QToggle,
+  QCard,
+  QCardMain,
+  QCardTitle,
+  QCardActions,
+  QCardMedia,
+  QCardSeparator,
+  openURL,
+  QSelect
+} from 'quasar'
 export default {
   props: ['userObj'],
-  components: {},
+  components: {
+    QPage,
+    QModal,
+    QDialog,
+    QField,
+    QInput,
+    QBtn,
+    QToggle,
+    QCard,
+    QCardMain,
+    QCardTitle,
+    QCardActions,
+    QCardMedia,
+    QCardSeparator,
+    QSelect
+  },
   data() {
     return {
-      appsData: null,
+      defaultIcon,
+      dapps: [],
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -171,43 +157,6 @@ export default {
       },
       filter: '',
       loading: false,
-      columns: [
-        {
-          name: 'opt',
-          label: this.$t('OPERATION'),
-          field: 'opt',
-          align: 'center'
-        },
-        {
-          name: 'icon',
-          label: this.$t('DAPP_ICON'),
-          field: 'icon',
-          type: 'string',
-          align: 'center'
-        },
-        {
-          label: this.$t('DAPP_NAME'),
-          field: 'name',
-          align: 'center'
-        },
-        {
-          name: 'desc',
-          label: this.$t('DAPP_DESCRIPTION'),
-          field: 'description',
-          align: 'center'
-        },
-        {
-          label: 'ID',
-          name: 'id',
-          field: 'transactionId'
-        },
-        {
-          name: 'category',
-          label: this.$t('TYPE'),
-          field: 'category',
-          align: 'center'
-        }
-      ],
       modalInfoShow: false,
       row: {},
 
@@ -221,22 +170,30 @@ export default {
       balanceType: 0, // 0 dapp, 1 user
       form: {
         depositName: '',
-        amount: null,
+        amount: '',
         address: null,
         secondPwd: ''
       },
       addressError: false,
       secondPwdError: false,
-      installed: false,
-      defaultIcon: defaultIcon
+      installed: false
     }
   },
   validations: {
     form: {
       amount: {
         required,
-        numeric,
-        minValue: minValue(1)
+        // numeric,
+        minValue: minValue(0),
+        outPrecision(val) {
+          if (this.selectedAssets && val !== '') {
+            let str = BigNumber(val)
+              .times(Math.pow(10, this.selectedAssets.precision))
+              .toString()
+            return str.indexOf('.') === -1 && str.indexOf('-') === -1
+          }
+          return false
+        }
       },
       depositName: {
         required
@@ -244,27 +201,45 @@ export default {
     }
   },
   methods: {
-    async request(props) {
-      await this.getDapps(props.pagination, props.filter, this.installed)
+    ...mapActions([
+      'getBalances',
+      'dappMyBalance',
+      'broadcastTransaction',
+      'appInstalled',
+      'appListApi',
+      'getAllChains',
+      'getInstalledChains',
+      'dappContract',
+      'deposit',
+      'account'
+    ]),
+    async loadMore() {
+      this.pagination.page += 1
+      await this.getDapps()
     },
-    async getDapps(pagination = {}, filter = '', installed = false) {
+    async getDapps(pagination = {}, filter = '') {
       this.loading = true
       if (pagination && pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
       let res = {}
-      if (installed) {
-        res = await api.appInstalled({
+      if (this.installed) {
+        res = await this.getInstalledChains({
           limit: limit,
           offset: (pageNo - 1) * limit
         })
       } else {
-        res = await api.appList({
+        res = await this.getAllChains({
           limit: limit,
           offset: (pageNo - 1) * limit
+          // offset: 9
         })
       }
-      this.appsData = res
+      if (pageNo === 1) {
+        this.dapps = res.chains
+      } else {
+        this.dapps = this.dapps.concat(res.dapps)
+      }
       // set max
       this.pagination.rowsNumber = res.count && res.count.count ? res.count.count : 0
       this.loading = false
@@ -274,33 +249,55 @@ export default {
       await this.getBalance(row)
       this.modalInfoShow = true
     },
-    async viewMyBanlance(row) {
-      await this.getBalance(row, true)
-      this.modalInfoShow = true
-    },
     async getBalance(row, userFlag = false) {
       let res
+      let objxas = []
+      let res2
       if (!userFlag) {
-        res = await api.appBalance({
-          appId: row.transactionId
+        res = await this.getBalances({
+          address: row.address
+        })
+        res2 = await this.account({
+          address: row.address
         })
         this.balanceType = 0
       } else {
-        res = await api.dappMyBalance(row.transactionId, this.user.account.address)
+        res = await this.dappMyBalance({
+          appid: row.transactionId,
+          address: this.user.account.address
+        })
         this.balanceType = 1
       }
       if (res.success === true) {
         let balences = res.balances.map(b => {
           // init XAS data
+          b.precision = b.asset.precision
           if (b.currency === 'XAS') b.quantityShow = 100000000
           return b
         })
-        this.dappBalances = balences
+        if (res2.account !== null) {
+          objxas = [
+            {
+              asset: {
+                precision: 8
+              },
+              currency: 'XAS',
+              balance: res2.account.balance
+            }
+          ]
+        }
+        this.dappBalances = balences.concat(objxas)
         return balences
       } else {
         translateErrMsg(this.$t, res.error)
         return []
       }
+    },
+    balance(dapp) {
+      this.viewAppBanlance(dapp)
+    },
+    check(dapp) {
+      openURL(dapp.link)
     },
     async innerTrans(row) {
       await this.getBalance(row)
@@ -328,38 +325,41 @@ export default {
       this.row = row
       this.dialogShow = true
     },
-    deposit(row) {
+    depositFunc(dapp) {
       const t = this.$t
       this.dialog = {
         title: t('DAPP_DEPOSIT'),
         message: t('DAPP_COIN_FEE'),
         form: 1
       }
-      this.row = row
+      this.row = dapp
       this.dialogShow = true
     },
     async onOk() {
       this.$v.form.$touch()
-      if (this.$v.form.$error || (this.secondSignature && this.secondPwdError)) {
-        toastWarn('error')
+      if (
+        this.$v.form.$error ||
+        this.$v.form.$invalid ||
+        (this.secondSignature && this.secondPwdError)
+      ) {
+        toastWarn(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
         this.dialogShow = true
         return
       }
-      const { transactionId } = this.row
+      const { name } = this.row
       const assets = this.selectedAssets
       const form = this.dialog.form
       let amount = parseFloat((this.form.amount * Math.pow(10, assets.precision)).toFixed(0))
       let res, trans
 
       if (form === 1) {
-        trans = createInTransfer(
-          transactionId,
-          this.form.depositName,
-          amount,
-          this.user.secret,
-          this.form.secondPwd
-        )
-        res = await api.broadcastTransaction(trans)
+        trans = {
+          name: name,
+          currency: this.form.depositName,
+          amount: amount,
+          secondSecret: this.form.secondPwd
+        }
+        res = await this.deposit(trans)
       } else if (form === 2) {
         let type = 2 // 这里的type指的是合约标号，而非主链的交易类型
         let options = {
@@ -368,7 +368,7 @@ export default {
           args: `["${this.form.depositName}", "${amount}"]`
         }
         trans = createInnerTransaction(options, this.user.secret)
-        res = await api.dappContract(trans, this.row.transactionId)
+        res = await this.dappContract(trans, this.row.transactionId)
       } else if (form === 3) {
         if (this.addressError) {
           toastWarn(this.$t('ERR_RECIPIENT_ADDRESS_FORMAT'))
@@ -381,7 +381,7 @@ export default {
           args: `["${this.form.depositName}", "${amount}","${this.form.address}"]`
         }
         trans = createInnerTransaction(options, this.user.secret)
-        res = await api.dappContract(trans, this.row.transactionId)
+        res = await this.dappContract(trans, this.row.transactionId)
       }
 
       if (res.success === true) {
@@ -416,28 +416,37 @@ export default {
       this.addressError = !validated
       return validated
     },
-    noError(props) {
-      props.value = defaultIcon
+    onError(idx) {
+      if (this.$refs['img' + idx]) {
+        this.$refs['img' + idx][0].src = defaultIcon
+        this.$refs['img' + idx][0].classList = ['imgFull']
+      }
+    },
+    createMyDapp() {
+      openURL('https://github.com/AschPlatform/asch-docs/tree/master/dapp/api')
+    },
+    delSearch() {
+      let searchStr = this.form.amount + ''
+      if (searchStr.length === 1) {
+        this.form.amount = ''
+      }
     }
   },
   async mounted() {
     if (this.user) {
       this.getDapps()
-      this.$root.$emit('getAssetsList')
     }
   },
   computed: {
+    ...mapGetters(['userInfo', 'balances']),
     user() {
-      return this.userObj
+      return this.userInfo
     },
     secondSignature() {
-      return this.user && this.user.account ? this.user.account.secondSignature : null
+      return this.user && this.user.account ? this.user.account.secondPublicKey : null
     },
     pwdValid() {
       return !secondPwdReg.test(this.form.secondPwd)
-    },
-    assets() {
-      return this.user.assets
     },
     dialogDefault() {
       return {
@@ -456,47 +465,40 @@ export default {
       let depositName = this.form.depositName
       if (depositName === 'XAS') {
         return {
-          precision: 10,
+          precision: 8,
           name: depositName
         }
       } else {
         let obj = null
-        this.user.assets.forEach(a => {
-          if (a.name === depositName) obj = a
+        this.balances.forEach(a => {
+          if (a.currency === depositName) {
+            obj = a
+            obj.precision = a.asset.precision
+          }
         })
         return obj
       }
     },
+    // asset map for deposit
     assetsOpt() {
-      if (this.user && this.user.assets) {
+      if (this.user && this.balances) {
         let assets = []
-        const formType = this.dialog.form
-        if (formType === 1) {
-          assets = [
-            {
-              key: 0,
-              value: 'XAS',
-              label: 'XAS'
-            }
-          ].concat(
-            this.user.assets.map((item, idx) => {
-              return {
-                key: idx + 1,
-                label: item.name,
-                value: item.name
-              }
-            })
-          )
-        } else {
-          assets = this.dappBalances.map((item, idx) => {
+        // if (formType === 1) {
+        assets = [
+          {
+            key: 0,
+            value: 'XAS',
+            label: 'XAS'
+          }
+        ].concat(
+          this.balances.map((item, idx) => {
             return {
               key: idx + 1,
-              label: item.currency,
-              value: item.currency
+              label: item.asset.name,
+              value: item.asset.name
             }
           })
-        }
-
+        )
         return assets
       } else {
         return []
@@ -504,23 +506,81 @@ export default {
     }
   },
   watch: {
-    userObj(val) {
+    userInfo(val) {
       if (val) {
         this.getDapps()
-        if (!val.assets) this.$root.$emit('getAssetsList')
       }
     },
     pageNo(val) {
       this.getDapps()
     },
     installed(val) {
-      if (val) {
-        this.getDapps(null, null, true)
-      }
+      this.dapps = []
+      this.pagination = this.paginationDeafult
+      this.getDapps(null, null, true)
     }
   }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
+.warpper {
+  min-width: 1100px;
+}
+
+.assets-panel-content {
+  background: #ffffff;
+  cursor: pointer;
+  min-width: 295px;
+  margin-right: 39px;
+  margin-top: 39px;
+}
+
+.tab-panel-container {
+  padding: 20px;
+}
+
+.underline {
+  border-bottom: 1px solid black;
+}
+
+.geteway-top {
+  margin-bottom: 20px;
+}
+
+.card-warpper {
+  margin-top: 20px;
+}
+
+.btn {
+  min-width: 60px;
+}
+
+.dapp-top-img {
+  width: 100%;
+  // height: 222px;
+  .dapp-img-container{
+    padding-top:10px;
+  }
+  img {
+    width: 50%;
+    margin-left: 25%;
+  }
+}
+
+.text-faded {
+  min-height: 33.3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.imgFull {
+  width: 100% !important;
+  height: 100%;
+  margin-left: 0 !important;
+  margin-top:-10px !important;
+}
 </style>

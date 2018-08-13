@@ -1,22 +1,15 @@
 <template>
   <q-page class="tab-panel-container row ">
-    <transition 
-    appear
-    enter-active-class="animated fadeIn"
-    leave-active-class="animated fadeOut" 
-     mode="out-in">
+    <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
       <div v-if="balancesData" class="col-12 shadow-1">
-        <q-table :data="balancesData.balances" :filter="filter" 
-        :columns="columns"  @request="request" :pagination.sync="pagination" 
-        :loading="loading" :title="$t('DAPP_TRANSACTION_RECORD')"
-        >
-          
+        <q-table :data="balancesData.balances" :filter="filter" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DAPP_TRANSACTION_RECORD')" :rows-per-page-options="[10]">
+  
           <template slot="top-right" slot-scope="props">
-            <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-          </template>
+              <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
+</template>
 
           <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
+              <q-btn @click="viewInfo(props.row)" icon="remove red eye" size="sm" flat color="secondary" >
                 <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
               </q-btn>
               <q-btn v-if="props.row.writeoff == 0" @click="getTransferParams(props)" icon="send" size="sm" flat color="primary" >
@@ -37,27 +30,27 @@
       <big>{{$t('DAPP_DETAIL')}}</big>
       <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
         <tbody class='info-tbody'>
-          <tr v-clipboard="row.currency" @success="info('copy name success...')">
+          <tr v-clipboard="row.currency  || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{$t('ASSET_NAME')}}</td>
             <td >{{row.currency}}</td>
           </tr>
-          <tr v-clipboard="row.balanceShow" @success="info('copy balance success...')">
+          <tr v-clipboard="row.balanceShow  || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{$t('BALANCE')}}</td>
             <td >{{row.balanceShow}}</td>
           </tr>
-          <tr  v-clipboard="row.maximumShow" @success="info('copy maximum success...')">
+          <tr  v-clipboard="row.maximumShow || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{$t('MAXIMUM')}}</td>
             <td >{{row.maximumShow}}</td>
           </tr>
-          <tr v-clipboard="row.precision" @success="info('copy precision success...')">
+          <tr v-clipboard="row.precision || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{$t('PRECISION')}}</td>
             <td >{{row.precision}}</td>
           </tr>
-          <tr v-clipboard="row.quantity" @success="info('copy quantity success...')">
+          <tr v-clipboard="row.quantity || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{$t('QUANTITY')}}</td>
             <td >{{row.quantityShow}}</td>
           </tr>
-          <tr v-clipboard="row.writeoff?'normal':'writeoff'" @success="info('copy message success...')">
+          <tr v-clipboard="row.writeoff?'normal':'writeoff' || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{$t('REMARK')}}</td>
             <td >{{row.writeoff?'normal':'writeoff'}}</td>
           </tr>
@@ -83,8 +76,8 @@
 </template>
 
 <script>
-import { api } from '../utils/api'
 import { toast } from '../utils/util'
+import { mapActions } from 'vuex'
 
 export default {
   props: ['userObj'],
@@ -170,6 +163,8 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getBalances']),
+
     async request(props) {
       await this.getBalances(props.pagination, props.filter)
     },
@@ -178,7 +173,7 @@ export default {
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
-      let res = await api.myBalances({
+      let res = await this.getBalances({
         address: this.user.account.address,
         limit: limit,
         offset: (pageNo - 1) * limit
@@ -228,7 +223,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 pd-5 {
   padding: 5%;
 }

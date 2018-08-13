@@ -11,7 +11,7 @@
       <q-field class="col-8" :label="$t('DESCRIBE')" :label-width="2" :error="$v.issuer.desc.$error" :row="5" :count="500" error-label="error">
         <q-input @blur="$v.issuer.desc.$touch" type="textarea" v-model="issuer.desc" clearable  :disable="!!user.issuer"/>
       </q-field>
-      <q-field v-show="!user.issuer && secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+      <q-field v-if="!user.issuer && secondSignature" class="col-8" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
         <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
     </q-card-main>
@@ -28,9 +28,9 @@
 
 <script>
 import { QField, QInput, QCard, QIcon, QCardTitle, QCardSeparator, QCardMain, QBtn } from 'quasar'
-import { api, translateErrMsg } from '../utils/api'
+import { api } from '../utils/api'
 import { required, maxLength } from 'vuelidate/lib/validators'
-import { confirm, toastWarn } from '../utils/util'
+import { confirm, toastWarn, translateErrMsg } from '../utils/util'
 import { createIssuer } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 
@@ -128,7 +128,7 @@ export default {
       return this.userObj
     },
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.user ? this.user.account.secondPublicKey : null
     },
     pwdValid() {
       return !secondPwdReg.test(this.secondPwd)
@@ -151,6 +151,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
 
 </style>

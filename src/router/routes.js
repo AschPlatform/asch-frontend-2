@@ -20,34 +20,12 @@ export default [
       {
         path: 'assets',
         name: 'assets',
-        component: load('Assets'),
-        children: [
-          {
-            path: 'account',
-            name: 'account',
-            component: load('AssetsAccount')
-          },
-          {
-            path: 'publisher',
-            name: 'publisher',
-            component: load('AssetsPublisher')
-          },
-          {
-            path: 'addAssets',
-            name: 'addAssets',
-            component: load('AssetsRegister')
-          },
-          {
-            path: 'list',
-            name: 'list',
-            component: load('AssetsPublished')
-          },
-          {
-            path: 'records',
-            name: 'records',
-            component: load('AssetsRecords')
-          }
-        ]
+        component: load('Assets')
+      },
+      {
+        path: '/assetDetail',
+        name: 'assetDetail',
+        component: load('AssetDetail')
       },
       {
         path: 'addACL',
@@ -64,11 +42,11 @@ export default [
         name: 'personal',
         component: load('Personal')
       },
-      {
-        path: 'forging',
-        name: 'forging',
-        component: load('Forging')
-      },
+      // {
+      //   path: 'forging',
+      //   name: 'forging',
+      //   component: load('Forging')
+      // },
       {
         path: 'blocks',
         name: 'blocks',
@@ -97,9 +75,44 @@ export default [
         ]
       },
       {
+        path: 'agentDetail',
+        name: 'agentDetail',
+        component: load('AgentDetail')
+      },
+      {
         path: 'transfer',
         name: 'transfer',
         component: load('Transfer')
+      },
+      {
+        path: 'proposal',
+        name: 'proposal',
+        component: load('Proposal')
+      },
+      {
+        path: 'launchProposal',
+        name: 'launchProposal',
+        component: load('ProposalLaunch')
+      },
+      {
+        path: 'proposalDetail/:tid',
+        name: 'proposalDetail',
+        component: load('ProposalDetail')
+      },
+      {
+        path: 'councilDetail',
+        name: 'councilDetail',
+        component: load('councilDetail')
+      },
+      {
+        path: 'gateway',
+        name: 'gateway',
+        component: load('Gateway')
+      },
+      {
+        path: 'gatewayDetail',
+        name: 'gatewayDetail',
+        component: load('GatewayDetaill')
       },
       {
         path: 'peers',
@@ -112,9 +125,9 @@ export default [
         component: load('Applications')
       },
       {
-        path: 'about',
-        name: 'about',
-        component: load('About')
+        path: 'issuer',
+        name: 'issuer',
+        component: load('Issuer')
       }
     ]
   },

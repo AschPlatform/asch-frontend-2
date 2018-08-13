@@ -1,385 +1,326 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
-  <div v-if="user" class="layout-padding self-center">
+  <div v-if="user" class="home-container self-center">
     <div class="row gutter-xs col-12">
-      <div class="col-lg-6 col-auto col-sm-12 col-xs-12">
-        <q-card class="card-info" color="primary ">
-          <q-card-title>
-            {{$t('BALANCE')}}
-            <!-- add balance refresh -->
-            <div slot="right" class="row items-center">
-              <q-btn size="xs" :loading="refreshLoading" flat round icon="refresh" @click="refreshBalance" />
+      <div class="home-top col-12 col-auto  col-xs-12">
+        <q-card class="bg-white no-shadow">
+          <q-card-main class="row shadow-2">
+            <div class="col-md-6 col-xs-12 row justify-left">
+              <jdenticon class="desktop-only home-jdenticon" :address="user.account.address" :size="60" />
+              <div class="home-top-set-nickname">
+                <span v-if="!userNickname" class="text-black font-20 vertical-align-middle font-weight">
+                      {{$t('HELLO')}}
+                      </span>
+                <span v-else class="text-black font-20 vertical-align-middle font-weight">
+                      {{$t('HELLO')+','}}
+                      </span>
+                <a class="set-nickname font-14 bg-secondary text-white" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="toPersonalSetNickname">{{$t('SET_NICKNAME')}}</a> <span v-else class="font-20 vertical-align-middle">{{userNickname}}</span>
+                <p class="font-14 text-three">{{$t('HOME_TIPES')}}</p>
+              </div>
             </div>
-          </q-card-title>
-          <q-card-main >
-            <div class="justify-between">
-              <big>{{user.account.balance | fee}} XAS</big><q-btn @click="$root.$emit('openTransactionDialog')" size="xs"  flat round icon="compare arrows" >
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_TRANSFER')}}</q-tooltip>
-              </q-btn>
+            <div :class="homeTopRightClass">
+              <div class="home-top-btn-container">
+                <i class="material-icons font-24 vertical-align-middle text-eight">call_missed</i>
+                <q-btn class="text-secondary font-18 font-weight" size="xs" :label="$t('TRS_TYPE_TRANSFER')" flat @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})" />
             </div>
-            <div>{{user.account.address}}<q-btn size="xs" v-clipboard="user.account.address" @success="info('copy success...')" flat round icon="content copy" /></div>
-          </q-card-main>
-  
-        </q-card>
-      </div>
-      <div class="col">
-        <q-card class="card-info" color="primary">
-          <q-card-title>
-            {{$t('LATEST_BLOCK_HEIGHT')}}
-            <span slot="subtitle">{{user.latestBlock.timestamp | time}}</span>
-          </q-card-title>
-          <q-card-main>
-            <big>
-              {{user.latestBlock.height}}
-            </big>
-            <p class="text-faded"></p>
-  
+            <span class="btn-container-line"></span>
+            <div class="home-top-btn-container">
+                <i class="material-icons material-icons font-24 vertical-align-middle text-eight">call_missed_outgoing</i>
+                <q-btn class="text-secondary font-18 font-weight" size="xs" :label="$t('RECEIVE')" flat @click="showAddrQr" />
+            </div>
+            </div>
           </q-card-main>
         </q-card>
-      </div>
-      <div class="col">
-        <q-card class="card-info" color="primary">
-          <q-card-title>
-            {{$t('VERSION_INFO')}}
-            <span slot="subtitle">{{user.version.build}}</span>
-          </q-card-title>
-          <q-card-main>
-            <big>
-                            {{user.version.version}}
-                          </big>
-          </q-card-main>
-        </q-card>
+      
       </div>
     </div>
   
-    <div class="row col shadow-1 trans-table">
-      <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-        <div v-if="transData" class="col-12">
-          <q-table :data="transData.transactions" 
-          :columns="columns" row-key="id" :pagination.sync="pagination"
-           @request="request" :loading="loading" :filter="filter" 
-           :visible-columns="visibleColumns" :title="$t('DAPP_TRANSACTION_RECORD')">
-  
-            <!--  <template slot="top-left" slot-scope="props">
-              <q-search
-                hide-underline
-                color="secondary"
-                v-model="filter"
-                class="col-8"
-              />
-</template>-->
-
-            <template slot="top-right" slot-scope="props">
-              <q-table-columns color="primary" class="q-mr-sm" v-model="visibleColumns" :columns="columns" />
-              <q-btn flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
-            </template>
-
-            
-
-            <q-td slot="body-cell-id" slot-scope="props" :props="props">
-              <div class="my-label" >
-                {{props.value.substring(0,7)}}
-                <q-tooltip>{{props.value}}</q-tooltip>
+    <div class="home-bottom no-border row col no-shadow">
+      <div :class="homeBottomLeftClass">
+        <div class="home-bottom-left-container bg-white shadow-1 padding-bottom-30">
+          <q-card class="no-shadow">
+            <q-card-title>
+              <i class="material-icons font-24 vertical-align-middle text-secondary">account_balance_wallet</i>
+              <span class="margin-left-10 text-black font-18 font-weight">
+               {{$t('BALANCE')}}
+              </span>
+              <span class="margin-left-10 text-three font-16 font-weight">
+                {{$t('MAIN_ASSET')}}
+             </span>
+              <span class="qr-right-container" @click="showAddrQr">
+                <vue-qr class="add-qr-container" :size="20" :text="address"></vue-qr>
+             </span>
+            </q-card-title>
+            <q-card-main>
+              <span class="text-secondary font-20 font-weight">
+                {{totalBalance}}
+              </span>
+              <span class="text-secondary font-12">XAS</span>
+              <br />
+              <div class="border-top row">
+                <span v-if="userInfo.account.isLocked === 1" class="text-three font-12 font-weight">
+                  {{$t('AVALABLE')}}{{availableBalance}} XAS
+                  <br />
+                  {{$t('FREEZED') + freezedBalance}} XAS
+                </span>
               </div>
-            </q-td>
   
-            <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-              <q-btn @click="getDataInfo(props)" icon="remove red eye" size="sm" flat color="primary" >
-                  <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-                </q-btn>
-            </q-td>
-
-            <q-td slot="body-cell-message" slot-scope="props" :props="props">
-              {{props.value}}
-              <q-popover v-if="props.value" ref="popover-msg">
-                <div class="light-paragraph">{{props.value}}</div>
-              </q-popover>
-            </q-td>
-  
-            <q-td slot="body-cell-amount" slot-scope="props" :props="props">
-              {{getAmountNFee(props.row)}}
-            </q-td>
-  
-            <q-td slot="body-cell-senderId" class="table-address" slot-scope="props" :props="props">
-              <a @click="getAccountInfo(props.row.senderId)">
-                      {{matchSelf(props.value)?'Me':props.value}}
-                    </a>
-              <q-tooltip v-if="!matchSelf(props.value)">{{props.value}}</q-tooltip>
-            </q-td>
-  
-            <q-td slot="body-cell-recipientId" slot-scope="props" :props="props">
-              <div v-if="props.value">
-                <a @click="getAccountInfo(props.row.recipientId)">
-                        {{matchSelf(props.value)?'Me':props.value}}
-                      </a>
-                <q-tooltip v-if="!matchSelf(props.value)" ref="popover-rec">
-                  {{props.value}}
-                </q-tooltip>
+              <div class="text-three font-12 font-weight">
+                {{address}}
+                <q-btn class="text-secondary font-12" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" size="xs" flat round icon="content copy" />
               </div>
-              <div v-else>SYSTEM</div>
-            </q-td>
   
-  
-          </q-table>
+            </q-card-main>
+            <q-card-main>
+              <q-list class="no-border" v-if="balances.length" highlight>
+                <q-item class="blances-container shadow-1 bg-white" v-for="(balance,idx) in  balances" :to="{name:'assetDetail',params:{asset:balance, user: userInfo}}"  :key="idx">
+                  <q-item-side>
+                    <q-item-tile>
+                      <asset-icon class="vertical-align-middle q-ml-sm" :iconKey="balance.currency.toUpperCase()"></asset-icon>
+                    </q-item-tile>
+                  </q-item-side>
+                  <q-item-main class="text-five font-16 font-weight" :label="balance.currency" />
+                  <q-item-side right>
+                    <q-item-tile class="text-five font-16">
+                      {{balance.balance | fee(balance.asset.precision)}}
+                      <q-btn class="text-secondary" flat round icon="arrow forward" @click="$router.push({name:'assets',params:{asset:balance}})" />
+                    </q-item-tile>
+                  </q-item-side>
+                </q-item>
+              </q-list>
+              <q-btn class="home-all-btn q-hoverable bg-secondary text-white q-btn-rounded" color="secondary" @click="assets" flat :label="$t('SEE_ALL_ASSETS')" />
+            </q-card-main>
+          </q-card>
         </div>
-      </transition>
+      </div>
+      <div class="col-md-8 col-xs-12 bg-white shadow-1">
+        <trans-record-container :userInfo="userInfo" class="table"/>
+      </div>
     </div>
-    <q-modal minimized no-backdrop-dismiss  v-model="modalInfoShow" content-css="padding: 20px">
-      <big>{{$t('DAPP_DETAIL')}}</big>
-      <table v-if="modalInfoShow" class="q-table horizontal-separator highlight loose ">
-        <tbody class='info-tbody'>
-          <tr v-clipboard="row.id" @success="info('copy ID success...')">
-            <td >{{'ID'}}</td>
-            <td >{{row.id}}</td>
-          </tr>
-          <tr>
-            <td >{{$t('TYPE')}}</td>
-            <td >{{getTransType(row.type)}}</td>
-          </tr>
-          <tr  v-clipboard="row.senderId" @success="info('copy senderId success...')">
-            <td >{{$t('SENDER')}}</td>
-            <td >{{row.senderId}}</td>
-          </tr>
-          <tr v-clipboard="row.recipientId" @success="info('copy recipientId success...')">
-            <td >{{$t('RECIPIENT')}}</td>
-            <td >{{row.recipientId}}</td>
-          </tr>
-          <tr v-clipboard="this.formatTimestamp(row.timestamp)" @success="info('copy date success...')">
-            <td >{{$t('DATE')}}</td>
-            <td >{{this.formatTimestamp(row.timestamp)}}</td>
-          </tr>
-          <tr v-clipboard="getAmountNFee(row)" @success="info('copy amount success...')">
-            <td >{{this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')'}}</td>
-            <td >{{getAmountNFee(row)}}</td>
-          </tr>
-          <tr v-clipboard="row.message" @success="info('copy message success...')">
-            <td >{{$t('REMARK')}}</td>
-            <td >{{row.message}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <br/>
-      <q-btn
-        color="primary"
-        @click="()=>{
-          this.modalInfoShow = false
-          this.row = {}
-          }"
-        label="Close"
-      />
-    </q-modal>
   </div>
 </template>
 
 <script>
-import { api } from '../utils/api'
-import { transTypes } from '../utils/constants'
-import { fullTimestamp, convertFee } from '../utils/asch'
+import Jdenticon from '../components/Jdenticon'
+import TransRecordContainer from '../components/TransRecordContainer'
+import { toast } from '../utils/util'
+import VueQr from 'vue-qr'
+import { mapGetters } from 'vuex'
+import AssetIcon from '../components/AssetIcon'
+import { convertFee } from '../utils/asch'
+import { BigNumber } from 'bignumber.js'
+import {
+  QCard,
+  QCardMain,
+  QCardTitle,
+  QModal,
+  QTable,
+  QTd,
+  QBtn,
+  QList,
+  QItem,
+  QItemMain,
+  QItemSide,
+  QItemTile,
+  QIcon,
+  QListHeader,
+  QAjaxBar
+} from 'quasar'
 
 export default {
   props: ['userObj'],
-  components: {},
+  components: {
+    VueQr,
+    Jdenticon,
+    QCard,
+    QCardMain,
+    QCardTitle,
+    QModal,
+    QTable,
+    QTd,
+    QBtn,
+    QList,
+    QItem,
+    QItemMain,
+    QItemSide,
+    QItemTile,
+    TransRecordContainer,
+    QIcon,
+    QListHeader,
+    QAjaxBar,
+    AssetIcon
+  },
   data() {
     return {
-      transData: null,
-      loading: false,
       refreshLoading: false,
-      pagination: {
-        page: 1,
-        rowsNumber: 0,
-        rowsPerPage: 10
-      },
-      columns: [
-        {
-          name: 'opt',
-          label: this.$t('OPERATION'),
-          field: 'opt',
-          align: 'center'
-        },
-        {
-          name: 'id',
-          label: 'ID',
-          field: 'id'
-        },
-        {
-          name: 'type',
-          label: this.$t('TYPE'),
-          field: 'type',
-          align: 'center',
-          filter: true,
-          format: value => {
-            return this.getTransType(value)
-          }
-        },
-        {
-          name: 'senderId',
-          label: this.$t('SENDER'),
-          field: 'senderId',
-          align: 'center',
-          format: value => {
-            let isMySelf = this.matchSelf(value)
-            return isMySelf ? 'Me' : value
-          }
-        },
-        {
-          name: 'recipientId',
-          label: this.$t('RECIPIENT'),
-          field: 'recipientId',
-          align: 'center',
-          format: value => {
-            if (value === '') {
-              return 'SYSTEM'
-            }
-            let isMySelf = this.matchSelf(value)
-            return isMySelf ? 'Me' : value
-          }
-        },
-        {
-          name: 'timestamp',
-          label: this.$t('DATE'),
-          field: 'timestamp',
-          width: '180px',
-          format: value => {
-            return this.formatTimestamp(value)
-          },
-          type: 'number'
-        },
-        {
-          name: 'amount',
-          label: this.$t('AMOUNTS') + '(' + this.$t('FEES') + ')',
-          field: 'amount',
-          filter: true,
-          classes: 'text-right',
-          // sortable: true,
-          type: 'number',
-          width: '100px'
-        },
-        {
-          name: 'message',
-          label: this.$t('REMARK'),
-          field: 'message',
-          filter: true,
-          // sortable: true,
-          type: 'string',
-          width: '120px'
-        }
-      ],
-      filter: '',
-      visibleColumns: [
-        'opt',
-        'id',
-        'type',
-        'senderId',
-        'recipientId',
-        'timestamp',
-        'amount',
-        'message'
-      ],
-      accountInfo: {
-        address: '',
-        publicKey: '',
-        balance: ''
-      },
-      row: null,
-      modalInfoShow: false
+      isDisable: false
     }
   },
   methods: {
-    async request(props) {
-      await this.getTrans(props.pagination, props.filter)
-    },
     refreshBalance(e, done) {
       this.refreshLoading = true
       this.$root.$emit('refreshAccount', () => (this.refreshLoading = false))
     },
-    formatTimestamp(timestamp) {
-      return fullTimestamp(timestamp)
+    toPersonalSetNickname() {
+      this.$router.push('personal')
     },
-    getDataInfo(props) {
-      let { row } = props
-      this.row = row
-      this.modalInfoShow = true
+    showAddrQr() {
+      this.$root.$emit('showQRCodeModal', this.address)
     },
-    async getAccountInfo(address) {
-      this.$root('openAccountModal', address)
+    assets() {
+      this.$router.push('assets')
     },
-    info(message) {
-      this.$q.notify({
-        type: 'positive',
-        color: 'positive',
-        timeout: 2000,
-        message
-      })
+    info(msg) {
+      if (this.isDisable === true) {
+        return
+      }
+      this.isDisable = true
+      setTimeout(() => {
+        this.isDisable = false
+      }, 2000)
+      toast(msg)
     },
     // get transactions
-    async getTrans(pagination = {}, filter = '') {
-      this.loading = true
-      if (pagination.page) this.pagination = pagination
-      let limit = this.pagination.rowsPerPage
-      let pageNo = this.pagination.page
-      let res = await api.transactions({
-        recipientId: this.user.account.address,
-        senderPublicKey: this.user.account.publicKey,
-        orderBy: 't_timestamp:desc',
-        limit: limit,
-        offset: (pageNo - 1) * limit
-      })
-      this.transData = res
-      // set max
-      this.pagination.rowsNumber = res.count
-      this.loading = false
-      return res
-    },
-    getAmountNFee(data) {
-      const { amount, fee } = data
-      return `${convertFee(amount)}(${convertFee(fee)})`
-    },
-    matchSelf(address) {
-      return this.user.account.address === address
-    },
-    resetTable() {
-      this.pageNo = 1
-    },
-    getTransType(val) {
-      return this.$t(transTypes[val])
-    }
+    receive() {}
   },
   mounted() {
-    if (this.user) {
-      this.getTrans()
-    }
   },
   computed: {
+    ...mapGetters(['userInfo', 'balances']),
+    totalBalance() {
+      let a = new BigNumber(convertFee(this.userInfo.account.xas))
+      let b = new BigNumber(convertFee(this.userInfo.account.weight))
+      return a.plus(b).toNumber()
+    },
+    freezedBalance() {
+      return new BigNumber(convertFee(this.userInfo.account.weight)).toNumber()
+    },
+    availableBalance() {
+      let a = new BigNumber(this.totalBalance)
+      let b = new BigNumber(this.freezedBalance)
+      let c = a.minus(b).toNumber()
+      return c
+    },
+    homeTopRightClass() {
+      return this.isDesk
+        ? 'col-md-6 col-xs-12 row justify-end items-center'
+        : 'col-md-6 col-xs-12 row justify-center items-center'
+    },
+    homeBottomLeftClass() {
+      return this.isDesk
+        ? 'col-md-4 col-xs-12 padding-right-20 balance-panel'
+        : 'col-md-4 col-xs-12 padding-right-0 margin-bottom-20'
+    },
     user() {
-      return this.userObj
+      return this.userInfo
+    },
+    userNickname() {
+      return this.user.account.name
+    },
+    address() {
+      return this.userInfo && this.userInfo.account ? this.userInfo.account.address : 'nothing'
     }
   },
-  watch: {
-    userObj(val) {
-      if (val) {
-        this.getTrans()
-      }
-    }
-  }
+  watch: {}
 }
 </script>
 
-<style lang="stylus">
-.trans-table {
-  margin-top: 3%;
+<style lang="stylus" scoped>
+.home-container {
+  padding: 20px;
 }
 
-.card-info {
-  height: 150px;
+.balance-panel {
+  min-height: 500px;
 }
 
-.info-tbody {
-  tr {
-    cursor: text;
-  }
+.home-top {
+  margin-bottom: 20px;
 }
 
-.link-cursor {
-  cursor: point;
+.home-jdenticon {
+  margin-left: 10px;
+  vertical-align: top;
+  border-radius: 50%;
+}
+
+.home-top-btn-container:hover i {
+  color: #43aea8 !important;
+}
+
+.home-top-btn-container {
+  display: inline-block;
+}
+
+.btn-container-line {
+  margin: 0 20px;
+  display: inline-block;
+  width: 1px;
+  height: 30px;
+  background: #ccc;
+}
+
+.home-bottom-left-container {
+  height: 100%;
+}
+
+.qr-right-container {
+  float: right;
+  cursor: pointer;
+}
+
+.add-qr-container {
+  display: inline-block;
+  vertical-align: text-top !important;
+}
+
+.blances-container:hover {
+  background: #fafafa !important;
+}
+
+.blances-container {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.home-all-btn {
+  float: right;
+}
+
+.q-btn {
+  min-height: 0 !important;
+}
+
+.home-top-set-nickname {
+  height: 100%;
+  vertical-align: text-bottom;
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.set-nickname {
+  width: 110px;
+  padding: 4px 16px;
+  border-radius: 15px;
+  font-size: 16px;
+  color: #ffffff;
+  cursor: pointer;
+  vertical-align: text-top;
+}
+
+.q-table-title {
+  font-weight: 600 !important;
+}
+
+.table {
+  height 100%
+}
+
+.border-top {
+  margin-top 7px;
+  margin-bottom 7px;
 }
 </style>

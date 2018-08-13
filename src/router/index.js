@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import { SessionStorage } from 'quasar'
+import store from '../store/index'
 
 import routes from './routes'
 
@@ -35,8 +36,9 @@ Router.beforeEach((to, from, next) => {
 // add hook verify cookie
 
 Router.beforeEach((to, from, next) => {
-  let user = to.params.user || from.params.user || SessionStorage.get.item('user')
+  let user = store.state.isLogin || SessionStorage.get.item('user')
   if (to.path.indexOf('login') > 0 || user) {
+    // TODO NEXT TO REMOVE
     next({ params: { ...to.params, user: user } })
     return null
   } else {

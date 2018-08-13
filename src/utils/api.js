@@ -1,8 +1,9 @@
 import axios from './axiosWrap'
 import { urls } from './constants'
-import { toastError, getCurrentSeverUrl } from './util'
+import { getCurrentSeverUrl } from './util'
 
 // import nodeService from './servers'
+// Read me: this file contains all the get API & V1 post APIS
 
 const json2url = json => {
   var arr = []
@@ -26,16 +27,6 @@ const fetch = (url, data, method, postHeaders) => {
   }
 
   // TODO find server
-  // let server = nodeService.getCurrentServer()
-
-  // if (!nodeService.isStaticServer()) {
-  //   let retryTimes = 0
-  //   while (!server.isServerAvalible(true) && retryTimes++ < 10) {
-  //     console.log('current server unavalible')
-  //     nodeService.changeServer(true)
-  //     server = nodeService.getCurrentServer()
-  //   }
-  // }
   let selectedServerUrl = getCurrentSeverUrl()
   // let realUrl = urls.server.caos + url
   let realUrl = !selectedServerUrl
@@ -70,15 +61,15 @@ api.transactions = params => {
 api.myvotes = params => {
   return fetch(urls.myvotesApi, params, 'get')
 }
-// 获取最新区块
+// 获取最新区块 params => generatorPublicKey
 api.blocks = params => {
-  return fetch(urls.blocksApi, params, 'get')
+  return fetch(urls.v2.blocksApi, params, 'get')
 }
 // 受托人模块
 api.blockforging = params => {
   return fetch(urls.blockforgingApi, params, 'get')
 }
-//  入围候选人
+// 受托人列表
 api.delegates = params => {
   return fetch(urls.delegatesApi, params, 'get')
 }
@@ -156,114 +147,167 @@ api.dappContract = (trans, appid) => {
 }
 
 // 查询 DAPP 内部余额
-api.dappMyBalance = (appid, address) => {
+api.dappMyBalance = ({ appid, address }) => {
   let url = { url: `/api/dapps/${appid}/balances/${address}` }
   return fetch(url, {}, 'get')
 }
 
-const translateErrMsg = (t, input) => {
-  // console.log('translateErrInner',language,input);
-  // console.log(this)
-  if (typeof input === 'string') {
-    input = input.split(':')[0]
-    var translateMap = [
-      {
-        error: 'Failed to verify second signature',
-        key: 'ERR_TOAST_SECONDKEY_WRONG'
-      },
-      {
-        error: 'Invalid transaction amount',
-        key: 'ERR_TOAST_SECONDKEY_WRONG'
-      },
-      { error: 'Asset not exists', key: 'ERR_TOAST_ASSET_NOTEXIST' },
-      {
-        error: 'Insufficient balance',
-        key: 'ERR_TOAST_ASSET_INSUFFICIENT'
-      },
-      {
-        error: 'Voting limit exceeded. Maximum is 33 votes per transaction',
-        key: 'ERR_TOAST_VOTE_LIMIT'
-      },
-      {
-        error: 'Account is locked',
-        key: 'ERR_TOAST_ACCOUNT_ALREADY_LOCKED'
-      },
-      {
-        error: 'Invalid recipient',
-        key: 'ERR_TOAST_ACCOUNT_INVALID_RECIPIENT'
-      },
-      {
-        error: 'timestamp',
-        key: 'ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP'
-      },
-      {
-        error: 'Invalid lock height',
-        key: 'Invalid lock height'
-      }
-    ]
+const api2 = {}
 
-    for (var idx = 0; idx < translateMap.length; idx++) {
-      if (input.indexOf(translateMap[idx].error) > -1) {
-        toastError(t(translateMap[idx].key))
-        // console.log(translateMap[idx].chinese);
-        return
-      }
-    }
-    toastError(input)
-  }
+//  区块详情
+api2.blockDetail = params => {
+  return fetch(urls.v2.blocksDetail, params, 'get')
+}
+// 账户查询
+api2.accounts = params => {
+  return fetch(urls.v2.accounts, params, 'get')
 }
 
-const canRetry = ret => {
-  // return ret.error && /blockchain/.test(ret.error.toLowerCase()) && !nodeService.isStaticServer()
-  return false
+// 获取交易列表
+api2.transactions = params => {
+  return fetch(urls.v2.transactions, params, 'get')
 }
 
-const postService = {
-  postWithRetry: (trans, countDown, cb) => {
-    let retryOrCallbak = data => {
-      if (countDown <= 0) {
-        let error = 1
-        cb(error, data)
-        return
-      }
-
-      console.log('change server and retry broadcast transaction')
-      // nodeService.changeServer(true)
-      postService.postWithRetry(trans, countDown - 1, cb)
-    }
-
-    api
-      .broadcastTransaction(trans)
-      .success((data, status, headers, config) => {
-        if (data.success) {
-          cb(null, data)
-          // console.log('broadcastTransaction-success',data);
-          return
-        } else if (canRetry(data)) {
-          retryOrCallbak(data)
-          return
-        }
-        // 失败返回
-        // console.log('broadcastTransaction-fail',data);
-        // 统一管理错误信息
-        translateErrMsg(null, data.error)
-        cb(null, data)
-      })
-      .error((data, status, headers, config) => {
-        retryOrCallbak(data)
-      })
-  },
-  retryPost: (createTransFunc, callback, retryTimes) => {
-    let trans = createTransFunc()
-    let maxRetry = retryTimes | 5
-    this.postWithRetry(trans, maxRetry, callback)
-  },
-  post: trans => {
-    return api.broadcastTransaction(trans)
-  },
-  writeoff: trans => {
-    return api.broadcastTransaction(trans)
-  }
+// 根据 tid 获取交易详情
+api2.transaction = params => {
+  return fetch(urls.v2.transaction, params, 'get')
 }
 
-export { api, postService, translateErrMsg }
+// 获取理事会列表
+api2.councils = params => {
+  return fetch(urls.v2.councils, params, 'get')
+}
+
+// 根据名称获取理事会详情
+api2.council = params => {
+  return fetch(urls.v2.council, params, 'get')
+}
+
+// 获取提案列表
+api2.proposals = params => {
+  return fetch(urls.v2.proposals, params, 'get')
+}
+
+// 根据 tid 获取提案详情
+api2.proposal = params => {
+  return fetch(urls.v2.proposal, params, 'get')
+}
+
+// 根据 tid 获取提案投票情况
+api2.proposalVotes = params => {
+  return fetch(urls.v2.proposalVotes, params, 'get')
+}
+
+// 获取所有跨链充值记录
+api2.deposits = params => {
+  return fetch(urls.v2.deposits, params, 'get')
+}
+
+// 获取指定币种的跨链充值记录
+api2.currencyDeposits = params => {
+  return fetch(urls.v2.currencyDeposits, params, 'get')
+}
+
+// 获取指定地址的跨链充值记录
+api2.myDeposits = params => {
+  return fetch(urls.v2.myDeposits, params, 'get')
+}
+// 获取指定网关和账户的信息
+api2.gateAccountAddr = params => {
+  return fetch(urls.v2.gateAccountAddr, params, 'get')
+}
+
+// 获取指定地址指定币种的跨链充值记录 +
+api2.myCurrencyDeposits = params => {
+  return fetch(urls.v2.gateAccountDeposits, params, 'get')
+}
+
+// 获取所有跨链提现记录
+api2.withdrawals = params => {
+  return fetch(urls.v2.withdrawals, params, 'get')
+}
+
+// 获取指定币种的跨链提现记录
+api2.currencyWithdrawals = params => {
+  return fetch(urls.v2.currencyWithdrawals, params, 'get')
+}
+
+// 获取指定地址的跨链提现记录
+api2.myWithdrawals = params => {
+  return fetch(urls.v2.myWithdrawals, params, 'get')
+}
+
+// 获取指定地址指定币种的跨链提现记录 +
+api2.myCurrencyWithdrawals = params => {
+  return fetch(urls.v2.gateAccountWithdrawals, params, 'get')
+}
+
+// 获取支持的所有跨链资产列表
+api2.currencies = params => {
+  return fetch(urls.v2.currencies, params, 'get')
+}
+
+// 获取指定名称的跨链资产详情
+api2.currency = params => {
+  return fetch(urls.v2.currency, params, 'get')
+}
+
+// 获取指定跨链币种的充值地址
+api2.address = params => {
+  return fetch(urls.v2.address, params, 'get')
+}
+// 获取账户余额
+api2.balances = params => {
+  return fetch(urls.v2.balances, params, 'get')
+}
+// 获取指定币种账户余额
+api2.balance = params => {
+  return fetch(urls.v2.balance, params, 'get')
+}
+// 获取所有发行商
+api2.issuers = params => {
+  return fetch(urls.v2.issuers, params, 'get')
+}
+// 获取指定发行商
+api2.issuer = params => {
+  return fetch(urls.v2.issuer, params, 'get')
+}
+// 获取用户发行资产
+api2.addressAssets = params => {
+  return fetch(urls.v2.addressAssets, params, 'get')
+}
+
+// 获取所有资产
+api2.issuer = params => {
+  return fetch(urls.v2.issuer, params, 'get')
+}
+// 获取代理人委托人列表
+api2.agentsSupporter = params => {
+  return fetch(urls.v2.agentsSupporter, params, 'get')
+}
+// 获取转账记录
+api2.getTransfers = params => {
+  return fetch(urls.v2.transfers, params, 'get')
+}
+// 获取指定账户发行的资产
+api2.addressAsset = params => {
+  return fetch(urls.v2.addressAsset, params, 'get')
+}
+// 获取所有网关
+api2.gateways = params => {
+  return fetch(urls.v2.gateways, params, 'get')
+}
+// 获取某网关所有候选人
+api2.gatewayDelegates = params => {
+  return fetch(urls.v2.gateValidators, params, 'get')
+}
+// 获取所有已注册侧链
+api2.chains = params => {
+  return fetch(urls.v2.chains, params, 'get')
+}
+// 获取所有已注册侧链
+api2.chainsInstalled = params => {
+  return fetch(urls.v2.chainsInstalled, params, 'get')
+}
+
+export { api, api2 }

@@ -1,51 +1,283 @@
 <template>
-  <!-- if you want automatic padding use "layout-padding" class -->
-    <q-tabs inverted align="justify" class="tab-container">
-      <q-route-tab default  name="account" :to="routerConfig('account')"  slot="title" icon="web asset" :label="$t('ASSET_PROFILE')" />
-      <q-route-tab name="publisher" :to="routerConfig('publisher')" slot="title"  icon="business" :label="$t('REGISTERED_PUBLISHER')" />
-      <q-route-tab name="assets" slot="title" :to="routerConfig('addAssets')" icon="assessment" :label="$t('REGISTERED_ASSETS')" />
-      <q-route-tab name="myAssets" slot="title" :to="routerConfig('list')"  icon="publish" :label="$t('MY_ASSETS')" />
-      <q-route-tab name="records" slot="title" :to="routerConfig('records')"  icon="note" :label="$t('OPERATION_RECORD')" />
-      <router-view :userObj="user" />
-    </q-tabs>
+  <q-page class="assets-container">
+    <q-card class="assets-container-top no-shadow">
+      <q-card-title>
+        <i class="material-icons font-30 vertical-align-middle text-secondary ">person</i>
+        <span class="font-20 text-black">
+                   {{$t('X_ASSETS')}}
+              </span>
+      </q-card-title>
+      <q-card-main class="row justify-left gutter-md">
+        <assets-panel :class="innerClass" :asset="xasBalance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open" type="inner" />
+  
+        <assets-panel :class="innerAllClass" v-for="(balance ,idx) in innerBalance" :key="idx" type='inner' :asset="balance" @transfer="transfer" @open="open" />
+        <div v-if="innerPagination.rowsNumber>innerBalance.length"  :class="innerBtnClass">
+          <q-btn class="bg-white custom-focus-none" :label="$t('LOAD_MORE')" @click="loadMoreInner" no-ripple />
+        </div>
+      </q-card-main>
+    </q-card>
+    <q-card class="assets-container-bottom no-shadow">
+      <q-card-title>
+        <i class="material-icons font-30 text-secondary vertical-align-middle">person</i>
+        <span class="font-20 text-black">
+                 {{$t('CROSS_ASSETS')}}
+                </span>
+      </q-card-title>
+      <q-card-main :class="cardMainClass">
+        <assets-panel :class="innerAllClass" v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"/>
+
+        <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
+        <q-card :class="outerBtnClass">
+          <div class="more-assets-btn row justify-center items-center shadow-1" @click="moreAssets">
+            <span>{{$t('MORE_ASSETS')}}</span>
+          </div>
+        </q-card>
+      </q-card-main>
+    </q-card>
+  
+    <deposit-modal :user="userInfo" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
+  
+    <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
+    <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
+  </q-page>
 </template>
 
 <script>
-import { QTabs, QRouteTab, QTabPane } from 'quasar'
+import { QBtn, QPage, QCard, QCardMain, QCardTitle } from 'quasar'
+import AssetsPanel from '../components/AssetsPanel'
+import DepositModal from '../components/DepositModal'
+import WithdrawModal from '../components/WithdrawModal'
+import MoreAssetModal from '../components/MoreAssetModal'
+import AssetDetailModal from '../components/AssetDetailModal'
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   props: ['userObj'],
   components: {
-    QTabs,
-    QRouteTab,
-    QTabPane
+    AssetsPanel,
+    QBtn,
+    QPage,
+    QCard,
+    QCardMain,
+    QCardTitle,
+    DepositModal,
+    WithdrawModal,
+    MoreAssetModal,
+    AssetDetailModal
   },
   data() {
-    return {}
+    return {
+      innerBalance: [
+      ],
+      outerBalance: [],
+      innerPagination: {
+        page: 1,
+        rowsNumber: 0,
+        rowsPerPage: 10
+      },
+      outerPagination: {
+        page: 1,
+        rowsNumber: 0,
+        rowsPerPage: 10
+      },
+      filter: '',
+      loading: false,
+      depositPanelShow: false,
+      withdrawPanelShow: false,
+      moreAssetsModalShow: false,
+      asset: {}
+    }
   },
   methods: {
-    routerConfig(name) {
-      return {
-        name: name,
-        params: {
-          user: this.user
-        }
+    ...mapActions(['getBalances', 'getCurrencies']),
+    // TODO
+    async getInner(pagination = {}, filter = '') {
+      this.loading = true
+      if (pagination.page) this.innerPagination = pagination
+      let limit = this.innerPagination.rowsPerPage
+      let pageNo = this.innerPagination.page
+      let res = await this.getBalances({
+        address: this.user.account.address,
+        limit: limit,
+        flag: 2,
+        offset: (pageNo - 1) * limit
+      })
+      if (res.success) {
+        this.innerBalance = res.balances
+        this.innerBalance.forEach(o => {
+          o.precision = o.asset.precision
+        })
+        // set max
+        this.innerPagination.rowsNumber = res.count
+        this.loading = false
       }
+      return res
+    },
+    async getOuter(pagination = {}, filter = '') {
+      this.loading = true
+      if (pagination.page) this.innerPagination = pagination
+      let limit = this.outerPagination.rowsPerPage
+      let pageNo = this.outerPagination.page
+      let res = await this.getBalances({
+        address: this.user.account.address,
+        limit: limit,
+        flag: 3,
+        offset: (pageNo - 1) * limit
+      })
+      if (res.success) {
+        this.outerBalance = res.balances
+        // set max
+        this.outerPagination.rowsNumber = res.count
+        this.loading = false
+      }
+      return res
+    },
+
+    transfer(asset) {
+      this.$root.$emit('openTransactionDialog', asset)
+    },
+    deposit(asset) {
+      this.depositPanelShow = true
+      asset.haveAdd = true // mark as have address asset
+      asset.symbol = asset.name // mark as have address asset
+      this.asset = this._.merge({}, asset)
+    },
+    depositNewAsset(asset) {
+      this.asset = this._.merge({}, asset)
+      this.moreAssetsModalShow = false
+      this.depositPanelShow = true
+    },
+    withdraw(asset) {
+      this.withdrawPanelShow = true
+      this.asset = this._.merge({}, asset)
+    },
+    moreAssets() {
+      this.moreAssetsModalShow = true
+    },
+    open(asset) {
+      this.$router.push({
+        name: 'assetDetail',
+        params: {
+          asset: asset,
+          user: this.userInfo
+        }
+      })
+    },
+    loadMoreInner() {
+      // TODO
+    },
+    loadMoreOuter() {}
+  },
+  mounted() {
+    if (this.user) {
+      this.getInner()
+      this.getOuter()
+    }
+    let asset = this.$route.params.asset
+    if (asset) {
+      this.asset = asset
+      this.assetDetailModalShow = true
     }
   },
   computed: {
+    ...mapGetters(['userInfo']),
+    innerClass() {
+      return this.isDesk ? 'assets-panel-container' : 'col-12 assets-panel-container'
+    },
+    innerAllClass() {
+      return this.isDesk ? '' : 'col-12'
+    },
+    innerBtnClass() {
+      return this.isDesk
+        ? 'load-more-btn col-4 padding-top-32 text-black'
+        : 'load-more-btn col-12 text-black'
+    },
+    cardMainClass() {
+      return this.isDesk
+        ? 'row justify-left gutter-md'
+        : 'row justify-left gutter-md padding-bottom-60'
+    },
+    outerBtnClass() {
+      return this.isDesk
+        ? 'col-auto shadow-2 more-assets-container no-shadow'
+        : 'col-12 shadow-2 more-assets-container no-shadow'
+    },
     user() {
-      return this.userObj
+      return this.userInfo
+    },
+    balance() {
+      return this.user && this.user.account ? this.user.account.xas : 0
+    },
+    xasBalance() {
+      let currency = {
+        currency: 'XAS',
+        precision: 8,
+        balance: this.balance,
+        url: ''
+      }
+      return currency
     }
   },
-  mounted() {},
-  watch: {},
-  created() {
-    // register event
-  },
-  beforeDestroy() {}
+
+  watch: {
+    userInfo(val) {
+      if (val) {
+        this.getInner()
+        this.getOuter()
+      }
+    },
+    pageNo(val) {
+      this.getInner()
+      this.getOuter()
+    }
+  }
+  // register event
 }
 </script>
 
-<style>
+<style lang="stylus" scoped>
+.assets-container {
+  background: #e7ebee;
+}
 
+.more-assets-container {
+  // padding: 0px;
+  min-width: 300px;
+  height: 161px;
+  cursor: pointer;
+  background: transparent;
+  // margin: 32px;
+}
+
+.more-assets {
+  height: 100%;
+  background: #ffffff;
+  margin-top: -15px;
+  height: calc(100% + 30px);
+}
+
+.more-assets-btn {
+  width: 100%;
+  height: 161px;
+  background: #ffffff;
+}
+
+.load-more-btn {
+  height: 161px;
+  margin-top: 30px;
+  min-width: 300px;
+  padding-top: 0;
+  background: transparent;
+
+  button:hover {
+    background: #ffffff !important;
+  }
+
+  button {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: #ffffff;
+  }
+}
 </style>

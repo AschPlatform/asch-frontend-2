@@ -1,3 +1,4 @@
+/* eslint-disable */
 import AschJs from 'asch-js'
 import { convertFee } from './asch'
 
@@ -73,6 +74,37 @@ const filters = {
         i.recipientId
     }
     return filters.time(i.timestamp) + ' ' + content
+  },
+  jparse: (value, arg, isHeight, arg2) => {
+    // Transfer to
+    // const obj = eval('(' + value + ')')
+    if (!value) {
+      return 'N/A'
+    }
+    const obj = JSON.parse(value)
+    if (isHeight) {
+      return Number(obj[arg]) / 8640
+    }
+    if (arg2) {
+      return obj[arg][arg2]
+    }
+    return obj[arg]
+  },
+  approval: (value) => {
+    let val = Number(value)
+    if (val !== 0) {
+      val = val > 0.01 ? val.toFixed(2) : 0.01
+    } else {
+      val = 0
+    }
+    return val + ' %'
+  },
+  eclipse: (str='', head = 5, tail = 5) => {
+    if (str.length > head + tail) {
+      return str.slice(0, head) + '...' + str.slice(-tail)
+    } else {
+      return str
+    }
   }
 }
 export default filters

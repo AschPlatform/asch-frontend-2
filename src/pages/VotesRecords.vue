@@ -5,12 +5,8 @@
     enter-active-class="animated fadeIn"
     leave-active-class="animated fadeOut" 
      mode="out-in">
-      <div v-if="delegates" class="col-12 shadow-1">
-        <q-table :data="delegates" :filter="filter" color="primary"
-        selection="multiple" :selected.sync="selected" row-key="address"
-        :columns="columns"  @request="request" :pagination.sync="pagination" 
-        :loading="loading"
-        >
+      <div v-if="delegatesData" class="col-12 shadow-1">
+        <q-table no-data-label="HELL!" :data="delegatesData" :filter="filter" color="primary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns"  @request="request" :pagination.sync="pagination"  :loading="loading" :rows-per-page-options="[10]">
         
           <template slot="top-right" slot-scope="props">
             <q-btn v-if="selected.length" color="negative" flat round  icon="delete" @click="repeal" >
@@ -32,12 +28,6 @@
               {{props.value}} <q-icon v-if="props.row.voted" name="check circle" color="positive"/>
             </div>
           </q-td>
-          <!-- <q-td slot="body-cell-opt"  slot-scope="props" :props="props">
-            <q-btn @click="viewAccountInfo(props.row)" icon="remove red eye" size="sm" flat color="primary" >
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('DAPP_DETAIL')}}</q-tooltip>
-            </q-btn>
-            <q-icon color="positive" v-if="props.row.voted" name="icon-chrome" />
-          </q-td> -->
         </q-table>
       </div>
       </transition>
@@ -77,15 +67,17 @@
 </template>
 
 <script>
-import { api, translateErrMsg } from '../utils/api'
-import { toast } from '../utils/util'
+import { toast, translateErrMsg } from '../utils/util'
 import { createVote } from '../utils/asch'
+import { mapActions, mapGetters } from 'vuex'
+import { QIcon, QTable, QTooltip, QField, QDialog, QBtn } from 'quasar'
 
 export default {
   props: ['userObj'],
+  components: { QIcon, QTable, QTooltip, QField, QDialog, QBtn },
   data() {
     return {
-      delegates: null,
+      delegatesData: null,
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -95,12 +87,6 @@ export default {
       filter: '',
       loading: false,
       columns: [
-        // {
-        //   name: 'opt',
-        //   field: 'rate',
-        //   label: this.$t('OPERATION'),
-        //   align: 'center'
-        // },
         {
           name: 'rate',
           label: this.$t('RANKING'),
@@ -145,6 +131,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['myvotes', 'broadcastTransaction']),
     refresh() {
       this.pagination = this.paginationDeafult
       this.getDelegates()
@@ -157,13 +144,17 @@ export default {
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
-      let res = await api.myvotes({
+      let res = await this.myvotes({
         address: this.user.account.address,
         orderBy: 'rate:asc',
         limit: limit,
         offset: (pageNo - 1) * limit
       })
-      this.delegates = res.delegates
+      if (res.success) {
+        this.delegatesData = res.delegates
+      } else {
+        this.delegatesData = []
+      }
       // set max
       this.pagination.rowsNumber = res.totalCount
       this.loading = false
@@ -181,7 +172,7 @@ export default {
         return
       }
       let trans = createVote(this.selectedDelegate, this.user.secret, this.secondPwd)
-      let res = await api.broadcastTransaction(trans)
+      let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
         toast(this.$t('INF_VOTE_SUCCESS'))
       } else {
@@ -202,11 +193,12 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['userInfo']),
     user() {
-      return this.userObj
+      return this.userInfo
     },
     secondSignature() {
-      return this.user ? this.user.account.secondSignature : null
+      return this.user ? this.user.account.secondPublicKey : null
     },
     paginationDeafult() {
       return {
@@ -234,7 +226,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 pd-5 {
   padding: 5%;
 }
