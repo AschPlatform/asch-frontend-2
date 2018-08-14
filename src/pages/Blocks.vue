@@ -282,6 +282,7 @@ export default {
     ...mapActions([
       'blocks',
       'getBlockDetail',
+      'blockDetail',
       'blockforging',
       'forgingStatus',
       'getTransactions',
