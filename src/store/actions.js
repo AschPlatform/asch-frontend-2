@@ -3,7 +3,7 @@ export const someAction = (state) => {
 }
 */
 import { api, api2 } from '../utils/api'
-import asch from '../utils/asch-v2'
+import asch from '../utils/asch'
 
 export default {
   // get user infomation (balances / nick) / update

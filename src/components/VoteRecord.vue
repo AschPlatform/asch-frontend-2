@@ -87,7 +87,7 @@
 <script>
 import { QTable, QTabs, QTab, QTabPane, QIcon, QBtn, QField, QInput, QTooltip, QTd } from 'quasar'
 import { toast, translateErrMsg } from '../utils/util'
-import asch from '../utils/asch-v2'
+import asch from '../utils/asch'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {

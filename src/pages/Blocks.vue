@@ -189,11 +189,10 @@ import {
   QTd
 } from 'quasar'
 import { toast, toastWarn, translateErrMsg, prompt } from '../utils/util'
-import { fullTimestamp } from '../utils/asch'
+import asch, { fullTimestamp } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
 import UserAgreementModal from '../components/UserAgreementModal'
-import asch from '../utils/asch-v2'
 
 export default {
   props: ['userObj'],
