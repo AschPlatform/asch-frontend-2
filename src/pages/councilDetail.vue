@@ -61,13 +61,13 @@ export default {
   data() {
     return {
       columns: [
-        {
-          name: 'name',
-          required: true,
-          label: this.$t('COUNCIL_PAGE.MEMBER'),
-          align: 'center',
-          field: 'name'
-        },
+        // {
+        //   name: 'name',
+        //   required: true,
+        //   label: this.$t('COUNCIL_PAGE.MEMBER'),
+        //   align: 'center',
+        //   field: 'name'
+        // },
         {
           name: 'weight',
           required: true,
