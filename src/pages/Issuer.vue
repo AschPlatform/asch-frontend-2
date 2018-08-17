@@ -40,7 +40,7 @@
               <p class="font-16 text-black">
                 {{issuer.name}}
               </p>
-              <p class="font-16 text-five">
+              <p class="font-16 text-five break-word">
                 {{issuer.desc}}
               </p>
             </div>
@@ -577,5 +577,9 @@ export default {
 
 .issuer-content {
   border-radius: 6px;
+}
+
+.break-word {
+  word-wrap: break-word;
 }
 </style>
