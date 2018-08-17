@@ -10,7 +10,7 @@
         <q-input :float-label="$t('RECIPIENT')" @blur="$v.form.address.$touch" v-model="form.address" :error="$v.form.address.$error" />
         </q-field>
         <q-field class="col-12 margin-top-54" :error-label="$t('ERR_AMOUNT_INVALID')">
-         <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error"  />
+         <q-input :float-label="$t('AMOUNTS_FEE')" @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error"  />
         </q-field>
         <q-field class="col-12 margin-top-54" :error-label="$t('ERR_FEE_INVALID',{fee:fee})">
          <q-input :float-label="$t('FEES')" @blur="$v.form.fee.$touch" v-model="form.fee" :error="$v.form.fee.$error"  />

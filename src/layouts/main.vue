@@ -69,7 +69,7 @@
           <q-item-main :label="$t('GATEWAY')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('councilDetail')">
-            <q-item-side icon="compare arrows" />
+            <q-item-side icon="group" />
             <q-item-main :label="$t('COUNCIL')" />
           </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('delegates')">

@@ -13,10 +13,12 @@
         <q-toggle v-model="installed" :label="$t('DAPP_INSTALL_LIST')" color="secondary" />
       </q-card-title>
       <q-card-main class="row">
-        <div class="row col-sm-6 col-md-4 col-lg-3 row justify-center">
-          <q-card inline color="white" text-color="black" v-for="(dapp,idx) in dapps" class="col-md-10 col-xs-12 assets-panel-content" :key="idx">
-            <q-card-media>
-              <img :ref="'img'+idx" :src="dapp.icon"  @error="onError(idx)" />
+        <div class="row">
+          <q-card inline color="white" text-color="black" v-for="(dapp,idx) in dapps" class="col-lg-3 col-md-10 col-xs-12 assets-panel-content padding-b-20 border-r-6" :key="idx">
+            <q-card-media class="dapp-top-img">
+              <div class="dapp-img-container">
+                <img :ref="'img'+idx" :src="dapp.icon" @error="onError(idx)" />
+              </div>
             </q-card-media>
             <q-card-title align="center">
               {{dapp.name}}
@@ -24,7 +26,7 @@
               </div>
             </q-card-title>
             <q-card-main>
-              <p class="text-faded">{{dapp.desc}}</p>
+              <p class="text-faded margin-b-0">{{dapp.desc}}</p>
             </q-card-main>
             <q-card-separator />
             <q-card-actions class="justify-around">
@@ -80,16 +82,16 @@
   
       <div class="row" slot="body">
         <q-field class="col-12" :label-width="4">
-          <q-select :float-label="$t('ASSET')" filter v-model="form.depositName" :options="assetsOpt" :error="$v.form.depositName.$error" error-label="error" />
+          <q-select :placeholder="$t('ASSET')" filter v-model="form.depositName" :options="assetsOpt" :error="$v.form.depositName.$error" error-label="error" />
         </q-field>
         <q-field :label-width="4" :error-label="$t('ERR_ASSET_PRECISION_NOT_CORRECT')" class="col-12">
-          <q-input :float-label="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :error="$v.form.amount.$error" error-label="error" />
+          <q-input :placeholder="$t('AMOUNTS')" @blur="$v.form.amount.$touch" v-model="form.amount" type="number" :error="$v.form.amount.$error" error-label="error" @keyup.delete="delSearch" />
         </q-field>
         <q-field v-if="dialog.form==3" :label-width="4" class="col-12">
-          <q-input :float-label="$t('ADDRESS')" @blur="validateAddr" v-model="form.address" :error="this.addressError" :error-label="$t('ERR_TOAST_ACCOUNT_INVALID_RECIPIENT')" />
+          <q-input :placeholder="$t('ADDRESS')" @blur="validateAddr" v-model="form.address" :error="this.addressError" :error-label="$t('ERR_TOAST_ACCOUNT_INVALID_RECIPIENT')" />
         </q-field>
         <q-field v-if="secondSignature" class="col-12" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="secondPwdError" :label-width="2">
-          <q-input :float-label="$t('SECOND_PASSWORD')" v-model="form.secondPwd" type="password" @blur="validateSecondPwd" />
+          <q-input :placeholder="$t('ACCOUNT_TYPE2_HINT')" v-model="form.secondPwd" type="password" @blur="validateSecondPwd" />
         </q-field>
       </div>
       <template slot="buttons" slot-scope="props">
@@ -185,7 +187,9 @@ export default {
         minValue: minValue(0),
         outPrecision(val) {
           if (this.selectedAssets && val !== '') {
-            let str = BigNumber(val).times(Math.pow(10, this.selectedAssets.precision)).toString()
+            let str = BigNumber(val)
+              .times(Math.pow(10, this.selectedAssets.precision))
+              .toString()
             return str.indexOf('.') === -1 && str.indexOf('-') === -1
           }
           return false
@@ -333,7 +337,11 @@ export default {
     },
     async onOk() {
       this.$v.form.$touch()
-      if (this.$v.form.$error || this.$v.form.$invalid || (this.secondSignature && this.secondPwdError)) {
+      if (
+        this.$v.form.$error ||
+        this.$v.form.$invalid ||
+        (this.secondSignature && this.secondPwdError)
+      ) {
         toastWarn(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
         this.dialogShow = true
         return
@@ -411,13 +419,21 @@ export default {
     onError(idx) {
       if (this.$refs['img' + idx]) {
         this.$refs['img' + idx][0].src = defaultIcon
+        this.$refs['img' + idx][0].classList = ['imgFull']
       }
     },
     createMyDapp() {
       openURL('https://github.com/AschPlatform/asch-docs/tree/master/dapp/api')
+    },
+    delSearch() {
+      let searchStr = this.form.amount + ''
+      if (searchStr.length === 1) {
+        this.form.amount = ''
+      }
     }
   },
   async mounted() {
+    // console.log(this.$refs)
     if (this.user) {
       this.getDapps()
       // this.$root.$emit('getAssetsList')
@@ -518,6 +534,8 @@ export default {
   background: #ffffff;
   cursor: pointer;
   min-width: 295px;
+  margin-right: 39px;
+  margin-top: 39px;
 }
 
 .tab-panel-container {
@@ -538,5 +556,33 @@ export default {
 
 .btn {
   min-width: 60px;
+}
+
+.dapp-top-img {
+  width: 100%;
+  // height: 222px;
+  .dapp-img-container{
+    padding-top:10px;
+  }
+  img {
+    width: 50%;
+    margin-left: 25%;
+  }
+}
+
+.text-faded {
+  min-height: 33.3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.imgFull {
+  width: 100% !important;
+  height: 100%;
+  margin-left: 0 !important;
+  margin-top:-10px !important;
 }
 </style>

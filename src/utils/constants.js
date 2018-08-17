@@ -66,25 +66,24 @@ const officialPeers = [
   //   local: 'CN2'
   // }
   {
-    ip: '47.75.26.122',
+    ip: 'localhost',
     port: 4096,
     local: 'test1'
   },
   {
-    ip: '47.75.26.122',
-    port: 4097,
+    ip: 'localhost',
+    port: 4096,
     local: 'test2'
   },
   {
-    ip: '47.75.26.122',
-    port: 4098,
+    ip: 'localhost',
+    port: 4096,
     local: 'test3'
   }
 ]
 
 const urls = {
   server: {
-    // development: 'http://47.75.26.122:4096',
     development: 'http://192.168.1.128:4096',
     // development: 'http://47.94.37.201:4006',
     // development: 'http://39.106.250.196:4096',
@@ -397,7 +396,19 @@ const transTypes = {
   401: 'TRS_TYPE_OPEN_GATEWAY_ACCOUNT',
   402: 'TRS_TYPE_GATEWAY_DEPOSIT',
   403: 'TRS_TYPE_GATEWAY_WITHDRAW',
-  404: 'TRS_TYPE_GATEWAY_WITHDRAW_CONFIRM'
+  404: 'TRS_TYPE_GATEWAY_WITHDRAW_CONFIRM',
+
+  500: 'TRS_TYPE_GROUP_VOTE',
+  501: 'TRS_TYPE_GROUP_ACTIVE',
+  502: 'TRS_TYPE_GROUP_ADDMEMBER',
+  503: 'TRS_TYPE_GROUP_REMOVEMEMBER',
+  504: 'TRS_TYPE_GROUP_REPLACEMEMBER'
 }
 
-export { urls, langsOpts, transTypes, officialPeers, fees }
+export {
+  urls,
+  langsOpts,
+  transTypes,
+  officialPeers,
+  fees
+}

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <record-table :data="trans" :options="toggleBtn" :maxPage="maxPage" @changePage="changePage" @changeType="changeType" :title="computedTitle" class="table"></record-table>
+    <record-table :data="trans" :options="toggleBtn" :maxPage="maxPage" @changePage="changePage" @changeType="changeType" :title="computedTitle" :clip="{col1: false, col2: true}" class="table"></record-table>
   </div>
 </template>
 
@@ -102,6 +102,7 @@ export default {
           temp.fee.push('-' + convertFee(e.fee))
           temp.fee.push('XAS')
           temp.iconKey = 'FEE'
+          temp.tid = e.id
           temps.push(temp)
         })
         this.trans = temps
@@ -119,10 +120,18 @@ export default {
           if (e.recipientId === this.userInfo.address) {
             plag = '+'
             temp.col1.push(e.senderId)
+            temp.needClip = true
             temp.iconKey = 'RECEIPT'
           } else {
             plag = '-'
-            e.recipientName ? temp.col1.push(e.recipientName) : temp.col1.push(e.recipientId)
+            // let eclips = e.recipientId.slice(0, 5) + '...' + e.recipientId.slice(-5)
+            if (e.recipientName) {
+              temp.col1.push(e.recipientName)
+              temp.needClip = false
+            } else {
+              temp.col1.push(e.recipientId)
+              temp.needClip = true
+            }
             temp.iconKey = 'PAY'
           }
           temp.col1.push(fullTimestamp(e.timestamp))
@@ -130,6 +139,7 @@ export default {
           temp.col2.push(this.$t('REMARK'))
           temp.fee.push(plag + convertFee(e.amount, e.asset ? e.asset.precision : 8))
           temp.fee.push(e.currency)
+          temp.tid = e.tid
           items.push(temp)
         })
         this.trans = items
@@ -182,7 +192,8 @@ export default {
     },
     dueArg(args) {
       if (args.length !== 0) {
-        let str = args.join(' , ')
+        let str = args.join(',')
+        str = str.replace(/,/g, ', ')
         return str
       }
       return this.$t('NO_ARGS')
