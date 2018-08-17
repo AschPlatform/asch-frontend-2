@@ -11,6 +11,7 @@ export const proposalTitleReg = /^[A-Za-z0-9_\-+!@$% ]{10,100}$/
 export const gatewayNameReg = /^[A-Za-z0-9]{3,16}$/
 export const assetSymbolReg = /^[A-Z]{3,6}$/
 export const amountStrReg = /^\d+(\.\d+)?$/
+export const receiverReg = /\s/g
 // bip 39 validator
 export const bip39 = () => {
   return withParams({}, value => {
@@ -33,5 +34,16 @@ export const secondPwd = () => {
 export const address = () => {
   return withParams({}, value => {
     return addressReg.test(value)
+  })
+}
+export const receiver = () => {
+  return withParams({}, value => {
+    if (value.length <= 40) {
+      if (receiverReg.test(value)) {
+        return false
+      }
+      return true
+    }
+    return false
   })
 }

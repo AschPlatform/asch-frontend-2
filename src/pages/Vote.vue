@@ -36,7 +36,7 @@
               </div>
             </q-td>
             <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
-                {{(Number(props.value))+'%'}}
+                {{props.value | approval}}
             </q-td>
             <q-td slot="body-cell-productivity"  slot-scope="props" :props="props">
                 {{props.value+'%'}}
@@ -104,9 +104,9 @@ import {
   QInput,
   QTooltip
 } from 'quasar'
-import { toast, toastWarn, translateErrMsg } from '../utils/util'
+import { toast, toastWarn, translateErrMsg, prompt } from '../utils/util'
 // import { createVote } from '../utils/asch'
-import asch from '../utils/asch-v2'
+import asch from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
 import VoteRecord from '../components/VoteRecord'
 import MyVoteDelegate from '../components/MyVoteDelegate'
@@ -282,6 +282,8 @@ export default {
           data => {
             if (!data || !secondPwdReg.test(data)) {
               toastWarn(t('ERR_SECOND_PASSWORD_FORMAT'))
+            } else {
+              this.submitRepeal(data)
             }
           }
         )

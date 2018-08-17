@@ -30,8 +30,8 @@
                   {{item.col1[0]}}
                 </q-tooltip>
               </p> -->
-              <p v-if="item.needClip">
-                {{item.col1[0].slice(0, 5) + '...' + item.col1[0].slice(-5)}}
+              <p v-if="item.needClip" v-clipboard="item.col1[0] || 'no data'" @success="info($t('COPY_SUCCESS'))">
+                {{item.col1[0] | eclipse}}
                 <q-tooltip> 
                   {{item.col1[0]}}
                 </q-tooltip>

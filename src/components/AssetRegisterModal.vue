@@ -49,8 +49,7 @@ import {
 import { required, maxLength, minLength, between, numeric } from 'vuelidate/lib/validators'
 import { assetName, secondPwdReg, amountStrReg } from '../utils/validators'
 import { confirm, toastError, toast, translateErrMsg } from '../utils/util'
-import { dealGiantNumber } from '../utils/asch'
-import asch from '../utils/asch-v2'
+import asch, { dealGiantNumber } from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {

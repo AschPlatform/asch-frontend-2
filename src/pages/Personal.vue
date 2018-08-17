@@ -18,7 +18,7 @@
               <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
             <div class="row col-12 justify-left text-three">
-              <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info('copy success')" flat icon="content copy" /></span>
+              <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" flat icon="content copy" /></span>
             </div>
           </div>
           <div :class="personalTopQrClass">
@@ -54,7 +54,7 @@
               <tr class="row col-12">
                 <td class="col-md-3 col-xs-4 bottom-left-link text-three font-16 padding-0">
                   <i class="material-icons font-16 personal-icon">settings</i>
-                  <span>{{$t('LOCK_POSITION_CONF')}}</span>
+                  <span class="margin-l4">{{$t('LOCK_POSITION_CONF')}}</span>
                 </td>
                 <td :class="personalRightTwoClass">
                   <div :class="personalFontClass" v-if="lockInfo">
@@ -205,8 +205,7 @@ import VueQr from 'vue-qr'
 import { required, sameAs } from 'vuelidate/lib/validators'
 import { secondPwd, secondPwdReg, nicknameReg } from '../utils/validators'
 import { toastWarn, toast, toastError, prompt, translateErrMsg } from '../utils/util'
-import { convertFee, fullTimestamp } from '../utils/asch'
-import asch from '../utils/asch-v2'
+import asch, { convertFee, fullTimestamp } from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
 import {
   QPage,
@@ -803,5 +802,8 @@ export default {
 }
 .modal-content-limit > div{
   max-width: 600px;
+}
+.margin-l4{
+  margin-left 4px;
 }
 </style>

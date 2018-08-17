@@ -3,7 +3,7 @@ export const someAction = (state) => {
 }
 */
 import { api, api2 } from '../utils/api'
-import asch from '../utils/asch-v2'
+import asch from '../utils/asch'
 
 export default {
   // get user infomation (balances / nick) / update
@@ -178,6 +178,10 @@ export default {
     //   return res
     // })
     return api2.balances(params)
+  },
+
+  getBlockDetail: ({ commit }, params) => {
+    return api2.blockDetail(params)
   },
 
   getBalance: ({ commit }, params) => {

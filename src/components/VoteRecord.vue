@@ -48,10 +48,11 @@
         </q-table>
     </q-tab-pane>
     <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
-
       <span slot="title">{{$t('DELETE_VOTE_TITLE')}}</span>
       <span slot="message">
-        {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}</span>
+        {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
+      </span>
+
       <div slot="body">
         <q-field v-if="secondSignature"
           :label="$t('TRS_TYPE_SECOND_PASSWORD')"
@@ -86,7 +87,7 @@
 <script>
 import { QTable, QTabs, QTab, QTabPane, QIcon, QBtn, QField, QInput, QTooltip, QTd } from 'quasar'
 import { toast, translateErrMsg } from '../utils/util'
-import asch from '../utils/asch-v2'
+import asch from '../utils/asch'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -183,8 +184,10 @@ export default {
       let trans = asch.cleanVote(this.selectedDelegate, this.userInfo.secret, this.secondPwd)
       let res = await this.broadcastTransaction(trans)
       if (res.success === true) {
+        this.selected = []
         toast(this.$t('RETREAT_VOTE_SUCCESS'))
       } else {
+        this.selected = []
         translateErrMsg(this.$t, res.error)
       }
       this.secondPwd = ''

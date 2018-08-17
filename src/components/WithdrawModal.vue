@@ -3,7 +3,7 @@
     <div class="col-12 widthdraw-modal-content">
       <div class="bg-secondary padding-40 height-62">
         <span class="text-white font-18">{{$t('WITHDRAW')}} </span>
-        <span class="font-12 text-white">{{$t('DEPOSIT_TIP2')}} </span>
+        <span v-if="isDesk" class="font-12 text-white">{{$t('DEPOSIT_TIP2')}} </span>
         </div>
       <div  class="row justify-center padding-40">
         <q-field class="col-12 margin-top-54" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')" >
@@ -41,9 +41,8 @@ import { QField, QInput, QModal, QSelect, QBtn } from 'quasar'
 import { secondPwd, amountStrReg } from '../utils/validators'
 import { required } from 'vuelidate/lib/validators'
 import { toast, translateErrMsg } from '../utils/util'
-import { convertFee } from '../utils/asch'
+import asch, { convertFee } from '../utils/asch'
 import { fees } from '../utils/constants'
-import asch from '../utils/asch-v2'
 import { BigNumber } from 'bignumber.js'
 
 export default {
@@ -233,10 +232,13 @@ export default {
 <style lang="stylus" scoped>
 .widthdraw-modal-content {
   padding-bottom: 54px;
-  max-width 490px
+  max-width: 490px;
 }
-.withdraw-modal-container
-  max-width 490px
+
+.withdraw-modal-container {
+  max-width: 490px;
+}
+
 .margin-top-54 {
   margin-top: 54px;
 }

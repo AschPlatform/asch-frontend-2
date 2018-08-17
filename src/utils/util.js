@@ -159,7 +159,7 @@ export const getFormedTime = (timestamp) => {
 
 export const translateErrMsg = (t, input) => {
   if (typeof input === 'string') {
-    input = input.split(':')[1]
+    let filtedInput = input.split(':')[1] === undefined ? input : input.split(':')[1]
     var translateMap = [
       {
         error: 'Failed to verify second signature',
@@ -456,7 +456,7 @@ export const translateErrMsg = (t, input) => {
       },
       {
         error: 'Issuer name already exists',
-        key: 'ERR.NEED_ISSUER_NAME'
+        key: 'ERR.ISSUER_NAME_ALREADY_EXIST'
       },
       {
         error: 'Account is already an issuer',
@@ -567,16 +567,24 @@ export const translateErrMsg = (t, input) => {
         key: 'ERR_TOAST_SECONDKEY_WRONG'
       },
       {
+        error: 'Maximum number of votes exceeded',
+        key: 'ERR_TOAST_VOTE_OVERDOSE'
+      },
+      {
+        error: 'Delegate already voted',
+        key: 'ERR_TOAST_ALREADY_VOTED'
+      },
+      {
         error: 'Unsupported transaction type',
         key: 'ERR.UNSUPPORTED_TRANS_TYPE'
       }
     ]
     for (var idx = 0; idx < translateMap.length; idx++) {
-      if (input.indexOf(translateMap[idx].error) > -1) {
+      if (filtedInput.indexOf(translateMap[idx].error) > -1) {
         toastError(t(translateMap[idx].key))
         return
       }
     }
-    toastError(input)
+    toastError(filtedInput)
   }
 }

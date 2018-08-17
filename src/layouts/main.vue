@@ -143,7 +143,7 @@
 </template>
 
 <script>
-import { setCache, getCache, removeCache } from '../utils/util'
+import { setCache, getCache, removeCache, toastInfo } from '../utils/util'
 import FloatMenu from '../components/FloatMenu'
 import TransPanel from '../components/TransPanel'
 import AccountInfo from '../components/AccountInfo'
@@ -272,8 +272,12 @@ export default {
       let res = await this.getAccountsInfo({
         address: address
       })
-      this.accountInfo = res.account
-      this.accountShow = true
+      if (res.success && res.unconfirmedAccount) {
+        this.accountInfo = res.account
+        this.accountShow = true
+      } else {
+        toastInfo(this.$t('table.noData'))
+      }
     },
     async getAssetsList(cbOk = func, cbErr = func) {
       // get user issuer info
@@ -325,7 +329,6 @@ export default {
   },
   beforeMount() {
     let lang = (this.$i18n.locale = getCache('locale'))
-    console.log(lang)
     import(`src/i18n/${lang}`).then(lang => {
       this.$q.i18n.set(lang.default)
     })

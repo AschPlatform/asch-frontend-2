@@ -12,7 +12,7 @@
           </template>
 
           <template slot="top-right" slot-scope="props">
-            <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" @keyup.enter="getBlockDetail" @keyup.delete="delSearch"/>
+            <q-search class="blocks-search text-secondary" hide-underline :placeholder="$t('ACCOUNT_TYPE_HINT')" type="number" v-model="filter" @keyup.enter="getBlock" @keyup.delete="delSearch"/>
             <q-btn class="text-secondary" :loading="loading" flat round icon="refresh" @click="refresh" />
             <q-btn class="text-secondary" flat round dense :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" />
           </template>
@@ -38,7 +38,7 @@
             </div>
           </q-td>
           <q-td slot="body-cell-numberOfTransactions"  slot-scope="props" :props="props">
-            <div class="text-secondary" @click="()=>showTransInfo(props.row.id)" >
+            <div class="text-secondary" @click="()=>showTransInfo(props.row.height)" >
               {{props.value}}
             </div>
           </q-td>
@@ -60,7 +60,7 @@
               <span class="block margin-t-20 text-secondary font-30 font-weight delegate-nick">{{delegate.name}}</span>
             <span class="block margin-t-20">
               {{$t('DELEGATE_POLLRATE')+':'}}
-              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval+'%'}}</a>
+              <a class="text-secondary font-weight font-22 text-decoration-none vertical-align-baseline">{{delegate.approval | approval}}</a>
               </span>
             <span class="block margin-t-10">
               {{$t('DELEGATE_RANK')+':'}}
@@ -91,7 +91,7 @@
       <big>{{$t('DAPP_DETAIL')}}</big>
       <table class="q-table horizontal-separator highlight loose blocks-datail-table">
         <tbody v-if="type==1" class='info-tbody'>
-          <tr v-clipboard="row.id || 'no data'" @success="info('copy ID success...')">
+          <tr v-clipboard="row.id || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{'ID'}}</td>
             <td >{{row.id}}</td>
           </tr>
@@ -99,7 +99,7 @@
             <td >{{'VERSION'}}</td>
             <td >{{row.version}}</td>
           </tr> -->
-          <tr v-clipboard="this.formatTimestamp(row.timestamp) || 'no data'" @success="info('copy date success...')">
+          <tr v-clipboard="this.formatTimestamp(row.timestamp) || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{$t('DATE')}}</td>
             <td >{{this.formatTimestamp(row.timestamp)}}</td>
           </tr>
@@ -140,16 +140,16 @@
         <tbody v-if="type==3" class='info-tbody'>
           <tr>
             <td>{{'ID'}}</td>
-            <td>{{$t('CONFIRMATIONS')}}</td>
+            <!-- <td>{{$t('CONFIRMATIONS')}}</td> -->
             <td>{{$t('AMOUNTS')}}</td>
             <td>{{$t('FEES')}}</td>
             <td>{{$t('DATE')}}</td>
           </tr>
           <tr v-for="trans in row" :key="trans.id">
             <td >{{trans.id}}</td>
-            <td >{{trans.confirmations }}</td>
+            <!-- <td >{{trans.confirmations }}</td> -->
             <td >{{trans.amount | fee}}</td>
-            <td >{{trans.fee }}</td>
+            <td >{{trans.fee | fee }}</td>
             <td >{{trans.timestamp | time}}</td>
           </tr>
         </tbody>
@@ -189,11 +189,10 @@ import {
   QTd
 } from 'quasar'
 import { toast, toastWarn, translateErrMsg, prompt } from '../utils/util'
-import { fullTimestamp } from '../utils/asch'
+import asch, { fullTimestamp } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
 import UserAgreementModal from '../components/UserAgreementModal'
-import asch from '../utils/asch-v2'
 
 export default {
   props: ['userObj'],
@@ -249,12 +248,12 @@ export default {
         {
           label: this.$t('PRODUCER'),
           name: 'generatorId',
-          field: 'generatorPublicKey'
+          field: 'delegate'
         },
         {
           name: 'numberOfTransactions',
           label: this.$t('TRANSACTIONS_COUNT'),
-          field: 'numberOfTransactions',
+          field: 'count',
           type: 'string',
           align: 'right'
         }
@@ -281,10 +280,10 @@ export default {
   methods: {
     ...mapActions([
       'blocks',
-      'blockDetail',
+      'getBlockDetail',
       'blockforging',
       'forgingStatus',
-      'transactions',
+      'getTransactions',
       'broadcastTransaction'
     ]),
     async refresh() {
@@ -328,10 +327,10 @@ export default {
       this.loading = false
       return res
     },
-    async getBlockDetail() {
-      if (this.filter) {
-        let res = await this.blockDetail({
-          height: this.filter
+    async getBlock() {
+      if (this.filter && this.filter <= this.latestBlock.height) {
+        let res = await this.getBlockDetail({
+          filter: this.filter
         })
         this.pagination.rowsNumber = 1
         this.blocksData = [res.block]
@@ -376,9 +375,9 @@ export default {
     async showAccountInfo(address) {
       this.$root.$emit('openAccountModal', address)
     },
-    async showTransInfo(blockId) {
-      let res = await this.transactions({
-        blockId: blockId
+    async showTransInfo(height) {
+      let res = await this.getTransactions({
+        height: height
       })
       if (res.success === true) {
         this.row = res.transactions
@@ -451,7 +450,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userInfo', 'latestBlock']),
     blockRightClass() {
       return this.isDesk ? 'col-md-3 col-xs-12' : 'col-md-3 col-xs-12 margin-top-20'
     },
@@ -501,9 +500,11 @@ export default {
 .geteway-top {
   margin-bottom: 20px;
 }
+
 .gateway-container {
   padding: 20px;
 }
+
 .blocks-container {
   padding: 20px;
 }
@@ -520,10 +521,11 @@ export default {
 
 .blocks-search {
   border: 1px solid #cccccc;
-  width 150px
+  width: 150px;
   border-radius: 15px;
 }
 
-.delegate-nick
+.delegate-nick {
   word-wrap: break-word;
+}
 </style>

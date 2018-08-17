@@ -89,6 +89,22 @@ const filters = {
       return obj[arg][arg2]
     }
     return obj[arg]
+  },
+  approval: (value) => {
+    let val = Number(value)
+    if (val !== 0) {
+      val = val > 0.01 ? val.toFixed(2) : 0.01
+    } else {
+      val = 0
+    }
+    return val + ' %'
+  },
+  eclipse: (str='', head = 5, tail = 5) => {
+    if (str.length > head + tail) {
+      return str.slice(0, head) + '...' + str.slice(-tail)
+    } else {
+      return str
+    }
   }
 }
 export default filters

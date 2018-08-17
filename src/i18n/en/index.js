@@ -9,6 +9,7 @@ const lang = {
   PRODUCER: 'Producer',
   TRANSACTIONS: 'Transaction',
   AMOUNTS: 'Amount',
+  AMOUNTS_FEE: 'Amount，you should notice the cost of fee',
   FEES: 'Fee',
   REWARDS: 'Reward',
   TYPE: 'Type',
@@ -47,7 +48,7 @@ const lang = {
   TRS_TYPE_SET_AGENT: 'Set Agent',
   TRS_TYPE_REPEAL_AGENT: 'Repeal Agent',
   TRS_TYPE_ACTIVATE_DELEGATE: 'Activate Delegate',
-  TRS_TYPE_REPEAL_VOTE: 'Vote',
+  TRS_TYPE_REPEAL_VOTE: 'Vote Reveal',
 
   TRS_TYPE_LAUNCH_PROPOSAL: 'Creart Proposal',
   TRS_TYPE_VOTE_PROPOSAL: 'Vote Proposal',
@@ -58,6 +59,8 @@ const lang = {
   TRS_TYPE_GATEWAY_DEPOSIT: 'Gateway Deposit',
   TRS_TYPE_GATEWAY_WITHDRAW: 'Gateway Withdrawal',
   TRS_TYPE_GATEWAY_WITHDRAW_CONFIRM: 'Gate Withdrawal Confirm',
+  TRS_TYPE_GATEWAY_WITHDRAW_SIGNATURE: 'Submit withdraw signature',
+  TRS_TYPE_GATEWAY_WITHDRAW_TRANSACTION: 'Submit withdraw transactions',
 
   TRS_TYPE_GROUP_VOTE: 'Council Vote',
   TRS_TYPE_GROUP_ACTIVE: 'Council Activate',
@@ -142,7 +145,7 @@ const lang = {
   SAVE_PASSWORD: 'Save Master Secret',
   CONFIRM_PASSWORD: 'Confirm master secret',
   INPUT_PASSWORD_AGAIN: 'Please re-type your master secret',
-  NEW_PWD_TIP_2: 'Make sure you have saved your master secret in a safe place. If you lost it or forget it, your account will not be available and you will lost all your XAS.',
+  NEW_PWD_TIP_2: 'Make sure you have saved your master secret in a safe place. Otherwise, your might not be available and you will lost all your XAS.',
   CONFIRM: 'Confirm',
   CANCEL: 'Cancel',
   CANCEL_LOGIN: 'Back',
@@ -159,7 +162,7 @@ const lang = {
   // transfer/pay
   SEND: 'Send',
   ALREADY_LOCKED: 'The transaction is rejected due to the account lock.',
-  PAY_TIP: '  *Please make sure you send to the correct address. This operation cannot be cancelled.',
+  PAY_TIP: '  *Make sure you send to the correct address. This operation cannot be cancelled.',
 
   // peers
   PEER_LIST: 'Peer List',
@@ -259,7 +262,7 @@ const lang = {
 
   // model - vote
   VOTE_TITLE: 'Vote for delegate',
-  VOTE_TIP: 'Please confirm your vote. You can choose up to 33 people in one vote.',
+  VOTE_TIP: 'You can choose up to 33 people in one vote.',
 
   // toast errors
   ERR_INPUT_PASSWORD: 'Please input secret',
@@ -286,14 +289,14 @@ const lang = {
   ERR_INVALID_REMARK: 'Ensure your remark is right',
   ERR_NO_BALANCE: 'No balance, Please Deposit',
   ERR_NO_DEPOSIT_COIN: 'No choose coin, Please Choose',
-  ERR_PUBLISHER_NOT_EMPTY: 'You must enter the publishers name and description',
+  ERR_PUBLISHER_NOT_EMPTY: 'Please follow the requirement to fill these blanks',
   ERR_NO_PUBLISHER_REGISTERED_YET: 'You have not registered a publisher yet',
-  ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS: 'Please enter 3-6 capital letters for the asset name',
+  ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS: 'Please enter 3-6 capital letters',
   ERR_MISSING_ASSET_DESCRIPTION: 'Please enter an asset description',
   ERR_ASSET_TOPLIMIT_NOT_CORRECT: 'The top limit you entered is not correct',
-  ERR_ASSET_TOPLIMIT_NOT_CORRECT2: 'The total supply should be an integer from 1 to 30 that does not contain a decimal point',
+  ERR_ASSET_TOPLIMIT_NOT_CORRECT2: 'It should be integer from 1 to 30 that does not contain a decimal point',
   ERR_ASSET_PRECISION_NOT_CORRECT: 'The precision for the asset you entered is not correct',
-  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: 'The asset precision must be an integer between 0 and 16',
+  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: 'This must be an integer between 0 and 16',
   // toast error was bound here
   ERR_TOAST_SECONDKEY_WRONG: 'Your second password is wrong',
   ERR_TOAST_TRANSACTION_AMOUNT_WRONG: 'Transaction amount wrong',
@@ -303,6 +306,7 @@ const lang = {
   ERR_TOAST_ACCOUNT_ALREADY_LOCKED: 'Already locked',
   ERR_TOAST_ACCOUNT_INVALID_RECIPIENT: 'Wrong recipent address',
   ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP: 'There is something wrong with your local time',
+  ERR_TOAST_VOTE_OVERDOSE: 'Vote number exceeded',
   ERR_READ_ALL: 'Please read and tick the notes carefully.',
   // toast info
   INF_REGISTER_SUCCESS: 'Register success !',
@@ -326,7 +330,7 @@ const lang = {
   // dialog
   OPERATION_REQUIRES_FEE: 'This operation costs a fee',
   REQUIRES_FEE: 'Need to cost a fee',
-  ERR_FEE_INVALID: 'The fee cannot be empty and cannot be less than the default value {fee}',
+  ERR_FEE_INVALID: 'The fee cannot be empty or less than the default value {fee}',
 
   // FRAGIL SET
   FRAGIL_PRE: 'Account will be unlocked when the block height ',
@@ -336,7 +340,7 @@ const lang = {
   FRAGIL_HOUR: 'Hour',
   FRAGIL_MIN: 'Minute',
   FRAGIL_SEC: 'Second to unlock ',
-  FRAGIL_RANGE: 'The lock time should range from 1 to 10 000 000 block intervals',
+  FRAGIL_RANGE: 'Range from 1 to 10 000 000 block intervals',
   FRAGIL_UNLOCK: 'Unlock later',
 
   // deposit
@@ -363,15 +367,15 @@ const lang = {
   // ============== new add =================
   AT_LEAST_7DAY: '(It is recommended to set the end time after one week to allow enough time for the users to find, evaluate, and vote on the project.)',
   CURRENCY_INTRODUCE: 'Currency Introduction',
-  NAME_OF_DISTRIBUTOR: 'Please enter the name',
-  DESCRIBE_OF_DISTRIBUTOR: 'Please enter the description',
+  NAME_OF_DISTRIBUTOR: 'Please enter the name, length is required under 15',
+  DESCRIBE_OF_DISTRIBUTOR: 'Please enter the description, length is required under 500',
   CHAINS_OVERVIEW: 'Asset Profile',
   USER_AGREEMENT_MODAL_TIPS: '*Registering as an agent will cost 100 XAS',
   USER_AGREEMENT_MODAL_CONTENT: ' Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互',
-  LOCK_DETAIL_TIP: 'Please set the lock limit, this will cost you 0.1 XAS',
+  LOCK_DETAIL_TIP: 'Lock limit, cost you 0.1 XAS',
   RETREAT_VOTE_SUCCESS: 'Cancel Vote Success',
   DELEGATE_LIST_DETAILS: 'Detailed list of Delegates',
-  SECOND_PASSWORD_TIP: ' To keep your assets safe, please set a password with more than 8 digits',
+  SECOND_PASSWORD_TIP: 'Password with more than 8 digits, cost you 5 XAS',
   SECOND_PASSWORD_CONFIRM: 'Please confirm the password',
   // CANAEL: 'Cancel',
   TO: 'To',
@@ -397,7 +401,7 @@ const lang = {
   VOTE_DELEGATE_DETAIL: 'Agent Detail',
   VOTE_CANCEL: 'Cancel Agent',
   VOTE_SET: 'Set Agent',
-  VOTE_DELEGATE_TIP: 'Please input name or wallet address',
+  VOTE_DELEGATE_TIP: 'Please input name or wallet address, this will cost 0.1 XAS',
   ALL_BLOCKS: 'All Blocks',
   NOT_DELEGATE: 'Not Delegate',
   CHECK: 'Check',
@@ -561,7 +565,7 @@ const lang = {
     PERIOD_REASON: 'Reason for changing tenure cycle',
     INIT_REASON: 'Reason for gateway initialization',
     READ_TIP1: 'Conscientiously abide by the agreement on community self-government',
-    READ_TIP2: ' Issue proposal will consume 100 XAS',
+    READ_TIP2: ' Issue proposal will consume 10 XAS',
     INSTEAD_PRE: 'Pre Change Members',
     INSTEAD_POST: ' Post Change Member',
     PERIOD_SHIFT: 'I propose the the change the minimum update period from\n{pre}\nchange to:',
@@ -673,7 +677,7 @@ const lang = {
     ALREADY_ACTIVATED: 'Already activated',
     VOTE_NOT_ENOUGH: 'Votes not enough',
     INVALID_ISSUER_DESC: 'Invalid issue descrpition',
-    NEED_ISSUER_NAME: 'Need issuer name',
+    ISSUER_NAME_ALREADY_EXIST: 'Issuer name already registed',
     ACCOUNT_ALREADY_ISSUER: 'Account already a issuer',
     INVALID_SYMBOL: 'Invalid symbol',
     INVALID_DESC: 'Invalid asset descripition',
@@ -812,7 +816,10 @@ const lang = {
   \n 4.Users shall prepare the following equipment and bear the following expenses before using the service: \n &nbsp;&nbsp;&nbsp;&nbsp;(1)The users should prepare the necessary equipment for Internet access, including but not limited to computers, mobile phones, modems and other Internet access devices. \n &nbsp;&nbsp;&nbsp;&nbsp;（2）The expenses incurred in connection with the Internet shall be borne by the users, including but not limited to network access fees, rental of Internet equipment and mobile phone data fees. \n 5.The account (including address, public key and other information) obtained by the user based on this service is owned by the user himself/herself, and the user shall properly keep his/her account. If the account information is lost accidentally, it cannot be recovered through ASCH, and the user shall bear relevant losses. ASCH shall not be liable for any loss or consequence caused by users voluntarily disclosing their account information or being attacked or swindled by others. Users shall seek compensation from the tortfeasor through judicial remedies. \n 6.Users are not allowed to donate, borrow, rent, transfer or sell their blockchain accounts in violation of the rules of use of the service. All log-in, transaction and other use behaviors based on the ASCH account shall be regarded as user's own action. ASCH shall not be liable for any consequences arising therefrom. \n 7.The user must not commit any of the following acts: \n &nbsp;&nbsp;&nbsp;&nbsp;（1）Register multiple accounts on the ASCH platform with a malicious intent, including but not limited to making a profit, speculation, hedging, lucky draw, etc. \n &nbsp;&nbsp;&nbsp;&nbsp;（2）Malicious theft of others’ accounts. \n &nbsp;&nbsp;&nbsp;&nbsp;（3）To use the ASCH platform as a place, a platform, or a medium for all kinds of illegal activities or business activities. \n &nbsp;&nbsp;&nbsp;&nbsp;（4）Without ASCH’s authorization or permission, in the name of ASCH platform, ASCH foundation or ASCH team, to promote, profit, or engage in any business activities. \n If the user violate the above provisions, ASCH shall have the right to take all necessary actions, including but not limited to deleting the content posted by the user, cancelling any identity obtained by the user on the ASCH platform, suspending or close their accounts, confiscating their interests due to the violation, and pursuing legal liability of the user through judicial means. If the user's behavior causes losses to ASCH or its affiliates, the user shall be liable for damages. \n 8.Users shall ensure that all the information they release through the ASCH platform in various forms is in accordance with relevant national laws and regulations and relevant rules of the platform. It is in line with the public order and good custom of the society and does not infringe upon the legitimate rights and interests of any third party. Otherwise, users shall bear all the legal consequences arising therefrom. If the user's behavior causes losses to ASCH or its affiliates, the user shall be liable for damages. \n 9.If the user violates laws, regulations, this agreement or relevant rules of the platform and causes any third-party claim against ASCH or its partners or affiliated companies, the user shall be liable for compensation. \n ##### Intellectual Property \n 1.All ownership and intellectual property rights, including but not limited to the relevant program code, interface design, copyright framework, data materials, accounts, text, graphics, graphics, illustrations, audios, videos, etc. contained in the ASCH platform and its related software shall be owned by ASCH except for those that be granted or permitted officially by ASCH under relevant laws and regulations or valid agreements. \n ##### Privacy Policy \n 1.ASCH will implement appropriate physical, electronic, management and technical measures to protect and safeguard users' personal information. Despite the above security measures, ASCH cannot guarantee the absolute privacy of information on the Internet. Therefore, ASCH does not guarantee that personal information provided by users through the ASCH platform is safe at all times. ASCH shall not be liable for any leakage or theft of user personal information caused by any reason other than ASCH. \n 2.ASCH users’ personal information refers to: \n &nbsp;&nbsp;&nbsp;&nbsp;（1）The information provided by the user when registering on ASCH platform. \n &nbsp;&nbsp;&nbsp;&nbsp;（2）When users use the ASCH service, visit the website or client of ASCH, ASCH automatically receives and records the data of the user's browser or mobile client, including but not limited to IP address and website Cookie. \n &nbsp;&nbsp;&nbsp;&nbsp;（3）Personal information that ASCH legally obtained from business partner. \n &nbsp;&nbsp;&nbsp;&nbsp;（4）Other personal information that ASCH obtained through legal means. \n 3.User agrees and irrevocably authorizes ASCH to use and disclose personal information in any of the following situations: \n &nbsp;&nbsp;&nbsp;&nbsp;（1）Disclosure to the user himself/herself or any other third party with the consent or authorization of the user. \n &nbsp;&nbsp;&nbsp;&nbsp;（2）To disclose to a governmental, judicial or other third party as required by laws or regulations. \n &nbsp;&nbsp;&nbsp;&nbsp;（3）The use by ASCH for providing service purpose. \n &nbsp;&nbsp;&nbsp;&nbsp; （4）Other information disclosure in accordance with relevant laws, regulations, etc. \n ##### Third Party Application \n 1.Users may choose to use the functions, software or services developed by a third party based on the ASCH public chain. In addition to complying with this agreement, users shall also abide by the relevant provisions of a third party and respect the rights of the third party owner to its functions, software, services and contents. \n 2.ASCH does not make any commitment or guarantee to any of the above functions, software, services or contents provided by third parties. Any disputes or damages arising therefrom shall be settled by users and third parties themselves, and ASCH shall not bear any liability. \n ##### Disclaimer \n 1.ASCH will take reasonable measures to maintain the accuracy of information on the platform. However, ASCH does not guarantee the accuracy, applicability, reliability, integrity and appropriateness of any service or product content provided by the platform, nor shall it assume any responsibility for any loss or damage caused by the delay or failure of information transmission. ASCH has no obligation to notify users of any changes to the information and content on the platform. Users should follow the information and make independent decisions. \n 2.ASCH will do its best to maintain the security and convenience of its own services, but shall not be liable for any information deletion or save failure of information (including but not limited to information released/stored by users, account address, number of digital assets, information data, etc.) that is not caused by any intentional negligence of ASCH. \n 3.Due to the use of Internet services, users may be affected by various unstable factors in various aspects, and there are risks of service interruption or failure to meet users' requirements due to force majeure (including but not limited to wars, earthquakes, lightning strikes, floods, fires, government actions, technical control of telecommunications, etc.), computer viruses, hacker attacks, system instability, user location, user shutdown and any other network and technical problems. The user shall understand and undertake the foregoing risks, and ASCH shall not take any responsibility for the foregoing risks. \n 4.ASCH shall not be liable for any economic losses suffered by users due to the technical problems, network and computer failures, system instability and other force majeure caused by third parties, such as telecommunications operators. \n 5.The comments made by all users on the ASCH platform are representative for the user only and are not intended to indicate that ASCH agrees with or substantiated its description, and ASCH does not assume any legal responsibility arising from the user's comments. \n ##### Application and Dispute Resolution \n 1.This agreement shall be governed by and construed in accordance with the laws of the republic of Singapore. \n 2.Any dispute arising out of or in connection with this agreement (including any question concerning its existence, validity and termination) shall be settled by the parties through negotiation. If the dispute remains unresolved within 30 days after the commencement of the negotiation and settlement process, the parties shall refer the dispute to the Singapore international arbitration center (SIAC) and finally settle the dispute in Singapore by arbitration in accordance with the arbitration rules (which are deemed to be incorporated in this agreement by reference). The arbitral tribunal consists of an arbitrator appointed by the President of the SIAC. The language of arbitration is English. Each party irrevocably accept the non-exclusive jurisdiction of the court in Singapore to support and assist the arbitration procedure, including the temporary relief (if necessary) before the arbitration result is given. \n ##### Clause Independence \n 1.When any part of this agreement is considered invalid, illegal or unenforceable by a legislation, it shall be deemed to be invalid, illegal or unenforceable only in that scope (and shall not be further extended). To avoid doubt, the remainder of this agreement shall remain in force and in full force and effect. \n 2.According to the law of any jurisdiction, any provision of this agreement be determined to be illegal, invalid or unenforceable shall not affect other provisions of this agreement are considered as legal, valid and enforceable, and not affect the provisions in the laws of other jurisdictions are considered as legal, valid and enforceable. \n ##### Agreement Translation \n 1.Any translation of this agreement, provided for the convenience of the user,
   has no intention of modifying the English version of this agreement. In case of conflict between English version and non-English version of this agreement, the English version shall prevail.\n ##### Others \n 1.For matters not covered in this agreement, please refer to and abide by other relevant rules of ASCH platform. \n 2.If you have any questions while using our service, please contact our customer service staff through service@asch.io.`,
   ACCOUNT_LEFT_UNSUFF: ',  your account not enought, this will be failed',
-  TRANS_ID: 'Trans ID'
+  TRANS_ID: 'Trans ID',
+  FREEZED: 'Locked：',
+  AVALABLE: 'Available：',
+  ERR_TOAST_ALREADY_VOTED: 'Already vote to this one'
 }
 
 export default lang

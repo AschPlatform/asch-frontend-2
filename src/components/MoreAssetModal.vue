@@ -8,7 +8,7 @@
         <q-card-main>
           <div class="col-12">
           <asset-icon :iconKey="currency.symbol" class="font-24 vertical-align-middle text-eight"></asset-icon>
-            <span class="font-18 text-five vertical-align-middle">{{assetsInfo(currency)}}</span>
+            <span class="font-14 text-five vertical-align-middle">{{assetsInfo(currency)}}</span>
             <q-btn class="moreAssetModal-btn bg-primary text-white q-ml-lg" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
           </div>
         </q-card-main>
