@@ -99,7 +99,7 @@ import {
 } from 'quasar'
 import { toast, toastWarn, translateErrMsg, prompt } from '../utils/util'
 // import { createVote } from '../utils/asch'
-import asch from '../utils/asch-v2'
+import asch from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
 import VoteRecord from '../components/VoteRecord'
 import MyVoteDelegate from '../components/MyVoteDelegate'

@@ -46,7 +46,7 @@
 
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
-import asch from '../utils/asch-v2'
+import asch from '../utils/asch'
 import { secondPwd, amountStrReg, receiver } from '../utils/validators'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'

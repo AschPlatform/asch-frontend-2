@@ -42,7 +42,7 @@ import {
 } from 'quasar'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { confirm, toast, toastWarn, translateErrMsg } from '../utils/util'
-import asch from '../utils/asch-v2'
+import asch from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapActions, mapGetters } from 'vuex'
 

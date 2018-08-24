@@ -48,7 +48,7 @@ import { QField, QInput, QModal, QBtn, QSelect, QItemMain } from 'quasar'
 import VueQr from 'vue-qr'
 import { secondPwdReg } from '../utils/validators'
 import { toast, toastInfo, translateErrMsg } from '../utils/util'
-import asch from '../utils/asch-v2'
+import asch from '../utils/asch'
 
 export default {
   name: 'DepositPanel',
