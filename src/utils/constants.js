@@ -85,7 +85,7 @@ const officialPeers = [
 const urls = {
   server: {
     // development: 'http://123.206.19.30:4096',
-    development: 'http://mainnet.asch.cn:80',
+    development: 'http://47.93.138.148:8192',
     // development: 'http://47.94.37.201:4006',
     // development: 'http://39.106.250.196:4096',
     // development: 'http://39.106.182.193:8192'
