@@ -1,6 +1,10 @@
 import axios from './axiosWrap'
-import { urls } from './constants'
-import { getCurrentSeverUrl } from './util'
+import {
+  urls
+} from './constants'
+import {
+  getCurrentSeverUrl
+} from './util'
 
 // import nodeService from './servers'
 // Read me: this file contains all the get API & V1 post APIS
@@ -29,9 +33,9 @@ const fetch = (url, data, method, postHeaders) => {
   // TODO find server
   let selectedServerUrl = getCurrentSeverUrl()
   // let realUrl = urls.server.caos + url
-  let realUrl = !selectedServerUrl
-    ? urls.server[process.env.NODE_ENV] + url
-    : selectedServerUrl + url
+  let realUrl = !selectedServerUrl ?
+    urls.serverUrl + url :
+    selectedServerUrl + url
   let type = method.toLowerCase()
   let res = {}
   if (type === 'get') {
@@ -134,21 +138,38 @@ api.uiaAssetListApi = params => {
 }
 // 广播交易
 api.broadcastTransaction = trans => {
-  return fetch(urls.postApi, { transaction: trans }, 'post', {
-    headers: { magic: urls.magics[process.env.NODE_ENV], version: '' }
+  return fetch(urls.postApi, {
+    transaction: trans
+  }, 'post', {
+    headers: {
+      magic: urls.magic,
+      version: ''
+    }
   })
 }
 // 执行 DAPP 内部合约
 api.dappContract = (trans, appid) => {
-  let url = { url: `/api/dapps/${appid}/transactions/signed` }
-  return fetch(url, { transaction: trans }, 'put', {
-    headers: { magic: urls.magics[process.env.NODE_ENV], version: '' }
+  let url = {
+    url: `/api/dapps/${appid}/transactions/signed`
+  }
+  return fetch(url, {
+    transaction: trans
+  }, 'put', {
+    headers: {
+      magic: urls.magic,
+      version: ''
+    }
   })
 }
 
 // 查询 DAPP 内部余额
-api.dappMyBalance = ({ appid, address }) => {
-  let url = { url: `/api/dapps/${appid}/balances/${address}` }
+api.dappMyBalance = ({
+  appid,
+  address
+}) => {
+  let url = {
+    url: `/api/dapps/${appid}/balances/${address}`
+  }
   return fetch(url, {}, 'get')
 }
 
@@ -310,4 +331,7 @@ api2.chainsInstalled = params => {
   return fetch(urls.v2.chainsInstalled, params, 'get')
 }
 
-export { api, api2 }
+export {
+  api,
+  api2
+}
