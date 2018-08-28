@@ -3,9 +3,9 @@ var replace = require('gulp-string-replace')
 // development
 // const dev = 'develop'
 const serverUrls = {
-  'develop': 'http//:localhost:4096',
+  'develop': 'http://localhost:4096',
   'production': 'http://mainnet.asch.cn',
-  'test': 'http://testnet.asch.io/'
+  'test': 'http://testnet.asch.io'
 }
 const magicStr = {
   'develop': '594fe0f3',

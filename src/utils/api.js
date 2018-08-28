@@ -33,9 +33,7 @@ const fetch = (url, data, method, postHeaders) => {
   // TODO find server
   let selectedServerUrl = getCurrentSeverUrl()
   // let realUrl = urls.server.caos + url
-  let realUrl = !selectedServerUrl ?
-    urls.serverUrl + url :
-    selectedServerUrl + url
+  let realUrl = !selectedServerUrl ? urls.serverUrl + url : selectedServerUrl + url
   let type = method.toLowerCase()
   let res = {}
   if (type === 'get') {
