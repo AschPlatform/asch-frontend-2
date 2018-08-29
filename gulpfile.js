@@ -10,7 +10,7 @@ const serverUrls = {
 const magicStr = {
   'develop': '594fe0f3',
   'production': '5f5b3cf5',
-  'test': '5f5b3cf5'
+  'test': '594fe0f3'
 }
 
 const runTask = (type) => {
