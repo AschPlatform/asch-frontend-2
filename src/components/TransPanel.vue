@@ -27,7 +27,7 @@
       <q-field class="col-12" :label="$t('AMOUNTS')+':'" :label-width="3" :error-label="$t('ERR_AMOUNT_INVALID')">
         <q-input class="font-12"  @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error"  />
       </q-field>
-      <q-field v-if="secondSignature" class="col-12"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
+      <q-field v-if="secondSignature" class="col-12"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
         <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
       </q-field>
       <q-field class="col-12" :label="$t('FEES')+':'" :label-width="3">

@@ -87,9 +87,9 @@
       </div>
 
       <!-- below are modals -->
-      <q-modal minimized   v-model="modalInfoShow" content-css="padding: 20px">
+      <q-modal  v-model="modalInfoShow" content-css="padding: 20px;">
       <big>{{$t('DAPP_DETAIL')}}</big>
-      <table class="q-table horizontal-separator highlight loose blocks-datail-table">
+      <table class="q-table responsive flipped horizontal-separator highlight loose blocks-datail-table">
         <tbody v-if="type==1" class='info-tbody'>
           <tr v-clipboard="row.id || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{'ID'}}</td>
@@ -107,13 +107,13 @@
             <td >{{'HEIGHT'}}</td>
             <td >{{row.height}}</td>
           </tr>
-          <tr @click="()=>{modalInfoShow = false;showBlockInfo(row.previousBlock)}">
+          <tr @click="()=>{modalInfoShow = false;showBlockInfo(row.prevBlockId)}">
             <td >{{$t('PREVIOUS_BLOCK')}}</td>
-            <td class="text-secondary">{{row.previousBlock}}</td>
+            <td class="text-secondary">{{row.prevBlockId}}</td>
           </tr>
           <tr>
             <td >{{$t('TRANSACTIONS_COUNT')}}</td>
-            <td >{{row.numberOfTransactions}}</td>
+            <td >{{row.count}}</td>
           </tr>
           <!-- <tr>
             <td >{{$t('TOTAL_AMOUNTS')}}</td>
@@ -133,7 +133,7 @@
           </tr> -->
           <tr >
             <td >{{$t('PRODUCER_PUBKEY')}}</td>
-            <td >{{row.generatorPublicKey}}</td>
+            <td >{{row.delegate}}</td>
           </tr>
           
         </tbody>
@@ -365,8 +365,8 @@ export default {
       return fullTimestamp(timestamp)
     },
     async showBlockInfo(id) {
-      let res = await this.blockDetail({
-        id
+      let res = await this.getBlockDetail({
+        filter: id
       })
       if (res.success === true) {
         this.row = res.block

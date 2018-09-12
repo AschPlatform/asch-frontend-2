@@ -876,9 +876,9 @@
     "@webassemblyjs/wast-parser" "1.4.3"
     long "^3.2.0"
 
-JSONStream@^1.3.1:
-  version "1.3.3"
-  resolved "http://registry.npm.taobao.org/JSONStream/download/JSONStream-1.3.3.tgz#27b4b8fbbfeab4e71bcf551e7f27be8d952239bf"
+JSONStream@=1.3.1:
+  version "1.3.1"
+  resolved "http://registry.npm.taobao.org/JSONStream/download/JSONStream-1.3.1.tgz#707f761e01dae9e16f1bcf93703b78c70966579a"
   dependencies:
     jsonparse "^1.2.0"
     through ">=2.2.7 <3"
@@ -1122,18 +1122,18 @@ asar@^0.13.0:
     mksnapshot "^0.3.0"
     tmp "0.0.28"
 
-asch-js@^1.3.10:
-  version "1.3.10"
-  resolved "http://registry.npm.taobao.org/asch-js/download/asch-js-1.3.10.tgz#84792cbdb28a2b6f0c0739226d0e080657df4a39"
+asch-js@^1.4.2:
+  version "1.4.2"
+  resolved "http://registry.npm.taobao.org/asch-js/download/asch-js-1.4.2.tgz#5dc4aa15754e661038023c9b1fddb7ef9e4007cf"
   dependencies:
-    JSONStream "^1.3.1"
-    browserify-bignum "^1.3.0-2"
-    buffer "^4.7.0"
-    bytebuffer "^5.0.1"
-    fast-sha256 "^1.0.0"
-    ripemd160 "^2.0.1"
-    through2 "^2.0.3"
-    tweetnacl "^1.0.0"
+    JSONStream "=1.3.1"
+    browserify-bignum "=1.3.0-2"
+    buffer "=4.7.0"
+    bytebuffer "=5.0.1"
+    fast-sha256 "=1.0.0"
+    ripemd160 "=2.0.1"
+    through2 "=2.0.3"
+    tweetnacl "=1.0.0"
 
 asn1.js@^4.0.0:
   version "4.10.1"
@@ -1990,7 +1990,7 @@ browserify-aes@^1.0.0, browserify-aes@^1.0.4:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-browserify-bignum@^1.3.0-2:
+browserify-bignum@=1.3.0-2:
   version "1.3.0-2"
   resolved "http://registry.npm.taobao.org/browserify-bignum/download/browserify-bignum-1.3.0-2.tgz#ddc3b6ed607fd6c960966950e2b35a2b0c6fb9bf"
 
@@ -2062,7 +2062,15 @@ buffer-xor@^1.0.3:
   version "1.0.3"
   resolved "http://registry.npm.taobao.org/buffer-xor/download/buffer-xor-1.0.3.tgz#26e61ed1422fb70dd42e6e36729ed51d855fe8d9"
 
-buffer@^4.3.0, buffer@^4.7.0:
+buffer@=4.7.0:
+  version "4.7.0"
+  resolved "http://registry.npm.taobao.org/buffer/download/buffer-4.7.0.tgz#f32ca787cbaac88a62b230f7040ee431655c71f3"
+  dependencies:
+    base64-js "^1.0.2"
+    ieee754 "^1.1.4"
+    isarray "^1.0.0"
+
+buffer@^4.3.0:
   version "4.9.1"
   resolved "http://registry.npm.taobao.org/buffer/download/buffer-4.9.1.tgz#6d1bb601b07a4efced97094132093027c95bc298"
   dependencies:
@@ -2082,7 +2090,7 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "http://registry.npm.taobao.org/builtin-status-codes/download/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
 
-bytebuffer@^5.0.1:
+bytebuffer@=5.0.1:
   version "5.0.1"
   resolved "http://registry.npm.taobao.org/bytebuffer/download/bytebuffer-5.0.1.tgz#582eea4b1a873b6d020a48d58df85f0bba6cfddd"
   dependencies:
@@ -3682,9 +3690,9 @@ fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "http://registry.npm.taobao.org/fast-levenshtein/download/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
 
-fast-sha256@^1.0.0:
-  version "1.1.0"
-  resolved "http://registry.npm.taobao.org/fast-sha256/download/fast-sha256-1.1.0.tgz#b640189403c7ff0d796d1251a1c1f6954c40e7b4"
+fast-sha256@=1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/fast-sha256/download/fast-sha256-1.0.0.tgz#217edc0ffc36c117a37c55b87e5381d99b44d1dd"
 
 fastclick@1.0.6:
   version "1.0.6"
@@ -4370,6 +4378,12 @@ has@^1.0.1:
   resolved "http://registry.npm.taobao.org/has/download/has-1.0.3.tgz#722d7cbfc1f6aa8241f16dd814e011e1f41e8796"
   dependencies:
     function-bind "^1.1.1"
+
+hash-base@^2.0.0:
+  version "2.0.2"
+  resolved "http://registry.npm.taobao.org/hash-base/download/hash-base-2.0.2.tgz#66ea1d856db4e8a5470cadf6fce23ae5244ef2e1"
+  dependencies:
+    inherits "^2.0.1"
 
 hash-base@^3.0.0:
   version "3.0.4"
@@ -7383,6 +7397,13 @@ rimraf@^2.2.8, rimraf@^2.5.2, rimraf@^2.5.4, rimraf@^2.6.1, rimraf@^2.6.2:
   dependencies:
     glob "^7.0.5"
 
+ripemd160@=2.0.1:
+  version "2.0.1"
+  resolved "http://registry.npm.taobao.org/ripemd160/download/ripemd160-2.0.1.tgz#0f4584295c53a3628af7e6d79aca21ce57d1c6e7"
+  dependencies:
+    hash-base "^2.0.0"
+    inherits "^2.0.1"
+
 ripemd160@^2.0.0, ripemd160@^2.0.1:
   version "2.0.2"
   resolved "http://registry.npm.taobao.org/ripemd160/download/ripemd160-2.0.2.tgz#a1c1a6f624751577ba5d07914cbc92850585890c"
@@ -8015,19 +8036,19 @@ throttleit@0.0.2:
   version "0.0.2"
   resolved "http://registry.npm.taobao.org/throttleit/download/throttleit-0.0.2.tgz#cfedf88e60c00dd9697b61fdd2a8343a9b680eaf"
 
+through2@=2.0.3, through2@^2.0.0, through2@^2.0.3:
+  version "2.0.3"
+  resolved "http://registry.npm.taobao.org/through2/download/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
+  dependencies:
+    readable-stream "^2.1.5"
+    xtend "~4.0.1"
+
 through2@^0.6.1:
   version "0.6.5"
   resolved "http://registry.npm.taobao.org/through2/download/through2-0.6.5.tgz#41ab9c67b29d57209071410e1d7a7a968cd3ad48"
   dependencies:
     readable-stream ">=1.0.33-1 <1.1.0-0"
     xtend ">=4.0.0 <4.1.0-0"
-
-through2@^2.0.0, through2@^2.0.3:
-  version "2.0.3"
-  resolved "http://registry.npm.taobao.org/through2/download/through2-2.0.3.tgz#0004569b37c7c74ba39c43f3ced78d1ad94140be"
-  dependencies:
-    readable-stream "^2.1.5"
-    xtend "~4.0.1"
 
 through2@~0.2.3:
   version "0.2.3"
@@ -8168,13 +8189,13 @@ tunnel-agent@^0.6.0:
   dependencies:
     safe-buffer "^5.0.1"
 
+tweetnacl@=1.0.0:
+  version "1.0.0"
+  resolved "http://registry.npm.taobao.org/tweetnacl/download/tweetnacl-1.0.0.tgz#713d8b818da42068740bf68386d0479e66fc8a7b"
+
 tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   version "0.14.5"
   resolved "http://registry.npm.taobao.org/tweetnacl/download/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
-
-tweetnacl@^1.0.0:
-  version "1.0.0"
-  resolved "http://registry.npm.taobao.org/tweetnacl/download/tweetnacl-1.0.0.tgz#713d8b818da42068740bf68386d0479e66fc8a7b"
 
 type-check@~0.3.2:
   version "0.3.2"
