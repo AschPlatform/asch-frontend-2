@@ -66,7 +66,7 @@ const officialPeers = [
   //   local: 'CN2'
   // }
   {
-    ip: 'https://node1.asch.cn',
+    ip: 'http://node1.asch.cn',
     port: 80,
     local: 'Node 1'
   },
