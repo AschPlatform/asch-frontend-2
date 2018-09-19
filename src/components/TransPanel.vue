@@ -104,6 +104,7 @@ export default {
     ...mapActions(['broadcastTransaction', 'getBalances']),
     ...mapMutations(['setBalances']),
     async send() {
+      debugger
       this.$v.form.$touch()
       let invlaidPwd = false
       let { amount, receiver, remark } = this.form
@@ -112,7 +113,12 @@ export default {
         this.$v.secondPwd.$touch()
         invlaidPwd = this.$v.secondPwd.$error
       }
-      if (invlaidPwd || this.$v.form.$error) {
+      if (invlaidPwd) {
+        toastWarn(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
+        return false
+      }
+      if (this.$v.form.$error) {
+        toastWarn(this.$t('ERR_INVALID_FORM'))
         return false
       }
       if (receiver === this.user.account.address) {

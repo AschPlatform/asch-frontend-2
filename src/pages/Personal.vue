@@ -203,7 +203,7 @@
 <script>
 import VueQr from 'vue-qr'
 import { required, sameAs } from 'vuelidate/lib/validators'
-import { secondPwd, secondPwdReg, nicknameReg } from '../utils/validators'
+import { setSecondPwd, secondPwdReg, nicknameReg } from '../utils/validators'
 import { toastWarn, toast, toastError, prompt, translateErrMsg } from '../utils/util'
 import asch, { convertFee, fullTimestamp } from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
@@ -272,7 +272,7 @@ export default {
   validations: {
     password: {
       required,
-      secondPwd: secondPwd()
+      secondPwd: setSecondPwd()
     },
     confirmPassword: {
       required,

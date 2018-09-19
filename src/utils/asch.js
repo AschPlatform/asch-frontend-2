@@ -140,6 +140,7 @@ const convertTransFee = trans => {
 const asch = {
   // 转账 XAS  TODO
   transferXAS: (amount, recipientId, message, secret, secondPwd = '') => {
+    console.log(AschJS)
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 1,

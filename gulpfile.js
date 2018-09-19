@@ -3,7 +3,7 @@ var replace = require('gulp-string-replace')
 // development
 // const dev = 'develop'
 const serverUrls = {
-  'develop': 'http://localhost:4096',
+  'develop': 'http://192.168.1.78:17800',
   'production': 'http://mainnet.asch.cn',
   'test': 'http://testnet.asch.io'
 }
