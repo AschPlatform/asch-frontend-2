@@ -3,14 +3,14 @@ var replace = require('gulp-string-replace')
 // development
 // const dev = 'develop'
 const serverUrls = {
-  'develop': 'http://192.168.1.78:17800',
-  'production': 'http://mainnet.asch.cn',
-  'test': 'http://testnet.asch.io'
+  'localnet': 'http://localhost:4096',
+  'mainnet': 'http://mainnet.asch.cn',
+  'testnet': 'http://testnet.asch.io'
 }
 const magicStr = {
-  'develop': '594fe0f3',
-  'production': '5f5b3cf5',
-  'test': '594fe0f3'
+  'localnet': '594fe0f3',
+  'mainnet': '5f5b3cf5',
+  'testnet': '594fe0f3'
 }
 
 const runTask = (type) => {
@@ -19,17 +19,17 @@ const runTask = (type) => {
     .pipe(replace(new RegExp('magic.*', 'g'), "magic: '" + magicStr[type] + "',")).pipe(gulp.dest('./src/utils'))
 }
 
-gulp.task('dev', () => {
-  console.log('dev..')
-  runTask('develop')
+gulp.task('localnet', () => {
+  console.log('localnet..')
+  runTask('localnet')
 })
-gulp.task('pro', () => {
-  console.log('pro..')
-  runTask('production')
+gulp.task('mainnet', () => {
+  console.log('mainnet..')
+  runTask('mainnet')
 })
-gulp.task('test', () => {
-  console.log('test..')
-  runTask('test')
+gulp.task('testnet', () => {
+  console.log('testnet..')
+  runTask('testnet')
 })
 
-gulp.task('default', ['dev'])
+gulp.task('default', ['localnet'])
