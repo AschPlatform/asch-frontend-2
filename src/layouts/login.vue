@@ -253,7 +253,7 @@ export default {
     let clentLang = navigator.language ? navigator.language.split('-')[0].toLowerCase() : ''
     let cacheLang = getCache('locale')
 
-    this.lang = this.lang === cacheLang ? cacheLang : clentLang !== 'zh' ? 'en' : 'zh'
+    this.lang = cacheLang ? (clentLang !== 'zh' ? 'en' : 'zh') : 'zh'
     import(`src/i18n/${this.lang}`).then(lang => {
       this.$q.i18n.set(lang.default)
     })

@@ -32,9 +32,9 @@
           </q-td>
           
           <q-td slot="body-cell-generatorId"  slot-scope="props" :props="props">
-            <div class="text-secondary" @click="()=>showAccountInfo(props.row.generatorId)" >
+            <div class="text-secondary" @click="()=>showAccountInfo(getAddr(props.row.delegate))" >
 
-              {{props.value}}
+              {{getAddr(props.value)}}
             </div>
           </q-td>
           <q-td slot="body-cell-numberOfTransactions"  slot-scope="props" :props="props">
@@ -190,7 +190,7 @@ import {
   QTd
 } from 'quasar'
 import { toast, toastWarn, translateErrMsg, prompt } from '../utils/util'
-import asch, { fullTimestamp } from '../utils/asch'
+import asch, { fullTimestamp, getAddr } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
 import UserAgreementModal from '../components/UserAgreementModal'
@@ -288,6 +288,7 @@ export default {
       'getTransactions',
       'broadcastTransaction'
     ]),
+    getAddr,
     async refresh() {
       await this.getBlocks(this.defaultPage, '')
     },
