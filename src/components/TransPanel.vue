@@ -104,7 +104,6 @@ export default {
     ...mapActions(['broadcastTransaction', 'getBalances']),
     ...mapMutations(['setBalances']),
     async send() {
-      debugger
       this.$v.form.$touch()
       let invlaidPwd = false
       let { amount, receiver, remark } = this.form
