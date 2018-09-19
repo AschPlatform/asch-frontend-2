@@ -145,10 +145,11 @@
             <td>{{$t('FEES')}}</td>
             <td>{{$t('DATE')}}</td>
           </tr>
+          <!-- TODO -->
           <tr v-for="trans in row" :key="trans.id">
             <td >{{trans.id}}</td>
             <!-- <td >{{trans.confirmations }}</td> -->
-            <td >{{trans.amount | fee}}</td>
+            <td >{{getProps(trans)}}</td>
             <td >{{trans.fee | fee }}</td>
             <td >{{trans.timestamp | time}}</td>
           </tr>
@@ -281,6 +282,7 @@ export default {
     ...mapActions([
       'blocks',
       'getBlockDetail',
+      'blockDetail',
       'blockforging',
       'forgingStatus',
       'getTransactions',
@@ -443,6 +445,19 @@ export default {
     searchData(val) {
       this.filter = val
       this.getBlockDetail()
+    },
+    getProps(trans) {
+      // get rec address
+      // const filterTransType = [1, 103]
+      const { type, args } = trans
+      const len = args.length
+      let value = 0
+      if (type === 1) {
+        value = args[len - 2]
+      } else if (type === 103) {
+        value = args[len - 2]
+      }
+      return value
     }
   },
   mounted() {
