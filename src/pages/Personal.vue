@@ -37,7 +37,7 @@
             </span>
           </div>
           <table class="personal-table q-mt-md q-table bordered highlight responsive row">
-            <tbody class='row info-tbody col-md-6 col-sm-12'>
+            <tbody class='row info-tbody col-md-5 col-sm-12'>
                 <tr class="row col-12">
                 <td class="col-md-4 col-xs-6 bottom-left-link text-three font-16">
                   <i class="material-icons font-16 personal-icon">lock outline</i> {{$t('SECOND_PASSWORD')}}
@@ -84,7 +84,8 @@
                 </td>
               </tr>
             </tbody>
-            <tbody class="row info-tbody col-md-6 col-sm-12 border-split">
+            <span class="border-split col-md-1"></span>
+            <tbody class="row info-tbody col-md-5 col-sm-12">
                <tr class="row col-12">
                 <td class="col-md-4 col-xs-6 bottom-left-link text-three font-16">
                   <i class="material-icons font-16 personal-icon">lock outline</i> {{$t('PERSONAL_PUBLIC_KEY')}}
@@ -148,14 +149,22 @@
     </q-dialog>
 
     <q-dialog :class="personalLockClass" v-model="publicKeyShow">
-      <div slot="body">
-        {{$t('PUBLIC_KEY_MODAL_TIP')}}
-        <br>
-        {{user.publicKey}}
-        <div class="modal-buttons row width-100">
-          <div class="width-100 justify-center row">
-            <q-btn color="secondary" v-clipboard="user.publicKey" rounded icon="content copy" class="q-px-sm row">
-            </q-btn>
+      <div slot="body" class="width-500">
+        <div class="col-12 text-center modal-title no-scroll">
+          {{$t('PERSONAL_PUBLIC_KEY')}}
+          <span class="transfer-title-line"></span>
+        </div>
+        <div class="q-mt-md">
+          {{$t('PUBLIC_KEY_MODAL_TIP')}}
+          <br>
+          <div class="q-my-md word-wrap">
+            {{user.publicKey}}
+          </div>
+          <div class="row width-100 q-ma-none q-pa-none">
+            <div class="width-100 justify-center row">
+              <q-btn color="secondary" v-clipboard="user.publicKey" rounded icon="content copy" class="q-px-sm row">
+              </q-btn>
+            </div>
           </div>
         </div>
       </div>
@@ -429,7 +438,7 @@ export default {
       this.$root.$emit('showQRCodeModal', this.address)
     },
     showSecretQr() {
-      this.$root.$emit('showQRCodeModal', this.user.secret)
+      this.$root.$emit('showQRCodeModal', this.user.secret, this.$t('QR_SECRET'))
     },
     async setNickname(done) {
       this.$v.nickname.$touch()
@@ -857,5 +866,18 @@ export default {
 }
 .border-split{
   border-left solid #ddd 2px;
+}
+.word-wrap {
+  word-break: break-all;
+}
+.width-500 {
+  max-width: 500px;
+}
+.transfer-title-line {
+  display: block;
+  width: calc(100% - 40px);
+  height: 1px;
+  background: #dddddd;
+  margin-left: 10px;
 }
 </style>
