@@ -710,6 +710,10 @@ const lang = {
   ASCH: '阿希客户端',
   NO_ARGS: '无参数',
   ISSUE_SUCCESS: '注册发行商成功',
+  PERSONAL_PUBLIC_KEY: '账户公钥',
+  CHECK_NOW: '立即查看',
+  QR_SECRET: '主密钥二维码',
+  PUBLIC_KEY_MODAL_TIP: '您的账户公钥是: ',
 
   // ==============  quasar i18n  =================
 

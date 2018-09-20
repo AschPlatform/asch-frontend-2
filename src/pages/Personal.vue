@@ -36,10 +36,10 @@
               {{$t('MESSAGE_DETAILS')}}
             </span>
           </div>
-          <table class="personal-table q-mt-md q-table bordered highlight responsive ">
-            <tbody class='row info-tbody'>
+          <table class="personal-table q-mt-md q-table bordered highlight responsive row">
+            <tbody class='row info-tbody col-md-5 col-sm-12'>
                 <tr class="row col-12">
-                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-16">
+                <td class="col-md-4 col-xs-6 bottom-left-link text-three font-16">
                   <i class="material-icons font-16 personal-icon">lock outline</i> {{$t('SECOND_PASSWORD')}}
                 </td>
                 <td :class="personalRightClass">
@@ -52,7 +52,7 @@
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-3 col-xs-4 bottom-left-link text-three font-16 padding-0">
+                <td class="col-md-4 col-xs-4 bottom-left-link text-three font-16 padding-0">
                   <i class="material-icons font-16 personal-icon">settings</i>
                   <span class="margin-l4">{{$t('LOCK_POSITION_CONF')}}</span>
                 </td>
@@ -71,7 +71,7 @@
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-16">
+                <td class="col-md-4 col-xs-6 bottom-left-link text-three font-16">
                   <i class="material-icons font-16 personal-icon">account_circle</i> {{$t('AGENT_INFO')}}
                 </td>
                 <td :class="personalRightClass">
@@ -83,8 +83,31 @@
                   </a>
                 </td>
               </tr>
+            </tbody>
+            <span class="border-split col-md-1"></span>
+            <tbody class="row info-tbody col-md-5 col-sm-12">
+               <tr class="row col-12">
+                <td class="col-md-4 col-xs-6 bottom-left-link text-three font-16">
+                  <i class="material-icons font-16 personal-icon">lock outline</i> {{$t('PERSONAL_PUBLIC_KEY')}}
+                </td>
+                <td :class="personalRightClass">
+                  <a class="text-secondary font-16" @click="publicKeyShow=true">
+                    {{$t('CHECK_NOW')}}
+                  </a>
+                </td>
+              </tr>
+               <tr class="row col-12">
+                <td class="col-md-4 col-xs-6 bottom-left-link text-three font-16">
+                  <i class="material-icons font-16 personal-icon">lock outline</i> {{$t('QR_SECRET')}}
+                </td>
+                <td :class="personalRightClass">
+                  <a class="text-secondary font-16" @click="showSecretQr()">
+                    {{$t('CHECK_NOW')}}
+                  </a>
+                </td>
+              </tr>
               <tr class="row col-12">
-                <td class="col-md-3 col-xs-5 bottom-left-link text-three font-16">
+                <td class="col-md-4 col-xs-5 bottom-left-link text-three font-16">
                   <i class="material-icons font-16 personal-icon">person</i> {{$t('GATEWAY_CANDIDATE')}}
                 </td>
                 <td :class="personalRightThreeClass">
@@ -123,6 +146,34 @@
             {{$t('CONFIRM')}}
           </q-btn>
 </template>
+    </q-dialog>
+
+    <q-dialog :class="personalLockClass" v-model="publicKeyShow">
+      <div slot="body" class="width-500">
+        <div class="col-12 text-center modal-title no-scroll">
+          {{$t('PERSONAL_PUBLIC_KEY')}}
+          <span class="transfer-title-line"></span>
+        </div>
+        <div class="q-mt-md">
+          {{$t('PUBLIC_KEY_MODAL_TIP')}}
+          <br>
+          <div class="q-my-md word-wrap">
+            {{user.publicKey}}
+          </div>
+          <div class="row width-100 q-ma-none q-pa-none">
+            <div class="width-100 justify-center row">
+              <q-btn color="secondary" v-clipboard="user.publicKey" rounded icon="content copy" class="q-px-sm row">
+              </q-btn>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="buttons" slot-scope="props">
+        <div class="width-100 justify-center row">
+          <q-btn color="secondary" :label="$t('label.close')" @click="publicKeyClose" />
+        </div>
+      </template>
+      </div>
     </q-dialog>
 
     <q-dialog :class="personalLockClass" v-model="nicknameFormShow" >
@@ -244,6 +295,7 @@ export default {
   data() {
     return {
       dialogShow: false,
+      publicKeyShow: false,
       qrValue: '',
       type: 0,
       password: '',
@@ -319,15 +371,15 @@ export default {
         }
       }
     },
-    showQrcode(type) {
-      this.type = type
-      if (type === 'secret') {
-        this.qrValue = this.user.secret
-      } else {
-        this.qrValue = this.user.account.address
-      }
-      this.dialogShow = true
-    },
+    // showQrcode(type) {
+    //   this.type = type
+    //   if (type === 'secret') {
+    //     this.qrValue = this.user.secret
+    //   } else {
+    //     this.qrValue = this.user.account.address
+    //   }
+    //   this.dialogShow = true
+    // },
     validateSecondPwd(val) {
       let isValid = this.pwdValid
       this.secondPwdError = isValid
@@ -384,6 +436,9 @@ export default {
     },
     showAddrQr() {
       this.$root.$emit('showQRCodeModal', this.address)
+    },
+    showSecretQr() {
+      this.$root.$emit('showQRCodeModal', this.user.secret, this.$t('QR_SECRET'))
     },
     async setNickname(done) {
       this.$v.nickname.$touch()
@@ -535,6 +590,9 @@ export default {
         this.userAgreementShow = true
       }
     },
+    publicKeyClose() {
+      this.publicKeyShow = false
+    },
     lowerName(val) {}
   },
   async mounted() {
@@ -561,13 +619,13 @@ export default {
         : 'personal-bottom-title margin-left-10'
     },
     personalRightClass() {
-      return this.isDesk ? 'col-md-9 col-xs-6' : 'col-md-9 col-xs-6 text-right'
+      return this.isDesk ? 'col-md-8 col-xs-6' : 'col-md-8 col-xs-6 text-right'
     },
     personalRightTwoClass() {
-      return this.isDesk ? 'col-md-9 col-xs-8' : 'col-md-9 col-xs-8 text-right'
+      return this.isDesk ? 'col-md-8 col-xs-8' : 'col-md-8 col-xs-8 text-right'
     },
     personalRightThreeClass() {
-      return this.isDesk ? 'col-md-9 col-xs-7' : 'col-md-9 col-xs-7 text-right'
+      return this.isDesk ? 'col-md-8 col-xs-7' : 'col-md-8 col-xs-7 text-right'
     },
     personalFontClass() {
       return this.isDesk ? 'font-16' : 'font-12'
@@ -805,5 +863,21 @@ export default {
 }
 .margin-l4{
   margin-left 4px;
+}
+.border-split{
+  border-left solid #ddd 2px;
+}
+.word-wrap {
+  word-break: break-all;
+}
+.width-500 {
+  max-width: 500px;
+}
+.transfer-title-line {
+  display: block;
+  width: calc(100% - 40px);
+  height: 1px;
+  background: #dddddd;
+  margin-left: 10px;
 }
 </style>
