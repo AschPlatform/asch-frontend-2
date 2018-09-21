@@ -536,7 +536,10 @@ const lang = {
     EXPIRED: '已过期',
     ACTIVE: '激活',
     ACTIVE_SUCCESS: '激活成功',
-    VOTE_SUCCESS: '投票成功'
+    VOTE_SUCCESS: '投票成功',
+    SELECT_NEWBANCOR: '新增bancor交易对',
+    NETGATEWAY_FREEZE: '冻结网关',
+    NETGATEWAY_CLEAR: '网关清算'
   },
   LAUNCH_MODAL: {
     MEMBER_SUGGEST_PRE: '我提议',
@@ -577,7 +580,15 @@ const lang = {
     LAUNCH_SUCCESS: '发起提案成功',
     PROPOSE: '提议',
     VOTE_LIST: '投票成员名单',
-    PROPOSE_END: '成为网关成员'
+    PROPOSE_END: '成为网关成员',
+    BANCOR_ADD: '我提议新增',
+    BANCOR_ADD2: '的交易对',
+    AND: '和',
+    GATEWAY_FREEZE_TIP: '我提议冻结',
+    GATEWAY_FREEZE_BRIEF: '原因描述',
+    GATEWAY_CLEAR_TIP: '我建议清算',
+    GATEWAY_CLEAR_TIP1: '等人存在作恶的情况，提议冻结几位成员的储备金，给受损失的用户进行理赔。',
+    GATEWAY_CLEAR_INVEST: '调查说明'
   },
   DETAIL_MODAL: {
     MEMBER_CHIPS_PRE: '投票成员名单',
@@ -601,7 +612,8 @@ const lang = {
     MEMBER_TIP_PRE: '变更前成员:',
     MEMBER_TIP_POST: '变更后成员:',
     INSTEAD_TITLE_PRE: '我提议撤销如下理事会成员',
-    INSTEAD_TITLE_POST: '增加如下受托人成为新的理事会成员'
+    INSTEAD_TITLE_POST: '增加如下受托人成为新的理事会成员',
+    BANCOR_TIP: '我提议新增 {content} 的交易对。'
   },
   COUNCIL_PAGE: {
     MODAL_TITLE: '成员(共{number}人)',
