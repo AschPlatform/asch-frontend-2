@@ -726,6 +726,12 @@ const lang = {
   CHECK_NOW: '立即查看',
   QR_SECRET: '主密钥二维码',
   PUBLIC_KEY_MODAL_TIP: '您的账户公钥是: ',
+  SMART_CONTRACT: '智能合约',
+  SMART_CONTRACT_LIST: '合约列表',
+  SMART_CONTRACT_MINE: '我发布的合约',
+  SMART_CONTRACT_NAME: '合约名字',
+  SMART_CONTRACT_OWNER: '所有者',
+  SMART_CONTRACT_NEW: '提交新合约',
 
   // ==============  quasar i18n  =================
 

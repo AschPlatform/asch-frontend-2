@@ -53,6 +53,11 @@ export default [
         component: load('Blocks')
       },
       {
+        path: 'contract',
+        name: 'contract',
+        component: load('Contract')
+      },
+      {
         path: 'vote',
         name: 'vote',
         component: load('Vote'),
