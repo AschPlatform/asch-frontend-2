@@ -58,6 +58,16 @@ export default [
         component: load('Contract')
       },
       {
+        path: 'postContract',
+        name: 'postContract',
+        component: load('PostContract')
+      },
+      {
+        path: 'contractDetail',
+        name: 'contractDetail',
+        component: load('ContractDetail')
+      },
+      {
         path: 'vote',
         name: 'vote',
         component: load('Vote'),

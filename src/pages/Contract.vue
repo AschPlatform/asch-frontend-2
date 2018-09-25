@@ -9,7 +9,7 @@
           <button :class="this.type === 0 ? styleSelected : styleUnselected" @click="changeType(0)">
             {{$t('SMART_CONTRACT_MINE')}}
           </button>
-          <q-btn class="font-18 mobile-hide float-right pos" rounded size="xs" color="secondary" :label="$t('SMART_CONTRACT_NEW')" @click="callModal"></q-btn>
+          <q-btn class="font-18 mobile-hide float-right pos" rounded size="xs" color="secondary" :label="$t('SMART_CONTRACT_NEW')"></q-btn>
         </div>
 
         <q-table class="no-shadow margin-t-20" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
