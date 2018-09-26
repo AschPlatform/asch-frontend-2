@@ -1,50 +1,5 @@
 <template>
-  <q-page class="proposal-container">
-    <div class="geteway-top">
-      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
-      <span class="font-20 text-black vertical-align-middle">{{$t('PROPOSAL')}}</span>
-    </div>
-    <div class="proposal-content bg-white shadow-2 border-r-6">
-      <q-btn-group class="desktop-hide float-right margin-bottom-10">
-        <q-btn class="font-14 new-launch" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
-      </q-btn-group>
-      <q-btn-group outline>
-        <q-btn :class="proposalBtnClass" flat color="secondary" :label="$t('proposal.TITLE_ALL')" @click="changeState('all')" />
-        <q-btn :class="proposalBtnClass" flat :label="$t('proposal.TITLE_PROCESS')" @click="changeState('ongoing')" />
-        <q-btn :class="proposalBtnClass" flat :label="$t('proposal.TITLE_ACTIVED')" @click="changeState('activated')" />
-        <q-btn :class="proposalBtnClass" flat :label="$t('proposal.TITLE_EXPIRED')" @click="changeState('expired')" />
-      </q-btn-group>
-      <q-btn-group class="mobile-hide float-right">
-        <q-btn class="font-18" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
-      </q-btn-group>
   
-      <q-table class="no-shadow margin-t-20" :data="proposalDetail" :columns="columns" row-key="no" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
-        <q-td slot="body-cell-desc" slot-scope="props" :props="props">
-          {{props.value.substring(0,20) + '...'}}
-          <q-popover v-if="props.value" ref="popover-msg">
-            <div class="light-paragraph">{{props.value}}</div>
-          </q-popover>
-        </q-td>
-        <q-td slot="body-cell-tid" slot-scope="props" :props="props">
-          {{props.value.substring(0, 7)}}
-          <q-popover v-if="props.value" ref="popover-msg">
-            <div class="light-paragraph">{{props.value}}</div>
-          </q-popover>
-        </q-td>
-        <q-td slot="body-cell-topic" slot-scope="props" :props="props">
-          {{transGate(props.value)}}
-        </q-td>
-        <q-td slot="body-cell-activated" slot-scope="props" :props="props">
-          <q-btn flat color="secondary" :label="($t('CHECK'))" @click="callShowModal(props.row.tid)">
-          </q-btn>
-        </q-td>
-        <q-td slot="body-cell-period" slot-scope="props" :props="props">
-          {{stt(props.row)}}
-        </q-td>
-      </q-table>
-    </div>
-  
-  </q-page>
 </template>
 
 <script>
@@ -89,27 +44,6 @@ export default {
           label: this.$t('proposal.TYPE'),
           align: 'center',
           field: 'topic'
-        },
-        {
-          name: 'period',
-          required: true,
-          label: this.$t('proposal.PERIOD'),
-          align: 'center',
-          field: 'content'
-        },
-        {
-          name: 'desc',
-          required: true,
-          label: this.$t('proposal.DETAIL'),
-          align: 'center',
-          field: 'desc'
-        },
-        {
-          name: 'activated',
-          required: true,
-          label: this.$t('proposal.STATUS'),
-          align: 'center',
-          field: 'activated'
         }
       ],
       // modal set

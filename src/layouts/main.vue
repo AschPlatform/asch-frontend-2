@@ -72,6 +72,10 @@
           <q-item-side icon="gavel" />
           <q-item-main :label="$t('PROPOSAL')" />
         </q-item>
+        <q-item class="list-item-container" item :to="getRouterConf('contract')">
+          <q-item-side icon="gavel" />
+          <q-item-main :label="$t('SMART_CONTRACT')" />
+        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('gateway')">
           <q-item-side icon="apps" />
           <q-item-main :label="$t('GATEWAY')" />
@@ -121,7 +125,7 @@
         </div>
       </q-modal>
   
-      <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText" />
+      <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText" :title="QRCodeTitle" />
       <trans-info-modal class="code-modal-container" :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false" />
     </q-page-container>
   
@@ -224,6 +228,7 @@ export default {
       address: '',
       QRCodeShow: false,
       QRCodeText: '',
+      QRCodeTitle: '',
       intervalNum: -1,
       trans: null,
       transInfoModalShow: false,
@@ -314,9 +319,10 @@ export default {
     changeFloatBtn() {
       this.showFloatBtns = !this.showFloatBtns
     },
-    showQRCodeModal(content) {
+    showQRCodeModal(content, title) {
       this.QRCodeShow = true
       this.QRCodeText = content
+      this.QRCodeTitle = title
     },
     async sendTrans(send) {
       let flag = await send()

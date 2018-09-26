@@ -536,7 +536,10 @@ const lang = {
     EXPIRED: '已过期',
     ACTIVE: '激活',
     ACTIVE_SUCCESS: '激活成功',
-    VOTE_SUCCESS: '投票成功'
+    VOTE_SUCCESS: '投票成功',
+    SELECT_NEWBANCOR: '新增bancor交易对',
+    NETGATEWAY_FREEZE: '冻结网关',
+    NETGATEWAY_CLEAR: '网关清算'
   },
   LAUNCH_MODAL: {
     MEMBER_SUGGEST_PRE: '我提议',
@@ -577,7 +580,15 @@ const lang = {
     LAUNCH_SUCCESS: '发起提案成功',
     PROPOSE: '提议',
     VOTE_LIST: '投票成员名单',
-    PROPOSE_END: '成为网关成员'
+    PROPOSE_END: '成为网关成员',
+    BANCOR_ADD: '我提议新增',
+    BANCOR_ADD2: '的交易对',
+    AND: '和',
+    GATEWAY_FREEZE_TIP: '我提议冻结',
+    GATEWAY_FREEZE_BRIEF: '原因描述',
+    GATEWAY_CLEAR_TIP: '我建议清算',
+    GATEWAY_CLEAR_TIP1: '等人存在作恶的情况，提议冻结几位成员的储备金，给受损失的用户进行理赔。',
+    GATEWAY_CLEAR_INVEST: '调查说明'
   },
   DETAIL_MODAL: {
     MEMBER_CHIPS_PRE: '投票成员名单',
@@ -601,7 +612,8 @@ const lang = {
     MEMBER_TIP_PRE: '变更前成员:',
     MEMBER_TIP_POST: '变更后成员:',
     INSTEAD_TITLE_PRE: '我提议撤销如下理事会成员',
-    INSTEAD_TITLE_POST: '增加如下受托人成为新的理事会成员'
+    INSTEAD_TITLE_POST: '增加如下受托人成为新的理事会成员',
+    BANCOR_TIP: '我提议新增 {content} 的交易对。'
   },
   COUNCIL_PAGE: {
     MODAL_TITLE: '成员(共{number}人)',
@@ -710,6 +722,20 @@ const lang = {
   ASCH: '阿希客户端',
   NO_ARGS: '无参数',
   ISSUE_SUCCESS: '注册发行商成功',
+  PERSONAL_PUBLIC_KEY: '账户公钥',
+  CHECK_NOW: '立即查看',
+  QR_SECRET: '主密钥二维码',
+  PUBLIC_KEY_MODAL_TIP: '您的账户公钥是: ',
+  SMART_CONTRACT: '智能合约',
+  SMART_CONTRACT_LIST: '合约列表',
+  SMART_CONTRACT_MINE: '我发布的合约',
+  SMART_CONTRACT_NAME: '合约名字',
+  SMART_CONTRACT_OWNER: '所有者',
+  SMART_CONTRACT_NEW: '提交新合约',
+  SMART_CONTRACT_POST: '发起新合约',
+  SMART_CONTRACT_CODE: '合约代码',
+  SMART_CONTRACT_COMMIT: '提交合约',
+  SMART_CONTRACT_DETAIL: '合约详情页',
 
   // ==============  quasar i18n  =================
 
