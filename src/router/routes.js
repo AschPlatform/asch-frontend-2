@@ -128,6 +128,26 @@ export default [
         path: 'issuer',
         name: 'issuer',
         component: load('Issuer')
+      },
+      {
+        path: 'bancor',
+        name: 'bancor',
+        component: load('Bancor')
+      },
+      {
+        path: 'contract',
+        name: 'contract',
+        component: load('Contract')
+      },
+      {
+        path: 'newContract',
+        name: 'newContract',
+        component: load('NewContract')
+      },
+      {
+        path: 'contractDetail/:tid',
+        name: 'contractDetail',
+        component: load('ContractDetail')
       }
     ]
   },
