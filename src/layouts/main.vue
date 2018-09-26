@@ -64,6 +64,10 @@
           <q-item-side icon="gavel" />
           <q-item-main :label="$t('PROPOSAL')" />
         </q-item>
+        <q-item class="list-item-container" item :to="getRouterConf('contract')">
+          <q-item-side icon="gavel" />
+          <q-item-main :label="$t('SMART_CONTRACT')" />
+        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('gateway')">
           <q-item-side icon="apps" />
           <q-item-main :label="$t('GATEWAY')" />
