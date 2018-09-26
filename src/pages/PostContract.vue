@@ -11,17 +11,17 @@
       <div class="col-12 inner-container">
         <div class="row col-12">
           <q-field class="block col-10 font-16" label-width="2" :label="$t('SMART_CONTRACT_NAME')">
-            <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+            <q-input class="border-1" hide-underline v-model="content.name" value="" />
           </q-field>
         </div>
         <div class="row col-12">
           <q-field class="block col-10 font-16" label-width="2" :label="$t('SMART_CONTRACT_CODE')">
-            <q-input class="border-1 textareaInner" type="textarea" readonly hide-underline v-model="content.desc" value=""></q-input>
+            <q-input class="border-1 textareaInner" type="textarea" hide-underline v-model="content.desc" value=""></q-input>
           </q-field>
         </div>
         <div class="row col-12">
           <q-field class="block col-10 font-16" label-width="2" label="GAS_LIMIT">
-            <q-input class="border-1" readonly hide-underline v-model="content.gas" value="" />
+            <q-input class="border-1" hide-underline v-model="content.gas" value="" />
           </q-field>
         </div>
         <q-btn big class="col-6 q-mt-md" :disable="btnDisable" color="secondary" :label="$t('SMART_CONTRACT_COMMIT')" />

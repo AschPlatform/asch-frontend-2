@@ -8,22 +8,27 @@
         </span>
       </div>
       <span class="transfer-title-line"></span>
-      <div class="col-12 inner-container">
-        <div class="row col-12">
-          <q-field class="block col-10 font-16" label-width="2" :label="$t('SMART_CONTRACT_NAME')">
-            <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+      <div class="row inner-container">
+        <div class="col-5">
+          <q-field class="block col-6 font-16" label-width="3" :label="$t('SMART_CONTRACT_NAME')">
+            <q-input class="" readonly hide-underline v-model="content.name" value="" />
+          </q-field>
+        </div>
+        <div class="col-5">
+          <q-field class="block col-6 font-16" label-width="3" :label="$t('SMART_CONTRACT_OWNER')">
+            <q-input class="" readonly hide-underline v-model="content.name" value="" />
           </q-field>
         </div>
         <div class="row col-12">
           <q-field class="block col-10 font-16" label-width="2" :label="$t('SMART_CONTRACT_CODE')">
-            <q-input class="border-1 textareaInner" type="textarea" readonly hide-underline v-model="content.desc" value=""></q-input>
+            <q-input class="textareaInner" type="textarea" readonly hide-underline v-model="content.desc" value=""></q-input>
           </q-field>
         </div>
-        <div class="row col-12">
+        <!-- <div class="row col-12">
           <q-field class="block col-10 font-16" label-width="2" label="GAS_LIMIT">
-            <q-input class="border-1" readonly hide-underline v-model="content.gas" value="" />
+            <q-input class="" readonly hide-underline v-model="content.gas" value="" />
           </q-field>
-        </div>
+        </div> -->
       </div>
     </div>
   </q-page>
