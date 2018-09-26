@@ -42,6 +42,11 @@ export default [
         name: 'personal',
         component: load('Personal')
       },
+      {
+        path: 'bancor',
+        name: 'bancor',
+        component: load('Bancor')
+      },
       // {
       //   path: 'forging',
       //   name: 'forging',
