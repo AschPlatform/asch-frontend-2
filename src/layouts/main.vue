@@ -60,6 +60,14 @@
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('TRANSFER')" />
         </q-item>
+        <q-item class="list-item-container" item :to="getRouterConf('bancor')">
+          <q-item-side icon="gavel" />
+          <q-item-main :label="$t('BANCOR')" />
+        </q-item>
+        <q-item class="list-item-container" item :to="getRouterConf('contract')">
+          <q-item-side icon="gavel" />
+          <q-item-main :label="$t('CONTRACT')" />
+        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('proposal')">
           <q-item-side icon="gavel" />
           <q-item-main :label="$t('PROPOSAL')" />

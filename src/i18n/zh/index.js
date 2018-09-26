@@ -853,7 +853,24 @@ const lang = {
   TRANS_ID: '交易ID',
   FREEZED: '已锁仓：',
   AVALABLE: '可用：',
-  ERR_TOAST_ALREADY_VOTED: '已经投票给该账号'
+  ERR_TOAST_ALREADY_VOTED: '已经投票给该账号',
+  // 1.5 add
+  BANCOR: '兑换',
+  CONTRACT: '合约',
+  CONTRACT_NAME: '合约名称',
+  OWNER: '创建者',
+  CONTRACT_LIST: '合约列表',
+  MY_CONTRACT: '我发布的合约',
+  SEARCH_BY_CONTRACT_NAME: '搜索合约名字',
+  SUBMIT_CONTRACT: '提交新合约',
+  NEW_CONTRACT: '发布合约',
+  CONTRACT_CODE: '合约代码',
+  CONTRACT_GAS: 'Gas limit',
+  CONTRACT_ERR_NAME: '名称应为 5 ~ 64 长度',
+  CONTRACT_ERR_DESC: '描述应为 5 ~ 256 长度',
+  CONTRACT_ERR_CODE: '代码长度不能超过 xx ',
+  CONTRACT_ERR_GAS: '请输入 gaslimit'
+
 }
 
 export default lang
