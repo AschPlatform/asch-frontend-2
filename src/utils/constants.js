@@ -83,16 +83,9 @@ const officialPeers = [
 ]
 
 const urls = {
-  server: {
-    development: 'http://mainnet.asch.cn',
-    // development: 'testnet1.asch.cn:80',
-    // development: 'http://47.94.37.201:4006',
-    // development: 'http://39.106.250.196:4096',
-    // development: 'http://39.106.182.193:8192'
-    // production: 'http://47.75.26.122:4096'
-    // production: 'http://192.168.1.38:4096'
-    production: 'http://localhost:4096'
-  },
+  serverUrl: 'http://mainnet.asch.cn',
+  // 区分 local 与 mainnet 的请求头参数
+  magic: '5f5b3cf5',
   // 登录接口
   loginApi: {
     mock: '/data/home/accounts.json',
@@ -361,14 +354,8 @@ const urls = {
       mock: '/data/blockchain/blocks.json',
       url: '/api/v2/blocks/:filter'
     }
-  },
-
-  // 区分 local 与 mainnet 的请求头参数
-  magics: {
-    development: '594fe0f3',
-    // production: '594fe0f3'
-    production: '5f5b3cf5'
   }
+
 }
 
 // TODO
