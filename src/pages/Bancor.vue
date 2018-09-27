@@ -1,160 +1,173 @@
 <template>
-  
+  <q-page class="bancor-container">
+    <!-- first part -->
+    <div class="bancor-top">
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_1')}}</span>
+    </div>
+    <div class="bancor-content shadow-2">
+      <q-table hide-bottom class="no-shadow" :data="bancors" row-key="index" :columns="pireColumns" @request="request" :rows-per-page-options="[10]">
+        <q-tr class="row col-12 line-40" slot="header" slot-scope="props" :props="props">
+          <q-th class="col-2 align-left" key="name" :props="props">{{$t('BANCOR_TABLE_COL_1')}}</q-th>
+          <q-th class="col-2" key="price" :props="props">{{$t('BANCOR_TABLE_COL_2')}}</q-th>
+          <q-th class="col-md-3 offset-md-5 col-xs-8" key="action" :props="props">{{$t('BANCOR_TABLE_COL_3')}}</q-th>
+        </q-tr>
+        <q-tr class="row col-12 border-1" slot="body" slot-scope="props" :props="props">
+          <q-td key="name" class="col-2 no-border line-40" :props="props">
+            {{props.row.name}}
+          </q-td>
+          <q-td key="price" class="col-2 no-border line-40" :props="props">
+            {{props.row.price}}
+          </q-td>
+          <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
+            <div class="btn-group flex justify-around">
+              <q-btn color="secondary">买入</q-btn>
+              <q-btn color="primary">卖出</q-btn>
+            </div>
+          </q-td>
+        </q-tr>
+      </q-table>
+    </div>
+    <!-- second part -->
+    <div class="bancor-top-2">
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_2')}}</span>
+    </div>
+    <div class="bancor-content shadow-2">
+      <q-table class="no-shadow" :data="historys" row-key="index" :columns="historyColumns" @request="requestHistory" :rows-per-page-options="[10]"></q-table>
+    </div>
+  </q-page>
 </template>
 
 <script>
-/* eslint-disable */
-import { QPage, QBtnGroup, QTable, QTd, QBtn, QPopover } from 'quasar'
-import { mapActions } from 'vuex'
-import { getTimeFromTrade, compileTimeStamp } from '../utils/util'
+import {
+  QPage,
+  QTable,
+  QBtn,
+  QTd,
+  QTr,
+  QTh
+} from 'quasar'
 
 export default {
-  name: 'Proposal',
+  name: 'Bancor',
   components: {
     QPage,
-    QBtnGroup,
     QTable,
-    QTd,
     QBtn,
-    QPopover
+    QTd,
+    QTr,
+    QTh
   },
   data() {
     return {
-      filter: '',
-      loading: false,
-      // get infos filter
-      activatedState: 'all',
-      pagination: {
-        page: 1,
-        rowsNumber: 0,
-        rowsPerPage: 10
-      },
-      proposalDetail: [],
-      columns: [
+      bancors: [
         {
-          name: 'tid',
-          required: true,
-          label: this.$t('proposal.No'),
-          align: 'center',
-          field: 'tid'
+          name: 'BTC',
+          price: '1.653'
         },
         {
-          name: 'topic',
-          required: true,
-          label: this.$t('proposal.TYPE'),
-          align: 'center',
-          field: 'topic'
+          name: 'ETH',
+          price: '23.653'
         }
       ],
-      // modal set
-      isLaunchShow: false,
-      isDetailShow: false,
-      btnStatus: 1
+      historys: [
+        {
+          timestamp: '2017/09/08',
+          type: 'sell',
+          pire: 'BCH/XAS',
+          avarage: '1.896XAS',
+          amount: 1359,
+          total: 99365
+        }
+      ],
+      pireColumns: [
+        {
+          name: 'name',
+          required: true,
+          label: this.$t('BANCOR_TABLE_COL_1'),
+          align: 'left',
+          field: 'name'
+        },
+        {
+          name: 'price',
+          required: true,
+          label: this.$t('BANCOR_TABLE_COL_2'),
+          align: 'left',
+          field: 'price'
+        },
+        {
+          name: 'action',
+          label: this.$t('BANCOR_TABLE_COL_3'),
+          align: 'center',
+          field: 'action'
+        }
+      ],
+      historyColumns: [
+        {
+          name: 'timestamp',
+          required: true,
+          label: this.$t('BANCOR_HIS_COL_1'),
+          align: 'left',
+          field: 'timestamp'
+        },
+        {
+          name: 'type',
+          required: true,
+          label: this.$t('BANCOR_HIS_COL_1'),
+          align: 'left',
+          field: 'type'
+        },
+        {
+          name: 'pire',
+          required: true,
+          label: this.$t('BANCOR_HIS_COL_2'),
+          align: 'left',
+          field: 'pire'
+        },
+        {
+          name: 'avarage',
+          required: true,
+          label: this.$t('BANCOR_HIS_COL_3'),
+          align: 'left',
+          field: 'avarage'
+        },
+        {
+          name: 'amount',
+          required: true,
+          label: this.$t('BANCOR_HIS_COL_4'),
+          align: 'left',
+          field: 'amount'
+        },
+        {
+          name: 'total',
+          required: true,
+          label: this.$t('BANCOR_HIS_COL_5'),
+          align: 'left',
+          field: 'total'
+        }
+      ]
     }
   },
   methods: {
-    ...mapActions(['getProposals']),
-    async getProposalsFunc(pagination = {}, filter = '') {
-      this.loading = true
-      if (pagination.page) this.pagination = pagination
-      let limit = this.pagination.rowsPerPage
-      let pageNo = this.pagination.page
-      let condition = {
-        limit: limit,
-        offset: (pageNo - 1) * limit,
-        type: this.activatedState
-      }
-      let res = await this.getProposals(condition)
-      this.proposalDetail = res.proposals
-      this.pagination.rowsNumber = res.count
-      this.loading = false
-      return res
-    },
-    async request(props) {
-      await this.getProposalsFunc(props.pagination, props.filter)
-    },
-    operationBtn(val) {
-      switch (val) {
-        case 0:
-          return this.$t('proposal.TIP_VOTE')
-        case 1:
-          return this.$t('proposal.TIP_PASS')
-        case 2:
-          return this.$t('proposal.TIP_REJECT')
-      }
-    },
-    transGate(val) {
-      switch (val) {
-        case 'gateway_register':
-          return this.$t('proposal.SELECT_NEWNET')
-        case 'gateway_init':
-          return this.$t('proposal.SELECT_INITNET')
-        case 'gateway_update_member':
-          return this.$t('proposal.SELECT_MEMBER_ACTION')
-      }
-    },
-    changeState(val) {
-      this.activatedState = val
-      this.getProposalsFunc()
-    },
-    callModal() {
-      this.$router.push({
-        name: 'launchProposal'
-      })
-    },
-    callShowModal(tid) {
-      this.$router.push({
-        name: 'proposalDetail',
-        params: {
-          tid: tid
-        }
-      })
-      // this.isDetailShow = true
-    },
-    stt(obj) {
-      let start = compileTimeStamp(obj.timestamp)
-      let end = getTimeFromTrade({
-        tTimestamp: obj.timestamp,
-        tHeight: obj.height,
-        endHeight: obj.endHeight
-      })
-      return `${start} - ${end}`
-    }
-  },
-  computed: {
-    proposalBtnClass() {
-      return this.isDesk ? 'font-18 proposal-content-top-btn' : 'font-12 proposal-content-top-btn'
-    }
-  },
-  mounted() {
-    this.getProposalsFunc()
+    request() {}
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.proposal-container
+.bancor-container
   padding 20px
-.geteway-top {
+.bancor-content
+  background #ffffff
+  border-radius 6px
+.bancor-top
   margin-bottom: 20px;
-}
-.proposal-content {
-  padding: 20px;
-}
-
-.proposal-content-top-btn:hover {
-  color: #43aea8 !important;
-}
-
-.proposal-content-top-btn:hover {
-  color: #000000;
-}
-
-.new-launch {
-  min-height: 0;
-}
-.light-paragraph{
-    word-break: break-all;
-    max-width: 400px;
-}
+.bancor-top-2
+  margin-top: 40px;
+  margin-bottom: 20px;
+.border-1
+  border-bottom: 1px solid rgba(0,0,0,0.12);
+.line-40
+  line-height 40px;
 </style>

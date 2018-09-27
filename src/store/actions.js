@@ -368,6 +368,24 @@ export default {
   }, params) => {
     return api2.chainsInstalled(params)
   },
+  // get bancor pairs
+  getBancorPairs: ({
+    commit
+  }, params) => {
+    return api2.bancorPair(params)
+  },
+  // get bancor records
+  getBancorRecord: ({
+    commit
+  }, params) => {
+    return api2.bancorRecord(params)
+  },
+  // get group balance
+  getCouncilBalance: ({
+    commit
+  }, params) => {
+    return api2.councilBalance(params)
+  },
   // api2 post actions
   postProposal: ({
     commit,

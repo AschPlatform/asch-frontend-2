@@ -736,6 +736,20 @@ const lang = {
   SMART_CONTRACT_CODE: '合约代码',
   SMART_CONTRACT_COMMIT: '提交合约',
   SMART_CONTRACT_DETAIL: '合约详情页',
+  TIP_BAR_NORMAL: '当前网关的储备金率为{rate}，继续充值跨链资产将会继续调高储备金率，为了您的资金安全，请谨慎选择！',
+  TIP_BAR_WARN: '当前网关的储备金率为{rate}，低于安全线100%，为了您的资金安全，暂停跨链资产充值的功能，您可以将资产提现到您的{name}账户；或者等待网关成员补缴保证金后，您可以继续使用“充值”功能。',
+  TIP_BAR_CLOSE: '当前网关已被冻结停止使用，持有token的用户可以按照所持有的比例，领取赔偿金;',
+  BANCOR_TITLE_1: '兑换',
+  BANCOR_TITLE_2: '成交历史',
+  BANCOR_TABLE_COL_1: '名称',
+  BANCOR_TABLE_COL_2: '最近成交价格',
+  BANCOR_TABLE_COL_3: '操作',
+  BANCOR_HIS_COL_1: '成交时间',
+  BANCOR_HIS_COL_2: '类型',
+  BANCOR_HIS_COL_3: '交易对',
+  BANCOR_HIS_COL_4: '成交均价',
+  BANCOR_HIS_COL_5: '成交量',
+  BANCOR_HIS_COL_6: '成交总量',
 
   // ==============  quasar i18n  =================
 
