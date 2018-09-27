@@ -500,6 +500,71 @@ const asch = {
         secondSecret: secondPwd
       })
     )
+  },
+  // bancor交易对买入
+  // TODO
+  bancorBuy: (source, target, amount, fee, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx(
+      convertTransFee({
+        type: 20,
+        fee: 10000000,
+        args: [source, target, amount, fee],
+        secret,
+        secondSecret: secondPwd
+      })
+    )
+  },
+  // bancor交易对卖出
+  // TODO
+  bancorSell: (source, target, amount, fee, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx(
+      convertTransFee({
+        type: 21,
+        fee: 10000000,
+        args: [source, target, amount, fee],
+        secret,
+        secondSecret: secondPwd
+      })
+    )
+  },
+  // 网关追加储备金
+  // TODO
+  gateBailAdd: (name, amount, fee, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx(
+      convertTransFee({
+        type: 407,
+        fee: 10000000,
+        args: [name, amount, fee],
+        secret,
+        secondSecret: secondPwd
+      })
+    )
+  },
+  // 网关退回储备金
+  // TODO
+  gateBailReturn: (name, amount, fee, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx(
+      convertTransFee({
+        type: 408,
+        fee: 10000000,
+        args: [name, amount, fee],
+        secret,
+        secondSecret: secondPwd
+      })
+    )
+  },
+  // 领取网关补偿
+  // TODO
+  gateBailCompensate: (name, fee, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx(
+      convertTransFee({
+        type: 409,
+        fee: 10000000,
+        args: [name, fee],
+        secret,
+        secondSecret: secondPwd
+      })
+    )
   }
 }
 
