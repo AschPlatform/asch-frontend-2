@@ -17,12 +17,12 @@
             {{props.row.name}}
           </q-td>
           <q-td key="price" class="col-2 no-border line-40" :props="props">
-            {{props.row.price}}
+            {{props.row.latestBid}}
           </q-td>
           <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
             <div class="btn-group flex justify-around">
-              <q-btn color="secondary">买入</q-btn>
-              <q-btn color="primary">卖出</q-btn>
+              <q-btn color="secondary">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
+              <q-btn color="primary">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
             </div>
           </q-td>
         </q-tr>
@@ -34,7 +34,26 @@
       <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_2')}}</span>
     </div>
     <div class="bancor-content shadow-2">
-      <q-table class="no-shadow" :data="historys" row-key="index" :columns="historyColumns" @request="requestHistory" :rows-per-page-options="[10]"></q-table>
+      <q-table class="no-shadow" :data="historys" row-key="index" :columns="historyColumns" @request="requestHistory" :rows-per-page-options="[10]">
+        <q-td slot="body-cell-timestamp" slot-scope="props" :props="props">
+          {{props.value}}
+        </q-td>
+        <q-td slot="body-cell-type" slot-scope="props" :props="props">
+          {{props.value}}
+        </q-td>
+        <q-td key="pair" slot-scope="props" :props="props">
+          {{props.row.source + '/' + props.row.target}}
+        </q-td>
+        <q-td slot="body-cell-price" slot-scope="props" :props="props">
+          {{props.value}}
+        </q-td>
+        <q-td slot="body-cell-amount" slot-scope="props" :props="props">
+          {{props.value}}
+        </q-td>
+        <q-td slot="body-cell-total" slot-scope="props" :props="props">
+          {{props.value}}
+        </q-td>
+      </q-table>
     </div>
   </q-page>
 </template>
@@ -64,11 +83,11 @@ export default {
       bancors: [
         {
           name: 'BTC',
-          price: '1.653'
+          latestBid: '1.653'
         },
         {
           name: 'ETH',
-          price: '23.653'
+          latestBid: '23.653'
         }
       ],
       historys: [
@@ -119,11 +138,11 @@ export default {
           field: 'type'
         },
         {
-          name: 'pire',
+          name: 'pair',
           required: true,
           label: this.$t('BANCOR_HIS_COL_2'),
           align: 'left',
-          field: 'pire'
+          field: 'pair'
         },
         {
           name: 'avarage',
