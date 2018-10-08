@@ -328,6 +328,42 @@ api2.chains = params => {
 api2.chainsInstalled = params => {
   return fetch(urls.v2.chainsInstalled, params, 'get')
 }
+// 获取所有bancor交易对
+// TODO
+// @params: offset / limit
+api2.bancorPair = params => {
+  return fetch(urls.v2.bancorPair, params, 'get')
+}
+// 获取某地址bancor交易信息
+// TODO
+// @params: offset / limit / address / sort
+api2.bancorRecord = params => {
+  return fetch(urls.v2.bancorRecord, params, 'get')
+}
+// 获取理事会资产余额
+// TODO
+// @params: offset / limit / address / sort
+api2.councilBalance = params => {
+  return fetch(urls.v2.councilBalance, params, 'get')
+}
+// 获取网关储备金信息
+// TODO
+// @params: name
+api2.gateBailHost = params => {
+  return fetch(urls.v2.gateBailHost, params, 'get')
+}
+// 获取用户可补偿的余额 / 保证金状态
+// TODO
+// @params: name / address
+api2.gateBailWithdraw = params => {
+  return fetch(urls.v2.gateBailWithdraw, params, 'get')
+}
+// 获取智能合约列表
+// TODO
+// @params:
+api2.contractList = params => {
+  return fetch(urls.v2.contractList, params, 'get')
+}
 
 export {
   api,

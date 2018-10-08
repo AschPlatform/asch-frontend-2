@@ -536,7 +536,10 @@ const lang = {
     EXPIRED: '已过期',
     ACTIVE: '激活',
     ACTIVE_SUCCESS: '激活成功',
-    VOTE_SUCCESS: '投票成功'
+    VOTE_SUCCESS: '投票成功',
+    SELECT_NEWBANCOR: '新增bancor交易对',
+    NETGATEWAY_FREEZE: '冻结网关',
+    NETGATEWAY_CLEAR: '网关清算'
   },
   LAUNCH_MODAL: {
     MEMBER_SUGGEST_PRE: '我提议',
@@ -577,7 +580,15 @@ const lang = {
     LAUNCH_SUCCESS: '发起提案成功',
     PROPOSE: '提议',
     VOTE_LIST: '投票成员名单',
-    PROPOSE_END: '成为网关成员'
+    PROPOSE_END: '成为网关成员',
+    BANCOR_ADD: '我提议新增',
+    BANCOR_ADD2: '的交易对',
+    AND: '和',
+    GATEWAY_FREEZE_TIP: '我提议冻结',
+    GATEWAY_FREEZE_BRIEF: '原因描述',
+    GATEWAY_CLEAR_TIP: '我建议清算',
+    GATEWAY_CLEAR_TIP1: '等人存在作恶的情况，提议冻结几位成员的储备金，给受损失的用户进行理赔。',
+    GATEWAY_CLEAR_INVEST: '调查说明'
   },
   DETAIL_MODAL: {
     MEMBER_CHIPS_PRE: '投票成员名单',
@@ -601,7 +612,8 @@ const lang = {
     MEMBER_TIP_PRE: '变更前成员:',
     MEMBER_TIP_POST: '变更后成员:',
     INSTEAD_TITLE_PRE: '我提议撤销如下理事会成员',
-    INSTEAD_TITLE_POST: '增加如下受托人成为新的理事会成员'
+    INSTEAD_TITLE_POST: '增加如下受托人成为新的理事会成员',
+    BANCOR_TIP: '我提议新增 {content} 的交易对。'
   },
   COUNCIL_PAGE: {
     MODAL_TITLE: '成员(共{number}人)',
@@ -710,6 +722,34 @@ const lang = {
   ASCH: '阿希客户端',
   NO_ARGS: '无参数',
   ISSUE_SUCCESS: '注册发行商成功',
+  PERSONAL_PUBLIC_KEY: '账户公钥',
+  CHECK_NOW: '立即查看',
+  QR_SECRET: '主密钥二维码',
+  PUBLIC_KEY_MODAL_TIP: '您的账户公钥是: ',
+  SMART_CONTRACT: '智能合约',
+  SMART_CONTRACT_LIST: '合约列表',
+  SMART_CONTRACT_MINE: '我发布的合约',
+  SMART_CONTRACT_NAME: '合约名字',
+  SMART_CONTRACT_OWNER: '所有者',
+  SMART_CONTRACT_NEW: '提交新合约',
+  SMART_CONTRACT_POST: '发起新合约',
+  SMART_CONTRACT_CODE: '合约代码',
+  SMART_CONTRACT_COMMIT: '提交合约',
+  SMART_CONTRACT_DETAIL: '合约详情页',
+  TIP_BAR_NORMAL: '当前网关的储备金率为{rate}，继续充值跨链资产将会继续调高储备金率，为了您的资金安全，请谨慎选择！',
+  TIP_BAR_WARN: '当前网关的储备金率为{rate}，低于安全线100%，为了您的资金安全，暂停跨链资产充值的功能，您可以将资产提现到您的{name}账户；或者等待网关成员补缴保证金后，您可以继续使用“充值”功能。',
+  TIP_BAR_CLOSE: '当前网关已被冻结停止使用，持有token的用户可以按照所持有的比例，领取赔偿金;',
+  BANCOR_TITLE_1: '兑换',
+  BANCOR_TITLE_2: '成交历史',
+  BANCOR_TABLE_COL_1: '名称',
+  BANCOR_TABLE_COL_2: '最近成交价格',
+  BANCOR_TABLE_COL_3: '操作',
+  BANCOR_HIS_COL_1: '成交时间',
+  BANCOR_HIS_COL_2: '类型',
+  BANCOR_HIS_COL_3: '交易对',
+  BANCOR_HIS_COL_4: '成交均价',
+  BANCOR_HIS_COL_5: '成交量',
+  BANCOR_HIS_COL_6: '成交总量',
 
   // ==============  quasar i18n  =================
 
@@ -810,10 +850,29 @@ const lang = {
   // AGREEMENT_ASSET_CONTENT: '#### 注册资产占位条款 \n 第一条： 1.3 Asch 是什么Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应。\n  第二条：Asch 通过提供定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。\n 第三条：Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，作为所有- 5  dapp 之间资产转换的桥梁和媒介，这些代币将在系统发布之前以 ico 的方式预售给投资人。系统一旦发布，Asch 最初的核心团队将不再掌控系统的走向，只有系统的权益人和代。\n 第四条：1.3 Asch 是什么Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过提供定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，作为所有- 5  dapp 之间资产转换的桥梁和媒介，这些代币将在系统发布之前以 ico 的方式预售给投资人。\n 第五条：系统一旦发布，Asch 最初的核心团队将不再掌控系统的走向，只有系统的权益人和代。',
   // AGREEMENT_ISSUER_CONTENT: '#### 注册发行商占位条款 \n 第一条： 1.3 Asch 是什么Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应。\n  第二条：Asch 通过提供定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。\n 第三条：Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，作为所有- 5  dapp 之间资产转换的桥梁和媒介，这些代币将在系统发布之前以 ico 的方式预售给投资人。系统一旦发布，Asch 最初的核心团队将不再掌控系统的走向，只有系统的权益人和代。\n 第四条：1.3 Asch 是什么Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过提供定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，作为所有- 5  dapp 之间资产转换的桥梁和媒介，这些代币将在系统发布之前以 ico 的方式预售给投资人。\n 第五条：系统一旦发布，Asch 最初的核心团队将不再掌控系统的走向，只有系统的权益人和代。'
   ACCOUNT_LEFT_UNSUFF: ',  您的余额不足，锁仓会失败',
+  GAS: '燃料费',
+  GAS_LIMIT: '燃料费上限',
   TRANS_ID: '交易ID',
   FREEZED: '已锁仓：',
   AVALABLE: '可用：',
-  ERR_TOAST_ALREADY_VOTED: '已经投票给该账号'
+  ERR_TOAST_ALREADY_VOTED: '已经投票给该账号',
+  // 1.5 add
+  BANCOR: '兑换',
+  CONTRACT: '合约',
+  CONTRACT_NAME: '合约名称',
+  OWNER: '创建者',
+  CONTRACT_LIST: '合约列表',
+  MY_CONTRACT: '我发布的合约',
+  SEARCH_BY_CONTRACT_NAME: '搜索合约名字',
+  SUBMIT_CONTRACT: '提交新合约',
+  NEW_CONTRACT: '发布合约',
+  CONTRACT_CODE: '合约代码',
+  CONTRACT_GAS: 'Gas limit',
+  CONTRACT_ERR_NAME: '名称应为 5 ~ 64 长度',
+  CONTRACT_ERR_DESC: '描述应为 5 ~ 256 长度',
+  CONTRACT_ERR_CODE: '代码长度不能超过 xx ',
+  CONTRACT_ERR_GAS: '请输入 gaslimit',
+  ERR_GAS_NUM_WRONG: '请输入正确的燃料费上限'
 }
 
 export default lang

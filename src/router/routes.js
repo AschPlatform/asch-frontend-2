@@ -42,6 +42,11 @@ export default [
         name: 'personal',
         component: load('Personal')
       },
+      {
+        path: 'bancor',
+        name: 'bancor',
+        component: load('Bancor')
+      },
       // {
       //   path: 'forging',
       //   name: 'forging',
@@ -51,6 +56,21 @@ export default [
         path: 'blocks',
         name: 'blocks',
         component: load('Blocks')
+      },
+      {
+        path: 'contract',
+        name: 'contract',
+        component: load('Contract')
+      },
+      {
+        path: 'postContract',
+        name: 'postContract',
+        component: load('PostContract')
+      },
+      {
+        path: 'contractDetail',
+        name: 'contractDetail',
+        component: load('ContractDetail')
       },
       {
         path: 'vote',
@@ -128,6 +148,26 @@ export default [
         path: 'issuer',
         name: 'issuer',
         component: load('Issuer')
+      },
+      {
+        path: 'bancor',
+        name: 'bancor',
+        component: load('Bancor')
+      },
+      {
+        path: 'contract',
+        name: 'contract',
+        component: load('Contract')
+      },
+      {
+        path: 'newContract',
+        name: 'newContract',
+        component: load('NewContract')
+      },
+      {
+        path: 'contractDetail/:tid',
+        name: 'contractDetail',
+        component: load('ContractDetail')
       }
     ]
   },

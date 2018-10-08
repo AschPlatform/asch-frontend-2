@@ -1,5 +1,6 @@
 <template>
   <q-page >
+    <tip-bar></tip-bar>
     <q-card class="no-shadow">
       <q-card-title>
         <div class="row justify-between">
@@ -75,6 +76,7 @@ import AssetsPanel from '../components/AssetsPanel'
 import VueQr from 'vue-qr'
 import DepositModal from '../components/DepositModal'
 import WithdrawModal from '../components/WithdrawModal'
+import TipBar from '../components/TipBar'
 
 import {
   QModalLayout,
@@ -116,7 +118,8 @@ export default {
     AssetsPanel,
     VueQr,
     DepositModal,
-    WithdrawModal
+    WithdrawModal,
+    TipBar
   },
   data() {
     return {

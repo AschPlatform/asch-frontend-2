@@ -343,6 +343,30 @@ const urls = {
     chains: {
       url: '/api/v2/chains'
     },
+    // 获取所有Bancor交易对
+    bancorPair: {
+      url: '/api/v2/bancors'
+    },
+    // 获取用户Bancor兑换记录
+    bancorRecord: {
+      url: '/api/v2/transactions/:address'
+    },
+    // 获取理事会资产余额
+    councilBalance: {
+      url: '/api/v2/groups/balance'
+    },
+    // 获取网关储备金信息
+    gateBailHost: {
+      url: '/api/v2/gateways/bailHosting'
+    },
+    // 获取用户可补偿的余额
+    gateBailWithdraw: {
+      url: '/api/v2/gateways/bailWithdrawl'
+    },
+    // 获取智能合约列表
+    contractList: {
+      url: '/api/v2/contracts'
+    },
     chainsInstalled: {
       url: '/api/v2/chains/installed'
     },
