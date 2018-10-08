@@ -36,6 +36,7 @@
     </q-card>
   
     <deposit-modal :user="userInfo" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
+    <!-- <cross-chain-deposit-modal @close="depositPanelShow=false" /> -->
   
     <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
     <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
@@ -49,6 +50,7 @@ import DepositModal from '../components/DepositModal'
 import WithdrawModal from '../components/WithdrawModal'
 import MoreAssetModal from '../components/MoreAssetModal'
 import AssetDetailModal from '../components/AssetDetailModal'
+import CrossChainDepositModal from '../components/CrossChainDepositModal'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -63,7 +65,8 @@ export default {
     DepositModal,
     WithdrawModal,
     MoreAssetModal,
-    AssetDetailModal
+    AssetDetailModal,
+    CrossChainDepositModal
   },
   data() {
     return {
@@ -82,7 +85,7 @@ export default {
       },
       filter: '',
       loading: false,
-      depositPanelShow: false,
+      depositPanelShow: true,
       withdrawPanelShow: false,
       moreAssetsModalShow: false,
       asset: {}

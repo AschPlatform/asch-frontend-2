@@ -871,8 +871,11 @@ const lang = {
   CONTRACT_ERR_NAME: '名称应为 5 ~ 64 长度',
   CONTRACT_ERR_DESC: '描述应为 5 ~ 256 长度',
   CONTRACT_ERR_CODE: '代码长度不能超过 xx ',
-  CONTRACT_ERR_GAS: '请输入 gaslimit'
-
+  CONTRACT_ERR_GAS: '请输入 gaslimit',
+  ASSET_CATEGORY: '资产类型',
+  TIP: '提示:',
+  ALERT_TIP: '当前网关的储备金率为{rate}%，继续充值跨链资产将会继续调 高储备金率，为了您的资金安全，请谨慎选择！',
+  WARN_TIP: '当前网关的储备金率为{rate}%，低于安全线100%，为了您的 资金安全，暂停跨链资产充值的功能，您可以将资产提现到您的跨链资产钱包'
 }
 
 export default lang
