@@ -48,6 +48,14 @@ export default {
       this.$router.push({ name: 'gatewayDetail', params: { gateway } })
     },
     async getData() {
+      /**
+       * 状态值 state ？（revoked）
+       * 未激活  activited 0
+       * 激活  activited 1
+       * 正常  revoked 0
+       * 离线 revoked 1
+       * 冻结 revoked 2
+       */
       this.loading = true
       let limit = this.pagination.rowsPerPage
       let pageNo = this.pagination.page
@@ -74,6 +82,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+
 .gateway-container {
   padding: 20px;
 }

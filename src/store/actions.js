@@ -484,5 +484,30 @@ export default {
       params.secondSecret || ''
     )
     return api.broadcastTransaction(trans)
+  },
+  // 1.5 api
+  getGatewayInfo: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getGatewayReserveInfo(params)
+  },
+  getGatewayBailStatus: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getGatewayBailStatus(params)
+  },
+  getGatewayRealClaim: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getGatewayRealClaim(params)
+  },
+  getGatewayMembers: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getGatewayMembers(params)
   }
 }

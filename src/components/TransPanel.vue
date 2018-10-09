@@ -2,61 +2,72 @@
   <div class="col-10 transPanel-container" v-if="asset">
     <div class="bg-secondary transfer-top-container" v-if="showTitle">
       <span class="text-white font-18">
-        <i class="material-icons">border_color</i>
-      </span>
+          <i class="material-icons">border_color</i>
+        </span>
       <span class="text-white font-18">
-            {{$t('TRS_TYPE_TRANSFER')}}
-      </span>
+              {{$t('TRS_TYPE_TRANSFER')}}
+        </span>
       <span v-if="isDesk" class="text-white font-12">
-         {{$t('PAY_TIP')}}
-      </span>
+           {{$t('PAY_TIP')}}
+        </span>
     </div>
     <div class="transfer-top-Portraits row justify-center" v-if="showTitle">
-     <jdenticon class="transfer-jdenticon" :address="form.receiver" :size="60" />
+      <jdenticon class="transfer-jdenticon" :address="form.receiver" :size="60" />
     </div>
-    <div class="transfer-bottom-container" v-if="user && user.account" >
+    <div class="transfer-bottom-container" v-if="user && user.account">
       <q-field class="col-8 text-four" :label="$t('RECIPIENT')+':'" :label-width="3" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')">
-        <q-input class="col-8 font-12" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error"  :placeholder="$t('RECIPIENT_NAME_ADDRESS')"/>
+        <q-input class="col-8 font-12" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error" :placeholder="$t('RECIPIENT_NAME_ADDRESS')" />
       </q-field>
       <q-field class="col-12" :label="$t('DAPP_CATEGORY')+':'" :label-width="3">
-         <q-select
-          v-model="form.currency"
-          :options="assetsOpt" />
-          <p class="text-secondary font-12" v-if="form.currency" >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
+        <q-select v-model="form.currency" :options="assetsOpt" />
+        <p class="text-secondary font-12" v-if="form.currency">{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
       </q-field>
       <q-field class="col-12" :label="$t('AMOUNTS')+':'" :label-width="3" :error-label="$t('ERR_AMOUNT_INVALID')">
-        <q-input class="font-12"  @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error"  />
+        <q-input class="font-12" @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error" />
       </q-field>
-      <q-field v-if="secondSignature" class="col-12"  :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
+      <q-field v-if="secondSignature" class="col-12" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
         <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
       </q-field>
-      <q-field class="col-12" :label="$t('FEES')+':'" :label-width="3">
-        <q-input disable  v-model="form.fee" />
+      <q-field class="col-12" :label="feeType===1?$t('FEES')+':':$t('GAS_LIMIT')+':'" :label-width="3"  :error-label="$t('ERR_GAS_NUM_WRONG')">
+        <div class="flex justify-center ">
+          <q-btn-toggle v-model="feeType" toggle-color="secondary" :options="[
+      {label: this.$t('FEES'), value: 1},
+      {label: this.$t('GAS'), value: 0},
+    ]" />
+        </div>
+        
+        <q-input v-if="feeType===1" disable v-model="form.fee" />
+        <q-input v-else v-model="form.gas" type="number" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" suffix="BCH"/>
       </q-field>
-      <q-field class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')" >
+      <q-field class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')">
         <q-input ref="remark" :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
       </q-field>
       <div class="panelBtn col-6">
         <slot name="btns" :send="send" :cancel="cancel" />
       </div>
     </div>
-    
   </div>
 </template>
 
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch'
-import { secondPwd, amountStrReg, receiver } from '../utils/validators'
+import { secondPwd, amountStrReg, receiver, smartAddressReg } from '../utils/validators'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
-import { QField, QInput, QSelect } from 'quasar'
+import { QField, QInput, QSelect, QBtnToggle } from 'quasar'
 import { BigNumber } from 'bignumber.js'
 
 export default {
   props: ['user', 'asset', 'showTitle'],
-  components: { Jdenticon, QField, QInput, QSelect },
+  components: {
+    Jdenticon,
+    QField,
+    QInput,
+    QSelect,
+    QBtnToggle
+  },
   data() {
     return {
       form: {
@@ -65,11 +76,13 @@ export default {
         amount: '',
         fee: '0.1 XAS',
         remark: '',
-        currency: ''
+        currency: '',
+        gas: ''
       },
       secondPwd: '',
       balance: '',
-      precision: 0
+      precision: 0,
+      feeType: 0 // 1 XAS, 0 BCH
     }
   },
   validations: {
@@ -94,6 +107,17 @@ export default {
       },
       remark: {
         maxLength: maxLength(255)
+      },
+      gas: {
+        required,
+        validate(value) {
+          if (this.feeType === 1) {
+            return true
+          } else {
+            const gasReg = /^\d+(\.\d{1,8})$/
+            return gasReg.test(value)
+          }
+        }
       }
     },
     secondPwd: {
@@ -108,6 +132,9 @@ export default {
       let invlaidPwd = false
       let { amount, receiver, remark } = this.form
       receiver = receiver.trim()
+      if (this.feeType === 0) {
+        this.$v.form.gas.$touch()
+      }
       if (this.secondSignature) {
         this.$v.secondPwd.$touch()
         invlaidPwd = this.$v.secondPwd.$error
@@ -133,8 +160,15 @@ export default {
         .times(Math.pow(10, this.precision))
         .toString()
       let trans = {}
+      let fee = null
+
+      if (this.feeType === 0) {
+        fee = BigNumber(-this.form.gas)
+          .times(Math.pow(10, 8))
+          .toString()
+      }
       if (this.form.currency === 'XAS') {
-        trans = asch.transferXAS(amount, receiver, remark, this.user.secret, this.secondPwd)
+        trans = asch.transferXAS(amount, receiver, remark, this.user.secret, this.secondPwd, fee)
       } else {
         trans = asch.transferAsset(
           this.form.currency,
@@ -142,7 +176,8 @@ export default {
           receiver,
           remark,
           this.user.secret,
-          this.secondPwd
+          this.secondPwd,
+          fee
         )
       }
       let res = await this.broadcastTransaction(trans)
@@ -174,7 +209,9 @@ export default {
       }, 60)
     },
     async refreshBalances() {
-      let res = await this.getBalances({ address: this.user.account.address })
+      let res = await this.getBalances({
+        address: this.user.account.address
+      })
       if (res.success) {
         this.setBalances(res.balances)
       }
@@ -200,7 +237,12 @@ export default {
           value: asset.currency
         }
       })
-      arr = [{ label: 'XAS', value: 'XAS' }].concat(arr)
+      arr = [
+        {
+          label: 'XAS',
+          value: 'XAS'
+        }
+      ].concat(arr)
       return arr
     },
     assetsMap() {
@@ -209,7 +251,11 @@ export default {
         assetsMap[asset.currency] = asset
       })
       if (!assetsMap['XAS']) {
-        assetsMap['XAS'] = { name: 'XAS', precision: 8, balance: this.userInfo.account.xas }
+        assetsMap['XAS'] = {
+          name: 'XAS',
+          precision: 8,
+          balance: this.userInfo.account.xas
+        }
       }
       return assetsMap
     }
@@ -224,11 +270,17 @@ export default {
         }
       }
     },
+    'form.receiver'(val) {
+      if (smartAddressReg.test(val)) this.feeType = 0
+    },
     asset(val) {
       if (!this.form.currency) this.form.currency = val.currency
     },
     user(val) {
       this.refreshBalances()
+    },
+    feeType(val) {
+      console.log(val)
     }
   }
 }

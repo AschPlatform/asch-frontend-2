@@ -219,9 +219,9 @@ const lang = {
   NOT_SET: '未设置',
   NOT_SET_BLOCKHEIGHT: '未锁仓',
   NOT_SET_ALREADYUNBLOCK: '已解锁',
-  POSITIONLOCK_INFO: '锁仓状态',
 
   // vote
+  POSITIONLOCK_INFO: '锁仓状态',
   DELETE: '删除',
   DELEGATE_LIST: '受托人列表',
   VOTE_RECORD: '投票记录',
@@ -852,6 +852,8 @@ const lang = {
   // AGREEMENT_ASSET_CONTENT: '#### 注册资产占位条款 \n 第一条： 1.3 Asch 是什么Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应。\n  第二条：Asch 通过提供定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。\n 第三条：Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，作为所有- 5  dapp 之间资产转换的桥梁和媒介，这些代币将在系统发布之前以 ico 的方式预售给投资人。系统一旦发布，Asch 最初的核心团队将不再掌控系统的走向，只有系统的权益人和代。\n 第四条：1.3 Asch 是什么Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过提供定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，作为所有- 5  dapp 之间资产转换的桥梁和媒介，这些代币将在系统发布之前以 ico 的方式预售给投资人。\n 第五条：系统一旦发布，Asch 最初的核心团队将不再掌控系统的走向，只有系统的权益人和代。',
   // AGREEMENT_ISSUER_CONTENT: '#### 注册发行商占位条款 \n 第一条： 1.3 Asch 是什么Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应。\n  第二条：Asch 通过提供定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。\n 第三条：Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，作为所有- 5  dapp 之间资产转换的桥梁和媒介，这些代币将在系统发布之前以 ico 的方式预售给投资人。系统一旦发布，Asch 最初的核心团队将不再掌控系统的走向，只有系统的权益人和代。\n 第四条：1.3 Asch 是什么Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过提供定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，作为所有- 5  dapp 之间资产转换的桥梁和媒介，这些代币将在系统发布之前以 ico 的方式预售给投资人。\n 第五条：系统一旦发布，Asch 最初的核心团队将不再掌控系统的走向，只有系统的权益人和代。'
   ACCOUNT_LEFT_UNSUFF: ',  您的余额不足，锁仓会失败',
+  GAS: '燃料费',
+  GAS_LIMIT: '燃料费上限',
   TRANS_ID: '交易ID',
   FREEZED: '已锁仓：',
   AVALABLE: '可用：',
@@ -878,7 +880,31 @@ const lang = {
   WARN_TIP: '当前网关的储备金率为{rate}%，低于安全线100%，为了您的 资金安全，暂停跨链资产充值的功能，您可以将资产提现到您的跨链资产钱包',
   MY_BALANCE: '我的余额',
   CURRENT_PRICE: '当前价格',
-  TRANS_AMOUNT: '转账金额'
+  TRANS_AMOUNT: '转账金额',
+  ERR_GAS_NUM_WRONG: '请输入正确的燃料费上限',
+  ERR_GATEWAY_ADD: '追加的储备金额度不正确',
+  LABEL_GATEWAY_ADD: '请输入您要追加的储备金额度',
+  PLACEHOLDER_GATEWAY_ADD: '请追加至少{amount} XAS',
+  ERR_GATEWAY_RETURN: '请输入您要退回的储备金额度',
+  LABEL_GATEWAY_RETURN: '退回的储备金额度错误',
+  PLACEHOLDER_GATEWAY_RETURN: '您最多可退回{amount} XAS',
+  // ERR_GATEWAY_COM: '追加的储备金额度不正确',
+  LABEL_GATEWAY_COM: '您可以领取的赔偿额度是',
+  RESERVE_RATIO_TIP: '储备金率（ 120% > n > 100% ）：用户充值跨链资产时，会进行风险提示；\n 储备金率（ n < 100% ）: 暂停用户充值功能，仅支持提现',
+  RESERVE_ADD_TIP: '你已经缴纳储备金{amount} XAS，当前网关储备金率{ratio}%，为保障网关正常工作，请追加至少{val} XAS 的储备金',
+  RESERVE_RETURN_TIP: '你已经缴纳储备金{amount} XAS，当前网关储备金率{ratio}%，为保障网关正常工作，您最多可以退回 {val} XAS 的储备金',
+  RESERVE_COMPENSATION_TIP: '网关参与理赔的储备金是 {amount} XAS，网关共托管资产 {asset}，您实际持有 {balance}，所以您将获得的赔偿金是：{amount} XAS * {formula}',
+  COUNCIL_MEMBER_ELECTED: '成员列表（{number}）',
+  COUNCIL_MEMBER_CANDIDATE: '候选列表（{number}）',
+  GATEWAY_PLEDGE_AMOUNT: '储备金(XAS)',
+  RESERVE_TOTAL_AMOUNT: '储备金总额',
+  PLEDGE_AMOUNT: '托管资产总额',
+  RESERVE_ADD_LABEL: '追加储备金',
+  RESERVE_RETURN_LABEL: '退回储备金',
+  RESERVE_COMPENSATION_LABEL: '领取赔偿',
+  LATEST_OP_TIME: '最近操作时间',
+  AVALABLE_BAIL_AMOUNT: '*有效储备金:',
+  GATEWAY_STATUS: '运行状态'
 }
 
 export default lang

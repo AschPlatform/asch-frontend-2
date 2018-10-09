@@ -139,11 +139,11 @@ const convertTransFee = trans => {
 
 const asch = {
   // 转账 XAS  TODO
-  transferXAS: (amount, recipientId, message, secret, secondPwd = '') => {
+  transferXAS: (amount, recipientId, message, secret, secondPwd = '', fee = 10000000) => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 1,
-        fee: 10000000,
+        fee: fee,
         args: [amount, recipientId],
         secret,
         secondSecret: secondPwd,
@@ -322,11 +322,11 @@ const asch = {
     )
   },
   // 资产转账
-  transferAsset: (symbol, amount, recipientId, message, secret, secondPwd = '') => {
+  transferAsset: (symbol, amount, recipientId, message, secret, secondPwd = '', fee = 10000000) => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 103,
-        fee: 10000000,
+        fee: fee,
         args: [symbol, amount, recipientId],
         secret,
         secondSecret: secondPwd,
