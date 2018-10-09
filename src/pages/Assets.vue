@@ -85,7 +85,7 @@ export default {
       },
       filter: '',
       loading: false,
-      depositPanelShow: true,
+      depositPanelShow: false,
       withdrawPanelShow: false,
       moreAssetsModalShow: false,
       asset: {}

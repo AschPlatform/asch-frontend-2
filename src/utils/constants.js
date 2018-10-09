@@ -83,7 +83,7 @@ const officialPeers = [
 ]
 
 const urls = {
-  serverUrl: 'http://mainnet.asch.cn',
+  serverUrl: 'http://192.168.1.78:4096',
   // 区分 local 与 mainnet 的请求头参数
   magic: '5f5b3cf5',
   // 登录接口
@@ -349,7 +349,7 @@ const urls = {
     },
     // 获取用户Bancor兑换记录
     bancorRecord: {
-      url: '/api/v2/transactions/:address'
+      url: '/api/v2/bancors/transactions/:address'
     },
     // 获取理事会资产余额
     councilBalance: {
