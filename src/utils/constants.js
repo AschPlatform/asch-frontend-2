@@ -83,9 +83,9 @@ const officialPeers = [
 ]
 
 const urls = {
-  serverUrl: 'http://mainnet.asch.cn',
+  serverUrl: 'http://192.168.1.78:4096',
   // 区分 local 与 mainnet 的请求头参数
-  magic: '5f5b3cf5',
+  magic: '594fe0f3',
   // 登录接口
   loginApi: {
     mock: '/data/home/accounts.json',
@@ -377,6 +377,18 @@ const urls = {
     blocksDetail: {
       mock: '/data/blockchain/blocks.json',
       url: '/api/v2/blocks/:filter'
+    },
+    gatewayReserve: {
+      url: '/api/v2/gateways/bailHosting'
+    },
+    gatewayMembers: {
+      url: '/api/v2/gateways/allmembers'
+    },
+    gatewayBailStatus: {
+      url: '/api/v2/gateways/bailStatus'
+    },
+    gatewayRealClaim: {
+      url: '/api/v2/gateways/realClaim'
     }
   }
 

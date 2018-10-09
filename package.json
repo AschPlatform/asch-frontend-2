@@ -8,9 +8,9 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
-    "test": "gulp test",
-    "pro": "gulp pro",
-    "local": "gulp dev"
+    "test": "gulp testnet",
+    "pro": "gulp mainnet",
+    "dev": "gulp localnet"
   },
   "dependencies": {
     "asch-js": "^1.4.2",

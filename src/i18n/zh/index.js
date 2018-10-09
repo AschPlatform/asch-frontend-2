@@ -219,9 +219,9 @@ const lang = {
   NOT_SET: '未设置',
   NOT_SET_BLOCKHEIGHT: '未锁仓',
   NOT_SET_ALREADYUNBLOCK: '已解锁',
-  POSITIONLOCK_INFO: '锁仓状态',
 
   // vote
+  POSITIONLOCK_INFO: '锁仓状态',
   DELETE: '删除',
   DELEGATE_LIST: '受托人列表',
   VOTE_RECORD: '投票记录',
@@ -872,7 +872,31 @@ const lang = {
   CONTRACT_ERR_DESC: '描述应为 5 ~ 256 长度',
   CONTRACT_ERR_CODE: '代码长度不能超过 xx ',
   CONTRACT_ERR_GAS: '请输入 gaslimit',
-  ERR_GAS_NUM_WRONG: '请输入正确的燃料费上限'
+  ERR_GAS_NUM_WRONG: '请输入正确的燃料费上限',
+  ERR_GATEWAY_ADD: '追加的储备金额度不正确',
+  LABEL_GATEWAY_ADD: '请输入您要追加的储备金额度',
+  PLACEHOLDER_GATEWAY_ADD: '请追加至少{amount} XAS',
+  ERR_GATEWAY_RETURN: '请输入您要退回的储备金额度',
+  LABEL_GATEWAY_RETURN: '退回的储备金额度错误',
+  PLACEHOLDER_GATEWAY_RETURN: '您最多可退回{amount} XAS',
+  // ERR_GATEWAY_COM: '追加的储备金额度不正确',
+  LABEL_GATEWAY_COM: '您可以领取的赔偿额度是',
+  TIP: '提示',
+  RESERVE_RATIO_TIP: '储备金率（ 120% > n > 100% ）：用户充值跨链资产时，会进行风险提示；\n 储备金率（ n < 100% ）: 暂停用户充值功能，仅支持提现',
+  RESERVE_ADD_TIP: '你已经缴纳储备金{amount} XAS，当前网关储备金率{ratio}%，为保障网关正常工作，请追加至少{val} XAS 的储备金',
+  RESERVE_RETURN_TIP: '你已经缴纳储备金{amount} XAS，当前网关储备金率{ratio}%，为保障网关正常工作，您最多可以退回 {val} XAS 的储备金',
+  RESERVE_COMPENSATION_TIP: '网关参与理赔的储备金是 {amount} XAS，网关共托管资产 {asset}，您实际持有 {balance}，所以您将获得的赔偿金是：{amount} XAS * {formula}',
+  COUNCIL_MEMBER_ELECTED: '成员列表（{number}）',
+  COUNCIL_MEMBER_CANDIDATE: '候选列表（{number}）',
+  GATEWAY_PLEDGE_AMOUNT: '储备金(XAS)',
+  RESERVE_TOTAL_AMOUNT: '储备金总额',
+  PLEDGE_AMOUNT: '托管资产总额',
+  RESERVE_ADD_LABEL: '追加储备金',
+  RESERVE_RETURN_LABEL: '退回储备金',
+  RESERVE_COMPENSATION_LABEL: '领取赔偿',
+  LATEST_OP_TIME: '最近操作时间',
+  AVALABLE_BAIL_AMOUNT: '*有效储备金:',
+  GATEWAY_STATUS: '运行状态'
 }
 
 export default lang
