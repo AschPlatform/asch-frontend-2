@@ -328,6 +328,10 @@ api2.chains = params => {
 api2.chainsInstalled = params => {
   return fetch(urls.v2.chainsInstalled, params, 'get')
 }
+// 获取所有侧链资产
+api2.chainAssets = params => {
+  return fetch(urls.v2.assets, params, 'get')
+}
 // 获取所有bancor交易对
 // TODO
 // @params: offset / limit
