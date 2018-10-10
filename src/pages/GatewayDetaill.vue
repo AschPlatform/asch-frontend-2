@@ -75,12 +75,13 @@
           <q-card-title class="bg-nine">
             <span class="font-22 text-black font-weight">{{$t('RESERVE_TOTAL_AMOUNT')}}</span>
             <span>
-              {{$t('AVALABLE_BAIL_AMOUNT')}}{{gateway&&gateway.bail?gateway.bail.bail:'' | fee}} XAS
+              {{$t('AVALABLE_BAIL_AMOUNT')}}
+              {{getGatewayRealBail}}
             </span>
           </q-card-title>
           <q-card-main class="word-wrap-break">
           <div class="row">
-            {{gateway && gateway.bail ? gateway.bail.totalBail:'' | fee}} XAS
+            {{getGatewayBail}}
           </div>
           <div class="flex row">
             <q-btn v-show="getAddBtnShow" big class="col-6" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
@@ -106,7 +107,7 @@
             <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
           </q-card-title>
           <q-card-main class="flex item-center bottom-container-bottom height-62 ">
-            <span class="font-24 text-secondary">{{gateway.createTime?compileTimeStamp(gateway.createTime):getTimeFromHight(gateway.lastUpdateHeight)}}</span>
+            <span class="font-24 text-secondary">{{gatewayTime}}</span>
           </q-card-main>
         </div>
       </q-card>
@@ -192,7 +193,11 @@ export default {
       },
       loading: false,
       datas: [],
-      gateway: null,
+      gateway: {
+        bail: null,
+        status: null,
+        claim: null
+      },
       electedNum: 0,
       candidateNum: 0,
       memberType: 1, // elected 1 , candidate 0
@@ -211,12 +216,12 @@ export default {
       this.$router.push('gateway')
     }
     this.gateway = gateway
-    if (gateway && gateway.agent) {
+    if (gateway) {
       await this.loadData()
-    }
-    let res = await this.getGatewayInfo({ name: gateway.name })
-    if (res.success) {
-      this.gateway.bail = res
+      let res = await this.getGatewayInfo({ name: gateway.name })
+      if (res.success) {
+        this.gateway.bail = res
+      }
     }
   },
   methods: {
@@ -304,7 +309,9 @@ export default {
         show: true
       }
     },
-    submit() {}
+    submit(form) {
+      // console.log(form) TODO
+    }
   },
 
   computed: {
@@ -390,6 +397,22 @@ export default {
     },
     address() {
       return this.user.account.address
+    },
+    gatewayTime() {
+      let gateway = this.gateway
+      return gateway && gateway.createTime
+        ? compileTimeStamp(gateway.createTime)
+        : gateway && gateway.lastUpdateHeight
+          ? getTimeFromHight(gateway.lastUpdateHeight)
+          : ''
+    },
+    getGatewayBail() {
+      let gateway = this.gateway
+      return convertFee(gateway && gateway.bail ? gateway.bail.totalBail : 0) + 'XAS'
+    },
+    getGatewayRealBail() {
+      let gateway = this.gateway
+      return convertFee(gateway && gateway.bail ? gateway.bail.bail : 0) + 'XAS'
     }
   },
   watch: {
