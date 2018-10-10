@@ -2,7 +2,7 @@
 
 module.exports = ctx => {
   return {
-    plugins: ['i18n', 'axios', 'vuelidate', 'clipboards', 'filters', 'tools', 'channel'],
+    plugins: ['i18n', 'axios', 'vuelidate', 'clipboards', 'filters', 'tools', 'channel', 'highlight'],
     css: ['app.styl'],
     extras: [
       ctx.theme.mat ? 'roboto-font' : null,

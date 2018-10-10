@@ -459,6 +459,32 @@ export default {
     )
     return api.broadcastTransaction(trans)
   },
+  // bancor buying
+  bancorTradeBySource: ({commit, state}, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.bancorBuy(
+      params.source,
+      params.target,
+      params.amount,
+      params.fee,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
+  },
+  // bancor selling
+  bancorTradeByTarget: ({commit, state}, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.bancorSell(
+      params.source,
+      params.target,
+      params.amount,
+      params.fee,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
+  },
   // 1.5 api
   getGatewayInfo: ({
     commit,
