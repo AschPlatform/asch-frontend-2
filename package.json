@@ -52,7 +52,8 @@
     "eslint-plugin-vue": "^4.0.0",
     "gulp": "^3.9.1",
     "gulp-string-replace": "^1.1.1",
-    "quasar-cli": "^0.16.4"
+    "quasar-cli": "^0.17.20",
+    "strip-ansi": "=3.0.1"
   },
   "engines": {
     "node": ">= 8.9.0",

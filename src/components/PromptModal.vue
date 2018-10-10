@@ -21,13 +21,12 @@
         <div>{{$t('RESERVE_RATIO_TIP')}}</div>
       </div>
       <div v-else>
-        {{$t('RESERVE_COMPENSATION_TIP', {amount:getAmount('claim','lockedBail'), asset:getAmount('claim','totalAmount')+gatewaySymbol, balance:getAmount('claim','userAmount')+gatewaySymbol, formula: '( '+getAmount('claim','userAmount')+'/'+getAmount('claim','totalAmount')+'
-        )' }) }}
+        {{$t('RESERVE_COMPENSATION_TIP', {amount:getAmount('claim','lockedBail'), asset:getAmount('claim','totalAmount')+gatewaySymbol, balance:getAmount('claim','userAmount')+gatewaySymbol, formula: '( '+getAmount('claim','userAmount')+'/'+getAmount('claim','totalAmount')+')'}) }}
       </div>
     </div>
     <div>
-      <q-btn color="secondary" @click="$emit('close')" :label="$t('label.cancel')" />
-      <q-btn color="secondary" @click="submit" :label="$t('label.ok')" />
+      <q-btn color="secondary" @click="close" :label="$t('label.cancel')" />
+      <q-btn color="secondary"  @click="submit" :label="$t('label.ok')" />
     </div>
   </q-modal>
 </template>
@@ -82,7 +81,10 @@ export default {
     },
     compensationForm: {
       val: {
-        required
+        required,
+        gtZero(value) {
+          return this.numberCheck(value)
+        }
       }
     },
     secondPwd: {
@@ -95,21 +97,20 @@ export default {
   methods: {
     convertFee,
     submit() {
-      const formName = ['placeholder', 'addForm', 'returnForm', 'compensationForm']
-      const type = this.type
       const secondPwd = this.secondPwd
       let secondPwdFlag = this.secondSignature && this.$v.secondPwd.$error
       if (secondPwdFlag) {
         return null
       }
-      if (this.$v[formName[type]].$error) {
+      this.$v[this.getFormName].$touch()
+      if (this.$v[this.getFormName].$error) {
         return null
       }
-      let amount = BigNumber(this[formName[type]].val)
+      let amount = BigNumber(+this.getForm.val)
         .times(Math.pow(10, this.getewayPrecision))
         .toString()
       let form = {
-        type,
+        type: this.type,
         amount,
         secondPwd
       }
@@ -130,6 +131,10 @@ export default {
     },
     numberCheck(value) {
       return amountStrReg.test(value) && Number(value) > 0
+    },
+    close() {
+      this.$emit('close')
+      this.getForm.val = ''
     }
   },
   computed: {
@@ -142,6 +147,13 @@ export default {
     },
     address() {
       return this.user.account.address
+    },
+    getForm() {
+      const formName = ['placeholder', 'addForm', 'returnForm', 'compensationForm']
+      return this[formName[this.type]]
+    },
+    getFormName() {
+      return ['placeholder', 'addForm', 'returnForm', 'compensationForm'][this.type]
     },
     // compensationAmount() {
     //   let gateway = this.gateway
@@ -176,12 +188,8 @@ export default {
     }
   },
   watch: {
-    type(val) {
-      // if (val && val < 3) {
-      //   // add or return
-      //   this.getGatewayInfo()
-      //   this.getGatewayAccountInfo()
-      // }
+    show(val) {
+      this.$v[this.getFormName].$touch()
     }
   }
 }
