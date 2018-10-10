@@ -872,7 +872,12 @@ const lang = {
   CONTRACT_ERR_DESC: '描述应为 5 ~ 256 长度',
   CONTRACT_ERR_CODE: '代码长度不能超过 xx ',
   CONTRACT_ERR_GAS: '请输入 gaslimit',
-  ERR_GAS_NUM_WRONG: '请输入正确的燃料费上限'
+  ERR_GAS_NUM_WRONG: '请输入正确的燃料费上限',
+
+  // ASCH 1.5
+  BUY_BACK_POOL: '回购池',
+  BURN_POOL: '燃烧池',
+  COUNCILDETAIL_BANLANCE: '理事会资产余额'
 }
 
 export default lang
