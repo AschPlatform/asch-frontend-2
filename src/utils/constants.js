@@ -349,7 +349,7 @@ const urls = {
     },
     // 获取用户Bancor兑换记录
     bancorRecord: {
-      url: '/api/v2/transactions/:address'
+      url: '/api/v2/bancors/transactions/:address'
     },
     // 获取理事会资产余额
     councilBalance: {
