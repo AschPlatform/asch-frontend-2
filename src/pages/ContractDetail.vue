@@ -21,7 +21,9 @@
         </div>
         <div class="row col-12">
           <q-field class="block col-10 font-16" label-width="2" :label="$t('SMART_CONTRACT_CODE')">
-            <q-input class="textareaInner" type="textarea" readonly hide-underline v-model="content.desc" value=""></q-input>
+            <!-- <q-input class="textareaInner" type="textarea" readonly hide-underline v-model="content.desc" value=""></q-input> -->
+            <!-- <pre v-highlightjs="content.desc"><code class="javascript"></code></pre> -->
+            <pre v-highlightjs><code class="javascript">const s = new Date().toString()</code></pre>
           </q-field>
         </div>
         <!-- <div class="row col-12">
@@ -54,7 +56,7 @@ export default {
     return {
       content: {
         name: 'CCTIEMFIXED',
-        desc: 'function(aca) { do while ( true) }',
+        desc: 'function(aca) { do {} while ( true) }',
         gas: 0.1
       }
     }

@@ -365,6 +365,21 @@ api2.contractList = params => {
   return fetch(urls.v2.contractList, params, 'get')
 }
 
+api2.getGatewayReserveInfo = params => {
+  return fetch(urls.v2.gatewayReserve, params, 'get')
+}
+
+api2.getGatewayRealClaim = params => {
+  return fetch(urls.v2.gatewayRealClaim, params, 'get')
+}
+
+api2.getGatewayMembers = params => {
+  return fetch(urls.v2.gatewayMembers, params, 'get')
+}
+api2.getGatewayBailStatus = params => {
+  return fetch(urls.v2.gatewayBailStatus, params, 'get')
+}
+
 export {
   api,
   api2

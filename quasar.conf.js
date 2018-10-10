@@ -2,7 +2,7 @@
 
 module.exports = ctx => {
   return {
-    plugins: ['i18n', 'axios', 'vuelidate', 'clipboards', 'filters', 'tools', 'channel'],
+    plugins: ['i18n', 'axios', 'vuelidate', 'clipboards', 'filters', 'tools', 'channel', 'highlight'],
     css: ['app.styl'],
     extras: [
       ctx.theme.mat ? 'roboto-font' : null,
@@ -31,7 +31,7 @@ module.exports = ctx => {
     devServer: {
       // https: true,
       // port: 8080,
-      // open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!
     framework: {

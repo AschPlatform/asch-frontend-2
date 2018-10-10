@@ -43,7 +43,7 @@ import { toast } from '../utils/util'
 import AssetIcon from '../components/AssetIcon'
 
 export default {
-  name: 'DepositModal',
+  name: 'MoreAssetModal',
   props: ['show', ''],
   components: {
     QModal,
