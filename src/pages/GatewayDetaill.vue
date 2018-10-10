@@ -304,7 +304,9 @@ export default {
         show: true
       }
     },
-    submit() {}
+    submit(form) {
+      // console.log(form)
+    }
   },
 
   computed: {
