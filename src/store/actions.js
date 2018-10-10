@@ -460,7 +460,10 @@ export default {
     return api.broadcastTransaction(trans)
   },
   // bancor buying
-  bancorTradeBySource: ({commit, state}, params) => {
+  bancorTradeBySource: ({
+    commit,
+    state
+  }, params) => {
     let secret = state.userInfo.secret
     let trans = asch.bancorBuy(
       params.source,
@@ -473,7 +476,10 @@ export default {
     return api.broadcastTransaction(trans)
   },
   // bancor selling
-  bancorTradeByTarget: ({commit, state}, params) => {
+  bancorTradeByTarget: ({
+    commit,
+    state
+  }, params) => {
     let secret = state.userInfo.secret
     let trans = asch.bancorSell(
       params.source,
@@ -509,5 +515,50 @@ export default {
     state
   }, params) => {
     return api2.getGatewayMembers(params)
+  },
+
+  // 1.5 contract
+  addBailAmount: ({
+    commit,
+    state
+  }, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.gateBailAdd(
+      params.name,
+      params.amount,
+      params.fee || 1000000,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
+  },
+
+  returnBailAmount: ({
+    commit,
+    state
+  }, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.gateBailReturn(
+      params.name,
+      params.amount,
+      params.fee || 1000000,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
+  },
+
+  getCompensation: ({
+    commit,
+    state
+  }, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.gateBailCompensate(
+      params.name,
+      params.fee || 1000000,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
   }
 }
