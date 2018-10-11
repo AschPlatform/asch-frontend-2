@@ -671,6 +671,24 @@ const feeFuncMap = {
   },
   404: trs => {
     return 0.01
+  },
+  407: trs => {
+    return 0.01
+  },
+  408: trs => {
+    return 0
+  },
+  409: trs => {
+    return 0
+  },
+  600: trs => {
+    return 0
+  },
+  601: trs => {
+    return 0
+  },
+  602: trs => {
+    return 0
   }
 }
 export default asch

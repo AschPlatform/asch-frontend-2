@@ -90,14 +90,14 @@
         <div class="bg-white shadow-2 fixed-info-height">
           <q-card-title class="bg-nine custom-card-title">
             <span class="font-16 text-tertiary font-weight">{{$t('RESERVE_TOTAL_AMOUNT')}} </span>
-            <span class="font-12 text-secondary valid-amount">
+            <span v-if="gateway&&gateway.bail" class="font-12 text-secondary valid-amount">
               {{$t('AVALABLE_BAIL_AMOUNT')}}
-              {{getGatewayRealBail}}
+              {{gateway.bail.bail | fee}}
             </span>
           </q-card-title>
           <q-card-main class="custom-card-main">
-          <div class="">
-            <span class="font-36 text-tertiary">{{getGatewayBail}}</span>
+          <div v-if="gateway&&gateway.bail">
+            <span class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
             <span class="font-20 text-secondary"> XAS</span>
           </div>
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
@@ -139,7 +139,7 @@
 import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd, QIcon, QBtnToggle } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { fullTimestamp, convertFee } from '../utils/asch'
-import { compileTimeStamp, getTimeFromHight } from '../utils/util'
+import { compileTimeStamp, getTimeFromHight, toast, translateErrMsg } from '../utils/util'
 import PromptModal from '../components/PromptModal'
 import BoundaryLine from '../components/BoundaryLine'
 
@@ -242,7 +242,7 @@ export default {
       await this.loadData()
       let res = await this.getGatewayInfo({ name: gateway.name })
       if (res.success) {
-        this.gateway.bail = res
+        this.gateway = this._.merge({}, this.gateway, { bail: res })
       }
     }
   },
@@ -251,7 +251,10 @@ export default {
       'getGatewayMembers',
       'getGatewayInfo',
       'getGatewayBailStatus',
-      'getGatewayRealClaim'
+      'getGatewayRealClaim',
+      'getCompensation',
+      'returnBailAmount',
+      'addBailAmount'
     ]),
     fullTimestamp,
     convertFee,
@@ -332,8 +335,31 @@ export default {
         show: true
       }
     },
-    submit(form) {
-      // console.log(form) TODO
+    async submit(form) {
+      let res = null
+      let { type, amount, secondPwd } = form
+      let params = {
+        name: this.gateway.name,
+        amount,
+        secondSecret: secondPwd
+      }
+      switch (type) {
+        case 1:
+          res = await this.addBailAmount(params)
+          break
+        case 2:
+          res = await this.returnBailAmount(params)
+          break
+        case 3:
+          res = await this.getCompensation(params)
+          break
+      }
+      if (res.success) {
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
+      } else {
+        translateErrMsg(this.$t, res.error)
+        this.disableBtn('btnDisable')
+      }
     }
   },
 
@@ -367,25 +393,25 @@ export default {
       return -1
     },
     getAddBtnShow() {
-      let showStates = [1, 2]
-      let gatewayState = this.getGatewayState
-      let flag = showStates.indexOf(gatewayState) > -1
-      return flag && this.isGatewayMember
+      // let showStates = [1, 2]
+      // let gatewayState = this.getGatewayState
+      // let flag = showStates.indexOf(gatewayState) > -1
+      // return flag && this.isGatewayMember
       // return true
     },
     getReturnBtnShow() {
-      let showStates = [1, 2]
-      let gatewayState = this.getGatewayState
-      let flag = showStates.indexOf(gatewayState) > -1
-      return flag && this.isGatewayMember
+      // let showStates = [1, 2]
+      // let gatewayState = this.getGatewayState
+      // let flag = showStates.indexOf(gatewayState) > -1
+      // return flag && this.isGatewayMember
       // return true
     },
     getCompensatioBtnShow() {
-      let showStates = [4]
-      let gatewayState = this.getGatewayState
-      let flag = showStates.indexOf(gatewayState) > -1
-      return flag && !this.isGatewayMember
-      // return true
+      // let showStates = [4]
+      // let gatewayState = this.getGatewayState
+      // let flag = showStates.indexOf(gatewayState) > -1
+      // return flag && !this.isGatewayMember
+      return true
     },
     user() {
       return this.userInfo
@@ -400,14 +426,6 @@ export default {
         : gateway && gateway.lastUpdateHeight
           ? getTimeFromHight(gateway.lastUpdateHeight)
           : ''
-    },
-    getGatewayBail() {
-      let gateway = this.gateway
-      return convertFee(gateway && gateway.bail ? gateway.bail.totalBail : 0)
-    },
-    getGatewayRealBail() {
-      let gateway = this.gateway
-      return convertFee(gateway && gateway.bail ? gateway.bail.bail : 0) + 'XAS'
     }
   },
   watch: {

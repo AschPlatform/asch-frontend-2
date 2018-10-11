@@ -5,14 +5,14 @@
       <q-field v-if="type==1" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_ADD')" orientation="vertical">
         <q-input @blur="$v.addForm.val.$touch" v-model="addForm.val" :error="$v.addForm.val.$error" :placeholder="$t('PLACEHOLDER_GATEWAY_ADD',{amount:getAmount('status','needSupply')})" />
       </q-field>
-      <q-field v-if="type==2" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_ADD')" orientation="vertical">
+      <q-field v-if="type==2" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_RETURN')" :error-label="$t('ERR_GATEWAY_RETURN')" orientation="vertical">
         <q-input @blur="$v.returnForm.val.$touch" v-model="returnForm.val" :error="$v.returnForm.val.$error" :placeholder="$t('PLACEHOLDER_GATEWAY_RETURN',{amount:getAmount('status','withdrawl')})" />
       </q-field>
-      <q-field v-if="type==3" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_RETURN')" orientation="vertical">
+      <q-field v-if="type==3" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_COM')" :error-label="$t('ERR_GATEWAY_RETURN')" orientation="vertical">
         <q-input :disable="true" v-model="compensationForm.address" :placeholder="getAmount('claim','realClaim') + ' XAS'" />
       </q-field>
-      <q-field v-if="secondSignature" class="col-12 margin-top-54">
-        <q-input :float-label="$t('TRS_TYPE_SECOND_PASSWORD')" v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
+      <q-field v-if="secondSignature" :label="$t('TRS_TYPE_SECOND_PASSWORD')" class="col-12 margin-top-54" orientation="vertical">
+        <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
       </q-field>
       <br/>
       <div v-if="type>0" class="tips">
@@ -50,7 +50,7 @@ export default {
     QInput,
     QField
   },
-  props: ['show', 'title', 'type', 'gateway'], // type 1 add , type 2 return ,type 0 compensation
+  props: ['show', 'title', 'type', 'gateway'], // type 1 add , type 2 return ,type 3 compensation
   data() {
     return {
       addForm: {
@@ -60,7 +60,7 @@ export default {
         val: ''
       },
       compensationForm: {
-        val: ''
+        va: 10
       },
       secondPwd: ''
     }
@@ -127,10 +127,6 @@ export default {
         : convertFee(value, gateway[props] ? gateway[props].precision : undefined)
     },
     initFrom() {
-      let type = this.type
-      if (type === 3) {
-        this.compensationForm.val = this.getAmount('claim', 'realClaim')
-      }
     },
     numberCheck(value) {
       return amountStrReg.test(value) && Number(value) > 0
@@ -138,6 +134,7 @@ export default {
     close() {
       this.$emit('close')
       this.getForm.val = ''
+      this.secondPwd = ''
     }
   },
   computed: {
@@ -193,6 +190,10 @@ export default {
   watch: {
     show(val) {
       this.$v[this.getFormName].$touch()
+    },
+    type(val) {
+      debugger
+      if (val === 3) this.compensationForm.val = this.getAmount('claim', 'realClaim')
     }
   }
 }
