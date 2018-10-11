@@ -910,6 +910,8 @@ const lang = {
   LATEST_OP_TIME: '最近操作时间',
   AVALABLE_BAIL_AMOUNT: '*有效储备金:',
   GATEWAY_STATUS: '运行状态',
+  BANCOR_MODAL_ERROR_1: '请填写正确的数额',
+  BANCOR_MODAL_ERROR_2: '请填写正确的二级密码',
   ERR_CONTRACT_NOT_EXIST: '合约信息未找到'
 }
 

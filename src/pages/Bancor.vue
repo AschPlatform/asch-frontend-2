@@ -22,7 +22,7 @@
           <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
             <div class="btn-group flex justify-around">
               <q-btn color="secondary" @click="callBuyModal(props.row)">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
-              <q-btn color="primary" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
+              <q-btn color="primary" :disabled="!myBalances[props.row.money]" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
             </div>
           </q-td>
         </q-tr>
@@ -36,28 +36,28 @@
     <div class="bancor-content shadow-2">
       <q-table class="no-shadow" :data="historys" row-key="index" :columns="historyColumns" @request="requestHistory" :pagination.sync="pagination" :rows-per-page-options="[10]">
         <q-td slot="body-cell-timestamp" slot-scope="props" :props="props">
-          {{props.value}}
+          {{fullTimestamp(props.value)}}
         </q-td>
-        <q-td slot="body-cell-type" slot-scope="props" :props="props">
-          {{props.value}}
+        <q-td :class="props.row.source === 'XAS' ? 'text-secondary' : 'text-negative'" slot="body-cell-type" slot-scope="props" :props="props">
+          {{judge(props)}}
         </q-td>
-        <q-td key="pair" slot-scope="props" :props="props">
+        <q-td slot="body-cell-source" slot-scope="props" :props="props">
           {{props.row.source + '/' + props.row.target}}
         </q-td>
-        <q-td slot="body-cell-price" slot-scope="props" :props="props">
-          {{props.value}}
+        <q-td slot="body-cell-ratio" slot-scope="props" :props="props">
+          {{props.value}} {{props.row.source}}
         </q-td>
-        <q-td slot="body-cell-amount" slot-scope="props" :props="props">
-          {{props.value}}
+        <q-td slot="body-cell-buyed" slot-scope="props" :props="props">
+          {{convertFee(props.value, props.row.targetPrecision)}} {{props.row.target}}
         </q-td>
-        <q-td slot="body-cell-total" slot-scope="props" :props="props">
-          {{props.value}}
+        <q-td slot="body-cell-used" slot-scope="props" :props="props">
+          {{convertFee(props.value, props.row.sourcePrecision)}} {{props.row.source}}
         </q-td>
       </q-table>
     </div>
 
     <!-- Modals -->
-    <bancor-trade-modal :show="tradeModalShow" :type='dealPairInfo.type' :buy="dealPairInfo.buy" :sell="dealPairInfo.sell" :balance="amount" :price='dealPairInfo.price' @close="closeTradeModal" @buy="bancorBuy" @sell="bancorSell"></bancor-trade-modal>
+    <bancor-trade-modal :show="tradeModalShow" :type='dealPairInfo.type' :secondPwd="secondSignature" :buy="dealPairInfo.buy" :sell="dealPairInfo.sell" :balance="amount" :price='dealPairInfo.price' @close="closeTradeModal" @buy="bancorBuy" @sell="bancorSell"></bancor-trade-modal>
   </q-page>
 </template>
 
@@ -83,6 +83,7 @@ import {
   convertFee
 } from '../utils/asch'
 import BancorTradeModal from '../components/BancorTradeModal'
+import { fullTimestamp } from '../utils/asch'
 
 export default {
   name: 'Bancor',
@@ -98,7 +99,9 @@ export default {
   data() {
     return {
       tradeModalShow: false,
+      loading: false,
       myBalances: {},
+      config: {},
       dealPairInfo: {
         type: 0,
         buy: '',
@@ -169,73 +172,123 @@ export default {
           field: 'type'
         },
         {
-          name: 'pair',
+          name: 'source',
           required: true,
           label: this.$t('BANCOR_HIS_COL_3'),
           align: 'left',
-          field: 'pair'
+          field: 'source'
         },
         {
-          name: 'avarage',
+          name: 'ratio',
           required: true,
           label: this.$t('BANCOR_HIS_COL_4'),
           align: 'left',
-          field: 'avarage'
+          field: 'ratio'
         },
         {
-          name: 'amount',
+          name: 'buyed',
           required: true,
           label: this.$t('BANCOR_HIS_COL_5'),
           align: 'left',
-          field: 'amount'
+          field: 'buyed'
         },
         {
-          name: 'total',
+          name: 'used',
           required: true,
-          label: this.$t('BANCOR_HIS_COL_5'),
+          label: this.$t('BANCOR_HIS_COL_6'),
           align: 'left',
-          field: 'total'
+          field: 'used'
         }
       ]
     }
   },
   async mounted() {
+    this.getMyBalances()
     this.getBncorsPairs()
     this.requestHistory()
   },
   methods: {
-    ...mapActions(['getBalances', 'getBancorPairs', 'getBancorRecord', 'bancorTradeBySource', 'bancorTradeByTarget']),
+    convertFee,
+    fullTimestamp,
+    ...mapActions(['getBalances', 'getCurrencies', 'getAllAssets', 'getBancorPairs', 'getBancorRecord', 'bancorTradeBySource', 'bancorTradeByTarget']),
     async getBncorsPairs() {
       let result = await this.getBancorPairs()
       if (result.success) {
         this.bancors = result.bancors
         this.bancors.forEach(e => {
-          e.latestBid = '0.23'
+          // e.latestBid = '0.23'
         })
       }
     },
     async request() {
       await getBncorsPairs()
     },
-    async getBalance() {
-      let res = await this.getBalances({
-        address: this.user.account.address,
-        flag: 2
+    async getMyBalances() {
+      let result = await this.getBalances({
+        address: this.user.account.address
       })
-      if (res.success) {
-        this.myBalances = res.balances
-        this.myBalances.forEach(o => {
-          o.precision = o.asset.precision
+      if (result.success && result.balances.length > 0) {
+        let _tempArr = {}
+        _tempArr.XAS = {
+          precision: 8
+        }
+        result.balances.forEach(o => {
+          let _obj = o
+          _obj.precision = _obj.asset.precision
+          _tempArr[o.currency] = _obj
         })
+        this.myBalances = _tempArr
       }
     },
-    async requestHistory() {
+    async getBalance() {
+      // Get cross chain assets
+      let resCross = await this.getCurrencies({
+        // address: this.user.account.address,
+        // flag: 2
+        limit: 9999,
+        offset: 0
+      })
+      // Get side chain assets
+      let resSide = await this.getAllAssets({
+        limit: 9999,
+        offset: 0
+      })
+      if (resCross.success) {
+        // this.myBalances = res.currencies
+        let _tempArr = {}
+        resCross.currencies.forEach(o => {
+          let _obj = o
+          _tempArr[o.symbol] = _obj
+          // o.precision = o.asset.precision
+        })
+        this.myBalances = Object.assign(this.myBalances, _tempArr)
+      }
+      if (resSide.success) {
+        let _tempArr = {}
+        resSide.assets.forEach(o => {
+          let _obj = o
+          _tempArr[o.name] = _obj
+        })
+        this.myBalances = Object.assign(this.myBalances, _tempArr)
+      }
+    },
+    async requestHistory(props) {
+      this.loading = true
+      if (props) {
+        this.pagination = props.pagination
+      }
+      let limit = this.pagination.rowsPerPage
+      let pageNo = this.pagination.page
       let result = await this.getBancorRecord({
-        address: this.user.address
+        address: this.user.address,
+        limit: limit,
+        offset: (pageNo - 1) * limit
       })
       // TODO:
       if (result.success) {
-        this.historys = result.transacions
+        this.loading = false
+        this.historys = result.transactions
+        this.pagination.rowsNumber = result.count
       }
     },
     closeTradeModal() {
@@ -246,6 +299,11 @@ export default {
       this.dealPairInfo.buy = props.money
       this.dealPairInfo.sell = props.stock
       this.dealPairInfo.price = props.latestBid
+      this.config = {
+        money: props.money,
+        stock: props.stock,
+        owner: props.owner
+      }
       this.tradeModalShow = true
     },
     callSellModal(props) {
@@ -253,29 +311,46 @@ export default {
       this.dealPairInfo.buy = props.stock
       this.dealPairInfo.sell = props.money
       this.dealPairInfo.price = props.latestBid
+      this.config = {
+        money: props.money,
+        stock: props.stock,
+        owner: props.owner
+      }
       this.tradeModalShow = true
     },
     async bancorBuy(num) {
       let result = await this.bancorTradeBySource({
-        source: this.dealPairInfo.money,
-        target: this.dealPairInfo.stock,
-        sourceAmount: num
+        source: this.dealPairInfo.sell,
+        target: this.dealPairInfo.buy,
+        sourceAmount: num * Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision),
+        config: this.config
       })
       if (result.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
+        this.tradeModalShow = false
+      } else {
+        toastError(result.error)
       }
-      toastError(res.error)
     },
     async bancorSell(num) {
       let result = await this.bancorTradeBySource({
-        source: this.dealPairInfo.money,
-        target: this.dealPairInfo.stock,
-        targetAmount: num
+        source: this.dealPairInfo.sell,
+        target: this.dealPairInfo.buy,
+        sourceAmount: num * Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision),
+        config: this.config
       })
       if (result.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
+        this.tradeModalShow = false
+      } else {
+        toastError(result.error)
       }
-      toastError(res.error)
+    },
+    judge(props) {
+      if (props.row.source === 'XAS') {
+        return this.$t('BANCOR_BUTTON_BUY')
+      }
+      return this.$t('BANCOR_BUTTON_SELL')
     }
   },
   computed: {
@@ -283,13 +358,16 @@ export default {
     user() {
       return this.userInfo
     },
+    secondSignature() {
+      return this.user ? this.user.account.secondPublicKey : ''
+    },
     balance() {
-      return this.user.account.xas
+      return this.user.account.xas / Math.pow(10, 8)
     },
     // TODO
     amount() {
-      if (this.balances && this.dealPairInfo.sell !== 'XAS') {
-        return this.balances[this.dealPairInfo.sell].amount
+      if (this.myBalances && this.dealPairInfo.sell !== 'XAS' && this.dealPairInfo.sell) {
+        return convertFee(this.myBalances[this.dealPairInfo.sell].balance, this.myBalances[this.dealPairInfo.sell].precision)
       }
       return this.balance
     }

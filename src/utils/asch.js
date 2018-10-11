@@ -503,27 +503,27 @@ const asch = {
       })
     )
   },
-  // bancor交易对买入
+  // bancor交易对根据对象
   // TODO
-  bancorBuy: (source, target, amount, fee, secret, secondPwd = '') => {
+  bancorTradeByTarget: (source, target, targetAmount, config, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 20,
         fee: 10000000,
-        args: [source, target, amount, fee],
+        args: [source, target, targetAmount, config],
         secret,
         secondSecret: secondPwd
       })
     )
   },
-  // bancor交易对卖出
+  // bancor交易对根据本币
   // TODO
-  bancorSell: (source, target, amount, fee, secret, secondPwd = '') => {
+  bancorTradeBySource: (source, target, sourceAmount, config, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 21,
         fee: 10000000,
-        args: [source, target, amount, fee],
+        args: [source, target, sourceAmount, config],
         secret,
         secondSecret: secondPwd
       })
@@ -644,6 +644,12 @@ const feeFuncMap = {
     return 0.1
   },
   12: trs => {
+    return 0.1
+  },
+  20: trs => {
+    return 0.1
+  },
+  21: trs => {
     return 0.1
   },
   100: trs => {

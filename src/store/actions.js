@@ -256,6 +256,7 @@ export default {
   }, params) => {
     return api2.myCurrencyWithdrawals(params)
   },
+  // get cross chain assets
   getCurrencies: ({
     commit
   }, params) => {
@@ -362,6 +363,12 @@ export default {
   }, params) => {
     return api2.chains(params)
   },
+  // get all chain assets
+  getAllAssets: ({
+    commit
+  }, params) => {
+    return api2.chainAssets(params)
+  },
   // get installed chains
   getInstalledChains: ({
     commit
@@ -465,11 +472,11 @@ export default {
     state
   }, params) => {
     let secret = state.userInfo.secret
-    let trans = asch.bancorBuy(
+    let trans = asch.bancorTradeBySource(
       params.source,
       params.target,
-      params.amount,
-      params.fee,
+      params.sourceAmount,
+      params.config,
       secret,
       params.secondSecret || ''
     )
@@ -481,11 +488,11 @@ export default {
     state
   }, params) => {
     let secret = state.userInfo.secret
-    let trans = asch.bancorSell(
+    let trans = asch.bancorTradeByTarget(
       params.source,
       params.target,
-      params.amount,
-      params.fee,
+      params.targetAmount,
+      params.config,
       secret,
       params.secondSecret || ''
     )

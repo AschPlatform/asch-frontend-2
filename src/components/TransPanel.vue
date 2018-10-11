@@ -299,7 +299,6 @@ export default {
       this.refreshBalances()
     },
     feeType(val) {
-      // console.log(val)
     }
   }
 }

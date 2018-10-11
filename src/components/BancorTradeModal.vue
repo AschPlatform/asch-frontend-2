@@ -5,8 +5,19 @@
       <div class="trader-upper">
         <q-field :label="$t('AMOUNTS') + ' :'" label-width='2' class="font-16">
           <div class="input-box row">
-            <input type="number" v-model="amount" class="col-9 text-secondary"/>
+            <input type="number" v-model="amount" @blur="$v.amount.$touch" class="col-9 text-secondary"/>
             <div class="col-3">{{sell}}</div>
+          </div>
+          <div class="q-field-bottom row no-wrap errContainer" :class="appear">
+            <div class="q-field-error col text-negative">{{$t('BANCOR_MODAL_ERROR_1')}}</div>
+          </div>
+        </q-field>
+        <q-field v-if="this.secondPwd" :label="$t('TRS_TYPE_SECOND_PASSWORD') + ' :'" label-width='2'>
+          <div class="input-box row">
+            <input class="password" type="password" v-model="password" @blur="$v.password.$touch">
+          </div>
+          <div class="q-field-bottom row no-wrap errContainer" :class="appearPwd">
+            <div class="q-field-error col text-negative">{{$t('BANCOR_MODAL_ERROR_2')}}</div>
           </div>
         </q-field>
       </div>
@@ -39,6 +50,8 @@ import {
   QInput,
   QBtn
 } from 'quasar'
+import { required } from 'vuelidate/lib/validators'
+import { secondPwdReg } from '../utils/validators'
 
 export default {
   name: 'BancorTradeModal',
@@ -48,15 +61,38 @@ export default {
     QInput,
     QBtn
   },
-  props: ['type', 'buy', 'sell', 'balance', 'price', 'show'],
+  props: ['type', 'buy', 'sell', 'balance', 'price', 'show', 'secondPwd'],
   data () {
     return {
-      amount: 0
+      amount: 0,
+      password: ''
       // show: true
+    }
+  },
+  validations: {
+    amount: {
+      required,
+      lessThan(val) {
+        let v = Number(val)
+        let b = Number(this.balance)
+        if (b > v) {
+          return true
+        }
+        return false
+      }
+    },
+    password: {
+      regTest(val) {
+        if (this.secondPwd) {
+          return secondPwdReg.test(val)
+        }
+        return true
+      }
     }
   },
   methods: {
     close() {
+      this.amount = 0
       this.$emit('close')
     },
     callBuy(amount) {
@@ -66,6 +102,10 @@ export default {
       this.$emit('sell', amount)
     },
     switchAction() {
+      this.$v.$touch()
+      if (this.$v.amount.$error || this.$v.password.$error) {
+        return
+      }
       if (this.type === 0) {
         this.callBuy(this.amount)
       } else {
@@ -87,7 +127,19 @@ export default {
       set: function(val) {
         return null
       }
-    }
+    },
+    appear() {
+      if (this.$v.amount.$error) {
+        return 'show'
+      }
+      return 'hide'
+    },
+    appearPwd() {
+      if (this.$v.password.$error) {
+        return 'show'
+      }
+      return 'hide'
+    },
   }
 }
 </script>
@@ -124,6 +176,8 @@ export default {
       background-color #f9f9f9;
       line-height inherit;
       text-align center;
+    .password
+      width 100%;
 .trader-bottom
   padding 12px 0px 5px 0px;
   table
@@ -134,4 +188,10 @@ export default {
     margin-top 45px;
     height 40px;
     font-size 18px;
+.show
+  display block
+.hide
+  display none
+.errContainer
+  border-top none !important;
 </style>
