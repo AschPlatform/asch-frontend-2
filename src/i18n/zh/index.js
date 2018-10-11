@@ -916,7 +916,10 @@ const lang = {
   AVALABLE_BAIL_AMOUNT: '* 有效储备金: ',
   GATEWAY_STATUS: '运行状态',
   GATEWAY_MEMBER_AWARD: '网关成员激励',
-  ERR_CONTRACT_NOT_EXIST: '合约信息未找到'
+  ERR_CONTRACT_NOT_EXIST: '合约信息未找到',
+  PLACEHOLDER_CONTRACT_NAME: '请输入合约名称',
+  PLACEHOLDER_SMART_CONTRACT_DESC: '请输入合约描述',
+  PLACEHOLDER_CONTRACT_GAS: '请输入Gas_Limit'
 }
 
 export default lang
