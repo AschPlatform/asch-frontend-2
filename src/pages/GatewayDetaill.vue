@@ -30,10 +30,10 @@
           <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" class="fixed-height custom-table-top" :data="datas" :columns="columns" :pagination.sync="pagination" 
           @request="request" :loading="loading" row-key="address" :rows-per-page-options="[10]" hide-bottom >
             <template slot="top-left" slot-scope="props">
-              <button :class="type === 1 ? styleSelected : styleUnselected" @click="changeType(1)">
+              <button :class="memberType === 1 ? styleSelected : styleUnselected" @click="changeType(1)">
                {{$t('COUNCIL_MEMBER_ELECTED', {number: electedNum})}}
               </button>
-              <button :class="type === 0 ? styleSelected : styleUnselected" @click="changeType(0)">
+              <button :class="memberType === 0 ? styleSelected : styleUnselected" @click="changeType(0)">
                {{$t('COUNCIL_MEMBER_CANDIDATE', {number: candidateNum})}}
               </button>
             </template>
@@ -161,7 +161,6 @@ export default {
   },
   data() {
     return {
-      type: 1,
       styleSelected: 'inner-btn text-secondary selected',
       styleUnselected: 'inner-btn text-four',
       columns: [
@@ -279,7 +278,7 @@ export default {
           } else {
             candidateNum++
           }
-          return p.elected === this.type
+          return p.elected === this.memberType
         })
       }
       this.candidateNum = candidateNum
@@ -317,8 +316,7 @@ export default {
       return getTimeFromHight(this.latestBlock, height)
     },
     changeType(val) {
-      // this.memberType = val
-      this.type = val
+      this.memberType = val
       this.loadData()
     },
     showPromptModal(type) {
@@ -393,25 +391,22 @@ export default {
       return -1
     },
     getAddBtnShow() {
-      // let showStates = [1, 2]
-      // let gatewayState = this.getGatewayState
-      // let flag = showStates.indexOf(gatewayState) > -1
-      // return flag && this.isGatewayMember
-      // return true
+      let showStates = [1, 2]
+      let gatewayState = this.getGatewayState
+      let flag = showStates.indexOf(gatewayState) > -1
+      return flag && this.isGatewayMember
     },
     getReturnBtnShow() {
-      // let showStates = [1, 2]
-      // let gatewayState = this.getGatewayState
-      // let flag = showStates.indexOf(gatewayState) > -1
-      // return flag && this.isGatewayMember
-      // return true
+      let showStates = [1, 2]
+      let gatewayState = this.getGatewayState
+      let flag = showStates.indexOf(gatewayState) > -1
+      return flag && this.isGatewayMember
     },
     getCompensatioBtnShow() {
-      // let showStates = [4]
-      // let gatewayState = this.getGatewayState
-      // let flag = showStates.indexOf(gatewayState) > -1
-      // return flag && !this.isGatewayMember
-      return true
+      let showStates = [4]
+      let gatewayState = this.getGatewayState
+      let flag = showStates.indexOf(gatewayState) > -1
+      return flag && !this.isGatewayMember
     },
     user() {
       return this.userInfo
