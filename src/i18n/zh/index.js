@@ -906,10 +906,11 @@ const lang = {
   PLEDGE_AMOUNT: '托管资产总额',
   RESERVE_ADD_LABEL: '追加储备金',
   RESERVE_RETURN_LABEL: '退回储备金',
-  RESERVE_COMPENSATION_LABEL: '领取赔偿',
+  RESERVE_COMPENSATION_LABEL: '领取赔偿',
   LATEST_OP_TIME: '最近操作时间',
-  AVALABLE_BAIL_AMOUNT: '*有效储备金:',
-  GATEWAY_STATUS: '运行状态'
+  AVALABLE_BAIL_AMOUNT: '* 有效储备金: ',
+  GATEWAY_STATUS: '运行状态',
+  GATEWAY_MEMBER_AWARD: '网关成员激励'
 }
 
 export default lang

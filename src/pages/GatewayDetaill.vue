@@ -3,12 +3,15 @@
     <div class="gatewayDetail-content">
       <div class="no-wrap q-pa-md row justify-between">
         <span>
-            <i class="material-icons vertical-align-sub font-18 text-black">border_color</i>
-            <h5 class="q-px-md inline-block q-my-none font-18">{{$t('GATEWAY_PARTICULARS')}}</h5>
-            </span>
+          <i class="material-icons vertical-align-sub font-18 text-black">border_color</i>
+          <h5 class="q-px-md inline-block q-my-none font-18">{{$t('GATEWAY_PARTICULARS')}}</h5>
+        </span>
         <q-btn color="secondary" class="self-center" @click="$router.push('gateway')">
           <q-icon name="reply" />
         </q-btn>
+      </div>
+      <div class="title-line">
+        <boundary-line />
       </div>
       <div class="row q-px-md gutter-md">
         <div class="col-md-8 col-xs-12">
@@ -24,12 +27,15 @@
             </div>
           </q-card>
   
-          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" class="fixed-height" :data="datas" :columns="columns" :pagination.sync="pagination" 
+          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" class="fixed-height custom-table-top" :data="datas" :columns="columns" :pagination.sync="pagination" 
           @request="request" :loading="loading" row-key="address" :rows-per-page-options="[10]" hide-bottom >
             <template slot="top-left" slot-scope="props">
-              <q-btn-toggle :class="transRecordBtnClass" color="white" text-color="secondary"  icon="fiber_manual_record" v-model="memberType" 
-                  toggle-color="secondary"  toggle-text-color="white"
-                  :options="options" @input="changeType" />
+              <button :class="type === 1 ? styleSelected : styleUnselected" @click="changeType(1)">
+               {{$t('COUNCIL_MEMBER_ELECTED', {number: electedNum})}}
+              </button>
+              <button :class="type === 0 ? styleSelected : styleUnselected" @click="changeType(0)">
+               {{$t('COUNCIL_MEMBER_CANDIDATE', {number: candidateNum})}}
+              </button>
             </template>
             <!-- <q-td slot="body-cell-operation" slot-scope="props" :props="props">
               <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">
@@ -53,16 +59,26 @@
         <div v-if="gateway" :class="gatewayDetailClass">
           <q-card class="desktop-only no-shadow" align="left">
             <div class="bg-white shadow-2 fixed-height" >
-              <q-card-title class="bg-nine">
-                {{$t('BASIC_INFO')}}
+              <q-card-title class=" bg-nine custom-card-title">
+                <div class="row justify-between">
+                  <span class="font-16 text-tertiary">{{$t('BASIC_INFO')}}</span>
+                  <span class="font-12 text-secondary valid-amount gateway-member-award">
+                    {{$t('GATEWAY_MEMBER_AWARD')}}
+                    <a class="cursor-pointer" href="https://www.asch.io/docs" target="_blanck">
+                      <i class="material-icons vertical-align-sub font-14 text-secondary">help</i>
+                    </a>   
+                  </span>
+                </div>  
               </q-card-title>
-              <q-card-main class="word-wrap-break">
-                <div class="font-22 text-black font-weight">{{gateway.name}}</div>
-              <div>
-                {{$t('GATEWAY_STATUS')}}：{{getGatewayState === 2 ? 'online':'offline'}}
+              <q-card-main class="gateway-info-container">
+                <div class="font-36 text-secondary font-bold">{{gateway.name}} {{$t('GATEWAY')}}</div>
+                <div class="margin-top-30">
+                  <span class="font-16 text-five font-bold">{{$t('GATEWAY_STATUS')}}：</span>
+                  <span class="font-16" :class="getGatewayState === 2 ? 'text-secondary':'text-red'">{{getGatewayState === 2 ? 'online':'offline'}}</span>
                 </div>
-              <div>
-                {{$t('DESC')}}：{{gateway?gateway.desc:''}}
+                <div class="margin-t-15">
+                  <span class="font-16 text-five font-bold">{{$t('DAPP_DESCRIPTION')}}：</span>
+                  <span class="font-16 text-five">{{gateway?gateway.desc:''}}</span>
                 </div>
               </q-card-main>
             </div>
@@ -70,51 +86,52 @@
         </div>
       </div>
       <div class="row q-px-md gutter-md">
-      <q-card class="no-shadow margin-top-20 col-4" align="left">
+      <q-card class="no-shadow margin-top-30 col-4" align="left">
         <div class="bg-white shadow-2 fixed-info-height">
-          <q-card-title class="bg-nine">
-            <span class="font-22 text-black font-weight">{{$t('RESERVE_TOTAL_AMOUNT')}}</span>
-            <span>
+          <q-card-title class="bg-nine custom-card-title">
+            <span class="font-16 text-tertiary font-weight">{{$t('RESERVE_TOTAL_AMOUNT')}} </span>
+            <span class="font-12 text-secondary valid-amount">
               {{$t('AVALABLE_BAIL_AMOUNT')}}
               {{getGatewayRealBail}}
             </span>
           </q-card-title>
-          <q-card-main class="word-wrap-break">
-          <div class="row">
-            {{getGatewayBail}}
+          <q-card-main class="custom-card-main">
+          <div class="">
+            <span class="font-36 text-tertiary">{{getGatewayBail}}</span>
+            <span class="font-20 text-secondary"> XAS</span>
           </div>
-          <div class="flex row">
-            <q-btn v-show="getAddBtnShow" big class="col-6" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
-            <q-btn v-show="getReturnBtnShow" big class="col-6" color="secondary" @click="showPromptModal(2)" :label="$t('RESERVE_RETURN_LABEL')" />
-            <q-btn v-show="getCompensatioBtnShow" big class="col-6" color="secondary" @click="showPromptModal(3)" :label="$t('RESERVE_COMPENSATION_LABEL')" />
+          <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
+            <q-btn v-show="getAddBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
+            <q-btn v-show="getReturnBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(2)" :label="$t('RESERVE_RETURN_LABEL')" />
+            <q-btn v-show="getCompensatioBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(3)" :label="$t('RESERVE_COMPENSATION_LABEL')" />
           </div>
           </q-card-main>
         </div> 
       </q-card>
-      <q-card class="no-shadow margin-top-20 col-4" align="left">
+      <q-card class="no-shadow margin-top-30 col-4" align="left">
        <div class="bg-white shadow-2 fixed-info-height">
           <q-card-title class="bg-nine">
             <span class="font-22 text-black font-weight">{{$t('PLEDGE_AMOUNT')}}</span>
           </q-card-title>
-          <q-card-main class="word-wrap-break">
-          {{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}}
+          <q-card-main class="custom-card-main">
+            <span class="font-36 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}}</span>
+            <span class="font-20 text-secondary"> BCH</span>
           </q-card-main>
         </div>  
       </q-card>
-      <q-card class="no-shadow margin-top-20 col-4" align="left">
-        <div class="bg-white shadow-2 row fixed-info-height">
+      <q-card class="no-shadow margin-top-30 col-4" align="left">
+        <div class="bg-white shadow-2 fixed-info-height">
           <q-card-title class="bg-nine self-start bottom-container-top">
             <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
           </q-card-title>
-          <q-card-main class="flex item-center bottom-container-bottom height-62 ">
-            <span class="font-24 text-secondary">{{gatewayTime}}</span>
+          <q-card-main class="custom-card-main">
+            <span class="font-36 text-five">{{gatewayTime}}</span>
           </q-card-main>
         </div>
       </q-card>
     </div>
     </div>
     <prompt-modal :show="modal.show" :title="modal.title" :type="modal.type" :gateway="gateway" @submit="submit" @close="modal.show=false" />
-  
   </q-page>
 </template>
 
@@ -124,6 +141,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { fullTimestamp, convertFee } from '../utils/asch'
 import { compileTimeStamp, getTimeFromHight } from '../utils/util'
 import PromptModal from '../components/PromptModal'
+import BoundaryLine from '../components/BoundaryLine'
 
 export default {
   name: 'GatewayDetail',
@@ -138,10 +156,14 @@ export default {
     QTd,
     QIcon,
     QBtnToggle,
-    PromptModal
+    PromptModal,
+    BoundaryLine
   },
   data() {
     return {
+      type: 1,
+      styleSelected: 'inner-btn text-secondary selected',
+      styleUnselected: 'inner-btn text-four',
       columns: [
         {
           name: 'name',
@@ -254,7 +276,7 @@ export default {
           } else {
             candidateNum++
           }
-          return p.elected === this.memberType
+          return p.elected === this.type
         })
       }
       this.candidateNum = candidateNum
@@ -292,7 +314,8 @@ export default {
       return getTimeFromHight(this.latestBlock, height)
     },
     changeType(val) {
-      this.memberType = val
+      // this.memberType = val
+      this.type = val
       this.loadData()
     },
     showPromptModal(type) {
@@ -319,34 +342,6 @@ export default {
     gatewayDetailClass() {
       return this.isDesk ? 'col-md-4 col-xs-12' : 'col-md-4 col-xs-12 margin-top-minus-28'
     },
-    transRecordBtnClass() {
-      let deskStyle = {
-        'bg-white': true,
-        'text-secondary': true
-      }
-      let mobileStyle = {
-        'trans-record-btns': true,
-        'bg-white': true,
-        'text-secondary': true
-      }
-      return this.isDesktop ? deskStyle : mobileStyle
-    },
-    options() {
-      return [
-        {
-          label: this.$t('COUNCIL_MEMBER_ELECTED', {
-            number: this.electedNum
-          }),
-          value: 1
-        },
-        {
-          label: this.$t('COUNCIL_MEMBER_CANDIDATE', {
-            number: this.candidateNum
-          }),
-          value: 0
-        }
-      ]
-    },
     getGatewayState() {
       /**
        * -1 no gateway data
@@ -372,25 +367,25 @@ export default {
       return -1
     },
     getAddBtnShow() {
-      // let showStates = [1, 2]
-      // let gatewayState = this.getGatewayState
-      // let flag = showStates.indexOf(gatewayState) > -1
-      // return flag && this.isGatewayMember
-      return true
+      let showStates = [1, 2]
+      let gatewayState = this.getGatewayState
+      let flag = showStates.indexOf(gatewayState) > -1
+      return flag && this.isGatewayMember
+      // return true
     },
     getReturnBtnShow() {
-      // let showStates = [1, 2]
-      // let gatewayState = this.getGatewayState
-      // let flag = showStates.indexOf(gatewayState) > -1
-      // return flag && this.isGatewayMember
-      return true
+      let showStates = [1, 2]
+      let gatewayState = this.getGatewayState
+      let flag = showStates.indexOf(gatewayState) > -1
+      return flag && this.isGatewayMember
+      // return true
     },
     getCompensatioBtnShow() {
-      // let showStates = [4]
-      // let gatewayState = this.getGatewayState
-      // let flag = showStates.indexOf(gatewayState) > -1
-      // return flag && !this.isGatewayMember
-      return true
+      let showStates = [4]
+      let gatewayState = this.getGatewayState
+      let flag = showStates.indexOf(gatewayState) > -1
+      return flag && !this.isGatewayMember
+      // return true
     },
     user() {
       return this.userInfo
@@ -408,7 +403,7 @@ export default {
     },
     getGatewayBail() {
       let gateway = this.gateway
-      return convertFee(gateway && gateway.bail ? gateway.bail.totalBail : 0) + 'XAS'
+      return convertFee(gateway && gateway.bail ? gateway.bail.totalBail : 0)
     },
     getGatewayRealBail() {
       let gateway = this.gateway
@@ -431,6 +426,30 @@ export default {
     background: #ffffff !important;
     padding-bottom: 40px;
     border-radius: 6px;
+
+    .title-line {
+      padding: 12px 16px 28px;
+    }
+
+    .gateway-info-container {
+      padding: 34px 23px;
+    }
+
+    .custom-card-main {
+      padding: 60px 20px 0px;
+    }
+
+    .gateway-member-award {
+      position: relative;
+      margin-right: 10px;
+
+      a {
+        position: absolute;
+        top: -9px;
+        right: -15px;
+        text-decoration: none;
+      }
+    }
   }
 }
 
@@ -481,5 +500,28 @@ export default {
 
 .fixed-info-height {
   height: 260px;
+}
+
+.inner-btn {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0);
+  position: relative;
+  height: 57px;
+  width: 188px;
+  font-size: 20px;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-top: none;
+  border-left: none;
+  border-right: 1px solid #e0e1e5;
+  border-bottom: 1px solid #ffffff;
+}
+
+.selected {
+  bottom: -1px;
+}
+
+.text-red {
+  color: red;
 }
 </style>

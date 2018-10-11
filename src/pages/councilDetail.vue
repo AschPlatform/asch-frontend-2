@@ -51,7 +51,7 @@
             <q-item v-for="(balance, idx) in balances" :key="idx">
               <q-item-side>
                 <q-item-tile avatar>
-                  <token-icon :tokenIcon="balance.label" />
+                  <asset-icon :iconKey="balance.label" />
                 </q-item-tile>
               </q-item-side>
               <q-item-main>
@@ -96,7 +96,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { compileTimeStamp, getTimeFromHight } from '../utils/util'
 import TransRecordContainer from '../components/TransRecordContainer'
 import BoundaryLine from '../components/BoundaryLine'
-import TokenIcon from '../components/TokenIcon'
+import AssetIcon from '../components/AssetIcon'
 
 export default {
   name: 'councilDetail',
@@ -118,7 +118,7 @@ export default {
     QItemSeparator,
     TransRecordContainer,
     BoundaryLine,
-    TokenIcon
+    AssetIcon
   },
   data() {
     return {

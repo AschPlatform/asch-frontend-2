@@ -54,6 +54,13 @@ $bg-ten=#f0f3f6
 
 .font-bold
  font-weight:600 !important
+ 
+.q-table-title
+ font-weight: 400
+ font-size: 18px
+.q-card-title
+  span
+   font-size 18px !important
 
 .font-60
  font-size:60px !important     
@@ -86,14 +93,8 @@ $bg-ten=#f0f3f6
  font-size:14px !important
 
 .font-12
- font-size:12px !important   
+ font-size:12px !important  
 
-.q-table-title
- font-weight: 400
- font-size: 18px
-.q-card-title
-  span
-   font-size 18px !important
 .vertical-align-middle
  vertical-align: middle !important;    
 
@@ -120,6 +121,9 @@ $bg-ten=#f0f3f6
 
 .margin-top-20
  margin-top: 20px  
+
+.margin-top-30
+ margin-top: 30px 
 
 .margin-t-54
  margin-top: 54px  
@@ -406,3 +410,28 @@ input.q-input-target
 
 .modal-scroll
   max-height: 300px !important;
+
+.custom-table-top {
+  min-height: 0;
+
+  .q-table th, .q-table td {
+    text-align: left;
+  }
+
+  .q-table-top {
+    min-height: 0;
+    padding: 0;
+    background: #ffffff;
+    border-bottom: 1px solid #e0e1e5;
+
+    .q-table-control {
+      padding: 0;
+    }
+  }
+}
+
+.custom-card-title{
+  .valid-amount{
+    font-size: 12px!important;
+  }
+}
