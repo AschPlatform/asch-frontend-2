@@ -57,7 +57,7 @@
     </div>
 
     <!-- Modals -->
-    <bancor-trade-modal :show="tradeModalShow" :type='dealPairInfo.type' :buy="dealPairInfo.buy" :sell="dealPairInfo.sell" :balance="amount" :price='dealPairInfo.price' @close="closeTradeModal" @buy="bancorBuy" @sell="bancorSell"></bancor-trade-modal>
+    <bancor-trade-modal :show="tradeModalShow" :type='dealPairInfo.type' :secondPwd="secondSignature" :buy="dealPairInfo.buy" :sell="dealPairInfo.sell" :balance="amount" :price='dealPairInfo.price' @close="closeTradeModal" @buy="bancorBuy" @sell="bancorSell"></bancor-trade-modal>
   </q-page>
 </template>
 
@@ -97,7 +97,7 @@ export default {
   },
   data() {
     return {
-      tradeModalShow: true,
+      tradeModalShow: false,
       loading: false,
       myBalances: {},
       config: {},
@@ -325,6 +325,7 @@ export default {
       })
       if (result.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
+        this.tradeModalShow = false
       }
       toastError(res.error)
     },
@@ -338,6 +339,7 @@ export default {
       })
       if (result.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
+        this.tradeModalShow = false
       }
       toastError(res.error)
     }
@@ -346,6 +348,9 @@ export default {
     ...mapGetters(['userInfo']),
     user() {
       return this.userInfo
+    },
+    secondSignature() {
+      return this.user ? this.user.account.secondPublicKey : ''
     },
     balance() {
       return this.user.account.xas / Math.pow(10, 8)
