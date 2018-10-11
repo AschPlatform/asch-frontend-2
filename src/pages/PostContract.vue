@@ -40,7 +40,7 @@
           </q-field>
         </div>
         <div class="row justify-center col-12">
-           <q-btn class="col-3 q-mt-md no-shadow" :disable="$v.content.$error" color="secondary" :label="$t('SMART_CONTRACT_COMMIT')" @click="submit" />
+           <q-btn class="col-3 q-mt-md no-shadow" :disable="$v.content.$error || $v.secondPwd.$error" color="secondary" :label="$t('SMART_CONTRACT_COMMIT')" @click="submit" />
         </div>
        
       </div>
@@ -138,7 +138,7 @@ export default {
         code,
         name,
         desc,
-        secondSecret: secondPwd
+        secondSecret: this.secondPwd
       }
       let res = await this.postContract(params)
       if (res.success) {

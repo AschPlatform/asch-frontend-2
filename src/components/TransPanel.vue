@@ -39,7 +39,7 @@
         <q-input v-if="feeType===1" disable v-model="form.fee" />
         <q-input v-else v-model="form.gas" type="number" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" suffix="BCH"/>
       </q-field>
-      <q-field class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')">
+      <q-field v-if="!isContractPay" class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')">
         <q-input ref="remark" :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
       </q-field>
       <div class="panelBtn col-6">
@@ -82,7 +82,8 @@ export default {
       secondPwd: '',
       balance: '',
       precision: 0,
-      feeType: 0 // 1 XAS, 0 BCH
+      feeType: 0, // 1 XAS, 0 BCH
+      isContractPay: false
     }
   },
   validations: {
@@ -125,14 +126,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['broadcastTransaction', 'getBalances']),
+    ...mapActions(['broadcastTransaction', 'getBalances', 'payContract']),
     ...mapMutations(['setBalances']),
     async send() {
       this.$v.form.$touch()
       let invlaidPwd = false
       let { amount, receiver, remark } = this.form
       receiver = receiver.trim()
-      if (this.feeType === 0) {
+      if (this.feeType === 0 || this.isContractPay) {
         this.$v.form.gas.$touch()
       }
       if (this.secondSignature) {
@@ -162,25 +163,40 @@ export default {
       let trans = {}
       let fee = null
 
-      if (this.feeType === 0) {
+      if (this.feeType === 0 || this.isContractPay) {
         fee = BigNumber(-this.form.gas)
           .times(Math.pow(10, 8))
           .toString()
       }
-      if (this.form.currency === 'XAS') {
-        trans = asch.transferXAS(amount, receiver, remark, this.user.secret, this.secondPwd, fee)
-      } else {
-        trans = asch.transferAsset(
-          this.form.currency,
+      let res
+      if (this.isContractPay) {
+        let { currency } = this.form
+        let params = {
+          gasLimit: -Number(fee),
+          name: receiver,
           amount,
-          receiver,
-          remark,
-          this.user.secret,
-          this.secondPwd,
-          fee
-        )
+          currency,
+          secret: this.user.secret,
+          secondSecret: this.secondPwd
+        }
+        res = await this.payContract(params)
+      } else {
+        if (this.form.currency === 'XAS') {
+          trans = asch.transferXAS(amount, receiver, remark, this.user.secret, this.secondPwd, fee)
+        } else {
+          trans = asch.transferAsset(
+            this.form.currency,
+            amount,
+            receiver,
+            remark,
+            this.user.secret,
+            this.secondPwd,
+            fee
+          )
+        }
+        res = await this.broadcastTransaction(trans)
       }
-      let res = await this.broadcastTransaction(trans)
+
       if (res.success === true) {
         toast(this.$t('INF_TRANSFER_SUCCESS'))
         this.resetForm()
@@ -271,7 +287,10 @@ export default {
       }
     },
     'form.receiver'(val) {
-      if (smartAddressReg.test(val)) this.feeType = 0
+      if (smartAddressReg.test(val)) {
+        this.feeType = 0
+        this.isContractPay = true
+      }
     },
     asset(val) {
       if (!this.form.currency) this.form.currency = val.currency
@@ -280,7 +299,6 @@ export default {
       this.refreshBalances()
     },
     feeType(val) {
-      // console.log(val)
     }
   }
 }

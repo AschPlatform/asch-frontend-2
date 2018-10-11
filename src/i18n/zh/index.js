@@ -919,7 +919,9 @@ const lang = {
   ERR_CONTRACT_NOT_EXIST: '合约信息未找到',
   PLACEHOLDER_CONTRACT_NAME: '请输入合约名称',
   PLACEHOLDER_SMART_CONTRACT_DESC: '请输入合约描述',
-  PLACEHOLDER_CONTRACT_GAS: '请输入Gas_Limit'
+  PLACEHOLDER_CONTRACT_GAS: '请输入Gas_Limit',
+  BANCOR_MODAL_ERROR_1: '请填写正确的数额',
+  BANCOR_MODAL_ERROR_2: '请填写正确的二级密码'
 }
 
 export default lang
