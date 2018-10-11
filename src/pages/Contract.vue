@@ -9,11 +9,11 @@
           <button :class="this.type === 0 ? styleSelected : styleUnselected" @click="changeType(0)">
             {{$t('SMART_CONTRACT_MINE')}}
           </button>
-          <q-btn class="font-18 mobile-hide float-right pos" rounded size="xs" color="secondary" :label="$t('SMART_CONTRACT_NEW')"></q-btn>
+          <q-btn class="font-18 mobile-hide float-right pos" rounded size="xs" color="secondary" :label="$t('SMART_CONTRACT_NEW')" @click="newContract" />
         </div>
 
         <q-table class="no-shadow margin-t-20" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
-          <q-td slot="body-cell-address" slot-scope="props" :props="props">
+          <!-- <q-td slot="body-cell-address" slot-scope="props" :props="props">
             {{props.value}}
           </q-td>
           <q-td slot="body-cell-name" slot-scope="props" :props="props">
@@ -24,10 +24,20 @@
           </q-td>
           <q-td slot="body-cell-owner" slot-scope="props" :props="props">
             {{props.value}}
-          </q-td>
+          </q-td>-->
           <q-td slot="body-cell-timestamp" slot-scope="props" :props="props">
-            {{props.value}}
-          </q-td>
+            {{props.value | time}}
+          </q-td> 
+          <q-td slot="body-cell-name" slot-scope="props" :props="props">
+             <div class="text-secondary cursor-pointer" @click="open(props.row)">
+                {{props.value}}
+              </div>
+          </q-td> 
+          <q-td slot="body-cell-owner" slot-scope="props" :props="props">
+             <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">
+                {{props.value}}
+              </div>
+          </q-td> 
         </q-table>
       </div>
     </div>
@@ -35,12 +45,8 @@
 </template>
 
 <script>
-import {
-  QPage,
-  QBtnGroup,
-  QBtn,
-  QTable
-} from 'quasar'
+import { QPage, QBtnGroup, QBtn, QTable, QTd } from 'quasar'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Contract',
@@ -48,7 +54,8 @@ export default {
     QPage,
     QBtnGroup,
     QBtn,
-    QTable
+    QTable,
+    QTd
   },
   data() {
     return {
@@ -77,11 +84,11 @@ export default {
           field: 'name'
         },
         {
-          name: 'version',
+          name: 'vmVersion',
           required: true,
           label: this.$t('VERSION'),
           align: 'center',
-          field: 'version'
+          field: 'vmVersion'
         },
         {
           name: 'owner',
@@ -100,40 +107,84 @@ export default {
       ]
     }
   },
+  mounted() {
+    this.getContractsFunc()
+  },
   methods: {
+    ...mapActions(['getContracts']),
     async request(props) {
       await this.getContractsFunc(props.pagination, props.filter)
     },
-    getContractsFunc(pagination = {}, filter = '') {
+    async getContractsFunc(pagination = {}, filter = '') {
+      let limit = pagination.rowsPerPage || this.pagination.rowsPerPage
+      let pageNo = pagination.page || this.pagination.page
+      let params = {
+        limit: limit,
+        offset: (pageNo - 1) * limit
+      }
+      if (this.type === 0) params.owner = this.address
+      let res = await this.getContracts(params)
+      if (res.success) {
+        this.contracts = res.contracts
+        this.pagination.rowsNumber = res.count
+      }
     },
     changeType(type) {
       this.type = type
+      this.getContractsFunc()
+    },
+    viewAccountInfo(row) {
+      this.$root.$emit('openAccountModal', row.address)
+    },
+    open(row) {
+      this.$router.push('/contractDetail/' + row.name)
+    },
+    newContract() {
+      this.$router.push('/postContract')
+    }
+  },
+  computed: {
+    ...mapGetters(['userInfo']),
+    user() {
+      return this.userInfo
+    },
+    address() {
+      return this.user.account.address
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.contract-container
-  padding 20px
-.inner-btn
-  outline none
-  background-color rgba(0, 0, 0, 0)
-  position relative
-  height 57px
-  width 188px
-  font-size 20px
-  padding 6px 12px
-  cursor pointer
+.contract-container {
+  padding: 20px;
+}
+
+.inner-btn {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0);
+  position: relative;
+  height: 57px;
+  width: 188px;
+  font-size: 20px;
+  padding: 6px 12px;
+  cursor: pointer;
   border-top: none;
   border-left: none;
   border-right: 1px solid #e0e1e5;
   border-bottom: 1px solid #ffffff;
-.selected
-  bottom: -1px
-.top-bar
-  border-bottom 1px solid #e0e1e5
-.pos
-  top 5px
-  right 10px
+}
+
+.selected {
+  bottom: -1px;
+}
+
+.top-bar {
+  border-bottom: 1px solid #e0e1e5;
+}
+
+.pos {
+  top: 5px;
+  right: 10px;
+}
 </style>

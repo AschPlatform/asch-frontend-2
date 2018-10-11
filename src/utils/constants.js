@@ -389,6 +389,12 @@ const urls = {
     },
     gatewayRealClaim: {
       url: '/api/v2/gateways/realClaim'
+    },
+    getContracts: {
+      url: '/api/v2/contracts'
+    },
+    getContractDetail: {
+      url: '/api/v2/contracts/:name'
     }
   }
 

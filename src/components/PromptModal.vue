@@ -1,17 +1,17 @@
 <template>
   <q-modal minimized content-class="modal-content-limit" no-backdrop-dismiss v-model="show" content-css="padding: 20px">
     <big>{{$t(title)}}</big>
-    <q-field v-if="type==1" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_ADD')">
-      <q-input @blur="$v.addForm.val.$touch" v-model="addForm.val" :error="$v.addForm.val.$error" />
+    <q-field v-if="type==1" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_ADD')" orientation="vertical">
+      <q-input @blur="$v.addForm.val.$touch" v-model="addForm.val" :error="$v.addForm.val.$error" :placeholder="$t('PLACEHOLDER_GATEWAY_ADD',{amount:getAmount('status','needSupply')})" />
     </q-field>
-    <q-field v-if="type==2" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_ADD')">
-      <q-input @blur="$v.returnForm.val.$touch" v-model="returnForm.val" :error="$v.returnForm.val.$error" />
+    <q-field v-if="type==2" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_ADD')" orientation="vertical">
+      <q-input @blur="$v.returnForm.val.$touch" v-model="returnForm.val" :error="$v.returnForm.val.$error" :placeholder="$t('PLACEHOLDER_GATEWAY_RETURN',{amount:getAmount('status','withdrawl')})" />
     </q-field>
-    <q-field v-if="type==3" :disabled="true" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_ADD')">
-      <q-input @blur="$v.compensationForm.val.$touch" v-model="compensationForm.address" :error="$v.compensationForm.val.$error" />
+    <q-field v-if="type==3" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_RETURN')" orientation="vertical">
+      <q-input :disable="true" v-model="compensationForm.address" :placeholder="getAmount('claim','realClaim') + ' XAS'" />
     </q-field>
-    <q-field v-if="secondSignature" class="col-12 margin-top-54">
-      <q-input :float-label="$t('TRS_TYPE_SECOND_PASSWORD')" v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
+    <q-field v-if="secondSignature" :label="$t('TRS_TYPE_SECOND_PASSWORD')"  class="col-12 margin-top-54" orientation="vertical">
+      <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
     </q-field>
     <br/>
     <div v-if="type>0" class="tips">
@@ -21,17 +21,13 @@
         <div>{{$t('RESERVE_RATIO_TIP')}}</div>
       </div>
       <div v-else>
-        {{$t('RESERVE_COMPENSATION_TIP',
-        {amount:getAmount('claim','lockedBail'),
-        asset:getAmount('claim','totalAmount')+gatewaySymbol,
-        balance:getAmount('claim','userAmount')+gatewaySymbol,
-        formula: '( '+getAmount('claim','userAmount')+'/'+getAmount('claim','totalAmount')+' )'
-        })
-        }}
+        {{$t('RESERVE_COMPENSATION_TIP', {amount:getAmount('claim','lockedBail'), asset:getAmount('claim','totalAmount')+gatewaySymbol, balance:getAmount('claim','userAmount')+gatewaySymbol, formula: '( '+getAmount('claim','userAmount')+'/'+getAmount('claim','totalAmount')+')'}) }}
       </div>
     </div>
-    <q-btn color="primary" @click="$emit('close')" label="Close" />
-    <q-btn color="primary" @click="submit" label="Close" />
+    <div>
+      <q-btn color="secondary" @click="close" :label="$t('label.cancel')" />
+      <q-btn color="secondary"  @click="submit" :label="$t('label.ok')" />
+    </div>
   </q-modal>
 </template>
 
@@ -39,8 +35,9 @@
 import { QModal, QBtn, QInput, QField } from 'quasar'
 import { convertFee } from '../utils/asch'
 import { mapGetters } from 'vuex'
-import { secondPwd } from '../utils/validators'
+import { secondPwd, amountStrReg } from '../utils/validators'
 import { required } from 'vuelidate/lib/validators'
+import { BigNumber } from 'bignumber.js'
 
 export default {
   name: 'PromptModal',
@@ -50,7 +47,7 @@ export default {
     QInput,
     QField
   },
-  props: ['show', 'title', 'type', 'gateway'], // type 1 add , type 2 return ,type 0 compensation
+  props: ['show', 'title', 'type', 'gateway'], // type 1 add , type 2 return ,type 3 compensation
   data() {
     return {
       addForm: {
@@ -60,7 +57,7 @@ export default {
         val: ''
       },
       compensationForm: {
-        val: ''
+        va: 10
       },
       secondPwd: ''
     }
@@ -68,17 +65,26 @@ export default {
   validations: {
     addForm: {
       val: {
-        required
+        required,
+        gtZero(value) {
+          return this.numberCheck(value)
+        }
       }
     },
     returnForm: {
       val: {
-        required
+        required,
+        gtZero(value) {
+          return this.numberCheck(value)
+        }
       }
     },
     compensationForm: {
       val: {
-        required
+        required,
+        gtZero(value) {
+          return this.numberCheck(value)
+        }
       }
     },
     secondPwd: {
@@ -90,7 +96,26 @@ export default {
   },
   methods: {
     convertFee,
-    submit() {},
+    submit() {
+      const secondPwd = this.secondPwd
+      let secondPwdFlag = this.secondSignature && this.$v.secondPwd.$error
+      if (secondPwdFlag) {
+        return null
+      }
+      this.$v[this.getFormName].$touch()
+      if (this.$v[this.getFormName].$error) {
+        return null
+      }
+      let amount = BigNumber(+this.getForm.val)
+        .times(Math.pow(10, this.getewayPrecision))
+        .toString()
+      let form = {
+        type: this.type,
+        amount,
+        secondPwd
+      }
+      this.$emit('submit', form)
+    },
     getAmount(props, attr, precision = 8) {
       let gateway = this.gateway
       let value = gateway && gateway[props] ? gateway[props][attr] : 0
@@ -99,10 +124,14 @@ export default {
         : convertFee(value, gateway[props] ? gateway[props].precision : undefined)
     },
     initFrom() {
-      let type = this.type
-      if (type === 3) {
-        this.compensationForm.val = convertFee(this.gateway.cliam.realClaim)
-      }
+    },
+    numberCheck(value) {
+      return amountStrReg.test(value) && Number(value) > 0
+    },
+    close() {
+      this.$emit('close')
+      this.getForm.val = ''
+      this.secondPwd = ''
     }
   },
   computed: {
@@ -115,6 +144,13 @@ export default {
     },
     address() {
       return this.user.account.address
+    },
+    getForm() {
+      const formName = ['placeholder', 'addForm', 'returnForm', 'compensationForm']
+      return this[formName[this.type]]
+    },
+    getFormName() {
+      return ['placeholder', 'addForm', 'returnForm', 'compensationForm'][this.type]
     },
     // compensationAmount() {
     //   let gateway = this.gateway
@@ -143,15 +179,18 @@ export default {
     // },
     gatewaySymbol() {
       return this.gateway.claim.symbol
+    },
+    getewayPrecision() {
+      return this.gateway.claim.precision
     }
   },
   watch: {
+    show(val) {
+      this.$v[this.getFormName].$touch()
+    },
     type(val) {
-      // if (val && val < 3) {
-      //   // add or return
-      //   this.getGatewayInfo()
-      //   this.getGatewayAccountInfo()
-      // }
+      debugger
+      if (val === 3) this.compensationForm.val = this.getAmount('claim', 'realClaim')
     }
   }
 }

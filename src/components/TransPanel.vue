@@ -109,7 +109,7 @@ export default {
         maxLength: maxLength(255)
       },
       gas: {
-        required,
+        // required,
         validate(value) {
           if (this.feeType === 1) {
             return true
@@ -280,7 +280,7 @@ export default {
       this.refreshBalances()
     },
     feeType(val) {
-      console.log(val)
+      // console.log(val)
     }
   }
 }

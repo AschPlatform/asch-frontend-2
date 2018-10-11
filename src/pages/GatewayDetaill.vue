@@ -74,13 +74,14 @@
         <div class="bg-white shadow-2 fixed-info-height">
           <q-card-title class="bg-nine">
             <span class="font-22 text-black font-weight">{{$t('RESERVE_TOTAL_AMOUNT')}}</span>
-            <span>
-              {{$t('AVALABLE_BAIL_AMOUNT')}}{{gateway&&gateway.bail?gateway.bail.bail:'' | fee}} XAS
+            <span v-if="gateway&&gateway.bail">
+              {{$t('AVALABLE_BAIL_AMOUNT')}}
+              {{gateway.bail.bail | fee}}
             </span>
           </q-card-title>
           <q-card-main class="word-wrap-break">
-          <div class="row">
-            {{gateway && gateway.bail ? gateway.bail.totalBail:'' | fee}} XAS
+          <div class="row" v-if="gateway&&gateway.bail">
+            {{gateway.bail.totalBail | fee}}
           </div>
           <div class="flex row">
             <q-btn v-show="getAddBtnShow" big class="col-6" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
@@ -106,7 +107,7 @@
             <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
           </q-card-title>
           <q-card-main class="flex item-center bottom-container-bottom height-62 ">
-            <span class="font-24 text-secondary">{{gateway.createTime?compileTimeStamp(gateway.createTime):getTimeFromHight(gateway.lastUpdateHeight)}}</span>
+            <span class="font-24 text-secondary">{{gatewayTime}}</span>
           </q-card-main>
         </div>
       </q-card>
@@ -121,7 +122,7 @@
 import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd, QIcon, QBtnToggle } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { fullTimestamp, convertFee } from '../utils/asch'
-import { compileTimeStamp, getTimeFromHight } from '../utils/util'
+import { compileTimeStamp, getTimeFromHight, toast, translateErrMsg } from '../utils/util'
 import PromptModal from '../components/PromptModal'
 
 export default {
@@ -192,7 +193,11 @@ export default {
       },
       loading: false,
       datas: [],
-      gateway: null,
+      gateway: {
+        bail: null,
+        status: null,
+        claim: null
+      },
       electedNum: 0,
       candidateNum: 0,
       memberType: 1, // elected 1 , candidate 0
@@ -211,12 +216,12 @@ export default {
       this.$router.push('gateway')
     }
     this.gateway = gateway
-    if (gateway && gateway.agent) {
+    if (gateway) {
       await this.loadData()
-    }
-    let res = await this.getGatewayInfo({ name: gateway.name })
-    if (res.success) {
-      this.gateway.bail = res
+      let res = await this.getGatewayInfo({ name: gateway.name })
+      if (res.success) {
+        this.gateway = this._.merge({}, this.gateway, { bail: res })
+      }
     }
   },
   methods: {
@@ -224,7 +229,10 @@ export default {
       'getGatewayMembers',
       'getGatewayInfo',
       'getGatewayBailStatus',
-      'getGatewayRealClaim'
+      'getGatewayRealClaim',
+      'getCompensation',
+      'returnBailAmount',
+      'addBailAmount'
     ]),
     fullTimestamp,
     convertFee,
@@ -304,7 +312,32 @@ export default {
         show: true
       }
     },
-    submit() {}
+    async submit(form) {
+      let res = null
+      let { type, amount, secondPwd } = form
+      let params = {
+        name: this.gateway.name,
+        amount,
+        secondSecret: secondPwd
+      }
+      switch (type) {
+        case 1:
+          res = await this.addBailAmount(params)
+          break
+        case 2:
+          res = await this.returnBailAmount(params)
+          break
+        case 3:
+          res = await this.getCompensation(params)
+          break
+      }
+      if (res.success) {
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
+      } else {
+        translateErrMsg(this.$t, res.error)
+        this.disableBtn('btnDisable')
+      }
+    }
   },
 
   computed: {
@@ -390,6 +423,14 @@ export default {
     },
     address() {
       return this.user.account.address
+    },
+    gatewayTime() {
+      let gateway = this.gateway
+      return gateway && gateway.createTime
+        ? compileTimeStamp(gateway.createTime)
+        : gateway && gateway.lastUpdateHeight
+          ? getTimeFromHight(gateway.lastUpdateHeight)
+          : ''
     }
   },
   watch: {

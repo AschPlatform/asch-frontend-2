@@ -22,7 +22,7 @@
           <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
             <div class="btn-group flex justify-around">
               <q-btn color="secondary" @click="callBuyModal(props.row)">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
-              <q-btn color="primary" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
+              <q-btn color="primary" :disabled="!myBalances[props.row.money]" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
             </div>
           </q-td>
         </q-tr>
@@ -36,22 +36,22 @@
     <div class="bancor-content shadow-2">
       <q-table class="no-shadow" :data="historys" row-key="index" :columns="historyColumns" @request="requestHistory" :pagination.sync="pagination" :rows-per-page-options="[10]">
         <q-td slot="body-cell-timestamp" slot-scope="props" :props="props">
-          {{props.value}}
+          {{fullTimestamp(props.value)}}
         </q-td>
-        <q-td slot="body-cell-type" slot-scope="props" :props="props">
-          {{props.value}}
+        <q-td :class="props.row.source === 'XAS' ? 'text-secondary' : 'text-negative'" slot="body-cell-type" slot-scope="props" :props="props">
+          {{judge(props)}}
         </q-td>
         <q-td slot="body-cell-source" slot-scope="props" :props="props">
           {{props.row.source + '/' + props.row.target}}
         </q-td>
         <q-td slot="body-cell-ratio" slot-scope="props" :props="props">
-          {{props.value}}
+          {{props.value}} {{props.row.source}}
         </q-td>
         <q-td slot="body-cell-buyed" slot-scope="props" :props="props">
-          {{props.value}}
+          {{convertFee(props.value, props.row.targetPrecision)}} {{props.row.target}}
         </q-td>
         <q-td slot="body-cell-used" slot-scope="props" :props="props">
-          {{props.value}}
+          {{convertFee(props.value, props.row.sourcePrecision)}} {{props.row.source}}
         </q-td>
       </q-table>
     </div>
@@ -83,6 +83,7 @@ import {
   convertFee
 } from '../utils/asch'
 import BancorTradeModal from '../components/BancorTradeModal'
+import { fullTimestamp } from '../utils/asch'
 
 export default {
   name: 'Bancor',
@@ -194,7 +195,7 @@ export default {
         {
           name: 'used',
           required: true,
-          label: this.$t('BANCOR_HIS_COL_5'),
+          label: this.$t('BANCOR_HIS_COL_6'),
           align: 'left',
           field: 'used'
         }
@@ -207,6 +208,8 @@ export default {
     this.requestHistory()
   },
   methods: {
+    convertFee,
+    fullTimestamp,
     ...mapActions(['getBalances', 'getCurrencies', 'getAllAssets', 'getBancorPairs', 'getBancorRecord', 'bancorTradeBySource', 'bancorTradeByTarget']),
     async getBncorsPairs() {
       let result = await this.getBancorPairs()
@@ -284,8 +287,8 @@ export default {
       // TODO:
       if (result.success) {
         this.loading = false
-        this.historys = result.data
-        this.pagination.rowsNumber = res.count
+        this.historys = result.transactions
+        this.pagination.rowsNumber = result.count
       }
     },
     closeTradeModal() {
@@ -326,8 +329,9 @@ export default {
       if (result.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
         this.tradeModalShow = false
+      } else {
+        toastError(result.error)
       }
-      toastError(res.error)
     },
     async bancorSell(num) {
       console.log(this.dealPairInfo.buy, this.dealPairInfo.sell, num, num * Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision))
@@ -340,8 +344,15 @@ export default {
       if (result.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
         this.tradeModalShow = false
+      } else {
+        toastError(result.error)
       }
-      toastError(res.error)
+    },
+    judge(props) {
+      if (props.row.source === 'XAS') {
+        return this.$t('BANCOR_BUTTON_BUY')
+      }
+      return this.$t('BANCOR_BUTTON_SELL')
     }
   },
   computed: {

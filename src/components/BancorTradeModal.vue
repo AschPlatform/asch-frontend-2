@@ -8,7 +8,7 @@
             <input type="number" v-model="amount" @blur="$v.amount.$touch" class="col-9 text-secondary"/>
             <div class="col-3">{{sell}}</div>
           </div>
-          <div class="q-field-bottom row no-wrap" :class="appear">
+          <div class="q-field-bottom row no-wrap errContainer" :class="appear">
             <div class="q-field-error col text-negative">{{$t('BANCOR_MODAL_ERROR_1')}}</div>
           </div>
         </q-field>
@@ -16,7 +16,7 @@
           <div class="input-box row">
             <input class="password" type="password" v-model="password" @blur="$v.password.$touch">
           </div>
-          <div class="q-field-bottom row no-wrap" :class="appearPwd">
+          <div class="q-field-bottom row no-wrap errContainer" :class="appearPwd">
             <div class="q-field-error col text-negative">{{$t('BANCOR_MODAL_ERROR_2')}}</div>
           </div>
         </q-field>
@@ -195,4 +195,6 @@ export default {
   display block
 .hide
   display none
+.errContainer
+  border-top none !important;
 </style>
