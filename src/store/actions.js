@@ -516,7 +516,18 @@ export default {
   }, params) => {
     return api2.getGatewayMembers(params)
   },
-
+  getContracts: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getContracts(params)
+  },
+  getContractDetail: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getContractDetail(params)
+  },
   // 1.5 contract
   addBailAmount: ({
     commit,
@@ -555,6 +566,39 @@ export default {
     let secret = state.userInfo.secret
     let trans = asch.gateBailCompensate(
       params.name,
+      params.fee || 1000000,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
+  },
+  postContract: ({
+    commit,
+    state
+  }, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.postContract(
+      params.gasLimit,
+      params.name,
+      params.version || 'v0.1',
+      params.desc,
+      params.code,
+      params.fee || 1000000,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
+  },
+  payContract: ({
+    commit,
+    state
+  }, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.payContract(
+      params.gasLimit,
+      params.name,
+      params.amount,
+      params.currency,
       params.fee || 1000000,
       secret,
       params.secondSecret || ''

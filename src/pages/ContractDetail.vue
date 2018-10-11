@@ -4,45 +4,48 @@
       <div class="no-wrap q-pa-md row justify-between">
         <span>
           <i class="material-icons vertical-align-sub font-20 text-black">border_color</i>
-          <h5 class="q-px-md inline-block font-18 q-my-none">{{$t('SMART_CONTRACT_DETAIL')}}</h5>
+          <h5 class="q-px-md inline-block font-22 q-my-none">{{$t('SMART_CONTRACT_DETAIL')}}</h5>
         </span>
       </div>
-      <span class="transfer-title-line"></span>
+      <div class="title-line">
+        <boundary-line />
+      </div>
       <div class="row inner-container">
-        <div class="col-5">
-          <q-field class="block col-6 font-16" label-width="3" :label="$t('SMART_CONTRACT_NAME')">
-            <q-input class="" readonly hide-underline v-model="content.name" value="" />
-          </q-field>
+        <div class="row col-12 padding-l-15">
+          <div class="margin-right-60">
+            <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_NAME')}} : </span>
+            <span class="font-16 text-five">{{contract.name}}</span>
+          </div>
+          <div>
+            <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_OWNER')}} : </span>
+            <span class="font-16 text-five">{{contract.owner}}</span>
+          </div>
         </div>
-        <div class="col-5">
-          <q-field class="block col-6 font-16" label-width="3" :label="$t('SMART_CONTRACT_OWNER')">
-            <q-input class="" readonly hide-underline v-model="content.name" value="" />
-          </q-field>
+        <div class="row col-12 padding-l-15 margin-top-30">
+          <div class="row justify-start">
+            <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_CODE')}} : </span>
+            <div class="padding-20 code-container">
+              <codemirror :value.sync="getCode" :options="getCodeOption" />
+            </div>
+          </div>
         </div>
-        <div class="row col-12">
-          <q-field class="block col-10 font-16" label-width="2" :label="$t('SMART_CONTRACT_CODE')">
-            <!-- <q-input class="textareaInner" type="textarea" readonly hide-underline v-model="content.desc" value=""></q-input> -->
-            <!-- <pre v-highlightjs="content.desc"><code class="javascript"></code></pre> -->
-            <pre v-highlightjs><code class="javascript">const s = new Date().toString()</code></pre>
-          </q-field>
+        <div class="row col-12 padding-l-15 margin-top-30">
+          <div class="row justify-start">
+            <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_DESC')}} : </span>
+            <span class="font-16 text-five">{{contract.desc}}</span>
+          </div>
         </div>
-        <!-- <div class="row col-12">
-          <q-field class="block col-10 font-16" label-width="2" label="GAS_LIMIT">
-            <q-input class="" readonly hide-underline v-model="content.gas" value="" />
-          </q-field>
-        </div> -->
       </div>
     </div>
   </q-page>
 </template>
 
 <script>
-import {
-  QPage,
-  QField,
-  QInput,
-  QBtn
-} from 'quasar'
+import { QPage, QField, QInput, QBtn } from 'quasar'
+import { codemirror } from 'vue-codemirror-lite'
+import { mapActions } from 'vuex'
+import { toastError } from '../utils/util'
+import BoundaryLine from '../components/BoundaryLine'
 
 export default {
   name: 'contractDetail',
@@ -50,14 +53,49 @@ export default {
     QPage,
     QField,
     QInput,
-    QBtn
+    QBtn,
+    codemirror,
+    BoundaryLine
   },
   data() {
     return {
-      content: {
-        name: 'CCTIEMFIXED',
-        desc: 'function(aca) { do {} while ( true) }',
-        gas: 0.1
+      contract: null
+    }
+  },
+  async mounted() {
+    let { name } = this.$route.params
+    if (name) {
+      let res = await this.getContractDetail({
+        name
+      })
+      if (res.success) {
+        this.contract = res.contract
+      } else {
+        toastError(this.$t('ERR_CONTRACT_NOT_EXIST'))
+      }
+    } else {
+      this.$router.push('/contracts')
+    }
+  },
+  methods: {
+    ...mapActions(['getContractDetail'])
+  },
+  computed: {
+    getCode() {
+      return this.contract.code
+    },
+    getCodeOption() {
+      return {
+        mode: 'javascript',
+        extraKeys: {
+          'Ctrl-Space': 'autocomplete'
+        },
+        tabSize: 2,
+        lineNumbers: true,
+        lineWrapping: true,
+        viewportMargin: Infinity,
+        readOnly: true,
+        height: 'auto'
       }
     }
   }
@@ -65,12 +103,24 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.postContract-container
+.postContract-container {
   padding: 20px;
-  .postContract-content
+
+  .postContract-content {
     background: #ffffff !important;
     padding-bottom: 20px;
     border-radius: 6px;
+
+    .title-line {
+      padding: 12px 16px 31px;
+    }
+
+    .code-container {
+      border: 1px solid #dddddd;
+    }
+  }
+}
+
 .transfer-title-line {
   display: block;
   width: calc(100% - 40px);
@@ -78,12 +128,22 @@ export default {
   background: #dddddd;
   margin-left: 10px;
 }
-.border-1
-  border 1px solid #999
-  padding-left 10px
-  min-height 50px
-.textareaInner
-  padding-top 15px
-.inner-container
-  padding 16px
+
+.border-1 {
+  border: 1px solid #999;
+  padding-left: 10px;
+  min-height: 50px;
+}
+
+.textareaInner {
+  padding-top: 15px;
+}
+
+.inner-container {
+  padding: 16px;
+}
+
+.margin-right-60 {
+  margin-right: 60px;
+}
 </style>

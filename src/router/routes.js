@@ -68,7 +68,7 @@ export default [
         component: load('PostContract')
       },
       {
-        path: 'contractDetail',
+        path: 'contractDetail/:name',
         name: 'contractDetail',
         component: load('ContractDetail')
       },
@@ -165,7 +165,7 @@ export default [
         component: load('NewContract')
       },
       {
-        path: 'contractDetail/:tid',
+        path: 'contractDetail/:name',
         name: 'contractDetail',
         component: load('ContractDetail')
       }
