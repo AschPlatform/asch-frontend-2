@@ -64,10 +64,6 @@
           <q-item-side icon="gavel" />
           <q-item-main :label="$t('BANCOR')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('contract')">
-          <q-item-side icon="gavel" />
-          <q-item-main :label="$t('CONTRACT')" />
-        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('proposal')">
           <q-item-side icon="gavel" />
           <q-item-main :label="$t('PROPOSAL')" />
@@ -548,14 +544,14 @@ body {
 }
 
 .list-item-container:hover {
-  color: #ffffff;
+  color: #ffffff!important;
   border-left: 4px solid #ff750b;
   background: #252d3a !important;
 }
 
 .list-item-container {
   height: 70px;
-  color: #8b939e;
+  color: #8b939e!important;
   font-size: 18px;
   padding-left: 40px;
   border-bottom: 1px solid #2c3411;
@@ -563,7 +559,7 @@ body {
 }
 
 .q-item.active, .q-item.router-link-active, .q-item:focus {
-  color: #ffffff;
+  color: #ffffff!important;
   border-left: 4px solid #ff750b;
   background: #252d3a;
 }

@@ -879,6 +879,11 @@ const lang = {
   CONTRACT_ERR_DESC: '描述应为 5 ~ 256 长度',
   CONTRACT_ERR_CODE: '代码长度不能超过 20 kb ',
   CONTRACT_ERR_GAS: '请输入 gaslimit',
+
+  // ASCH 1.5
+  BUY_BACK_POOL: '回购池',
+  BURN_POOL: '燃烧池',
+  COUNCILDETAIL_BANLANCE: '理事会资产余额',
   ASSET_CATEGORY: '资产类型',
   TIP: '提示:',
   ALERT_TIP: '当前网关的储备金率为{rate}%，继续充值跨链资产将会继续调 高储备金率，为了您的资金安全，请谨慎选择！',
@@ -889,10 +894,10 @@ const lang = {
   ERR_GAS_NUM_WRONG: '请输入正确的燃料费上限',
   ERR_GATEWAY_ADD: '追加的储备金额度不正确',
   LABEL_GATEWAY_ADD: '请输入您要追加的储备金额度',
-  PLACEHOLDER_GATEWAY_ADD: '请追加至少 {amount} XAS',
-  ERR_GATEWAY_RETURN: '请输入您要退回的储备金额度',
-  LABEL_GATEWAY_RETURN: '退回的储备金额度错误',
-  PLACEHOLDER_GATEWAY_RETURN: '您最多可退回 {amount} XAS',
+  PLACEHOLDER_GATEWAY_ADD: '请追加至少{amount} XAS',
+  ERR_GATEWAY_RETURN: '退回的储备金额度错误',
+  LABEL_GATEWAY_RETURN: '请输入您要退回的储备金额度',
+  PLACEHOLDER_GATEWAY_RETURN: '您最多可退回{amount} XAS',
   // ERR_GATEWAY_COM: '追加的储备金额度不正确',
   LABEL_GATEWAY_COM: '您可以领取的赔偿额度是',
   RESERVE_RATIO_TIP: '储备金率（ 120% > n > 100% ）：用户充值跨链资产时，会进行风险提示；\n 储备金率（ n < 100% ）: 暂停用户充值功能，仅支持提现',
@@ -906,13 +911,17 @@ const lang = {
   PLEDGE_AMOUNT: '托管资产总额',
   RESERVE_ADD_LABEL: '追加储备金',
   RESERVE_RETURN_LABEL: '退回储备金',
-  RESERVE_COMPENSATION_LABEL: '领取赔偿',
+  RESERVE_COMPENSATION_LABEL: '领取赔偿',
   LATEST_OP_TIME: '最近操作时间',
-  AVALABLE_BAIL_AMOUNT: '*有效储备金:',
+  AVALABLE_BAIL_AMOUNT: '* 有效储备金: ',
   GATEWAY_STATUS: '运行状态',
+  GATEWAY_MEMBER_AWARD: '网关成员激励',
+  ERR_CONTRACT_NOT_EXIST: '合约信息未找到',
+  PLACEHOLDER_CONTRACT_NAME: '请输入合约名称',
+  PLACEHOLDER_SMART_CONTRACT_DESC: '请输入合约描述',
+  PLACEHOLDER_CONTRACT_GAS: '请输入Gas_Limit',
   BANCOR_MODAL_ERROR_1: '请填写正确的数额',
-  BANCOR_MODAL_ERROR_2: '请填写正确的二级密码',
-  ERR_CONTRACT_NOT_EXIST: '合约信息未找到'
+  BANCOR_MODAL_ERROR_2: '请填写正确的二级密码'
 }
 
 export default lang
