@@ -1,6 +1,8 @@
 import AschJS from 'asch-js'
 import Bip39 from 'bip39'
-import { BigNumber } from 'bignumber.js'
+import {
+  BigNumber
+} from 'bignumber.js'
 
 export const getPub = secret => AschJS.crypto.getKeys(secret).publicKey
 
@@ -561,6 +563,32 @@ const asch = {
         type: 409,
         fee: 10000000,
         args: [name, fee],
+        secret,
+        secondSecret: secondPwd
+      })
+    )
+  },
+  // 领取网关补偿
+  // TODO
+  postContract: (gasLimit, name, version, desc, code, fee, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx(
+      convertTransFee({
+        type: 409,
+        fee: 0,
+        args: [gasLimit, name, version, desc, code],
+        secret,
+        secondSecret: secondPwd
+      })
+    )
+  },
+  // 领取网关补偿
+  // TODO
+  payContract: (gasLimit, name, amount, currency, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx(
+      convertTransFee({
+        type: 409,
+        fee: 0,
+        args: [gasLimit, name, amount, currency],
         secret,
         secondSecret: secondPwd
       })

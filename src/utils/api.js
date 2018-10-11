@@ -380,6 +380,13 @@ api2.getGatewayBailStatus = params => {
   return fetch(urls.v2.gatewayBailStatus, params, 'get')
 }
 
+api2.getContracts = params => {
+  return fetch(urls.v2.getContracts, params, 'get')
+}
+api2.getContractDetail = params => {
+  return fetch(urls.v2.getContractDetail, params, 'get')
+}
+
 export {
   api,
   api2
