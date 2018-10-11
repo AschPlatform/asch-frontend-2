@@ -76,10 +76,8 @@ export default {
         let v = Number(val)
         let b = Number(this.balance)
         if (b > v) {
-          console.log(b, v, 'true')
           return true
         }
-        console.log(b, v, 'false')
         return false
       }
     },
@@ -104,7 +102,6 @@ export default {
       this.$emit('sell', amount)
     },
     switchAction() {
-      console.log(this.$v.amount)
       this.$v.$touch()
       if (this.$v.amount.$error || this.$v.password.$error) {
         return

@@ -472,7 +472,6 @@ export default {
     state
   }, params) => {
     let secret = state.userInfo.secret
-    console.log(secret)
     let trans = asch.bancorTradeBySource(
       params.source,
       params.target,

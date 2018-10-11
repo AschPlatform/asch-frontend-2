@@ -319,7 +319,6 @@ export default {
       this.tradeModalShow = true
     },
     async bancorBuy(num) {
-      console.log(this.dealPairInfo.buy, this.dealPairInfo.sell, num, num * Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision))
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
@@ -334,7 +333,6 @@ export default {
       }
     },
     async bancorSell(num) {
-      console.log(this.dealPairInfo.buy, this.dealPairInfo.sell, num, num * Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision))
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
