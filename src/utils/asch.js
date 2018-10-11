@@ -573,7 +573,7 @@ const asch = {
   postContract: (gasLimit, name, version, desc, code, fee, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
-        type: 409,
+        type: 600,
         fee: 0,
         args: [gasLimit, name, version, desc, code],
         secret,
@@ -583,11 +583,11 @@ const asch = {
   },
   // 领取网关补偿
   // TODO
-  payContract: (gasLimit, name, amount, currency, secret, secondPwd = '') => {
+  payContract: (gasLimit, name, amount, currency, fee, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
-        type: 409,
-        fee: 0,
+        type: 601,
+        fee: fee || 0,
         args: [gasLimit, name, amount, currency],
         secret,
         secondSecret: secondPwd
