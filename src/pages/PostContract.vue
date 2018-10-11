@@ -26,7 +26,7 @@
           </q-field>
         </div>
         <div class="row col-12">
-          <q-field class="block col-10 font-16" label-width="2" :label="$t('GAS_LIMIT')" :error-label="$t('ERR_GATEWAY_ADD')">
+          <q-field class="block col-10 font-16" label-width="2" :label="$t('GAS_LIMIT')" :error-label="$t('CONTRACT_ERR_GAS')">
             <q-input class="border-1" hide-underline v-model="content.gas" value="" :error="$v.content.gas.$error" />
           </q-field>
         </div>
@@ -35,7 +35,7 @@
             <q-input class="border-1" hide-underline v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error="$v.secondPwd.$error" />
           </q-field>
         </div>
-        <q-btn big class="col-6 q-mt-md" :disable="$v.content.$error" color="secondary" :label="$t('SMART_CONTRACT_COMMIT')" @click="submit" />
+        <q-btn big class="col-6 q-mt-md" :disable="$v.content.$error || $v.secondPwd.$error" color="secondary" :label="$t('SMART_CONTRACT_COMMIT')" @click="submit" />
       </div>
     </div>
   </q-page>
@@ -129,7 +129,7 @@ export default {
         code,
         name,
         desc,
-        secondSecret: secondPwd
+        secondSecret: this.secondPwd
       }
       let res = await this.postContract(params)
       if (res.success) {

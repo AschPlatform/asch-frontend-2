@@ -583,7 +583,7 @@ export default {
       params.version || 'v0.1',
       params.desc,
       params.code,
-      params.fee || 1000000,
+      params.fee || 0,
       secret,
       params.secondSecret || ''
     )
@@ -599,7 +599,7 @@ export default {
       params.name,
       params.amount,
       params.currency,
-      params.fee || 1000000,
+      params.fee || 0,
       secret,
       params.secondSecret || ''
     )
