@@ -35,8 +35,8 @@
       </q-card-main>
     </q-card>
   
-    <deposit-modal :user="userInfo" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
-    <!-- <cross-chain-deposit-modal @close="depositPanelShow=false" /> -->
+    <!-- <deposit-modal :user="userInfo" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" /> -->
+    <cross-chain-deposit-modal @close="depositPanelShow=false" :show='depositPanelShow' :defaultName="selected"/>
   
     <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
     <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
@@ -88,7 +88,8 @@ export default {
       depositPanelShow: false,
       withdrawPanelShow: false,
       moreAssetsModalShow: false,
-      asset: {}
+      asset: {},
+      selected: ''
     }
   },
   methods: {
@@ -140,6 +141,9 @@ export default {
       this.$root.$emit('openTransactionDialog', asset)
     },
     deposit(asset) {
+      console.log(asset)
+      this.selected = asset.asset.symbol
+      // this.selected.gateway = asset.asset.gateway
       this.depositPanelShow = true
       asset.haveAdd = true // mark as have address asset
       asset.symbol = asset.name // mark as have address asset
@@ -170,6 +174,23 @@ export default {
       // TODO
     },
     loadMoreOuter() {}
+    // async getGatewayInfo(name) {
+    //   let result = await this.getGatewayInfo({
+    //     name: name
+    //   })
+    //   if (result.success) {
+    //     this.bailInfo = result
+    //   }
+    // },
+    // async getOuterAddress() {
+    //   let result = await this.gateAccountAddr({
+    //     name: this.selected.name,
+    //     address: this.user.account.address
+    //   })
+    //   if (result.success) {
+    //     this.outAddress = result.account.address
+    //   }
+    // }
   },
   mounted() {
     if (this.user) {

@@ -7,7 +7,7 @@
       </div>
       <div v-if="account&&account.outAddress">
         <!-- TODO: VR CONETNT -->
-        <vue-qr v-if="status === 1" class="depositmodal-account-content" :size="200" :text="account.outAddress?'bitcoin:'+account.outAddress:'no data'"></vue-qr>
+        <vue-qr v-if="status !== 0" class="depositmodal-account-content" :size="200" :text="qrText"></vue-qr>
         <div v-else class="text-primary padding-40 font-14 text-center">
           <i class="material-icons block font-60 align-center margin-t-54 margin-bottom-20">
             warning
@@ -15,7 +15,7 @@
           {{$t('WARN_TIP', {rate: rate})}}
         </div>
         <br />
-        <div class="col-6 text-center font-14" v-if="status === 1">{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info($t('COPY_SUCCESS'))" flat color="secondary" icon='content copy' round/></div>
+        <div class="col-6 text-center font-14" v-if="status !== 0">{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info($t('COPY_SUCCESS'))" flat color="secondary" icon='content copy' round/></div>
         <q-field class="padding-40 col-9" label-width="3" :label="$t('ASSET_CATEGORY')">
           <q-select
             v-model="currency"
@@ -24,7 +24,7 @@
         <!-- <q-field label-width="3" :label="$t('TIP')" class="padding-40 col-9">
           <div class="deposit-text font-14">{{tipContent}}</div>
         </q-field> -->
-        <div class="margin-t-15" :class="tipColor" v-if="status === 1">
+        <div class="margin-t-15" :class="tipColor" v-if="status !== 0">
           <div class="padding-40 font-14 font-bold">{{$t('TIP')}}</div>
           <div class="padding-40 deposit-text col-6 font-14">{{tipContent}}</div>
         </div>
@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="padding-40" v-else>
-        <q-field label-width="3" :label="$t('ASSET_CATEGORY')">
+        <q-field label-width="3">
           <h5 class="font-18">{{$t('DEPOSIT_NO_ADDR_TIP',{ currency: currency })}}</h5>
         </q-field>
         <q-field >
@@ -66,41 +66,52 @@ import asch from '../utils/asch'
 
 export default {
   name: 'CrossChainDepositModal',
-  // props: ['user', 'show', 'asset'],
+  props: ['show', 'defaultName'],
   components: { QField, QInput, VueQr, QModal, QBtn, QSelect, QItemMain },
   data() {
     return {
       currency: '',
       secondPwd: '',
       account: {
-        outAddress: 'A6ozeC4vH7aBSGooefjjDnk8ThrdRMz7fv'
+        // outAddress: 'A6ozeC4vH7aBSGooefjjDnk8ThrdRMz7fv'
       },
       btnDisable: false,
       // below are mock
-      user: {
-        select: 'ETH',
-        address: 'A6ozeC4vH7aBSGooefjjDnk8ThrdRMz7fv',
-        account: {
-          secondPublicKey: 'A6ozeC4vH7aBSGooefjjDnk8ThrdRMz7fvA6ozeC4vH7aBSGooefjjDnk8ThrdRMz7fv'
-        }
-      },
-      show: true,
+      // user: {
+      //   select: 'ETH',
+      //   address: 'A6ozeC4vH7aBSGooefjjDnk8ThrdRMz7fv',
+      //   account: {
+      //     secondPublicKey: 'A6ozeC4vH7aBSGooefjjDnk8ThrdRMz7fvA6ozeC4vH7aBSGooefjjDnk8ThrdRMz7fv'
+      //   }
+      // },
+      // show: true,
       asset: {
-        symbol: 'ETH',
-        gateway: 'ETH GATEWAY'
+        // symbol: 'ETH',
+        // gateway: 'ETH GATEWAY'
       },
-      rate: '76',
+      bailInfo: {},
+      outAddress: '',
+      // Monitor the local modal change
+      isDirty: false
+      // rate: '76',
       // below is gateway status monitor
-      status: 0
+      // status: 1,
+      // ratio: 0
     }
   },
+  created() {
+    // this.currency = this.defaultName.symbol
+    // this.asset = this.defaultName
+  },
   mounted() {
+    debugger
+    this.currency = this.defaultName
     if (this.asset) {
       this.currency = this.asset.symbol
     }
   },
   methods: {
-    ...mapActions(['broadcastTransaction', 'gateAccountAddr']),
+    ...mapActions(['broadcastTransaction', 'getGatewayInfo', 'gateAccountAddr']),
     async openAddr() {
       if (this.secondSignature && !secondPwdReg.test(this.secondPwd)) {
         toastInfo(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
@@ -133,6 +144,7 @@ export default {
       }, 3000)
     },
     async getAddr() {
+      debugger
       let asset = this.outAssets[this.currency]
       // this.asset = asset
       if (!asset || !asset.gateway) return
@@ -140,12 +152,33 @@ export default {
       if (res.success) {
         this.account = res.account
       }
+    },
+    async getGateway(name) {
+      let result = await this.getGatewayInfo({
+        name: this.asset.gateway
+      })
+      if (result.success) {
+        this.bailInfo = result
+      }
+    },
+    async getOuterAddress() {
+      let result = await this.gateAccountAddr({
+        name: this.asset.gateway,
+        address: this.user.account.address
+      })
+      if (result.success) {
+        this.account.outAddress = result.account.address
+        this.outAddress = result.account.address
+      }
     }
   },
   computed: {
-    ...mapGetters(['outAssets']),
+    ...mapGetters(['outAssets', 'userInfo']),
     secondSignature() {
       return this.user ? this.user.account.secondPublicKey : ''
+    },
+    user() {
+      return this.userInfo
     },
     assetsOpt() {
       let values = Object.values(this.outAssets)
@@ -170,26 +203,60 @@ export default {
     },
     tipContent() {
       // TODO: status detect
-      if (this.currency) {
+      if (this.status === 1) {
         return this.$t('DEPOSIT_TIP', {currency: this.currency})
       }
-      return this.$t('ALERT_TIP', {rate: this.currency.rate})
+      return this.$t('ALERT_TIP', {rate: this.ratio})
     },
     tipColor() {
       // TODO: status detect
-      if (this.currency) {
+      if (this.status === 1) {
         return 'text-five'
       }
       return 'text-secondary'
+    },
+    ratio() {
+      if (this.bailInfo && this.bailInfo.ratio) {
+        return (this.bailInfo.ratio * 100).toFixed(2)
+      }
+      return 0
+    },
+    status() {
+      if (this.ratio < 100) {
+        return 2
+      } else if (this.ratio > 100 && this.ratio < 120) {
+        return 1
+      } else {
+        return 0
+      }
+    },
+    qrText() {
+      if (this.currency && this.account && this.account.outAddress) {
+        return this.currency + ':' + this.account.outAddress
+      }
+      return 'no data'
     }
   },
   watch: {
     asset(val) {
       if (val) this.currency = val.currency || val.symbol
-      if (this.user && this.currency) this.getAddr()
+      if (this.user && this.currency) {
+        this.getAddr()
+        // this.getOuterAddress()
+        this.getGateway()
+      }
     },
     currency(val) {
-      if (this.user) this.getAddr()
+      if (this.user) {
+        this.getAddr()
+        // this.getOuterAddress()
+      }
+    },
+    defaultName(val) {
+      if (this.user) {
+        this.currency = val
+        this.getAddr()
+      }
     }
   }
 }
