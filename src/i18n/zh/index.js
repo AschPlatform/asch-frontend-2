@@ -921,7 +921,8 @@ const lang = {
   PLACEHOLDER_SMART_CONTRACT_DESC: '请输入合约描述',
   PLACEHOLDER_CONTRACT_GAS: '请输入Gas_Limit',
   BANCOR_MODAL_ERROR_1: '请填写正确的数额',
-  BANCOR_MODAL_ERROR_2: '请填写正确的二级密码'
+  BANCOR_MODAL_ERROR_2: '请填写正确的二级密码',
+  EXPEND_GAS_LIMIT: '* 预计消耗 0.0001 - 0.00013 BCH'
 }
 
 export default lang
