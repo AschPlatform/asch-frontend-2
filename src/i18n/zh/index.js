@@ -907,6 +907,7 @@ const lang = {
   COUNCIL_MEMBER_ELECTED: '成员列表（{number}）',
   COUNCIL_MEMBER_CANDIDATE: '候选列表（{number}）',
   GATEWAY_PLEDGE_AMOUNT: '储备金(XAS)',
+  GATEWAY_PLEDGE_RATIO: '储备金率',
   RESERVE_TOTAL_AMOUNT: '储备金总额',
   PLEDGE_AMOUNT: '托管资产总额',
   RESERVE_ADD_LABEL: '追加储备金',
@@ -921,7 +922,20 @@ const lang = {
   PLACEHOLDER_SMART_CONTRACT_DESC: '请输入合约描述',
   PLACEHOLDER_CONTRACT_GAS: '请输入Gas_Limit',
   BANCOR_MODAL_ERROR_1: '请填写正确的数额',
-  BANCOR_MODAL_ERROR_2: '请填写正确的二级密码'
+  BANCOR_MODAL_ERROR_2: '请填写正确的二级密码',
+  ERR_BANCOR_NOT_EXIST: 'Bancor 初始化失败',
+  ERR_BANCOR_CW_NOT_EXIST: '余额或 CW 不存在',
+  ERR_GAS_NOT_ENOUGH: '消耗的燃料费用超过 gaslimit',
+  ERR_MONEY_NOT_ENOUGH: '初始化余额不足',
+  ERR_STOCK_NOT_ENOUGH: '初始化储备金不足',
+  ERR_BANCOR_NOT_INIT: 'Bancor 未初始化',
+  ERR_NOT_GATEWAY_MEMBER: '还不是网关成员',
+  ERR_BAIL_NOT_ENOUGH: '网关成员还未缴纳保证金',
+  ERR_DEPOSIT_AMOUNT_NOT_ENOUGH: '网关成员保证金不足',
+  ERR_WITHDRAWL_EXCEED: '金额超出保证金可退上限',
+  ERR_GATEWAY_OFFLINE: '当前网关已经离线',
+  ERR_GATEWAY_NOT_EXIST: '网关未找到',
+  ERR_GATEWAY_NOT_REVOKED: '网关未冻结，无法理赔'
 }
 
 export default lang

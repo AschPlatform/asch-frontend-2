@@ -63,27 +63,13 @@
 
 <script>
 /* eslint-disable */
-import {
-  QPage,
-  QTable,
-  QBtn,
-  QTd,
-  QTr,
-  QTh
-} from 'quasar'
-import {
-  mapActions,
-  mapGetters
-} from 'vuex'
-import {
-  toast,
-  toastError,
-} from '../utils/util'
-import {
-  convertFee
-} from '../utils/asch'
+import { QPage, QTable, QBtn, QTd, QTr, QTh } from 'quasar'
+import { mapActions, mapGetters } from 'vuex'
+import { toast, toastError } from '../utils/util'
+import { convertFee } from '../utils/asch'
 import BancorTradeModal from '../components/BancorTradeModal'
 import { fullTimestamp } from '../utils/asch'
+import { BigNumber } from 'bignumber.js'
 
 export default {
   name: 'Bancor',
@@ -203,14 +189,20 @@ export default {
     }
   },
   async mounted() {
-    this.getMyBalances()
-    this.getBncorsPairs()
-    this.requestHistory()
+    // await this.initData()
   },
   methods: {
     convertFee,
     fullTimestamp,
-    ...mapActions(['getBalances', 'getCurrencies', 'getAllAssets', 'getBancorPairs', 'getBancorRecord', 'bancorTradeBySource', 'bancorTradeByTarget']),
+    ...mapActions([
+      'getBalances',
+      'getCurrencies',
+      'getAllAssets',
+      'getBancorPairs',
+      'getBancorRecord',
+      'bancorTradeBySource',
+      'bancorTradeByTarget'
+    ]),
     async getBncorsPairs() {
       let result = await this.getBancorPairs()
       if (result.success) {
@@ -220,6 +212,11 @@ export default {
         })
       }
     },
+    async initData() {
+      await this.getMyBalances()
+      await this.getBncorsPairs()
+      await this.requestHistory()
+    },
     async request() {
       await getBncorsPairs()
     },
@@ -227,8 +224,8 @@ export default {
       let result = await this.getBalances({
         address: this.user.account.address
       })
+      let _tempArr = {}
       if (result.success && result.balances.length > 0) {
-        let _tempArr = {}
         _tempArr.XAS = {
           precision: 8
         }
@@ -362,32 +359,57 @@ export default {
       return this.user ? this.user.account.secondPublicKey : ''
     },
     balance() {
-      return this.user.account.xas / Math.pow(10, 8)
+      let XasBalance = this.user && this.user.account ? this.user.account.xas : 0
+      let balance = BigNumber(XasBalance)
+        .div(Math.pow(10, 8))
+        .toString()
+      return balance
     },
     // TODO
     amount() {
       if (this.myBalances && this.dealPairInfo.sell !== 'XAS' && this.dealPairInfo.sell) {
-        return convertFee(this.myBalances[this.dealPairInfo.sell].balance, this.myBalances[this.dealPairInfo.sell].precision)
+        return convertFee(
+          this.myBalances[this.dealPairInfo.sell].balance,
+          this.myBalances[this.dealPairInfo.sell].precision
+        )
       }
       return this.balance
+    }
+  },
+  watch: {
+    user(val) {
+      if (val) {
+        this.initData()
+      }
     }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-.bancor-container
-  padding 20px
-.bancor-content
-  background #ffffff
-  border-radius 6px
-.bancor-top
+.bancor-container {
+  padding: 20px;
+}
+
+.bancor-content {
+  background: #ffffff;
+  border-radius: 6px;
+}
+
+.bancor-top {
   margin-bottom: 20px;
-.bancor-top-2
+}
+
+.bancor-top-2 {
   margin-top: 40px;
   margin-bottom: 20px;
-.border-1
-  border-bottom: 1px solid rgba(0,0,0,0.12);
-.line-40
-  line-height 40px;
+}
+
+.border-1 {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.line-40 {
+  line-height: 40px;
+}
 </style>

@@ -130,6 +130,7 @@ export default {
         toastError(this.$t('CONTRACT_ERR_CODE'))
         return null
       }
+      code = Buffer.from(code, 'hex').toString('utf8')
       let gasLimit = BigNumber(+gas)
         .times(Math.pow(10, 8))
         .toString()

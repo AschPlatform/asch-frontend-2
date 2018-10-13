@@ -118,6 +118,7 @@ export default {
         secondPwd
       }
       this.$emit('submit', form)
+      this.$emit('close')
     },
     getAmount(props, attr, precision = 8) {
       let gateway = this.gateway
@@ -192,7 +193,6 @@ export default {
       this.$v[this.getFormName].$touch()
     },
     type(val) {
-      debugger
       if (val === 3) this.compensationForm.val = this.getAmount('claim', 'realClaim')
     }
   }

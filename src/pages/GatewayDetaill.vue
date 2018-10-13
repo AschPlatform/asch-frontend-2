@@ -98,7 +98,7 @@
           <q-card-main class="custom-card-main">
           <div v-if="gateway&&gateway.bail">
             <span class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
-            <span class="font-20 text-secondary"> XAS</span>
+            <span class="font-20 text-secondary"> {{gateway.bail.symbol}}</span>
           </div>
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
             <q-btn v-show="getAddBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
@@ -114,8 +114,14 @@
             <span class="font-22 text-black font-weight">{{$t('PLEDGE_AMOUNT')}}</span>
           </q-card-title>
           <q-card-main class="custom-card-main">
-            <span class="font-36 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}}</span>
-            <span class="font-20 text-secondary"> BCH</span>
+            <div>
+              <span class="font-36 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}}</span>
+              <span class="font-20 text-secondary"> BCH</span>
+            </div>
+            <div class="font-20 text-secondary">
+              {{gateway && gateway.bail ?'≈' + gateway.bail.ratio *100 + '%':'' }}{{'('+$t('GATEWAY_PLEDGE_RATIO')+')'}}
+            </div>
+            
           </q-card-main>
         </div>  
       </q-card>
@@ -369,18 +375,18 @@ export default {
     getGatewayState() {
       /**
        * -1 no gateway data
-       * 0 not activited
-       * 1 activited
+       * 0 not activated
+       * 1 activated
        * 2 online
        * 3 offline
        * 4 freeze
        */
       if (this.gateway) {
-        let { activited, revoked } = this.gateway
-        if (activited === 0) {
+        let { activated, revoked } = this.gateway
+        if (activated === 0) {
           return 0
         }
-        if (activited === 1) {
+        if (activated === 1) {
           if (revoked > 0) {
             return revoked + 2
           } else {
