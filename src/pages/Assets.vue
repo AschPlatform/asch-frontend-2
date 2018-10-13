@@ -36,7 +36,7 @@
     </q-card>
   
     <!-- <deposit-modal :user="userInfo" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" /> -->
-    <cross-chain-deposit-modal @close="depositPanelShow=false" :show='depositPanelShow' :defaultName="selected"/>
+    <deposit-modal @close="depositPanelShow=false" :show='depositPanelShow' :defaultName="selected"/>
   
     <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
     <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
