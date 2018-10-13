@@ -1,6 +1,6 @@
 <template>
   <div class="prompt-message-container">
-    <div class="prompt-message relative-position shadow-1">
+    <div class="prompt-message relative-position text-five shadow-1">
       <q-scroll-area style="height: 100%" class="">
         <vue-markdown :source="message"></vue-markdown>
       </q-scroll-area>

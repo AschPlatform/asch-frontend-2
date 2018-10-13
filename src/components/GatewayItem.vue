@@ -12,6 +12,10 @@
       <div>
         <div class="text-left">
           <i class="material-icons font-24 vertical-align-middle text-secondary">fiber_manual_record</i>
+          <span class="font-16 text-five vertical-align-middle">{{$t('GATEWAY_STATUS')}}:{{getGatewayState(item)==2?'online':'offline'}}</span>
+        </div>
+        <div class="text-left">
+          <i class="material-icons font-24 vertical-align-middle text-secondary">fiber_manual_record</i>
           <span class="font-16 text-five vertical-align-middle">{{$t('GATEWAY_MEMBER')}}:{{item.validatorNumber}}</span>
         </div>
         <div class="text-left">
@@ -49,6 +53,30 @@ export default {
   methods: {
     fullTimestamp(val) {
       if (val) return fullTimestamp(val).split(' ')[0]
+    },
+    getGatewayState(gateway) {
+      /**
+       * -1 no gateway data
+       * 0 not activated
+       * 1 activated
+       * 2 online
+       * 3 offline
+       * 4 freeze
+       */
+      if (gateway) {
+        let { activated, revoked } = gateway
+        if (activated === 0) {
+          return 0
+        }
+        if (activated === 1) {
+          if (revoked > 0) {
+            return revoked + 2
+          } else {
+            return 2
+          }
+        }
+      }
+      return -1
     }
   }
 }

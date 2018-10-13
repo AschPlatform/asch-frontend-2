@@ -164,9 +164,7 @@ export default {
       let fee = null
 
       if (this.feeType === 0 || this.isContractPay) {
-        fee = BigNumber(-this.form.gas)
-          .times(Math.pow(10, 8))
-          .toString()
+        fee = Number(-this.form.gas)
       }
       let res
       if (this.isContractPay) {

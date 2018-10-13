@@ -21,11 +21,11 @@
             <span class="font-16 text-five">{{contract.owner}}</span>
           </div>
         </div>
-        <div class="row col-12 padding-l-15 margin-top-30">
-          <div class="row justify-start">
+        <div class="row col-12 padding-l-15 margin-top-30 width-100">
+          <div class="row justify-start" style="width:100%">
             <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_CODE')}} : </span>
-            <div class="padding-20 code-container">
-              <codemirror :value.sync="getCode" :options="getCodeOption" />
+            <div class="padding-20 code-container ">
+              <codemirror class="width-100" :value.sync="getCode" :options="getCodeOption" />
             </div>
           </div>
         </div>
@@ -82,7 +82,9 @@ export default {
   },
   computed: {
     getCode() {
-      return this.contract.code
+      let code = this.contract.code
+      return Buffer.from(code).toString('hex')
+      // return Buffer.from(code, 'hex').toString('utf8')
     },
     getCodeOption() {
       return {
@@ -117,6 +119,7 @@ export default {
 
     .code-container {
       border: 1px solid #dddddd;
+      width: 100%;
     }
   }
 }

@@ -598,7 +598,7 @@ const asch = {
 
 const feeFuncMap = {
   1: trs => {
-    return 0.1
+    return trs.fee ? trs.fee : 0.1
   },
   2: trs => {
     let len = trs.args[0].length
@@ -662,7 +662,7 @@ const feeFuncMap = {
     return 0.1
   },
   103: trs => {
-    return 0.1
+    return trs.fee ? trs.fee : 0.1
   },
   200: trs => {
     return 100
