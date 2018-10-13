@@ -64,7 +64,7 @@
     <div class="asset-detail-record-container">
       <asset-record-container class="bg-white" :isCross="isCross" :currency="asset.currency" />
     </div>
-     <deposit-modal :show="depositPanelShow" @close="depositPanelShow=false" :defaultName="asset.asset.symbol"/>
+     <deposit-modal :show="depositPanelShow" @close="depositPanelShow=false" :defaultName="symbol"/>
     <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
   </q-page>
 </template>
@@ -126,6 +126,7 @@ export default {
       asset: {},
       filter: '',
       address: '',
+      bailInfo: {},
       depositPanelShow: false,
       withdrawPanelShow: false,
       isDisable: false
@@ -173,7 +174,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getBalance', 'gateAccountAddr']),
+    ...mapActions(['getBalance', 'gateAccountAddr', 'getGatewayInfo']),
     async getData() {
       // TODO
       let res = await this.getMoreAssets()
@@ -212,6 +213,14 @@ export default {
         'showQRCodeModal',
         this.address && this.isCross ? 'bitcoin:' + this.address : this.address
       )
+    },
+    async getGateway(name) {
+      let result = await this.getGatewayInfo({
+        name: this.asset.asset.gateway
+      })
+      if (result.success) {
+        this.bailInfo = result
+      }
     }
   },
   computed: {
@@ -242,6 +251,11 @@ export default {
     },
     issuerName() {
       if (this.asset.currency) return this.asset.currency.split('.')[0]
+    },
+    symbol() {
+      if (this.asset && this.asset.asset) {
+        return this.asset.asset.symbol
+      }
     }
   },
   watch: {}
