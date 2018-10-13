@@ -83,7 +83,7 @@ export default {
   computed: {
     getCode() {
       let code = this.contract.code
-      return Buffer.from(code).toString('hex')
+      return Buffer.from(code, 'hex').toString('utf-8')
       // return Buffer.from(code, 'hex').toString('utf8')
     },
     getCodeOption() {

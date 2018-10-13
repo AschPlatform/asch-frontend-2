@@ -20,7 +20,7 @@
           <q-field class="block col-10 font-16 custom-postContract-field" label-width="2" :label="$t('SMART_CONTRACT_CODE')+' : '" :error-label="$t('ERR_CONTRACT_CODE')">
             <!-- <q-input class="border-1 textareaInner" type="textarea" hide-underline v-model="content.code" value="" :max-height="600" :rows="17" :error="$v.content.code.$error" /> -->
             <div class="code-container">
-              <codemirror :value.sync="content.code" :options="getCodeOption" />
+              <codemirror :value.sync="content.code" :options="getCodeOption"   @change="change" />
             </div>
           </q-field>
         </div>
@@ -130,7 +130,8 @@ export default {
         toastError(this.$t('CONTRACT_ERR_CODE'))
         return null
       }
-      code = Buffer.from(code, 'hex').toString('utf8')
+      code = Buffer.from(code).toString('hex')
+      console.log(Buffer.from(code, 'hex').toString('utf-8'))
       let gasLimit = BigNumber(+gas)
         .times(Math.pow(10, 8))
         .toString()
@@ -148,6 +149,9 @@ export default {
       } else {
         translateErrMsg(this.$t, res.error)
       }
+    },
+    change(val) {
+      this.content.code = val
     }
   },
   computed: {
