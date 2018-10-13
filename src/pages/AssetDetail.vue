@@ -64,7 +64,7 @@
     <div class="asset-detail-record-container">
       <asset-record-container class="bg-white" :isCross="isCross" :currency="asset.currency" />
     </div>
-     <deposit-modal :user="userInfo"  :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
+     <deposit-modal :show="depositPanelShow" @close="depositPanelShow=false" :defaultName="asset.asset.symbol"/>
     <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
   </q-page>
 </template>
@@ -98,7 +98,7 @@ import { required, minValue } from 'vuelidate/lib/validators'
 import { toast } from '../utils/util'
 
 export default {
-  name: 'AssetDetailModal',
+  name: 'AssetDetail',
   props: [],
   components: {
     QPage,

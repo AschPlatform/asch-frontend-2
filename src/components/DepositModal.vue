@@ -12,7 +12,7 @@
           <i class="material-icons block font-60 align-center margin-t-54 margin-bottom-20">
             warning
           </i>
-          {{$t('WARN_TIP', {rate: rate})}}
+          {{$t('WARN_TIP', {rate: this.ratio})}}
         </div>
         <br />
         <div class="col-6 text-center font-14" v-if="status !== 0">{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info($t('COPY_SUCCESS'))" flat color="secondary" icon='content copy' round/></div>
