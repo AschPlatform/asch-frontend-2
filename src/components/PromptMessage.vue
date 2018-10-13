@@ -1,6 +1,6 @@
 <template>
   <div class="prompt-message-container">
-    <div class="prompt-message relative-position text-five shadow-1">
+    <div class="prompt-message relative-position text-five shadow-1 custom-prompt-message">
       <q-scroll-area style="height: 100%" class="">
         <vue-markdown :source="message"></vue-markdown>
       </q-scroll-area>
@@ -30,14 +30,17 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+
+
 .prompt-message-container {
   position: absolute;
-  width: 250px;
-  height: 250px;
-  right: -245px;
+  width: 300px;
+  height: 300px;
+  right: -295px;
   bottom: -15px;
   border: 1px solid #ddd;
   background: #ffffff;
+  z-index: 99;
 
   .prompt-message {
     height: 100%;
