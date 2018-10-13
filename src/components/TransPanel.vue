@@ -28,16 +28,16 @@
       <q-field v-if="secondSignature" class="col-12" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
         <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
       </q-field>
-      <q-field class="col-12" :label="feeType===1?$t('FEES')+':':$t('GAS')+':'" :label-width="3"  :error-label="$t('ERR_GAS_NUM_WRONG')">
-        <div class="flex justify-center ">
-          <q-btn-toggle v-model="feeType" toggle-color="secondary" :options="[
+      <q-field class="col-12" :label="feeType===1?$t('FEES')+':':$t('GAS')+':'" :label-width="3" :error-label="$t('ERR_GAS_NUM_WRONG')">
+        <div class="row justify-center col-12 custom-transpanel-btns">
+          <q-btn-toggle class="row col-12 no-shadow" v-model="feeType" toggle-color="secondary" :options="[
       {label: this.$t('FEES'), value: 1},
       {label: this.$t('GAS'), value: 0},
     ]" />
         </div>
         
-        <q-input v-if="feeType===1" disable v-model="form.fee" />
-        <q-input v-else v-model="form.gas" type="number" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" suffix="BCH"/>
+        <q-input class="fee-input" v-if="feeType===1" disable v-model="form.fee" />
+        <q-input v-else class="gas-input" v-model="form.gas" type="number" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" suffix="BCH"/>
       </q-field>
       <q-field v-if="!isContractPay" class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')">
         <q-input ref="remark" :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
@@ -298,8 +298,7 @@ export default {
     user(val) {
       this.refreshBalances()
     },
-    feeType(val) {
-    }
+    feeType(val) {}
   }
 }
 </script>
@@ -345,4 +344,6 @@ export default {
   color: #999999 !important;
   font-size: 16px;
 }
+
+
 </style>
