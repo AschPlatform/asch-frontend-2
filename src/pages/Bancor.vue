@@ -226,17 +226,17 @@ export default {
       let result = await this.getBalances({
         address: this.user.account.address
       })
-      let _tempArr = {}
+      let tempArr = {}
       if (result.success && result.balances.length > 0) {
-        _tempArr.XAS = {
+        tempArr.XAS = {
           precision: 8
         }
         result.balances.forEach(o => {
-          let _obj = o
-          _obj.precision = _obj.asset.precision
-          _tempArr[o.currency] = _obj
+          let obj = o
+          obj.precision = obj.asset.precision
+          tempArr[o.currency] = obj
         })
-        this.myBalances = _tempArr
+        this.myBalances = tempArr
       }
     },
     async getBalance() {
@@ -254,21 +254,21 @@ export default {
       })
       if (resCross.success) {
         // this.myBalances = res.currencies
-        let _tempArr = {}
+        let tempArr = {}
         resCross.currencies.forEach(o => {
-          let _obj = o
-          _tempArr[o.symbol] = _obj
+          let obj = o
+          tempArr[o.symbol] = obj
           // o.precision = o.asset.precision
         })
-        this.myBalances = Object.assign(this.myBalances, _tempArr)
+        this.myBalances = Object.assign(this.myBalances, tempArr)
       }
       if (resSide.success) {
-        let _tempArr = {}
+        let tempArr = {}
         resSide.assets.forEach(o => {
-          let _obj = o
-          _tempArr[o.name] = _obj
+          let obj = o
+          tempArr[o.name] = obj
         })
-        this.myBalances = Object.assign(this.myBalances, _tempArr)
+        this.myBalances = Object.assign(this.myBalances, tempArr)
       }
     },
     async requestHistory(props) {
