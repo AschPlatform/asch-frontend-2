@@ -46,11 +46,11 @@
 <script>
 import { QBtn, QPage, QCard, QCardMain, QCardTitle } from 'quasar'
 import AssetsPanel from '../components/AssetsPanel'
-import DepositModal from '../components/DepositModal'
+// import DepositModal from '../components/DepositModal'
 import WithdrawModal from '../components/WithdrawModal'
 import MoreAssetModal from '../components/MoreAssetModal'
 import AssetDetailModal from '../components/AssetDetailModal'
-import CrossChainDepositModal from '../components/CrossChainDepositModal'
+import DepositModal from '../components/DepositModal'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -65,8 +65,7 @@ export default {
     DepositModal,
     WithdrawModal,
     MoreAssetModal,
-    AssetDetailModal,
-    CrossChainDepositModal
+    AssetDetailModal
   },
   data() {
     return {
@@ -141,7 +140,6 @@ export default {
       this.$root.$emit('openTransactionDialog', asset)
     },
     deposit(asset) {
-      console.log(asset)
       this.selected = asset.asset.symbol
       // this.selected.gateway = asset.asset.gateway
       this.depositPanelShow = true
@@ -174,23 +172,6 @@ export default {
       // TODO
     },
     loadMoreOuter() {}
-    // async getGatewayInfo(name) {
-    //   let result = await this.getGatewayInfo({
-    //     name: name
-    //   })
-    //   if (result.success) {
-    //     this.bailInfo = result
-    //   }
-    // },
-    // async getOuterAddress() {
-    //   let result = await this.gateAccountAddr({
-    //     name: this.selected.name,
-    //     address: this.user.account.address
-    //   })
-    //   if (result.success) {
-    //     this.outAddress = result.account.address
-    //   }
-    // }
   },
   mounted() {
     if (this.user) {

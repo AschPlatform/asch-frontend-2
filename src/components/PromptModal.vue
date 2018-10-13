@@ -189,7 +189,6 @@ export default {
       this.$v[this.getFormName].$touch()
     },
     type(val) {
-      debugger
       if (val === 3) this.compensationForm.val = this.getAmount('claim', 'realClaim')
     }
   }
