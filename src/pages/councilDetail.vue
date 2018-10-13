@@ -22,23 +22,35 @@
           <div class="row justify-between gutter-md pool-container">
             <q-card class="col-md-6 col-xs-12 no-shadow" align="left">
               <div class="bg-white shadow-2">
-                <q-card-title class="bg-nine">
-                  <span class="font-16 text-five font-weight">{{$t('BUY_BACK_POOL')}}</span>
-                  <i class="material-icons vertical-align-sub font-20 text-secondary margin-left-10 cursor-pointer">help</i>
+                <q-card-title class="bg-nine ">
+                  <span class="font-16 text-five font-weight relative-position message-content">
+                    {{$t('BUY_BACK_POOL')}}
+                    <i class="material-icons vertical-align-sub font-20 text-secondary margin-left-10 cursor-pointer">help</i>
+                    <prompt-message :message="$t('ABOUT_GATEWAY_RETURN_CONTENT')" />
+                 </span>
                 </q-card-title>
-                <q-card-main class="word-wrap-break q-card-main q-card-container padding-b-40 padding-t-40">
+                <q-card-main class="word-wrap-break q-card-main q-card-container padding-b-40 padding-t-40 relative-position">
                   <span class="font-30 text-tertiary">{{buyBackBalance | fee}}</span><span class="q-pl-xs  text-secondary">BCH</span>
+                  <div class="card-main-icon">
+                    <img :src="xas" alt="">
+                  </div>
                 </q-card-main>
               </div>
             </q-card>
             <q-card class="col-md-6 col-xs-12 no-shadow" align="left">
               <div class="bg-white shadow-2">
                 <q-card-title class="bg-nine">
-                  <span class="font-16 text-five font-weight">{{$t('BURN_POOL')}}</span>
-                  <i class="material-icons vertical-align-sub font-20 text-secondary margin-left-10 cursor-pointer">help</i>
+                  <span class="font-16 text-five font-weight relative-position message-content">
+                    {{$t('BURN_POOL')}}
+                    <i class="material-icons vertical-align-sub font-20 text-secondary margin-left-10 cursor-pointer">help</i>
+                    <prompt-message :message="$t('ABOUT_GATEWAY_RETURN_CONTENT')" />
+                  </span>
                 </q-card-title>
-                <q-card-main class="word-wrap-break q-card-main q-card-container padding-b-40 padding-t-40">
+                <q-card-main class="word-wrap-break q-card-main q-card-container padding-b-40 padding-t-40 relative-position">
                   <span class="font-30 text-tertiary">{{burnAccount | fee}}</span><span class="q-pl-xs  text-secondary">XAS</span>
+                  <div class="card-main-icon">
+                    <img :src="xas" alt="">
+                  </div>
                 </q-card-main>
               </div>
             </q-card>
@@ -63,7 +75,6 @@
                 </q-item-tile>
               </q-item-side>
             </q-item>
-            <q-item-separator />
           </q-list>
         </div>
       </div>
@@ -91,12 +102,15 @@ import {
   QItemSide,
   QItemTile,
   QItemSeparator
+  // QScrollArea
 } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { compileTimeStamp, getTimeFromHight } from '../utils/util'
 import TransRecordContainer from '../components/TransRecordContainer'
 import BoundaryLine from '../components/BoundaryLine'
 import AssetIcon from '../components/AssetIcon'
+import PromptMessage from '../components/PromptMessage'
+import xas from '../assets/xas.png'
 
 export default {
   name: 'councilDetail',
@@ -118,10 +132,15 @@ export default {
     QItemSeparator,
     TransRecordContainer,
     BoundaryLine,
-    AssetIcon
+    AssetIcon,
+    PromptMessage
+    // QScrollArea,
+    // VueMarkdown
   },
   data() {
     return {
+      xas,
+      isMouseover: false,
       columns: [
         // {
         //   name: 'name',
@@ -291,6 +310,38 @@ export default {
     .council-list {
       .q-list-header {
         padding: 23px 16px !important;
+      }
+
+      .q-item:last-child {
+        border: none;
+      }
+
+      .q-item {
+        border-bottom: 1px solid #dddddd;
+      }
+    }
+
+    .message-content:hover {
+      .prompt-message-container {
+        display: block;
+      }
+    }
+
+    .message-content {
+      padding-right: 20px;
+
+      .prompt-message-container {
+        display: none;
+      }
+    }
+
+    .card-main-icon {
+      position: absolute;
+      right: 7px;
+      bottom: 7px;
+
+      img {
+        width: 30px;
       }
     }
   }
