@@ -28,7 +28,7 @@
       <q-field v-if="secondSignature" class="col-12" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
         <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
       </q-field>
-      <q-field class="col-12" :label="feeType===1?$t('FEES')+':':$t('GAS_LIMIT')+':'" :label-width="3"  :error-label="$t('ERR_GAS_NUM_WRONG')">
+      <q-field class="col-12" :label="feeType===1?$t('FEES')+':':$t('GAS')+':'" :label-width="3"  :error-label="$t('ERR_GAS_NUM_WRONG')">
         <div class="flex justify-center ">
           <q-btn-toggle v-model="feeType" toggle-color="secondary" :options="[
       {label: this.$t('FEES'), value: 1},
@@ -164,9 +164,7 @@ export default {
       let fee = null
 
       if (this.feeType === 0 || this.isContractPay) {
-        fee = BigNumber(-this.form.gas)
-          .times(Math.pow(10, 8))
-          .toString()
+        fee = Number(-this.form.gas)
       }
       let res
       if (this.isContractPay) {

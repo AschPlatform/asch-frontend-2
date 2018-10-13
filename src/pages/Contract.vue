@@ -9,14 +9,14 @@
           <button :class="this.type === 0 ? styleSelected : styleUnselected" @click="changeType(0)">
             {{$t('SMART_CONTRACT_MINE')}}
           </button>
-          <q-btn class="font-18 mobile-hide float-right pos" rounded size="xs" color="secondary" :label="$t('SMART_CONTRACT_NEW')" @click="newContract" />
+          <q-btn class="font-14 mobile-hide float-right pos" rounded color="secondary" :label="$t('SMART_CONTRACT_NEW')" @click="newContract" />
         </div>
 
         <q-table class="no-shadow margin-t-20" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
-          <!-- <q-td slot="body-cell-address" slot-scope="props" :props="props">
-            {{props.value}}
+          <q-td slot="body-cell-address" slot-scope="props" :props="props">
+            <div class="text-secondary cursor-pointer">{{props.value}}</div>    
           </q-td>
-          <q-td slot="body-cell-name" slot-scope="props" :props="props">
+          <!-- <q-td slot="body-cell-name" slot-scope="props" :props="props">
             {{props.value}}
           </q-td>
           <q-td slot="body-cell-version" slot-scope="props" :props="props">
@@ -24,7 +24,7 @@
           </q-td>
           <q-td slot="body-cell-owner" slot-scope="props" :props="props">
             {{props.value}}
-          </q-td>-->
+          </q-td> -->
           <q-td slot="body-cell-timestamp" slot-scope="props" :props="props">
             {{props.value | time}}
           </q-td> 
@@ -184,7 +184,8 @@ export default {
 }
 
 .pos {
-  top: 5px;
-  right: 10px;
+  top: 8px;
+  right: 60px;
+  padding: 11px 30px;
 }
 </style>

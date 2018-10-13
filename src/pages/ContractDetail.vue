@@ -4,30 +4,36 @@
       <div class="no-wrap q-pa-md row justify-between">
         <span>
           <i class="material-icons vertical-align-sub font-20 text-black">border_color</i>
-          <h5 class="q-px-md inline-block font-18 q-my-none">{{$t('SMART_CONTRACT_DETAIL')}}</h5>
+          <h5 class="q-px-md inline-block font-22 q-my-none">{{$t('SMART_CONTRACT_DETAIL')}}</h5>
         </span>
       </div>
-      <span class="transfer-title-line"></span>
+      <div class="title-line">
+        <boundary-line />
+      </div>
       <div class="row inner-container">
-        <div class="col-5">
-          <q-field class="block col-6 font-16" label-width="3" :label="$t('SMART_CONTRACT_NAME')">
-            <q-input class="" readonly hide-underline v-model="contract.name" />
-          </q-field>
+        <div class="row col-12 padding-l-15">
+          <div class="margin-right-60">
+            <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_NAME')}} : </span>
+            <span class="font-16 text-five">{{contract.name}}</span>
+          </div>
+          <div>
+            <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_OWNER')}} : </span>
+            <span class="font-16 text-five">{{contract.owner}}</span>
+          </div>
         </div>
-        <div class="col-5">
-          <q-field class="block col-6 font-16" label-width="3" :label="$t('SMART_CONTRACT_OWNER')">
-            <q-input class="" readonly hide-underline v-model="contract.owner"  />
-          </q-field>
+        <div class="row col-12 padding-l-15 margin-top-30 width-100">
+          <div class="row justify-start" style="width:100%">
+            <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_CODE')}} : </span>
+            <div class="padding-20 code-container ">
+              <codemirror class="width-100" :value.sync="getCode" :options="getCodeOption" />
+            </div>
+          </div>
         </div>
-        <div class="row col-12">
-          <q-field class="block col-10 font-16" label-width="2" :label="$t('SMART_CONTRACT_CODE')">
-            <codemirror :value.sync="getCode" :options="getCodeOption" />
-          </q-field>
-        </div>
-        <div class="row col-12">
-          <q-field class="block col-10 font-16" label-width="2" label="DESC">
-            <q-input class="" readonly hide-underline v-model="contract.desc"  />
-          </q-field>
+        <div class="row col-12 padding-l-15 margin-top-30">
+          <div class="row justify-start">
+            <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_DESC')}} : </span>
+            <span class="font-16 text-five">{{contract.desc}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -39,6 +45,8 @@ import { QPage, QField, QInput, QBtn } from 'quasar'
 import { codemirror } from 'vue-codemirror-lite'
 import { mapActions } from 'vuex'
 import { toastError } from '../utils/util'
+import BoundaryLine from '../components/BoundaryLine'
+
 export default {
   name: 'contractDetail',
   components: {
@@ -46,7 +54,8 @@ export default {
     QField,
     QInput,
     QBtn,
-    codemirror
+    codemirror,
+    BoundaryLine
   },
   data() {
     return {
@@ -56,7 +65,9 @@ export default {
   async mounted() {
     let { name } = this.$route.params
     if (name) {
-      let res = await this.getContractDetail({ name })
+      let res = await this.getContractDetail({
+        name
+      })
       if (res.success) {
         this.contract = res.contract
       } else {
@@ -71,12 +82,16 @@ export default {
   },
   computed: {
     getCode() {
-      return this.contract.code
+      let code = this.contract.code
+      return Buffer.from(code).toString('hex')
+      // return Buffer.from(code, 'hex').toString('utf8')
     },
     getCodeOption() {
       return {
         mode: 'javascript',
-        extraKeys: { 'Ctrl-Space': 'autocomplete' },
+        extraKeys: {
+          'Ctrl-Space': 'autocomplete'
+        },
         tabSize: 2,
         lineNumbers: true,
         lineWrapping: true,
@@ -97,6 +112,15 @@ export default {
     background: #ffffff !important;
     padding-bottom: 20px;
     border-radius: 6px;
+
+    .title-line {
+      padding: 12px 16px 31px;
+    }
+
+    .code-container {
+      border: 1px solid #dddddd;
+      width: 100%;
+    }
   }
 }
 
@@ -122,4 +146,7 @@ export default {
   padding: 16px;
 }
 
+.margin-right-60 {
+  margin-right: 60px;
+}
 </style>
