@@ -166,7 +166,7 @@ export default {
           'Ctrl-Space': 'autocomplete'
         },
         tabSize: 2,
-        lineNumbers: false,
+        lineNumbers: true,
         lineWrapping: true,
         viewportMargin: Infinity
       }
