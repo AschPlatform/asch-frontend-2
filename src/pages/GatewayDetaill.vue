@@ -415,10 +415,11 @@ export default {
       return flag && this.isGatewayMember
     },
     getCompensatioBtnShow() {
-      let showStates = [4]
-      let gatewayState = this.getGatewayState
-      let flag = showStates.indexOf(gatewayState) > -1
-      return flag && !this.isGatewayMember
+      // let showStates = [4]
+      // let gatewayState = this.getGatewayState
+      // let flag = showStates.indexOf(gatewayState) > -1
+      // return flag && !this.isGatewayMember
+      return true
     },
     user() {
       return this.userInfo
