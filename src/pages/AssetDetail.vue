@@ -191,7 +191,7 @@ export default {
     }
     if (asset && asset.asset) {
       let name = asset.asset.gateway
-      let address = this.userInfo.address
+      let address = user.address
       let res = await this.gateAccountAddr({ name, address })
       if (res.success && res.account) {
         this.address = res.account.outAddress
@@ -237,7 +237,6 @@ export default {
     },
     compensate() {
       this.compensateModalShow = true
-      console.log(this)
     },
     async compensateSubmit(form) {
       let res = null
@@ -322,7 +321,7 @@ export default {
       if (this.outAssets[this.symbol] === 4) {
         return 3
       }
-      if (this.ratio < 100) {
+      if (this.ratio < 100 || this.address === '') {
         return 2
       } else {
         return 1
