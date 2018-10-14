@@ -44,14 +44,14 @@
         <q-td slot="body-cell-source" slot-scope="props" :props="props">
           {{props.row.source + '/' + props.row.target}}
         </q-td>
-        <q-td slot="body-cell-ratio" slot-scope="props" :props="props">
+        <q-td slot="body-cell-price" slot-scope="props" :props="props">
           {{props.value}} {{props.row.source}}
         </q-td>
         <q-td slot="body-cell-buyed" slot-scope="props" :props="props">
-          {{convertFee(props.value, props.row.targetPrecision)}} {{props.row.target}}
+          {{convertFee(props.row.targetAmount, props.row.targetPrecision)}} {{props.row.target}}
         </q-td>
         <q-td slot="body-cell-used" slot-scope="props" :props="props">
-          {{convertFee(props.value, props.row.sourcePrecision)}} {{props.row.source}}
+          {{convertFee(props.row.sourceAmount, props.row.sourcePrecision)}} {{props.row.source}}
         </q-td>
       </q-table>
     </div>
@@ -65,7 +65,7 @@
 /* eslint-disable */
 import { QPage, QTable, QBtn, QTd, QTr, QTh } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
-import { toast, toastError } from '../utils/util'
+import { toast, translateErrMsg } from '../utils/util'
 import { convertFee } from '../utils/asch'
 import BancorTradeModal from '../components/BancorTradeModal'
 import { fullTimestamp } from '../utils/asch'
@@ -165,11 +165,11 @@ export default {
           field: 'source'
         },
         {
-          name: 'ratio',
+          name: 'price',
           required: true,
           label: this.$t('BANCOR_HIS_COL_4'),
           align: 'left',
-          field: 'ratio'
+          field: 'price'
         },
         {
           name: 'buyed',
@@ -286,7 +286,7 @@ export default {
       // TODO:
       if (result.success) {
         this.loading = false
-        this.historys = result.transactions
+        this.historys = result.trades
         this.pagination.rowsNumber = result.count
       }
     },
@@ -328,7 +328,7 @@ export default {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
         this.tradeModalShow = false
       } else {
-        toastError(result.error)
+        translateErrMsg(result.error)
       }
     },
     async bancorSell(num) {
@@ -342,7 +342,7 @@ export default {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
         this.tradeModalShow = false
       } else {
-        toastError(result.error)
+        translateErrMsg(result.error)
       }
     },
     judge(props) {
