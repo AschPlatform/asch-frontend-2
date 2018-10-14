@@ -1,6 +1,6 @@
 <template>
   <q-page >
-    <tip-bar></tip-bar>
+    <tip-bar v-show="isShowTip" :ratio="ratio" :status="status" :symbol="asset.currency"></tip-bar>
     <q-card class="no-shadow">
       <q-card-title>
         <div class="row justify-between">
@@ -14,20 +14,28 @@
      
       </q-card-title>
       <q-card-main :class="assetCardsContainerClass">
-        <assets-panel :class="assetDetailInnerClass" v-if="!isCross" type='inner' :asset="asset" @transfer="transfer"  />
+        <assets-panel :class="assetDetailInnerClass" v-if="!isCross && status !== 3" type='inner' :asset="asset" @transfer="transfer"  />
 
-        <assets-panel :class="assetDetailInnerClass" v-else type='outer' :asset="asset" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" />
+        <assets-panel :class="assetDetailInnerClass" v-if="isCross && status !== 3" type='outer-simple' :asset="asset" @transfer="transfer" @withdraw="withdraw" />
 
-        <q-card :class="assetDetailOuterClass" v-if="isCross && address">
+        <assets-panel :class="assetDetailInnerClass" v-if="status === 3" type='outer-compensate' :asset="asset" @compensate="compensate"/>
+
+        <q-card :class="assetDetailOuterClass" v-if="isCross && status !== 3">
           <q-card-main>
             <p class="font-22 text-black margin-b-0">{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
-            <div>
+            <div v-if="status === 1">
               <span class="font-14 text-three">{{address}}</span>
               <q-btn v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" color="secondary" size="xs" flat round icon="content copy" />
             </div>
-            <div class="row justify-center" @click="showAddrQr">
+            <div v-if="status === 1" class="row justify-center" @click="showAddrQr">
               <vue-qr v-if="isCross" :size="80" :text="address ? 'bitcoin:'+ address:'no data'"></vue-qr>
               <vue-qr v-else :size="80" :text="address || 'no data'"></vue-qr>
+            </div>
+            <div v-if="status === 2">
+              <div class="warn-wrap text-negative text-center q-mt-md">
+                <q-icon name="report_problem" size="42px" class="block"></q-icon>
+                <p class="font-18">{{$t('TEMP_CLOSE')}}</p>
+              </div>
             </div>
           </q-card-main>
         </q-card>
@@ -51,7 +59,7 @@
           </q-card-main>
         </q-card>
   
-        <q-card v-if="asset.asset" :class="assetDetailOuterClass" style="max-width: 300px; overflow-y: scroll">
+        <q-card v-if="asset.asset && status !== 3" :class="assetDetailOuterClass" style="max-width: 300px; overflow-y: scroll">
           <q-card-main>
             <p class="text-black font-22">{{$t('CURRENCY_INTRODUCE')}}</p>
             <p class="break-word">
@@ -66,6 +74,7 @@
     </div>
      <deposit-modal :show="depositPanelShow" @close="depositPanelShow=false" :defaultName="symbol"/>
     <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
+    <prompt-modal :show="compensateModalShow" :title="modal.title" :type="modal.type" :gateway="gatewayInfo" @submit="compensateSubmit" @close="compensateModalShow=false" />
   </q-page>
 </template>
 
@@ -91,11 +100,13 @@ import {
   QItemTile,
   QCardActions,
   QBtn,
-  QPage
+  QPage,
+  QIcon
 } from 'quasar'
 import { secondPwd } from '../utils/validators'
 import { required, minValue } from 'vuelidate/lib/validators'
-import { toast } from '../utils/util'
+import { toast, translateErrMsg } from '../utils/util'
+import PromptModal from '../components/PromptModal'
 
 export default {
   name: 'AssetDetail',
@@ -119,7 +130,9 @@ export default {
     VueQr,
     DepositModal,
     WithdrawModal,
-    TipBar
+    TipBar,
+    QIcon,
+    PromptModal
   },
   data() {
     return {
@@ -129,7 +142,18 @@ export default {
       bailInfo: {},
       depositPanelShow: false,
       withdrawPanelShow: false,
-      isDisable: false
+      isDisable: false,
+      isShowTip: true,
+      compensateModalShow: false,
+      modal: {
+        title: 'RESERVE_COMPENSATION_LABEL',
+        type: 3
+      },
+      gatewayInfo: {
+        bail: null,
+        status: null,
+        claim: null
+      }
     }
   },
   validations: {
@@ -159,6 +183,7 @@ export default {
     this.asset = asset
     this.user = user
     if (asset.currency === 'XAS') {
+      this.isShowTip = false
       this.asset = {
         currency: 'XAS',
         balance: user.account.xas
@@ -171,10 +196,12 @@ export default {
       if (res.success && res.account) {
         this.address = res.account.outAddress
       }
+      this.getGateway()
+      this.getRealClaim()
     }
   },
   methods: {
-    ...mapActions(['getBalance', 'gateAccountAddr', 'getGatewayInfo']),
+    ...mapActions(['getBalance', 'gateAccountAddr', 'getGatewayInfo', 'getGatewayRealClaim', 'getCompensation']),
     async getData() {
       // TODO
       let res = await this.getMoreAssets()
@@ -208,6 +235,26 @@ export default {
       this.asset = this._.merge({}, asset)
       this.withdrawPanelShow = true
     },
+    compensate() {
+      this.compensateModalShow = true
+      console.log(this)
+    },
+    async compensateSubmit(form) {
+      let res = null
+      let { amount, secondPwd } = form
+      let params = {
+        name: this.asset.asset.gateway,
+        amount,
+        secondSecret: secondPwd
+      }
+      res = await this.getCompensation(params)
+      if (res.success) {
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
+      } else {
+        translateErrMsg(this.$t, res.error)
+        this.disableBtn('btnDisable')
+      }
+    },
     showAddrQr() {
       this.$root.$emit(
         'showQRCodeModal',
@@ -221,10 +268,19 @@ export default {
       if (result.success) {
         this.bailInfo = result
       }
+    },
+    async getRealClaim() {
+      let res = await this.getGatewayRealClaim({
+        name: this.asset.asset.gateway,
+        address: this.userInfo.address
+      })
+      if (res.success) {
+        this.gatewayInfo.claim = res
+      }
     }
   },
   computed: {
-    ...mapGetters(['userInfo']),
+    ...mapGetters(['userInfo', 'outAssets']),
     assetDetailInnerClass() {
       return this.isDesk ? 'margin-l-15 col-auto' : 'col-12'
     },
@@ -256,6 +312,46 @@ export default {
       if (this.asset && this.asset.asset) {
         return this.asset.asset.symbol
       }
+    },
+    ratio() {
+      if (this.bailInfo) {
+        return (this.bailInfo.ratio * 100).toFixed(2)
+      }
+    },
+    status() {
+      if (this.outAssets[this.symbol] === 4) {
+        return 3
+      }
+      if (this.ratio < 100) {
+        return 2
+      } else {
+        return 1
+      }
+    },
+    getGatewayState() {
+      /**
+       * -1 no gateway data
+       * 0 not activated
+       * 1 activated
+       * 2 online
+       * 3 offline
+       * 4 freeze
+       */
+      let gateway = this.outAssets[this.symbol]
+      if (gateway) {
+        let { activated, revoked } = gateway
+        if (activated === 0) {
+          return 0
+        }
+        if (activated === 1) {
+          if (revoked > 0) {
+            return revoked + 2
+          } else {
+            return 2
+          }
+        }
+      }
+      return -1
     }
   },
   watch: {}

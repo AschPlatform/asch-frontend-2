@@ -741,9 +741,10 @@ const lang = {
   ERR_CONTRACT_CODE: '不能为空，小于 30kb',
   ERR_CONTRACT_DESC: '合约描述不符合要求,少于 255 字符',
   ERR_CONTRACT_GAS: '请输入合法的燃料费上限',
-  TIP_BAR_NORMAL: '当前网关的储备金率为{rate}，继续充值跨链资产将会继续调高储备金率，为了您的资金安全，请谨慎选择！',
-  TIP_BAR_WARN: '当前网关的储备金率为{rate}，低于安全线100%，为了您的资金安全，暂停跨链资产充值的功能，您可以将资产提现到您的{name}账户；或者等待网关成员补缴保证金后，您可以继续使用“充值”功能。',
+  TIP_BAR_NORMAL: '当前网关的储备金率为{rate}%，继续充值跨链资产将会继续调高储备金率，为了您的资金安全，请谨慎选择！',
+  TIP_BAR_WARN: '当前网关的储备金率为{rate}%，低于安全线100%，为了您的资金安全，暂停跨链资产充值的功能，您可以将资产提现到您的{name}账户；或者等待网关成员补缴保证金后，您可以继续使用“充值”功能。',
   TIP_BAR_CLOSE: '当前网关已被冻结停止使用，持有token的用户可以按照所持有的比例，领取赔偿金;',
+  TEMP_CLOSE: '暂停充值，等待网关成员追加储备金后恢复。',
   BANCOR_BUTTON_BUY: '买入',
   BANCOR_BUTTON_SELL: '卖出',
   BANCOR_TITLE_1: '兑换',
@@ -935,7 +936,8 @@ const lang = {
   ERR_WITHDRAWL_EXCEED: '金额超出保证金可退上限',
   ERR_GATEWAY_OFFLINE: '当前网关已经离线',
   ERR_GATEWAY_NOT_EXIST: '网关未找到',
-  ERR_GATEWAY_NOT_REVOKED: '网关未冻结，无法理赔'
+  ERR_GATEWAY_NOT_REVOKED: '网关未冻结，无法理赔',
+  COMPENSATE: '理赔'
 }
 
 export default lang

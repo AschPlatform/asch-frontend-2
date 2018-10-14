@@ -227,17 +227,17 @@ export default {
         address: this.user.account.address
       })
       let tempArr = {}
+      tempArr.XAS = {
+        precision: 8
+      }
       if (result.success && result.balances.length > 0) {
-        tempArr.XAS = {
-          precision: 8
-        }
         result.balances.forEach(o => {
           let obj = o
           obj.precision = obj.asset.precision
           tempArr[o.currency] = obj
         })
-        this.myBalances = tempArr
       }
+      this.myBalances = tempArr
     },
     async getBalance() {
       // Get cross chain assets
