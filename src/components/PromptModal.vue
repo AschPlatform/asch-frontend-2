@@ -182,7 +182,9 @@ export default {
     //   return ratio
     // },
     gatewaySymbol() {
-      return this.gateway.claim.symbol
+      if (this.gateway.claim) {
+        return this.gateway.claim.symbol
+      }
     },
     getewayPrecision() {
       return this.gateway.claim.precision
