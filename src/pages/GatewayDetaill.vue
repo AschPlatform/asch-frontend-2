@@ -98,7 +98,7 @@
           <q-card-main class="custom-card-main">
           <div v-if="gateway&&gateway.bail">
             <span class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
-            <span class="font-20 text-secondary"> {{gateway.bail.symbol}}</span>
+            <span class="font-20 font-futura text-secondary"> {{gateway.bail.symbol}}</span>
           </div>
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
             <q-btn v-show="getAddBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
@@ -116,11 +116,11 @@
           <q-card-main class="custom-card-main">
             <div>
               <span class="font-36 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}}</span>
-              <span class="font-20 text-secondary"> BCH</span>
+              <span class="font-20 font-futura text-secondary"> BCH</span>
             </div>
             <div class="font-20 text-secondary">
               <span class="relative-position message-content">
-                {{gateway && gateway.bail ?' ≈ ' + gateway.bail.ratio *100 + '%':'' }}{{'('+$t('GATEWAY_PLEDGE_RATIO')+')'}}
+                {{gateway && gateway.bail ?' ≈ ' + gateway.bail.ratio *100 + '% ':'' }}{{'( '+$t('GATEWAY_PLEDGE_RATIO')+' )'}}
                 <i class="material-icons vertical-align-super font-20 text-secondary  cursor-pointer">help</i>
                 <prompt-message class="margin-bottom-10" :message="$t('ABOUT_GATEWAY_RETURN_CONTENT')" />
               </span>      
@@ -473,20 +473,6 @@ export default {
         top: -9px;
         right: -15px;
         text-decoration: none;
-      }
-    }
-
-    .message-content:hover {
-      .prompt-message-container {
-        display: block;
-      }
-    }
-
-    .message-content {
-      padding-right: 20px;
-
-      .prompt-message-container {
-        display: none;
       }
     }
   }

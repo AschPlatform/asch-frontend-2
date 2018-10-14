@@ -30,7 +30,7 @@
                  </span>
                 </q-card-title>
                 <q-card-main class="word-wrap-break q-card-main q-card-container padding-b-40 padding-t-40 relative-position">
-                  <span class="font-30 text-tertiary">{{buyBackBalance | fee}}</span><span class="q-pl-xs  text-secondary">BCH</span>
+                  <span class="font-30 text-five">{{buyBackBalance | fee}}</span><span class="q-pl-xs font-futura text-secondary">BCH</span>
                   <div class="card-main-icon">
                     <img :src="xas" alt="">
                   </div>
@@ -47,7 +47,7 @@
                   </span>
                 </q-card-title>
                 <q-card-main class="word-wrap-break q-card-main q-card-container padding-b-40 padding-t-40 relative-position">
-                  <span class="font-30 text-tertiary">{{burnAccount | fee}}</span><span class="q-pl-xs  text-secondary">XAS</span>
+                  <span class="font-30 text-five">{{burnAccount | fee}}</span><span class="q-pl-xs font-futura text-secondary">XAS</span>
                   <div class="card-main-icon">
                     <img :src="xas" alt="">
                   </div>
@@ -67,10 +67,10 @@
                 </q-item-tile>
               </q-item-side>
               <q-item-main>
-                <q-item-tile label>{{balance.label}}</q-item-tile>
+                <q-item-tile class="text-five font-18 font-futura" label>{{balance.label}}</q-item-tile>
               </q-item-main>
               <q-item-side right>
-                <q-item-tile>
+                <q-item-tile class="text-five font-20">
                   {{balance.value | fee}}
                 </q-item-tile>
               </q-item-side>
@@ -321,27 +321,13 @@ export default {
       }
     }
 
-    .message-content:hover {
-      .prompt-message-container {
-        display: block;
-      }
-    }
-
-    .message-content {
-      padding-right: 20px;
-
-      .prompt-message-container {
-        display: none;
-      }
-    }
-
     .card-main-icon {
       position: absolute;
-      right: 7px;
-      bottom: 7px;
+      right: 14px;
+      bottom: 14px;
 
       img {
-        width: 30px;
+        width: 50px;
       }
     }
   }

@@ -1,9 +1,7 @@
 <template>
   <div class="prompt-message-container">
-    <div class="prompt-message relative-position text-five shadow-1">
-      <q-scroll-area style="height: 100%" class="">
+    <div class="prompt-message relative-position text-five shadow-1 custom-prompt-message">
         <vue-markdown :source="message"></vue-markdown>
-      </q-scroll-area>
       <div class="arrow-border" />
       <div class="arrow" />
     </div>
@@ -11,13 +9,12 @@
 </template>
 
 <script>
-import { QScrollArea } from 'quasar'
 import VueMarkdown from 'vue-markdown'
 
 export default {
   name: 'PromptMessage',
   props: ['message'],
-  components: { QScrollArea, VueMarkdown },
+  components: { VueMarkdown },
   mounted() {},
   data() {
     return {
@@ -30,14 +27,17 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+
+
 .prompt-message-container {
   position: absolute;
-  width: 250px;
-  height: 250px;
-  right: -245px;
+  width: 500px;
+  // height: 300px;
+  right: -495px;
   bottom: -15px;
   border: 1px solid #ddd;
   background: #ffffff;
+  z-index: 9999;
 
   .prompt-message {
     height: 100%;
@@ -45,7 +45,7 @@ export default {
 
     p {
       font-size: 16px;
-      color: #ffffff;
+      color: #999999;
     }
 
     .arrow {
@@ -55,7 +55,7 @@ export default {
       border-right: 10px solid;
       border-bottom: 10px solid transparent;
       position: absolute;
-      margin-left: -29px;
+      margin-left: -30px;
       margin-top: -5px;
       border-right-color: white;
     }
@@ -67,7 +67,7 @@ export default {
       border-right: 10px solid;
       border-bottom: 10px solid transparent;
       position: absolute;
-      margin-left: -29px;
+      margin-left: -30px;
       margin-top: -5px;
       border-right-color: black;
     }
