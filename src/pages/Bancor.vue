@@ -6,7 +6,7 @@
       <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_1')}}</span>
     </div>
     <div class="bancor-content shadow-2">
-      <q-table hide-bottom class="no-shadow" :data="bancors" row-key="index" :columns="pireColumns" @request="request" :rows-per-page-options="[10]">
+      <q-table hide-bottom class="no-shadow" :data="bancors" row-key="index" :loading="loading" :columns="pireColumns" @request="request" :rows-per-page-options="[10]">
         <q-tr class="row col-12 line-40" slot="header" slot-scope="props" :props="props">
           <q-th class="col-2 align-left" key="name" :props="props">{{$t('BANCOR_TABLE_COL_1')}}</q-th>
           <q-th class="col-2" key="price" :props="props">{{$t('BANCOR_TABLE_COL_2')}}</q-th>
@@ -22,7 +22,7 @@
           <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
             <div class="btn-group flex justify-around">
               <q-btn color="secondary" @click="callBuyModal(props.row)">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
-              <q-btn color="primary" :disabled="!myBalances[props.row.money]" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
+              <q-btn color="primary" :disabled="!myBalances[props.row.money] || myBalances[props.row.money].balance === '0'" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
             </div>
           </q-td>
         </q-tr>
@@ -34,7 +34,7 @@
       <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_2')}}</span>
     </div>
     <div class="bancor-content shadow-2">
-      <q-table class="no-shadow" :data="historys" row-key="index" :columns="historyColumns" @request="requestHistory" :pagination.sync="pagination" :rows-per-page-options="[10]">
+      <q-table class="no-shadow" :data="historys" row-key="index" :columns="historyColumns" :loading="loading" @request="requestHistory" :pagination.sync="pagination" :rows-per-page-options="[10]">
         <q-td slot="body-cell-timestamp" slot-scope="props" :props="props">
           {{fullTimestamp(props.value)}}
         </q-td>
@@ -189,7 +189,7 @@ export default {
     }
   },
   async mounted() {
-    // await this.initData()
+    this.initData()
   },
   methods: {
     convertFee,
@@ -213,9 +213,11 @@ export default {
       }
     },
     async initData() {
-      await this.getMyBalances()
-      await this.getBncorsPairs()
-      await this.requestHistory()
+      if (this.user && this.user.account) {
+        await this.getMyBalances()
+        await this.getBncorsPairs()
+        await this.requestHistory()
+      }
     },
     async request() {
       await getBncorsPairs()
@@ -224,18 +226,18 @@ export default {
       let result = await this.getBalances({
         address: this.user.account.address
       })
-      let _tempArr = {}
-      if (result.success && result.balances.length > 0) {
-        _tempArr.XAS = {
-          precision: 8
-        }
-        result.balances.forEach(o => {
-          let _obj = o
-          _obj.precision = _obj.asset.precision
-          _tempArr[o.currency] = _obj
-        })
-        this.myBalances = _tempArr
+      let tempArr = {}
+      tempArr.XAS = {
+        precision: 8
       }
+      if (result.success && result.balances.length > 0) {
+        result.balances.forEach(o => {
+          let obj = o
+          obj.precision = obj.asset.precision
+          tempArr[o.currency] = obj
+        })
+      }
+      this.myBalances = tempArr
     },
     async getBalance() {
       // Get cross chain assets
@@ -252,21 +254,21 @@ export default {
       })
       if (resCross.success) {
         // this.myBalances = res.currencies
-        let _tempArr = {}
+        let tempArr = {}
         resCross.currencies.forEach(o => {
-          let _obj = o
-          _tempArr[o.symbol] = _obj
+          let obj = o
+          tempArr[o.symbol] = obj
           // o.precision = o.asset.precision
         })
-        this.myBalances = Object.assign(this.myBalances, _tempArr)
+        this.myBalances = Object.assign(this.myBalances, tempArr)
       }
       if (resSide.success) {
-        let _tempArr = {}
+        let tempArr = {}
         resSide.assets.forEach(o => {
-          let _obj = o
-          _tempArr[o.name] = _obj
+          let obj = o
+          tempArr[o.name] = obj
         })
-        this.myBalances = Object.assign(this.myBalances, _tempArr)
+        this.myBalances = Object.assign(this.myBalances, tempArr)
       }
     },
     async requestHistory(props) {
@@ -377,7 +379,7 @@ export default {
     }
   },
   watch: {
-    user(val) {
+    userInfo(val) {
       if (val) {
         this.initData()
       }
