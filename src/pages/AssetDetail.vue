@@ -27,8 +27,8 @@
               <span class="font-14 text-three">{{address}}</span>
               <q-btn v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" color="secondary" size="xs" flat round icon="content copy" />
             </div>
-            <div v-if="status === 1" class="row justify-center" @click="showAddrQr">
-              <vue-qr v-if="isCross" :size="80" :text="address ? 'bitcoin:'+ address:'no data'"></vue-qr>
+            <div v-if="status === 1 && !isCross" class="row justify-center" @click="showAddrQr">
+              <vue-qr v-if="isCross" :size="80" :text="address ? asset.currency + ':'+ address : 'no data'"></vue-qr>
               <vue-qr v-else :size="80" :text="address || 'no data'"></vue-qr>
             </div>
             <div v-if="status === 2">
