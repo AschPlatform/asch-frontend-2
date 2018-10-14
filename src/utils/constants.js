@@ -345,11 +345,11 @@ const urls = {
     },
     // 获取所有Bancor交易对
     bancorPair: {
-      url: '/api/v2/bancors'
+      url: '/api/v2/markets'
     },
     // 获取用户Bancor兑换记录
     bancorRecord: {
-      url: '/api/v2/bancors/transactions/:address'
+      url: '/api/v2/markets/trades'
     },
     // 获取理事会资产余额
     councilBalance: {
