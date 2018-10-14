@@ -119,7 +119,11 @@
               <span class="font-20 text-secondary"> BCH</span>
             </div>
             <div class="font-20 text-secondary">
-              {{gateway && gateway.bail ?'≈' + gateway.bail.ratio *100 + '%':'' }}{{'('+$t('GATEWAY_PLEDGE_RATIO')+')'}}
+              <span class="relative-position message-content">
+                {{gateway && gateway.bail ?' ≈ ' + gateway.bail.ratio *100 + '%':'' }}{{'('+$t('GATEWAY_PLEDGE_RATIO')+')'}}
+                <i class="material-icons vertical-align-super font-20 text-secondary  cursor-pointer">help</i>
+                <prompt-message class="margin-bottom-10" :message="$t('ABOUT_GATEWAY_RETURN_CONTENT')" />
+              </span>      
             </div>
             
           </q-card-main>
@@ -148,6 +152,7 @@ import { fullTimestamp, convertFee } from '../utils/asch'
 import { compileTimeStamp, getTimeFromHight, toast, translateErrMsg } from '../utils/util'
 import PromptModal from '../components/PromptModal'
 import BoundaryLine from '../components/BoundaryLine'
+import PromptMessage from '../components/PromptMessage'
 
 export default {
   name: 'GatewayDetail',
@@ -163,7 +168,8 @@ export default {
     QIcon,
     QBtnToggle,
     PromptModal,
-    BoundaryLine
+    BoundaryLine,
+    PromptMessage
   },
   data() {
     return {
@@ -467,6 +473,20 @@ export default {
         top: -9px;
         right: -15px;
         text-decoration: none;
+      }
+    }
+
+    .message-content:hover {
+      .prompt-message-container {
+        display: block;
+      }
+    }
+
+    .message-content {
+      padding-right: 20px;
+
+      .prompt-message-container {
+        display: none;
       }
     }
   }
