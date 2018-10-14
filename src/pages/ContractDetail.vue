@@ -10,7 +10,7 @@
       <div class="title-line">
         <boundary-line />
       </div>
-      <div class="row inner-container">
+      <div v-if="contract" class="row inner-container">
         <div class="row col-12 padding-l-15">
           <div class="margin-right-60">
             <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_NAME')}} : </span>

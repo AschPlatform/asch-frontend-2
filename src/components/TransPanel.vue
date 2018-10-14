@@ -52,7 +52,7 @@
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch'
-import { secondPwd, amountStrReg, receiver, smartAddressReg } from '../utils/validators'
+import { secondPwd, amountStrReg, smartAddressReg, addressReg } from '../utils/validators'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
@@ -104,7 +104,13 @@ export default {
       },
       receiver: {
         required,
-        address: receiver()
+        address(val) {
+          if (this.feeType === 0) {
+            return smartAddressReg.test(val)
+          } else {
+            return addressReg.test(val)
+          }
+        }
       },
       remark: {
         maxLength: maxLength(255)
@@ -168,9 +174,12 @@ export default {
       }
       let res
       if (this.isContractPay) {
+        fee = BigNumber(-fee)
+          .times(Math.pow(10, this.precision))
+          .toString()
         let { currency } = this.form
         let params = {
-          gasLimit: -Number(fee),
+          gasLimit: fee,
           name: receiver,
           amount,
           currency,
@@ -295,8 +304,7 @@ export default {
     },
     user(val) {
       this.refreshBalances()
-    },
-    feeType(val) {}
+    }
   }
 }
 </script>
@@ -342,6 +350,4 @@ export default {
   color: #999999 !important;
   font-size: 16px;
 }
-
-
 </style>

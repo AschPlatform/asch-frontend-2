@@ -21,7 +21,7 @@
             <div class="code-container">
               <codemirror :value.sync="content.code" :options="getCodeOption"   @change="change" />
             </div>
-            <p v-if="$v.content.code.maxLength" class="margin-top-10 margin-b-0 text-negative">{{$t('CONTRACT_ERR_CODE')}}</p>
+            <p v-if="$v.content.code.$error" class="margin-top-10 margin-b-0 text-negative">{{$t('CONTRACT_ERR_CODE')}}</p>
           </q-field>
         </div>
         <div class="row col-12 padding-l-15">
@@ -132,7 +132,6 @@ export default {
         return null
       }
       code = Buffer.from(code).toString('hex')
-      console.log(Buffer.from(code, 'hex').toString('utf-8'))
       let gasLimit = BigNumber(+gas)
         .times(Math.pow(10, 8))
         .toString()
@@ -146,13 +145,14 @@ export default {
       let res = await this.postContract(params)
       if (res.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
-        this.$route.push('/contracts')
+        this.$router.push('/contract')
       } else {
         translateErrMsg(this.$t, res.error)
       }
     },
     change(val) {
       this.content.code = val
+      this.$v.content.code.$touch()
     }
   },
   computed: {
@@ -193,7 +193,7 @@ export default {
     }
 
     .code-container {
-      padding: 30px 20px;
+      // padding: 30px 20px;
       border: 1px solid #dddddd;
     }
   }
