@@ -1,7 +1,7 @@
 <template>
   <q-modal minimized content-class="modal-content-limit" no-backdrop-dismiss v-model="show" content-css="padding: 0px">
     <big class="modal-title">{{$t(title)}}</big>
-    <div class="modal-conent-container">
+    <div class="prompt-modal-conent-container">
       <q-field v-if="type==1" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_ADD')" orientation="vertical">
         <q-input @blur="$v.addForm.val.$touch" v-model="addForm.val" :error="$v.addForm.val.$error" :placeholder="$t('PLACEHOLDER_GATEWAY_ADD',{amount:getAmount('status','needSupply')})" />
       </q-field>
@@ -127,8 +127,7 @@ export default {
         ? value.toFixed(2)
         : convertFee(value, gateway[props] ? gateway[props].precision : undefined)
     },
-    initFrom() {
-    },
+    initFrom() {},
     numberCheck(value) {
       return amountStrReg.test(value) && Number(value) > 0
     },
@@ -211,22 +210,4 @@ export default {
   background: #43AEA8;
 }
 
-.modal-conent-container {
-  padding: 40px 30px;
-
-  .tip-title {
-    font-size: 16px;
-    color: #000000;
-    font-weight: bold;
-    margin-bottom: 14px;
-  }
-
-  .btn-container {
-    margin-top: 32px;
-
-    .bottom-btn {
-      margin: 0 15px;
-    }
-  }
-}
 </style>
