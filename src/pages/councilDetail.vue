@@ -331,7 +331,8 @@ export default {
       .buy-back-icon {
         width: 57px;
       }
-       .burn-icon {
+
+      .burn-icon {
         width: 40px;
       }
     }

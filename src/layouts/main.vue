@@ -61,7 +61,7 @@
           <q-item-main :label="$t('TRANSFER')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('bancor')">
-          <q-item-side icon="gavel" />
+          <q-item-side icon="all_inclusive" />
           <q-item-main :label="$t('BANCOR')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('proposal')">
@@ -69,7 +69,7 @@
           <q-item-main :label="$t('PROPOSAL')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('contract')">
-          <q-item-side icon="gavel" />
+          <q-item-side icon="subject" />
           <q-item-main :label="$t('SMART_CONTRACT')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('gateway')">
