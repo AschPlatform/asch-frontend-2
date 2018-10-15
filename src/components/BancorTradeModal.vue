@@ -25,15 +25,15 @@
         <table>
           <tr>
             <th>{{$t('FEES')}} :</th>
-            <td>0.01%</td>
+            <td class="padding-l-15">0.01%</td>
           </tr>
           <tr>
             <th>{{$t('MY_BALANCE')}} :</th>
-            <td>{{balance}} {{sell}}</td>
+            <td class="padding-l-15">{{balance}} {{sell}}</td>
           </tr>
           <tr>
             <th>{{$t('CURRENT_PRICE')}} :</th>
-            <td>{{price}}</td>
+            <td class="padding-l-15">{{price}}</td>
           </tr>
         </table>
         <q-btn color="secondary" class="full-width modal-btn" @click="switchAction">{{action}} （{{sell}} => {{buy}}）</q-btn>

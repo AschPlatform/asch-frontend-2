@@ -22,7 +22,7 @@
           <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
             <div class="btn-group flex justify-around">
               <q-btn color="secondary" @click="callBuyModal(props.row)">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
-              <q-btn color="primary" :disabled="!myBalances[props.row.money] || myBalances[props.row.money].balance === '0'" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
+              <q-btn color="red" :disabled="!myBalances[props.row.money] || myBalances[props.row.money].balance === '0'" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
             </div>
           </q-td>
         </q-tr>
@@ -321,7 +321,7 @@ export default {
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
-        sourceAmount: num * Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision),
+        sourceAmount: BigNumber(num).times(Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)),
         config: this.config
       })
       if (result.success) {
@@ -335,7 +335,7 @@ export default {
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
-        sourceAmount: num * Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision),
+        sourceAmount: BigNumber(num).times(Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)),
         config: this.config
       })
       if (result.success) {

@@ -939,6 +939,7 @@ const lang = {
   ERR_GATEWAY_OFFLINE: '当前网关已经离线',
   ERR_GATEWAY_NOT_EXIST: '网关未找到',
   ERR_GATEWAY_NOT_REVOKED: '网关未冻结，无法理赔',
+  COPY_PUBLIC_KEY: '立即复制',
   COMPENSATE: '理赔'
 }
 
