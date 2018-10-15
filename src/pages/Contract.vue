@@ -151,6 +151,11 @@ export default {
     address() {
       return this.user.account.address
     }
+  },
+  watch: {
+    userInfo(val) {
+      this.getContractsFunc()
+    }
   }
 }
 </script>

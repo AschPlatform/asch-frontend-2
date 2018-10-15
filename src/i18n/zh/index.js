@@ -878,7 +878,7 @@ const lang = {
   CONTRACT_GAS: 'Gas limit',
   CONTRACT_ERR_NAME: '名称应为 5 ~ 64 长度',
   CONTRACT_ERR_DESC: '描述应为 5 ~ 256 长度',
-  CONTRACT_ERR_CODE: '代码长度不能超过 20 kb ',
+  CONTRACT_ERR_CODE: '合约代码不能为空，且长度不能超过 20 kb ',
   CONTRACT_ERR_GAS: '请输入 gaslimit',
 
   // ASCH 1.5

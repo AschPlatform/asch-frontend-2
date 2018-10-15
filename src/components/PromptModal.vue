@@ -123,6 +123,7 @@ export default {
     getAmount(props, attr, precision = 8) {
       let gateway = this.gateway
       let value = gateway && gateway[props] ? gateway[props][attr] : 0
+      value = value || 0
       return attr === 'ratio'
         ? value.toFixed(2)
         : convertFee(value, gateway[props] ? gateway[props].precision : undefined)
