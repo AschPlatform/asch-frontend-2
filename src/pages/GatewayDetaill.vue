@@ -98,7 +98,7 @@
           <q-card-main class="custom-card-main">
           <div v-if="gateway&&gateway.bail">
             <span class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
-            <span class="font-20 text-secondary"> {{gateway.bail.symbol}}</span>
+            <span class="font-20 text-secondary"> XAS </span>
           </div>
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
             <q-btn v-show="getAddBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
@@ -115,8 +115,8 @@
           </q-card-title>
           <q-card-main class="custom-card-main">
             <div>
-              <span class="font-36 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}}</span>
-              <span class="font-20 text-secondary"> BCH</span>
+              <span class="font-36 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}} </span>
+              <span class="font-20 text-secondary">{{gateway && gateway.bail ?gateway.bail.symbol:''}}</span>
             </div>
             <div class="font-20 text-secondary">
               <span class="relative-position message-content">
@@ -299,16 +299,13 @@ export default {
         name: this.gateway.name,
         address: this.address
       }
-      if (this.isGatewayMember) {
-        let res = await this.getGatewayBailStatus(params)
-        if (res.success) {
-          this.gateway.status = res
-        }
-      } else {
-        let res = await this.getGatewayRealClaim(params)
-        if (res.success) {
-          this.gateway.claim = res
-        }
+      let resStatus = await this.getGatewayBailStatus(params)
+      if (resStatus.success) {
+        this.gateway.status = resStatus
+      }
+      let resClaim = await this.getGatewayRealClaim(params)
+      if (resClaim.success) {
+        this.gateway.claim = resClaim
       }
     },
     async request(props) {
