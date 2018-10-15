@@ -98,11 +98,7 @@
           <q-card-main class="custom-card-main">
           <div v-if="gateway&&gateway.bail">
             <span class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
-<<<<<<< HEAD
-            <span class="font-20 text-secondary"> XAS </span>
-=======
             <span class="font-20 font-futura text-secondary"> {{gateway.bail.symbol}}</span>
->>>>>>> 1842fc6ed98422f4ca5d6ad06258929873d32691
           </div>
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
             <q-btn v-show="getAddBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
@@ -119,13 +115,8 @@
           </q-card-title>
           <q-card-main class="custom-card-main">
             <div>
-<<<<<<< HEAD
-              <span class="font-36 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}} </span>
-              <span class="font-20 text-secondary">{{gateway && gateway.bail ?gateway.bail.symbol:''}}</span>
-=======
               <span class="font-36 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}}</span>
               <span class="font-20 font-futura text-secondary"> BCH</span>
->>>>>>> 1842fc6ed98422f4ca5d6ad06258929873d32691
             </div>
             <div class="font-20 text-secondary">
               <span class="relative-position message-content">
