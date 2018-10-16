@@ -105,7 +105,7 @@ export default {
       receiver: {
         required,
         address(val) {
-          if (this.feeType === 0) {
+          if (this.isContractPay) {
             return smartAddressReg.test(val)
           } else {
             return addressReg.test(val)
