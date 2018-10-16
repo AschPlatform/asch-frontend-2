@@ -400,13 +400,13 @@ export default {
       return -1
     },
     getAddBtnShow() {
-      let showStates = [1, 2]
+      let showStates = [0, 1, 2]
       let gatewayState = this.getGatewayState
       let flag = showStates.indexOf(gatewayState) > -1
       return flag && this.isGatewayMember
     },
     getReturnBtnShow() {
-      let showStates = [1, 2]
+      let showStates = [0, 1, 2]
       let gatewayState = this.getGatewayState
       let flag = showStates.indexOf(gatewayState) > -1
       return flag && this.isGatewayMember
