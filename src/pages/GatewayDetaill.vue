@@ -94,10 +94,12 @@
               {{$t('AVALABLE_BAIL_AMOUNT')}}
               {{gateway.bail.bail | fee}}
             </span>
+            <span v-else class="font-12 text-secondary valid-amount">{{$t('AVALABLE_BAIL_AMOUNT')}} 0</span>
           </q-card-title>
           <q-card-main class="custom-card-main">
-          <div v-if="gateway&&gateway.bail">
-            <span class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
+          <div>
+            <span v-if="gateway&&gateway.bail" class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
+            <span v-else class="font-36 text-tertiary">0</span>
             <span class="font-20 text-secondary"> XAS </span>
           </div>
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
