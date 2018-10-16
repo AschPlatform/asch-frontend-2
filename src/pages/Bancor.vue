@@ -207,9 +207,6 @@ export default {
       let result = await this.getBancorPairs()
       if (result.success) {
         this.bancors = result.bancors
-        this.bancors.forEach(e => {
-          // e.latestBid = '0.23'
-        })
       }
     },
     async initData() {
