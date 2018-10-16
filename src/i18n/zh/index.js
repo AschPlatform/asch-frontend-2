@@ -68,6 +68,13 @@ const lang = {
   TRS_TYPE_GROUP_REMOVEMEMBER: '理事会移除成员',
   TRS_TYPE_GROUP_REPLACEMEMBER: '理事会替换成员',
 
+  // 1.5
+  TRS_TYPE_GATEWAY_ADD: '网关追加储备金',
+  TTRS_TYPE_GATEWAY_RETURN: '网关提现储备金',
+  TRS_TYPE_GATEWAY_COM: '领取网关赔偿',
+  TRS_TYPE_CONTRACT_POST: '发布智能合约',
+  TRS_TYPE_CONTRACT_PAY: '支付智能合约',
+
   // application
   DAPP_ICON: '图标',
   DAPP_NAME: '名称',
