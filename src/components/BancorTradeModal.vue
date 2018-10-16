@@ -25,7 +25,7 @@
         <table>
           <tr>
             <th>{{$t('FEES')}} :</th>
-            <td class="padding-l-15">0.01%</td>
+            <td class="padding-l-15">0.1%</td>
           </tr>
           <tr>
             <th>{{$t('MY_BALANCE')}} :</th>
