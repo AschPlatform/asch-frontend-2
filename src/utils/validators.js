@@ -14,7 +14,7 @@ export const gatewayNameReg = /^[A-Za-z0-9]{3,16}$/
 export const assetSymbolReg = /^[A-Z]{3,6}$/
 export const amountStrReg = /^\d+(\.\d+)?$/
 export const receiverReg = /\s/g
-export const contractNameReg = /^[a-zA-Z]([-_a-zA-Z0-9]{3,19})+$/
+export const contractNameReg = /^[a-zA-Z]([-_a-zA-Z0-9]{3,32})+$/
 // bip 39 validator
 export const bip39 = () => {
   return withParams({}, value => {
