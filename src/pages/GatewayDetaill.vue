@@ -367,7 +367,7 @@ export default {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
       } else {
         translateErrMsg(this.$t, res.error)
-        this.disableBtn('btnDisable')
+        // this.disableBtn('btnDisable')
       }
     }
   },

@@ -110,7 +110,7 @@ export default {
         return null
       }
       let amount = BigNumber(+this.getForm.val)
-        .times(Math.pow(10, this.getewayPrecision))
+        .times(Math.pow(10, 8))
         .toString()
       let form = {
         type: this.type,
