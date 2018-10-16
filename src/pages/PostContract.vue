@@ -21,7 +21,7 @@
             <div class="code-container">
               <codemirror :value.sync="content.code" :options="getCodeOption"   @change="change" />
             </div>
-            <p v-if="$v.content.code.$error" class="margin-top-10 margin-b-0 text-negative">{{$t('CONTRACT_ERR_CODE')}}</p>
+            <p v-if="$v.content.code.$error" class="margin-top-10 margin-b-0 font-12 text-negative">{{$t('CONTRACT_ERR_CODE')}}</p>
           </q-field>
         </div>
         <div class="row col-12 padding-l-15">

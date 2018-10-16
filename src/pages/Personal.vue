@@ -420,7 +420,7 @@ export default {
       toast(msg)
     },
     showAddrQr() {
-      this.$root.$emit('showQRCodeModal', this.address)
+      this.$root.$emit('showQRCodeModal', this.address, this.$t('QR_RECEIVE'))
     },
     showSecretQr() {
       this.$root.$emit('showQRCodeModal', this.user.secret, this.$t('QR_SECRET'))
