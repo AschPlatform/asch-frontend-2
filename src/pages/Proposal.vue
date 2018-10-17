@@ -128,7 +128,8 @@ export default {
       let condition = {
         limit: limit,
         offset: (pageNo - 1) * limit,
-        type: this.activatedState
+        type: this.activatedState,
+        orderBy: 'timestamp:desc'
       }
       let res = await this.getProposals(condition)
       this.proposalDetail = res.proposals

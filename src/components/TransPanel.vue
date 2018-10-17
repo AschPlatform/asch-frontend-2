@@ -37,7 +37,7 @@
         </div>
         
         <q-input class="fee-input" v-if="feeType===1" disable v-model="form.fee" />
-        <q-input v-else class="gas-input" v-model="form.gas" type="number" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" suffix="BCH"/>
+        <q-input v-else class="gas-input" v-model="form.gas" type="number" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" :placeholder="feeCount"/>
       </q-field>
       <q-field v-if="!isContractPay" class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')">
         <q-input ref="remark" :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
@@ -83,7 +83,8 @@ export default {
       balance: '',
       precision: 0,
       feeType: 0, // 1 XAS, 0 BCH
-      isContractPay: false
+      isContractPay: false,
+      bancorStatue: null
     }
   },
   validations: {
@@ -121,7 +122,7 @@ export default {
           if (this.feeType === 1) {
             return true
           } else {
-            const gasReg = /^\d+(\.\d{1,8})$/
+            const gasReg = /^\d+(\.\d{1,8})|\d$/
             return gasReg.test(value)
           }
         }
@@ -132,7 +133,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['broadcastTransaction', 'getBalances', 'payContract']),
+    ...mapActions(['broadcastTransaction', 'getBalances', 'payContract', 'getBancorPairs']),
     ...mapMutations(['setBalances']),
     async send() {
       this.$v.form.$touch()
@@ -238,6 +239,13 @@ export default {
       if (res.success) {
         this.setBalances(res.balances)
       }
+    },
+    async getBncorsPairs() {
+      let result = await this.getBancorPairs()
+      if (result.success) {
+        let bancors = result.bancors
+        this.bancorStatue = bancors[0]
+      }
     }
   },
   mounted() {
@@ -281,6 +289,13 @@ export default {
         }
       }
       return assetsMap
+    },
+    feeCount() {
+      if (this.bancorStatue) {
+        let { latestBid } = this.bancorStatue
+        return this.$t('COUNTED_FEE') + BigNumber(latestBid).times(0.1) + 'BCH'
+      }
+      return this.$t('COUNTED_FEE') + '0 BCH'
     }
   },
   watch: {

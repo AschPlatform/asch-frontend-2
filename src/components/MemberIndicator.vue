@@ -1,7 +1,7 @@
 <template>
   <div class="row justify-around q-my-lg member-container">
     <div class="partLeft col-md-5 col-xs-12 align-center">
-      <div class="part-title">{{$t(title_pre)}}</div>
+      <div class="part-title">{{title_pre}}</div>
       <q-chip square color="white" text-color="secondary" class="chip" v-for="(item, idx) in contentPre" :key="idx">{{item}}</q-chip>
     </div>
     
@@ -9,7 +9,7 @@
     <q-icon size="33px" class="desktop-hide padding-t-40" name="keyboard arrow down"/>
 
     <div class="partRight col-md-5 col-xs-12 align-center">
-      <div class="part-title">{{$t(title_post)}}</div>
+      <div class="part-title">{{title_post}}</div>
       <q-chip square color="white" text-color="secondary" class="chip" v-for="(item, idx) in contentPost" :key="idx">{{item}}</q-chip>
     </div>
   </div>

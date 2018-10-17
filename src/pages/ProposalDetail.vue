@@ -94,7 +94,7 @@
         <div class="col-12" v-if="this.detail.topic === 'gateway_init'" id="init">
           <div class="row col-12">
             <q-field class="block col-10 font-16" label-width="2" :label="$t('LAUNCH_MODAL.NET_NAME')">
-              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+              <q-input class="border-1" readonly hide-underline v-model="content.gateway" value="" />
             </q-field>
           </div>
           <div class="row">
@@ -191,7 +191,7 @@
         </div>
   
         <!-- below is member memberIndicator -->
-        <member-indicator v-if="isIndicatorShow" :memberPost="postMemberList" :memberPre="preMemberList" :showCounter="showCounter" :type="this.detail.topic"></member-indicator>
+        <member-indicator v-if="isIndicatorShow" :gateway='gateway' :memberPost="postMemberList" :memberPre="preMemberList" :showCounter="showCounter" :type="this.detail.topic"></member-indicator>
       </q-card-main>
     </q-card>
   
@@ -280,6 +280,7 @@ export default {
       gatewayName: '',
       memberString: '',
       memberNumber: 0,
+      gateway: '',
       postMemberList: [],
       preMemberList: [],
       isIndicatorShow: false,
@@ -413,6 +414,7 @@ export default {
         case 'gateway_init':
           this.isIndicatorShow = true
           this.postMemberList = this.content.members
+          this.gateway = this.content.gateway
           this.memberString = this.content.members.join(' , ')
           this.gatewayName = this.content.gateway
           return this.$t('proposal.SELECT_INITNET')
