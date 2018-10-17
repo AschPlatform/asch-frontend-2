@@ -153,7 +153,8 @@ export default {
         bail: null,
         status: null,
         claim: null
-      }
+      },
+      runningInfo: null
     }
   },
   validations: {
@@ -201,7 +202,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getBalance', 'gateAccountAddr', 'getGatewayInfo', 'getGatewayRealClaim', 'getCompensation']),
+    ...mapActions(['getBalance', 'gateAccountAddr', 'getGateways', 'getGatewayInfo', 'getGatewayRealClaim', 'getCompensation']),
     async getData() {
       // TODO
       let res = await this.getMoreAssets()
@@ -264,7 +265,14 @@ export default {
       let result = await this.getGatewayInfo({
         name: this.asset.asset.gateway
       })
-      if (result.success) {
+      let resultGateway = await this.getGateways()
+      if (result.success && resultGateway.success) {
+        let tempArray = resultGateway.gateways
+        tempArray.forEach(e => {
+          if (e.name === this.asset.asset.gateway) {
+            this.runningInfo = e
+          }
+        })
         this.bailInfo = result
       }
     },
@@ -319,7 +327,7 @@ export default {
       return 0
     },
     status() {
-      if (this.outAssets[this.symbol] && this.outAssets[this.symbol].revoked === 4) {
+      if (this.getGatewayState === 4) {
         return 3
       }
       if (this.ratio > 0 && this.ratio < 100) {
@@ -336,7 +344,7 @@ export default {
        * 3 offline
        * 4 freeze
        */
-      let gateway = this.outAssets[this.symbol]
+      let gateway = this.runningInfo
       if (gateway) {
         let { activated, revoked } = gateway
         if (activated === 0) {
