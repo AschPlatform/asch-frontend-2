@@ -9,7 +9,10 @@
           <button :class="this.type === 0 ? styleSelected : styleUnselected" @click="changeType(0)">
             {{$t('SMART_CONTRACT_MINE')}}
           </button>
-          <q-btn class="font-14 mobile-hide float-right pos" rounded color="secondary" :label="$t('SMART_CONTRACT_NEW')" @click="newContract" />
+          <div class="float-right">
+            <q-btn v-if="this.type === 0" class="font-14 mobile-hide pos" rounded color="secondary" :label="$t('SMART_CONTRACT_NEW')" @click="newContract" />
+            <q-input color="secondary" v-else class="contract-search" type="text" v-model="searchStr" :after="searchIcon"  @keyup.enter="search" :placeholder="$t('SEARCH_BY_CONTRACT_NAME')" hide-underline />
+          </div>
         </div>
 
         <q-table class="no-shadow margin-t-20" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
@@ -45,8 +48,9 @@
 </template>
 
 <script>
-import { QPage, QBtnGroup, QBtn, QTable, QTd } from 'quasar'
+import { QPage, QBtnGroup, QBtn, QTable, QTd, QInput } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
+import { toastError } from '../utils/util'
 
 export default {
   name: 'Contract',
@@ -55,11 +59,13 @@ export default {
     QBtnGroup,
     QBtn,
     QTable,
-    QTd
+    QTd,
+    QInput
   },
   data() {
     return {
-      type: 0,
+      searchStr: '',
+      type: 1,
       styleSelected: 'inner-btn text-secondary selected',
       styleUnselected: 'inner-btn text-four',
       pagination: {
@@ -111,7 +117,7 @@ export default {
     this.getContractsFunc()
   },
   methods: {
-    ...mapActions(['getContracts']),
+    ...mapActions(['getContracts', 'getContractDetail']),
     async request(props) {
       await this.getContractsFunc(props.pagination, props.filter)
     },
@@ -141,6 +147,20 @@ export default {
     },
     newContract() {
       this.$router.push('/postContract')
+    },
+    search() {
+      let name = this.searchStr
+      if (name) {
+        let res = this.getContractDetail({
+          name
+        })
+        if (res.success) {
+          this.$router.push('/contractDetail/' + name)
+        } else {
+          toastError(this.$t('ERR_CONTRACT_NOT_EXIST'))
+        }
+      }
+      this.searchStr = ''
     }
   },
   computed: {
@@ -150,6 +170,19 @@ export default {
     },
     address() {
       return this.user.account.address
+    },
+    searchIcon() {
+      const deleteIcon = {
+        icon: 'close',
+        handler: () => (this.searchStr = ''),
+        content: true
+      }
+      const searchIcon = {
+        icon: 'search',
+        handler: () => this.search(),
+        content: true
+      }
+      return this.searchStr ? [deleteIcon, searchIcon] : [searchIcon]
     }
   },
   watch: {
@@ -192,5 +225,16 @@ export default {
   top: 8px;
   right: 60px;
   padding: 11px 30px;
+}
+
+.contract-search {
+  top: 6px;
+  right: 60px;
+  width: 300px;
+  height: 44px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 22px;
+  border: 1px solid #ccc;
 }
 </style>
