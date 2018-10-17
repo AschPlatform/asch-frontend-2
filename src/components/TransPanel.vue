@@ -116,7 +116,7 @@ export default {
           if (this.feeType === 1) {
             return true
           } else {
-            const gasReg = /^\d+(\.\d{1,8})$/
+            const gasReg = /^\d+(\.\d{1,8})|\d$/
             return gasReg.test(value)
           }
         }
