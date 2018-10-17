@@ -941,7 +941,7 @@ const lang = {
   ERR_BANCOR_NOT_INIT: 'Bancor 未初始化',
   ERR_NOT_GATEWAY_MEMBER: '还不是网关成员',
   ERR_BAIL_NOT_ENOUGH: '网关成员还未缴纳保证金',
-  ERR_DEPOSIT_AMOUNT_NOT_ENOUGH: '网关成员保证金不足',
+  ERR_DEPOSIT_AMOUNT_NOT_ENOUGH: '网关成员保证金不满足网关的最低要求',
   ERR_WITHDRAWL_EXCEED: '金额超出保证金可退上限',
   ERR_GATEWAY_OFFLINE: '当前网关已经离线',
   ERR_GATEWAY_NOT_EXIST: '网关未找到',
