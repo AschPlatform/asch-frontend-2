@@ -316,16 +316,16 @@ export default {
       if (this.bailInfo) {
         return (this.bailInfo.ratio * 100).toFixed(2)
       }
+      return 0
     },
     status() {
-      if (this.outAssets[this.symbol] === 4) {
+      if (this.outAssets[this.symbol] && this.outAssets[this.symbol].revoked === 4) {
         return 3
       }
-      if (this.ratio < 100 || this.address === '') {
+      if (this.ratio > 0 && this.ratio < 100) {
         return 2
-      } else {
-        return 1
       }
+      return 1
     },
     getGatewayState() {
       /**
