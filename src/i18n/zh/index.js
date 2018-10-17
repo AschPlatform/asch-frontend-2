@@ -68,6 +68,13 @@ const lang = {
   TRS_TYPE_GROUP_REMOVEMEMBER: '理事会移除成员',
   TRS_TYPE_GROUP_REPLACEMEMBER: '理事会替换成员',
 
+  // 1.5
+  TRS_TYPE_GATEWAY_ADD: '网关追加储备金',
+  TTRS_TYPE_GATEWAY_RETURN: '网关提现储备金',
+  TRS_TYPE_GATEWAY_COM: '领取网关赔偿',
+  TRS_TYPE_CONTRACT_POST: '发布智能合约',
+  TRS_TYPE_CONTRACT_PAY: '支付智能合约',
+
   // application
   DAPP_ICON: '图标',
   DAPP_NAME: '名称',
@@ -878,7 +885,7 @@ const lang = {
   CONTRACT_GAS: 'Gas limit',
   CONTRACT_ERR_NAME: '名称应为 5 ~ 64 长度',
   CONTRACT_ERR_DESC: '描述应为 5 ~ 256 长度',
-  CONTRACT_ERR_CODE: '代码长度不能超过 20 kb ',
+  CONTRACT_ERR_CODE: '合约代码不能为空，且长度不能超过 20 kb ',
   CONTRACT_ERR_GAS: '请输入 gaslimit',
 
   // ASCH 1.5
@@ -934,7 +941,7 @@ const lang = {
   ERR_BANCOR_NOT_INIT: 'Bancor 未初始化',
   ERR_NOT_GATEWAY_MEMBER: '还不是网关成员',
   ERR_BAIL_NOT_ENOUGH: '网关成员还未缴纳保证金',
-  ERR_DEPOSIT_AMOUNT_NOT_ENOUGH: '网关成员保证金不足',
+  ERR_DEPOSIT_AMOUNT_NOT_ENOUGH: '网关成员保证金不满足网关的最低要求',
   ERR_WITHDRAWL_EXCEED: '金额超出保证金可退上限',
   ERR_GATEWAY_OFFLINE: '当前网关已经离线',
   ERR_GATEWAY_NOT_EXIST: '网关未找到',

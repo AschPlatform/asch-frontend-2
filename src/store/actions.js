@@ -544,7 +544,7 @@ export default {
     let trans = asch.gateBailAdd(
       params.name,
       params.amount,
-      params.fee || 1000000,
+      params.fee || 10000000,
       secret,
       params.secondSecret || ''
     )
@@ -559,7 +559,7 @@ export default {
     let trans = asch.gateBailReturn(
       params.name,
       params.amount,
-      params.fee || 1000000,
+      params.fee || 10000000,
       secret,
       params.secondSecret || ''
     )
@@ -573,7 +573,7 @@ export default {
     let secret = state.userInfo.secret
     let trans = asch.gateBailCompensate(
       params.name,
-      params.fee || 1000000,
+      params.fee || 10000000,
       secret,
       params.secondSecret || ''
     )

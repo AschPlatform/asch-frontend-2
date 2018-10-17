@@ -31,10 +31,10 @@ export default {
 
 .prompt-message-container {
   position: absolute;
-  width: 500px;
+  width: 400px;
   // height: 300px;
-  right: -495px;
-  bottom: -15px;
+  right: -400px;
+  bottom: -150px;
   border: 1px solid #ddd;
   background: #ffffff;
   z-index: 9999;
@@ -56,7 +56,7 @@ export default {
       border-bottom: 10px solid transparent;
       position: absolute;
       margin-left: -30px;
-      margin-top: -5px;
+      margin-top: -140px;
       border-right-color: white;
     }
 
@@ -68,7 +68,7 @@ export default {
       border-bottom: 10px solid transparent;
       position: absolute;
       margin-left: -30px;
-      margin-top: -5px;
+      margin-top: -140px;
       border-right-color: black;
     }
   }
