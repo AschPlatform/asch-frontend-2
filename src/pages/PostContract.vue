@@ -33,7 +33,7 @@
           <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="'Gas_Limit : '" :error-label="$t('ERR_CONTRACT_GAS')">
             <q-input class="border-1" hide-underline v-model="content.gas" value="" :placeholder="$t('PLACEHOLDER_CONTRACT_GAS')" :error="$v.content.gas.$error" />
           </q-field>
-          <div class="row justify-center items-center text-secondary font-16 margin-left-20 padding-bottom-10">{{$t('EXPEND_GAS_LIMIT')}}</div>
+          <div class="row justify-center items-center text-secondary font-16 margin-left-20 padding-bottom-10">{{$t('EXPEND_GAS_LIMIT',{gas:costGas})}}</div>
         </div>
         <div v-if="secondSignature" class="row col-12 padding-l-15">
           <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('TRS_TYPE_SECOND_PASSWORD')+' : '" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"> 
@@ -43,7 +43,6 @@
         <div class="row justify-center col-12">
            <q-btn class="col-3 q-mt-md no-shadow font-18 padding-15" :disable="$v.content.$error || $v.secondPwd.$error" color="secondary" :label="$t('SMART_CONTRACT_COMMIT')" @click="submit" />
         </div>
-       
       </div>
     </div>
   </q-page>
@@ -174,6 +173,11 @@ export default {
         lineWrapping: true,
         viewportMargin: Infinity
       }
+    },
+    costGas() {
+      return Number(BigNumber(this.content.code.length * 2)
+        .div(Math.pow(10, 8))
+        .toString())
     }
   }
 }

@@ -13,8 +13,8 @@
         </div>
 
         <q-table class="no-shadow margin-t-20" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
-          <q-td slot="body-cell-address" slot-scope="props" :props="props">
-            <div class="text-secondary cursor-pointer">{{props.value}}</div>    
+          <q-td slot="body-cell-address" slot-scope="props" :props="props" >
+            <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">{{props.value}}</div>    
           </q-td>
           <!-- <q-td slot="body-cell-name" slot-scope="props" :props="props">
             {{props.value}}
@@ -29,12 +29,12 @@
             {{props.value | time}}
           </q-td> 
           <q-td slot="body-cell-name" slot-scope="props" :props="props">
-             <div class="text-secondary cursor-pointer" @click="open(props.row)">
+             <div class="text-secondary cursor-pointer" @click="open(props.row)" >
                 {{props.value}}
               </div>
           </q-td> 
-          <q-td slot="body-cell-owner" slot-scope="props" :props="props">
-             <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">
+          <q-td slot="body-cell-owner" slot-scope="props" :props="props" >
+             <div class="text-secondary cursor-pointer" @click="viewAccountInfo({address:props.value})" >
                 {{props.value}}
               </div>
           </q-td> 
@@ -59,7 +59,7 @@ export default {
   },
   data() {
     return {
-      type: 0,
+      type: 1,
       styleSelected: 'inner-btn text-secondary selected',
       styleUnselected: 'inner-btn text-four',
       pagination: {
@@ -120,7 +120,8 @@ export default {
       let pageNo = pagination.page || this.pagination.page
       let params = {
         limit: limit,
-        offset: (pageNo - 1) * limit
+        offset: (pageNo - 1) * limit,
+        orderBy: 'timestamp:desc'
       }
       if (this.type === 0) params.owner = this.address
       let res = await this.getContracts(params)
