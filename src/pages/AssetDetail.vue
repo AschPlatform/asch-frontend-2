@@ -1,6 +1,6 @@
 <template>
   <q-page >
-    <tip-bar v-show="isShowTip" :ratio="ratio" :status="status" :symbol="asset.currency"></tip-bar>
+    <tip-bar v-show="isShowTip && isCross" :ratio="ratio" :status="status" :symbol="asset.currency"></tip-bar>
     <q-card class="no-shadow">
       <q-card-title>
         <div class="row justify-between">
