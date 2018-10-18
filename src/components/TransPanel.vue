@@ -168,10 +168,12 @@ export default {
         .times(Math.pow(10, this.precision))
         .toString()
       let trans = {}
-      let fee = null
+      let fee = 10000000
 
       if (this.feeType === 0 || this.isContractPay) {
-        fee = Number(-this.form.gas)
+        fee = BigNumber(-this.form.gas)
+          .times(Math.pow(10, this.precision))
+          .toString()
       }
       let res
       if (this.isContractPay) {
@@ -190,7 +192,17 @@ export default {
         res = await this.payContract(params)
       } else {
         if (this.form.currency === 'XAS') {
-          trans = asch.transferXAS(amount, receiver, remark, this.user.secret, this.secondPwd, fee)
+          // fee = BigNumber(fee)
+          //   .times(Math.pow(10, this.precision))
+          //   .toString()
+          trans = asch.transferXAS(
+            amount,
+            receiver,
+            remark,
+            this.user.secret,
+            this.secondpwd,
+            Number(fee)
+          )
         } else {
           trans = asch.transferAsset(
             this.form.currency,
@@ -199,7 +211,7 @@ export default {
             remark,
             this.user.secret,
             this.secondPwd,
-            fee
+            Number(fee)
           )
         }
         res = await this.broadcastTransaction(trans)
