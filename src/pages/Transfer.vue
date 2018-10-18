@@ -23,7 +23,6 @@
         </div>
       </q-card-main>
     </div>
-  
   </q-card>
 </template>
 

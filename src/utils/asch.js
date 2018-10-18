@@ -142,16 +142,14 @@ const convertTransFee = trans => {
 const asch = {
   // 转账 XAS  TODO
   transferXAS: (amount, recipientId, message, secret, secondPwd = '', fee = 10000000) => {
-    return AschJS.transaction.createTransactionEx(
-      convertTransFee({
-        type: 1,
-        fee: fee,
-        args: [amount, recipientId],
-        secret,
-        secondSecret: secondPwd,
-        message
-      })
-    )
+    return AschJS.transaction.createTransactionEx({
+      type: 1,
+      fee: fee,
+      args: [amount, recipientId],
+      secret,
+      secondSecret: secondPwd,
+      message
+    })
   },
   // 设置昵称
   setName: (name, fee, secret, secondPwd = '') => {
@@ -325,16 +323,14 @@ const asch = {
   },
   // 资产转账
   transferAsset: (symbol, amount, recipientId, message, secret, secondPwd = '', fee = 10000000) => {
-    return AschJS.transaction.createTransactionEx(
-      convertTransFee({
-        type: 103,
-        fee: fee,
-        args: [symbol, amount, recipientId],
-        secret,
-        secondSecret: secondPwd,
-        message
-      })
-    )
+    return AschJS.transaction.createTransactionEx({
+      type: 103,
+      fee: fee,
+      args: [symbol, amount, recipientId],
+      secret,
+      secondSecret: secondPwd,
+      message
+    })
   },
   // 注册 dapp
   registerDapp: (
