@@ -158,6 +158,8 @@ export default {
           return this.$t('proposal.SELECT_INITNET')
         case 'gateway_update_member':
           return this.$t('proposal.SELECT_MEMBER_ACTION')
+        case 'bancor_init':
+          return this.$t('BANCOR_INIT')
       }
     },
     changeState(val) {
