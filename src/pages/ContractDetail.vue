@@ -16,9 +16,9 @@
             <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_NAME')}} : </span>
             <span class="font-16 text-five">{{contract.name}}</span>
           </div>
-          <div>
+          <div @click="viewAccountInfo(contract.owner)" >
             <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_OWNER')}} : </span>
-            <span class="font-16 text-five">{{contract.owner}}</span>
+            <span class="font-16 text-secondary cursor-pointer">{{contract.owner}}</span>
           </div>
         </div>
         <div class="row col-12 padding-l-15 margin-top-30 width-100">
@@ -78,7 +78,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getContractDetail'])
+    ...mapActions(['getContractDetail']),
+    viewAccountInfo(address) {
+      this.$root.$emit('openAccountModal', address)
+    }
   },
   computed: {
     getCode() {
