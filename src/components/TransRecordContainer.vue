@@ -202,8 +202,24 @@ export default {
     },
     dueArg(args) {
       if (args && args.length !== 0) {
-        let str = args.join(',')
-        str = str.replace(/,/g, ', ')
+        let str = ''
+        let tempStr
+        args.forEach(e => {
+          if (typeof e === 'object') {
+            tempStr = '{ ' + Object.values(e).join(', ') + ' }'
+            // if (str === '') {
+            //   str = tempStr
+            // }
+          } else {
+            tempStr = e
+          }
+          if (str === '') {
+            str = tempStr
+          }
+          str = str + ', ' + tempStr
+        })
+        // let str = args.join(',')
+        // str = str.replace(/,/g, ', ')
         return str
       }
       return this.$t('NO_ARGS')
