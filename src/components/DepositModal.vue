@@ -220,7 +220,7 @@ export default {
       return 0
     },
     status() {
-      if (this.ratio < 100) {
+      if (this.ratio < 100 && this.ratio > 0) {
         return 0
       } else if (this.ratio > 100 && this.ratio < 120) {
         return 2
