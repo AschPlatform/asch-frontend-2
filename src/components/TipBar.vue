@@ -4,8 +4,10 @@
       <i class="material-icons font-44 col-1">
         report_problem
       </i>
-      <div class="row col-11 items-center justify-start">
-        {{tipContent}}
+      <div class="flex col-11 items-center">
+        <div>
+          {{tipContent}}
+        </div>
       </div>
     </div>
   </div>
@@ -36,6 +38,9 @@ export default {
       if (this.status === 1) {
         return 'text-secondary'
       }
+      if (this.status === 2) {
+        return 'text-negative'
+      }
       return 'text-negative'
     }
   }
@@ -48,14 +53,17 @@ export default {
 }
 
 .tip-bar-content {
-  height: 100px;
+  height: 70px;
   background: #ffffff !important;
-  padding: 0px;
+  padding: 0 10px;
   border-radius: 3px;
+
+  div {
+    line-height: 30px;
+  }
 
   i {
     vertical-align: middle;
-    // margin: 0 30px;
   }
 }
 </style>

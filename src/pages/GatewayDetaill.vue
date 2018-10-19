@@ -1,5 +1,6 @@
 <template>
   <q-page class="gatewayDetail-container">
+    <tip-bar v-if="gateway&&gateway.bail&&gateway.bail.ratio<=1.2" :ratio="gateway.bail.ratio*100" :status="ratioStatus" :symbol="gateway.bail.symbol"/>
     <div class="gatewayDetail-content">
       <div class="no-wrap q-pa-md row justify-between">
         <span>
@@ -125,7 +126,7 @@
             </div>
             <div class="font-20 text-secondary">
               <span class="relative-position message-content">
-                {{gateway && gateway.bail ?' ≈ ' + gateway.bail.ratio *100 + '% ':'' }}{{'( '+$t('GATEWAY_PLEDGE_RATIO')+' )'}}
+                {{gateway && gateway.bail ?' ≈ ' + (gateway.bail.ratio *100).toFixed(2) + '% ':'' }}{{'( '+$t('GATEWAY_PLEDGE_RATIO')+' )'}}
                 <i class="material-icons vertical-align-super font-20 text-secondary  cursor-pointer">help</i>
                 <prompt-message class="margin-bottom-10" :message="$t('ABOUT_GATEWAY_RETURN_CONTENT')" />
               </span>      
@@ -164,6 +165,7 @@ import {
 import PromptModal from '../components/PromptModal'
 import BoundaryLine from '../components/BoundaryLine'
 import PromptMessage from '../components/PromptMessage'
+import TipBar from '../components/TipBar'
 
 export default {
   name: 'GatewayDetail',
@@ -180,7 +182,8 @@ export default {
     QBtnToggle,
     PromptModal,
     BoundaryLine,
-    PromptMessage
+    PromptMessage,
+    TipBar
   },
   data() {
     return {
@@ -468,6 +471,17 @@ export default {
         : gateway && gateway.lastUpdateHeight
           ? getTimeFromHight(gateway.lastUpdateHeight)
           : ''
+    },
+    ratioStatus() {
+      let gateway = this.gateway
+      if (gateway && gateway.bail) {
+        let ratio = this.gateway.bail.ratio
+        if (ratio < 1 && ratio > 0) {
+          return 2
+        } else {
+          return 1
+        }
+      }
     }
   },
   watch: {

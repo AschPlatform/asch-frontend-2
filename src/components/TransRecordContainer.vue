@@ -99,8 +99,14 @@ export default {
           temp.col1.push(fullTimestamp(e.timestamp))
           temp.col2.push(this.dueArg(e.args))
           temp.col2.push(this.$t('ARGS'))
-          temp.fee.push('-' + convertFee(e.fee))
-          temp.fee.push('XAS')
+          let computedFee = convertFee(e.fee)
+          if (computedFee < 0) {
+            temp.fee.push(computedFee)
+            temp.fee.push('BCH')
+          } else {
+            temp.fee.push('-' + computedFee)
+            temp.fee.push('XAS')
+          }
           temp.iconKey = 'FEE'
           temp.tid = e.id
           temps.push(temp)
@@ -196,8 +202,24 @@ export default {
     },
     dueArg(args) {
       if (args && args.length !== 0) {
-        let str = args.join(',')
-        str = str.replace(/,/g, ', ')
+        let str = ''
+        let tempStr
+        args.forEach(e => {
+          if (typeof e === 'object') {
+            tempStr = '{ ' + Object.values(e).join(', ') + ' }'
+            // if (str === '') {
+            //   str = tempStr
+            // }
+          } else {
+            tempStr = e
+          }
+          if (str === '') {
+            str = tempStr
+          }
+          str = str + ', ' + tempStr
+        })
+        // let str = args.join(',')
+        // str = str.replace(/,/g, ', ')
         return str
       }
       return this.$t('NO_ARGS')

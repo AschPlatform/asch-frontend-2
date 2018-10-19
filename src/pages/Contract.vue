@@ -17,7 +17,7 @@
 
         <q-table class="no-shadow margin-t-20" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
           <q-td slot="body-cell-address" slot-scope="props" :props="props">
-            <div class="text-secondary cursor-pointer">{{props.value}}</div>    
+            <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">{{props.value}}</div>
           </q-td>
           <!-- <q-td slot="body-cell-name" slot-scope="props" :props="props">
             {{props.value}}

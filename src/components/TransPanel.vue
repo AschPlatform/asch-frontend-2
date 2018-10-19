@@ -29,7 +29,7 @@
         <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
       </q-field>
       <q-field class="col-12" :label="feeType===1?$t('FEES')+':':$t('GAS')+':'" :label-width="3" :error-label="$t('ERR_GAS_NUM_WRONG')">
-        <div class="row justify-center col-12 custom-transpanel-btns">
+        <div v-if="!isContractPay" class="row justify-center col-12 custom-transpanel-btns">
           <q-btn-toggle class="row col-12 no-shadow" v-model="feeType" toggle-color="secondary" :options="[
       {label: this.$t('FEES'), value: 1},
       {label: this.$t('GAS'), value: 0},
@@ -37,7 +37,7 @@
         </div>
         
         <q-input class="fee-input" v-if="feeType===1" disable v-model="form.fee" />
-        <q-input v-else class="gas-input" v-model="form.gas" type="number" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" :placeholder="feeCount"/>
+        <q-input v-else class="gas-input" style="border:none" v-model="form.gas" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" :placeholder="feeCount"/>
       </q-field>
       <q-field v-if="!isContractPay" class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')">
         <q-input ref="remark" :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
@@ -52,7 +52,7 @@
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
 import asch from '../utils/asch'
-import { secondPwd, amountStrReg, smartAddressReg, addressReg } from '../utils/validators'
+import { secondPwd, amountStrReg, smartAddressReg } from '../utils/validators'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
@@ -84,7 +84,8 @@ export default {
       precision: 0,
       feeType: 0, // 1 XAS, 0 BCH
       isContractPay: false,
-      bancorStatue: null
+      bancorStatue: null,
+      costGas: ''
     }
   },
   validations: {
@@ -109,7 +110,7 @@ export default {
           if (this.isContractPay) {
             return smartAddressReg.test(val)
           } else {
-            return addressReg.test(val)
+            return true
           }
         }
       },
@@ -122,8 +123,7 @@ export default {
           if (this.feeType === 1) {
             return true
           } else {
-            const gasReg = /^\d+(\.\d{1,8})|\d$/
-            return gasReg.test(value)
+            return amountStrReg.test(value)
           }
         }
       }
@@ -133,7 +133,13 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['broadcastTransaction', 'getBalances', 'payContract', 'getBancorPairs']),
+    ...mapActions([
+      'broadcastTransaction',
+      'getBalances',
+      'payContract',
+      'getBancorPairs',
+      'getCostGas'
+    ]),
     ...mapMutations(['setBalances']),
     async send() {
       this.$v.form.$touch()
@@ -168,16 +174,16 @@ export default {
         .times(Math.pow(10, this.precision))
         .toString()
       let trans = {}
-      let fee = null
+      let fee = 10000000
 
       if (this.feeType === 0 || this.isContractPay) {
-        fee = Number(-this.form.gas)
+        fee = BigNumber(-Number(this.form.gas))
+          .times(Math.pow(10, this.precision))
+          .toString()
       }
       let res
       if (this.isContractPay) {
-        fee = BigNumber(-fee)
-          .times(Math.pow(10, this.precision))
-          .toString()
+        fee = BigNumber(-fee).toString()
         let { currency } = this.form
         let params = {
           gasLimit: fee,
@@ -190,7 +196,17 @@ export default {
         res = await this.payContract(params)
       } else {
         if (this.form.currency === 'XAS') {
-          trans = asch.transferXAS(amount, receiver, remark, this.user.secret, this.secondPwd, fee)
+          // fee = BigNumber(fee)
+          //   .times(Math.pow(10, this.precision))
+          //   .toString()
+          trans = asch.transferXAS(
+            amount,
+            receiver,
+            remark,
+            this.user.secret,
+            this.secondpwd,
+            Number(fee)
+          )
         } else {
           trans = asch.transferAsset(
             this.form.currency,
@@ -199,7 +215,7 @@ export default {
             remark,
             this.user.secret,
             this.secondPwd,
-            fee
+            Number(fee)
           )
         }
         res = await this.broadcastTransaction(trans)
@@ -246,6 +262,13 @@ export default {
         let bancors = result.bancors
         this.bancorStatue = bancors[0]
       }
+    },
+    async queryCostGas() {
+      let xasFee = 10000000
+      let res = await this.getCostGas({ amount: xasFee })
+      if (res.success) {
+        this.costGas = BigNumber(res.data).div(Math.pow(10, 8))
+      }
     }
   },
   mounted() {
@@ -255,6 +278,7 @@ export default {
       this.balance = balance
       this.precision = precision
     }
+    this.queryCostGas()
   },
   computed: {
     ...mapGetters(['balances', 'userInfo']),
@@ -291,11 +315,7 @@ export default {
       return assetsMap
     },
     feeCount() {
-      if (this.bancorStatue) {
-        let { latestBid } = this.bancorStatue
-        return this.$t('COUNTED_FEE') + BigNumber(latestBid).times(0.1) + 'BCH'
-      }
-      return this.$t('COUNTED_FEE') + '0 BCH'
+      return this.$t('COUNTED_FEE') + (this.costGas || 0) + ' BCH'
     }
   },
   watch: {
@@ -312,6 +332,8 @@ export default {
       if (smartAddressReg.test(val)) {
         this.feeType = 0
         this.isContractPay = true
+      } else {
+        this.isContractPay = false
       }
     },
     asset(val) {
@@ -319,6 +341,7 @@ export default {
     },
     user(val) {
       this.refreshBalances()
+      this.queryCostGas()
     }
   }
 }
