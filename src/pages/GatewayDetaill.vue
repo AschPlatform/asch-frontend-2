@@ -1,5 +1,6 @@
 <template>
   <q-page class="gatewayDetail-container">
+    <tip-bar v-if="gateway&&gateway.bail&&gateway.bail<=1.2" :ratio="gateway.bail.ratio*100" :status="ratioStatus" :symbol="gateway.bail.symbol"/>
     <div class="gatewayDetail-content">
       <div class="no-wrap q-pa-md row justify-between">
         <span>
@@ -153,6 +154,7 @@ import { compileTimeStamp, getTimeFromHight, toast, translateErrMsg } from '../u
 import PromptModal from '../components/PromptModal'
 import BoundaryLine from '../components/BoundaryLine'
 import PromptMessage from '../components/PromptMessage'
+import TipBar from '../components/TipBar'
 
 export default {
   name: 'GatewayDetail',
@@ -169,7 +171,8 @@ export default {
     QBtnToggle,
     PromptModal,
     BoundaryLine,
-    PromptMessage
+    PromptMessage,
+    TipBar
   },
   data() {
     return {
@@ -430,6 +433,21 @@ export default {
         : gateway && gateway.lastUpdateHeight
           ? getTimeFromHight(gateway.lastUpdateHeight)
           : ''
+    },
+    ratioStatus() {
+      let gateway = this.gateway
+      if (gateway && gateway.bail) {
+        let ratio = this.gateway.bail.ratio
+        if (ratio < 100 && ratio > 0) {
+          return 0
+        } else if (ratio > 100 && ratio < 120) {
+          return 2
+        } else {
+          return 1
+        }
+      } else {
+        return 1
+      }
     }
   },
   watch: {

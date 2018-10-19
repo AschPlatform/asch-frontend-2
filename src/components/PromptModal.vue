@@ -192,7 +192,7 @@ export default {
   },
   watch: {
     show(val) {
-      this.$v[this.getFormName].$touch()
+      // this.$v[this.getFormName].$touch()
     },
     type(val) {
       if (val === 3) this.compensationForm.val = this.getAmount('claim', 'realClaim')
