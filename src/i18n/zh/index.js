@@ -948,7 +948,9 @@ const lang = {
   ERR_GATEWAY_NOT_REVOKED: '网关未冻结，无法理赔',
   COPY_PUBLIC_KEY: '立即复制',
   COMPENSATE: '理赔',
-  COUNTED_FEE: '预计花费将为：'
+  COUNTED_FEE: '预计花费将为：',
+  TRS_TYPE_TRANS_BANCOR: 'Bancor兑换',
+  BANCOR_INIT: 'Bancor初始化'
 }
 
 export default lang

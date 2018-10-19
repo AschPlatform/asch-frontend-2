@@ -81,8 +81,13 @@ export const generateM = () => Bip39.generateMnemonic()
 export const fullTimestamp = timestamp => AschJS.utils.format.fullTimestamp(timestamp)
 // export const beginTimestamp = () => AschJS.utils.slots.beginEpochTime()
 export const convertFee = (fee, precision = 8) => {
+  let prefix = ''
   if (!fee) {
     return 0
+  }
+  if (fee < 0) {
+    prefix = '-'
+    fee = Math.abs(fee)
   }
   fee = fee.toString()
   var clearView = false
@@ -103,7 +108,7 @@ export const convertFee = (fee, precision = 8) => {
   if (fee[fee.length - 1] === '.') {
     fee = fee.slice(0, fee.length - 1)
   }
-  return fee
+  return prefix + fee
 }
 export const dealBigNumber = num => {
   let dealNumB = new BigNumber(num)
