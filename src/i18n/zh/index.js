@@ -948,7 +948,8 @@ const lang = {
   ERR_GATEWAY_NOT_REVOKED: '网关未冻结，无法理赔',
   COPY_PUBLIC_KEY: '立即复制',
   COMPENSATE: '理赔',
-  COUNTED_FEE: '预计花费将为：'
+  COUNTED_FEE: '预计花费将为：',
+  CHECK_URL: '请输入Asch社区帖文链接地址'
 }
 
 export default lang
