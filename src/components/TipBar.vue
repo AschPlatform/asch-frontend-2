@@ -39,7 +39,7 @@ export default {
         return 'text-secondary'
       }
       if (this.status === 2) {
-        return 'text-secondary'
+        return 'text-negative'
       }
       return 'text-negative'
     }
