@@ -949,7 +949,23 @@ const lang = {
   COPY_PUBLIC_KEY: '立即复制',
   COMPENSATE: '理赔',
   QR_RECEIVE: '收款二维码',
-  COUNTED_FEE: '预计花费将为：'
+  COUNTED_FEE: '预计花费将为：',
+  APPLY_FOR_GATEWAY: '申请成为网关候选人',
+  ALREADY_GATEWAY: '您已经是网关候选人',
+  SUSPEND_APPLY: '暂停申请',
+  APPLY_NOW: '立即申请',
+  BELONG_TO_GATEWAY: '所属网关 ：',
+  ACCOUNT_NICKNAME: '账户昵称 ：',
+  ACCOUNT_ADDRESS: '账户地址 ：',
+  GATEWAY_PUBLIC_KEY: '网关公钥 ：',
+  PERSONAL_INTRODUCE: '个人介绍 ：',
+  MATTERS_NEED_ATTENTION: '注意事项 ：',
+  GET_GATEWAY_PUBLIC_KEY: '如何获取网关公钥',
+  INPUT_GATEWAY_PUBLIC_KEY: '请输入网关公钥',
+  INPUT_PERSONAL_INTRODUCE: '请对自己做一个简单的介绍（100字以内）',
+  MATTERS_NEED_ATTENTION_INFO: '1.申请成为网关候选人后，任何用户可以发起提案，提名您成为网关成员；<br /> 2.当选为网关候选人后，您需要按照实际要求，缴纳相应数量的XAS作为保证金；<br /> 3.为了保障网关正常运行，根据您当选的网关托管资金量，您随时可能需要追加保证金；<br /> 4.如果您长时间不工作，或者不按要求追加保证金，导致网关无法正常工作，您存在被其他候选人替换身份的可能；',
+  READ_ASCH_PROTOCOL: '同意《阿希链用户服务协议》',
+  ERROR_CLICK_APPLY_GATEWAY: '请完成账户昵称设置之后再申请成为网关候选人'
 }
 
 export default lang

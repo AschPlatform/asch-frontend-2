@@ -14,7 +14,7 @@
         <boundary-line />
       </div>
       <div class="row q-px-md gutter-md">
-        <div class="col-md-8 col-xs-12">
+        <div class="col-md-8 col-xs-12 flex-initial">
           <q-card class="mobile-only no-shadow margin-bottom-20" align="left">
             <div class="bg-white shadow-2">
               <q-card-title class="bg-nine">
@@ -27,7 +27,7 @@
             </div>
           </q-card>
   
-          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" class="fixed-height custom-table-top" :data="datas" :columns="columns" :pagination.sync="pagination" 
+          <q-table :title="$t('COUNCIL_PAGE.MODAL_TITLE', {number: datas.length})" class="fixed-height custom-table-top height-100" :data="datas" :columns="columns" :pagination.sync="pagination" 
           @request="request" :loading="loading" row-key="address" :rows-per-page-options="[10]" hide-bottom >
             <template slot="top-left" slot-scope="props">
               <button :class="memberType === 1 ? styleSelected : styleUnselected" @click="changeType(1)">
@@ -56,7 +56,7 @@
           </q-table>
         </div>
 
-        <div v-if="gateway" :class="gatewayDetailClass">
+        <div class="flex-initial" v-if="gateway" :class="gatewayDetailClass">
           <q-card class="desktop-only no-shadow" align="left">
             <div class="bg-white shadow-2 fixed-height" >
               <q-card-title class=" bg-nine custom-card-title">
@@ -71,14 +71,17 @@
                 </div>  
               </q-card-title>
               <q-card-main class="gateway-info-container">
-                <div class="font-36 text-secondary font-bold">{{gateway.name}} {{$t('GATEWAY')}}</div>
+                <div class="font-30 text-secondary font-bold">{{gateway.name}} {{$t('GATEWAY')}}</div>
                 <div class="margin-top-30">
                   <span class="font-16 text-five font-bold">{{$t('GATEWAY_STATUS')}}：</span>
                   <span class="font-16" :class="getGatewayState === 2 ? 'text-secondary':'text-red'">{{getGatewayState === 2 ? 'online':'offline'}}</span>
                 </div>
-                <div class="margin-t-15">
+                <div class="margin-t-15 gateway-desc-container">
                   <span class="font-16 text-five font-bold">{{$t('DAPP_DESCRIPTION')}}：</span>
                   <span class="font-16 text-five">{{gateway?gateway.desc:''}}</span>
+                </div>
+                <div class="margin-t-15">
+                  <q-btn class="custom-btn" :disable="isClickToApply" color="secondary" :label="getBtnMessage" @click="toApplyGateway" />
                 </div>
               </q-card-main>
             </div>
@@ -151,14 +154,20 @@
 import { QPage, QTable, QCard, QCardTitle, QCardMain, QBtn, QTd, QIcon, QBtnToggle } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { fullTimestamp, convertFee } from '../utils/asch'
-import { compileTimeStamp, getTimeFromHight, toast, translateErrMsg } from '../utils/util'
+import {
+  compileTimeStamp,
+  getTimeFromHight,
+  toast,
+  toastError,
+  translateErrMsg
+} from '../utils/util'
 import PromptModal from '../components/PromptModal'
 import BoundaryLine from '../components/BoundaryLine'
 import PromptMessage from '../components/PromptMessage'
 
 export default {
   name: 'GatewayDetail',
-  props: [],
+  props: ['userObj'],
   components: {
     QPage,
     QTable,
@@ -237,6 +246,7 @@ export default {
       candidateNum: 0,
       memberType: 1, // elected 1 , candidate 0
       isGatewayMember: false,
+      isClickToApply: false,
       modal: {
         // prompt modal for gateway
         title: '',
@@ -273,6 +283,13 @@ export default {
     convertFee,
     viewAccountInfo(row) {
       this.$root.$emit('openAccountModal', row.address)
+    },
+    toApplyGateway() {
+      if (this.userNickname) {
+        this.$router.push({ name: 'PostApplyGateway', params: { gateway: this.gateway.name } })
+      } else {
+        toastError(this.$t('ERROR_CLICK_APPLY_GATEWAY'))
+      }
     },
     async loadData() {
       let limit = this.pagination.rowsPerPage
@@ -374,6 +391,25 @@ export default {
 
   computed: {
     ...mapGetters(['latestBlock', 'userInfo']),
+    userNickname() {
+      if (this.user && this.user.account && this.user.account.name) {
+        return this.user.account.name
+      }
+    },
+    getBtnMessage() {
+      if (this.isGatewayMember) {
+        this.isClickToApply = true
+        return this.$t('ALREADY_GATEWAY')
+      } else {
+        if (this.getGatewayState === 2) {
+          this.isClickToApply = false
+          return this.$t('APPLY_FOR_GATEWAY')
+        } else {
+          this.isClickToApply = true
+          return this.$t('SUSPEND_APPLY')
+        }
+      }
+    },
     gatewayDetailClass() {
       return this.isDesk ? 'col-md-4 col-xs-12' : 'col-md-4 col-xs-12 margin-top-minus-28'
     },
@@ -435,6 +471,7 @@ export default {
     }
   },
   watch: {
+    userObj(val) {},
     gateway(val) {
       if (val) this.loadData()
     }
@@ -473,6 +510,12 @@ export default {
         right: -15px;
         text-decoration: none;
       }
+    }
+
+    .gateway-desc-container {
+      min-height: 60px;
+      max-height: 80px;
+      overflow-y: scroll;
     }
   }
 }
@@ -518,7 +561,7 @@ export default {
 }
 
 .fixed-height {
-  height: 355px;
+  // height: 355px;
   overflow-y: scroll;
 }
 

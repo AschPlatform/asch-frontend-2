@@ -222,16 +222,17 @@ export default {
 }
 
 .pos {
-  top: 8px;
-  right: 60px;
-  padding: 11px 30px;
+  top: 10px;
+  right: 40px;
+  height: 36px;
+  padding: 0px 30px;
 }
 
 .contract-search {
-  top: 6px;
-  right: 60px;
+  top: 10px;
+  right: 40px;
   width: 300px;
-  height: 44px;
+  height: 36px;
   padding-left: 20px;
   padding-right: 20px;
   border-radius: 22px;
