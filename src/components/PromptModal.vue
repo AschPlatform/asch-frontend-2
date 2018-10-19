@@ -125,7 +125,7 @@ export default {
       let value = gateway && gateway[props] ? gateway[props][attr] : 0
       value = value || 0
       return attr === 'ratio'
-        ? value.toFixed(2)
+        ? (value * 100).toFixed(2)
         : convertFee(value, gateway[props] ? gateway[props].precision : undefined)
     },
     initFrom() {},
@@ -210,5 +210,4 @@ export default {
   color: #ffffff;
   background: #43AEA8;
 }
-
 </style>

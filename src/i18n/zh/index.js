@@ -744,7 +744,7 @@ const lang = {
   SMART_CONTRACT_CODE: '合约代码',
   SMART_CONTRACT_COMMIT: '提交合约',
   SMART_CONTRACT_DETAIL: '合约详情页',
-  ERR_CONTRACT_NAME: '请输入正确的合约名称,4 至 32 位，以字母开头，字母，数字，减号，下划线',
+  ERR_CONTRACT_NAME: '合约名称需满足 4 至 32 位，以字母开头，支持字母，数字，减号，下划线',
   ERR_CONTRACT_CODE: '不能为空，小于 30kb',
   ERR_CONTRACT_DESC: '合约描述不符合要求,少于 255 字符',
   ERR_CONTRACT_GAS: '请输入合法的燃料费上限',

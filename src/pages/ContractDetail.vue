@@ -32,7 +32,7 @@
         <div class="row col-12 padding-l-15 margin-top-30">
           <div class="row justify-start">
             <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_DESC')}} : </span>
-            <span class="font-16 text-five">{{contract.desc}}</span>
+            <span class="font-16 text-five break-word">{{contract.desc}}</span>
           </div>
         </div>
       </div>
@@ -151,5 +151,9 @@ export default {
 
 .margin-right-60 {
   margin-right: 60px;
+}
+
+.break-word {
+  word-break: break-word;
 }
 </style>
