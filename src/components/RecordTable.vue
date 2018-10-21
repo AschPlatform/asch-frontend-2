@@ -239,6 +239,8 @@ export default {
   #pagination
     right 33px
     bottom 33px
+    button
+      margin 0 15px !important
   .portable
     .q-table-title
       font-size 15px

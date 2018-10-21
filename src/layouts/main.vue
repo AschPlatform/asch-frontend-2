@@ -453,22 +453,6 @@ export default {
 </script>
 
 <style lang="stylus">
-// html .q-table {
-//   ::-webkit-scrollbar {
-//     width: 16px;
-//     height: 16px;
-//     background-color:#F5F5F5;
-//   }
-// }
-
-// html .q-table{
-//   ::-webkit-scrollbar-thumb{
-//     border-radius:10px;
-//     -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);
-//     background-color:#555;
-//   }
-// }
-
 body {
   background: #e7ebee;
 }
