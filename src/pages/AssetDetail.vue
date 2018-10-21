@@ -1,6 +1,6 @@
 <template>
   <q-page >
-    <tip-bar v-show="isShowTip" :ratio="ratio" :status="status" :symbol="asset.currency"></tip-bar>
+    <tip-bar v-show="isShowTip && isCross && ratio < 120 && ratio !== 0" :ratio="ratio" :status="status" :symbol="asset.currency"></tip-bar>
     <q-card class="no-shadow">
       <q-card-title>
         <div class="row justify-between">
@@ -153,7 +153,8 @@ export default {
         bail: null,
         status: null,
         claim: null
-      }
+      },
+      runningInfo: null
     }
   },
   validations: {
@@ -201,7 +202,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getBalance', 'gateAccountAddr', 'getGatewayInfo', 'getGatewayRealClaim', 'getCompensation']),
+    ...mapActions(['getBalance', 'gateAccountAddr', 'getGateways', 'getGatewayInfo', 'getGatewayRealClaim', 'getCompensation']),
     async getData() {
       // TODO
       let res = await this.getMoreAssets()
@@ -264,7 +265,14 @@ export default {
       let result = await this.getGatewayInfo({
         name: this.asset.asset.gateway
       })
-      if (result.success) {
+      let resultGateway = await this.getGateways()
+      if (result.success && resultGateway.success) {
+        let tempArray = resultGateway.gateways
+        tempArray.forEach(e => {
+          if (e.name === this.asset.asset.gateway) {
+            this.runningInfo = e
+          }
+        })
         this.bailInfo = result
       }
     },
@@ -316,16 +324,16 @@ export default {
       if (this.bailInfo) {
         return (this.bailInfo.ratio * 100).toFixed(2)
       }
+      return 0
     },
     status() {
-      if (this.outAssets[this.symbol] === 4) {
+      if (this.getGatewayState === 4) {
         return 3
       }
-      if (this.ratio < 100 || this.address === '') {
+      if (this.ratio > 0 && this.ratio < 100) {
         return 2
-      } else {
-        return 1
       }
+      return 1
     },
     getGatewayState() {
       /**
@@ -336,7 +344,7 @@ export default {
        * 3 offline
        * 4 freeze
        */
-      let gateway = this.outAssets[this.symbol]
+      let gateway = this.runningInfo
       if (gateway) {
         let { activated, revoked } = gateway
         if (activated === 0) {

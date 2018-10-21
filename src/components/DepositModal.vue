@@ -144,7 +144,7 @@ export default {
     },
     async getAddr() {
       let asset = this.outAssets[this.currency]
-      // this.asset = asset
+      this.asset = asset
       if (!asset || !asset.gateway) return
       let res = await this.gateAccountAddr({ name: asset.gateway, address: this.user.address })
       if (res.success) {
@@ -220,7 +220,7 @@ export default {
       return 0
     },
     status() {
-      if (this.ratio < 100) {
+      if (this.ratio < 100 && this.ratio > 0) {
         return 0
       } else if (this.ratio > 100 && this.ratio < 120) {
         return 2

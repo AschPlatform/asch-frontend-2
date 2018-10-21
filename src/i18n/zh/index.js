@@ -736,7 +736,7 @@ const lang = {
   SMART_CONTRACT: '智能合约',
   SMART_CONTRACT_LIST: '合约列表',
   SMART_CONTRACT_MINE: '我发布的合约',
-  SMART_CONTRACT_NAME: '合约名字',
+  SMART_CONTRACT_NAME: '合约名称',
   SMART_CONTRACT_OWNER: '所有者',
   SMART_CONTRACT_NEW: '提交新合约',
   SMART_CONTRACT_POST: '发起新合约',
@@ -744,7 +744,7 @@ const lang = {
   SMART_CONTRACT_CODE: '合约代码',
   SMART_CONTRACT_COMMIT: '提交合约',
   SMART_CONTRACT_DETAIL: '合约详情页',
-  ERR_CONTRACT_NAME: '请输入正确的合约名称,4 至 32 位，以字母开头，字母，数字，减号，下划线',
+  ERR_CONTRACT_NAME: '合约名称需满足 4 至 32 位，以字母开头，支持字母，数字，减号，下划线',
   ERR_CONTRACT_CODE: '不能为空，小于 30kb',
   ERR_CONTRACT_DESC: '合约描述不符合要求,少于 255 字符',
   ERR_CONTRACT_GAS: '请输入合法的燃料费上限',
@@ -931,7 +931,7 @@ const lang = {
   PLACEHOLDER_CONTRACT_GAS: '请输入Gas_Limit',
   BANCOR_MODAL_ERROR_1: '请填写正确的数额',
   BANCOR_MODAL_ERROR_2: '请填写正确的二级密码',
-  EXPEND_GAS_LIMIT: '* 预计消耗 0.0001 - 0.00013 BCH',
+  EXPEND_GAS_LIMIT: '* 预计消耗 {gas} BCH',
   ABOUT_GATEWAY_RETURN_CONTENT: '##### 什么是储备金率？ \n A：储备金率是指网关托管的跨链资产与网关成员缴纳的保证金的比率。\n ##### 储备金率对普通用户的影响？ \n 当储备金率低于150%时，表明跨链网关托管的资产已经超过其成员提交的储备金总额，为避免给用户资产带来不必要的用户每次进行跨链资产充值的时候，系统会进行风险提示，并会通知网关成员即时追加储备金；\n 当网关跨链资产储备金率达到<100%的时候，网关会暂停资产充值功能，直到通过“提现”或“成员追加储备金”的方式使储备金率回到120%以上，即再恢复充值功能。 \n ##### 如何保证用户资金安全？ \n A：当出现不可控的情况导致用户资产受损时，系统会通过提案系统发起“冻结网关资产”提案，投票通过后，会将储备金按照持有比例向用户进行理赔。',
   ERR_BANCOR_NOT_EXIST: 'Bancor 初始化失败',
   ERR_BANCOR_CW_NOT_EXIST: '余额或 CW 不存在',
@@ -941,14 +941,18 @@ const lang = {
   ERR_BANCOR_NOT_INIT: 'Bancor 未初始化',
   ERR_NOT_GATEWAY_MEMBER: '还不是网关成员',
   ERR_BAIL_NOT_ENOUGH: '网关成员还未缴纳保证金',
-  ERR_DEPOSIT_AMOUNT_NOT_ENOUGH: '网关成员保证金不足',
+  ERR_DEPOSIT_AMOUNT_NOT_ENOUGH: '网关成员保证金不满足网关的最低要求',
   ERR_WITHDRAWL_EXCEED: '金额超出保证金可退上限',
   ERR_GATEWAY_OFFLINE: '当前网关已经离线',
   ERR_GATEWAY_NOT_EXIST: '网关未找到',
   ERR_GATEWAY_NOT_REVOKED: '网关未冻结，无法理赔',
   COPY_PUBLIC_KEY: '立即复制',
   COMPENSATE: '理赔',
-  QR_RECEIVE: '收款二维码'
+  QR_RECEIVE: '收款二维码',
+  COUNTED_FEE: '预计花费将为：',
+  TRS_TYPE_TRANS_BANCOR: 'Bancor兑换',
+  BANCOR_INIT: 'Bancor初始化',
+  TRANSFER_FEE: '费用'
 }
 
 export default lang
