@@ -1,6 +1,6 @@
 <template>
   <q-page class="gatewayDetail-container">
-    <tip-bar v-if="gateway&&gateway.bail&&gateway.bail.ratio<=1.2" :ratio="gateway.bail.ratio*100" :status="ratioStatus" :symbol="gateway.bail.symbol"/>
+    <tip-bar v-if="tipBarShow" :ratio="gateway.bail.ratio*100" :status="ratioStatus" :symbol="gateway.bail.symbol"/>
     <div class="gatewayDetail-content">
       <div class="no-wrap q-pa-md row justify-between">
         <span>
@@ -446,6 +446,10 @@ export default {
           return 1
         }
       }
+    },
+    tipBarShow() {
+      let gateway = this.gateway
+      return gateway && gateway.bail && gateway.bail.ratio <= 1.2 && gateway.bail.ratio !== 0
     }
   },
   watch: {

@@ -707,7 +707,7 @@ const feeFuncMap = {
     return 0.1
   },
   408: trs => {
-    return 0
+    return 0.1
   },
   409: trs => {
     return 0
