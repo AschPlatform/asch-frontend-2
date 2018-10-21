@@ -453,6 +453,22 @@ export default {
 </script>
 
 <style lang="stylus">
+// html .q-table {
+//   ::-webkit-scrollbar {
+//     width: 16px;
+//     height: 16px;
+//     background-color:#F5F5F5;
+//   }
+// }
+
+// html .q-table{
+//   ::-webkit-scrollbar-thumb{
+//     border-radius:10px;
+//     -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);
+//     background-color:#555;
+//   }
+// }
+
 body {
   background: #e7ebee;
 }
@@ -544,14 +560,14 @@ body {
 }
 
 .list-item-container:hover {
-  color: #ffffff!important;
+  color: #ffffff !important;
   border-left: 4px solid #ff750b;
   background: #252d3a !important;
 }
 
 .list-item-container {
   height: 70px;
-  color: #8b939e!important;
+  color: #8b939e !important;
   font-size: 18px;
   padding-left: 40px;
   border-bottom: 1px solid #2c3411;
@@ -559,7 +575,7 @@ body {
 }
 
 .q-item.active, .q-item.router-link-active, .q-item:focus {
-  color: #ffffff!important;
+  color: #ffffff !important;
   border-left: 4px solid #ff750b;
   background: #252d3a;
 }

@@ -348,10 +348,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-::-webkit-scrollbar {
-  width: 0;
-  height: 0;
-}
+// ::-webkit-scrollbar {
+//   width: 0;
+//   height: 0;
+// }
 
 .transPanel-container {
   padding-bottom: 50px;

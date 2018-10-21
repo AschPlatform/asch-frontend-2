@@ -722,7 +722,7 @@ const lang = {
     UNSUPPORTED_TRANS_TYPE: '不支持的交易类型',
     NO_MORE_THAN_33: '不能同时投多于33票'
   },
-  LASTEST_UPDATE_TIME: '最后更新日期',
+  LASTEST_UPDATE_TIME: '最后创建时间',
   ARGS: '参数',
   DEPOSIT_RECORD: '充值记录',
   WITHDRAW_RECORD: '提现记录',
