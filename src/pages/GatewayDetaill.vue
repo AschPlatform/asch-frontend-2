@@ -420,7 +420,7 @@ export default {
       let showStates = [4]
       let gatewayState = this.getGatewayState
       let flag = showStates.indexOf(gatewayState) > -1
-      return flag && !this.isGatewayMember
+      return flag
     },
     user() {
       return this.userInfo
