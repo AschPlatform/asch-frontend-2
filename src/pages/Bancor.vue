@@ -17,7 +17,7 @@
             {{props.row.stock}}
           </q-td>
           <q-td key="price" class="col-2 no-border line-40" :props="props">
-            {{props.row.latestBid}}
+            {{(1 / props.row.latestBid).toFixed(6)}}
           </q-td>
           <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
             <div class="btn-group flex justify-around">
@@ -45,7 +45,7 @@
             {{props.row.stock}}
           </q-td>
           <q-td key="price" class="col-2 no-border line-40" :props="props">
-            {{props.row.latestBid}}
+            {{(1 / props.row.latestBid).toFixed(6)}}
           </q-td>
           <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
             <div class="btn-group flex justify-around">
