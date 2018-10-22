@@ -14,7 +14,7 @@
         </q-tr>
         <q-tr class="row col-12 border-1" slot="body" slot-scope="props" :props="props">
           <q-td key="name" class="col-2 no-border line-40" :props="props">
-            {{props.row.money}}
+            {{props.row.stock}}
           </q-td>
           <q-td key="price" class="col-2 no-border line-40" :props="props">
             {{props.row.latestBid}}
