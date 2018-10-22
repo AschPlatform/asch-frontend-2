@@ -236,7 +236,7 @@ $bg-ten=#f0f3f6
  padding: 0px;
 
 .asset-detail-card-h
- height: 160px
+ height: 154px !important
  min-width: 300px
  overflow: hidden
 
@@ -260,7 +260,7 @@ $bg-ten=#f0f3f6
 
 .modal-buttons
  padding: 20px 40px
- margin-bottom: 30px
+ margin-bottom: 10px
  justify-content: space-between;
 
 .user-agreement-mobile-container .modal-content
@@ -421,11 +421,6 @@ input.q-input-target
 .align-center
   text-align: center
 
-// .q-table-bottom
-//   div:nth-child(3)
-//    display: none
-
-
 .disabled
   background-color: #dddddd !important;
 
@@ -477,6 +472,9 @@ input.q-input-target
   .q-field-bottom {
     margin-top: 0;
     border: none;
+  }
+  .q-field-error {
+   white-space: nowrap;
   }
 }
 
@@ -572,3 +570,35 @@ input.q-input-target
     }
   }
 }
+
+.custom-modal-content{
+  .modal-body{
+    padding: 0;
+    .modal-title{
+      padding: 20px 0;
+    }
+  }
+}
+
+html {
+  ::-webkit-scrollbar {
+    height: 16px;
+    border-radius:10px;
+    background-color:#F5F5F5;
+  }
+}
+
+html {
+  ::-webkit-scrollbar-thumb{
+    border-radius:10px;
+    background-color:#ccc;
+  }
+}
+
+#pagination
+  right 33px
+  bottom 33px
+  button
+   min-width: 30px;
+   min-height: 30px;
+   margin 0 5px !important

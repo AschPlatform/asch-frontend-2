@@ -28,7 +28,7 @@
 
         <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
         <q-card :class="outerBtnClass">
-          <div class="more-assets-btn row justify-center items-center shadow-1" @click="moreAssets">
+          <div class="more-assets-btn row justify-center items-center shadow-1 asset-detail-card-h" @click="moreAssets">
             <span>{{$t('MORE_ASSETS')}}</span>
           </div>
         </q-card>
@@ -69,8 +69,7 @@ export default {
   },
   data() {
     return {
-      innerBalance: [
-      ],
+      innerBalance: [],
       outerBalance: [],
       innerPagination: {
         page: 1,
@@ -140,7 +139,7 @@ export default {
       this.$root.$emit('openTransactionDialog', asset)
     },
     deposit(asset) {
-      this.selected = asset.asset.symbol
+      // this.selected = asset.asset.symbol
       // this.selected.gateway = asset.asset.gateway
       this.depositPanelShow = true
       asset.haveAdd = true // mark as have address asset
@@ -148,6 +147,7 @@ export default {
       this.asset = this._.merge({}, asset)
     },
     depositNewAsset(asset) {
+      this.selected = asset.symbol
       this.asset = this._.merge({}, asset)
       this.moreAssetsModalShow = false
       this.depositPanelShow = true

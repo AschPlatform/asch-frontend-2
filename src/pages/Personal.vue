@@ -86,7 +86,6 @@
                 </td>
               </tr>
                <tr class="row col-12">
-                </td>
                 <td class="row col-12" :class="personalRightClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('QR_SECRET')}} :</span>
                   <a class="text-secondary font-16 margin-left-30" @click="showSecretQr()">
@@ -95,7 +94,6 @@
                 </td>
               </tr>
               <tr class="row col-12">
-                </td>
                 <td class="row col-12" :class="personalRightThreeClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('GATEWAY_CANDIDATE')}}</span>
                   <div class="margin-left-30" @click="jump2Doc">
@@ -422,7 +420,7 @@ export default {
       toast(msg)
     },
     showAddrQr() {
-      this.$root.$emit('showQRCodeModal', this.address)
+      this.$root.$emit('showQRCodeModal', this.address, this.$t('QR_RECEIVE'))
     },
     showSecretQr() {
       this.$root.$emit('showQRCodeModal', this.user.secret, this.$t('QR_SECRET'))
