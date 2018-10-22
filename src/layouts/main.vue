@@ -544,14 +544,14 @@ body {
 }
 
 .list-item-container:hover {
-  color: #ffffff!important;
+  color: #ffffff !important;
   border-left: 4px solid #ff750b;
   background: #252d3a !important;
 }
 
 .list-item-container {
   height: 70px;
-  color: #8b939e!important;
+  color: #8b939e !important;
   font-size: 18px;
   padding-left: 40px;
   border-bottom: 1px solid #2c3411;
@@ -559,7 +559,7 @@ body {
 }
 
 .q-item.active, .q-item.router-link-active, .q-item:focus {
-  color: #ffffff!important;
+  color: #ffffff !important;
   border-left: 4px solid #ff750b;
   background: #252d3a;
 }
