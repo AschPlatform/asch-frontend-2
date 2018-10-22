@@ -535,6 +535,12 @@ export default {
   }, params) => {
     return api2.getContractDetail(params)
   },
+  getCostGas: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getCostGas(params)
+  },
   // 1.5 contract
   addBailAmount: ({
     commit,

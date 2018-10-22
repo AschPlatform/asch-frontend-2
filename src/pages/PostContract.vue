@@ -11,8 +11,8 @@
         <boundary-line />
       </div>
       <div class="row col-12 inner-container">
-        <div class="row col-6 padding-l-15">
-          <q-field class="block col-10 font-16 custom-postContract-field" label-width="2" :label="$t('SMART_CONTRACT_NAME')+' : '" :error-label="$t('ERR_CONTRACT_NAME')">
+        <div class="row col-12 padding-l-15">
+          <q-field class="block col-10 font-16 custom-postContract-field" label-width="1" :label="$t('SMART_CONTRACT_NAME')+' : '" :error-label="$t('ERR_CONTRACT_NAME')">
             <q-input class="border-1" hide-underline v-model="content.name" value="" :placeholder="$t('PLACEHOLDER_CONTRACT_NAME')" :error="$v.content.name.$error" />
           </q-field>
         </div>
@@ -26,7 +26,7 @@
         </div>
         <div class="row col-12 padding-l-15">
           <q-field class="block col-10 font-16 custom-postContract-field" label-width="1" :label="$t('SMART_CONTRACT_DESC')+' : '" :error-label="$t('ERR_CONTRACT_DESC')">
-            <q-input class="border-1 textareaInner" type="textarea" hide-underline v-model="content.desc" value="" :placeholder="$t('PLACEHOLDER_SMART_CONTRACT_DESC')" :max-height="200" :rows="1" :error="$v.content.desc.$error" />
+            <q-input class="border-1 textareaInner" type="textarea" hide-underline v-model="content.desc" value="" :placeholder="$t('PLACEHOLDER_SMART_CONTRACT_DESC')" :max-height="500" :rows="5" :error="$v.content.desc.$error" />
           </q-field>
         </div>
         <div class="row col-12 padding-l-15">
@@ -175,9 +175,9 @@ export default {
       }
     },
     costGas() {
-      return Number(BigNumber(this.content.code.length * 2)
-        .div(Math.pow(10, 8))
-        .toString())
+      let len = this.content.code.length
+      return len
+        ? BigNumber(len * 2 + 1000).div(Math.pow(10, 8)).toFormat(8) : 0
     }
   }
 }

@@ -4,8 +4,10 @@
       <i class="material-icons font-20 col-1">
         report_problem
       </i>
-      <div class="col-11">
-        {{tipContent}}
+      <div class="flex col-11 items-center">
+        <div>
+          {{tipContent}}
+        </div>
       </div>
     </div>
   </div>
@@ -25,9 +27,9 @@ export default {
       // return 'Curreny problem is not work well'
       switch (this.status) {
         case 1:
-          return this.$t('TIP_BAR_NORMAL', {rate: this.ratio})
+          return this.$t('TIP_BAR_NORMAL', { rate: this.ratio.toFixed(2) })
         case 2:
-          return this.$t('TIP_BAR_WARN', {rate: this.ratio, name: this.symbol})
+          return this.$t('TIP_BAR_WARN', { rate: this.ratio.toFixed(2), name: this.symbol })
         case 3:
           return this.$t('TIP_BAR_CLOSE')
       }
@@ -36,6 +38,9 @@ export default {
       if (this.status === 1) {
         return 'text-secondary'
       }
+      if (this.status === 2) {
+        return 'text-negative'
+      }
       return 'text-negative'
     }
   }
@@ -43,17 +48,22 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.tip-bar-container
+.tip-bar-container {
   padding: 20px;
-.tip-bar-content
-  height 70px;
-  background: #ffffff !important;
-  padding 0 10px;
-  border-radius: 3px;
-  div
-    line-height 30px;
-    display inline-block;
-  i
-    vertical-align middle;
+}
 
+.tip-bar-content {
+  height: 70px;
+  background: #ffffff !important;
+  padding: 0 10px;
+  border-radius: 3px;
+
+  div {
+    line-height: 30px;
+  }
+
+  i {
+    vertical-align: middle;
+  }
+}
 </style>

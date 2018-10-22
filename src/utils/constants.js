@@ -81,7 +81,6 @@ const officialPeers = [
     local: 'Node 3'
   }
 ]
-
 const urls = {
   serverUrl: 'http://192.168.1.79:4096',
   // 区分 local 与 mainnet 的请求头参数
@@ -395,6 +394,9 @@ const urls = {
     },
     getContractDetail: {
       url: '/api/v2/contracts/:name'
+    },
+    getCostGas: {
+      url: '/api/v2/markets/fee'
     }
   }
 

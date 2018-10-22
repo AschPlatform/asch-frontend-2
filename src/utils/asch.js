@@ -531,7 +531,6 @@ const asch = {
     )
   },
   // 网关追加储备金
-  // TODO
   gateBailAdd: (name, amount, fee, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
@@ -544,7 +543,6 @@ const asch = {
     )
   },
   // 网关退回储备金
-  // TODO
   gateBailReturn: (name, amount, fee, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
@@ -703,13 +701,13 @@ const feeFuncMap = {
     return 0
   },
   404: trs => {
-    return 0.01
+    return 0.1
   },
   407: trs => {
-    return 0.01
+    return 0.1
   },
   408: trs => {
-    return 0
+    return 0.1
   },
   409: trs => {
     return 0
