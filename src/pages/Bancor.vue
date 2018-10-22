@@ -1,12 +1,12 @@
 <template>
   <q-page class="bancor-container">
-    <!-- first part -->
+    <!-- first part `BCH`-->
     <div class="bancor-top">
       <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
       <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_1')}}</span>
     </div>
     <div class="bancor-content shadow-2">
-      <q-table hide-bottom class="no-shadow" :data="bancors" row-key="index" :loading="loading" :columns="pireColumns" @request="request" :rows-per-page-options="[10]">
+      <q-table hide-bottom class="no-shadow" :data="bancorsBCH" row-key="index" :loading="loading" :columns="pireColumnsBCH" @request="request" :rows-per-page-options="[10]">
         <q-tr class="row col-12 line-40" slot="header" slot-scope="props" :props="props">
           <q-th class="col-2 align-left" key="name" :props="props">{{$t('BANCOR_TABLE_COL_1')}}</q-th>
           <q-th class="col-2" key="price" :props="props">{{$t('BANCOR_TABLE_COL_2')}}</q-th>
@@ -28,10 +28,38 @@
         </q-tr>
       </q-table>
     </div>
-    <!-- second part -->
-    <div class="bancor-top-2">
+    <!-- second part `XAS`-->
+    <div class="bancor-top q-mt-md">
       <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
       <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_2')}}</span>
+    </div>
+    <div class="bancor-content shadow-2">
+      <q-table hide-bottom class="no-shadow" :data="bancorsXAS" row-key="index" :loading="loading" :columns="pireColumnsXAS" @request="request" :rows-per-page-options="[10]">
+        <q-tr class="row col-12 line-40" slot="header" slot-scope="props" :props="props">
+          <q-th class="col-2 align-left" key="name" :props="props">{{$t('BANCOR_TABLE_COL_1')}}</q-th>
+          <q-th class="col-2" key="price" :props="props">{{$t('BANCOR_TABLE_COL_2')}}</q-th>
+          <q-th class="col-md-3 offset-md-5 col-xs-8" key="action" :props="props">{{$t('BANCOR_TABLE_COL_3')}}</q-th>
+        </q-tr>
+        <q-tr class="row col-12 border-1" slot="body" slot-scope="props" :props="props">
+          <q-td key="name" class="col-2 no-border line-40" :props="props">
+            {{props.row.money}}
+          </q-td>
+          <q-td key="price" class="col-2 no-border line-40" :props="props">
+            {{props.row.latestBid}}
+          </q-td>
+          <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
+            <div class="btn-group flex justify-around">
+              <q-btn color="secondary" @click="callBuyModal(props.row)">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
+              <q-btn color="red" :disabled="!myBalances[props.row.money] || myBalances[props.row.money].balance === '0'" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
+            </div>
+          </q-td>
+        </q-tr>
+      </q-table>
+    </div>
+    <!-- third part -->
+    <div class="bancor-top-2">
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_3')}}</span>
     </div>
     <div class="bancor-content shadow-2">
       <q-table class="no-shadow" :data="historys" row-key="index" :columns="historyColumns" :loading="loading" @request="requestHistory" :pagination.sync="pagination" :rows-per-page-options="[10]">
@@ -100,7 +128,7 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 10
       },
-      bancors: [
+      bancorsXAS: [
         // {
         //   name: 'BTC',
         //   latestBid: '1.653'
@@ -110,6 +138,7 @@ export default {
         //   latestBid: '23.653'
         // }
       ],
+      bancorsBCH: [],
       historys: [
         {
           timestamp: '2017/09/08',
@@ -120,7 +149,29 @@ export default {
           total: 99365
         }
       ],
-      pireColumns: [
+      pireColumnsXAS: [
+        {
+          name: 'name',
+          required: true,
+          label: this.$t('BANCOR_TABLE_COL_1'),
+          align: 'left',
+          field: 'name'
+        },
+        {
+          name: 'price',
+          required: true,
+          label: this.$t('BANCOR_TABLE_COL_2'),
+          align: 'left',
+          field: 'price'
+        },
+        {
+          name: 'action',
+          label: this.$t('BANCOR_TABLE_COL_3'),
+          align: 'center',
+          field: 'action'
+        }
+      ],
+      pireColumnsBCH: [
         {
           name: 'name',
           required: true,
@@ -204,9 +255,21 @@ export default {
       'bancorTradeByTarget'
     ]),
     async getBncorsPairs() {
-      let result = await this.getBancorPairs()
-      if (result.success) {
-        this.bancors = result.bancors
+      let resultXAS = await this.getBancorPairs(
+        {
+          currency: 'XAS'
+        }
+      )
+      let resultBCH = await this.getBancorPairs(
+        {
+         currency: 'BCH'
+        }
+      )
+      if (resultXAS.success) {
+        this.bancorsXAS = resultXAS.bancors
+      }
+      if (resultBCH.success) {
+        this.bancorsBCH = resultBCH.bancors
       }
     },
     async initData() {
