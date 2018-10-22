@@ -12,7 +12,7 @@
       </div>
       <div class="row col-12 inner-container">
         <div class="row col-12 padding-l-15">
-          <q-field class="block col-10 font-16 custom-postContract-field" label-width="1" :label="$t('SMART_CONTRACT_NAME')+' : '" :error-label="$t('ERR_CONTRACT_NAME')">
+          <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('SMART_CONTRACT_NAME')+' : '" :error-label="$t('ERR_CONTRACT_NAME')">
             <q-input class="border-1" hide-underline v-model="content.name" value="" :placeholder="$t('PLACEHOLDER_CONTRACT_NAME')" :error="$v.content.name.$error" />
           </q-field>
         </div>

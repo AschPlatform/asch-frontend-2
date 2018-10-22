@@ -289,7 +289,7 @@ export default {
     },
     toApplyGateway() {
       if (this.userNickname) {
-        this.$router.push({ name: 'PostApplyGateway', params: { gateway: this.gateway.name } })
+        this.$router.push({ name: 'postApplyGateway', params: { gateway: this.gateway.name } })
       } else {
         toastError(this.$t('ERROR_CLICK_APPLY_GATEWAY'))
       }

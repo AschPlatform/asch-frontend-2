@@ -3,9 +3,9 @@
     <div class="postContract-content">
       <div class="no-wrap q-pa-md row justify-between">
         <span>
-              <i class="material-icons vertical-align-sub font-20 text-black">border_color</i>
-              <h5 class="q-px-md inline-block font-18 q-my-none">{{$t('APPLY_FOR_GATEWAY')}}</h5>
-            </span>
+                <i class="material-icons vertical-align-sub font-20 text-black">border_color</i>
+                <h5 class="q-px-md inline-block font-18 q-my-none">{{$t('APPLY_FOR_GATEWAY')}}</h5>
+              </span>
       </div>
       <div class="title-line">
         <boundary-line />
@@ -28,21 +28,21 @@
         </div>
   
         <div class="row col-12 padding-l-15">
-          <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('GATEWAY_PUBLIC_KEY')" :error-label="$t('ERR_CONTRACT_GAS')">
-            <q-input class="border-1" hide-underline value="" :placeholder="$t('INPUT_GATEWAY_PUBLIC_KEY')" />
+          <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('GATEWAY_PUBLIC_KEY')" :error-label="$t('ERR_APPLY_FOR_GATEWAY')">
+            <q-input class="border-1" hide-underline value="" v-model="gatewayPublicKey" :placeholder="$t('INPUT_GATEWAY_PUBLIC_KEY')" @blur="$v.gatewayPublicKey.$touch" :error="$v.gatewayPublicKey.$error"  />
           </q-field>
           <a class="row col-5 justify-start items-center text-secondary font-16 margin-left-20 padding-bottom-10 cursor-pointer" href="https://www.asch.io/docs" target="_blank">
             <i class="material-icons font-16 text-secondary margin-right-10">help</i> {{$t('GET_GATEWAY_PUBLIC_KEY')}}
           </a>
         </div>
-        <div class="row col-12 padding-l-15">
-          <q-field class="block col-10 font-16 custom-postContract-field" label-width="1" :label="$t('PERSONAL_INTRODUCE')" :error-label="$t('ERR_CONTRACT_DESC')">
-            <q-input class="border-1 textareaInner" type="textarea" hide-underline value="" :placeholder="$t('INPUT_PERSONAL_INTRODUCE')" :max-height="400" :rows="5" />
-          </q-field>
-        </div>
         <div v-if="secondSignature" class="row col-12 padding-l-15">
           <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('TRS_TYPE_SECOND_PASSWORD')+' : '" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
             <q-input class="border-1" hide-underline v-model="secondPwd" type="password" value="" @blur="$v.secondPwd.$touch" :error="$v.secondPwd.$error" />
+          </q-field>
+        </div>
+        <div class="row col-12 padding-l-15">
+          <q-field class="block col-10 font-16 custom-postContract-field" label-width="1" :label="$t('PERSONAL_INTRODUCE')" :error-label="$t('ERR_PERSONAL_INTRODUCE')">
+            <q-input class="border-1 textareaInner" type="textarea" hide-underline value="" v-model="desc" :placeholder="$t('INPUT_PERSONAL_INTRODUCE')" :max-height="400" :rows="5"  @blur="$v.desc.$touch" :error="$v.desc.$error" />
           </q-field>
         </div>
         <div class="col-12 padding-l-15">
@@ -63,9 +63,9 @@
 
 <script>
 import { QPage, QField, QInput, QBtn, QCheckbox } from 'quasar'
-import {} from 'vuelidate/lib/validators'
+import { required, alphaNum, minLength, maxLength } from 'vuelidate/lib/validators'
 import { secondPwd } from '../utils/validators'
-// import { toastError, toast, translateErrMsg } from '../utils/util'
+import { toastError, toast } from '../utils/util'
 import { mapActions, mapGetters } from 'vuex'
 import BoundaryLine from '../components/BoundaryLine'
 import UserAgreementModal from '../components/UserAgreementModal'
@@ -85,18 +85,30 @@ export default {
   data() {
     return {
       gatewayName: '',
+      gatewayPublicKey: '',
+      desc: '',
       userAgreementShow: false,
       agreeOptions: [],
       secondPwd: ''
     }
   },
   validations: {
+    gatewayPublicKey: {
+      required,
+      alphaNum,
+      minLength: minLength(1),
+      maxLength: maxLength(255)
+    },
+    desc: {
+      required,
+      minLength: minLength(10),
+      maxLength: maxLength(100)
+    },
     secondPwd: {
       secondPwd: secondPwd()
     }
   },
   mounted() {
-    this.initForm()
     let gateway = this.$route.params.gateway
     if (gateway) {
       this.gatewayName = gateway
@@ -105,51 +117,43 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['postContract']),
+    ...mapActions(['registGateway']),
     confirm() {
       this.userAgreementShow = false
       if (this.agreeOptions.indexOf('one') < 0) {
         this.agreeOptions.push('one')
       }
     },
-    initForm() {
-      // this.$v.content.$touch()
-    },
-    async submit() {}
-    // async submit() {
-    //   let { code, name, gas, desc } = this.content
-    //   this.$v.content.$touch()
-    //   name = name.trim()
-    //   if (this.$v.content.$error) {
-    //     return null
-    //   }
-    //   let secondPwdFlag = this.secondSignature && this.$v.secondPwd.$error
-    //   if (secondPwdFlag) {
-    //     return null
-    //   }
-    //   if (code.length > 20480) {
-    //     toastError(this.$t('CONTRACT_ERR_CODE'))
-    //     return null
-    //   }
-    //   code = Buffer.from(code).toString('hex')
-    //   let gasLimit = BigNumber(+gas)
-    //     .times(Math.pow(10, 8))
-    //     .toString()
-    //   let params = {
-    //     gasLimit,
-    //     code,
-    //     name,
-    //     desc,
-    //     secondSecret: this.secondPwd
-    //   }
-    //   let res = await this.postContract(params)
-    //   if (res.success) {
-    //     toast(this.$t('INF_OPERATION_SUCCEEDED'))
-    //     this.$router.push('/contract')
-    //   } else {
-    //     translateErrMsg(this.$t, res.error)
-    //   }
-    // }
+    async submit() {
+      if (!this.gatewayPublicKey) {
+        toastError(this.$t('INPUT_GATEWAY_PUBLIC_KEY'))
+        return
+      }
+      if (this.secondSignature && !this.secondPwd) {
+        toastError(this.$t('ACCOUNT_TYPE2_HINT'))
+        return
+      }
+      if (!this.desc) {
+        toastError(this.$t('INPUT_PERSONAL_INTRODUCE'))
+        return
+      }
+      if (this.agreeOptions.indexOf('one') < 0) {
+        toastError(this.$t('ERROR_READ_ASCH_PROTOCOL'))
+        return
+      }
+      let res = await this.registGateway({
+        gateway: this.gatewayName,
+        publicKey: this.user.publicKey,
+        desc: this.desc,
+        secondSecret: this.secondPwd
+      })
+      if (res.success) {
+        toast(this.$t('APPLY_FOR_GATEWAY_SUCCESS'))
+        this.$router.push('gateway')
+      } else {
+        toastError(res.error)
+      }
+    }
   },
   computed: {
     ...mapGetters(['userInfo']),
@@ -218,9 +222,5 @@ export default {
 
 .inner-container {
   padding: 16px;
-}
-
-.codeShow {
-  display: block;
 }
 </style>
