@@ -85,7 +85,7 @@ const urls = {
   serverUrl: 'http://192.168.1.79:4096',
   // 区分 local 与 mainnet 的请求头参数
   magic: '594fe0f3',
-  // 登录接口
+  // 登录接
   loginApi: {
     mock: '/data/home/accounts.json',
     url: '/api/accounts/open2'
