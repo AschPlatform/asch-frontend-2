@@ -7,7 +7,7 @@
       </div>
       <div v-if="account&&account.outAddress">
         <!-- TODO: VR CONETNT -->
-        <vue-qr v-if="status !== 0" class="depositmodal-account-content" :size="200" :text="qrText"></vue-qr>
+        <vue-qr v-if="status !== 0 && isSealed !== 2" class="depositmodal-account-content" :size="200" :text="qrText"></vue-qr>
         <div v-else class="text-primary padding-40 font-14 text-center">
           <i class="material-icons block font-60 align-center margin-t-54 margin-bottom-20">
             warning
@@ -15,7 +15,7 @@
           {{$t('WARN_TIP', {rate: this.ratio})}}
         </div>
         <br />
-        <div class="col-6 text-center font-14" v-if="status !== 0">{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info($t('COPY_SUCCESS'))" flat color="secondary" icon='content copy' round/></div>
+        <div class="col-6 text-center font-14" v-if="status !== 0 && isSealed !== 2">{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info($t('COPY_SUCCESS'))" flat color="secondary" icon='content copy' round/></div>
         <q-field class="padding-40 col-9" label-width="3" :label="$t('ASSET_CATEGORY')">
           <q-select
             v-model="currency"
@@ -24,7 +24,7 @@
         <!-- <q-field label-width="3" :label="$t('TIP')" class="padding-40 col-9">
           <div class="deposit-text font-14">{{tipContent}}</div>
         </q-field> -->
-        <div class="margin-t-15" :class="tipColor" v-if="status !== 0">
+        <div class="margin-t-15" :class="tipColor" v-if="status !== 0 && isSealed !== 2">
           <div class="padding-40 font-14 font-bold">{{$t('TIP')}}</div>
           <div class="padding-40 deposit-text col-6 font-14">{{tipContent}}</div>
         </div>
@@ -92,7 +92,9 @@ export default {
       bailInfo: {},
       outAddress: '',
       // Monitor the local modal change
-      isDirty: false
+      isDirty: false,
+      intervalNum: -1,
+      isSealed: 0
       // rate: '76',
       // below is gateway status monitor
       // status: 1,
@@ -108,9 +110,10 @@ export default {
     if (this.asset) {
       this.currency = this.asset.symbol
     }
+    this.intervalNum = setInterval(() => this.getCurrencies(), 10000)
   },
   methods: {
-    ...mapActions(['broadcastTransaction', 'getGatewayInfo', 'gateAccountAddr']),
+    ...mapActions(['broadcastTransaction', 'getGatewayInfo', 'gateAccountAddr', 'getCurrencies']),
     async openAddr() {
       if (this.secondSignature && !secondPwdReg.test(this.secondPwd)) {
         toastInfo(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
@@ -145,6 +148,7 @@ export default {
     async getAddr() {
       let asset = this.outAssets[this.currency]
       this.asset = asset
+      this.isSealed = this.asset.revoked
       if (!asset || !asset.gateway) return
       let res = await this.gateAccountAddr({ name: asset.gateway, address: this.user.address })
       if (res.success) {
@@ -152,6 +156,7 @@ export default {
       }
     },
     async getGateway(name) {
+      console.log('GET GATEWAY', this.asset.gateway)
       let result = await this.getGatewayInfo({
         name: this.asset.gateway
       })
@@ -228,6 +233,9 @@ export default {
         return 1
       }
     },
+    // isSealed() {
+    //   case
+    // },
     qrText() {
       if (this.currency && this.account && this.account.outAddress) {
         return this.currency + ':' + this.account.outAddress
@@ -256,6 +264,9 @@ export default {
         this.getAddr()
       }
     }
+  },
+  beforeDestroy() {
+    clearInterval(this.intervalNum)
   }
 }
 </script>
