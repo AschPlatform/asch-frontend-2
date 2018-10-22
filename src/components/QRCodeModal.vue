@@ -1,5 +1,6 @@
 <template>
   <q-dialog
+    class="custom-modal-content"
     v-model="show"
     prevent-close
   >
@@ -8,9 +9,9 @@
     <span v-if="message" slot="message">{{message}}</span>
 
     <div slot="body" class="over-hidden">
-      <div class="col-12 text-center modal-title" v-if="title">
+      <div class="col-12 text-center modal-title bg-secondary text-white" v-if="title">
         {{title}}
-        <span class="transfer-title-line"></span>
+        <!-- <span class="transfer-title-line"></span> -->
       </div>
       <div class="row justify-center"> 
         <vue-qr :text="text || ''" />
@@ -19,7 +20,7 @@
 
     <template  slot="buttons" slot-scope="props">
       <div class="row justify-center width-100">
-     <q-btn color="secondary" :label="$t('label.close')" @click="close" />
+     <q-btn class="col-10" color="secondary" :label="$t('label.close')" @click="close" />
       </div>
    
     </template>

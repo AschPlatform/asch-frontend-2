@@ -39,7 +39,7 @@
     "devtron": "1.4.0",
     "electron-debug": "1.4.0",
     "electron-devtools-installer": "2.2.1",
-    "electron-packager": "9.1.0",
+    "electron-packager": "^12.2.0",
     "eslint": "^4.15.0",
     "eslint-config-standard": "11.0.0",
     "eslint-friendly-formatter": "^3.0.0",
@@ -50,7 +50,7 @@
     "eslint-plugin-promise": "^3.7.0",
     "eslint-plugin-standard": "^3.0.1",
     "eslint-plugin-vue": "^4.0.0",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-string-replace": "^1.1.1",
     "quasar-cli": "^0.17.20",
     "strip-ansi": "=3.0.1"

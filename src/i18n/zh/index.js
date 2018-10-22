@@ -722,7 +722,7 @@ const lang = {
     UNSUPPORTED_TRANS_TYPE: '不支持的交易类型',
     NO_MORE_THAN_33: '不能同时投多于33票'
   },
-  LASTEST_UPDATE_TIME: '最后更新日期',
+  LASTEST_UPDATE_TIME: '最后创建时间',
   ARGS: '参数',
   DEPOSIT_RECORD: '充值记录',
   WITHDRAW_RECORD: '提现记录',
@@ -948,9 +948,11 @@ const lang = {
   ERR_GATEWAY_NOT_REVOKED: '网关未冻结，无法理赔',
   COPY_PUBLIC_KEY: '立即复制',
   COMPENSATE: '理赔',
+  QR_RECEIVE: '收款二维码',
   COUNTED_FEE: '预计花费将为：',
   TRS_TYPE_TRANS_BANCOR: 'Bancor兑换',
-  BANCOR_INIT: 'Bancor初始化'
+  BANCOR_INIT: 'Bancor初始化',
+  TRANSFER_FEE: '费用'
 }
 
 export default lang

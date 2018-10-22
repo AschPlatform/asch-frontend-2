@@ -61,7 +61,7 @@
           <q-item-main :label="$t('TRANSFER')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('bancor')">
-          <q-item-side icon="gavel" />
+          <q-item-side icon="repeat" />
           <q-item-main :label="$t('BANCOR')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('proposal')">
@@ -69,11 +69,11 @@
           <q-item-main :label="$t('PROPOSAL')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('contract')">
-          <q-item-side icon="gavel" />
+          <q-item-side icon="list_alt" />
           <q-item-main :label="$t('SMART_CONTRACT')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('gateway')">
-          <q-item-side icon="apps" />
+          <q-item-side icon="account_balance" />
           <q-item-main :label="$t('GATEWAY')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('councilDetail')">
@@ -544,14 +544,14 @@ body {
 }
 
 .list-item-container:hover {
-  color: #ffffff!important;
+  color: #ffffff !important;
   border-left: 4px solid #ff750b;
   background: #252d3a !important;
 }
 
 .list-item-container {
   height: 70px;
-  color: #8b939e!important;
+  color: #8b939e !important;
   font-size: 18px;
   padding-left: 40px;
   border-bottom: 1px solid #2c3411;
@@ -559,7 +559,7 @@ body {
 }
 
 .q-item.active, .q-item.router-link-active, .q-item:focus {
-  color: #ffffff!important;
+  color: #ffffff !important;
   border-left: 4px solid #ff750b;
   background: #252d3a;
 }
