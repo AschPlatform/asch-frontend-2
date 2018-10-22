@@ -95,10 +95,12 @@
               {{$t('AVALABLE_BAIL_AMOUNT')}}
               {{gateway.bail.bail | fee}}
             </span>
+            <span v-else class="font-12 text-secondary valid-amount">{{$t('AVALABLE_BAIL_AMOUNT')}} 0</span>
           </q-card-title>
           <q-card-main class="custom-card-main">
-          <div v-if="gateway&&gateway.bail">
-            <span class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
+          <div>
+            <span v-if="gateway&&gateway.bail" class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
+            <span v-else class="font-36 text-tertiary">0</span>
             <span class="font-20 text-secondary"> XAS </span>
           </div>
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
@@ -136,7 +138,7 @@
             <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
           </q-card-title>
           <q-card-main class="custom-card-main">
-            <span class="font-36 text-five">{{gatewayTime}}</span>
+            <span class="font-24 text-five">{{gatewayTime}}</span>
           </q-card-main>
         </div>
       </q-card>
