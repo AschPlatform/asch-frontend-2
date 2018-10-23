@@ -1,6 +1,6 @@
 <template>
   <q-modal class="deposit-modal-container" content-classes="row justify-center" v-model="isModalShow" @hide="close" :no-esc-dismiss="false" minimized>
-    <span class="text-center bg-secondary text-white col-12 trader-header">{{action}}</span>
+    <span class="text-center bg-secondary text-white col-12 trader-header">{{action}} <i class="material-icons float-right cancel-icon cursor-pointer" @click="close">cancel</i></span>
     <div class="trader-body">
       <div class="trader-upper">
         <q-field :label="$t('AMOUNTS') + ' :'" label-width='2' class="font-16">
@@ -64,7 +64,7 @@ export default {
   props: ['type', 'buy', 'sell', 'balance', 'price', 'show', 'secondPwd'],
   data () {
     return {
-      amount: 0,
+      amount: '',
       password: ''
       // show: true
     }
@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     close() {
-      this.amount = 0
+      this.amount = ''
       this.$emit('close')
     },
     callBuy(amount) {
@@ -194,4 +194,7 @@ export default {
   display none
 .errContainer
   border-top none !important;
+.cancel-icon
+  height 100%;
+  padding-right 15px; 
 </style>
