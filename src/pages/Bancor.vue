@@ -255,16 +255,12 @@ export default {
       'bancorTradeByTarget'
     ]),
     async getBncorsPairs() {
-      let resultXAS = await this.getBancorPairs(
-        {
-          currency: 'XAS'
-        }
-      )
-      let resultBCH = await this.getBancorPairs(
-        {
-         currency: 'BCH'
-        }
-      )
+      let resultXAS = await this.getBancorPairs({
+        currency: 'XAS'
+      })
+      let resultBCH = await this.getBancorPairs({
+        currency: 'BCH'
+      })
       if (resultXAS.success) {
         this.bancorsXAS = resultXAS.bancors
       }
@@ -381,7 +377,9 @@ export default {
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
-        sourceAmount: BigNumber(num).times(Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)),
+        sourceAmount: BigNumber(num).times(
+          Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)
+        ),
         config: this.config
       })
       if (result.success) {
@@ -395,7 +393,9 @@ export default {
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
-        sourceAmount: BigNumber(num).times(Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)),
+        sourceAmount: BigNumber(num).times(
+          Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)
+        ),
         config: this.config
       })
       if (result.success) {
