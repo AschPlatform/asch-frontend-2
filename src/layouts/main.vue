@@ -9,23 +9,23 @@
           </q-btn>
           <div class="mobile-hide head-top-left-container">
             <span class="font-18 text-black font-weight">
-              {{$t(' LATEST_BLOCK_HEIGHT')}}
-            </span>
+                {{$t(' LATEST_BLOCK_HEIGHT')}}
+              </span>
             <i v-for='n in 3' :key=n class="height-icon material-icons vertical-align-middle text-secondary font-22">equalizer</i>
             <span class="font-30 text-secondary margin-left-10 font-weight vertical-align-sub">{{latestBlock.height}}</span>
           </div>
           <span class="mobile-hide head-top-left-line vertical-align-middle"></span>
           <div class="mobile-hide head-top-left-container  vertical-align-middle">
             <span class="font-18 text-black font-weight vertical-align-middle">
-              {{$t(' TIME_LAST')}}
-            </span>
+                {{$t(' TIME_LAST')}}
+              </span>
             <span class="font-22 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
           </div>
         </div>
-
-       <div class="desktop-hide text-black" >
-         {{clientPathName}}
-       </div>
+  
+        <div class="desktop-hide text-black">
+          {{clientPathName}}
+        </div>
   
         <q-btn flat @click="logout">
           <q-tooltip>
@@ -77,9 +77,9 @@
           <q-item-main :label="$t('GATEWAY')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('councilDetail')">
-            <q-item-side icon="group" />
-            <q-item-main :label="$t('COUNCIL')" />
-          </q-item>
+          <q-item-side icon="group" />
+          <q-item-main :label="$t('COUNCIL')" />
+        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('delegates')">
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
@@ -130,15 +130,15 @@
     <q-layout-footer class="no-shadow footer-container ">
       <div class="desktop-hide row justify-left height-28 footer-introduce">
         <span class="font-14 text-black font-weight height-36">
-              {{$t(' LATEST_BLOCK_HEIGHT')}}
-        </span>
+                {{$t(' LATEST_BLOCK_HEIGHT')}}
+          </span>
         <i v-for="n in 3" :key=n class="material-icons text-secondary font-18 margin-right-minus-5 height-36">equalizer</i>
         <span class="text-secondary font-24 margin-left-10 font-weight height-36">{{latestBlock.height}}</span>
       </div>
       <div class="desktop-hide row justify-left height-28 footer-introduce">
         <span class="font-14 text-black font-weight vertical-align-middle">
-              {{$t(' TIME_LAST')}}
-          </span>
+                {{$t(' TIME_LAST')}}
+            </span>
         <span class="font-18 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
       </div>
       <div class="row justify-between height-36">
