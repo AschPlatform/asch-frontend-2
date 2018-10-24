@@ -953,7 +953,8 @@ const lang = {
   COUNTED_FEE: '预计花费将为：',
   TRS_TYPE_TRANS_BANCOR: 'Bancor兑换',
   BANCOR_INIT: 'Bancor初始化',
-  TRANSFER_FEE: '费用'
+  TRANSFER_FEE: '费用',
+  GATEWAY_ALREADY_FREEZED: '网关已冻结'
 }
 
 export default lang

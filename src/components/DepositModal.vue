@@ -7,15 +7,22 @@
       </div>
       <div v-if="account&&account.outAddress">
         <!-- TODO: VR CONETNT -->
-        <vue-qr v-if="status !== 0" class="depositmodal-account-content" :size="200" :text="qrText"></vue-qr>
-        <div v-else class="text-primary padding-40 font-14 text-center">
+        <vue-qr v-if="status !== 0 && isSealed.revoked !== 2" class="depositmodal-account-content" :size="200" :text="qrText"></vue-qr>
+        <div v-if="status === 1 && isSealed.revoked !== 2" class="text-primary padding-40 font-14 text-center">
           <i class="material-icons block font-60 align-center margin-t-54 margin-bottom-20">
             warning
           </i>
           {{$t('WARN_TIP', {rate: this.ratio})}}
         </div>
+        <div v-if="isSealed.revoked === 2" class="text-primary padding-40 font-14 text-center">
+          <i class="material-icons block font-60 align-center margin-t-54 margin-bottom-20">
+            warning
+          </i>
+          {{$t('GATEWAY_ALREADY_FREEZED')}}
+        </div>
+
         <br />
-        <div class="col-6 text-center font-14" v-if="status !== 0">{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info($t('COPY_SUCCESS'))" flat color="secondary" icon='content copy' round/></div>
+        <div class="col-6 text-center font-14" v-if="status !== 0 && isSealed.revoked !== 2">{{account.outAddress}} <q-btn v-clipboard="account.outAddress || 'no data'" @success="info($t('COPY_SUCCESS'))" flat color="secondary" icon='content copy' round/></div>
         <q-field class="padding-40 col-9" label-width="3" :label="$t('ASSET_CATEGORY')">
           <q-select
             v-model="currency"
@@ -24,7 +31,7 @@
         <!-- <q-field label-width="3" :label="$t('TIP')" class="padding-40 col-9">
           <div class="deposit-text font-14">{{tipContent}}</div>
         </q-field> -->
-        <div class="margin-t-15" :class="tipColor" v-if="status !== 0">
+        <div class="margin-t-15" :class="tipColor" v-if="status !== 0 && isSealed.revoked !== 2">
           <div class="padding-40 font-14 font-bold">{{$t('TIP')}}</div>
           <div class="padding-40 deposit-text col-6 font-14">{{tipContent}}</div>
         </div>
@@ -92,7 +99,9 @@ export default {
       bailInfo: {},
       outAddress: '',
       // Monitor the local modal change
-      isDirty: false
+      isDirty: false,
+      isSealed: 0,
+      gatewaysArr: []
       // rate: '76',
       // below is gateway status monitor
       // status: 1,
@@ -104,13 +113,15 @@ export default {
     // this.asset = this.defaultName
   },
   mounted() {
-    this.currency = this.defaultName
+    this.currency = this.defaultName.symbol
     if (this.asset) {
       this.currency = this.asset.symbol
     }
+    this.getGateway()
+    // this.getGatewayInfomation()
   },
   methods: {
-    ...mapActions(['broadcastTransaction', 'getGatewayInfo', 'gateAccountAddr']),
+    ...mapActions(['broadcastTransaction', 'getGatewayInfo', 'gateAccountAddr', 'getCurrencies', 'getGateways']),
     async openAddr() {
       if (this.secondSignature && !secondPwdReg.test(this.secondPwd)) {
         toastInfo(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
@@ -142,18 +153,32 @@ export default {
         this[model] = false
       }, 3000)
     },
+    async getGateway() {
+      let result = await this.getGateways({
+        limit: 999,
+        offset: 0
+      })
+      if (result.success) {
+        let tempArr = []
+        result.gateways.forEach(e => {
+          tempArr[e.name] = e
+        })
+        this.gatewaysArr = tempArr
+      }
+    },
     async getAddr() {
       let asset = this.outAssets[this.currency]
-      this.asset = asset
+      // this.asset = asset
+      this.isSealed = this.gatewaysArr[this.defaultName.name]
       if (!asset || !asset.gateway) return
       let res = await this.gateAccountAddr({ name: asset.gateway, address: this.user.address })
       if (res.success) {
         this.account = res.account
       }
     },
-    async getGateway(name) {
+    async getGatewayInfomation(name) {
       let result = await this.getGatewayInfo({
-        name: this.asset.gateway
+        name: this.defaultName.name
       })
       if (result.success) {
         this.bailInfo = result
@@ -228,6 +253,9 @@ export default {
         return 1
       }
     },
+    // isSealed() {
+    //   case
+    // },
     qrText() {
       if (this.currency && this.account && this.account.outAddress) {
         return this.currency + ':' + this.account.outAddress
@@ -236,12 +264,16 @@ export default {
     }
   },
   watch: {
+    userInfo() {
+      this.getCurrencies()
+      this.getGateway()
+    },
     asset(val) {
       if (val) this.currency = val.currency || val.symbol
       if (this.user && this.currency) {
         this.getAddr()
         // this.getOuterAddress()
-        this.getGateway()
+        this.getGatewayInfomation()
       }
     },
     currency(val) {
@@ -252,8 +284,9 @@ export default {
     },
     defaultName(val) {
       if (this.user) {
-        this.currency = val
+        this.currency = val.symbol
         this.getAddr()
+        this.getGatewayInfomation()
       }
     }
   }

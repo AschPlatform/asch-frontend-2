@@ -36,7 +36,7 @@
             <td class="padding-l-15">{{price}}</td>
           </tr>
         </table>
-        <q-btn color="secondary" class="full-width modal-btn" @click="switchAction">{{action}} （{{sell}} => {{buy}}）</q-btn>
+        <q-btn color="secondary" class="full-width modal-btn" @click="switchAction">{{action}} {{`（ ${sell} => ${buy} ）`}}</q-btn>
       </div>
     </div>
   </q-modal>
@@ -96,10 +96,18 @@ export default {
       this.$emit('close')
     },
     callBuy(amount) {
-      this.$emit('buy', amount)
+      let obj = {
+        amount: amount,
+        password: this.password
+      }
+      this.$emit('buy', obj)
     },
     callSell(amount) {
-      this.$emit('sell', amount)
+      let obj = {
+        amount: amount,
+        password: this.password
+      }
+      this.$emit('sell', obj)
     },
     switchAction() {
       this.$v.$touch()
@@ -139,7 +147,7 @@ export default {
         return 'show'
       }
       return 'hide'
-    },
+    }
   }
 }
 </script>
