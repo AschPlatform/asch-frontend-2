@@ -168,8 +168,8 @@ export default {
     },
     async getAddr() {
       let asset = this.outAssets[this.currency]
-      // this.asset = asset
-      this.isSealed = this.gatewaysArr[this.defaultName.name]
+      this.asset = asset
+      this.isSealed = this.gatewaysArr[this.defaultName.name || this.outAssets[this.currency].gateway]
       if (!asset || !asset.gateway) return
       let res = await this.gateAccountAddr({ name: asset.gateway, address: this.user.address })
       if (res.success) {
@@ -178,7 +178,7 @@ export default {
     },
     async getGatewayInfomation(name) {
       let result = await this.getGatewayInfo({
-        name: this.defaultName.name
+        name: this.defaultName.name || this.outAssets[this.currency].gateway
       })
       if (result.success) {
         this.bailInfo = result
@@ -248,9 +248,9 @@ export default {
       if (this.ratio < 100 && this.ratio > 0) {
         return 0
       } else if (this.ratio > 100 && this.ratio < 120) {
-        return 2
-      } else {
         return 1
+      } else {
+        return 2
       }
     },
     // isSealed() {
@@ -278,6 +278,7 @@ export default {
     },
     currency(val) {
       if (this.user) {
+        this.getGateway()
         this.getAddr()
         // this.getOuterAddress()
       }
