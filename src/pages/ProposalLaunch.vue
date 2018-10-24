@@ -577,11 +577,11 @@ export default {
         pair_pre: '',
         pair_post: '',
         // content
-        money:'',
-        stock:'',
-        moneyBalance:'',
-        stockBalance:'',
-        supply:'',
+        money: '',
+        stock: '',
+        moneyBalance: '',
+        stockBalance: '',
+        supply: '',
         stockCw: null,
         moneyCw: null,
         moneyPrecision: null,
@@ -821,18 +821,18 @@ export default {
         }
       } else if (this.first_type === 'new_b') {
         // TODO
-        let content = {
-          money:'BCH',
-          stock:'XAS',
-          moneyBalance:'100000000000',
-          stockBalance:'100000000000',
-          supply:'10000000000',
-          stockCw:1,
-          moneyCw:1,
-          moneyPrecision:8,
-          stockPrecision:8,
-          name:'bch-xas',
-          owner:"",
+        content = {
+          money: 'BCH',
+          stock: 'XAS',
+          moneyBalance: '100000000000',
+          stockBalance: '100000000000',
+          supply: '10000000000',
+          stockCw: 1,
+          moneyCw: 1,
+          moneyPrecision: 8,
+          stockPrecision: 8,
+          name: 'bch-xas',
+          owner: ''
         }
       } else if (this.first_type === 'gateway_freeze') {
         // TODO untest
@@ -872,6 +872,7 @@ export default {
       obj.topic = this.countedType
       obj.endHeight = this.endHeight
       obj.secondPwd = this.secondPwd
+      console.log(obj)
       let result = await this.postProposal(obj)
       if (result.success) {
         toast(this.$t('LAUNCH_MODAL.LAUNCH_SUCCESS'))

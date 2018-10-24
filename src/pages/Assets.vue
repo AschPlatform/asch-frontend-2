@@ -128,6 +128,7 @@ export default {
         offset: (pageNo - 1) * limit
       })
       if (res.success) {
+        console.log(res)
         this.outerBalance = res.balances
         // set max
         this.outerPagination.rowsNumber = res.count
