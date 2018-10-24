@@ -87,7 +87,10 @@ export default {
       withdrawPanelShow: false,
       moreAssetsModalShow: false,
       asset: {},
-      selected: ''
+      selected: {
+        symbol: '',
+        name: ''
+      }
     }
   },
   methods: {
@@ -153,7 +156,7 @@ export default {
     depositNewAsset(asset) {
       this.selected = {
         symbol: asset.symbol,
-        name: asset.name
+        name: asset.gateway
       }
       this.asset = this._.merge({}, asset)
       this.moreAssetsModalShow = false
