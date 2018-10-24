@@ -1,6 +1,6 @@
 <template>
   <q-page class="gatewayDetail-container">
-    <tip-bar v-if="tipBarShow" :ratio="gateway.bail.ratio*100" :status="ratioStatus" :symbol="gateway.bail.symbol"/>
+    <tip-bar class="padding-0 margin-bottom-20" v-if="tipBarShow" :ratio="gateway.bail.ratio*100" :status="ratioStatus" :symbol="gateway.bail.symbol"/>
     <div class="gatewayDetail-content">
       <div class="no-wrap q-pa-md row justify-between">
         <span>

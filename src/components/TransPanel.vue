@@ -204,7 +204,7 @@ export default {
             receiver,
             remark,
             this.user.secret,
-            this.secondpwd,
+            this.secondPwd,
             Number(fee)
           )
         } else {

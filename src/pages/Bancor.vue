@@ -256,16 +256,12 @@ export default {
       'bancorTradeByTarget'
     ]),
     async getBncorsPairs() {
-      let resultXAS = await this.getBancorPairs(
-        {
-          currency: 'XAS'
-        }
-      )
-      let resultBCH = await this.getBancorPairs(
-        {
-         currency: 'BCH'
-        }
-      )
+      let resultXAS = await this.getBancorPairs({
+        currency: 'XAS'
+      })
+      let resultBCH = await this.getBancorPairs({
+        currency: 'BCH'
+      })
       if (resultXAS.success) {
         this.bancorsXAS = resultXAS.bancors
       }
@@ -393,9 +389,16 @@ export default {
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
+<<<<<<< HEAD
         sourceAmount: BigNumber(amount).times(Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)),
         config: this.config,
         secondSecret: password
+=======
+        sourceAmount: BigNumber(num).times(
+          Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)
+        ),
+        config: this.config
+>>>>>>> 36b7b0983e1d0b017e3865e620ac7f46c7b31163
       })
       if (result.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))

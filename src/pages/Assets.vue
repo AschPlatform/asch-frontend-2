@@ -139,7 +139,7 @@ export default {
       this.$root.$emit('openTransactionDialog', asset)
     },
     deposit(asset) {
-      // this.selected = asset.asset.symbol
+      this.selected = asset.asset.symbol
       // this.selected.gateway = asset.asset.gateway
       this.selected = {
         symbol: asset.asset.symbol,

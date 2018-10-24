@@ -1,7 +1,7 @@
 <template>
   <div class="tip-bar-container">
     <div class="tip-bar-content shadow-1 row" :class="tipColor">
-      <i class="material-icons font-20 col-1">
+      <i class="material-icons font-36 col-1">
         report_problem
       </i>
       <div class="flex col-11 items-center">
@@ -48,14 +48,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.tip-bar-container {
-  padding: 20px;
-}
-
 .tip-bar-content {
-  height: 70px;
   background: #ffffff !important;
-  padding: 0 10px;
+  padding: 20px 10px;
   border-radius: 3px;
 
   div {
