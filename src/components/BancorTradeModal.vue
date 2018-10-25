@@ -1,6 +1,6 @@
 <template>
   <q-modal class="deposit-modal-container" content-classes="row justify-center" v-model="isModalShow" @hide="close" :no-esc-dismiss="false" minimized>
-    <span class="text-center bg-secondary text-white col-12 trader-header">{{action}} <i class="material-icons float-right cancel-icon cursor-pointer" @click="close">cancel</i></span>
+    <span class="text-center bg-secondary text-white col-12" :class="isDesk?' trader-header':'trader-header-modile'">{{action}} <i class="material-icons float-right cancel-icon cursor-pointer" @click="close">cancel</i></span>
     <div class="trader-body">
       <div class="trader-upper">
         <q-field :label="$t('AMOUNTS') + ' :'" label-width='2' class="font-16">
@@ -44,12 +44,7 @@
 
 <script>
 /* eslint-disable */
-import {
-  QModal,
-  QField,
-  QInput,
-  QBtn
-} from 'quasar'
+import { QModal, QField, QInput, QBtn } from 'quasar'
 import { required } from 'vuelidate/lib/validators'
 import { secondPwdReg } from '../utils/validators'
 
@@ -62,7 +57,7 @@ export default {
     QBtn
   },
   props: ['type', 'buy', 'sell', 'balance', 'price', 'show', 'secondPwd'],
-  data () {
+  data() {
     return {
       amount: '',
       password: ''
@@ -153,56 +148,94 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.trader-header
-  height 65px;
-  min-width 560px;
-  line-height 65px;
-  border-radius 2px 2px 0px 0px
-  font-size 22px;
-.trader-body
-  font-size 16px;
-  background-color white;
+.deposit-modal-container {
+  max-width: 100vw;
+}
+
+.trader-header {
+  height: 65px;
+  min-width: 560px;
+  line-height: 65px;
+  border-radius: 2px 2px 0px 0px;
+  font-size: 22px;
+}
+
+.trader-header-modile {
+  height: 65px;
+  line-height: 65px;
+  border-radius: 2px 2px 0px 0px;
+  font-size: 22px;
+}
+
+.trader-body {
+  font-size: 16px;
+  background-color: white;
   padding: 45px 30px;
-  width 100%;
-.trader-upper
-  padding 15px 0px 30px 0;
-  border-bottom 1px dashed #DDDDDD;
-  line-height 40px;
-  .input-box
-    border 1px solid #dddddd;
-    height 40px;
-    line-height 40px;
-    input
-      border none;
-      outline none;
-      padding-left 10px;
-      font-size 18px;
-    div
-      font-size 18px;
-      font-weight bold;
-      border-left 1px solid #dddddd;
-      background-color #f9f9f9;
-      line-height inherit;
-      text-align center;
-    .password
-      width 100%;
-.trader-bottom
-  padding 12px 0px 5px 0px;
-  table
-    text-align left;
-    font-size 16px;
-    line-height 36px;
-  .modal-btn
-    margin-top 45px;
-    height 40px;
-    font-size 18px;
-.show
-  display block
-.hide
-  display none
-.errContainer
-  border-top none !important;
-.cancel-icon
-  height 100%;
-  padding-right 15px; 
+  width: 100%;
+}
+
+.trader-upper {
+  padding: 15px 0px 30px 0;
+  border-bottom: 1px dashed #DDDDDD;
+  line-height: 40px;
+
+  .input-box {
+    border: 1px solid #dddddd;
+    height: 40px;
+    line-height: 40px;
+
+    input {
+      border: none;
+      outline: none;
+      padding-left: 10px;
+      font-size: 18px;
+    }
+
+    div {
+      font-size: 18px;
+      font-weight: bold;
+      border-left: 1px solid #dddddd;
+      background-color: #f9f9f9;
+      line-height: inherit;
+      text-align: center;
+    }
+
+    .password {
+      width: 100%;
+    }
+  }
+}
+
+.trader-bottom {
+  padding: 12px 0px 5px 0px;
+
+  table {
+    text-align: left;
+    font-size: 16px;
+    line-height: 36px;
+  }
+
+  .modal-btn {
+    margin-top: 45px;
+    height: 40px;
+    font-size: 18px;
+  }
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none;
+}
+
+.errContainer {
+  border-top: none !important;
+}
+
+.cancel-icon {
+  height: 100%;
+  padding-right: 15px;
+}
 </style>

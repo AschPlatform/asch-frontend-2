@@ -407,7 +407,7 @@ export default {
         applications: 'APPLICATIONS',
         personal: 'PERSONAL',
         issuer: 'TRS_TYPE_UIA_ISSUE',
-        bancor: 'BANCOR_TITLE_1',
+        bancor: 'BANCOR',
         contract: 'SMART_CONTRACT',
         contractDetail: 'SMART_CONTRACT_DETAIL',
         councilDetail: 'COUNCIL',
