@@ -8,7 +8,7 @@
       <div v-if="account&&account.outAddress">
         <!-- TODO: VR CONETNT -->
         <vue-qr v-if="status !== 0 && isSealed.revoked !== 2" class="depositmodal-account-content" :size="200" :text="qrText"></vue-qr>
-        <div v-if="status === 1 && isSealed.revoked !== 2" class="text-primary padding-40 font-14 text-center">
+        <div v-if="status === 0 && isSealed.revoked !== 2" class="text-primary padding-40 font-14 text-center">
           <i class="material-icons block font-60 align-center margin-t-54 margin-bottom-20">
             warning
           </i>
@@ -226,7 +226,7 @@ export default {
     },
     tipContent() {
       // TODO: status detect
-      if (this.status === 1) {
+      if (this.status === 2) {
         return this.$t('DEPOSIT_TIP', {currency: this.currency})
       }
       return this.$t('ALERT_TIP', {rate: this.ratio})
