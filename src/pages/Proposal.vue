@@ -18,7 +18,7 @@
         <q-btn class="font-18" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
       </q-btn-group>
   
-      <q-table class="no-shadow margin-t-20" :data="proposalDetail" :columns="columns" row-key="no" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
+      <q-table class="no-shadow margin-top-20" :data="proposalDetail" :columns="columns" row-key="no" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
         <q-td slot="body-cell-desc" slot-scope="props" :props="props">
           {{props.value.substring(0,20) + '...'}}
           <q-popover v-if="props.value" ref="popover-msg">

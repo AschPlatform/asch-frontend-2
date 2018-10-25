@@ -1,7 +1,7 @@
 <template>
   <q-modal minimized no-backdrop-dismiss v-model="show" content-css="padding: 20px">
     <big>{{$t('DAPP_DETAIL')}}</big>
-    <table class="q-table horizontal-separator highlight loose accountinfo-table margin-t-20">
+    <table class="q-table horizontal-separator highlight loose accountinfo-table margin-top-20">
       <tbody class='info-tbody'>
         <tr disable v-clipboard="account.address || 'no data'" @success="info($t('COPY_SUCCESS'))" >
           <td>{{$t('ADDRESS')}}</td>

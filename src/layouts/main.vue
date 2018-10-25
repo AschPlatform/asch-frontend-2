@@ -398,7 +398,7 @@ export default {
         assetDetail: 'ASSET',
         transfer: 'TRANSFER',
         proposal: 'PROPOSAL',
-        launchProposal: 'PROPOSAL',
+        launchProposal: 'TRS_TYPE_LAUNCH_PROPOSAL',
         proposalDetail: 'PROPOSAL',
         gateway: 'GATEWAY',
         gatewayDetail: 'GATEWAY',
@@ -406,13 +406,13 @@ export default {
         blocks: 'BLOCKS',
         applications: 'APPLICATIONS',
         personal: 'PERSONAL',
-        issuer: 'TRS_TYPE_UIA_ISSUE'
+        issuer: 'TRS_TYPE_UIA_ISSUE',
+        bancor: 'BANCOR_TITLE_1',
+        contract: 'SMART_CONTRACT',
+        councilDetail: 'COUNCIL',
+        postApplyGateway: 'APPLY_FOR_GATEWAY'
       }
-      for (var key in pathObj) {
-        if (this.$route.name === key) {
-          return this.$t(pathObj[key])
-        }
-      }
+      return this.$t(pathObj[this.$route.name])
     },
     assets() {
       if (this.userInfo) {

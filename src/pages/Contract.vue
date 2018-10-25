@@ -1,7 +1,7 @@
 <template>
   <q-page class="contract-container">
     <div class="contract-content bg-white shadow-2 border-r-6">
-      <div class="relative desktop-only w-full border-1 border-solid border-tw-grey">
+      <div class="relative w-full border-1 border-solid border-tw-grey">
         <div class="top-bar">
           <button :class="this.type === 1 ? styleSelected : styleUnselected" @click="changeType(1)">
             {{$t('SMART_CONTRACT_LIST')}}
@@ -10,12 +10,12 @@
             {{$t('SMART_CONTRACT_MINE')}}
           </button>
           <div class="float-right">
-            <q-btn v-if="this.type === 0" class="font-14 mobile-hide pos" rounded color="secondary" :label="$t('SMART_CONTRACT_NEW')" @click="newContract" />
+            <q-btn v-if="this.type === 0" class="font-14 pos" rounded color="secondary" :label="$t('SMART_CONTRACT_NEW')" @click="newContract" />
             <q-input color="secondary" v-else class="contract-search" type="text" v-model="searchStr" :after="searchIcon"  @keyup.enter="search" :placeholder="$t('SEARCH_BY_CONTRACT_NAME')" hide-underline />
           </div>
         </div>
 
-        <q-table class="no-shadow margin-t-20" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
+        <q-table class="no-shadow margin-top-20" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
           <q-td slot="body-cell-address" slot-scope="props" :props="props">
             <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">{{props.value}}</div>
           </q-td>
@@ -148,10 +148,10 @@ export default {
     newContract() {
       this.$router.push('/postContract')
     },
-    search() {
+    async search() {
       let name = this.searchStr
       if (name) {
-        let res = this.getContractDetail({
+        let res = await this.getContractDetail({
           name
         })
         if (res.success) {
@@ -159,6 +159,8 @@ export default {
         } else {
           toastError(this.$t('ERR_CONTRACT_NOT_EXIST'))
         }
+      } else {
+        toastError(this.$t('ERR_CONTRACT_NOT_EXIST'))
       }
       this.searchStr = ''
     }
@@ -179,7 +181,7 @@ export default {
       }
       const searchIcon = {
         icon: 'search',
-        handler: () => this.search(),
+        handler: () => this.search,
         content: true
       }
       return this.searchStr ? [deleteIcon, searchIcon] : [searchIcon]

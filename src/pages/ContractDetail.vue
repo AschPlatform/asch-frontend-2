@@ -21,11 +21,11 @@
             <span class="font-16 text-secondary cursor-pointer">{{contract.owner}}</span>
           </div>
         </div>
-        <div class="row col-12 padding-l-15 margin-top-30 width-100">
+        <div class="row col-12 padding-l-15 margin-top-30">
           <div class="row justify-start" style="width:100%">
             <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_CODE')}} : </span>
-            <div class="padding-20 code-container ">
-              <codemirror class="width-100" :value.sync="getCode" :options="getCodeOption" />
+            <div class="code-container col-10 ">
+              <codemirror class="" :value.sync="getCode" :options="getCodeOption" />
             </div>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default {
 
     .code-container {
       border: 1px solid #dddddd;
-      width: 100%;
+      // width: 100%;
     }
   }
 }

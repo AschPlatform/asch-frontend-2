@@ -12,36 +12,36 @@
       </div>
       <div class=" col-12 inline inner-container">
         <div class="row col-6 padding-l-15">
-          <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('BELONG_TO_GATEWAY')" :error-label="$t('ERR_CONTRACT_NAME')">
+          <q-field class="block col-md-5 col-xs-12 font-16 custom-postContract-field" label-width="2" :label="$t('BELONG_TO_GATEWAY')" :error-label="$t('ERR_CONTRACT_NAME')">
             <q-input class="border-1" hide-underline v-model="gatewayName" value="" disable />
           </q-field>
         </div>
         <div class="row col-6 padding-l-15">
-          <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('ACCOUNT_NICKNAME')" :error-label="$t('ERR_CONTRACT_NAME')">
+          <q-field class="block col-md-5 col-xs-12 font-16 custom-postContract-field" label-width="2" :label="$t('ACCOUNT_NICKNAME')" :error-label="$t('ERR_CONTRACT_NAME')">
             <q-input class="border-1" hide-underline v-model="userNickname" value="" disable />
           </q-field>
         </div>
         <div class="row col-6 padding-l-15">
-          <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('ACCOUNT_ADDRESS')" :error-label="$t('ERR_CONTRACT_NAME')">
+          <q-field class="block col-md-5 col-xs-12 font-16 custom-postContract-field" label-width="2" :label="$t('ACCOUNT_ADDRESS')" :error-label="$t('ERR_CONTRACT_NAME')">
             <q-input class="border-1" hide-underline v-model="address" value="" disable />
           </q-field>
         </div>
   
         <div class="row col-12 padding-l-15">
-          <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('GATEWAY_PUBLIC_KEY')" :error-label="$t('ERR_APPLY_FOR_GATEWAY')">
+          <q-field class="block col-md-5 col-xs-12 font-16 custom-postContract-field" label-width="2" :label="$t('GATEWAY_PUBLIC_KEY')" :error-label="$t('ERR_APPLY_FOR_GATEWAY')">
             <q-input class="border-1" hide-underline value="" v-model="gatewayPublicKey" :placeholder="$t('INPUT_GATEWAY_PUBLIC_KEY')" @blur="$v.gatewayPublicKey.$touch" :error="$v.gatewayPublicKey.$error"  />
           </q-field>
-          <a class="row col-5 justify-start items-center text-secondary font-16 margin-left-20 padding-bottom-10 cursor-pointer" href="https://www.asch.io/docs" target="_blank">
+          <a class="row col-md-5 col-xs-12 justify-start items-center text-secondary font-16 padding-bottom-10 cursor-pointer"  :class="isDesk?'margin-left-20':''" href="https://www.asch.io/docs" target="_blank">
             <i class="material-icons font-16 text-secondary margin-right-10">help</i> {{$t('GET_GATEWAY_PUBLIC_KEY')}}
           </a>
         </div>
         <div v-if="secondSignature" class="row col-12 padding-l-15">
-          <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('TRS_TYPE_SECOND_PASSWORD')+' : '" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+          <q-field class="block col-md-5 col-xs-12 font-16 custom-postContract-field" label-width="2" :label="$t('TRS_TYPE_SECOND_PASSWORD')+' : '" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
             <q-input class="border-1" hide-underline v-model="secondPwd" type="password" value="" @blur="$v.secondPwd.$touch" :error="$v.secondPwd.$error" />
           </q-field>
         </div>
         <div class="row col-12 padding-l-15">
-          <q-field class="block col-10 font-16 custom-postContract-field" label-width="1" :label="$t('PERSONAL_INTRODUCE')" :error-label="$t('ERR_PERSONAL_INTRODUCE')">
+          <q-field class="block col-md-10 col-xs-12 font-16 custom-postContract-field" label-width="1" :label="$t('PERSONAL_INTRODUCE')" :error-label="$t('ERR_PERSONAL_INTRODUCE')">
             <q-input class="border-1 textareaInner" type="textarea" hide-underline value="" v-model="desc" :placeholder="$t('INPUT_PERSONAL_INTRODUCE')" :max-height="400" :rows="5"  @blur="$v.desc.$touch" :error="$v.desc.$error" />
           </q-field>
         </div>
@@ -52,8 +52,8 @@
             <a class="agreeBtn text-secondary" @click="userAgreementShow=true">{{$t('READ_ASCH_PROTOCOL')}}</a>
           </q-checkbox>
         </div>
-        <div class="row justify-center col-12">
-          <q-btn class="col-3 q-mt-md no-shadow font-18 padding-15" color="secondary" :label="$t('APPLY_NOW')" @click="submit" />
+        <div class="row justify-center col-12" :class="isDesk?'margin-top-20':'margin-top-10'">
+          <q-btn class="col-md-3 col-xs-6 no-shadow font-18" :class="isDesk?'padding-15':'padding-10'" color="secondary" :label="$t('APPLY_NOW')" @click="submit" />
         </div>
       </div>
     </div>
