@@ -401,7 +401,7 @@ export default {
         launchProposal: 'TRS_TYPE_LAUNCH_PROPOSAL',
         proposalDetail: 'PROPOSAL',
         gateway: 'GATEWAY',
-        gatewayDetail: 'GATEWAY',
+        gatewayDetail: 'GATEWAY_PARTICULARS',
         delegates: 'TRS_TYPE_VOTE',
         blocks: 'BLOCKS',
         applications: 'APPLICATIONS',
@@ -409,6 +409,7 @@ export default {
         issuer: 'TRS_TYPE_UIA_ISSUE',
         bancor: 'BANCOR_TITLE_1',
         contract: 'SMART_CONTRACT',
+        contractDetail: 'SMART_CONTRACT_DETAIL',
         councilDetail: 'COUNCIL',
         postApplyGateway: 'APPLY_FOR_GATEWAY'
       }

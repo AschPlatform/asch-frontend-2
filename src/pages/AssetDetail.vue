@@ -25,7 +25,8 @@
             <p class="font-22 text-black margin-b-0">{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
             <div v-if="status === 1">
               <span class="font-14 text-three">{{address}}</span>
-              <q-btn v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" color="secondary" size="xs" flat round icon="content copy" />
+              <q-btn v-if="address" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" color="secondary" size="xs" flat round icon="content copy" />
+              <span v-else>{{$t('NOT_OPEN')}}</span>
             </div>
             <div v-if="status === 1 && !isCross" class="row justify-center" @click="showAddrQr">
               <vue-qr v-if="isCross" :size="80" :text="address ? asset.currency + ':'+ address : 'no data'"></vue-qr>

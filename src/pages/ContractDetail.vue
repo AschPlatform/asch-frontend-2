@@ -7,29 +7,29 @@
           <h5 class="q-px-md inline-block font-22 q-my-none">{{$t('SMART_CONTRACT_DETAIL')}}</h5>
         </span>
       </div>
-      <div class="title-line">
+      <div class="" :class="isDesk?'title-line':'padding-10'">
         <boundary-line />
       </div>
       <div v-if="contract" class="row inner-container">
-        <div class="row col-12 padding-l-15">
-          <div class="margin-right-60">
+        <div class="row col-12" :class="isDesk?'padding-l-15':''">
+          <div class="margin-right-60" :class="isDesk?'':'margin-bottom-10'">
             <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_NAME')}} : </span>
             <span class="font-16 text-five">{{contract.name}}</span>
           </div>
-          <div @click="viewAccountInfo(contract.owner)" >
-            <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_OWNER')}} : </span>
-            <span class="font-16 text-secondary cursor-pointer">{{contract.owner}}</span>
+          <div class="row justify-between" >
+            <span class="font-16 text-tertiary font-bold" :class="isDesk?'padding-right-20':'col-4'">{{$t('SMART_CONTRACT_OWNER')}} : </span>
+            <span class="row items-center text-secondary cursor-pointer" :class="isDesk?'font-16':'font-14 col-8 break-word'"  @click="viewAccountInfo(contract.owner)">{{contract.owner}}</span>
           </div>
         </div>
-        <div class="row col-12 padding-l-15 margin-top-30">
+        <div class="row col-12 " :class="isDesk?'padding-l-15 margin-top-30':'margin-top-10'">
           <div class="row justify-start" style="width:100%">
             <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_CODE')}} : </span>
-            <div class="code-container col-10 ">
+            <div class="code-container col-md-10 col-xs-12" :class="isDesk?'':'margin-top-10'">
               <codemirror class="" :value.sync="getCode" :options="getCodeOption" />
             </div>
           </div>
         </div>
-        <div class="row col-12 padding-l-15 margin-top-30">
+        <div class="row col-12" :class="isDesk?'padding-l-15 margin-top-30':'margin-top-10'">
           <div class="row justify-start">
             <span class="font-16 text-tertiary font-bold padding-right-20">{{$t('SMART_CONTRACT_DESC')}} : </span>
             <span class="font-16 text-five break-word">{{contract.desc}}</span>
@@ -154,6 +154,8 @@ export default {
 }
 
 .break-word {
-  word-break: break-word;
+  display: block;
+  word-break: break-word!important;
+  word-break: normal;
 }
 </style>
