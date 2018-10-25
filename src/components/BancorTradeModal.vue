@@ -75,7 +75,7 @@ export default {
       lessThan(val) {
         let v = Number(val)
         let b = Number(this.balance)
-        if (b > v) {
+        if (b >= v) {
           return true
         }
         return false
