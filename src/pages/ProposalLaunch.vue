@@ -152,7 +152,7 @@
                 <div class="text-secondary block">{{p_selected.name || 'EOS'}}</div>
                 <div class="row">
                   <div>{{$t('GATEWAY_MEMBER')}}</div>
-                  <q-select class="col-md-4" align="center" chips filter v-model="MEMBER.clear" :options="MEMBER.electedList"></q-select>
+                  <q-select class="col-md-4" align="center" multiple chips filter v-model="CLEAR.selected" :options="MEMBER.electedList"></q-select>
                   <div class="col-md-5">{{$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP1')}}</div>
                   <!-- <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP1')">
                   </q-field> -->
@@ -853,6 +853,8 @@ export default {
             })
             return tempArr
           },
+          // TODO: unclear
+          url: this.CLEAR.url,
           desc: this.brief
         }
       }
@@ -898,7 +900,8 @@ export default {
         })
       } else if (this.first_type === 'gateway_clear') {
         res.gateways.forEach(o => {
-          if (o.revoked === 1) {
+          console.log(o)
+          if (o.revoked === 0) {
             return ls.push({
               label: o.name,
               value: o

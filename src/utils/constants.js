@@ -395,6 +395,9 @@ const urls = {
     },
     getContractDetail: {
       url: '/api/v2/contracts/:name'
+    },
+    getBancorSupports: {
+      url: '/api/v2/markets/currencies'
     }
   }
 
