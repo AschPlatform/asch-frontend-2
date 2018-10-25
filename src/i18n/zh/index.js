@@ -954,7 +954,8 @@ const lang = {
   TRS_TYPE_TRANS_BANCOR: 'Bancor兑换',
   BANCOR_INIT: 'Bancor初始化',
   TRANSFER_FEE: '费用',
-  NOT_OPEN: '暂未开通'
+  NOT_OPEN: '暂未开通',
+  GATEWAY_ALREADY_FREEZED: '网关已冻结'
 }
 
 export default lang

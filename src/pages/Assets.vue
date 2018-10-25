@@ -87,7 +87,10 @@ export default {
       withdrawPanelShow: false,
       moreAssetsModalShow: false,
       asset: {},
-      selected: ''
+      selected: {
+        symbol: '',
+        name: ''
+      }
     }
   },
   methods: {
@@ -141,13 +144,20 @@ export default {
     deposit(asset) {
       this.selected = asset.asset.symbol
       // this.selected.gateway = asset.asset.gateway
+      this.selected = {
+        symbol: asset.asset.symbol,
+        name: asset.asset.gateway
+      }
       this.depositPanelShow = true
       asset.haveAdd = true // mark as have address asset
       asset.symbol = asset.name // mark as have address asset
       this.asset = this._.merge({}, asset)
     },
     depositNewAsset(asset) {
-      this.selected = asset.symbol
+      this.selected = {
+        symbol: asset.symbol,
+        name: asset.gateway
+      }
       this.asset = this._.merge({}, asset)
       this.moreAssetsModalShow = false
       this.depositPanelShow = true
