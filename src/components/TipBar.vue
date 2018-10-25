@@ -48,14 +48,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.tip-bar-container {
-  padding: 20px;
-}
-
 .tip-bar-content {
-  height: 70px;
   background: #ffffff !important;
-  padding: 0 10px;
+  padding: 20px 10px;
   border-radius: 3px;
 
   div {

@@ -722,7 +722,7 @@ const lang = {
     UNSUPPORTED_TRANS_TYPE: '不支持的交易类型',
     NO_MORE_THAN_33: '不能同时投多于33票'
   },
-  LASTEST_UPDATE_TIME: '最后创建时间',
+  LASTEST_UPDATE_TIME: '创建时间',
   ARGS: '参数',
   DEPOSIT_RECORD: '充值记录',
   WITHDRAW_RECORD: '提现记录',
@@ -754,8 +754,9 @@ const lang = {
   TEMP_CLOSE: '暂停充值，等待网关成员追加储备金后恢复。',
   BANCOR_BUTTON_BUY: '买入',
   BANCOR_BUTTON_SELL: '卖出',
-  BANCOR_TITLE_1: '兑换',
-  BANCOR_TITLE_2: '成交历史',
+  BANCOR_TITLE_1: 'BCH交易区',
+  BANCOR_TITLE_2: 'XAS交易区',
+  BANCOR_TITLE_3: '成交历史',
   BANCOR_TABLE_COL_1: '名称',
   BANCOR_TABLE_COL_2: '最近成交价格',
   BANCOR_TABLE_COL_3: '操作',
@@ -900,10 +901,10 @@ const lang = {
   CURRENT_PRICE: '当前价格',
   TRANS_AMOUNT: '转账金额',
   ERR_GAS_NUM_WRONG: '请输入正确的燃料费上限',
-  ERR_GATEWAY_ADD: '追加的储备金额度不正确',
+  ERR_GATEWAY_ADD: '追加的储备金额度不正确，需为正整数',
   LABEL_GATEWAY_ADD: '请输入您要追加的储备金额度',
   PLACEHOLDER_GATEWAY_ADD: '请追加至少{amount} XAS',
-  ERR_GATEWAY_RETURN: '退回的储备金额度错误',
+  ERR_GATEWAY_RETURN: '退回的储备金额度不正确，需为正整数',
   LABEL_GATEWAY_RETURN: '请输入您要退回的储备金额度',
   PLACEHOLDER_GATEWAY_RETURN: '您最多可退回{amount} XAS',
   // ERR_GATEWAY_COM: '追加的储备金额度不正确',
@@ -972,7 +973,8 @@ const lang = {
   ERROR_READ_ASCH_PROTOCOL: '请勾选阿希链用户服务协议',
   TRS_TYPE_TRANS_BANCOR: 'Bancor兑换',
   BANCOR_INIT: 'Bancor初始化',
-  TRANSFER_FEE: '费用'
+  TRANSFER_FEE: '费用',
+  GATEWAY_ALREADY_FREEZED: '网关已冻结'
 }
 
 export default lang

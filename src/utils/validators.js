@@ -13,6 +13,7 @@ export const proposalTitleReg = /^[A-Za-z0-9_\-+!@$% ]{10,100}$/
 export const gatewayNameReg = /^[A-Za-z0-9]{3,16}$/
 export const assetSymbolReg = /^[A-Z]{3,6}$/
 export const amountStrReg = /^\d+(\.\d+)?$/
+export const intStrReg = /^[0-9]*[1-9][0-9]*$/
 export const receiverReg = /\s/g
 export const contractNameReg = /^[a-zA-Z]([-_a-zA-Z0-9]{3,32})+$/
 // bip 39 validator

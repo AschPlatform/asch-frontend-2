@@ -1,6 +1,6 @@
 <template>
   <q-modal class="deposit-modal-container" content-classes="row justify-center" v-model="isModalShow" @hide="close" :no-esc-dismiss="false" minimized>
-    <span class="text-center bg-secondary text-white col-12 trader-header">{{action}}</span>
+    <span class="text-center bg-secondary text-white col-12 trader-header">{{action}} <i class="material-icons float-right cancel-icon cursor-pointer" @click="close">cancel</i></span>
     <div class="trader-body">
       <div class="trader-upper">
         <q-field :label="$t('AMOUNTS') + ' :'" label-width='2' class="font-16">
@@ -36,7 +36,7 @@
             <td class="padding-l-15">{{price}}</td>
           </tr>
         </table>
-        <q-btn color="secondary" class="full-width modal-btn" @click="switchAction">{{action}} （{{sell}} => {{buy}}）</q-btn>
+        <q-btn color="secondary" class="full-width modal-btn" @click="switchAction">{{action}} {{`（ ${sell} => ${buy} ）`}}</q-btn>
       </div>
     </div>
   </q-modal>
@@ -64,7 +64,7 @@ export default {
   props: ['type', 'buy', 'sell', 'balance', 'price', 'show', 'secondPwd'],
   data () {
     return {
-      amount: 0,
+      amount: '',
       password: ''
       // show: true
     }
@@ -75,7 +75,7 @@ export default {
       lessThan(val) {
         let v = Number(val)
         let b = Number(this.balance)
-        if (b > v) {
+        if (b >= v) {
           return true
         }
         return false
@@ -92,14 +92,22 @@ export default {
   },
   methods: {
     close() {
-      this.amount = 0
+      this.amount = ''
       this.$emit('close')
     },
     callBuy(amount) {
-      this.$emit('buy', amount)
+      let obj = {
+        amount: amount,
+        password: this.password
+      }
+      this.$emit('buy', obj)
     },
     callSell(amount) {
-      this.$emit('sell', amount)
+      let obj = {
+        amount: amount,
+        password: this.password
+      }
+      this.$emit('sell', obj)
     },
     switchAction() {
       this.$v.$touch()
@@ -139,7 +147,7 @@ export default {
         return 'show'
       }
       return 'hide'
-    },
+    }
   }
 }
 </script>
@@ -194,4 +202,7 @@ export default {
   display none
 .errContainer
   border-top none !important;
+.cancel-icon
+  height 100%;
+  padding-right 15px; 
 </style>

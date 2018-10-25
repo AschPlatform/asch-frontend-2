@@ -1,12 +1,12 @@
 <template>
   <q-page class="bancor-container">
-    <!-- first part -->
+    <!-- first part `BCH`-->
     <div class="bancor-top">
       <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
       <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_1')}}</span>
     </div>
     <div class="bancor-content shadow-2">
-      <q-table hide-bottom class="no-shadow" :data="bancors" row-key="index" :loading="loading" :columns="pireColumns" @request="request" :rows-per-page-options="[10]">
+      <q-table hide-bottom class="no-shadow" :data="bancorsBCH" row-key="index" :loading="loading" :columns="pireColumnsBCH" @request="request" :rows-per-page-options="[10]">
         <q-tr class="row col-12 line-40" slot="header" slot-scope="props" :props="props">
           <q-th class="col-2 align-left" key="name" :props="props">{{$t('BANCOR_TABLE_COL_1')}}</q-th>
           <q-th class="col-2" key="price" :props="props">{{$t('BANCOR_TABLE_COL_2')}}</q-th>
@@ -14,38 +14,66 @@
         </q-tr>
         <q-tr class="row col-12 border-1" slot="body" slot-scope="props" :props="props">
           <q-td key="name" class="col-2 no-border line-40" :props="props">
-            {{props.row.money}}
+            {{props.row.stock}}
           </q-td>
           <q-td key="price" class="col-2 no-border line-40" :props="props">
-            {{props.row.latestBid}}
+            {{(1 / props.row.latestBid).toFixed(6)}}
           </q-td>
           <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
             <div class="btn-group flex justify-around">
-              <q-btn color="secondary" @click="callBuyModal(props.row)">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
+              <q-btn color="secondary" :disable="!myBalances['BCH'] || myBalances['BCH'].balance === 0" @click="callBuyModal(props.row, 'BCH')">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
+              <q-btn color="red" :disabled="!myBalances[props.row.stock] || myBalances[props.row.stock].balance === '0'" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
+            </div>
+          </q-td>
+        </q-tr>
+      </q-table>
+    </div>
+    <!-- second part `XAS`-->
+    <div class="bancor-top q-mt-md">
+      <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
+      <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_2')}}</span>
+    </div>
+    <div class="bancor-content shadow-2">
+      <q-table hide-bottom class="no-shadow" :data="bancorsXAS" row-key="index" :loading="loading" :columns="pireColumnsXAS" @request="request" :rows-per-page-options="[10]">
+        <q-tr class="row col-12 line-40" slot="header" slot-scope="props" :props="props">
+          <q-th class="col-2 align-left" key="name" :props="props">{{$t('BANCOR_TABLE_COL_1')}}</q-th>
+          <q-th class="col-2" key="price" :props="props">{{$t('BANCOR_TABLE_COL_2')}}</q-th>
+          <q-th class="col-md-3 offset-md-5 col-xs-8" key="action" :props="props">{{$t('BANCOR_TABLE_COL_3')}}</q-th>
+        </q-tr>
+        <q-tr class="row col-12 border-1" slot="body" slot-scope="props" :props="props">
+          <q-td key="name" class="col-2 no-border line-40" :props="props">
+            {{props.row.stock}}
+          </q-td>
+          <q-td key="price" class="col-2 no-border line-40" :props="props">
+            {{(1 / props.row.latestBid).toFixed(6)}}
+          </q-td>
+          <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
+            <div class="btn-group flex justify-around">
+              <q-btn color="secondary" :disable="balance === 0" @click="callBuyModal(props.row, 'XAS')">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
               <q-btn color="red" :disabled="!myBalances[props.row.money] || myBalances[props.row.money].balance === '0'" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
             </div>
           </q-td>
         </q-tr>
       </q-table>
     </div>
-    <!-- second part -->
+    <!-- third part -->
     <div class="bancor-top-2">
       <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
-      <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_2')}}</span>
+      <span class="font-20 text-black vertical-align-middle">{{$t('BANCOR_TITLE_3')}}</span>
     </div>
     <div class="bancor-content shadow-2">
       <q-table class="no-shadow" :data="historys" row-key="index" :columns="historyColumns" :loading="loading" @request="requestHistory" :pagination.sync="pagination" :rows-per-page-options="[10]">
         <q-td slot="body-cell-timestamp" slot-scope="props" :props="props">
           {{fullTimestamp(props.value)}}
         </q-td>
-        <q-td :class="props.row.source === 'XAS' ? 'text-secondary' : 'text-negative'" slot="body-cell-type" slot-scope="props" :props="props">
+        <q-td :class="props.row.type === 'BUY' ? 'text-secondary' : 'text-negative'" slot="body-cell-type" slot-scope="props" :props="props">
           {{judge(props)}}
         </q-td>
         <q-td slot="body-cell-source" slot-scope="props" :props="props">
           {{props.row.source + '/' + props.row.target}}
         </q-td>
         <q-td slot="body-cell-price" slot-scope="props" :props="props">
-          {{props.value}} {{props.row.source}}
+          {{props.row.type === 'BUY' ? (1 / props.value).toFixed(6) : props.value}} {{props.row.source}}
         </q-td>
         <q-td slot="body-cell-buyed" slot-scope="props" :props="props">
           {{convertFee(props.row.targetAmount, props.row.targetPrecision)}} {{props.row.target}}
@@ -57,7 +85,7 @@
     </div>
 
     <!-- Modals -->
-    <bancor-trade-modal :show="tradeModalShow" :type='dealPairInfo.type' :secondPwd="secondSignature" :buy="dealPairInfo.buy" :sell="dealPairInfo.sell" :balance="amount" :price='dealPairInfo.price' @close="closeTradeModal" @buy="bancorBuy" @sell="bancorSell"></bancor-trade-modal>
+    <bancor-trade-modal :show="tradeModalShow" :type='dealPairInfo.type' :secondPwd="secondSignature" :buy="dealPairInfo.buy" :sell="dealPairInfo.sell" :balance="dealPairInfo.balance" :currency="myBalances" :price='dealPairInfo.price' @close="closeTradeModal" @buy="bancorBuy" @sell="bancorSell"></bancor-trade-modal>
   </q-page>
 </template>
 
@@ -93,14 +121,15 @@ export default {
         buy: '',
         sell: '',
         buy: '',
-        price: ''
+        price: '',
+        balance: 0
       },
       pagination: {
         page: 1,
         rowsNumber: 0,
         rowsPerPage: 10
       },
-      bancors: [
+      bancorsXAS: [
         // {
         //   name: 'BTC',
         //   latestBid: '1.653'
@@ -110,6 +139,7 @@ export default {
         //   latestBid: '23.653'
         // }
       ],
+      bancorsBCH: [],
       historys: [
         {
           timestamp: '2017/09/08',
@@ -120,7 +150,29 @@ export default {
           total: 99365
         }
       ],
-      pireColumns: [
+      pireColumnsXAS: [
+        {
+          name: 'name',
+          required: true,
+          label: this.$t('BANCOR_TABLE_COL_1'),
+          align: 'left',
+          field: 'name'
+        },
+        {
+          name: 'price',
+          required: true,
+          label: this.$t('BANCOR_TABLE_COL_2'),
+          align: 'left',
+          field: 'price'
+        },
+        {
+          name: 'action',
+          label: this.$t('BANCOR_TABLE_COL_3'),
+          align: 'center',
+          field: 'action'
+        }
+      ],
+      pireColumnsBCH: [
         {
           name: 'name',
           required: true,
@@ -204,9 +256,17 @@ export default {
       'bancorTradeByTarget'
     ]),
     async getBncorsPairs() {
-      let result = await this.getBancorPairs()
-      if (result.success) {
-        this.bancors = result.bancors
+      let resultXAS = await this.getBancorPairs({
+        currency: 'XAS'
+      })
+      let resultBCH = await this.getBancorPairs({
+        currency: 'BCH'
+      })
+      if (resultXAS.success) {
+        this.bancorsXAS = resultXAS.bancors
+      }
+      if (resultBCH.success) {
+        this.bancorsBCH = resultBCH.bancors
       }
     },
     async initData() {
@@ -225,7 +285,8 @@ export default {
       })
       let tempArr = {}
       tempArr.XAS = {
-        precision: 8
+        precision: 8,
+        balance: this.userInfo && this.userInfo.account ? this.userInfo.account.xas : 0
       }
       if (result.success && result.balances.length > 0) {
         result.balances.forEach(o => {
@@ -290,20 +351,8 @@ export default {
     closeTradeModal() {
       this.tradeModalShow = false
     },
-    callBuyModal(props) {
+    callBuyModal(props, symbol) {
       this.dealPairInfo.type = 0
-      this.dealPairInfo.buy = props.money
-      this.dealPairInfo.sell = props.stock
-      this.dealPairInfo.price = props.latestBid
-      this.config = {
-        money: props.money,
-        stock: props.stock,
-        owner: props.owner
-      }
-      this.tradeModalShow = true
-    },
-    callSellModal(props) {
-      this.dealPairInfo.type = 1
       this.dealPairInfo.buy = props.stock
       this.dealPairInfo.sell = props.money
       this.dealPairInfo.price = props.latestBid
@@ -312,14 +361,37 @@ export default {
         stock: props.stock,
         owner: props.owner
       }
+      this.dealPairInfo.balance = 
+      BigNumber(this.myBalances[symbol].balance)
+        .div(Math.pow(10, this.myBalances[symbol].precision))
+        .toString()
+      this.balanceSymbol = symbol
       this.tradeModalShow = true
     },
-    async bancorBuy(num) {
+    callSellModal(props) {
+      this.dealPairInfo.type = 1
+      this.dealPairInfo.buy = props.money
+      this.dealPairInfo.sell = props.stock
+      this.dealPairInfo.price = props.latestBid
+      this.config = {
+        money: props.money,
+        stock: props.stock,
+        owner: props.owner
+      }
+      this.dealPairInfo.balance = 
+      BigNumber(this.myBalances[props.stock].balance)
+        .div(Math.pow(10, this.myBalances[props.stock].precision))
+        .toString()
+      this.tradeModalShow = true
+    },
+    async bancorBuy(obj) {
+      let { amount, password } = obj
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
-        sourceAmount: BigNumber(num).times(Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)),
-        config: this.config
+        sourceAmount: BigNumber(amount).times(Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)),
+        config: this.config,
+        secondSecret: password
       })
       if (result.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
@@ -328,12 +400,14 @@ export default {
         translateErrMsg(result.error)
       }
     },
-    async bancorSell(num) {
+    async bancorSell(obj) {
+      let { amount, password } = obj
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
-        sourceAmount: BigNumber(num).times(Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)),
-        config: this.config
+        sourceAmount: BigNumber(amount).times(Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)),
+        config: this.config,
+        secondSecret: password
       })
       if (result.success) {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
@@ -343,7 +417,7 @@ export default {
       }
     },
     judge(props) {
-      if (props.row.source === 'XAS') {
+      if (props.row.type === 'BUY') {
         return this.$t('BANCOR_BUTTON_BUY')
       }
       return this.$t('BANCOR_BUTTON_SELL')
