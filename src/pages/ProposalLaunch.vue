@@ -302,7 +302,7 @@
             </div>
             <div class="row">
               <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEY'">
-                <q-select color="secondary" v-model="BANCOR.money" :options="moneySelect"></q-select>
+                <q-select color="secondary" v-model="BANCOR.money" @change="checkMoney(val, index)" :options="moneySelect"></q-select>
               </q-field>
               <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYCW'">
                 <q-input color="secondary" v-model="BANCOR.moneyCw"></q-input>
@@ -993,7 +993,7 @@ export default {
       if (result.success) {
         // this.BANCOR.supportBalances = result.data
         let tempArr = []
-        let tempObj = {}
+        // let tempObj = {}
         result.data.forEach(e => {
           // tempObj.label = e.assetName
           // tempObj.value = e
@@ -1128,14 +1128,22 @@ export default {
     },
     getCurrency() {
       // TODO: GET ALL BANCOR CONNECTED CURRENCY
+    },
+    checkMoney(val) {
+      if (val) {
+        if (this.moneyAble.indexOf(val.assetName) > 0) {
+          // pass the test
+          // this.BANCOR.stock = 
+        }
+      }
     }
   },
   computed: {
     ...mapGetters(['userInfo']),
     proposalLaunchClass() {
       return this.isDesk
-        ? 'padding-siut q-mx-xl q-my-xl'
-        : 'row col-12 padding-siut margin-top-20'
+        ? 'padding-suit q-mx-xl q-my-xl'
+        : 'row col-12 padding-suit margin-top-20'
     },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
@@ -1274,7 +1282,7 @@ export default {
 .no-border-top {
   margin-top: 0 !important;
 }
-.padding-siut
+.padding-suit
   padding 20px
 .agreeBtn
   text-decoration: none
