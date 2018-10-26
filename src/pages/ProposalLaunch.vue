@@ -292,12 +292,23 @@
           <div class="col-12" v-show="this.first_type === 'new_b'">
             <div class="row">
               <q-field align="left" class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.BANCOR_ADD')">
-                <q-select align="center" chips filter v-model="BANCOR.pair_pre" :options="BANCOR.activedList"></q-select>
+                <q-select align="center" chips filter v-model="BANCOR.pair_pre" :options="BANCOR.supportBalances"></q-select>
               </q-field>
               <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.AND')">
-                <q-select align="center" color="secondary" chips filter v-model="BANCOR.pair_post" :options="BANCOR.activedList"></q-select>
+                <q-select align="center" color="secondary" chips filter v-model="BANCOR.pair_post" :options="BANCOR.supportBalances"></q-select>
               </q-field>
               <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.BANCOR_ADD2')">
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEY'">
+                <q-select color="secondary" v-model="BANCOR.money" :options="moneySelect"></q-select>
+              </q-field>
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYCW'">
+                <q-input color="secondary" v-model="BANCOR.moneyCw"></q-input>
+              </q-field>
+              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYBALANCE'">
+                <q-input color="secondary" v-model="BANCOR.moneyBalance"></q-input>
               </q-field>
             </div>
             <div class="row">
@@ -309,17 +320,6 @@
               </q-field>
               <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKBALANCE'">
                 <q-input color="secondary" v-model="BANCOR.stockBalance"></q-input>
-              </q-field>
-            </div>
-            <div class="row">
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEY'">
-                <q-input color="secondary" v-model="BANCOR.money"></q-input>
-              </q-field>
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYCW'">
-                <q-input color="secondary" v-model="BANCOR.moneyCw"></q-input>
-              </q-field>
-              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYBALANCE'">
-                <q-input color="secondary" v-model="BANCOR.moneyBalance"></q-input>
               </q-field>
             </div>
             <div class="row">
@@ -576,6 +576,9 @@ export default {
         activedList: [],
         pair_pre: '',
         pair_post: '',
+        // hidden stuff
+        supportBalances: [],
+        moneyAble: ['XAS', 'BCH'],
         // content
         money: '',
         stock: '',
@@ -766,7 +769,7 @@ export default {
   },
   mounted() {},
   methods: {
-    ...mapActions(['postProposal', 'getGateways', 'getGatewayDelegates']),
+    ...mapActions(['postProposal', 'getGateways', 'getGatewayDelegates', 'getBancorSupports']),
     hideModal() {
       this.resetHeader()
       this.resetDetail()
@@ -984,6 +987,23 @@ export default {
       this.MEMBER.electedList = elected
       this.MEMBER.unelectedList = unelected
       this.delegateList = total
+    },
+    async getBancorSupportList() {
+      let result = await this.getBancorSupports()
+      if (result.success) {
+        // this.BANCOR.supportBalances = result.data
+        let tempArr = []
+        let tempObj = {}
+        result.data.forEach(e => {
+          // tempObj.label = e.assetName
+          // tempObj.value = e
+          tempArr.push({
+            label: e.assetName,
+            value: e
+          })
+        })
+        this.BANCOR.supportBalances = tempArr
+      }
     },
     checkValidate(action) {
       // total set first
@@ -1210,6 +1230,23 @@ export default {
         case 'new_n':
           return this.$t('proposal.SELECT_P_NET')
       }
+    },
+    // BANCOR
+    moneySelect() {
+      if (this.BANCOR.pair_pre && this.BANCOR.pair_post) {
+        console.log('we get ')
+        return [
+          {
+            label: this.BANCOR.pair_pre.assetName,
+            value: this.BANCOR.pair_pre
+          },
+          {
+            label: this.BANCOR.pair_post.assetName,
+            value: this.BANCOR.pair_post
+          }
+        ]
+      }
+      return []
     }
   },
   watch: {
@@ -1219,6 +1256,7 @@ export default {
       }
       if (val === 'new_b') {
         this.getCurrency()
+        this.getBancorSupportList()
       }
     },
     p_selected(val) {
