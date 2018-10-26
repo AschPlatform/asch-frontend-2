@@ -22,7 +22,7 @@
           <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
             <div class="btn-group flex justify-around">
               <q-btn color="secondary" :disable="!myBalances['BCH'] || myBalances['BCH'].balance === 0" @click="callBuyModal(props.row, 'BCH')">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
-              <q-btn color="red" :disabled="!myBalances[props.row.stock] || myBalances[props.row.stock].balance === '0'" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
+              <q-btn color="red" :disabled="!myBalances[props.row.stock] || myBalances[props.row.stock].balance === 0" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
             </div>
           </q-td>
         </q-tr>
