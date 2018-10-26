@@ -7,7 +7,7 @@
           <h5 class="q-px-md inline-block font-22 q-my-none">{{$t('SMART_CONTRACT_DETAIL')}}</h5>
         </span>
       </div>
-      <div class="" :class="isDesk?'title-line':'padding-10'">
+      <div :class="isDesk?'title-line':'padding-10'">
         <boundary-line />
       </div>
       <div v-if="contract" class="row inner-container">

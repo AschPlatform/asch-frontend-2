@@ -18,7 +18,7 @@
               <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
             <div class="row col-12 justify-left text-five">
-              <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" flat icon="content copy" /></span>
+              <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" :class="isDesk?'padding-10':' copy-btn'" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" flat icon="content copy" /></span>
             </div>
           </div>
           <div :class="personalTopQrClass">
@@ -878,5 +878,9 @@ export default {
 
 .padding-left-55{
   padding-left:55px;
+}
+
+.copy-btn{
+  padding: 0px 0px 0px 5px;
 }
 </style>
