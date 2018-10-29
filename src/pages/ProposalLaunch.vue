@@ -159,11 +159,11 @@
                 </div>
               </q-field>
             </div>
-            <div class="row col-12">
+            <!-- <div class="row col-12">
               <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_INVEST')">
                 <q-input type="text" v-model="CLEAR.url" @blur="$v.CLEAR.url.$touch()" :error="$v.CLEAR.url.$error" :placeholder="$t('CHECK_URL')"></q-input>
               </q-field>
-            </div>
+            </div> -->
             <div class="row">
               <q-field class="col-md-6 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.GATEWAY_FREEZE_BRIEF')">
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
@@ -290,41 +290,41 @@
           <!-- TODO: -->
           <!-- below is bancor init page -->
           <div class="col-12" v-show="this.first_type === 'new_b'">
-            <div class="row">
-              <q-field align="left" class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.BANCOR_ADD')">
-                <q-select align="center" chips filter v-model="BANCOR.pair_pre" :options="BANCOR.supportBalances"></q-select>
+            <div class="row gutter-md">
+              <q-field align="left" class="col-md-4 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('MONEY_STOCK_NOT_SAME')" :label="$t('LAUNCH_MODAL.BANCOR_ADD')">
+                <q-select align="center" chips filter v-model="BANCOR.pair_pre" @blur="$v.BANCOR.pair_pre.$touch()" :error="$v.BANCOR.pair_pre.$error" :options="BANCOR.supportBalances"></q-select>
               </q-field>
-              <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.AND')">
-                <q-select align="center" color="secondary" chips filter v-model="BANCOR.pair_post" :options="BANCOR.supportBalances"></q-select>
+              <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('MONEY_STOCK_NOT_SAME')" :label="$t('LAUNCH_MODAL.AND')">
+                <q-select align="center" color="secondary" chips filter v-model="BANCOR.pair_post" @blur="$v.BANCOR.pair_post.$touch()" :error="$v.BANCOR.pair_post.$error" :options="BANCOR.supportBalances"></q-select>
               </q-field>
               <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.BANCOR_ADD2')">
               </q-field>
             </div>
-            <div class="row">
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEY'">
-                <q-select color="secondary" v-model="BANCOR.money" @change="checkMoney(val, index)" :options="moneySelect"></q-select>
+            <div class="row gutter-md">
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'MONEY'">
+                <q-select color="secondary" v-model="BANCOR.money" @change="checkMoney(val, index)" @blur="$v.BANCOR.money.$touch()" :error="$v.BANCOR.money.$error" :options="moneySelect"></q-select>
               </q-field>
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYCW'">
+              <!-- <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYCW'">
                 <q-input color="secondary" v-model="BANCOR.moneyCw"></q-input>
-              </q-field>
-              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYBALANCE'">
-                <q-input color="secondary" v-model="BANCOR.moneyBalance"></q-input>
+              </q-field> -->
+              <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="4" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'MONEYBALANCE'">
+                <q-input color="secondary" @blur="$v.BANCOR.moneyBalance.$touch()" :error="$v.BANCOR.moneyBalance.$error" v-model="BANCOR.moneyBalance"></q-input>
               </q-field>
             </div>
-            <div class="row">
+            <div class="row gutter-md">
               <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCK'">
-                <q-input color="secondary" v-model="BANCOR.stock"></q-input>
+                <q-input disable color="secondary" value="" :placeholder="stockSelect.assetName"></q-input>
               </q-field>
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKCW'">
+              <!-- <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKCW'">
                 <q-input color="secondary" v-model="BANCOR.stockCw"></q-input>
-              </q-field>
-              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKBALANCE'">
-                <q-input color="secondary" v-model="BANCOR.stockBalance"></q-input>
+              </q-field> -->
+              <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="4" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'STOCKBALANCE'">
+                <q-input color="secondary" type="number" @blur="$v.BANCOR.stockBalance.$touch()" :error="$v.BANCOR.stockBalance.$error" v-model="BANCOR.stockBalance"></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'supply'">
-                <q-input v-model="BANCOR.supply"></q-input>
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'supply'">
+                <q-input v-model="BANCOR.supply" type="number" @blur="$v.BANCOR.supply.$touch()" :error="$v.BANCOR.supply.$error"></q-input>
               </q-field>
             </div>
             <div class="row">
@@ -567,8 +567,7 @@ export default {
         clear: []
       },
       CLEAR: {
-        selected: [],
-        url: ''
+        selected: []
       },
       BANCOR: {
         // form lists
@@ -760,8 +759,43 @@ export default {
     CLEAR: {
       selected: {
         required
+      }
+    },
+    BANCOR: {
+      pair_pre: {
+        required,
+        isSame(val) {
+          return val !== this.BANCOR.pair_post
+        }
       },
-      url: {
+      pair_post: {
+        required,
+        isSame(val) {
+          return val !== this.BANCOR.pair_pre
+        }
+      },
+      money: {
+        required,
+        moneyAbleTest(symbol) {
+          return this.BANCOR.moneyAble.indexOf(symbol) > 0
+        }
+      },
+      // moneyCw: {
+      //   required
+      // },
+      moneyBalance: {
+        required
+      },
+      // stock: {
+      //   required
+      // },
+      // stockCw: {
+      //   required
+      // },
+      stockBalance: {
+        required
+      },
+      supply: {
         required
       }
     },
@@ -808,34 +842,20 @@ export default {
           from: this.MEMBER.removed.address,
           to: this.MEMBER.added.address
         }
-      } else if (this.first_type === 'init') {
-        this.p_desc = ''
-        content = {
-          gateway: this.p_selected.name,
-          members: this.INIT.selected,
-          desc: this.brief
-        }
-      } else if (this.first_type === 'member_n') {
-        this.p_desc = this.brief
-        content = {
-          gateway: this.p_selected.name,
-          from: this.beforeAddress,
-          to: this.afterAddress
-        }
       } else if (this.first_type === 'new_b') {
         // TODO
         content = {
-          money: 'BCH',
-          stock: 'XAS',
-          moneyBalance: '100000000000',
-          stockBalance: '100000000000',
-          supply: '10000000000',
+          money: this.BANCOR.money.assetName,
+          stock: this.BANCOR.stock.assetName,
+          moneyBalance: this.BANCOR.moneyBalance * Math.pow(10, this.BANCOR.money.precision),
+          stockBalance: this.BANCOR.stockBalance * Math.pow(10, this.BANCOR.stock.precision),
+          supply: this.BANCOR.supply * Math.pow(10, 8),
           stockCw: 1,
           moneyCw: 1,
-          moneyPrecision: 8,
-          stockPrecision: 8,
-          name: 'bch-xas',
-          owner: ''
+          moneyPrecision: this.BANCOR.money.precision,
+          stockPrecision: this.BANCOR.stock.precision,
+          name: this.BANCOR.money.assetName + '-' + this.BANCOR.stock.assetName,
+          owner: this.userInfo.address
         }
       } else if (this.first_type === 'gateway_freeze') {
         // TODO untest
@@ -877,7 +897,6 @@ export default {
       obj.topic = this.countedType
       obj.endHeight = this.endHeight
       obj.secondPwd = this.secondPwd
-      console.log(obj)
       let result = await this.postProposal(obj)
       if (result.success) {
         toast(this.$t('LAUNCH_MODAL.LAUNCH_SUCCESS'))
@@ -903,7 +922,6 @@ export default {
         })
       } else if (this.first_type === 'gateway_clear') {
         res.gateways.forEach(o => {
-          console.log(o)
           if (o.revoked === 0) {
             return ls.push({
               label: o.name,
@@ -1133,7 +1151,7 @@ export default {
       if (val) {
         if (this.moneyAble.indexOf(val.assetName) > 0) {
           // pass the test
-          // this.BANCOR.stock = 
+          // this.BANCOR.stock =
         }
       }
     }
@@ -1242,7 +1260,7 @@ export default {
     // BANCOR
     moneySelect() {
       if (this.BANCOR.pair_pre && this.BANCOR.pair_post) {
-        console.log('we get ')
+        // moneyAble filter
         return [
           {
             label: this.BANCOR.pair_pre.assetName,
@@ -1255,6 +1273,20 @@ export default {
         ]
       }
       return []
+    },
+    stockSelect() {
+      if (this.moneySelect.length > 0 && this.BANCOR.money) {
+        let idx
+        idx = this.moneySelect.findIndex(e => {
+          return e.value.assetName === this.BANCOR.money.assetName
+        })
+        if (idx === 1) {
+          return this.moneySelect[0].value
+        } else {
+          return this.moneySelect[1].value
+        }
+      }
+      return {}
     }
   },
   watch: {
