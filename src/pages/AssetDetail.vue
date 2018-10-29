@@ -60,7 +60,7 @@
           </q-card-main>
         </q-card>
   
-        <q-card v-if="asset.asset && status !== 3" :class="assetDetailOuterClass" style="max-width: 300px; overflow-y: scroll">
+        <q-card v-if="asset.asset && status !== 3" :class="assetDetailOuterClass" style="overflow-y: scroll">
           <q-card-main>
             <p class="text-black font-22">{{$t('CURRENCY_INTRODUCE')}}</p>
             <p class="break-word">

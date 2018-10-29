@@ -153,10 +153,10 @@ export default {
     async search() {
       let name = this.searchStr
       if (name) {
-        let res = await this.getContractDetail({
-          name
+        let res = await this.getContracts({
+          name: name
         })
-        if (res.success) {
+        if (res.success && res.count !== 0) {
           this.$router.push('/contractDetail/' + name)
         } else {
           toastError(this.$t('ERR_CONTRACT_NOT_EXIST'))
