@@ -361,7 +361,7 @@
 import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
 import { secondPwd, proposalTitleReg, assetSymbolReg, gatewayNameReg } from '../utils/validators'
-import { toastError, toast } from '../utils/util'
+import { toastError, toast, translateErrMsg } from '../utils/util'
 import MemberIndicator from '../components/MemberIndicator'
 import UserAgreementModal from '../components/UserAgreementModal'
 import {
@@ -410,6 +410,7 @@ export default {
     return {
       secondPwd: '',
       userAgreementShow: false,
+      balanceSheet: [],
       // overall setting
       p_title: null,
       first_type: null,
@@ -603,23 +604,6 @@ export default {
         'gateway_freeze': 'gateway_revoke',
         'new_b': 'bancor_init',
         'gateway_clear': 'gateway_claim'
-      //   if (this.first_type === 'new_n') {
-      //   return 'gateway_register'
-      // } else if (this.first_type === 'init') {
-      //   return 'gateway_init'
-      // } else if (this.first_type === 'period_n') {
-      //   return 'gateway_period'
-      // } else if (this.first_type === 'member_n') {
-      //   return 'gateway_update_member'
-      // } else if (this.first_type === 'new') {
-      //   return 'council_register'
-      // } else if (this.first_type === 'change') {
-      //   return 'council_update_mumber'
-      // } else if (this.first_type === 'period') {
-      //   return 'council_update'
-      // } else if (this.first_type === 'remove') {
-      //   return 'council_revoke'
-      // }
       },
       tomorrow
     }
@@ -777,14 +761,25 @@ export default {
       money: {
         required,
         moneyAbleTest(symbol) {
-          return this.BANCOR.moneyAble.indexOf(symbol) > 0
+          return this.BANCOR.moneyAble.indexOf(symbol.assetName) > -1
         }
       },
       // moneyCw: {
       //   required
       // },
       moneyBalance: {
-        required
+        required,
+        isBalanceEnough(val) {
+          let bet = Number(val) * Math.pow(10, this.BANCOR.money.precision)
+          let obj = this.balanceSheet[this.BANCOR.money.assetName]
+          if (obj !== undefined) {
+            if (bet > obj.balance) {
+              return false
+            }
+            return true
+          }
+          return false
+        }
       },
       // stock: {
       //   required
@@ -793,7 +788,18 @@ export default {
       //   required
       // },
       stockBalance: {
-        required
+        required,
+        isBalanceEnough(val) {
+          let bet = Number(val) * Math.pow(10, this.stockSelect.precision)
+          let obj = this.balanceSheet[this.stockSelect.assetName]
+          if (obj !== undefined) {
+            if (bet > obj.balance) {
+              return false
+            }
+            return true
+          }
+          return false
+        }
       },
       supply: {
         required
@@ -803,7 +809,7 @@ export default {
   },
   mounted() {},
   methods: {
-    ...mapActions(['postProposal', 'getGateways', 'getGatewayDelegates', 'getBancorSupports']),
+    ...mapActions(['postProposal', 'getGateways', 'getGatewayDelegates', 'getBancorSupports', 'getBalances']),
     hideModal() {
       this.resetHeader()
       this.resetDetail()
@@ -846,22 +852,22 @@ export default {
         // TODO
         content = {
           money: this.BANCOR.money.assetName,
-          stock: this.BANCOR.stock.assetName,
-          moneyBalance: this.BANCOR.moneyBalance * Math.pow(10, this.BANCOR.money.precision),
-          stockBalance: this.BANCOR.stockBalance * Math.pow(10, this.BANCOR.stock.precision),
-          supply: this.BANCOR.supply * Math.pow(10, 8),
+          stock: this.stockSelect.assetName,
+          moneyBalance: (this.BANCOR.moneyBalance * Math.pow(10, this.BANCOR.money.precision)).toString(),
+          stockBalance: (this.BANCOR.stockBalance * Math.pow(10, this.stockSelect.precision)).toString(),
+          supply: (this.BANCOR.supply * Math.pow(10, 8)).toString(),
           stockCw: 1,
           moneyCw: 1,
           moneyPrecision: this.BANCOR.money.precision,
-          stockPrecision: this.BANCOR.stock.precision,
-          name: this.BANCOR.money.assetName + '-' + this.BANCOR.stock.assetName,
+          stockPrecision: this.stockSelect.precision,
+          name: this.BANCOR.money.assetName + '-' + this.stockSelect.assetName,
           owner: this.userInfo.address
         }
       } else if (this.first_type === 'gateway_freeze') {
         // TODO untest
         this.p_desc = this.brief
         content = {
-          gateway: this.p_select.name,
+          gateway: this.p_selected.name,
           desc: this.brief
         }
       } else if (this.first_type === 'gateway_clear') {
@@ -902,7 +908,7 @@ export default {
         toast(this.$t('LAUNCH_MODAL.LAUNCH_SUCCESS'))
         this.hideModal()
       } else {
-        toastError(result.error)
+        translateErrMsg(this.$t, result.error)
       }
     },
     // select component change func
@@ -922,7 +928,7 @@ export default {
         })
       } else if (this.first_type === 'gateway_clear') {
         res.gateways.forEach(o => {
-          if (o.revoked === 0) {
+          if (o.revoked === 2) {
             return ls.push({
               label: o.name,
               value: o
@@ -1023,6 +1029,26 @@ export default {
         this.BANCOR.supportBalances = tempArr
       }
     },
+    async getBalance() {
+      let result = await this.getBalances({
+        address: this.userInfo.address
+      })
+      let tempArr = []
+      tempArr['XAS'] = {
+        precision: 8,
+        balance: this.userInfo.account.xas
+      }
+      if (result.success) {
+        result.balances.forEach(e => {
+          // if e.flag === 2
+          tempArr[e.currency] = {
+            balance: e.balance,
+            precision: e.asset.precision
+          }
+        })
+        this.balanceSheet = tempArr
+      }
+    },
     checkValidate(action) {
       // total set first
       if (
@@ -1063,6 +1089,37 @@ export default {
               !this.$v.NEW.currencyBrief.$invalid &&
               !this.$v.NEW.memberNumber.$invalid &&
               !this.$v.NEW.period.$invalid &&
+              !this.$v.brief.$invalid
+            ) {
+              return true
+            }
+            return false
+          case 'gateway_freeze':
+            if (
+              !this.$v.p_selected.isSelected &&
+              !this.$v.brief.$invalid
+            ) {
+              return true
+            }
+            return false
+          case 'new_b':
+            if (
+              // !this.$v.p_selected.isSelected &&
+              !this.$v.BANCOR.pair_pre.$invalid &&
+              !this.$v.BANCOR.pair_post.$invalid &&
+              !this.$v.BANCOR.money.$invalid &&
+              !this.$v.BANCOR.moneyBalance.$invalid &&
+              !this.$v.BANCOR.stockBalance.$invalid &&
+              !this.$v.BANCOR.supply.$invalid &&
+              !this.$v.brief.$invalid
+            ) {
+              return true
+            }
+            return false
+          case 'gateway_clear':
+            if (
+              !this.$v.p_selected.isSelected &&
+              !this.$v.CLEAR.$invalid &&
               !this.$v.brief.$invalid
             ) {
               return true
@@ -1297,6 +1354,7 @@ export default {
       if (val === 'new_b') {
         this.getCurrency()
         this.getBancorSupportList()
+        this.getBalance()
       }
     },
     p_selected(val) {

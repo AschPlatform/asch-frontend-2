@@ -632,6 +632,10 @@ export const translateErrMsg = (t, input) => {
         key: 'ERR_GATEWAY_NOT_REVOKED'
       },
       {
+        error: 'Gateway is already claimed',
+        key: 'ERR_GATEWAY_ALREADY_CLAIMED'
+      },
+      {
         error: 'Gateway was not found',
         key: 'ERR_GATEWAY_NOT_EXIST'
       }

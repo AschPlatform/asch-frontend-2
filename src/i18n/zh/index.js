@@ -950,7 +950,11 @@ const lang = {
   COMPENSATE: '理赔',
   COUNTED_FEE: '预计花费将为：',
   CHECK_URL: '请输入Asch社区帖文链接地址',
-  MONEY_STOCK_NOT_SAME: 'Money与Stock不能相同'
+  ERR_GATEWAY_ALREADY_CLAIMED: '网关已经清算',
+  MONEY_STOCK_NOT_SAME: 'Money与Stock不能相同',
+  PROPOSAL_NEW_BANCOR: '创建新BANCOR交易对',
+  PROPOSAL_GATEWAY_CLAIM: '清算网关',
+  PROPOSAL_GATEWAY_REVOKE: '冻结网关'
 }
 
 export default lang

@@ -158,6 +158,12 @@ export default {
           return this.$t('proposal.SELECT_INITNET')
         case 'gateway_update_member':
           return this.$t('proposal.SELECT_MEMBER_ACTION')
+        case 'gateway_revoke':
+          return this.$t('PROPOSAL_GATEWAY_REVOKE')
+        case 'bancor_init':
+          return this.$t('PROPOSAL_NEW_BANCOR')
+        case 'gateway_claim':
+          return this.$t('PROPOSAL_GATEWAY_CLAIM')
       }
     },
     changeState(val) {

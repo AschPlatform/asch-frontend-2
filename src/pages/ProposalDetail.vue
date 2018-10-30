@@ -114,7 +114,7 @@
             <q-field class="col-10 font-16" label-width="2">
               <!-- <q-input class="border-1" readonly hide-underline value="" v-model="memberString" type="textarea" disabled>{{$t('LAUNCH_MODAL.PROPOSE_END')}}</q-input> -->
               <p class="break">
-                {{$t('DETAIL_MODAL.BANCOR_TIP', {content: content.content})}}
+                {{$t('DETAIL_MODAL.BANCOR_TIP', {content: content.name})}}
               </p>
             </q-field>
           </div>
@@ -124,33 +124,33 @@
             </q-field>
           </div>
           <div class="row col-12">
-            <q-field class="block col-10 font-16" label-width="2" label="stockCW">
-              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+            <q-field class="block col-10 font-16" label-width="2" label="stockCw">
+              <q-input class="border-1" readonly hide-underline v-model="content.stockCw" value="" />
             </q-field>
           </div>
           <div class="row col-12">
             <q-field class="block col-10 font-16" label-width="2" label="stockBalance">
-              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+              <q-input class="border-1" readonly hide-underline v-model="content.stockBalance" value="" />
             </q-field>
           </div>
           <div class="row col-12">
             <q-field class="block col-10 font-16" label-width="2" label="money">
-              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+              <q-input class="border-1" readonly hide-underline v-model="content.money" value="" />
             </q-field>
           </div>
           <div class="row col-12">
-            <q-field class="block col-10 font-16" label-width="2" label="moneyCW">
-              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+            <q-field class="block col-10 font-16" label-width="2" label="moneyCw">
+              <q-input class="border-1" readonly hide-underline v-model="content.moneyCw" value="" />
             </q-field>
           </div>
           <div class="row col-12">
-            <q-field class="block col-10 font-16" label-width="2" label="moneyBanlance">
-              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+            <q-field class="block col-10 font-16" label-width="2" label="moneyBalance">
+              <q-input class="border-1" readonly hide-underline v-model="content.moneyBalance" value="" />
             </q-field>
           </div>
           <div class="row col-12">
             <q-field class="block col-10 font-16" label-width="2" label="supply">
-              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+              <q-input class="border-1" readonly hide-underline v-model="content.supply" value="" />
             </q-field>
           </div>
           <div class="row col-12">
@@ -162,7 +162,7 @@
 
         <!-- below is net freeze page -->
         <!-- todo: -->
-        <div class="col-12" v-if="this.detail.topic === 'gateway_freeze'" id="init">
+        <div class="col-12" v-if="this.detail.topic === 'gateway_revoke'" id="init">
           <div class="row col-12">
             <q-field class="col-10 font-16" label-width="2" :label="$t('LAUNCH_MODAL.NET_NAME')">
               <q-input class="border-1" readonly hide-underline value="" v-model="content.gateway"></q-input>
@@ -177,7 +177,7 @@
 
         <!-- below is net clear page -->
         <!-- todo: -->
-        <div class="col-12" v-if="this.detail.topic === 'gateway_freeze'" id="init">
+        <div class="col-12" v-if="this.detail.topic === 'gateway_claim'" id="init">
           <div class="row col-12">
             <q-field class="col-10 font-16" label-width="2" :label="$t('LAUNCH_MODAL.NET_NAME')">
               <q-input class="border-1" readonly hide-underline value="" v-model="content.gateway"></q-input>
@@ -423,6 +423,15 @@ export default {
           this.preMemberList = this.content.from
           this.postMemberList = this.content.to
           return this.$t('proposal.SELECT_MEMBER_ACTION')
+        case 'bancor_init':
+          this.isIndicatorShow = false
+          return this.$t('PROPOSAL_NEW_BANCOR')
+        case 'gateway_revoke':
+          this.isIndicatorShow = false
+          return this.$t('PROPOSAL_GATEWAY_REVOKE')
+        case 'gateway_claim':
+          this.isIndicatorShow = false
+          return this.$t('PROPOSAL_GATEWAY_CLAIM')
       }
     },
     // compile time start / end
