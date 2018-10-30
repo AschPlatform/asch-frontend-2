@@ -961,7 +961,9 @@ const lang = {
   NOT_OPEN: '暂未开通',
   GATEWAY_ALREADY_FREEZED: '网关已冻结',
   CONTRACT_GAS_LIMIT_TIP: '最大不能超过 {num} BCH',
-  BLOCK_ID: '区块ID'
+  BLOCK_ID: '区块ID',
+  ERR_BANCOR_BUY_MORE: '买入额超过 Bancor 限制',
+  ERR_BANCOR_SELL_MORE: '卖出额超过 Bancor 限制'
 }
 
 export default lang
