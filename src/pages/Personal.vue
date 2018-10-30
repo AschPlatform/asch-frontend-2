@@ -82,7 +82,7 @@
                <tr class="row col-12">
                 <td class="row col-12" :class="personalRightClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('PERSONAL_PUBLIC_KEY')}} :</span>
-                  <span class="row shadow text-secondary font-16 min-height-0 padding-0 margin-left-30 cursor-pointer" v-clipboard="user.publicKey" >{{$t('COPY_PUBLIC_KEY')}}</span>
+                  <span class="row shadow text-secondary font-16 min-height-0 padding-0 margin-left-30 cursor-pointer" v-clipboard="user.publicKey" @success="info($t('COPY_SUCCESS'))">{{$t('COPY_PUBLIC_KEY')}}</span>
                 </td>
               </tr>
                <tr class="row col-12">
