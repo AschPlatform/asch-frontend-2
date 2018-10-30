@@ -1,5 +1,6 @@
 <template>
   <q-page class="gatewayDetail-container">
+    <tip-bar class="padding-0 margin-bottom-20" v-if="tipBarShow" :ratio="gateway.bail.ratio*100" :status="ratioStatus" :symbol="gateway.bail.symbol"/>
     <div class="gatewayDetail-content">
       <div class="no-wrap q-pa-md row justify-between">
         <span>
@@ -76,9 +77,9 @@
                   <span class="font-16 text-five font-bold">{{$t('GATEWAY_STATUS')}}：</span>
                   <span class="font-16" :class="getGatewayState === 2 ? 'text-secondary':'text-red'">{{getGatewayState === 2 ? 'online':'offline'}}</span>
                 </div>
-                <div class="margin-t-15">
+                <div class="margin-t-15 gateway-desc-container">
                   <span class="font-16 text-five font-bold">{{$t('DAPP_DESCRIPTION')}}：</span>
-                  <span class="font-16 text-five">{{gateway?gateway.desc:''}}</span>
+                  <span class="font-16 text-five gateway-desc">{{gateway?gateway.desc:''}}</span>
                 </div>
               </q-card-main>
             </div>
@@ -94,16 +95,18 @@
               {{$t('AVALABLE_BAIL_AMOUNT')}}
               {{gateway.bail.bail | fee}}
             </span>
+            <span v-else class="font-12 text-secondary valid-amount">{{$t('AVALABLE_BAIL_AMOUNT')}} 0</span>
           </q-card-title>
           <q-card-main class="custom-card-main">
-          <div v-if="gateway&&gateway.bail">
-            <span class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
-            <span class="font-20 text-secondary"> XAS </span>
+          <div class="word-break-all">
+            <span v-if="gateway&&gateway.bail" class="font-24 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
+            <span v-else class="font-24 text-tertiary">0</span>
+            <span class="font-18 text-secondary"> XAS </span>
           </div>
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
-            <q-btn v-show="getAddBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
-            <q-btn v-show="getReturnBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(2)" :label="$t('RESERVE_RETURN_LABEL')" />
-            <q-btn v-show="getCompensatioBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(3)" :label="$t('RESERVE_COMPENSATION_LABEL')" />
+            <q-btn v-show="getAddBtnShow" big class="col-5 font-16 padding-10" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
+            <q-btn v-show="getReturnBtnShow" big class="col-5 font-16 padding-10" color="secondary" @click="showPromptModal(2)" :label="$t('RESERVE_RETURN_LABEL')" />
+            <q-btn v-show="getCompensatioBtnShow" big class="col-5 font-16 padding-10" color="secondary" @click="showPromptModal(3)" :label="$t('RESERVE_COMPENSATION_LABEL')" />
           </div>
           </q-card-main>
         </div> 
@@ -115,12 +118,12 @@
           </q-card-title>
           <q-card-main class="custom-card-main">
             <div>
-              <span class="font-36 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}} </span>
-              <span class="font-20 text-secondary">{{gateway && gateway.bail ?gateway.bail.symbol:''}}</span>
+              <span class="font-24 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}} </span>
+              <span class="font-18 text-secondary">{{gateway && gateway.bail ?gateway.bail.symbol:''}}</span>
             </div>
             <div class="font-20 text-secondary">
               <span class="relative-position message-content">
-                {{gateway && gateway.bail ?' ≈ ' + gateway.bail.ratio *100 + '% ':'' }}{{'( '+$t('GATEWAY_PLEDGE_RATIO')+' )'}}
+                {{gateway && gateway.bail ?' ≈ ' + (gateway.bail.ratio *100).toFixed(2) + '% ':'' }}{{'( '+$t('GATEWAY_PLEDGE_RATIO')+' )'}}
                 <i class="material-icons vertical-align-super font-20 text-secondary  cursor-pointer">help</i>
                 <prompt-message class="margin-bottom-10" :message="$t('ABOUT_GATEWAY_RETURN_CONTENT')" />
               </span>      
@@ -135,7 +138,7 @@
             <span class="font-16 text-black">{{$t('LASTEST_UPDATE_TIME')}}</span>
           </q-card-title>
           <q-card-main class="custom-card-main">
-            <span class="font-36 text-five">{{gatewayTime}}</span>
+            <span class="font-24 text-five">{{gatewayTime}}</span>
           </q-card-main>
         </div>
       </q-card>
@@ -153,6 +156,7 @@ import { compileTimeStamp, getTimeFromHight, toast, translateErrMsg } from '../u
 import PromptModal from '../components/PromptModal'
 import BoundaryLine from '../components/BoundaryLine'
 import PromptMessage from '../components/PromptMessage'
+import TipBar from '../components/TipBar'
 
 export default {
   name: 'GatewayDetail',
@@ -169,7 +173,8 @@ export default {
     QBtnToggle,
     PromptModal,
     BoundaryLine,
-    PromptMessage
+    PromptMessage,
+    TipBar
   },
   data() {
     return {
@@ -415,7 +420,7 @@ export default {
       let showStates = [4]
       let gatewayState = this.getGatewayState
       let flag = showStates.indexOf(gatewayState) > -1
-      return flag && !this.isGatewayMember
+      return flag
     },
     user() {
       return this.userInfo
@@ -430,6 +435,21 @@ export default {
         : gateway && gateway.lastUpdateHeight
           ? getTimeFromHight(gateway.lastUpdateHeight)
           : ''
+    },
+    ratioStatus() {
+      let gateway = this.gateway
+      if (gateway && gateway.bail) {
+        let ratio = this.gateway.bail.ratio
+        if (ratio < 1 && ratio > 0) {
+          return 2
+        } else {
+          return 1
+        }
+      }
+    },
+    tipBarShow() {
+      let gateway = this.gateway
+      return gateway && gateway.bail && gateway.bail.ratio <= 1.2 && gateway.bail.ratio !== 0
     }
   },
   watch: {
@@ -457,8 +477,18 @@ export default {
       padding: 34px 23px;
     }
 
+    .gateway-desc-container {
+      height: 60px;
+      overflow-y: scroll;
+
+      .gateway-desc {
+        word-break: break-all;
+      }
+    }
+
     .custom-card-main {
-      padding: 60px 20px 0px;
+      min-height: 200px;
+      padding: 60px 20px 20px;
     }
 
     .gateway-member-award {
@@ -521,7 +551,7 @@ export default {
 }
 
 .fixed-info-height {
-  height: 260px;
+  min-height: 260px;
 }
 
 .inner-btn {

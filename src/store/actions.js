@@ -541,6 +541,12 @@ export default {
   }, params) => {
     return api2.getBancorSupports(params)
   },
+  getCostGas: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getCostGas(params)
+  },
   // 1.5 contract
   addBailAmount: ({
     commit,

@@ -38,7 +38,7 @@
 import { QModal, QBtn, QInput, QField } from 'quasar'
 import { convertFee } from '../utils/asch'
 import { mapGetters } from 'vuex'
-import { secondPwd, amountStrReg } from '../utils/validators'
+import { secondPwd, intStrReg } from '../utils/validators'
 import { required } from 'vuelidate/lib/validators'
 import { BigNumber } from 'bignumber.js'
 
@@ -60,7 +60,7 @@ export default {
         val: ''
       },
       compensationForm: {
-        va: 10
+        val: ''
       },
       secondPwd: ''
     }
@@ -125,12 +125,12 @@ export default {
       let value = gateway && gateway[props] ? gateway[props][attr] : 0
       value = value || 0
       return attr === 'ratio'
-        ? value.toFixed(2)
+        ? (value * 100).toFixed(2)
         : convertFee(value, gateway[props] ? gateway[props].precision : undefined)
     },
     initFrom() {},
     numberCheck(value) {
-      return amountStrReg.test(value) && Number(value) > 0
+      return intStrReg.test(value) && Number(value) > 0
     },
     close() {
       this.$emit('close')
@@ -192,7 +192,7 @@ export default {
   },
   watch: {
     show(val) {
-      this.$v[this.getFormName].$touch()
+      if (this.type === 3) this.compensationForm.val = this.getAmount('claim', 'realClaim')
     },
     type(val) {
       if (val === 3) this.compensationForm.val = this.getAmount('claim', 'realClaim')
@@ -210,5 +210,4 @@ export default {
   color: #ffffff;
   background: #43AEA8;
 }
-
 </style>

@@ -81,12 +81,11 @@ const officialPeers = [
     local: 'Node 3'
   }
 ]
-
 const urls = {
   serverUrl: 'http://192.168.1.79:4096',
   // 区分 local 与 mainnet 的请求头参数
   magic: '594fe0f3',
-  // 登录接口
+  // 登录接
   loginApi: {
     mock: '/data/home/accounts.json',
     url: '/api/accounts/open2'
@@ -398,6 +397,9 @@ const urls = {
     },
     getBancorSupports: {
       url: '/api/v2/markets/currencies'
+    },
+    getCostGas: {
+      url: '/api/v2/markets/fee'
     }
   }
 
@@ -417,6 +419,7 @@ const transTypes = {
   10: 'TRS_TYPE_DELEGATE',
   11: 'TRS_TYPE_VOTE',
   12: 'TRS_TYPE_REPEAL_VOTE',
+  21: 'TRS_TYPE_TRANS_BANCOR',
 
   100: 'TRS_TYPE_UIA_ISSUER',
   101: 'TRS_TYPE_UIA_ASSET',

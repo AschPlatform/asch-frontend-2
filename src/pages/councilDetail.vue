@@ -26,7 +26,7 @@
                   <span class="font-16 text-five font-weight relative-position message-content">
                     {{$t('BUY_BACK_POOL')}}
                     <i class="material-icons vertical-align-sub font-20 text-secondary margin-left-10 cursor-pointer">help</i>
-                    <prompt-message :message="$t('ABOUT_GATEWAY_RETURN_CONTENT')" />
+                    <prompt-message :message="$t('BUY_BACK_POOL_CONTENT')" />
                  </span>
                 </q-card-title>
                 <q-card-main class="word-wrap-break q-card-main q-card-container padding-b-40 padding-t-40 relative-position">
@@ -43,7 +43,7 @@
                   <span class="font-16 text-five font-weight relative-position message-content">
                     {{$t('BURN_POOL')}}
                     <i class="material-icons vertical-align-sub font-20 text-secondary margin-left-10 cursor-pointer">help</i>
-                    <prompt-message :message="$t('ABOUT_GATEWAY_RETURN_CONTENT')" />
+                    <prompt-message :message="$t('BURN_POOL_CONTENT')" />
                   </span>
                 </q-card-title>
                 <q-card-main class="word-wrap-break q-card-main q-card-container padding-b-40 padding-t-40 relative-position">
@@ -331,7 +331,8 @@ export default {
       .buy-back-icon {
         width: 57px;
       }
-       .burn-icon {
+
+      .burn-icon {
         width: 40px;
       }
     }

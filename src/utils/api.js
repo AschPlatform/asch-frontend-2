@@ -394,6 +394,9 @@ api2.getContracts = params => {
 api2.getContractDetail = params => {
   return fetch(urls.v2.getContractDetail, params, 'get')
 }
+api2.getCostGas = params => {
+  return fetch(urls.v2.getCostGas, params, 'get')
+}
 
 export {
   api,
