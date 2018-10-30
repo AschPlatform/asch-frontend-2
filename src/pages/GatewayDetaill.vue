@@ -77,9 +77,9 @@
                   <span class="font-16 text-five font-bold">{{$t('GATEWAY_STATUS')}}：</span>
                   <span class="font-16" :class="getGatewayState === 2 ? 'text-secondary':'text-red'">{{getGatewayState === 2 ? 'online':'offline'}}</span>
                 </div>
-                <div class="margin-t-15">
+                <div class="margin-t-15 gateway-desc-container">
                   <span class="font-16 text-five font-bold">{{$t('DAPP_DESCRIPTION')}}：</span>
-                  <span class="font-16 text-five">{{gateway?gateway.desc:''}}</span>
+                  <span class="font-16 text-five gateway-desc">{{gateway?gateway.desc:''}}</span>
                 </div>
               </q-card-main>
             </div>
@@ -98,15 +98,15 @@
             <span v-else class="font-12 text-secondary valid-amount">{{$t('AVALABLE_BAIL_AMOUNT')}} 0</span>
           </q-card-title>
           <q-card-main class="custom-card-main">
-          <div>
-            <span v-if="gateway&&gateway.bail" class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
-            <span v-else class="font-36 text-tertiary">0</span>
-            <span class="font-20 text-secondary"> XAS </span>
+          <div class="word-break-all">
+            <span v-if="gateway&&gateway.bail" class="font-24 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
+            <span v-else class="font-24 text-tertiary">0</span>
+            <span class="font-18 text-secondary"> XAS </span>
           </div>
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
-            <q-btn v-show="getAddBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
-            <q-btn v-show="getReturnBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(2)" :label="$t('RESERVE_RETURN_LABEL')" />
-            <q-btn v-show="getCompensatioBtnShow" big class="col-5 font-18 padding-10" color="secondary" @click="showPromptModal(3)" :label="$t('RESERVE_COMPENSATION_LABEL')" />
+            <q-btn v-show="getAddBtnShow" big class="col-5 font-16 padding-10" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
+            <q-btn v-show="getReturnBtnShow" big class="col-5 font-16 padding-10" color="secondary" @click="showPromptModal(2)" :label="$t('RESERVE_RETURN_LABEL')" />
+            <q-btn v-show="getCompensatioBtnShow" big class="col-5 font-16 padding-10" color="secondary" @click="showPromptModal(3)" :label="$t('RESERVE_COMPENSATION_LABEL')" />
           </div>
           </q-card-main>
         </div> 
@@ -118,8 +118,8 @@
           </q-card-title>
           <q-card-main class="custom-card-main">
             <div>
-              <span class="font-36 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}} </span>
-              <span class="font-20 text-secondary">{{gateway && gateway.bail ?gateway.bail.symbol:''}}</span>
+              <span class="font-24 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}} </span>
+              <span class="font-18 text-secondary">{{gateway && gateway.bail ?gateway.bail.symbol:''}}</span>
             </div>
             <div class="font-20 text-secondary">
               <span class="relative-position message-content">
@@ -477,8 +477,18 @@ export default {
       padding: 34px 23px;
     }
 
+    .gateway-desc-container {
+      height: 60px;
+      overflow-y: scroll;
+
+      .gateway-desc {
+        word-break: break-all;
+      }
+    }
+
     .custom-card-main {
-      padding: 60px 20px 0px;
+      min-height: 200px;
+      padding: 60px 20px 20px;
     }
 
     .gateway-member-award {
@@ -541,7 +551,7 @@ export default {
 }
 
 .fixed-info-height {
-  height: 260px;
+  min-height: 260px;
 }
 
 .inner-btn {
