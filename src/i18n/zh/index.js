@@ -804,6 +804,8 @@ const lang = {
     loading: '正在加载...',
     selectedRows: rows =>
       rows > 1 ? `${rows} selected row(s).` : `${rows === 0 ? 'No' : '1'} selected rows.`,
+    selectedRecords: rows =>
+      rows > 1 ? `${rows} selected row(s).` : `${rows === 0 ? 'No' : '1'} selected rows.`,
     rowsPerPage: '每页的行数:',
     allRows: '全部',
     pagination: (start, end, total) => `${start}-${end} of ${total}`,

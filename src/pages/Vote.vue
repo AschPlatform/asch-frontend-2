@@ -7,7 +7,9 @@
     </div>
     <div class="row vote-content bg-white">
       <div class="col-md-8 col-xs-12 no-shadow bg-white">
-        <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST')" :rows-per-page-options="[10]">
+        <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" 
+        :selected.sync="selected" row-key="rate" :columns="columns" @request="request" 
+         :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST')">
   
           <template slot="top-right" slot-scope="props">
               <q-btn v-if="selected.length" color="secondary" flat round  icon="thumb up" @click="vote" >
