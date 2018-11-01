@@ -25,13 +25,16 @@ export default {
   computed: {
     tipContent() {
       // return 'Curreny problem is not work well'
-      switch (this.status) {
-        case 1:
-          return this.$t('TIP_BAR_NORMAL', { rate: this.ratio.toFixed(2) })
-        case 2:
-          return this.$t('TIP_BAR_WARN', { rate: this.ratio.toFixed(2), name: this.symbol })
-        case 3:
-          return this.$t('TIP_BAR_CLOSE')
+      if (this.ratio && this.status) {
+        console.log(this.ratio)
+        switch (this.status) {
+          case 1:
+            return this.$t('TIP_BAR_NORMAL', { rate: this.ratio.toFixed(2) })
+          case 2:
+            return this.$t('TIP_BAR_WARN', { rate: this.ratio.toFixed(2), name: this.symbol })
+          case 3:
+            return this.$t('TIP_BAR_CLOSE')
+        }
       }
     },
     tipColor() {

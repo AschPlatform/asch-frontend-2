@@ -259,7 +259,7 @@ export default {
     showAddrQr() {
       this.$root.$emit(
         'showQRCodeModal',
-        this.address && this.isCross ? 'bitcoin:' + this.address : this.address
+        this.address && this.isCross ? this.asset.currency + ':' + this.address : this.address
       )
     },
     async getGateway(name) {
@@ -322,7 +322,7 @@ export default {
       }
     },
     ratio() {
-      if (this.bailInfo) {
+      if (this.bailInfo && this.bailInfo.length > 0) {
         return (this.bailInfo.ratio * 100).toFixed(2)
       }
       return 0

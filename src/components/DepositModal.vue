@@ -113,7 +113,9 @@ export default {
     // this.asset = this.defaultName
   },
   mounted() {
-    this.currency = this.defaultName.symbol
+    if (this.defaultName && this.defaultName.symbol) {
+      this.currency = this.defaultName.symbol
+    }
     if (this.asset) {
       this.currency = this.asset.symbol
     }
@@ -169,7 +171,9 @@ export default {
     async getAddr() {
       let asset = this.outAssets[this.currency]
       this.asset = asset
-      this.isSealed = this.gatewaysArr[this.defaultName.name || this.outAssets[this.currency].gateway]
+      if (this.defaultName.name && asset) {
+        this.isSealed = this.gatewaysArr[this.defaultName.name || asset.gateway]
+      }
       if (!asset || !asset.gateway) return
       let res = await this.gateAccountAddr({ name: asset.gateway, address: this.user.address })
       if (res.success) {
@@ -177,11 +181,13 @@ export default {
       }
     },
     async getGatewayInfomation(name) {
-      let result = await this.getGatewayInfo({
-        name: this.defaultName.name || this.outAssets[this.currency].gateway
-      })
-      if (result.success) {
-        this.bailInfo = result
+      if (this.defaultName.name || this.outAssets[this.currency]) {
+        let result = await this.getGatewayInfo({
+          name: this.defaultName.name || this.outAssets[this.currency].gateway
+        })
+        if (result.success) {
+          this.bailInfo = result
+        }
       }
     },
     async getOuterAddress() {
