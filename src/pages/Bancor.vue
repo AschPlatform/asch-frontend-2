@@ -361,8 +361,7 @@ export default {
         stock: props.stock,
         owner: props.owner
       }
-      this.dealPairInfo.balance = 
-      BigNumber(this.myBalances[symbol].balance)
+      this.dealPairInfo.balance = BigNumber(this.myBalances[symbol].balance)
         .div(Math.pow(10, this.myBalances[symbol].precision))
         .toString()
       this.balanceSymbol = symbol
@@ -372,14 +371,16 @@ export default {
       this.dealPairInfo.type = 1
       this.dealPairInfo.buy = props.money
       this.dealPairInfo.sell = props.stock
-      this.dealPairInfo.price = props.latestBid
+      // this.dealPairInfo.price = props.latestBid
+      this.dealPairInfo.price = BigNumber(1)
+        .div(props.latestBid)
+        .toFixed(6)
       this.config = {
         money: props.money,
         stock: props.stock,
         owner: props.owner
       }
-      this.dealPairInfo.balance = 
-      BigNumber(this.myBalances[props.stock].balance)
+      this.dealPairInfo.balance = BigNumber(this.myBalances[props.stock].balance)
         .div(Math.pow(10, this.myBalances[props.stock].precision))
         .toString()
       this.tradeModalShow = true
@@ -389,7 +390,9 @@ export default {
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
-        sourceAmount: BigNumber(amount).times(Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)),
+        sourceAmount: BigNumber(amount).times(
+          Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)
+        ),
         config: this.config,
         secondSecret: password
       })
@@ -397,7 +400,7 @@ export default {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
         this.tradeModalShow = false
       } else {
-        translateErrMsg(result.error)
+        translateErrMsg(this.$t, result.error)
       }
     },
     async bancorSell(obj) {
@@ -405,7 +408,9 @@ export default {
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
-        sourceAmount: BigNumber(amount).times(Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)),
+        sourceAmount: BigNumber(amount).times(
+          Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)
+        ),
         config: this.config,
         secondSecret: password
       })
@@ -413,7 +418,7 @@ export default {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
         this.tradeModalShow = false
       } else {
-        translateErrMsg(result.error)
+        translateErrMsg(this.$t, result.error)
       }
     },
     judge(props) {
