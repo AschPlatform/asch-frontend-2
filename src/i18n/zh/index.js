@@ -959,7 +959,7 @@ const lang = {
   PROPOSAL_GATEWAY_CLAIM: '清算网关',
   PROPOSAL_GATEWAY_REVOKE: '冻结网关',
   QR_RECEIVE: '收款二维码',
-  COUNTED_FEE: '预计花费将为：',
+  // COUNTED_FEE: '预计花费将为：',
   TRS_TYPE_TRANS_BANCOR: 'Bancor兑换',
   BANCOR_INIT: 'Bancor初始化',
   TRANSFER_FEE: '费用',
