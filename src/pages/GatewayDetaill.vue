@@ -170,7 +170,7 @@ import {
   compileTimeStamp,
   getTimeFromHight,
   toast,
-  toastError,
+  toastWarn,
   translateErrMsg
 } from '../utils/util'
 import PromptModal from '../components/PromptModal'
@@ -313,7 +313,7 @@ export default {
           }
         })
       } else {
-        toastError(this.$t('ERROR_CLICK_APPLY_GATEWAY'))
+        toastWarn(this.$t('ERROR_CLICK_APPLY_GATEWAY'))
       }
     },
     async loadData() {
