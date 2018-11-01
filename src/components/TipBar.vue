@@ -26,7 +26,6 @@ export default {
     tipContent() {
       // return 'Curreny problem is not work well'
       if (this.ratio && this.status) {
-        console.log(this.ratio)
         switch (this.status) {
           case 1:
             return this.$t('TIP_BAR_NORMAL', { rate: this.ratio.toFixed(2) })

@@ -970,7 +970,8 @@ const lang = {
   CONTRACT_GAS_LIMIT_TIP: '最大不能超过 {num} BCH',
   BLOCK_ID: '区块ID',
   ERR_BANCOR_BUY_MORE: '买入额超过 Bancor 限制',
-  ERR_BANCOR_SELL_MORE: '卖出额超过 Bancor 限制'
+  ERR_BANCOR_SELL_MORE: '卖出额超过 Bancor 限制',
+  CAN_NOT_DEPOSIT: '暂不能充值'
 }
 
 export default lang

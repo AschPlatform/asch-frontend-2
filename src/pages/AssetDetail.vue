@@ -20,9 +20,17 @@
 
         <assets-panel :class="assetDetailInnerClass" v-if="status === 3" type='outer-compensate' :asset="asset" @compensate="compensate"/>
 
-        <q-card :class="assetDetailOuterClass" v-if="isCross && status !== 3">
+        <q-card :class="assetDetailOuterClass" v-if="isCross">
           <q-card-main>
             <p class="font-22 text-black margin-b-0">{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
+            <!-- <div v-if="status === 4">
+              <span class="font-14 text-three">{{address}}</span>
+              <span>{{$t('CAN_NOT_DEPOSIT')}}</span>
+            </div> -->
+            <div v-if="status === 3">
+              <span class="font-14 text-three">{{address}}</span>
+              <span>{{$t('CAN_NOT_DEPOSIT')}}</span>
+            </div>
             <div v-if="status === 1">
               <span class="font-14 text-three">{{address}}</span>
               <q-btn v-if="address" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" color="secondary" size="xs" flat round icon="content copy" />
@@ -194,9 +202,11 @@ export default {
     if (asset && asset.asset) {
       let name = asset.asset.gateway
       let address = user.address
+      console.log(address)
       let res = await this.gateAccountAddr({ name, address })
       if (res.success && res.account) {
         this.address = res.account.outAddress
+        console.log(this.address)
       }
       this.getGateway()
       this.getRealClaim()
@@ -328,7 +338,10 @@ export default {
       return 0
     },
     status() {
-      if (this.getGatewayState === 4) {
+      // if (this.getGatewayState === 3) {
+      //   return 4
+      // }
+      if (this.getGatewayState === 4 || this.getGatewayState === 3 || this.getGatewayState === 0) {
         return 3
       }
       if (this.ratio > 0 && this.ratio < 100) {
