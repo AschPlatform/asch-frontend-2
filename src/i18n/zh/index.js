@@ -975,7 +975,9 @@ const lang = {
   BANCOR_INIT: 'Bancor初始化',
   TRANSFER_FEE: '费用',
   NOT_OPEN: '暂未开通',
-  GATEWAY_ALREADY_FREEZED: '网关已冻结'
+  GATEWAY_ALREADY_FREEZED: '网关已冻结',
+  AGENT_ALREADY_DELEGATE: '已经是受托人，此行为被拒绝',
+  ALREADY_GATEWAYMEMBER: '已经是网关成员或网关候选人，此行为被拒绝'
 }
 
 export default lang

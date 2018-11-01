@@ -35,7 +35,7 @@
                 </div>
                 <div class="margin-top-10 gateway-desc-container">
                   <span class="font-16 text-five font-bold">{{$t('DAPP_DESCRIPTION')}}：</span>
-                  <span class="font-16 text-five">{{gateway?gateway.desc:''}}</span>
+                  <span class="font-16 text-five word-break-all">{{gateway?gateway.desc:''}}</span>
                 </div>
                 <div class="margin-top-10">
                   <q-btn class="custom-btn" :disable="isClickToApply" color="secondary" :label="getBtnMessage" @click="toApplyGateway" />
@@ -90,7 +90,7 @@
                 </div>
                 <div class="margin-top-15 gateway-desc-container">
                   <span class="font-16 text-five font-bold">{{$t('DAPP_DESCRIPTION')}}：</span>
-                  <span class="font-16 text-five">{{gateway?gateway.desc:''}}</span>
+                  <span class="font-16 text-five word-break-all">{{gateway?gateway.desc:''}}</span>
                 </div>
                 <div class="margin-top-15">
                   <q-btn class="custom-btn" :disable="isClickToApply" color="secondary" :label="getBtnMessage" @click="toApplyGateway" />
@@ -305,15 +305,22 @@ export default {
       this.$root.$emit('openAccountModal', row.address)
     },
     toApplyGateway() {
-      if (this.userNickname) {
+      if (!this.user.account.name) {
+        toastWarn(this.$t('PLEASE_SET_NAME'))
+        return null
+      } else if (this.user.account.isDelegate) {
+        toastWarn(this.$t('AGENT_ALREADY_DELEGATE'))
+      } else if (this.user.account.isAgent) {
+        toastWarn(this.$t('AGENT_ALREADY'))
+      } else if (this.user.account.role) {
+        toastWarn(this.$t('ALREADY_GATEWAYMEMBER'))
+      } else {
         this.$router.push({
           name: 'postApplyGateway',
           params: {
             gateway: this.gateway.name
           }
         })
-      } else {
-        toastWarn(this.$t('ERROR_CLICK_APPLY_GATEWAY'))
       }
     },
     async loadData() {
@@ -426,7 +433,7 @@ export default {
         this.isClickToApply = true
         return this.$t('ALREADY_GATEWAY')
       } else {
-        if (this.getGatewayState === 2) {
+        if (this.getGatewayState === 2 || this.getGatewayState === 0) {
           this.isClickToApply = false
           return this.$t('APPLY_FOR_GATEWAY')
         } else {
