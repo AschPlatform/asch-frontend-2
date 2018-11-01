@@ -400,7 +400,7 @@ export default {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
         this.tradeModalShow = false
       } else {
-        translateErrMsg(result.error)
+        translateErrMsg(this.$t, result.error)
       }
     },
     async bancorSell(obj) {
@@ -418,7 +418,7 @@ export default {
         toast(this.$t('INF_OPERATION_SUCCEEDED'))
         this.tradeModalShow = false
       } else {
-        translateErrMsg(result.error)
+        translateErrMsg(this.$t, result.error)
       }
     },
     judge(props) {
