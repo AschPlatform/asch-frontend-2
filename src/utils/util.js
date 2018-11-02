@@ -634,6 +634,14 @@ export const translateErrMsg = (t, input) => {
       {
         error: 'Gateway was not found',
         key: 'ERR_GATEWAY_NOT_EXIST'
+      },
+      {
+        error: ' Buy too many',
+        key: 'ERR_BANCOR_BUY_MORE'
+      },
+      {
+        error: ' Sell too many',
+        key: 'ERR_BANCOR_SELL_MORE'
       }
     ]
     for (var idx = 0; idx < translateMap.length; idx++) {

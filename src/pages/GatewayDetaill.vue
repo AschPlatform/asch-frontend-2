@@ -112,10 +112,10 @@
             <span v-else class="font-12 text-secondary valid-amount">{{$t('AVALABLE_BAIL_AMOUNT')}} 0</span>
           </q-card-title>
           <q-card-main :class="isDesk?'custom-card-main':'custom-card-main-mobile'">
-          <div>
-            <span v-if="gateway&&gateway.bail" class="font-36 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
-            <span v-else class="font-36 text-tertiary">0</span>
-            <span class="font-20 text-secondary"> XAS </span>
+          <div class="word-break-all">
+            <span v-if="gateway&&gateway.bail" class="font-24 text-tertiary">{{gateway.bail.totalBail | fee}}</span>
+            <span v-else class="font-24 text-tertiary">0</span>
+            <span class="font-18 text-secondary"> XAS </span>
           </div>
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
             <q-btn v-show="getAddBtnShow" big class="col-5 padding-10" :class="isDesk?'font-18':'font-14'" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
@@ -132,8 +132,8 @@
           </q-card-title>
           <q-card-main :class="isDesk?'custom-card-main':'custom-card-main-mobile'">
             <div>
-              <span class="font-36 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}} </span>
-              <span class="font-20 text-secondary">{{gateway && gateway.bail ?gateway.bail.symbol:''}}</span>
+              <span class="font-24 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}} </span>
+              <span class="font-18 text-secondary">{{gateway && gateway.bail ?gateway.bail.symbol:''}}</span>
             </div>
             <div class="font-20 text-secondary">
               <span class="relative-position message-content">
@@ -543,8 +543,18 @@ export default {
       padding: 34px 23px;
     }
 
+    .gateway-desc-container {
+      height: 60px;
+      overflow-y: scroll;
+
+      .gateway-desc {
+        word-break: break-all;
+      }
+    }
+
     .custom-card-main {
-      padding: 60px 20px 0px;
+      min-height: 200px;
+      padding: 60px 20px 20px;
     }
 
     .custom-card-main-mobile {
@@ -616,7 +626,7 @@ export default {
 }
 
 .fixed-info-height {
-  height: 260px;
+  min-height: 260px;
 }
 
 .inner-btn {

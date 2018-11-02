@@ -18,12 +18,12 @@
           </template>
 
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
-            <div class="my-label text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
-              {{props.value.substring(0,7)}}
+            <div class="block-id-container text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
+              {{props.value}}
             </div>
           </q-td>
           <q-td slot="body-cell-height"  slot-scope="props" :props="props">
-            <div class="text-secondary" @click="()=>showBlockInfo(props.row.id)" >
+            <div class="text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
               {{props.value}}
             </div>
           </q-td>
@@ -32,13 +32,13 @@
           </q-td>
           
           <q-td slot="body-cell-generatorId"  slot-scope="props" :props="props">
-            <div class="text-secondary" @click="()=>showAccountInfo(getAddr(props.row.delegate))" >
+            <div class="text-secondary cursor-pointer" @click="()=>showAccountInfo(getAddr(props.row.delegate))" >
 
               {{getAddr(props.value)}}
             </div>
           </q-td>
           <q-td slot="body-cell-numberOfTransactions"  slot-scope="props" :props="props">
-            <div class="text-secondary" @click="()=>showTransInfo(props.row.height)" >
+            <div class="text-secondary cursor-pointer" @click="()=>showTransInfo(props.row.height)" >
               {{props.value}}
             </div>
           </q-td>
@@ -242,8 +242,8 @@ export default {
           }
         },
         {
-          label: 'ID',
           name: 'id',
+          label: this.$t('BLOCK_ID'),
           field: 'id'
         },
         {
@@ -543,5 +543,12 @@ export default {
 
 .delegate-nick {
   word-wrap: break-word;
+}
+
+.block-id-container {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 123px;
 }
 </style>

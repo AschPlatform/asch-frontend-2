@@ -315,7 +315,9 @@ export default {
       return assetsMap
     },
     feeCount() {
-      return this.$t('COUNTED_FEE') + (this.costGas || 0) + ' BCH'
+      return this.isContractPay
+        ? this.$t('CONTRACT_GAS_LIMIT_TIP', { num: 0.1 })
+        : this.$t('COUNTED_FEE') + (this.costGas || 0) + ' BCH'
     }
   },
   watch: {
