@@ -24,7 +24,7 @@
                 </span>
       </q-card-title>
       <q-card-main :class="cardMainClass">
-        <assets-panel :class="innerAllClass" v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"/>
+        <assets-panel :class="innerAllClass" v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :claim="balance.asset.revoked === 2 ? true : false" :revoked="balance.asset.revoked" :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"/>
 
         <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
         <q-card :class="outerBtnClass">
@@ -90,11 +90,12 @@ export default {
       selected: {
         symbol: '',
         name: ''
-      }
+      },
+      gatewayInfos: []
     }
   },
   methods: {
-    ...mapActions(['getBalances', 'getCurrencies']),
+    ...mapActions(['getBalances', 'getCurrencies', 'getGateways']),
     // TODO
     async getInner(pagination = {}, filter = '') {
       this.loading = true
@@ -178,6 +179,17 @@ export default {
         }
       })
     },
+    async getGateway() {
+      let resultGateway = await this.getGateways()
+      if (resultGateway.success) {
+        let tempArray = resultGateway.gateways
+        let arr = []
+        tempArray.forEach(e => {
+          arr[e.name] = e
+        })
+        this.gatewayInfos = arr
+      }
+    },
     loadMoreInner() {
       // TODO
     },
@@ -187,6 +199,7 @@ export default {
     if (this.user) {
       this.getInner()
       this.getOuter()
+      this.getGateway()
     }
     let asset = this.$route.params.asset
     if (asset) {
@@ -239,6 +252,7 @@ export default {
       if (val) {
         this.getInner()
         this.getOuter()
+        this.getGateway()
       }
     },
     pageNo(val) {

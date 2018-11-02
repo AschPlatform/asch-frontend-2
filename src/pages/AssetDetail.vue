@@ -14,11 +14,13 @@
      
       </q-card-title>
       <q-card-main :class="assetCardsContainerClass">
-        <assets-panel :class="assetDetailInnerClass" v-if="!isCross && status !== 3" type='inner' :asset="asset" @transfer="transfer"  />
+        <assets-panel :class="assetDetailInnerClass" v-if="!isCross && status !== 3 && status !== 4" type='inner' :asset="asset" @transfer="transfer"  />
 
-        <assets-panel :class="assetDetailInnerClass" v-if="isCross && status !== 3" type='outer-simple' :asset="asset" @transfer="transfer" @withdraw="withdraw" />
+        <assets-panel :class="assetDetailInnerClass" v-if="isCross && status !== 3 && status !== 4" type='outer-simple' :asset="asset" @transfer="transfer" @withdraw="withdraw" />
 
         <assets-panel :class="assetDetailInnerClass" v-if="status === 3" type='outer-compensate' :asset="asset" @compensate="compensate"/>
+
+        <assets-panel :class="assetDetailInnerClass" v-if="status === 4" type='outer-constrated' :asset="asset" @compensate="compensate"/>
 
         <q-card :class="assetDetailOuterClass" v-if="isCross">
           <q-card-main>
@@ -27,7 +29,7 @@
               <span class="font-14 text-three">{{address}}</span>
               <span>{{$t('CAN_NOT_DEPOSIT')}}</span>
             </div> -->
-            <div v-if="status === 3">
+            <div v-if="status === 3 || status === 4">
               <span class="font-14 text-three">{{address}}</span>
               <span>{{$t('CAN_NOT_DEPOSIT')}}</span>
             </div>
@@ -338,10 +340,11 @@ export default {
       return 0
     },
     status() {
-      // if (this.getGatewayState === 3) {
-      //   return 4
-      // }
-      if (this.getGatewayState === 4 || this.getGatewayState === 3 || this.getGatewayState === 0) {
+      if (this.getGatewayState === 3 || this.getGatewayState === 0) {
+        return 4
+      }
+      if (this.getGatewayState === 4) {
+        console.log(this.getGatewayState)
         return 3
       }
       if (this.ratio > 0 && this.ratio < 100) {
