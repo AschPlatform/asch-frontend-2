@@ -581,7 +581,7 @@ const lang = {
     PERIOD_SHIFT: '我提议修改当前理事会由最低更新频率\n{pre}\n更改为:',
     NET_PERIOD: '网关最低更新频率参数',
     PRECISION_TIP: '需要填写精度, 0-16之间',
-    CURRENCY_BRIEF: '币种介绍',
+    CURRENCY_BRIEF: '网关描述',
     CURRENCY_BRIEF_TIP: '请输入1~256个字符',
     ERR_INVALID_FORM: '表单填写不完整或未按照要求',
     LAUNCH_SUCCESS: '发起提案成功',
