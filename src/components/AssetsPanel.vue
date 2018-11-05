@@ -37,7 +37,7 @@
         <q-btn flat class="assets-btn inline rinnerBalanceelative-position q-btn-item non-selectable q-btn-rectangle q-btn-outline q-focusable q-hoverable q-btn-rounded" color="secondary" :label="$t('TRS_TYPE_TRANSFER')" @click="transfer(asset)" />
         <q-btn flat class="assets-btn inline relative-position q-btn-item non-selectable q-btn-rectangle q-btn-outline q-focusable q-hoverable q-btn-rounded" color="secondary" :label="$t('WITHDRAW')" @click="withdraw(asset)" />
       </q-card-actions>
-      <q-card-actions class="justify-end" v-if="type=='outer-constrated'">
+      <q-card-actions class="justify-end" v-if="type=='outer-constrated' || revoked === 1">
         <!-- <q-btn flat outline class="assets-btn q-hoverable bg-secondary text-white q-btn-rounded" color="secondary" :label="$t('DEPOSIT')" @click="deposit(asset)" /> -->
         <q-btn flat class="assets-btn inline rinnerBalanceelative-position q-btn-item non-selectable q-btn-rectangle q-btn-outline q-focusable q-hoverable q-btn-rounded" color="secondary" :label="$t('TRS_TYPE_TRANSFER')" @click="transfer(asset)" />
         <q-btn flat class="assets-btn inline relative-position q-btn-item non-selectable q-btn-rectangle q-btn-outline q-focusable q-hoverable q-btn-rounded" color="secondary" :label="$t('WITHDRAW')" @click="withdraw(asset)" />

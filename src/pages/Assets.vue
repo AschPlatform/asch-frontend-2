@@ -24,7 +24,7 @@
                 </span>
       </q-card-title>
       <q-card-main :class="cardMainClass">
-        <assets-panel :class="innerAllClass" v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :claim="balance.asset.revoked === 2 ? true : false" :revoked="balance.asset.revoked" :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"/>
+        <assets-panel :class="innerAllClass" v-for="(balance ,idx) in outerBalance" :key="idx" type='outer' :revoked="balance.asset.revoked" :asset="balance" @transfer="transfer" @deposit="deposit" @withdraw="withdraw" @open="open"/>
 
         <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
         <q-card :class="outerBtnClass">
