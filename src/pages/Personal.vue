@@ -17,7 +17,7 @@
                 </span>
               <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
-            <div class="row col-12 justify-left text-three">
+            <div class="row col-12 justify-left text-five">
               <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" flat icon="content copy" /></span>
             </div>
           </div>
@@ -36,28 +36,23 @@
               {{$t('MESSAGE_DETAILS')}}
             </span>
           </div>
-          <table class="personal-table q-mt-md q-table bordered highlight responsive ">
-            <tbody class='row info-tbody'>
+          <table class="personal-table q-mt-md q-table bordered highlight responsive row">
+            <tbody class='row info-tbody col-md-5 col-sm-12'>
                 <tr class="row col-12">
-                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-16">
-                  <i class="material-icons font-16 personal-icon">lock outline</i> {{$t('SECOND_PASSWORD')}}
-                </td>
-                <td :class="personalRightClass">
-                  <span v-if="secondSignature" class="text-black font-16">
+                <td class="row col-12" :class="personalRightClass">
+                  <span class="text-five font-16 min-width-120 text-left">{{$t('SECOND_PASSWORD')}}</span>
+                  <span v-if="secondSignature" class="text-black font-16 margin-left-30">
                     {{$t('ALREADY_SET')}}
                   </span>
-                  <a v-else class="text-secondary font-16" @click="secondPwdShow=true">
+                  <a v-else class="text-secondary font-16 margin-left-30" @click="secondPwdShow=true">
                     {{$t('SET_NOW')}}
                   </a>
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-3 col-xs-4 bottom-left-link text-three font-16 padding-0">
-                  <i class="material-icons font-16 personal-icon">settings</i>
-                  <span class="margin-l4">{{$t('LOCK_POSITION_CONF')}}</span>
-                </td>
-                <td :class="personalRightTwoClass">
-                  <div :class="personalFontClass" v-if="lockInfo">
+                <td class="row col-12" :class="personalRightTwoClass">
+                  <span class="text-five font-16 min-width-120 text-left">{{$t('LOCK_POSITION_CONF')}}</span>
+                  <div class="margin-left-30 col-6" :class="personalFontClass" v-if="lockInfo">
                     <span class="white-space-initial">
                       {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount)})}}
                     </span>
@@ -65,30 +60,43 @@
                     <a :class="personalClickClass" @click="callLockPanel">{{$t('EDIT')}}</a>
                     <a v-if="this.lockInfo.expire" :class="personalUnLockClass" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
-                  <a v-else class="text-secondary font-16" @click="callLockPanel">
+                  <a v-else class="text-secondary font-16 margin-left-30" @click="callLockPanel">
                     {{$t('SET_NOW')}}
                   </a>
                 </td>
               </tr>
               <tr class="row col-12">
-                <td class="col-md-3 col-xs-6 bottom-left-link text-three font-16">
-                  <i class="material-icons font-16 personal-icon">account_circle</i> {{$t('AGENT_INFO')}}
-                </td>
-                <td :class="personalRightClass">
-                  <span :class="personalFontClass" v-if="isAgent || isDelegate === 1">
+                <td class="row col-12" :class="personalRightClass">
+                  <span class="text-five font-16 min-width-120 text-left">{{$t('AGENT_INFO')}}</span>
+                  <span class="margin-left-30" :class="personalFontClass" v-if="isAgent || isDelegate === 1">
                     {{$t('IS_AGENT')}}
                   </span>
-                  <a v-else class="text-secondary font-16" @click="callDelegatePanel">
+                  <a v-else class="text-secondary font-16 margin-left-30" @click="callDelegatePanel">
                     {{$t('REGISTER_AGENT')}}
                   </a>
                 </td>
               </tr>
-              <tr class="row col-12">
-                <td class="col-md-3 col-xs-5 bottom-left-link text-three font-16">
-                  <i class="material-icons font-16 personal-icon">person</i> {{$t('GATEWAY_CANDIDATE')}}
+            </tbody>
+            <span class="border-split col-md-1"></span>
+            <tbody class="row info-tbody col-md-5 col-sm-12">
+               <tr class="row col-12">
+                <td class="row col-12" :class="personalRightClass">
+                  <span class="text-five font-16 min-width-120 text-left">{{$t('PERSONAL_PUBLIC_KEY')}} :</span>
+                  <span class="row shadow text-secondary font-16 min-height-0 padding-0 margin-left-30 cursor-pointer" v-clipboard="user.publicKey" @success="info($t('COPY_SUCCESS'))">{{$t('COPY_PUBLIC_KEY')}}</span>
                 </td>
-                <td :class="personalRightThreeClass">
-                  <div @click="jump2Doc">
+              </tr>
+               <tr class="row col-12">
+                <td class="row col-12" :class="personalRightClass">
+                  <span class="text-five font-16 min-width-120 text-left">{{$t('QR_SECRET')}} :</span>
+                  <a class="text-secondary font-16 margin-left-30" @click="showSecretQr()">
+                    {{$t('CHECK_NOW')}}
+                  </a>
+                </td>
+              </tr>
+              <tr class="row col-12">
+                <td class="row col-12" :class="personalRightThreeClass">
+                  <span class="text-five font-16 min-width-120 text-left">{{$t('GATEWAY_CANDIDATE')}}</span>
+                  <div class="margin-left-30" @click="jump2Doc">
                     <a class="text-secondary font-16">
                       {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
                     </a>
@@ -109,12 +117,12 @@
   
     <q-dialog :class="personalLockClass" v-model="secondPwdShow">
       <span slot="title">{{$t('SET_SECOND_PASSWORD')}}</span>
-      <div slot="body" class="row justify-left">
-        <q-field class="col-12 secondPwd-field" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
-          <q-input @blur="$v.password.$touch" :placeholder="$t('SECOND_PASSWORD_TIP')" type="password" v-model="password" />
+      <div slot="body" class="column justify-left">
+        <q-field class="row col-12 secondPwd-field" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
+          <q-input @blur="$v.password.$touch" :placeholder="$t('SECOND_PASSWORD_TIP')" type="password" v-model="password" orientation="vertical" />
         </q-field>
         <q-field class="col-12 secondPwd-field" :label="$t('CONFIRM')" :label-width="2" :error="$v.confirmPassword.$error" :error-label="$t('ERR_TWO_INPUTS_NOT_EQUAL')">
-          <q-input @blur="$v.confirmPassword.$touch" :placeholder="$t('SECOND_PASSWORD_CONFIRM')" type="password" v-model="confirmPassword" />
+          <q-input @blur="$v.confirmPassword.$touch" :placeholder="$t('SECOND_PASSWORD_CONFIRM')" type="password" v-model="confirmPassword" orientation="vertical" />
         </q-field>
       </div>
       <template slot="buttons" class="row justify-between" slot-scope="props">
@@ -123,6 +131,34 @@
             {{$t('CONFIRM')}}
           </q-btn>
 </template>
+    </q-dialog>
+
+    <q-dialog :class="personalLockClass" v-model="publicKeyShow">
+      <div slot="body" class="width-500">
+        <div class="col-12 text-center modal-title no-scroll">
+          {{$t('PERSONAL_PUBLIC_KEY')}}
+          <span class="transfer-title-line"></span>
+        </div>
+        <div class="q-mt-md">
+          {{$t('PUBLIC_KEY_MODAL_TIP')}}
+          <br>
+          <div class="q-my-md word-wrap">
+            {{user.publicKey}}
+          </div>
+          <div class="row width-100 q-ma-none q-pa-none">
+            <div class="width-100 justify-center row">
+              <q-btn color="secondary" v-clipboard="user.publicKey" rounded icon="content copy" class="q-px-sm row">
+              </q-btn>
+            </div>
+          </div>
+        </div>
+      </div>
+      <template slot="buttons" slot-scope="props">
+        <div class="width-100 justify-center row">
+          <q-btn color="secondary" :label="$t('label.close')" @click="publicKeyClose" />
+        </div>
+      </template>
+      </div>
     </q-dialog>
 
     <q-dialog :class="personalLockClass" v-model="nicknameFormShow" >
@@ -203,10 +239,9 @@
 <script>
 import VueQr from 'vue-qr'
 import { required, sameAs } from 'vuelidate/lib/validators'
-import { secondPwd, secondPwdReg, nicknameReg } from '../utils/validators'
+import { setSecondPwd, secondPwdReg, nicknameReg } from '../utils/validators'
 import { toastWarn, toast, toastError, prompt, translateErrMsg } from '../utils/util'
-import { convertFee, fullTimestamp } from '../utils/asch'
-import asch from '../utils/asch-v2'
+import asch, { convertFee, fullTimestamp } from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
 import {
   QPage,
@@ -245,6 +280,7 @@ export default {
   data() {
     return {
       dialogShow: false,
+      publicKeyShow: false,
       qrValue: '',
       type: 0,
       password: '',
@@ -273,7 +309,7 @@ export default {
   validations: {
     password: {
       required,
-      secondPwd: secondPwd()
+      secondPwd: setSecondPwd()
     },
     confirmPassword: {
       required,
@@ -320,15 +356,15 @@ export default {
         }
       }
     },
-    showQrcode(type) {
-      this.type = type
-      if (type === 'secret') {
-        this.qrValue = this.user.secret
-      } else {
-        this.qrValue = this.user.account.address
-      }
-      this.dialogShow = true
-    },
+    // showQrcode(type) {
+    //   this.type = type
+    //   if (type === 'secret') {
+    //     this.qrValue = this.user.secret
+    //   } else {
+    //     this.qrValue = this.user.account.address
+    //   }
+    //   this.dialogShow = true
+    // },
     validateSecondPwd(val) {
       let isValid = this.pwdValid
       this.secondPwdError = isValid
@@ -384,7 +420,10 @@ export default {
       toast(msg)
     },
     showAddrQr() {
-      this.$root.$emit('showQRCodeModal', this.address)
+      this.$root.$emit('showQRCodeModal', this.address, this.$t('QR_RECEIVE'))
+    },
+    showSecretQr() {
+      this.$root.$emit('showQRCodeModal', this.user.secret, this.$t('QR_SECRET'))
     },
     async setNickname(done) {
       this.$v.nickname.$touch()
@@ -536,6 +575,9 @@ export default {
         this.userAgreementShow = true
       }
     },
+    publicKeyClose() {
+      this.publicKeyShow = false
+    },
     lowerName(val) {}
   },
   async mounted() {
@@ -562,13 +604,17 @@ export default {
         : 'personal-bottom-title margin-left-10'
     },
     personalRightClass() {
-      return this.isDesk ? 'col-md-9 col-xs-6' : 'col-md-9 col-xs-6 text-right'
+      return this.isDesk
+        ? 'col-md-12 col-xs-6 justify-start padding-left-55'
+        : 'justify-between col-md-8 col-xs-12 text-right'
     },
     personalRightTwoClass() {
-      return this.isDesk ? 'col-md-9 col-xs-8' : 'col-md-9 col-xs-8 text-right'
+      return this.isDesk ? 'col-md-12 col-xs-8 justify-start padding-left-55' : ' justify-between col-md-8 col-xs-12 text-right'
     },
     personalRightThreeClass() {
-      return this.isDesk ? 'col-md-9 col-xs-7' : 'col-md-9 col-xs-7 text-right'
+      return this.isDesk
+        ? 'col-md-12 col-xs-7 justify-start padding-left-55'
+        : 'justify-between col-md-8 col-xs-7 text-right'
     },
     personalFontClass() {
       return this.isDesk ? 'font-16' : 'font-12'
@@ -775,10 +821,10 @@ export default {
 }
 
 .bottom-left-link {
-  width: 20%;
+  // width: 20%;
 }
 
-.table-container{
+.table-container {
   overflow: scroll;
 }
 
@@ -791,7 +837,7 @@ export default {
 }
 
 .secondPwd-field {
-  width: 180px;
+  width: 400px;
 }
 
 .white-space-initial {
@@ -801,10 +847,36 @@ export default {
 .text-right {
   text-align: right;
 }
-.modal-content-limit > div{
+
+.modal-content-limit > div {
   max-width: 600px;
 }
-.margin-l4{
-  margin-left 4px;
+
+.border-split {
+  border-left: solid #ddd 2px;
+}
+
+.word-wrap {
+  word-break: break-all;
+}
+
+.width-500 {
+  max-width: 500px;
+}
+
+.transfer-title-line {
+  display: block;
+  width: calc(100% - 40px);
+  height: 1px;
+  background: #dddddd;
+  margin-left: 10px;
+}
+
+.min-width-120 {
+  min-width: 120px;
+}
+
+.padding-left-55{
+  padding-left:55px;
 }
 </style>

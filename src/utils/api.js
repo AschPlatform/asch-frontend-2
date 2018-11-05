@@ -1,6 +1,10 @@
 import axios from './axiosWrap'
-import { urls } from './constants'
-import { getCurrentSeverUrl } from './util'
+import {
+  urls
+} from './constants'
+import {
+  getCurrentSeverUrl
+} from './util'
 
 // import nodeService from './servers'
 // Read me: this file contains all the get API & V1 post APIS
@@ -29,9 +33,7 @@ const fetch = (url, data, method, postHeaders) => {
   // TODO find server
   let selectedServerUrl = getCurrentSeverUrl()
   // let realUrl = urls.server.caos + url
-  let realUrl = !selectedServerUrl
-    ? urls.server[process.env.NODE_ENV] + url
-    : selectedServerUrl + url
+  let realUrl = !selectedServerUrl ? urls.serverUrl + url : selectedServerUrl + url
   let type = method.toLowerCase()
   let res = {}
   if (type === 'get') {
@@ -134,21 +136,38 @@ api.uiaAssetListApi = params => {
 }
 // 广播交易
 api.broadcastTransaction = trans => {
-  return fetch(urls.postApi, { transaction: trans }, 'post', {
-    headers: { magic: urls.magics[process.env.NODE_ENV], version: '' }
+  return fetch(urls.postApi, {
+    transaction: trans
+  }, 'post', {
+    headers: {
+      magic: urls.magic,
+      version: ''
+    }
   })
 }
 // 执行 DAPP 内部合约
 api.dappContract = (trans, appid) => {
-  let url = { url: `/api/dapps/${appid}/transactions/signed` }
-  return fetch(url, { transaction: trans }, 'put', {
-    headers: { magic: urls.magics[process.env.NODE_ENV], version: '' }
+  let url = {
+    url: `/api/dapps/${appid}/transactions/signed`
+  }
+  return fetch(url, {
+    transaction: trans
+  }, 'put', {
+    headers: {
+      magic: urls.magic,
+      version: ''
+    }
   })
 }
 
 // 查询 DAPP 内部余额
-api.dappMyBalance = ({ appid, address }) => {
-  let url = { url: `/api/dapps/${appid}/balances/${address}` }
+api.dappMyBalance = ({
+  appid,
+  address
+}) => {
+  let url = {
+    url: `/api/dapps/${appid}/balances/${address}`
+  }
   return fetch(url, {}, 'get')
 }
 
@@ -309,5 +328,73 @@ api2.chains = params => {
 api2.chainsInstalled = params => {
   return fetch(urls.v2.chainsInstalled, params, 'get')
 }
+// 获取所有侧链资产
+api2.chainAssets = params => {
+  return fetch(urls.v2.assets, params, 'get')
+}
+// 获取所有bancor交易对
+// TODO
+// @params: offset / limit
+api2.bancorPair = params => {
+  return fetch(urls.v2.bancorPair, params, 'get')
+}
+// 获取某地址bancor交易信息
+// TODO
+// @params: offset / limit / address / sort
+api2.bancorRecord = params => {
+  return fetch(urls.v2.bancorRecord, params, 'get')
+}
+// 获取理事会资产余额
+// TODO
+// @params: offset / limit / address / sort
+api2.councilBalance = params => {
+  return fetch(urls.v2.councilBalance, params, 'get')
+}
+// 获取网关储备金信息
+// TODO
+// @params: name
+api2.gateBailHost = params => {
+  return fetch(urls.v2.gateBailHost, params, 'get')
+}
+// 获取用户可补偿的余额 / 保证金状态
+// TODO
+// @params: name / address
+api2.gateBailWithdraw = params => {
+  return fetch(urls.v2.gateBailWithdraw, params, 'get')
+}
+// 获取智能合约列表
+// TODO
+// @params:
+api2.contractList = params => {
+  return fetch(urls.v2.contractList, params, 'get')
+}
 
-export { api, api2 }
+api2.getGatewayReserveInfo = params => {
+  return fetch(urls.v2.gatewayReserve, params, 'get')
+}
+
+api2.getGatewayRealClaim = params => {
+  return fetch(urls.v2.gatewayRealClaim, params, 'get')
+}
+
+api2.getGatewayMembers = params => {
+  return fetch(urls.v2.gatewayMembers, params, 'get')
+}
+api2.getGatewayBailStatus = params => {
+  return fetch(urls.v2.gatewayBailStatus, params, 'get')
+}
+
+api2.getContracts = params => {
+  return fetch(urls.v2.getContracts, params, 'get')
+}
+api2.getContractDetail = params => {
+  return fetch(urls.v2.getContractDetail, params, 'get')
+}
+api2.getCostGas = params => {
+  return fetch(urls.v2.getCostGas, params, 'get')
+}
+
+export {
+  api,
+  api2
+}

@@ -18,12 +18,12 @@
           </template>
 
           <q-td slot="body-cell-id"  slot-scope="props" :props="props">
-            <div class="my-label text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
-              {{props.value.substring(0,7)}}
+            <div class="block-id-container text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
+              {{props.value}}
             </div>
           </q-td>
           <q-td slot="body-cell-height"  slot-scope="props" :props="props">
-            <div class="text-secondary" @click="()=>showBlockInfo(props.row.id)" >
+            <div class="text-secondary cursor-pointer" @click="()=>showBlockInfo(props.row.id)" >
               {{props.value}}
             </div>
           </q-td>
@@ -32,13 +32,13 @@
           </q-td>
           
           <q-td slot="body-cell-generatorId"  slot-scope="props" :props="props">
-            <div class="text-secondary" @click="()=>showAccountInfo(props.row.generatorId)" >
+            <div class="text-secondary cursor-pointer" @click="()=>showAccountInfo(getAddr(props.row.delegate))" >
 
-              {{props.value}}
+              {{getAddr(props.value)}}
             </div>
           </q-td>
           <q-td slot="body-cell-numberOfTransactions"  slot-scope="props" :props="props">
-            <div class="text-secondary" @click="()=>showTransInfo(props.row.height)" >
+            <div class="text-secondary cursor-pointer" @click="()=>showTransInfo(props.row.height)" >
               {{props.value}}
             </div>
           </q-td>
@@ -87,9 +87,9 @@
       </div>
 
       <!-- below are modals -->
-      <q-modal minimized   v-model="modalInfoShow" content-css="padding: 20px">
+      <q-modal  v-model="modalInfoShow" content-css="padding: 20px;">
       <big>{{$t('DAPP_DETAIL')}}</big>
-      <table class="q-table horizontal-separator highlight loose blocks-datail-table">
+      <table class="q-table responsive flipped horizontal-separator highlight loose blocks-datail-table">
         <tbody v-if="type==1" class='info-tbody'>
           <tr v-clipboard="row.id || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <td >{{'ID'}}</td>
@@ -107,13 +107,13 @@
             <td >{{'HEIGHT'}}</td>
             <td >{{row.height}}</td>
           </tr>
-          <tr @click="()=>{modalInfoShow = false;showBlockInfo(row.previousBlock)}">
+          <tr @click="()=>{modalInfoShow = false;showBlockInfo(row.prevBlockId)}">
             <td >{{$t('PREVIOUS_BLOCK')}}</td>
-            <td class="text-secondary">{{row.previousBlock}}</td>
+            <td class="text-secondary">{{row.prevBlockId}}</td>
           </tr>
           <tr>
             <td >{{$t('TRANSACTIONS_COUNT')}}</td>
-            <td >{{row.numberOfTransactions}}</td>
+            <td >{{row.count}}</td>
           </tr>
           <!-- <tr>
             <td >{{$t('TOTAL_AMOUNTS')}}</td>
@@ -133,7 +133,7 @@
           </tr> -->
           <tr >
             <td >{{$t('PRODUCER_PUBKEY')}}</td>
-            <td >{{row.generatorPublicKey}}</td>
+            <td >{{row.delegate}}</td>
           </tr>
           
         </tbody>
@@ -145,10 +145,11 @@
             <td>{{$t('FEES')}}</td>
             <td>{{$t('DATE')}}</td>
           </tr>
+          <!-- TODO -->
           <tr v-for="trans in row" :key="trans.id">
             <td >{{trans.id}}</td>
             <!-- <td >{{trans.confirmations }}</td> -->
-            <td >{{trans.amount | fee}}</td>
+            <td >{{getProps(trans)}}</td>
             <td >{{trans.fee | fee }}</td>
             <td >{{trans.timestamp | time}}</td>
           </tr>
@@ -189,11 +190,10 @@ import {
   QTd
 } from 'quasar'
 import { toast, toastWarn, translateErrMsg, prompt } from '../utils/util'
-import { fullTimestamp } from '../utils/asch'
+import asch, { fullTimestamp, getAddr } from '../utils/asch'
 import { secondPwdReg } from '../utils/validators'
 import { mapGetters, mapActions } from 'vuex'
 import UserAgreementModal from '../components/UserAgreementModal'
-import asch from '../utils/asch-v2'
 
 export default {
   props: ['userObj'],
@@ -242,8 +242,8 @@ export default {
           }
         },
         {
-          label: 'ID',
           name: 'id',
+          label: this.$t('BLOCK_ID'),
           field: 'id'
         },
         {
@@ -282,11 +282,13 @@ export default {
     ...mapActions([
       'blocks',
       'getBlockDetail',
+      'blockDetail',
       'blockforging',
       'forgingStatus',
       'getTransactions',
       'broadcastTransaction'
     ]),
+    getAddr,
     async refresh() {
       await this.getBlocks(this.defaultPage, '')
     },
@@ -364,8 +366,8 @@ export default {
       return fullTimestamp(timestamp)
     },
     async showBlockInfo(id) {
-      let res = await this.blockDetail({
-        id
+      let res = await this.getBlockDetail({
+        filter: id
       })
       if (res.success === true) {
         this.row = res.block
@@ -443,6 +445,19 @@ export default {
     searchData(val) {
       this.filter = val
       this.getBlockDetail()
+    },
+    getProps(trans) {
+      // get rec address
+      // const filterTransType = [1, 103]
+      const { type, args } = trans
+      const len = args.length
+      let value = 0
+      if (type === 1) {
+        value = args[len - 2]
+      } else if (type === 103) {
+        value = args[len - 2]
+      }
+      return value
     }
   },
   mounted() {
@@ -528,5 +543,12 @@ export default {
 
 .delegate-nick {
   word-wrap: break-word;
+}
+
+.block-id-container {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 123px;
 }
 </style>

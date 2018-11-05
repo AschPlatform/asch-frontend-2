@@ -576,7 +576,72 @@ export const translateErrMsg = (t, input) => {
       },
       {
         error: 'Unsupported transaction type',
-        key: 'ERR.UNSUPPORTED_TRANS_TYPE'
+        key: 'ERR_GAS_NOT_ENOUGH'
+      },
+      // 1.5
+      {
+        error: 'Bancor is not ready',
+        key: 'ERR_BANCOR_NOT_READY'
+      },
+      {
+        error: 'cw or balance is not found',
+        key: 'ERR_BANCOR_CW_NOT_EXIST'
+      },
+      {
+        error: 'Fee exceeds gas limit',
+        key: 'ERR_GAS_NOT_ENOUGH'
+      },
+      {
+        error: 'Money balance is not enough',
+        key: 'ERR_MONEY_NOT_ENOUGH'
+      },
+      {
+        error: 'Stock balance is not enough',
+        key: 'ERR_STOCK_NOT_ENOUGH'
+      },
+      {
+        error: 'Bancor was not initialized',
+        key: 'ERR_BANCOR_NOT_INIT'
+      },
+      {
+        error: 'Please register as a gateway member before deposit bail',
+        key: 'ERR_NOT_GATEWAY_MEMBER'
+      },
+      {
+        error: 'No bail was found for gateway member',
+        key: 'ERR_BAIL_NOT_ENOUGH'
+      },
+      {
+        error: 'Bail is not enough for gateway member',
+        key: 'ERR_BAIL_NOT_ENOUGH'
+      },
+      {
+        error: 'Deposit amount should be greater than',
+        key: 'ERR_DEPOSIT_AMOUNT_NOT_ENOUGH'
+      },
+      {
+        error: 'Withdrawl amount exceeds balance',
+        key: 'ERR_WITHDRAWL_EXCEED'
+      },
+      {
+        error: 'No claim proposal was activated',
+        key: 'ERR_GATEWAY_OFFLINE'
+      },
+      {
+        error: 'Gateway was not revoked',
+        key: 'ERR_GATEWAY_NOT_REVOKED'
+      },
+      {
+        error: 'Gateway was not found',
+        key: 'ERR_GATEWAY_NOT_EXIST'
+      },
+      {
+        error: ' Buy too many',
+        key: 'ERR_BANCOR_BUY_MORE'
+      },
+      {
+        error: ' Sell too many',
+        key: 'ERR_BANCOR_SELL_MORE'
       }
     ]
     for (var idx = 0; idx < translateMap.length; idx++) {

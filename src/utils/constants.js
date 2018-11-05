@@ -66,7 +66,7 @@ const officialPeers = [
   //   local: 'CN2'
   // }
   {
-    ip: 'https://node1.asch.cn',
+    ip: 'http://node1.asch.cn',
     port: 80,
     local: 'Node 1'
   },
@@ -81,19 +81,11 @@ const officialPeers = [
     local: 'Node 3'
   }
 ]
-
 const urls = {
-  server: {
-    development: 'http://192.168.1.78:7800',
-    // development: 'testnet1.asch.cn:80',
-    // development: 'http://47.94.37.201:4006',
-    // development: 'http://39.106.250.196:4096',
-    // development: 'http://39.106.182.193:8192'
-    // production: 'http://47.75.26.122:4096'
-    // production: 'http://192.168.1.38:4096'
-    production: 'http://localhost:4096'
-  },
-  // 登录接口
+  serverUrl: 'http://192.168.1.79:4096',
+  // 区分 local 与 mainnet 的请求头参数
+  magic: '594fe0f3',
+  // 登录接
   loginApi: {
     mock: '/data/home/accounts.json',
     url: '/api/accounts/open2'
@@ -350,6 +342,30 @@ const urls = {
     chains: {
       url: '/api/v2/chains'
     },
+    // 获取所有Bancor交易对
+    bancorPair: {
+      url: '/api/v2/markets'
+    },
+    // 获取用户Bancor兑换记录
+    bancorRecord: {
+      url: '/api/v2/markets/trades'
+    },
+    // 获取理事会资产余额
+    councilBalance: {
+      url: '/api/v2/groups/balance'
+    },
+    // 获取网关储备金信息
+    gateBailHost: {
+      url: '/api/v2/gateways/bailHosting'
+    },
+    // 获取用户可补偿的余额
+    gateBailWithdraw: {
+      url: '/api/v2/gateways/bailWithdrawl'
+    },
+    // 获取智能合约列表
+    contractList: {
+      url: '/api/v2/contracts'
+    },
     chainsInstalled: {
       url: '/api/v2/chains/installed'
     },
@@ -360,15 +376,30 @@ const urls = {
     blocksDetail: {
       mock: '/data/blockchain/blocks.json',
       url: '/api/v2/blocks/:filter'
+    },
+    gatewayReserve: {
+      url: '/api/v2/gateways/bailHosting'
+    },
+    gatewayMembers: {
+      url: '/api/v2/gateways/allmembers'
+    },
+    gatewayBailStatus: {
+      url: '/api/v2/gateways/bailStatus'
+    },
+    gatewayRealClaim: {
+      url: '/api/v2/gateways/realClaim'
+    },
+    getContracts: {
+      url: '/api/v2/contracts'
+    },
+    getContractDetail: {
+      url: '/api/v2/contracts/:name'
+    },
+    getCostGas: {
+      url: '/api/v2/markets/fee'
     }
-  },
-
-  // 区分 local 与 mainnet 的请求头参数
-  magics: {
-    development: '594fe0f3',
-    // production: '594fe0f3'
-    production: '5f5b3cf5'
   }
+
 }
 
 // TODO
@@ -385,6 +416,7 @@ const transTypes = {
   10: 'TRS_TYPE_DELEGATE',
   11: 'TRS_TYPE_VOTE',
   12: 'TRS_TYPE_REPEAL_VOTE',
+  21: 'TRS_TYPE_TRANS_BANCOR',
 
   100: 'TRS_TYPE_UIA_ISSUER',
   101: 'TRS_TYPE_UIA_ASSET',
@@ -413,7 +445,14 @@ const transTypes = {
   501: 'TRS_TYPE_GROUP_ACTIVE',
   502: 'TRS_TYPE_GROUP_ADDMEMBER',
   503: 'TRS_TYPE_GROUP_REMOVEMEMBER',
-  504: 'TRS_TYPE_GROUP_REPLACEMEMBER'
+  504: 'TRS_TYPE_GROUP_REPLACEMEMBER',
+
+  407: 'TRS_TYPE_GATEWAY_ADD',
+  408: 'TRS_TYPE_GATEWAY_RETURN',
+  409: 'TRS_TYPE_GATEWAY_COM',
+  600: 'TRS_TYPE_CONTRACT_POST',
+  602: 'TRS_TYPE_CONTRACT_PAY'
+
 }
 
 export {

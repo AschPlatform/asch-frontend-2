@@ -105,7 +105,7 @@ import { required } from 'vuelidate/lib/validators'
 import { bip39 } from '../utils/validators'
 import { langsOpts, officialPeers } from '../utils/constants'
 import { getPub, getAddr, generateM } from '../utils/asch'
-import { toastError, toast, setCache, removeCache } from '../utils/util'
+import { toastError, toast, setCache, removeCache, getCache } from '../utils/util'
 import { mapActions, mapMutations } from 'vuex'
 
 export default {
@@ -250,8 +250,11 @@ export default {
     }
   },
   mounted() {
-    this.lang = 'zh'
-    import(`src/i18n/zh`).then(lang => {
+    let clentLang = navigator.language ? navigator.language.split('-')[0].toLowerCase() : ''
+    let cacheLang = getCache('locale')
+
+    this.lang = cacheLang ? (clentLang !== 'zh' ? 'en' : 'zh') : 'zh'
+    import(`src/i18n/${this.lang}`).then(lang => {
       this.$q.i18n.set(lang.default)
     })
     if (window && window.location && process.env.NODE_ENV === 'production') {

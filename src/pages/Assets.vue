@@ -28,14 +28,15 @@
 
         <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
         <q-card :class="outerBtnClass">
-          <div class="more-assets-btn row justify-center items-center shadow-1" @click="moreAssets">
+          <div class="more-assets-btn row justify-center items-center shadow-1 asset-detail-card-h" @click="moreAssets">
             <span>{{$t('MORE_ASSETS')}}</span>
           </div>
         </q-card>
       </q-card-main>
     </q-card>
   
-    <deposit-modal :user="userInfo" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" />
+    <!-- <deposit-modal :user="userInfo" :asset="asset" :show="depositPanelShow" @close="depositPanelShow=false" /> -->
+    <deposit-modal @close="depositPanelShow=false" :show='depositPanelShow' :defaultName="selected"/>
   
     <withdraw-modal :user="userInfo" :asset="asset" :show="withdrawPanelShow" @close="withdrawPanelShow=false" />
     <more-asset-modal :show="moreAssetsModalShow" :assets="outerBalance" @close="moreAssetsModalShow=false" @deposit="depositNewAsset" />
@@ -45,10 +46,11 @@
 <script>
 import { QBtn, QPage, QCard, QCardMain, QCardTitle } from 'quasar'
 import AssetsPanel from '../components/AssetsPanel'
-import DepositModal from '../components/DepositModal'
+// import DepositModal from '../components/DepositModal'
 import WithdrawModal from '../components/WithdrawModal'
 import MoreAssetModal from '../components/MoreAssetModal'
 import AssetDetailModal from '../components/AssetDetailModal'
+import DepositModal from '../components/DepositModal'
 import { mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -67,8 +69,7 @@ export default {
   },
   data() {
     return {
-      innerBalance: [
-      ],
+      innerBalance: [],
       outerBalance: [],
       innerPagination: {
         page: 1,
@@ -85,7 +86,11 @@ export default {
       depositPanelShow: false,
       withdrawPanelShow: false,
       moreAssetsModalShow: false,
-      asset: {}
+      asset: {},
+      selected: {
+        symbol: '',
+        name: ''
+      }
     }
   },
   methods: {
@@ -137,12 +142,22 @@ export default {
       this.$root.$emit('openTransactionDialog', asset)
     },
     deposit(asset) {
+      this.selected = asset.asset.symbol
+      // this.selected.gateway = asset.asset.gateway
+      this.selected = {
+        symbol: asset.asset.symbol,
+        name: asset.asset.gateway
+      }
       this.depositPanelShow = true
       asset.haveAdd = true // mark as have address asset
       asset.symbol = asset.name // mark as have address asset
       this.asset = this._.merge({}, asset)
     },
     depositNewAsset(asset) {
+      this.selected = {
+        symbol: asset.symbol,
+        name: asset.gateway
+      }
       this.asset = this._.merge({}, asset)
       this.moreAssetsModalShow = false
       this.depositPanelShow = true

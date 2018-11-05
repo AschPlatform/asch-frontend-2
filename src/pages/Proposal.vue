@@ -128,7 +128,8 @@ export default {
       let condition = {
         limit: limit,
         offset: (pageNo - 1) * limit,
-        type: this.activatedState
+        type: this.activatedState,
+        orderBy: 'timestamp:desc'
       }
       let res = await this.getProposals(condition)
       this.proposalDetail = res.proposals
@@ -157,6 +158,8 @@ export default {
           return this.$t('proposal.SELECT_INITNET')
         case 'gateway_update_member':
           return this.$t('proposal.SELECT_MEMBER_ACTION')
+        case 'bancor_init':
+          return this.$t('BANCOR_INIT')
       }
     },
     changeState(val) {

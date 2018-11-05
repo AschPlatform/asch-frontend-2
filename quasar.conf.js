@@ -2,8 +2,8 @@
 
 module.exports = ctx => {
   return {
-    plugins: ['i18n', 'axios', 'vuelidate', 'clipboards', 'filters', 'tools', 'channel'],
-    css: ['app.styl'],
+    plugins: ['i18n', 'axios', 'vuelidate', 'clipboards', 'filters', 'tools', 'channel', 'highlight'],
+    css: ['font-style.css', 'app.styl'],
     extras: [
       ctx.theme.mat ? 'roboto-font' : null,
       'material-icons'
@@ -31,7 +31,7 @@ module.exports = ctx => {
     devServer: {
       // https: true,
       // port: 8080,
-      // open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!
     framework: {
@@ -42,8 +42,7 @@ module.exports = ctx => {
     // animations: 'all' --- includes all animations
     animations: ['fadeIn', 'fadeOut'],
     pwa: {
-      cacheExt:
-        'js,html,css,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
+      cacheExt: 'js,html,css,ttf,eot,otf,woff,woff2,json,svg,gif,jpg,jpeg,png,wav,ogg,webm,flac,aac,mp4,mp3',
       manifest: {
         // name: 'Quasar App',
         // short_name: 'Quasar-PWA',

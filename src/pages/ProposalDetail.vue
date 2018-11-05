@@ -93,8 +93,8 @@
         <!-- below is net init page -->
         <div class="col-12" v-if="this.detail.topic === 'gateway_init'" id="init">
           <div class="row col-12">
-            <q-field class="col-10 font-16" label-width="2" :label="$t('LAUNCH_MODAL.NET_NAME')">
-              <q-input class="border-1" readonly hide-underline value="" v-model="content.gateway"></q-input>
+            <q-field class="block col-10 font-16" label-width="2" :label="$t('LAUNCH_MODAL.NET_NAME')">
+              <q-input class="border-1" readonly hide-underline v-model="content.gateway" value="" />
             </q-field>
           </div>
           <div class="row">
@@ -106,9 +106,92 @@
             </q-field>
           </div>
         </div>
+
+         <!-- below is bancor new page -->
+         <!-- todo: -->
+         <div class="col-12" v-if="this.detail.topic === 'bancor_init'" id="bancor_init">
+          <div class="row">
+            <q-field class="col-10 font-16" label-width="2">
+              <!-- <q-input class="border-1" readonly hide-underline value="" v-model="memberString" type="textarea" disabled>{{$t('LAUNCH_MODAL.PROPOSE_END')}}</q-input> -->
+              <p class="break">
+                {{$t('DETAIL_MODAL.BANCOR_TIP', {content: content.content})}}
+              </p>
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="block col-10 font-16" label-width="2" label="stock">
+              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="block col-10 font-16" label-width="2" label="stockCW">
+              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="block col-10 font-16" label-width="2" label="stockBalance">
+              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="block col-10 font-16" label-width="2" label="money">
+              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="block col-10 font-16" label-width="2" label="moneyCW">
+              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="block col-10 font-16" label-width="2" label="moneyBanlance">
+              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="block col-10 font-16" label-width="2" label="supply">
+              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="col-10 font-16" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
+              <q-input class="border-1 textareaInner" type="textarea" value="" readonly hide-underline v-model="detail.desc"></q-input>
+            </q-field>
+          </div>
+         </div>
+
+        <!-- below is net freeze page -->
+        <!-- todo: -->
+        <div class="col-12" v-if="this.detail.topic === 'gateway_freeze'" id="init">
+          <div class="row col-12">
+            <q-field class="col-10 font-16" label-width="2" :label="$t('LAUNCH_MODAL.NET_NAME')">
+              <q-input class="border-1" readonly hide-underline value="" v-model="content.gateway"></q-input>
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="col-10 font-16" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
+              <q-input class="border-1 textareaInner" type="textarea" value="" readonly hide-underline v-model="detail.desc"></q-input>
+            </q-field>
+          </div>
+        </div>
+
+        <!-- below is net clear page -->
+        <!-- todo: -->
+        <div class="col-12" v-if="this.detail.topic === 'gateway_freeze'" id="init">
+          <div class="row col-12">
+            <q-field class="col-10 font-16" label-width="2" :label="$t('LAUNCH_MODAL.NET_NAME')">
+              <q-input class="border-1" readonly hide-underline value="" v-model="content.gateway"></q-input>
+            </q-field>
+          </div>
+          <div class="row col-12">
+            <q-field class="col-10 font-16" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
+              <q-input class="border-1 textareaInner" type="textarea" value="" readonly hide-underline v-model="detail.desc"></q-input>
+            </q-field>
+          </div>
+        </div>
   
         <!-- below is member memberIndicator -->
-        <member-indicator v-if="isIndicatorShow" :memberPost="postMemberList" :memberPre="preMemberList" :showCounter="showCounter" :type="this.detail.topic"></member-indicator>
+        <member-indicator v-if="isIndicatorShow" :gateway='gateway' :memberPost="postMemberList" :memberPre="preMemberList" :showCounter="showCounter" :type="this.detail.topic"></member-indicator>
       </q-card-main>
     </q-card>
   
@@ -197,6 +280,7 @@ export default {
       gatewayName: '',
       memberString: '',
       memberNumber: 0,
+      gateway: '',
       postMemberList: [],
       preMemberList: [],
       isIndicatorShow: false,
@@ -330,6 +414,7 @@ export default {
         case 'gateway_init':
           this.isIndicatorShow = true
           this.postMemberList = this.content.members
+          this.gateway = this.content.gateway
           this.memberString = this.content.members.join(' , ')
           this.gatewayName = this.content.gateway
           return this.$t('proposal.SELECT_INITNET')

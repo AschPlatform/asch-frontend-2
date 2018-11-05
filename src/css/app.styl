@@ -52,6 +52,19 @@ $bg-ten=#f0f3f6
 .font-weight
  font-weight:500 !important  
 
+.font-bold
+ font-weight:600 !important
+
+.font-futura
+ font-family: 'futura';
+ 
+.q-table-title
+ font-weight: 400
+ font-size: 18px
+.q-card-title
+  span
+   font-size 18px !important
+
 .font-60
  font-size:60px !important     
 
@@ -83,19 +96,19 @@ $bg-ten=#f0f3f6
  font-size:14px !important
 
 .font-12
- font-size:12px !important   
+ font-size:12px !important  
 
-.q-table-title
- font-weight: 400
- font-size: 18px
-.q-card-title
-  span
-   font-size 18px !important
+.font-10
+ font-size:10px !important 
+
 .vertical-align-middle
  vertical-align: middle !important;    
 
 .vertical-align-sub
  vertical-align: sub !important;  
+
+.vertical-align-super
+ vertical-align: super !important;  
 
 .vertical-align-baseline
  vertical-align: baseline
@@ -103,8 +116,14 @@ $bg-ten=#f0f3f6
 .margin-left-10
  margin-left: 10px   
 
+.margin-left-20
+ margin-left: 20px  
+
 .margin-left-24
  margin-left: 24px  
+
+.margin-left-30
+ margin-left: 30px 
 
 .margin-right-minus-5
  margin-right: -5px 
@@ -117,6 +136,9 @@ $bg-ten=#f0f3f6
 
 .margin-top-20
  margin-top: 20px  
+
+.margin-top-30
+ margin-top: 30px 
 
 .margin-t-54
  margin-top: 54px  
@@ -192,6 +214,9 @@ $bg-ten=#f0f3f6
 .padding-right-0 
  padding-right: 0px;
 
+.padding-bottom-10 
+ padding-bottom: 10px;
+
 .padding-bottom-30 
  padding-bottom: 30px;
 
@@ -204,11 +229,14 @@ $bg-ten=#f0f3f6
 .padding-10
  padding: 10px;
 
+.padding-15
+ padding: 15px;
+
 .padding-0
  padding: 0px;
 
 .asset-detail-card-h
- height: 160px
+ height: 154px !important
  min-width: 300px
  overflow: hidden
 
@@ -232,7 +260,7 @@ $bg-ten=#f0f3f6
 
 .modal-buttons
  padding: 20px 40px
- margin-bottom: 30px
+ margin-bottom: 10px
  justify-content: space-between;
 
 .user-agreement-mobile-container .modal-content
@@ -280,7 +308,15 @@ $bg-ten=#f0f3f6
  padding: 0 24px   
 
 .blocks-datail-table tr td:nth-child(1)
- text-align: right;
+  text-align: right;
+
+//  .blocks-datail-table 
+//    tr 
+//     td:nth-child(even)
+//       overflow hidden;
+//       text-align: left;
+//       width: 100%;
+
 
 .assetDetail-card-content tr td:nth-child(1)
  height: 30px
@@ -329,7 +365,7 @@ input.q-input-target
 .q-field-label-inner
  color: #333333
  font-weight: 600
- font-size: 14px 
+ font-size: 16px 
 
 .personal-icon
  width: 20px
@@ -346,6 +382,9 @@ input.q-input-target
 
 .width-100
  width: 100%
+
+.min-height-0
+  min-height:0;
 
 .blocks-search .q-icon
   margin-left: 7px;
@@ -382,6 +421,187 @@ input.q-input-target
 .align-center
   text-align: center
 
-.q-table-bottom
-  div:nth-child(3)
-   display: none
+.disabled
+  background-color: #dddddd !important;
+
+.q-if:after
+  color: black;
+
+.modal-scroll
+  max-height: 300px !important;
+
+.custom-table-top {
+  min-height: 0;
+  .q-table th, .q-table td {
+    text-align: left;
+  }
+
+  .q-table-top {
+    min-height: 0;
+    padding: 0;
+    background: #ffffff;
+    border-bottom: 1px solid #e0e1e5;
+
+    .q-table-control {
+      padding: 0;
+    }
+  }
+}
+
+.custom-card-title{
+  .valid-amount{
+    font-size: 12px!important;
+  }
+}
+
+.CodeMirror {
+  height: 600px !important;
+}
+
+.custom-postContract-field {
+  .q-field-margin{
+    margin-top: 10px;
+    min-width: 100px;
+  }
+  .q-field-label-inner {
+    color: #333333;
+    font-weight: 600;
+    font-size: 16px;
+  }
+
+  .q-field-bottom {
+    margin-top: 0;
+    border: none;
+  }
+  .q-field-error {
+   white-space: nowrap;
+  }
+}
+
+.custom-transpanel-btns {
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  button {
+    width: 50%;
+    background:#dddddd;
+  }
+}
+
+.fee-input {
+  border: 1px solid #dddddd;
+  border-top: none;
+  text-align: center;
+
+  input {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+  }
+}
+
+.gas-input {
+  padding-right:10px;
+  border: 1px solid #dddddd;
+  border-top: none;
+  text-align: center;
+
+  input {
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+  }
+}
+
+.custom-prompt-message {
+  h5 {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: bold;
+    color: #333333;
+    margin: 0;
+  }
+
+  p:last-child{
+    margin-bottom: 0;
+  }
+
+  p {
+    font-size: 12px;
+    line-height: 18px;
+    color: #999999;
+    margin: 20px 0;
+  }
+}
+
+.message-content:hover {
+  .prompt-message-container {
+    display: block;
+  }
+}
+
+.message-content {
+  padding-right: 20px;
+
+  .prompt-message-container {
+    display: none;
+  }
+}
+
+
+.prompt-modal-conent-container {
+  padding: 40px 30px;
+
+  .q-field-label {
+    padding-bottom: 14px;
+  }
+
+  .tip-title {
+    font-size: 16px;
+    color: #000000;
+    font-weight: bold;
+    margin-bottom: 14px;
+  }
+
+  .btn-container {
+    margin-top: 32px;
+
+    .bottom-btn {
+      margin: 0 15px;
+    }
+  }
+}
+
+.custom-modal-content{
+  .modal-body{
+    padding: 0;
+    .modal-title{
+      padding: 20px 0;
+    }
+  }
+}
+
+html {
+  ::-webkit-scrollbar {
+    height: 16px;
+    border-radius:10px;
+    background-color:#F5F5F5;
+  }
+}
+
+html {
+  ::-webkit-scrollbar-thumb{
+    border-radius:10px;
+    background-color:#ccc;
+  }
+}
+
+#pagination
+  right 33px
+  bottom 33px
+  button
+   min-width: 30px;
+   min-height: 30px;
+   margin 0 5px !important
+
+.word-break-all
+  word-break: break-all;

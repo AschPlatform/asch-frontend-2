@@ -20,7 +20,7 @@
         <q-field :label-width="2" :label="$t('proposal.SELECT_P_COUNCIL')" class="col-md-8 col-xs-12 font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change' || this.first_type === 'period' ">
           <q-select v-model="p_selected" :options="councilList" @blur="$v.p_selected.$touch()" :error="$v.p_selected.$error" :placeholder="$t('proposal.SELECT_P_COUNCIL')" />
         </q-field>
-        <q-field class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_NET')" :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'init' || this.first_type === 'member_n' && this.first_type !== 'new' && this.first_type !== null">
+        <q-field class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_NET')" :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'init' || this.first_type === 'member_n' || this.first_type === 'gateway_freeze' || this.first_type === 'gateway_clear' && this.first_type !== 'new' && this.first_type !== null">
           <q-select v-model="p_selected" :options="netList" @change="val => {console.log(val)}" @blur="$v.p_selected.$touch()" :error="$v.p_selected.isSelected" :placeholder="$t('proposal.SELECT_P_NET')" />
         </q-field>
       </div>
@@ -115,7 +115,6 @@
           </div>
   
           <!-- below is net init page -->
-          <!-- TODO -->
           <div class="col-12" v-show="this.first_type === 'init' && this.initFalse" id="init">
             <div class="row">
               <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_SUGGEST_PRE')">
@@ -128,6 +127,46 @@
               </q-field>
             </div>
           </div>
+
+          <!-- below is net freeze page -->
+          <!-- TODO: -->
+          <div class="col-12" v-show="this.first_type === 'gateway_freeze' && this.initFalse" id="init">
+            <div class="row">
+              <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.GATEWAY_FREEZE_TIP')">
+                {{p_selected.name}}
+                <!-- <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST', {number: gatewayMember})" @blur="$v.INIT.selected.$touch()" :error="!$v.INIT.selected.inNeed" :options="delegateList"></q-select> -->
+              </q-field>
+            </div>
+            <div class="row col-12">
+              <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.GATEWAY_FREEZE_BRIEF')">
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
+              </q-field>
+            </div>
+          </div>
+
+          <!-- below is net clear page -->
+          <!-- TODO: -->
+          <div class="col-12" v-show="this.first_type === 'gateway_clear' && this.initFalse" id="init">
+            <div class="row">
+              <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP')">
+                {{p_selected.name}}
+                <!-- <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST', {number: gatewayMember})" @blur="$v.INIT.selected.$touch()" :error="!$v.INIT.selected.inNeed" :options="delegateList"></q-select> -->
+              </q-field>
+            </div>
+            <div class="row col-12">
+              <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_INVEST')">
+                <q-input type="text" v-model="NEW.currencyBrief" @blur="$v.NEW.currencyBrief.$touch()" :error="$v.NEW.currencyBrief.$error"></q-input>
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field align="left" class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :label="$t('GATEWAY_MEMBER')">
+                <q-select align="center" chips filter v-model="MEMBER.clear" :options="MEMBER.electedList"></q-select>
+              </q-field>
+              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP1')">
+              </q-field>
+            </div>
+          </div>
+
           <!-- below is net init disabled page -->
           <div class="col-12" v-show="this.first_type === 'init' && !this.initFalse">
             <div class="row">{{$t('ALREADY_INIT')}}</div>
@@ -243,6 +282,55 @@
               <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="MEMBER.show_post" disable/>
             </div> -->
           </div>
+
+          <!-- TODO: -->
+          <!-- below is bancor init page -->
+          <div class="col-12" v-show="this.first_type === 'new_b'">
+            <div class="row">
+              <q-field align="left" class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.BANCOR_ADD')">
+                <q-select align="center" chips filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
+              </q-field>
+              <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.AND')">
+                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+              </q-field>
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.BANCOR_ADD2')">
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCK'">
+                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+              </q-field>
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKCW'">
+                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+              </q-field>
+              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKBALANCE'">
+                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEY'">
+                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+              </q-field>
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYCW'">
+                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+              </q-field>
+              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYBALANCE'">
+                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'supply'">
+                <q-input>
+                </q-input>
+              </q-field>
+            </div>
+            <div class="row">
+              <q-field class="col-9 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
+                <q-input type="textarea" v-model="brief" @blur="$v.PERIOD.post.$touch()" :error="$v.PERIOD.post.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
+              </q-field>
+            </div>
+          </div>
+
           <div class="row col-12" v-show="this.first_type !== null">
             <q-field v-if="secondSignature" class="col-6 font-16 text-four" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
               <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
@@ -362,6 +450,18 @@ export default {
         {
           label: this.$t('proposal.SELECT_CHANGEMEMBER'),
           value: 'member_n'
+        },
+        {
+          label: this.$t('proposal.NETGATEWAY_FREEZE'),
+          value: 'gateway_freeze'
+        },
+        {
+          label: this.$t('proposal.NETGATEWAY_CLEAR'),
+          value: 'gateway_clear'
+        },
+        {
+          label: this.$t('proposal.SELECT_NEWBANCOR'),
+          value: 'new_b'
         }
         // {
         //   label: this.$t('proposal.SELECT_NETPERIOD'),
@@ -460,7 +560,8 @@ export default {
         instead_post: [],
         memberList: [],
         show_pre: [],
-        show_post: []
+        show_post: [],
+        clear: []
       },
       typeMap: {
         'new_n': 'gateway_register',
@@ -656,7 +757,6 @@ export default {
       } else if (this.first_type === 'init') {
         this.p_desc = ''
         content = {
-          // TODO need get gateway detail & members detail
           gateway: this.p_selected.name,
           members: this.INIT.selected,
           desc: this.brief
@@ -664,7 +764,6 @@ export default {
       } else if (this.first_type === 'member_n') {
         this.p_desc = this.brief
         content = {
-          // TODO need getway member list
           gateway: this.p_selected.name,
           from: this.MEMBER.removed.address,
           to: this.MEMBER.added.address
@@ -672,7 +771,6 @@ export default {
       } else if (this.first_type === 'init') {
         this.p_desc = ''
         content = {
-          // TODO need get gateway detail & members detail
           gateway: this.p_selected.name,
           members: this.INIT.selected,
           desc: this.brief
@@ -680,11 +778,16 @@ export default {
       } else if (this.first_type === 'member_n') {
         this.p_desc = this.brief
         content = {
-          // TODO need getway member list
           gateway: this.p_selected.name,
           from: this.beforeAddress,
           to: this.afterAddress
         }
+      } else if (this.first_type === 'new_b') {
+        // TODO
+      } else if (this.first_type === 'gateway_freeze') {
+        // TODO
+      } else if (this.first_type === 'gateway_clear') {
+        // TODO
       }
       return content
     },
@@ -922,6 +1025,9 @@ export default {
       if (this.agreeOptions.indexOf('one') < 0) {
         this.agreeOptions.push('one')
       }
+    },
+    getCurrency() {
+      // TODO: GET ALL BANCOR CONNECTED CURRENCY
     }
   },
   computed: {
@@ -1028,14 +1134,17 @@ export default {
   },
   watch: {
     first_type(val) {
-      if (val === 'init' || val === 'member_n') {
+      if (val === 'init' || val === 'member_n' || val === 'gateway_freeze') {
         this.getAllGate()
+      }
+      if (val === 'new_b') {
+        this.getCurrency()
       }
     },
     p_selected(val) {
       if (this.first_type === 'init') {
         this.formInitList()
-      } else if (this.first_type === 'member_n') {
+      } else if (this.first_type === 'member_n' || 'gateway_clear') {
         this.formMemberList()
       }
     }

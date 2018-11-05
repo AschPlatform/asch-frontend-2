@@ -7,7 +7,9 @@
     </div>
     <div class="row vote-content bg-white">
       <div class="col-md-8 col-xs-12 no-shadow bg-white">
-        <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" :selected.sync="selected" row-key="address" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST')" :rows-per-page-options="[10]">
+        <q-table :data="delegatesData" :filter="filter" color="secondary" selection="multiple" 
+        :selected.sync="selected" row-key="rate" :columns="columns" @request="request" 
+         :pagination.sync="pagination" :loading="loading" :title="$t('DELEGATE_LIST')">
   
           <template slot="top-right" slot-scope="props">
               <q-btn v-if="selected.length" color="secondary" flat round  icon="thumb up" @click="vote" >
@@ -19,6 +21,12 @@
               </q-btn>
           </template>
               
+          <!-- <q-tr slot="body" slot-scope="props" :props="props" class="cursor-pointer">
+            <q-td v-for="col in props.cols" :key="col.name" :props="props">
+                {{ col.value }}
+            </q-td>
+          </q-tr> -->
+
             <q-td slot="body-cell-address"  slot-scope="props" :props="props">
               <div class="text-secondary vote-table-address-td" @click="viewAccountInfo(props.row)">
                 {{props.value}}
@@ -91,6 +99,7 @@ import {
   QTabPane,
   QIcon,
   QTable,
+  QTr,
   QTd,
   QBtn,
   QField,
@@ -99,7 +108,7 @@ import {
 } from 'quasar'
 import { toast, toastWarn, translateErrMsg, prompt } from '../utils/util'
 // import { createVote } from '../utils/asch'
-import asch from '../utils/asch-v2'
+import asch from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
 import VoteRecord from '../components/VoteRecord'
 import MyVoteDelegate from '../components/MyVoteDelegate'
@@ -118,6 +127,7 @@ export default {
     MyVoteDelegate,
     QIcon,
     QTable,
+    QTr,
     QBtn,
     QTd,
     QField,
@@ -377,4 +387,6 @@ export default {
 .vote-table-address-td {
   cursor: pointer;
 }
+
+
 </style>

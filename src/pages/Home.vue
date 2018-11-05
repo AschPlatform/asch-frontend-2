@@ -165,7 +165,7 @@ export default {
       this.$router.push('personal')
     },
     showAddrQr() {
-      this.$root.$emit('showQRCodeModal', this.address)
+      this.$root.$emit('showQRCodeModal', this.address, this.$t('QR_RECEIVE'))
     },
     assets() {
       this.$router.push('assets')

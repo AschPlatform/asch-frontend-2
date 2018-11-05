@@ -53,7 +53,7 @@
             </p>
             <!-- <p>{{$t('TRANS_ID')}}</p> -->
           </div>
-          <div v-else id="transId" class="col-xs-12 col-md-2">
+          <div v-else id="transId" class="col-xs-12 col-md-2" v-clipboard="item.tid || 'no data'" @success="info($t('COPY_SUCCESS'))">
             <span>{{$t('TRANS_ID')}}</span>
             <span>{{item.tid.slice(0, 7)}}
               <q-tooltip>
@@ -239,6 +239,8 @@ export default {
   #pagination
     right 33px
     bottom 33px
+    button
+      margin 0 15px !important
   .portable
     .q-table-title
       font-size 15px

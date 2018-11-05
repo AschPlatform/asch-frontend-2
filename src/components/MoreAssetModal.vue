@@ -1,14 +1,16 @@
 <template>
-  <q-modal :content-classes="contentClass" v-model="show" no-backdrop-dismiss	 :no-esc-dismiss="true">
+  <q-modal :content-classes="contentClass" v-model="show" no-backdrop-dismiss :no-esc-dismiss="true">
     <div class="bg-secondary title height-62 col-12">
       <span class="text-white font-18">{{$t('MORE_ASSETS')}}</span>
-    </div> 
+    </div>
     <div :class="moreAssetClass">
       <q-card :class="moreAssetCardClass" v-for="(currency,idx) in currencies" :key="idx">
         <q-card-main>
-          <div class="col-12">
-          <asset-icon :iconKey="currency.symbol" class="font-24 vertical-align-middle text-eight"></asset-icon>
-            <span class="font-14 text-five vertical-align-middle">{{assetsInfo(currency)}}</span>
+          <div class="row justify-between col-12">
+            <div>
+              <asset-icon :iconKey="currency.symbol" class="font-24 vertical-align-middle text-eight"></asset-icon>
+              <span class="font-14 text-five vertical-align-middle margin-left-10">{{assetsInfo(currency)}}</span>
+            </div>
             <q-btn class="moreAssetModal-btn bg-primary text-white q-ml-lg" flat :label="$t('DAPP_DEPOSIT')" @click="deposit(currency)" />
           </div>
         </q-card-main>
@@ -43,7 +45,7 @@ import { toast } from '../utils/util'
 import AssetIcon from '../components/AssetIcon'
 
 export default {
-  name: 'DepositModal',
+  name: 'MoreAssetModal',
   props: ['show', ''],
   components: {
     QModal,
@@ -128,7 +130,7 @@ export default {
         : 'row col-12 justify-between assetModal-container-mobile'
     },
     moreAssetCardClass() {
-      return this.isDesk ? 'col-6' : 'col-12 margin-top-20'
+      return this.isDesk ? 'col-5' : 'col-12 margin-top-20'
     },
     assetMap() {
       let assetMap = {}
@@ -143,7 +145,9 @@ export default {
       return this.isDesk ? 'row justify-center' : ''
     },
     btnClass() {
-      return this.isDesk ? 'bg-secondary text-white q-my-md' : 'full-width bg-secondary text-white q-my-md q-px-md'
+      return this.isDesk
+        ? 'bg-secondary text-white q-my-md'
+        : 'full-width bg-secondary text-white q-my-md q-px-md'
     }
   },
   watch: {
@@ -170,6 +174,8 @@ export default {
   border-radius: 15px;
   min-height: 20px;
 }
-.title
-  padding 0 20px
+
+.title {
+  padding: 0 20px;
+}
 </style>

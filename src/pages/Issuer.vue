@@ -40,7 +40,7 @@
               <p class="font-16 text-black">
                 {{issuer.name}}
               </p>
-              <p class="font-16 text-five">
+              <p class="font-16 text-five break-word">
                 {{issuer.desc}}
               </p>
             </div>
@@ -158,8 +158,7 @@
 <script>
 import { toast, toastWarn, translateErrMsg } from '../utils/util'
 import { secondPwdReg, amountStrReg } from '../utils/validators'
-import { createFlags, dealGiantNumber, fullTimestamp } from '../utils/asch'
-import asch from '../utils/asch-v2'
+import asch, { createFlags, dealGiantNumber, fullTimestamp } from '../utils/asch'
 import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
 import {
@@ -577,5 +576,9 @@ export default {
 
 .issuer-content {
   border-radius: 6px;
+}
+
+.break-word {
+  word-wrap: break-word;
 }
 </style>

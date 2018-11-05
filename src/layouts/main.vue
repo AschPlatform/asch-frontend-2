@@ -9,23 +9,23 @@
           </q-btn>
           <div class="mobile-hide head-top-left-container">
             <span class="font-18 text-black font-weight">
-              {{$t(' LATEST_BLOCK_HEIGHT')}}
-            </span>
+                {{$t(' LATEST_BLOCK_HEIGHT')}}
+              </span>
             <i v-for='n in 3' :key=n class="height-icon material-icons vertical-align-middle text-secondary font-22">equalizer</i>
             <span class="font-30 text-secondary margin-left-10 font-weight vertical-align-sub">{{latestBlock.height}}</span>
           </div>
           <span class="mobile-hide head-top-left-line vertical-align-middle"></span>
           <div class="mobile-hide head-top-left-container  vertical-align-middle">
             <span class="font-18 text-black font-weight vertical-align-middle">
-              {{$t(' TIME_LAST')}}
-            </span>
+                {{$t(' TIME_LAST')}}
+              </span>
             <span class="font-22 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
           </div>
         </div>
-
-       <div class="desktop-hide text-black" >
-         {{clientPathName}}
-       </div>
+  
+        <div class="desktop-hide text-black">
+          {{clientPathName}}
+        </div>
   
         <q-btn flat @click="logout">
           <q-tooltip>
@@ -60,18 +60,26 @@
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('TRANSFER')" />
         </q-item>
+        <q-item class="list-item-container" item :to="getRouterConf('bancor')">
+          <q-item-side icon="repeat" />
+          <q-item-main :label="$t('BANCOR')" />
+        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('proposal')">
           <q-item-side icon="gavel" />
           <q-item-main :label="$t('PROPOSAL')" />
         </q-item>
+        <q-item class="list-item-container" item :to="getRouterConf('contract')">
+          <q-item-side icon="list_alt" />
+          <q-item-main :label="$t('SMART_CONTRACT')" />
+        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('gateway')">
-          <q-item-side icon="apps" />
+          <q-item-side icon="account_balance" />
           <q-item-main :label="$t('GATEWAY')" />
         </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('councilDetail')">
-            <q-item-side icon="group" />
-            <q-item-main :label="$t('COUNCIL')" />
-          </q-item>
+          <q-item-side icon="group" />
+          <q-item-main :label="$t('COUNCIL')" />
+        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('delegates')">
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
@@ -113,7 +121,7 @@
         </div>
       </q-modal>
   
-      <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText" />
+      <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText" :title="QRCodeTitle" />
       <trans-info-modal class="code-modal-container" :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false" />
     </q-page-container>
   
@@ -122,15 +130,15 @@
     <q-layout-footer class="no-shadow footer-container ">
       <div class="desktop-hide row justify-left height-28 footer-introduce">
         <span class="font-14 text-black font-weight height-36">
-              {{$t(' LATEST_BLOCK_HEIGHT')}}
-        </span>
+                {{$t(' LATEST_BLOCK_HEIGHT')}}
+          </span>
         <i v-for="n in 3" :key=n class="material-icons text-secondary font-18 margin-right-minus-5 height-36">equalizer</i>
         <span class="text-secondary font-24 margin-left-10 font-weight height-36">{{latestBlock.height}}</span>
       </div>
       <div class="desktop-hide row justify-left height-28 footer-introduce">
         <span class="font-14 text-black font-weight vertical-align-middle">
-              {{$t(' TIME_LAST')}}
-          </span>
+                {{$t(' TIME_LAST')}}
+            </span>
         <span class="font-18 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
       </div>
       <div class="row justify-between height-36">
@@ -143,7 +151,7 @@
 </template>
 
 <script>
-import { setCache, getCache, removeCache } from '../utils/util'
+import { setCache, getCache, removeCache, toastInfo } from '../utils/util'
 import FloatMenu from '../components/FloatMenu'
 import TransPanel from '../components/TransPanel'
 import AccountInfo from '../components/AccountInfo'
@@ -216,6 +224,7 @@ export default {
       address: '',
       QRCodeShow: false,
       QRCodeText: '',
+      QRCodeTitle: '',
       intervalNum: -1,
       trans: null,
       transInfoModalShow: false,
@@ -272,8 +281,12 @@ export default {
       let res = await this.getAccountsInfo({
         address: address
       })
-      this.accountInfo = res.account
-      this.accountShow = true
+      if (res.success && res.unconfirmedAccount) {
+        this.accountInfo = res.account
+        this.accountShow = true
+      } else {
+        toastInfo(this.$t('table.noData'))
+      }
     },
     async getAssetsList(cbOk = func, cbErr = func) {
       // get user issuer info
@@ -302,9 +315,10 @@ export default {
     changeFloatBtn() {
       this.showFloatBtns = !this.showFloatBtns
     },
-    showQRCodeModal(content) {
+    showQRCodeModal(content, title) {
       this.QRCodeShow = true
       this.QRCodeText = content
+      this.QRCodeTitle = title
     },
     async sendTrans(send) {
       let flag = await send()
@@ -530,14 +544,14 @@ body {
 }
 
 .list-item-container:hover {
-  color: #ffffff;
+  color: #ffffff !important;
   border-left: 4px solid #ff750b;
   background: #252d3a !important;
 }
 
 .list-item-container {
   height: 70px;
-  color: #8b939e;
+  color: #8b939e !important;
   font-size: 18px;
   padding-left: 40px;
   border-bottom: 1px solid #2c3411;
@@ -545,7 +559,7 @@ body {
 }
 
 .q-item.active, .q-item.router-link-active, .q-item:focus {
-  color: #ffffff;
+  color: #ffffff !important;
   border-left: 4px solid #ff750b;
   background: #252d3a;
 }

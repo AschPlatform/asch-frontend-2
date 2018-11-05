@@ -41,9 +41,8 @@ import { QField, QInput, QModal, QSelect, QBtn } from 'quasar'
 import { secondPwd, amountStrReg } from '../utils/validators'
 import { required } from 'vuelidate/lib/validators'
 import { toast, translateErrMsg } from '../utils/util'
-import { convertFee } from '../utils/asch'
+import asch, { convertFee } from '../utils/asch'
 import { fees } from '../utils/constants'
-import asch from '../utils/asch-v2'
 import { BigNumber } from 'bignumber.js'
 
 export default {
@@ -233,10 +232,13 @@ export default {
 <style lang="stylus" scoped>
 .widthdraw-modal-content {
   padding-bottom: 54px;
-  max-width 490px
+  max-width: 490px;
 }
-.withdraw-modal-container
-  max-width 490px
+
+.withdraw-modal-container {
+  max-width: 490px;
+}
+
 .margin-top-54 {
   margin-top: 54px;
 }

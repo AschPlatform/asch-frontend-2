@@ -11,7 +11,7 @@
           </q-item-main>
         </q-item>
 
-        <q-item v-if="type=='outer'">
+        <q-item v-if="type=='outer' || type=='outer-simple' || type=='outer-compensate'">
           <q-item-side v-if="asset.url" :avatar="asset.url" />
           <q-item-main>
             <q-item-tile class="asset-currency font-18 text-five vertical-align-middle" label>
@@ -24,7 +24,7 @@
         {{asset.balance | fee(asset.asset ? asset.asset.precision : 8)}} 
         </q-item>
 
-        <q-item class="text-secondary font-22" v-if="type=='outer'">
+        <q-item class="text-secondary font-22" v-if="type=='outer' || type=='outer-simple' || type=='outer-compensate'">
         {{asset.balance | fee(asset.precision)}} 
         </q-item>
       </div>
@@ -36,6 +36,13 @@
         <q-btn flat outline class="assets-btn q-hoverable bg-secondary text-white q-btn-rounded" color="secondary" :label="$t('DEPOSIT')" @click="deposit(asset)" />
         <q-btn flat class="assets-btn inline rinnerBalanceelative-position q-btn-item non-selectable q-btn-rectangle q-btn-outline q-focusable q-hoverable q-btn-rounded" color="secondary" :label="$t('TRS_TYPE_TRANSFER')" @click="transfer(asset)" />
         <q-btn flat class="assets-btn inline relative-position q-btn-item non-selectable q-btn-rectangle q-btn-outline q-focusable q-hoverable q-btn-rounded" color="secondary" :label="$t('WITHDRAW')" @click="withdraw(asset)" />
+      </q-card-actions>
+      <q-card-actions class="justify-end" v-if="type=='outer-simple'">
+        <q-btn flat outline class="assets-btn q-hoverable bg-secondary inline rinnerBalanceelative-position q-btn-item non-selectable q-btn-rectangle q-btn-outline q-focusable q-hoverable q-btn-rounded" color="white" :label="$t('TRS_TYPE_TRANSFER')" @click="transfer(asset)" />
+        <q-btn flat class="assets-btn inline relative-position q-btn-item non-selectable q-btn-rectangle q-btn-outline q-focusable q-hoverable q-btn-rounded" color="secondary" :label="$t('WITHDRAW')" @click="withdraw(asset)" />
+      </q-card-actions>
+      <q-card-actions class="justify-end" v-if="type=='outer-compensate'">
+        <q-btn flat outline class="assets-btn q-hoverable bg-negative text-white q-btn-rounded" color="negative" :label="$t('COMPENSATE')" @click="compensate(asset)" />
       </q-card-actions>
     </q-card-main>
   </q-card>
@@ -84,6 +91,9 @@ export default {
     },
     open() {
       this.$emit('open', this.asset)
+    },
+    compensate() {
+      this.$emit('compensate', this.asset)
     },
     convertFee(num, pre) {
       return convertFee(num, pre)
