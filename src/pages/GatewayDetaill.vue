@@ -122,8 +122,8 @@
               <span class="font-18 text-secondary">{{gateway && gateway.bail ?gateway.bail.symbol:''}}</span>
             </div>
             <div class="font-20 text-secondary">
+              <span>{{gateway && gateway.bail ?' ≈ ' + (gateway.bail.ratio *100).toFixed(2) + '% ':'' }}{{'( '+$t('GATEWAY_PLEDGE_RATIO')+' )'}}</span>
               <span class="relative-position message-content">
-                {{gateway && gateway.bail ?' ≈ ' + (gateway.bail.ratio *100).toFixed(2) + '% ':'' }}{{'( '+$t('GATEWAY_PLEDGE_RATIO')+' )'}}
                 <i class="material-icons vertical-align-super font-20 text-secondary  cursor-pointer">help</i>
                 <prompt-message class="margin-bottom-10" :message="$t('ABOUT_GATEWAY_RETURN_CONTENT')" />
               </span>      

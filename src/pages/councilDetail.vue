@@ -23,8 +23,8 @@
             <q-card class="col-md-6 col-xs-12 no-shadow" align="left">
               <div class="bg-white shadow-2">
                 <q-card-title class="bg-nine ">
-                  <span class="font-16 text-five font-weight relative-position message-content">
-                    {{$t('BUY_BACK_POOL')}}
+                  <span class="font-16 text-five font-weight">{{$t('BUY_BACK_POOL')}}</span>
+                  <span class="font-16 text-five font-weight relative-position message-content"> 
                     <i class="material-icons vertical-align-sub font-20 text-secondary margin-left-10 cursor-pointer">help</i>
                     <prompt-message :message="$t('BUY_BACK_POOL_CONTENT')" />
                  </span>
@@ -40,8 +40,8 @@
             <q-card class="col-md-6 col-xs-12 no-shadow" align="left">
               <div class="bg-white shadow-2">
                 <q-card-title class="bg-nine">
+                  <span class="font-16 text-five font-weight">{{$t('BURN_POOL')}}</span>
                   <span class="font-16 text-five font-weight relative-position message-content">
-                    {{$t('BURN_POOL')}}
                     <i class="material-icons vertical-align-sub font-20 text-secondary margin-left-10 cursor-pointer">help</i>
                     <prompt-message :message="$t('BURN_POOL_CONTENT')" />
                   </span>
