@@ -816,7 +816,53 @@ export default {
       this.$v.$reset()
       this.$router.back()
     },
-    initInfo() {},
+    initInfo() {
+      // INIT CONTENT
+      this.$v.$reset()
+      this.brief = null
+      this.second_type = null
+      this.secondPwd = ''
+      this.agreeOptions = []
+      this.NEW.memberList = []
+      this.NEW.memberNumber = null
+      this.NEW.period = null
+      this.NEW.selected = []
+      this.NEW.name = null
+      this.NEW.currency = null
+      this.NEW.currencyBrief = null
+      this.NEW.currencyPrecision = null
+      this.INIT.selected = []
+      this.MEMBER.type_selected = null
+      this.MEMBER.added = []
+      this.MEMBER.removed = []
+      this.MEMBER.electedList = []
+      this.MEMBER.unelectedList = []
+      this.MEMBER.add_selected = []
+      this.MEMBER.delete_selected = []
+      this.MEMBER.instead_pre = []
+      this.MEMBER.instead_post = []
+      this.MEMBER.memberList = []
+      this.MEMBER.show_pre = []
+      this.MEMBER.show_post = []
+      this.MEMBER.clear = []
+      this.CLEAR.selected = []
+      this.BANCOR.allCurrency = []
+      this.BANCOR.activedList = []
+      this.BANCOR.pair_pre = ''
+      this.BANCOR.pair_post = ''
+      this.BANCOR.supportBalances = []
+      this.BANCOR.money = ''
+      this.BANCOR.stock = ''
+      this.BANCOR.moneyBalance = ''
+      this.BANCOR.stockBalance = ''
+      this.BANCOR.supply = ''
+      this.BANCOR.stockCw = null
+      this.BANCOR.moneyCw = null
+      this.BANCOR.moneyPrecision = null
+      this.BANCOR.stockPrecision = null
+      this.BANCOR.name = ''
+      this.BANCOR.owner = ''
+    },
     // compile the proposal content
     compileContent() {
       let content = {}
@@ -1348,6 +1394,7 @@ export default {
   },
   watch: {
     first_type(val) {
+      this.initInfo()
       if (val === 'init' || val === 'member_n' || val === 'gateway_freeze' || val === 'gateway_clear') {
         this.getAllGate()
       }
