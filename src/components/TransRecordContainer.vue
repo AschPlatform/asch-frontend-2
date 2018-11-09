@@ -215,8 +215,9 @@ export default {
           }
           if (str === '') {
             str = tempStr
+          } else {
+            str = str + ', ' + tempStr
           }
-          str = str + ', ' + tempStr
         })
         // let str = args.join(',')
         // str = str.replace(/,/g, ', ')
