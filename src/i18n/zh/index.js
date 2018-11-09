@@ -303,7 +303,7 @@ const lang = {
   ERR_ASSET_TOPLIMIT_NOT_CORRECT: '发行上限应为不包含小数点的纯1-30位的整数',
   ERR_ASSET_TOPLIMIT_NOT_CORRECT2: '发行数量应为不包含小数点的纯1-30位的整数',
   ERR_ASSET_PRECISION_NOT_CORRECT: '您输入的资产精度不正确',
-  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: '精度必须为0-16的整数',
+  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: '精度必须为1-16的整数',
   // toast error was bound here
   ERR_TOAST_SECONDKEY_WRONG: '您输入的二级密码有误',
   ERR_TOAST_TRANSACTION_AMOUNT_WRONG: '交易数额有误',
@@ -581,7 +581,7 @@ const lang = {
     PERIOD_SHIFT: '我提议修改当前理事会由最低更新频率\n{pre}\n更改为:',
     NET_PERIOD: '网关最低更新频率参数',
     PRECISION_TIP: '需要填写精度, 0-16之间',
-    CURRENCY_BRIEF: '币种介绍',
+    CURRENCY_BRIEF: '网关描述',
     CURRENCY_BRIEF_TIP: '请输入1~256个字符',
     ERR_INVALID_FORM: '表单填写不完整或未按照要求',
     LAUNCH_SUCCESS: '发起提案成功',

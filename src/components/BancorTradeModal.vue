@@ -88,6 +88,7 @@ export default {
   methods: {
     close() {
       this.amount = ''
+      this.$v.$reset()
       this.$emit('close')
     },
     callBuy(amount) {

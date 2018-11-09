@@ -256,7 +256,7 @@ const lang = {
   ERR_ASSET_TOPLIMIT_NOT_CORRECT: 'Das eingegebene Top-Limit ist keine gültige Eingabe',
   ERR_ASSET_PRECISION_NOT_CORRECT: 'Die Eingabe für die Genauigkeit des Assets ist nicht korrekt',
   ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16:
-    'Die Genauigkeit muss ein Integer zwischen 0 und 16 sein',
+    'Die Genauigkeit muss ein Integer zwischen 1 und 16 sein',
 
   // toast info
   INF_REGISTER_SUCCESS: 'Erfolgreich registriert!',
