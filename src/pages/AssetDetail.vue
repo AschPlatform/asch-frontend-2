@@ -204,11 +204,9 @@ export default {
     if (asset && asset.asset) {
       let name = asset.asset.gateway
       let address = user.address
-      console.log(address)
       let res = await this.gateAccountAddr({ name, address })
       if (res.success && res.account) {
         this.address = res.account.outAddress
-        console.log(this.address)
       }
       this.getGateway()
       this.getRealClaim()
@@ -344,7 +342,6 @@ export default {
         return 4
       }
       if (this.getGatewayState === 4) {
-        console.log(this.getGatewayState)
         return 3
       }
       if (this.ratio > 0 && this.ratio < 100) {
