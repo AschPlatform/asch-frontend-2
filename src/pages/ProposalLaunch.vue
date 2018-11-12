@@ -300,25 +300,25 @@
               <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.BANCOR_ADD2')">
               </q-field>
             </div>
-            <div class="row gutter-md">
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'MONEY'">
+            <div class="row gutter-lg">
+              <q-field class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'MONEY'">
                 <q-select color="secondary" v-model="BANCOR.money" @change="checkMoney(val, index)" @blur="$v.BANCOR.money.$touch()" :error="$v.BANCOR.money.$error" :options="moneySelect"></q-select>
               </q-field>
               <!-- <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYCW'">
                 <q-input color="secondary" v-model="BANCOR.moneyCw"></q-input>
               </q-field> -->
-              <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="4" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'MONEYBALANCE'">
+              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'MONEYBALANCE'">
                 <q-input color="secondary" @blur="$v.BANCOR.moneyBalance.$touch()" :error="$v.BANCOR.moneyBalance.$error" v-model="BANCOR.moneyBalance"></q-input>
               </q-field>
             </div>
             <div class="row gutter-md">
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCK'">
+              <q-field class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :label="'STOCK'">
                 <q-input disable color="secondary" value="" :placeholder="stockSelect.assetName"></q-input>
               </q-field>
               <!-- <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKCW'">
                 <q-input color="secondary" v-model="BANCOR.stockCw"></q-input>
               </q-field> -->
-              <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="4" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'STOCKBALANCE'">
+              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'STOCKBALANCE'">
                 <q-input color="secondary" type="number" @blur="$v.BANCOR.stockBalance.$touch()" :error="$v.BANCOR.stockBalance.$error" v-model="BANCOR.stockBalance"></q-input>
               </q-field>
             </div>
