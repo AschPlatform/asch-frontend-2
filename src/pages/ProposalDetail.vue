@@ -208,9 +208,9 @@
         </q-field>
       </q-card-main>
   
-      <q-card-separator v-show="!isBtnAble" class="col-12 q-my-lg bg-999 no-border-top" />
+      <q-card-separator v-show="!isBtnAble && isDelegate" class="col-12 q-my-lg bg-999 no-border-top" />
       <!-- below is func btn -->
-      <div class="row col-12" v-show="!isBtnAble">
+      <div class="row col-12" v-show="!isBtnAble && isDelegate">
         <q-field v-if="secondSignature" class="col-8 font-16" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="2">
           <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
         </q-field>
