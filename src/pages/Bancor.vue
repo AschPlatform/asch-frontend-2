@@ -1,5 +1,5 @@
 <template>
-  <q-page class="bancor-container">
+  <q-page :class="isDesk?'bancor-container':'padding-10'">
     <!-- first part `BCH`-->
     <div class="bancor-top">
       <i class="material-icons vertical-align-middle font-30 text-secondary">person</i>
@@ -19,7 +19,7 @@
           <q-td key="price" class="col-2 no-border line-40" :props="props">
             {{(1 / props.row.latestBid).toFixed(6)}}
           </q-td>
-          <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
+          <q-td key="action" class="col-md-3 col-xs-8 no-border" :class="isDesk?'offset-5':''" :props="props">
             <div class="btn-group flex justify-around">
               <q-btn color="secondary" :disable="!myBalances['BCH'] || myBalances['BCH'].balance === 0" @click="callBuyModal(props.row, 'BCH')">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
               <q-btn color="red" :disabled="!myBalances[props.row.stock] || myBalances[props.row.stock].balance === 0" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
@@ -47,7 +47,7 @@
           <q-td key="price" class="col-2 no-border line-40" :props="props">
             {{(1 / props.row.latestBid).toFixed(6)}}
           </q-td>
-          <q-td key="action" class="col-md-3 col-xs-8 offset-5 no-border" :props="props">
+          <q-td key="action" class="col-md-3 col-xs-8 no-border" :class="isDesk?'offset-5':''" :props="props">
             <div class="btn-group flex justify-around">
               <q-btn color="secondary" :disable="balance === 0" @click="callBuyModal(props.row, 'XAS')">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
               <q-btn color="red" :disabled="!myBalances[props.row.money] || myBalances[props.row.money].balance === '0'" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>

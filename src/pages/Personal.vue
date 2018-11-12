@@ -18,7 +18,7 @@
               <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
             </div>
             <div class="row col-12 justify-left text-five">
-              <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" flat icon="content copy" /></span>
+              <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" :class="isDesk?'padding-10':' copy-btn'" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" flat icon="content copy" /></span>
             </div>
           </div>
           <div :class="personalTopQrClass">
@@ -29,7 +29,7 @@
           </div>
         </div>
 
-        <div class="personal-bottom shadow-2 bg-white row col-12 justify-left margin-t-20">
+        <div class="personal-bottom shadow-2 bg-white row col-12 justify-left margin-top-20">
           <div :class="personalIconClass">
             <i class="material-icons">email</i>
             <span class="font-18">
@@ -41,10 +41,10 @@
                 <tr class="row col-12">
                 <td class="row col-12" :class="personalRightClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('SECOND_PASSWORD')}}</span>
-                  <span v-if="secondSignature" class="text-black font-16 margin-left-30">
+                  <span v-if="secondSignature" class="text-black font-16 ">
                     {{$t('ALREADY_SET')}}
                   </span>
-                  <a v-else class="text-secondary font-16 margin-left-30" @click="secondPwdShow=true">
+                  <a v-else class="text-secondary font-16 " @click="secondPwdShow=true">
                     {{$t('SET_NOW')}}
                   </a>
                 </td>
@@ -52,15 +52,15 @@
               <tr class="row col-12">
                 <td class="row col-12" :class="personalRightTwoClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('LOCK_POSITION_CONF')}}</span>
-                  <div class="margin-left-30 col-6" :class="personalFontClass" v-if="lockInfo">
+                  <div class="col-6" :class="personalFontClass" v-if="lockInfo">
                     <span class="white-space-initial">
                       {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount)})}}
+                      {{$t('LOCK_DETAIL_TIME',{date:this.lockInfo.time})}}
                     </span>
-                    <span class="white-space-initial">{{$t('LOCK_DETAIL_TIME',{date:this.lockInfo.time})}}</span>
                     <a :class="personalClickClass" @click="callLockPanel">{{$t('EDIT')}}</a>
                     <a v-if="this.lockInfo.expire" :class="personalUnLockClass" @click="unlock">{{$t('UNLOCK')}}</a>
                   </div>
-                  <a v-else class="text-secondary font-16 margin-left-30" @click="callLockPanel">
+                  <a v-else class="text-secondary font-16 " @click="callLockPanel">
                     {{$t('SET_NOW')}}
                   </a>
                 </td>
@@ -68,10 +68,10 @@
               <tr class="row col-12">
                 <td class="row col-12" :class="personalRightClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('AGENT_INFO')}}</span>
-                  <span class="margin-left-30" :class="personalFontClass" v-if="isAgent || isDelegate === 1">
+                  <span class="" :class="personalFontClass" v-if="isAgent || isDelegate === 1">
                     {{$t('IS_AGENT')}}
                   </span>
-                  <a v-else class="text-secondary font-16 margin-left-30" @click="callDelegatePanel">
+                  <a v-else class="text-secondary font-16 " @click="callDelegatePanel">
                     {{$t('REGISTER_AGENT')}}
                   </a>
                 </td>
@@ -82,13 +82,13 @@
                <tr class="row col-12">
                 <td class="row col-12" :class="personalRightClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('PERSONAL_PUBLIC_KEY')}} :</span>
-                  <span class="row shadow text-secondary font-16 min-height-0 padding-0 margin-left-30 cursor-pointer" v-clipboard="user.publicKey" @success="info($t('COPY_SUCCESS'))">{{$t('COPY_PUBLIC_KEY')}}</span>
+                  <span class="row shadow text-secondary font-16 min-height-0 padding-0  cursor-pointer" v-clipboard="user.publicKey"  @success="info($t('COPY_SUCCESS'))">{{$t('COPY_PUBLIC_KEY')}}</span>
                 </td>
               </tr>
                <tr class="row col-12">
                 <td class="row col-12" :class="personalRightClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('QR_SECRET')}} :</span>
-                  <a class="text-secondary font-16 margin-left-30" @click="showSecretQr()">
+                  <a class="text-secondary font-16 " @click="showSecretQr()">
                     {{$t('CHECK_NOW')}}
                   </a>
                 </td>
@@ -96,7 +96,7 @@
               <tr class="row col-12">
                 <td class="row col-12" :class="personalRightThreeClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('GATEWAY_CANDIDATE')}}</span>
-                  <div class="margin-left-30" @click="jump2Doc">
+                  <div class="" @click="jump2Doc">
                     <a class="text-secondary font-16">
                       {{$t('HOW_TO_BE')}}{{$t('GATEWAY_CANDIDATE_TO')}}
                     </a>
@@ -171,7 +171,7 @@
           <q-input @blur="validateSecondPwd" :placeholder="$t('TRS_TYPE_SECOND_PASSWORD')" type="password" v-model="secondPwd"  />
         </q-field>
         <div :class="tableClass">
-          <table class="col-12 q-table bordered personal-table-container responsive margin-t-20">
+          <table class="col-12 q-table bordered personal-table-container responsive margin-top-20">
             <tbody>
               <tr>
               <td>{{$t('CHAR_NUM')}}</td>
@@ -878,5 +878,9 @@ export default {
 
 .padding-left-55{
   padding-left:55px;
+}
+
+.copy-btn{
+  padding: 0px 0px 0px 5px;
 }
 </style>

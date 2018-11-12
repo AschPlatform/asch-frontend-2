@@ -44,15 +44,15 @@
         <q-card v-if="!isCross && assetDetail" :class="assetDetailOuterClass">
           <q-card-main>
             <table>
-              <tr class="margin-t-20">
+              <tr class="margin-top-20">
                 <td>{{$t('ISSUER')+':'}}</td>
                 <td>{{issuerName}}</td>
               </tr>
-              <tr class="margin-t-20">
+              <tr class="margin-top-20">
                 <td>{{$t('DAPP_COIN_TOTAL_AMOUNT')+':'}}</td>
                 <td>{{assetDetail.maximum | fee(assetDetail.precision)}}</td>
               </tr>
-              <tr class="margin-t-20">
+              <tr class="margin-top-20">
                 <td>{{$t('DAPP_COIN_CURRENT_QUANTITY')+':'}}</td>
                 <td>{{assetDetail.quantity | fee(assetDetail.precision) }}</td>
               </tr>
@@ -60,7 +60,7 @@
           </q-card-main>
         </q-card>
   
-        <q-card v-if="asset.asset && status !== 3" :class="assetDetailOuterClass" style="max-width: 300px; overflow-y: scroll">
+        <q-card v-if="asset.asset && status !== 3" :class="assetDetailOuterClass" style="overflow-y: scroll">
           <q-card-main>
             <p class="text-black font-22">{{$t('CURRENCY_INTRODUCE')}}</p>
             <p class="break-word">

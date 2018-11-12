@@ -12,13 +12,13 @@
         </q-btn>
       </div>
   
-      <q-card v-if="userAccount" class="desktop-hide col-md-3 padding-20 col-xs-12 margin-t-15 no-shadow">
+      <q-card v-if="userAccount" class="desktop-hide col-md-3 padding-20 col-xs-12 margin-top-15 no-shadow">
         <div class="shadow-2 bg-white">
           <q-card-title class="bg-nine text-black font-22 height-62">
             {{$t('AGENT_DETAIL')}}
           </q-card-title>
           <q-card-main class="padding-20" align="center">
-            <div class="text-secondary font-30 margin-t-20 break-word">
+            <div class="text-secondary font-30 margin-top-20 break-word">
               {{user.account.agent || user.account.name}}
             </div>
             <div>
@@ -94,13 +94,13 @@
       </q-card-main>
     </q-card>
 
-    <q-card v-if="userAccount" class="mobile-hide col-md-3 col-xs-12 margin-t-15 no-shadow">
+    <q-card v-if="userAccount" class="mobile-hide col-md-3 col-xs-12 margin-top-15 no-shadow">
       <div class="shadow-2 bg-white">
       <q-card-title class="bg-nine text-black font-22 height-62">
         {{$t('VOTE_DELEGATE_DETAIL')}}
       </q-card-title>
       <q-card-main class="padding-20" align="center">
-        <div class="text-secondary font-30 margin-t-20 break-word">
+        <div class="text-secondary font-30 margin-top-20 break-word">
           {{user.account.agent || user.account.name}}
         </div>
         <div>
