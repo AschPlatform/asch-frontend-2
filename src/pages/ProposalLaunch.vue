@@ -291,13 +291,13 @@
           <!-- below is bancor init page -->
           <div class="col-12" v-show="this.first_type === 'new_b'">
             <div class="row gutter-md">
-              <q-field align="left" class="col-md-4 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('MONEY_STOCK_NOT_SAME')" :label="$t('LAUNCH_MODAL.BANCOR_ADD')">
+              <q-field align="left" class="col-md-4 col-xs-12 font-16 text-four" label-width="4" :error-label="$t('MONEY_STOCK_NOT_SAME')" :label="$t('LAUNCH_MODAL.BANCOR_ADD')">
                 <q-select align="center" chips filter v-model="BANCOR.pair_pre" @blur="$v.BANCOR.pair_pre.$touch()" :error="$v.BANCOR.pair_pre.$error" :options="BANCOR.supportBalances"></q-select>
               </q-field>
-              <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('MONEY_STOCK_NOT_SAME')" :label="$t('LAUNCH_MODAL.AND')">
+              <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('MONEY_STOCK_NOT_SAME')" :label="$t('LAUNCH_MODAL.AND')">
                 <q-select align="center" color="secondary" chips filter v-model="BANCOR.pair_post" @blur="$v.BANCOR.pair_post.$touch()" :error="$v.BANCOR.pair_post.$error" :options="BANCOR.supportBalances"></q-select>
               </q-field>
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.BANCOR_ADD2')">
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.BANCOR_ADD2')">
               </q-field>
             </div>
             <div class="row gutter-md">
