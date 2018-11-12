@@ -348,7 +348,7 @@ const asch = {
     return AschJS.transaction.createTransactionEx(
       convertFee({
         type: 401,
-        fee: 10000000,
+        fee: 10000000000,
         args: [gateway, publicKey, desc],
         secret,
         secondSecret: secondPwd

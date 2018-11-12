@@ -5,7 +5,7 @@
       <span class="text-white font-18 font-weight">{{title}}</span>
       </div>
       <q-card-separator />
-      <q-card-main class="q-px-lg margin-t-20">
+      <q-card-main class="q-px-lg margin-top-20">
         <q-scroll-area style="height: 300px" class="shadow-1 q-px-sm q-py-lg">
           <vue-markdown :source="content"></vue-markdown>
         </q-scroll-area>

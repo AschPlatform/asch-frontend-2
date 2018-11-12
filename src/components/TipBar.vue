@@ -1,7 +1,7 @@
 <template>
   <div class="tip-bar-container">
     <div class="tip-bar-content shadow-1 row" :class="tipColor">
-      <i class="material-icons font-36 col-1">
+      <i class="material-icons font-44 col-1">
         report_problem
       </i>
       <div class="flex col-11 items-center">

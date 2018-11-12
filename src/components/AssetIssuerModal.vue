@@ -17,7 +17,7 @@
       <q-field v-if="!user.issuer && secondSignature" class="col-md-8 col-xs-12" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
         <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
-      <div class="row col-10 justify-between margin-t-20">
+      <div class="row col-10 justify-between margin-top-20">
         <q-btn size="md" :label="$t('label.cancel')" class="col-3" color="secondary" outline @click="close"/>
         <q-btn :loading="loading" class="col-3" color="secondary" @click="submit">
           {{$t('SUBMIT')}}

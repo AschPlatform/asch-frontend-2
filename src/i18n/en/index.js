@@ -296,7 +296,7 @@ const lang = {
   ERR_ASSET_TOPLIMIT_NOT_CORRECT: 'The top limit you entered is not correct',
   ERR_ASSET_TOPLIMIT_NOT_CORRECT2: 'It should be integer from 1 to 30 that does not contain a decimal point',
   ERR_ASSET_PRECISION_NOT_CORRECT: 'The precision for the asset you entered is not correct',
-  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: 'This must be an integer between 0 and 16',
+  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: 'This must be an integer between 1 and 16',
   // toast error was bound here
   ERR_TOAST_SECONDKEY_WRONG: 'Your second password is wrong',
   ERR_TOAST_TRANSACTION_AMOUNT_WRONG: 'Transaction amount wrong',
