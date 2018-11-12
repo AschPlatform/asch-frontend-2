@@ -303,7 +303,7 @@ const lang = {
   ERR_ASSET_TOPLIMIT_NOT_CORRECT: '发行上限应为不包含小数点的纯1-30位的整数',
   ERR_ASSET_TOPLIMIT_NOT_CORRECT2: '发行数量应为不包含小数点的纯1-30位的整数',
   ERR_ASSET_PRECISION_NOT_CORRECT: '您输入的资产精度不正确',
-  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: '精度必须为0-16的整数',
+  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: '精度必须为1-16的整数',
   // toast error was bound here
   ERR_TOAST_SECONDKEY_WRONG: '您输入的二级密码有误',
   ERR_TOAST_TRANSACTION_AMOUNT_WRONG: '交易数额有误',
