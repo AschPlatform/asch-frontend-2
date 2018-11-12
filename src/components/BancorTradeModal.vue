@@ -6,7 +6,7 @@
         <q-field :label="$t('AMOUNTS') + ' :'" label-width='2' class="font-16">
           <div class="input-box row">
             <input type="number" v-model="amount" @blur="$v.amount.$touch" class="col-9 text-secondary"/>
-            <div class="col-3">{{sell}}</div>
+            <div class="col-3">{{currency}}</div>
           </div>
           <div class="q-field-bottom row no-wrap errContainer" :class="appear">
             <div class="q-field-error col text-negative">{{$t('BANCOR_MODAL_ERROR_1')}}</div>
@@ -143,6 +143,14 @@ export default {
         return 'show'
       }
       return 'hide'
+    },
+    currency() {
+      if (this.sell) {
+        if (this.sell.indexOf('.') >= 0) {
+          return this.sell.split('.')[1]
+        }
+        return this.sell
+      }
     }
   }
 }

@@ -234,6 +234,7 @@ import {
 } from '../utils/util'
 import { secondPwd } from '../utils/validators'
 import MemberIndicator from '../components/MemberIndicator'
+import { convertFee } from '../utils/asch'
 import {
   QPage,
   QField,
@@ -302,6 +303,7 @@ export default {
     }
   },
   methods: {
+    convertFee,
     ...mapActions([
       'getProposal',
       'getGatewayDelegates',
@@ -424,6 +426,8 @@ export default {
           this.postMemberList = this.content.to
           return this.$t('proposal.SELECT_MEMBER_ACTION')
         case 'bancor_init':
+          this.content.stockBalance = convertFee(this.content.stockBalance, this.content.stockPrecision)
+          this.content.moneyBalance = convertFee(this.content.moneyBalance, this.content.moneyPrecision)
           this.isIndicatorShow = false
           return this.$t('PROPOSAL_NEW_BANCOR')
         case 'gateway_revoke':
