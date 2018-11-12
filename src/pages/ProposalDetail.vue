@@ -120,7 +120,7 @@
           </div>
           <div class="row col-12">
             <q-field class="block col-10 font-16" label-width="2" label="stock">
-              <q-input class="border-1" readonly hide-underline v-model="content.name" value="" />
+              <q-input class="border-1" readonly hide-underline v-model="content.stock" value="" />
             </q-field>
           </div>
           <div class="row col-12">

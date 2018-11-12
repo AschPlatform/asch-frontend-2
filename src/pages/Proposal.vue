@@ -20,7 +20,7 @@
   
       <q-table class="no-shadow margin-top-20" :data="proposalDetail" :columns="columns" row-key="no" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
         <q-td slot="body-cell-desc" slot-scope="props" :props="props">
-          {{props.value.substring(0,20) + '...'}}
+          {{ props.value.length > 20 ? props.value.substring(0,20) + '...' : props.value}}
           <q-popover v-if="props.value" ref="popover-msg">
             <div class="light-paragraph">{{props.value}}</div>
           </q-popover>
