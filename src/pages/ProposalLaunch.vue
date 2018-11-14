@@ -921,17 +921,18 @@ export default {
         this.p_desc = this.brief
         content = {
           gateway: this.p_selected.name,
-          evilMembers: () => {
+          evilMembers: (() => {
             let tempArr = []
             this.CLEAR.selected.forEach(e => {
               tempArr.push(e.address)
             })
             return tempArr
-          },
+          })(),
           // TODO: unclear
           url: this.CLEAR.url,
           desc: this.brief
         }
+        console.log(content)
       }
       return content
     },
