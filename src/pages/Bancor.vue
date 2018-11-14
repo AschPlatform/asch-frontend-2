@@ -380,7 +380,9 @@ export default {
         stock: props.stock,
         owner: props.owner
       }
-      this.dealPairInfo.balance = BigNumber(this.myBalances[props.stock].balance)
+      this.dealPairInfo.balance = BigNumber(
+        this.myBalances[props.stock] ? this.myBalances[props.stock].balance : 0
+      )
         .div(Math.pow(10, this.myBalances[props.stock].precision))
         .toString()
       this.tradeModalShow = true

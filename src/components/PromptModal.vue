@@ -38,7 +38,7 @@
 import { QModal, QBtn, QInput, QField } from 'quasar'
 import { convertFee } from '../utils/asch'
 import { mapGetters } from 'vuex'
-import { secondPwd, intStrReg } from '../utils/validators'
+import { secondPwd, intStrReg, amountStrReg } from '../utils/validators'
 import { required } from 'vuelidate/lib/validators'
 import { BigNumber } from 'bignumber.js'
 
@@ -86,7 +86,7 @@ export default {
       val: {
         required,
         gtZero(value) {
-          return this.numberCheck(value)
+          return amountStrReg.test(value)
         }
       }
     },
