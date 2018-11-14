@@ -55,6 +55,7 @@
                   <div class="col-6" :class="personalFontClass" v-if="lockInfo">
                     <span class="white-space-initial">
                       {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount)})}}
+                      <br />
                       {{$t('LOCK_DETAIL_TIME',{date:this.lockInfo.time})}}
                     </span>
                     <a :class="personalClickClass" @click="callLockPanel">{{$t('EDIT')}}</a>

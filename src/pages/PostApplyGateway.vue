@@ -141,6 +141,17 @@ export default {
         toastError(this.$t('ERROR_READ_ASCH_PROTOCOL'))
         return
       }
+      if (this.secondSignature) {
+        if (this.$v.$invalid) {
+          toastError(this.$t('ERR_PUBLISHER_NOT_EMPTY'))
+          return
+        }
+      } else {
+        if (this.$v.gatewayPublicKey.$invalid || this.$v.desc.$invalid) {
+          toastError(this.$t('ERR_PUBLISHER_NOT_EMPTY'))
+          return
+        }
+      }
       let res = await this.registGateway({
         gateway: this.gatewayName,
         publicKey: this.user.publicKey,

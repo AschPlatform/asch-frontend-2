@@ -344,6 +344,10 @@ api2.bancorPair = params => {
 api2.bancorRecord = params => {
   return fetch(urls.v2.bancorRecord, params, 'get')
 }
+// 获取所有支持创建bancor的资产
+api2.getBancorSupports = params => {
+  return fetch(urls.v2.getBancorSupports, params, 'get')
+}
 // 获取理事会资产余额
 // TODO
 // @params: offset / limit / address / sort

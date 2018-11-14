@@ -902,7 +902,7 @@ const lang = {
   MY_BALANCE: '我的余额',
   CURRENT_PRICE: '当前价格',
   TRANS_AMOUNT: '转账金额',
-  ERR_GAS_NUM_WRONG: '请输入正确的燃料费上限',
+  ERR_GAS_NUM_WRONG: '请输入正确的燃料费',
   ERR_GATEWAY_ADD: '追加的储备金额度不正确，需为正整数',
   LABEL_GATEWAY_ADD: '请输入您要追加的储备金额度',
   PLACEHOLDER_GATEWAY_ADD: '请追加至少{amount} XAS',
@@ -953,8 +953,15 @@ const lang = {
   ERR_GATEWAY_NOT_REVOKED: '网关未冻结，无法理赔',
   COPY_PUBLIC_KEY: '立即复制',
   COMPENSATE: '理赔',
-  QR_RECEIVE: '收款二维码',
   COUNTED_FEE: '预计花费将为：',
+  CHECK_URL: '请输入Asch社区帖文链接地址',
+  ERR_GATEWAY_ALREADY_CLAIMED: '网关已经清算',
+  MONEY_STOCK_NOT_SAME: 'Money与Stock不能相同',
+  PROPOSAL_NEW_BANCOR: '新增BANCOR交易对',
+  PROPOSAL_GATEWAY_CLAIM: '清算网关',
+  PROPOSAL_GATEWAY_REVOKE: '冻结网关',
+  QR_RECEIVE: '收款二维码',
+  // COUNTED_FEE: '预计花费将为：',
   APPLY_FOR_GATEWAY: '申请成为网关候选人',
   APPLY_FOR_GATEWAY_SUCCESS: '申请成为网关候选人成功',
   ERR_APPLY_FOR_GATEWAY: '仅限英文/数字,介于 1-255 字符以内',
@@ -978,14 +985,15 @@ const lang = {
   TRS_TYPE_TRANS_BANCOR: 'Bancor兑换',
   BANCOR_INIT: 'Bancor初始化',
   TRANSFER_FEE: '费用',
-  NOT_OPEN: '暂未开通',
+  NOT_OPEN: '暂不',
   GATEWAY_ALREADY_FREEZED: '网关已冻结',
   AGENT_ALREADY_DELEGATE: '已经是受托人，此行为被拒绝',
   ALREADY_GATEWAYMEMBER: '已经是网关成员或网关候选人，此行为被拒绝',
   CONTRACT_GAS_LIMIT_TIP: '最大不能超过 {num} BCH',
   BLOCK_ID: '区块ID',
   ERR_BANCOR_BUY_MORE: '买入额超过 Bancor 限制',
-  ERR_BANCOR_SELL_MORE: '卖出额超过 Bancor 限制'
+  ERR_BANCOR_SELL_MORE: '卖出额超过 Bancor 限制',
+  CAN_NOT_DEPOSIT: '暂不能充值'
 }
 
 export default lang

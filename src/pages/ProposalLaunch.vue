@@ -130,10 +130,10 @@
 
           <!-- below is net freeze page -->
           <!-- TODO: -->
-          <div class="col-12" v-show="this.first_type === 'gateway_freeze' && this.initFalse" id="init">
+          <div class="col-12" v-show="this.first_type === 'gateway_freeze' && this.initFalse" id="freeze">
             <div class="row">
-              <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.GATEWAY_FREEZE_TIP')">
-                {{p_selected.name}}
+              <q-field class="gateway-claim col-md-8 col-xs-12 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.GATEWAY_FREEZE_TIP')">
+                <div class="text-secondary">{{p_selected.name}}</div>
                 <!-- <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST', {number: gatewayMember})" @blur="$v.INIT.selected.$touch()" :error="!$v.INIT.selected.inNeed" :options="delegateList"></q-select> -->
               </q-field>
             </div>
@@ -146,23 +146,27 @@
 
           <!-- below is net clear page -->
           <!-- TODO: -->
-          <div class="col-12" v-show="this.first_type === 'gateway_clear' && this.initFalse" id="init">
+          <div class="col-12" v-show="this.first_type === 'gateway_clear' && this.initFalse" id="clear">
             <div class="row">
-              <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP')">
-                {{p_selected.name}}
-                <!-- <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST', {number: gatewayMember})" @blur="$v.INIT.selected.$touch()" :error="!$v.INIT.selected.inNeed" :options="delegateList"></q-select> -->
+              <q-field class="gateway-claim col-md-12 col-xs-12 font-16 text-four row" label-width="1" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP')">
+                <div class="text-secondary block">{{p_selected.name || ''}}</div>
+                <div class="row">
+                  <div>{{$t('GATEWAY_MEMBER')}}</div>
+                  <q-select class="col-md-4" align="center" multiple chips filter v-model="CLEAR.selected" :options="MEMBER.electedList"></q-select>
+                  <div class="col-md-5">{{$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP1')}}</div>
+                  <!-- <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP1')">
+                  </q-field> -->
+                </div>
               </q-field>
             </div>
-            <div class="row col-12">
-              <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_INVEST')">
-                <q-input type="text" v-model="NEW.currencyBrief" @blur="$v.NEW.currencyBrief.$touch()" :error="$v.NEW.currencyBrief.$error"></q-input>
+            <!-- <div class="row col-12">
+              <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_INVEST')">
+                <q-input type="text" v-model="CLEAR.url" @blur="$v.CLEAR.url.$touch()" :error="$v.CLEAR.url.$error" :placeholder="$t('CHECK_URL')"></q-input>
               </q-field>
-            </div>
+            </div> -->
             <div class="row">
-              <q-field align="left" class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :label="$t('GATEWAY_MEMBER')">
-                <q-select align="center" chips filter v-model="MEMBER.clear" :options="MEMBER.electedList"></q-select>
-              </q-field>
-              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP1')">
+              <q-field class="col-md-6 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.GATEWAY_FREEZE_BRIEF')">
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
           </div>
@@ -241,7 +245,7 @@
             </div>
             <div class="row">
               <q-field class="col-9 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.PERIOD_REASON')">
-                <q-input type="textarea" v-model="brief" @blur="$v.PERIOD.post.$touch()" :error="$v.PERIOD.post.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
           </div>
@@ -286,47 +290,46 @@
           <!-- TODO: -->
           <!-- below is bancor init page -->
           <div class="col-12" v-show="this.first_type === 'new_b'">
-            <div class="row">
-              <q-field align="left" class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.BANCOR_ADD')">
-                <q-select align="center" chips filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
+            <div class="row gutter-md">
+              <q-field align="left" class="col-md-4 col-xs-12 font-16 text-four" label-width="4" :error-label="$t('MONEY_STOCK_NOT_SAME')" :label="$t('LAUNCH_MODAL.BANCOR_ADD')">
+                <q-select align="center" chips filter v-model="BANCOR.pair_pre" @blur="$v.BANCOR.pair_pre.$touch()" :error="$v.BANCOR.pair_pre.$error" :options="BANCOR.supportBalances"></q-select>
               </q-field>
-              <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.AND')">
-                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+              <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('MONEY_STOCK_NOT_SAME')" :label="$t('LAUNCH_MODAL.AND')">
+                <q-select align="center" color="secondary" chips filter v-model="BANCOR.pair_post" @blur="$v.BANCOR.pair_post.$touch()" :error="$v.BANCOR.pair_post.$error" :options="BANCOR.supportBalances"></q-select>
               </q-field>
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.BANCOR_ADD2')">
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.BANCOR_ADD2')">
+              </q-field>
+            </div>
+            <div class="row gutter-lg">
+              <q-field class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'money'">
+                <q-select color="secondary" v-model="BANCOR.money" @change="checkMoney(val, index)" @blur="$v.BANCOR.money.$touch()" :error="$v.BANCOR.money.$error" :options="moneySelect"></q-select>
+              </q-field>
+              <!-- <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYCW'">
+                <q-input color="secondary" v-model="BANCOR.moneyCw"></q-input>
+              </q-field> -->
+              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'moneyBalance'">
+                <q-input color="secondary" @blur="$v.BANCOR.moneyBalance.$touch()" :error="$v.BANCOR.moneyBalance.$error" v-model="BANCOR.moneyBalance"></q-input>
+              </q-field>
+            </div>
+            <div class="row gutter-md">
+              <q-field class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :label="'stock'">
+                <q-input disable color="secondary" value="" :placeholder="stockSelect.assetName"></q-input>
+              </q-field>
+              <!-- <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKCW'">
+                <q-input color="secondary" v-model="BANCOR.stockCw"></q-input>
+              </q-field> -->
+              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'stockBalance'">
+                <q-input color="secondary" type="number" @blur="$v.BANCOR.stockBalance.$touch()" :error="$v.BANCOR.stockBalance.$error" v-model="BANCOR.stockBalance"></q-input>
               </q-field>
             </div>
             <div class="row">
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCK'">
-                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
-              </q-field>
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKCW'">
-                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
-              </q-field>
-              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKBALANCE'">
-                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
-              </q-field>
-            </div>
-            <div class="row">
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEY'">
-                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
-              </q-field>
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYCW'">
-                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
-              </q-field>
-              <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYBALANCE'">
-                <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
-              </q-field>
-            </div>
-            <div class="row">
-              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'supply'">
-                <q-input>
-                </q-input>
+              <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'supply'">
+                <q-input v-model="BANCOR.supply" type="number" @blur="$v.BANCOR.supply.$touch()" :error="$v.BANCOR.supply.$error"></q-input>
               </q-field>
             </div>
             <div class="row">
               <q-field class="col-9 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.BRIEF')">
-                <q-input type="textarea" v-model="brief" @blur="$v.PERIOD.post.$touch()" :error="$v.PERIOD.post.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
+                <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
           </div>
@@ -358,7 +361,7 @@
 import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
 import { secondPwd, proposalTitleReg, assetSymbolReg, gatewayNameReg } from '../utils/validators'
-import { toastError, toast } from '../utils/util'
+import { toastError, toast, translateErrMsg } from '../utils/util'
 import MemberIndicator from '../components/MemberIndicator'
 import UserAgreementModal from '../components/UserAgreementModal'
 import {
@@ -407,6 +410,7 @@ export default {
     return {
       secondPwd: '',
       userAgreementShow: false,
+      balanceSheet: [],
       // overall setting
       p_title: null,
       first_type: null,
@@ -563,6 +567,31 @@ export default {
         show_post: [],
         clear: []
       },
+      CLEAR: {
+        selected: []
+      },
+      BANCOR: {
+        // form lists
+        allCurrency: [],
+        activedList: [],
+        pair_pre: '',
+        pair_post: '',
+        // hidden stuff
+        supportBalances: [],
+        moneyAble: ['XAS', 'BCH'],
+        // content
+        money: '',
+        stock: '',
+        moneyBalance: '',
+        stockBalance: '',
+        supply: '',
+        stockCw: null,
+        moneyCw: null,
+        moneyPrecision: null,
+        stockPrecision: null,
+        name: '',
+        owner: ''
+      },
       typeMap: {
         'new_n': 'gateway_register',
         'init': 'gateway_init',
@@ -571,24 +600,10 @@ export default {
         'new': 'council_register',
         'change': 'council_update_mumber',
         'period': 'council_update',
-        'remove': 'council_revoke'
-      //   if (this.first_type === 'new_n') {
-      //   return 'gateway_register'
-      // } else if (this.first_type === 'init') {
-      //   return 'gateway_init'
-      // } else if (this.first_type === 'period_n') {
-      //   return 'gateway_period'
-      // } else if (this.first_type === 'member_n') {
-      //   return 'gateway_update_member'
-      // } else if (this.first_type === 'new') {
-      //   return 'council_register'
-      // } else if (this.first_type === 'change') {
-      //   return 'council_update_mumber'
-      // } else if (this.first_type === 'period') {
-      //   return 'council_update'
-      // } else if (this.first_type === 'remove') {
-      //   return 'council_revoke'
-      // }
+        'remove': 'council_revoke',
+        'gateway_freeze': 'gateway_revoke',
+        'new_b': 'bancor_init',
+        'gateway_clear': 'gateway_claim'
       },
       tomorrow
     }
@@ -725,18 +740,129 @@ export default {
         }
       }
     },
+    CLEAR: {
+      selected: {
+        required
+      }
+    },
+    BANCOR: {
+      pair_pre: {
+        required,
+        isSame(val) {
+          return val !== this.BANCOR.pair_post
+        }
+      },
+      pair_post: {
+        required,
+        isSame(val) {
+          return val !== this.BANCOR.pair_pre
+        }
+      },
+      money: {
+        required,
+        moneyAbleTest(symbol) {
+          return this.BANCOR.moneyAble.indexOf(symbol.assetName) > -1
+        }
+      },
+      // moneyCw: {
+      //   required
+      // },
+      moneyBalance: {
+        required,
+        isBalanceEnough(val) {
+          let bet = Number(val) * Math.pow(10, this.BANCOR.money.precision)
+          let obj = this.balanceSheet[this.BANCOR.money.assetName]
+          if (obj !== undefined) {
+            if (bet > obj.balance) {
+              return false
+            }
+            return true
+          }
+          return false
+        }
+      },
+      // stock: {
+      //   required
+      // },
+      // stockCw: {
+      //   required
+      // },
+      stockBalance: {
+        required,
+        isBalanceEnough(val) {
+          let bet = Number(val) * Math.pow(10, this.stockSelect.precision)
+          let obj = this.balanceSheet[this.stockSelect.assetName]
+          if (obj !== undefined) {
+            if (bet > obj.balance) {
+              return false
+            }
+            return true
+          }
+          return false
+        }
+      },
+      supply: {
+        required
+      }
+    },
     REMOVE: {}
   },
   mounted() {},
   methods: {
-    ...mapActions(['postProposal', 'getGateways', 'getGatewayDelegates']),
+    ...mapActions(['postProposal', 'getGateways', 'getGatewayDelegates', 'getBancorSupports', 'getBalances']),
     hideModal() {
       this.resetHeader()
       this.resetDetail()
       this.$v.$reset()
       this.$router.back()
     },
-    initInfo() {},
+    initInfo() {
+      // INIT CONTENT
+      this.$v.$reset()
+      this.brief = null
+      this.second_type = null
+      this.secondPwd = ''
+      this.agreeOptions = []
+      this.NEW.memberList = []
+      this.NEW.memberNumber = null
+      this.NEW.period = null
+      this.NEW.selected = []
+      this.NEW.name = null
+      this.NEW.currency = null
+      this.NEW.currencyBrief = null
+      this.NEW.currencyPrecision = null
+      this.INIT.selected = []
+      this.MEMBER.type_selected = null
+      this.MEMBER.added = []
+      this.MEMBER.removed = []
+      this.MEMBER.electedList = []
+      this.MEMBER.unelectedList = []
+      this.MEMBER.add_selected = []
+      this.MEMBER.delete_selected = []
+      this.MEMBER.instead_pre = []
+      this.MEMBER.instead_post = []
+      this.MEMBER.memberList = []
+      this.MEMBER.show_pre = []
+      this.MEMBER.show_post = []
+      this.MEMBER.clear = []
+      this.CLEAR.selected = []
+      this.BANCOR.allCurrency = []
+      this.BANCOR.activedList = []
+      this.BANCOR.pair_pre = ''
+      this.BANCOR.pair_post = ''
+      this.BANCOR.supportBalances = []
+      this.BANCOR.money = ''
+      this.BANCOR.stock = ''
+      this.BANCOR.moneyBalance = ''
+      this.BANCOR.stockBalance = ''
+      this.BANCOR.supply = ''
+      this.BANCOR.stockCw = null
+      this.BANCOR.moneyCw = null
+      this.BANCOR.moneyPrecision = null
+      this.BANCOR.stockPrecision = null
+      this.BANCOR.name = ''
+      this.BANCOR.owner = ''
+    },
     // compile the proposal content
     compileContent() {
       let content = {}
@@ -768,26 +894,44 @@ export default {
           from: this.MEMBER.removed.address,
           to: this.MEMBER.added.address
         }
-      } else if (this.first_type === 'init') {
-        this.p_desc = ''
+      } else if (this.first_type === 'new_b') {
+        // TODO
         content = {
-          gateway: this.p_selected.name,
-          members: this.INIT.selected,
-          desc: this.brief
+          money: this.BANCOR.money.assetName,
+          stock: this.stockSelect.assetName,
+          moneyBalance: (this.BANCOR.moneyBalance * Math.pow(10, this.BANCOR.money.precision)).toString(),
+          stockBalance: (this.BANCOR.stockBalance * Math.pow(10, this.stockSelect.precision)).toString(),
+          supply: (this.BANCOR.supply * Math.pow(10, 8)).toString(),
+          stockCw: 1,
+          moneyCw: 1,
+          moneyPrecision: this.BANCOR.money.precision,
+          stockPrecision: this.stockSelect.precision,
+          name: this.BANCOR.money.assetName + '-' + this.stockSelect.assetName,
+          owner: this.userInfo.address
         }
-      } else if (this.first_type === 'member_n') {
+      } else if (this.first_type === 'gateway_freeze') {
+        // TODO untest
         this.p_desc = this.brief
         content = {
           gateway: this.p_selected.name,
-          from: this.beforeAddress,
-          to: this.afterAddress
+          desc: this.brief
         }
-      } else if (this.first_type === 'new_b') {
-        // TODO
-      } else if (this.first_type === 'gateway_freeze') {
-        // TODO
       } else if (this.first_type === 'gateway_clear') {
-        // TODO
+        // TODO: untest
+        this.p_desc = this.brief
+        content = {
+          gateway: this.p_selected.name,
+          evilMembers: () => {
+            let tempArr = []
+            this.CLEAR.selected.forEach(e => {
+              tempArr.push(e.address)
+            })
+            return tempArr
+          },
+          // TODO: unclear
+          url: this.CLEAR.url,
+          desc: this.brief
+        }
       }
       return content
     },
@@ -810,7 +954,7 @@ export default {
         toast(this.$t('LAUNCH_MODAL.LAUNCH_SUCCESS'))
         this.hideModal()
       } else {
-        toastError(result.error)
+        translateErrMsg(this.$t, result.error)
       }
     },
     // select component change func
@@ -822,6 +966,24 @@ export default {
       if (this.first_type === 'member_n') {
         res.gateways.forEach(o => {
           if (o.validatorNumber > 0) {
+            return ls.push({
+              label: o.name,
+              value: o
+            })
+          }
+        })
+      } else if (this.first_type === 'gateway_clear') {
+        res.gateways.forEach(o => {
+          if (o.revoked === 1) {
+            return ls.push({
+              label: o.name,
+              value: o
+            })
+          }
+        })
+      } else if (this.first_type === 'gateway_freeze') {
+        res.gateways.forEach(o => {
+          if (o.revoked === 0) {
             return ls.push({
               label: o.name,
               value: o
@@ -905,6 +1067,43 @@ export default {
       this.MEMBER.unelectedList = unelected
       this.delegateList = total
     },
+    async getBancorSupportList() {
+      let result = await this.getBancorSupports()
+      if (result.success) {
+        // this.BANCOR.supportBalances = result.data
+        let tempArr = []
+        // let tempObj = {}
+        result.data.forEach(e => {
+          // tempObj.label = e.assetName
+          // tempObj.value = e
+          tempArr.push({
+            label: e.assetName,
+            value: e
+          })
+        })
+        this.BANCOR.supportBalances = tempArr
+      }
+    },
+    async getBalance() {
+      let result = await this.getBalances({
+        address: this.userInfo.address
+      })
+      let tempArr = []
+      tempArr['XAS'] = {
+        precision: 8,
+        balance: this.userInfo.account.xas
+      }
+      if (result.success) {
+        result.balances.forEach(e => {
+          // if e.flag === 2
+          tempArr[e.currency] = {
+            balance: e.balance,
+            precision: e.asset.precision
+          }
+        })
+        this.balanceSheet = tempArr
+      }
+    },
     checkValidate(action) {
       // total set first
       if (
@@ -945,6 +1144,37 @@ export default {
               !this.$v.NEW.currencyBrief.$invalid &&
               !this.$v.NEW.memberNumber.$invalid &&
               !this.$v.NEW.period.$invalid &&
+              !this.$v.brief.$invalid
+            ) {
+              return true
+            }
+            return false
+          case 'gateway_freeze':
+            if (
+              !this.$v.p_selected.isSelected &&
+              !this.$v.brief.$invalid
+            ) {
+              return true
+            }
+            return false
+          case 'new_b':
+            if (
+              // !this.$v.p_selected.isSelected &&
+              !this.$v.BANCOR.pair_pre.$invalid &&
+              !this.$v.BANCOR.pair_post.$invalid &&
+              !this.$v.BANCOR.money.$invalid &&
+              !this.$v.BANCOR.moneyBalance.$invalid &&
+              !this.$v.BANCOR.stockBalance.$invalid &&
+              !this.$v.BANCOR.supply.$invalid &&
+              !this.$v.brief.$invalid
+            ) {
+              return true
+            }
+            return false
+          case 'gateway_clear':
+            if (
+              !this.$v.p_selected.isSelected &&
+              !this.$v.CLEAR.$invalid &&
               !this.$v.brief.$invalid
             ) {
               return true
@@ -1028,14 +1258,22 @@ export default {
     },
     getCurrency() {
       // TODO: GET ALL BANCOR CONNECTED CURRENCY
+    },
+    checkMoney(val) {
+      if (val) {
+        if (this.moneyAble.indexOf(val.assetName) > 0) {
+          // pass the test
+          // this.BANCOR.stock =
+        }
+      }
     }
   },
   computed: {
     ...mapGetters(['userInfo']),
     proposalLaunchClass() {
       return this.isDesk
-        ? 'padding-siut q-mx-xl q-my-xl'
-        : 'row col-12 padding-siut margin-top-20'
+        ? 'padding-suit q-mx-xl q-my-xl'
+        : 'row col-12 padding-suit margin-top-20'
     },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
@@ -1130,15 +1368,49 @@ export default {
         case 'new_n':
           return this.$t('proposal.SELECT_P_NET')
       }
+    },
+    // BANCOR
+    moneySelect() {
+      if (this.BANCOR.pair_pre && this.BANCOR.pair_post) {
+        // moneyAble filter
+        return [
+          {
+            label: this.BANCOR.pair_pre.assetName,
+            value: this.BANCOR.pair_pre
+          },
+          {
+            label: this.BANCOR.pair_post.assetName,
+            value: this.BANCOR.pair_post
+          }
+        ]
+      }
+      return []
+    },
+    stockSelect() {
+      if (this.moneySelect.length > 0 && this.BANCOR.money) {
+        let idx
+        idx = this.moneySelect.findIndex(e => {
+          return e.value.assetName === this.BANCOR.money.assetName
+        })
+        if (idx === 1) {
+          return this.moneySelect[0].value
+        } else {
+          return this.moneySelect[1].value
+        }
+      }
+      return {}
     }
   },
   watch: {
     first_type(val) {
-      if (val === 'init' || val === 'member_n' || val === 'gateway_freeze') {
+      this.initInfo()
+      if (val === 'init' || val === 'member_n' || val === 'gateway_freeze' || val === 'gateway_clear') {
         this.getAllGate()
       }
       if (val === 'new_b') {
         this.getCurrency()
+        this.getBancorSupportList()
+        this.getBalance()
       }
     },
     p_selected(val) {
@@ -1156,9 +1428,12 @@ export default {
 .no-border-top {
   margin-top: 0 !important;
 }
-.padding-siut
+.padding-suit
   padding 20px
 .agreeBtn
   text-decoration: none
   margin-left: 8px
+.gateway-claim
+  div
+    padding-top 6px;
 </style>

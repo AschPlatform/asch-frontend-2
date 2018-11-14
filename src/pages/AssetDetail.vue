@@ -14,15 +14,25 @@
      
       </q-card-title>
       <q-card-main :class="assetCardsContainerClass">
-        <assets-panel :class="assetDetailInnerClass" v-if="!isCross && status !== 3" type='inner' :asset="asset" @transfer="transfer"  />
+        <assets-panel :class="assetDetailInnerClass" v-if="!isCross && status !== 3 && status !== 4" type='inner' :asset="asset" @transfer="transfer"  />
 
-        <assets-panel :class="assetDetailInnerClass" v-if="isCross && status !== 3" type='outer-simple' :asset="asset" @transfer="transfer" @withdraw="withdraw" />
+        <assets-panel :class="assetDetailInnerClass" v-if="isCross && status !== 3 && status !== 4" type='outer-simple' :asset="asset" @transfer="transfer" @withdraw="withdraw" />
 
         <assets-panel :class="assetDetailInnerClass" v-if="status === 3" type='outer-compensate' :asset="asset" @compensate="compensate"/>
 
-        <q-card :class="assetDetailOuterClass" v-if="isCross && status !== 3">
+        <assets-panel :class="assetDetailInnerClass" v-if="status === 4" type='outer-constrated' :asset="asset" @compensate="compensate"/>
+
+        <q-card :class="assetDetailOuterClass" v-if="isCross">
           <q-card-main>
             <p class="font-22 text-black margin-b-0">{{$t('DEPOSIT')}}{{$t('ADDRESS')}}</p>
+            <!-- <div v-if="status === 4">
+              <span class="font-14 text-three">{{address}}</span>
+              <span>{{$t('CAN_NOT_DEPOSIT')}}</span>
+            </div> -->
+            <div v-if="status === 3 || status === 4">
+              <span class="font-14 text-three">{{address}}</span>
+              <span>{{$t('CAN_NOT_DEPOSIT')}}</span>
+            </div>
             <div v-if="status === 1">
               <span class="font-14 text-three">{{address}}</span>
               <q-btn v-if="address" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" color="secondary" size="xs" flat round icon="content copy" />
@@ -259,7 +269,7 @@ export default {
     showAddrQr() {
       this.$root.$emit(
         'showQRCodeModal',
-        this.address && this.isCross ? 'bitcoin:' + this.address : this.address
+        this.address && this.isCross ? this.asset.currency + ':' + this.address : this.address
       )
     },
     async getGateway(name) {
@@ -322,12 +332,15 @@ export default {
       }
     },
     ratio() {
-      if (this.bailInfo) {
+      if (this.bailInfo && this.bailInfo.length > 0) {
         return (this.bailInfo.ratio * 100).toFixed(2)
       }
       return 0
     },
     status() {
+      if (this.getGatewayState === 3 || this.getGatewayState === 0) {
+        return 4
+      }
       if (this.getGatewayState === 4) {
         return 3
       }

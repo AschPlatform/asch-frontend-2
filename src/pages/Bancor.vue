@@ -45,7 +45,7 @@
             {{props.row.stock}}
           </q-td>
           <q-td key="price" class="col-2 no-border line-40" :props="props">
-            {{(1 / props.row.latestBid).toFixed(6)}}
+            {{ props.row.latestBid !== '0' ? (1 / props.row.latestBid).toFixed(6) : 0}}
           </q-td>
           <q-td key="action" class="col-md-3 col-xs-8 no-border" :class="isDesk?'offset-5':''" :props="props">
             <div class="btn-group flex justify-around">
@@ -372,9 +372,13 @@ export default {
       this.dealPairInfo.buy = props.money
       this.dealPairInfo.sell = props.stock
       // this.dealPairInfo.price = props.latestBid
-      this.dealPairInfo.price = BigNumber(1)
+      if (props.latestBid === '0') {
+        this.dealPairInfo.price = 0
+      } else {
+        this.dealPairInfo.price = BigNumber(1)
         .div(props.latestBid)
         .toFixed(6)
+      }
       this.config = {
         money: props.money,
         stock: props.stock,
