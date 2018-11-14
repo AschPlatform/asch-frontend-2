@@ -73,7 +73,7 @@
               </q-tooltip>
             </p>
             <!-- <p>{{item.col2[1]}}</p> -->
-          </div>
+          </div>  
           <div v-else id="backup" class="col-xs-12 col-md-2">
             <span>{{item.col2[1]}}</span>
             <span>{{item.col2[0].slice(0, 7)}}

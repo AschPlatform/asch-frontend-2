@@ -7,41 +7,41 @@
           <h5 class="q-px-md inline-block font-18 q-my-none">{{$t('SMART_CONTRACT_POST')}}</h5>
         </span>
       </div>
-      <div class="title-line">
+      <div :class="isDesk?'title-line':'padding-10 padding-bottom-0'">
         <boundary-line />
       </div>
-      <div class="row col-12 inner-container">
-        <div class="row col-12 padding-l-15">
-          <q-field class="block col-10 font-16 custom-postContract-field" label-width="1" :label="$t('SMART_CONTRACT_NAME')+' : '" :error-label="$t('ERR_CONTRACT_NAME')">
+      <div class="row col-12" :class="isDesk?'inner-container':'padding-10'">
+        <div class="row col-12" :class="isDesk?'padding-l-15':''">
+          <q-field class="block col-md-5 col-xs-12 font-16" :class="isDesk?'custom-postContract-field':''" label-width="2" :label="$t('SMART_CONTRACT_NAME')+' : '" :error-label="$t('ERR_CONTRACT_NAME')">
             <q-input class="border-1" hide-underline v-model="content.name" value="" :placeholder="$t('PLACEHOLDER_CONTRACT_NAME')" :error="$v.content.name.$error" />
           </q-field>
         </div>
-        <div class="row col-12 padding-l-15">
-          <q-field class="block col-10 font-16 custom-postContract-field" label-width="1" :label="$t('SMART_CONTRACT_CODE')+' : '" :error-label="$t('ERR_CONTRACT_CODE')">
+        <div class="row col-12" :class="isDesk?'padding-l-15':''">
+          <q-field class="block col-md-10 col-xs-12 font-16 custom-postContract-field" label-width="1" :label="$t('SMART_CONTRACT_CODE')+' : '" :error-label="$t('ERR_CONTRACT_CODE')">
             <div class="code-container">
               <codemirror :value.sync="content.code" :options="getCodeOption"   @change="change" />
             </div>
             <p v-if="$v.content.code.$error" class="margin-top-10 margin-b-0 font-12 text-negative">{{$t('CONTRACT_ERR_CODE')}}</p>
           </q-field>
         </div>
-        <div class="row col-12 padding-l-15">
-          <q-field class="block col-10 font-16 custom-postContract-field" label-width="1" :label="$t('SMART_CONTRACT_DESC')+' : '" :error-label="$t('ERR_CONTRACT_DESC')">
+        <div class="row col-12" :class="isDesk?'padding-l-15':''">
+          <q-field class="block col-md-10 col-xs-12 font-16 custom-postContract-field" label-width="1" :label="$t('SMART_CONTRACT_DESC')+' : '" :error-label="$t('ERR_CONTRACT_DESC')">
             <q-input class="border-1 textareaInner" type="textarea" hide-underline v-model="content.desc" value="" :placeholder="$t('PLACEHOLDER_SMART_CONTRACT_DESC')" :max-height="500" :rows="5" :error="$v.content.desc.$error" />
           </q-field>
         </div>
-        <div class="row col-12 padding-l-15">
-          <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="'Gas_Limit : '" :error-label="$t('ERR_CONTRACT_GAS')">
+        <div class="row col-12" :class="isDesk?'padding-l-15':''">
+          <q-field class="block col-md-5 col-xs-12 font-16 custom-postContract-field" label-width="2" :label="'Gas_Limit : '" :error-label="$t('ERR_CONTRACT_GAS')">
             <q-input class="border-1" hide-underline v-model="content.gas" value="" :placeholder="$t('PLACEHOLDER_CONTRACT_GAS')" :error="$v.content.gas.$error" />
           </q-field>
-          <div class="row justify-center items-center text-secondary font-16 margin-left-20 padding-bottom-10">{{$t('EXPEND_GAS_LIMIT',{gas:costGas})}}</div>
+          <div class="row justify-center items-center text-secondary font-16 padding-bottom-10" :class="isDesk?'margin-left-20':''">{{$t('EXPEND_GAS_LIMIT',{gas:costGas})}}</div>
         </div>
-        <div v-if="secondSignature" class="row col-12 padding-l-15">
+        <div v-if="secondSignature" class="row col-12" :class="isDesk?'padding-l-15':''">
           <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('TRS_TYPE_SECOND_PASSWORD')+' : '" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"> 
             <q-input class="border-1" hide-underline v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error="$v.secondPwd.$error" />
           </q-field>
         </div>
         <div class="row justify-center col-12">
-           <q-btn class="col-3 q-mt-md no-shadow font-18 padding-15" :disable="$v.content.$error || $v.secondPwd.$error" color="secondary" :label="$t('SMART_CONTRACT_COMMIT')" @click="submit" />
+           <q-btn class="col-md-3 col-xs-12 q-mt-md no-shadow font-18 padding-15" :disable="$v.content.$error || $v.secondPwd.$error" color="secondary" :label="$t('SMART_CONTRACT_COMMIT')" @click="submit" />
         </div>
       </div>
     </div>

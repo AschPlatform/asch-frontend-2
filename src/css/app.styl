@@ -128,26 +128,26 @@ $bg-ten=#f0f3f6
 .margin-right-minus-5
  margin-right: -5px 
 
-.margin-t-15
+.margin-right-10
+ margin-right: 10px 
+
+.margin-top-10
+ margin-top: 10px 
+
+.margin-top-15
  margin-top: 15px 
 
-.margin-t-20
- margin-top: 20px  
-
 .margin-top-20
- margin-top: 20px  
+ margin-top: 20px 
 
 .margin-top-30
  margin-top: 30px 
 
+.margin-top-50
+ margin-top: 50px 
+
 .margin-t-54
- margin-top: 54px  
-
-.margin-t-10
- margin-top: 10px  
-
-.margin-top-10
- margin-top: 10px  
+ margin-top: 54px
 
 .margin-b-0
  margin-bottom: 0px  
@@ -168,6 +168,12 @@ $bg-ten=#f0f3f6
 
 .height-100
  height:100%
+
+.line-height-24
+  line-height: 24px
+
+.line-height-30
+  line-height: 30px
 
 .line-height-36
   line-height: 36px
@@ -194,7 +200,7 @@ $bg-ten=#f0f3f6
  padding-left: 0px;
 
 .padding-20
- padding: 20px 20px;
+ padding: 20px;
 
 .padding-b-54 
  padding-bottom: 54px;
@@ -202,20 +208,35 @@ $bg-ten=#f0f3f6
 .padding-b-20 
  padding-bottom: 20px;
 
+.padding-top-0
+ padding-top: 0px;
+
+.padding-top-10
+ padding-top: 10px;
+
 .padding-top-20
  padding-top: 20px;
 
 .padding-top-32
  padding-top: 32px;
 
-.padding-right-20 
- padding-right: 20px;
-
 .padding-right-0 
  padding-right: 0px;
 
+.padding-right-20 
+ padding-right: 20px;
+
+.padding-right-40 
+ padding-right: 40px;
+
+.padding-bottom-0 
+ padding-bottom: 0px;
+
 .padding-bottom-10 
  padding-bottom: 10px;
+
+.padding-bottom-20 
+ padding-bottom: 20px;
 
 .padding-bottom-30 
  padding-bottom: 30px;
@@ -234,6 +255,9 @@ $bg-ten=#f0f3f6
 
 .padding-0
  padding: 0px;
+
+.custom-btn
+  padding: 10px 20px;
 
 .asset-detail-card-h
  height: 154px !important
@@ -302,6 +326,7 @@ $bg-ten=#f0f3f6
 
 .cursor-pointer
  cursor: pointer;
+ text-decoration: none;
 
 .q-table-top
  padding: 0 24px   
@@ -583,7 +608,7 @@ html {
   ::-webkit-scrollbar {
     height: 16px;
     border-radius:10px;
-    background-color:#F5F5F5;
+    // background-color:#F5F5F5;
   }
 }
 
@@ -602,5 +627,20 @@ html {
    min-height: 30px;
    margin 0 5px !important
 
+.custom-secret-input {
+  display: inline-block;
+  width: 80%;
+
+  .q-if-baseline {
+    line-height: 0 !important;
+  }
+}
+
 .word-break-all
   word-break: break-all;
+
+.custom-issuer-modal{
+  .modal-content {
+    max-width: 520px !important;
+ }
+}

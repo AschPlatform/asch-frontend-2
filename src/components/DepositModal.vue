@@ -31,11 +31,11 @@
         <!-- <q-field label-width="3" :label="$t('TIP')" class="padding-40 col-9">
           <div class="deposit-text font-14">{{tipContent}}</div>
         </q-field> -->
-        <div class="margin-t-15" :class="tipColor" v-if="status !== 0 && isSealed.revoked !== 2">
+        <div class="margin-top-15" :class="tipColor" v-if="status !== 0 && isSealed.revoked !== 2">
           <div class="padding-40 font-14 font-bold">{{$t('TIP')}}</div>
           <div class="padding-40 deposit-text col-6 font-14">{{tipContent}}</div>
         </div>
-        <div class="row justify-center margin-t-20">
+        <div class="row justify-center margin-top-20">
         <q-btn color="secondary" @click="close" :label="$t('label.close')"/>
         </div>
       </div>
@@ -113,7 +113,9 @@ export default {
     // this.asset = this.defaultName
   },
   mounted() {
-    this.currency = this.defaultName.symbol
+    if (this.defaultName && this.defaultName.symbol) {
+      this.currency = this.defaultName.symbol
+    }
     if (this.asset) {
       this.currency = this.asset.symbol
     }
@@ -169,7 +171,9 @@ export default {
     async getAddr() {
       let asset = this.outAssets[this.currency]
       this.asset = asset
-      this.isSealed = this.gatewaysArr[this.defaultName.name || this.outAssets[this.currency].gateway]
+      if (this.defaultName.name && asset) {
+        this.isSealed = this.gatewaysArr[this.defaultName.name || asset.gateway]
+      }
       if (!asset || !asset.gateway) return
       let res = await this.gateAccountAddr({ name: asset.gateway, address: this.user.address })
       if (res.success) {
@@ -177,11 +181,13 @@ export default {
       }
     },
     async getGatewayInfomation(name) {
-      let result = await this.getGatewayInfo({
-        name: this.defaultName.name || this.outAssets[this.currency].gateway
-      })
-      if (result.success) {
-        this.bailInfo = result
+      if (this.defaultName.name || this.outAssets[this.currency]) {
+        let result = await this.getGatewayInfo({
+          name: this.defaultName.name || this.outAssets[this.currency].gateway
+        })
+        if (result.success) {
+          this.bailInfo = result
+        }
       }
     },
     async getOuterAddress() {

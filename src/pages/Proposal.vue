@@ -18,9 +18,9 @@
         <q-btn class="font-18" size="sm" color="secondary" :label="$t('proposal.LAUNCH')" @click="callModal"></q-btn>
       </q-btn-group>
   
-      <q-table class="no-shadow margin-t-20" :data="proposalDetail" :columns="columns" row-key="no" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
+      <q-table class="no-shadow margin-top-20" :data="proposalDetail" :columns="columns" row-key="no" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
         <q-td slot="body-cell-desc" slot-scope="props" :props="props">
-          {{props.value.substring(0,20) + '...'}}
+          {{ props.value.length > 20 ? props.value.substring(0,20) + '...' : props.value}}
           <q-popover v-if="props.value" ref="popover-msg">
             <div class="light-paragraph">{{props.value}}</div>
           </q-popover>
@@ -158,8 +158,12 @@ export default {
           return this.$t('proposal.SELECT_INITNET')
         case 'gateway_update_member':
           return this.$t('proposal.SELECT_MEMBER_ACTION')
+        case 'gateway_revoke':
+          return this.$t('PROPOSAL_GATEWAY_REVOKE')
         case 'bancor_init':
-          return this.$t('BANCOR_INIT')
+          return this.$t('PROPOSAL_NEW_BANCOR')
+        case 'gateway_claim':
+          return this.$t('PROPOSAL_GATEWAY_CLAIM')
       }
     },
     changeState(val) {

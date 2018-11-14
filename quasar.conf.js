@@ -30,7 +30,7 @@ module.exports = ctx => {
     },
     devServer: {
       // https: true,
-      // port: 8080,
+      port: 8080,
       open: false // opens browser window automatically
     },
     // framework: 'all' --- includes everything; for dev only!

@@ -25,8 +25,8 @@
          <span class="font-30 text-black vertical-align-sub margin-left-24 " style="word-break:break-all;">{{agentName}}</span>
         (<a class="text-blue cursor-pointer" @click="$emit('openDetail')">{{$t('AGENT_DETAIL')}}</a>)
         </div>
-      <q-btn  class="margin-t-10" color="secondary" :disable="btnDisable" @click="action">{{$t(btnInfo)}}</q-btn>
-      <p class="margin-t-10" v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:convertFeeAmount()})}}</p>
+      <q-btn  class="margin-top-10" color="secondary" :disable="btnDisable" @click="action">{{$t(btnInfo)}}</q-btn>
+      <p class="margin-top-10" v-if="isLocked">{{$t('AUTHOR_AMOUNT',{amount:convertFeeAmount()})}}</p>
     </q-card-main>
   </q-card>
 </template>

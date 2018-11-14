@@ -49,7 +49,7 @@
         <div :class="voteRightClass">
           <div>
           <vote-record />
-          <my-vote-delegate class="margin-t-20" :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetail" />
+          <my-vote-delegate class="margin-top-20" :user="userInfo" @setAgent="setAgent" @repealAgent="repealAgent" @openDetail="agentDetail" />
           </div> 
         </div>
 
@@ -324,7 +324,7 @@ export default {
     voteRightClass() {
       return this.isDesk
         ? 'col-md-4 col-xs-12 vote-right-container'
-        : 'col-md-4 col-xs-12 margin-t-20'
+        : 'col-md-4 col-xs-12 margin-top-20'
     },
     paginationDeafult() {
       return {

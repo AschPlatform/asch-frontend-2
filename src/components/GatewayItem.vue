@@ -8,7 +8,7 @@
         </span>
       </q-card-title>
       <q-card-main inline class="row justify-between">
-        <div>
+        <div class="col-10">
           <div class="text-left">
             <i class="material-icons font-24 vertical-align-middle text-orange">fiber_manual_record</i>
             <span class="font-18 text-five vertical-align-middle">{{$t('GATEWAY_STATUS')}} : </span>
@@ -23,7 +23,7 @@
             <span class="font-18 text-five vertical-align-middle">{{$t('CREATE_TIME')}} : {{fullTimestamp(item.createTime)}}</span>
           </div>
         </div>
-        <q-btn small icon="arrow forward" class="no-shadow" inverted color="white" @click="$emit('open',item)">
+        <q-btn small icon="arrow forward" class="no-shadow col-2" inverted color="white" @click="$emit('open',item)">
           <i class="material-icons font-36 text-eight">arrow_forward</i>
         </q-btn>
       </q-card-main>

@@ -12,11 +12,11 @@
       <q-field class="col-md-8 col-xs-12" :label="$t('DESCRIBE')" :label-width="3" :error="$v.assets.desc.$error" :row="6" :count="500" :error-label="$t('ERR_MISSING_ASSET_DESCRIPTION')">
         <q-input @blur="$v.assets.desc.$touch" type="textarea" v-model="assets.desc" clearable />
       </q-field>
-      <q-field class="col-md-8 col-xs-12" :label="$t('TOPLIMIT')" :label-width="3" :error="$v.assets.maximum.$error"  :error-label="$t('ERR_ASSET_TOPLIMIT_NOT_CORRECT')">
+      <q-field class="col-md-8 col-xs-12" :label="$t('TOPLIMIT')" :label-width="3" :error="$v.assets.maximum.$error"  :error-label="$t('ERR_ASSET_TOPLIMIT_NOT_CORRECT')" :count="30">
         <q-input @blur="$v.assets.maximum.$touch" v-model="assets.maximum" :decimals="0" />
       </q-field>
-      <q-field class="col-md-8 col-xs-12" :label="$t('PRECISION')" :helper="$t('ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16')" :error="$v.assets.precision.$error" :label-width="3"  :error-label="$t('ERR_ASSET_PRECISION_NOT_CORRECT')">
-        <q-input @blur="$v.assets.precision.$touch" v-model="assets.precision" :decimals="0" :step="1"  type="number"/>
+      <q-field class="col-md-8 col-xs-12" :label="$t('PRECISION')" :error="$v.assets.precision.$error" :label-width="3"  :error-label="$t('ERR_ASSET_PRECISION_NOT_CORRECT')">
+        <q-input @blur="$v.assets.precision.$touch" v-model="assets.precision" :placeholder="$t('ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16')" :decimals="0" :step="1"  type="number"/>
       </q-field>
       <q-field v-if="secondSignature" class="col-md-8 col-xs-12" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
         <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />

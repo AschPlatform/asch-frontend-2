@@ -150,7 +150,7 @@
     </q-dialog>
 
       <user-agreement-modal :show="userAgreementShow" @confirm="confirm" @cancel="userAgreementShow=false" :title="agreement.title" :tips="agreement.tips" :content="agreement.content" />
-      <asset-issuer-modal :show="registerIssuerModalShow" @close="registerIssuerModalShow=false" :issuerInfo="issuer" />
+      <asset-issuer-modal class="custom-issuer-modal" :show="registerIssuerModalShow" @close="registerIssuerModalShow=false" :issuerInfo="issuer" />
       <asset-register-modal :show="registerAssetModalShow" @close="registerAssetModalShow=false" />
     </q-page>
 </template>

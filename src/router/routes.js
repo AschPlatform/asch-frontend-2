@@ -68,6 +68,11 @@ export default [
         component: load('PostContract')
       },
       {
+        path: 'postApplyGateway',
+        name: 'postApplyGateway',
+        component: load('PostApplyGateway')
+      },
+      {
         path: 'contractDetail/:name',
         name: 'contractDetail',
         component: load('ContractDetail')

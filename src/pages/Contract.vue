@@ -1,20 +1,23 @@
 <template>
   <q-page class="contract-container">
     <div class="contract-content bg-white shadow-2 border-r-6">
-      <div class="relative desktop-only w-full border-1 border-solid border-tw-grey">
+      <div class="relative w-full border-1 border-solid border-tw-grey">
         <div class="top-bar">
-          <button :class="this.type === 1 ? styleSelected : styleUnselected" @click="changeType(1)">
+          <button :class="isDesk?this.type === 1 ? styleSelected : styleUnselected:this.type === 1 ? styleSelectedMobile : styleUnselectedMobile" @click="changeType(1)">
             {{$t('SMART_CONTRACT_LIST')}}
           </button>
-          <button :class="this.type === 0 ? styleSelected : styleUnselected" @click="changeType(0)">
+          <button :class="isDesk?this.type === 0 ? styleSelected : styleUnselected:this.type === 0 ? styleSelectedMobile : styleUnselectedMobile" @click="changeType(0)">
             {{$t('SMART_CONTRACT_MINE')}}
           </button>
-          <q-btn class="font-14 mobile-hide float-right pos" rounded color="secondary" :label="$t('SMART_CONTRACT_NEW')" @click="newContract" />
+          <div class="float-right contract-search-container" :class="isDesk?'padding-top-10 padding-right-40':'width-100 row justify-center padding-top-10'">
+            <q-btn v-if="this.type === 0" class="font-14" :class="isDesk?'pos':'col-10'" rounded color="secondary" :label="$t('SMART_CONTRACT_NEW')" @click="newContract" />
+            <q-input color="secondary" v-else class="" :class="isDesk?'contract-search':'col-10 contract-search-mobile'" type="text" v-model="searchStr" :after="searchIcon"  @keyup.enter="search" :placeholder="$t('SEARCH_BY_CONTRACT_NAME')" hide-underline />
+          </div>
         </div>
 
-        <q-table class="no-shadow margin-t-20" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
-          <q-td slot="body-cell-address" slot-scope="props" :props="props" >
-            <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">{{props.value}}</div>    
+        <q-table class="no-shadow" :class="isDesk?' margin-top-20':' margin-top-50'" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
+          <q-td slot="body-cell-address" slot-scope="props" :props="props">
+            <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">{{props.value}}</div>
           </q-td>
           <!-- <q-td slot="body-cell-name" slot-scope="props" :props="props">
             {{props.value}}
@@ -29,12 +32,12 @@
             {{props.value | time}}
           </q-td> 
           <q-td slot="body-cell-name" slot-scope="props" :props="props">
-             <div class="text-secondary cursor-pointer" @click="open(props.row)" >
+             <div class="text-secondary cursor-pointer" @click="open(props.row)">
                 {{props.value}}
               </div>
           </q-td> 
-          <q-td slot="body-cell-owner" slot-scope="props" :props="props" >
-             <div class="text-secondary cursor-pointer" @click="viewAccountInfo({address:props.value})" >
+          <q-td slot="body-cell-owner" slot-scope="props" :props="props">
+             <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">
                 {{props.value}}
               </div>
           </q-td> 
@@ -45,8 +48,9 @@
 </template>
 
 <script>
-import { QPage, QBtnGroup, QBtn, QTable, QTd } from 'quasar'
+import { QPage, QBtnGroup, QBtn, QTable, QTd, QInput } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
+import { toastError } from '../utils/util'
 
 export default {
   name: 'Contract',
@@ -55,13 +59,17 @@ export default {
     QBtnGroup,
     QBtn,
     QTable,
-    QTd
+    QTd,
+    QInput
   },
   data() {
     return {
+      searchStr: '',
       type: 1,
       styleSelected: 'inner-btn text-secondary selected',
       styleUnselected: 'inner-btn text-four',
+      styleSelectedMobile: 'inner-mobile-btn text-secondary selected',
+      styleUnselectedMobile: 'inner-mobile-btn text-four',
       pagination: {
         page: 1,
         rowsNumber: 0,
@@ -111,7 +119,7 @@ export default {
     this.getContractsFunc()
   },
   methods: {
-    ...mapActions(['getContracts']),
+    ...mapActions(['getContracts', 'getContractDetail']),
     async request(props) {
       await this.getContractsFunc(props.pagination, props.filter)
     },
@@ -120,8 +128,7 @@ export default {
       let pageNo = pagination.page || this.pagination.page
       let params = {
         limit: limit,
-        offset: (pageNo - 1) * limit,
-        orderBy: 'timestamp:desc'
+        offset: (pageNo - 1) * limit
       }
       if (this.type === 0) params.owner = this.address
       let res = await this.getContracts(params)
@@ -142,6 +149,22 @@ export default {
     },
     newContract() {
       this.$router.push('/postContract')
+    },
+    async search() {
+      let name = this.searchStr
+      if (name) {
+        let res = await this.getContracts({
+          name: name
+        })
+        if (res.success && res.count !== 0) {
+          this.$router.push('/contractDetail/' + name)
+        } else {
+          toastError(this.$t('ERR_CONTRACT_NOT_EXIST'))
+        }
+      } else {
+        toastError(this.$t('ERR_CONTRACT_NOT_EXIST'))
+      }
+      this.searchStr = ''
     }
   },
   computed: {
@@ -151,6 +174,19 @@ export default {
     },
     address() {
       return this.user.account.address
+    },
+    searchIcon() {
+      const deleteIcon = {
+        icon: 'close',
+        handler: () => (this.searchStr = ''),
+        content: true
+      }
+      const searchIcon = {
+        icon: 'search',
+        handler: () => this.search(),
+        content: true
+      }
+      return this.searchStr ? [deleteIcon, searchIcon] : [searchIcon]
     }
   },
   watch: {
@@ -181,6 +217,21 @@ export default {
   border-bottom: 1px solid #ffffff;
 }
 
+.inner-mobile-btn {
+  outline: none;
+  background-color: rgba(0, 0, 0, 0);
+  position: relative;
+  height: 50px;
+  width: 50%;
+  font-size: 14px;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-top: none;
+  border-left: none;
+  border-right: 1px solid #e0e1e5;
+  border-bottom: 1px solid #ffffff;
+}
+
 .selected {
   bottom: -1px;
 }
@@ -189,9 +240,29 @@ export default {
   border-bottom: 1px solid #e0e1e5;
 }
 
-.pos {
-  top: 8px;
-  right: 60px;
-  padding: 11px 30px;
+.contract-search-container {
+  // padding: 10px 40px 0 0;
+  .pos {
+    height: 36px;
+    padding: 0px 30px;
+  }
+
+  .contract-search-mobile {
+    // width: 300px;
+    height: 36px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 22px;
+    border: 1px solid #ccc;
+  }
+
+  .contract-search {
+    width: 300px;
+    height: 36px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 22px;
+    border: 1px solid #ccc;
+  }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="tip-bar-container">
     <div class="tip-bar-content shadow-1 row" :class="tipColor">
-      <i class="material-icons font-36 col-1">
+      <i class="material-icons font-44 col-1">
         report_problem
       </i>
       <div class="flex col-11 items-center">
@@ -25,13 +25,15 @@ export default {
   computed: {
     tipContent() {
       // return 'Curreny problem is not work well'
-      switch (this.status) {
-        case 1:
-          return this.$t('TIP_BAR_NORMAL', { rate: this.ratio.toFixed(2) })
-        case 2:
-          return this.$t('TIP_BAR_WARN', { rate: this.ratio.toFixed(2), name: this.symbol })
-        case 3:
-          return this.$t('TIP_BAR_CLOSE')
+      if (this.ratio && this.status) {
+        switch (this.status) {
+          case 1:
+            return this.$t('TIP_BAR_NORMAL', { rate: this.ratio.toFixed(2) })
+          case 2:
+            return this.$t('TIP_BAR_WARN', { rate: this.ratio.toFixed(2), name: this.symbol })
+          case 3:
+            return this.$t('TIP_BAR_CLOSE')
+        }
       }
     },
     tipColor() {

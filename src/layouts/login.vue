@@ -52,11 +52,11 @@
               </q-card-title> 
               <q-card-main class="row col-12 justify-center ">
                 <q-field  class="col-10" :helper="$t('CREATE_TIP1')">
-                  <q-input type="textarea" class="new-secret-input col-6" v-model="newSecret" disable :min-rows="3" />
+                  <q-input type="textarea" class="custom-secret-input col-6" v-model="newSecret" disable :min-rows="3" :max-row="3"/>
                   <q-btn class="copy-new-secret col-10" color="primary" v-clipboard="newSecret || 'no data' "  flat round icon="content copy" @click="jumpOut($t('COPY_SUCCESS'))" />
                 </q-field>
                 <q-field  class="col-10">
-                  <q-input type="textarea" class="margin-t-10" :float-label="$t('CREATE_TIP2')" v-model="confirmNewSecret" clearable />
+                  <q-input type="textarea" class="margin-top-10" :float-label="$t('CREATE_TIP2')" v-model="confirmNewSecret" clearable />
                 </q-field>
               </q-card-main>
               <q-card-main class="prompt-message">
@@ -66,7 +66,7 @@
                 <br><br>
                 <q-checkbox class="selection-container-three" v-model="selection" val="three" :label="$t('READ_TIP3')" />
               </q-card-main>
-              <q-card-main class="row col-10 justify-center padding-b-54">
+              <q-card-main class="row col-10 justify-center padding-b-54 padding-top-0">
                 <div v-show="registerStep==1" class="row col-10 justify-between">
                   <q-btn big class="col-auto col-5" color="primary" @click="toLogin">
                     {{$t('CANCEL_LOGIN')}}
@@ -408,10 +408,7 @@ html, body {
   font-size: 12px !important;
 }
 
-.new-secret-input {
-  display: inline-block;
-  width: 80%;
-}
+
 
 .copy-new-secret {
   display: inline-block;
@@ -430,7 +427,7 @@ html, body {
   position: relative;
   z-index: 10;
   width: 100%;
-  height: 364px;
+  height: 400px;
   padding: 0 10px !important;
   margin-top: -32px;
 }
