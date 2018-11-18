@@ -1,11 +1,11 @@
 <template>
-  <div class="col-12" v-show="this.first_type === 'gateway_clear' && this.initFalse" id="clear">
+  <div class="col-12" id="clear">
     <div class="row">
       <q-field class="gateway-claim col-md-12 col-xs-12 font-16 text-four row" label-width="1" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP')">
-        <div class="text-secondary block">{{name || ''}}</div>
+        <div class="text-secondary block">{{ name || '' }}</div>
         <div class="row">
           <div>{{$t('GATEWAY_MEMBER')}}</div>
-          <q-select class="col-md-4" align="center" multiple chips filter v-model="CLEAR.selected" :options="MEMBER.electedList"></q-select>
+          <q-select class="col-md-4" align="center" multiple chips filter v-model="CLEAR.selected" :options="electedList"></q-select>
           <div class="col-md-5">{{$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP1')}}</div>
         </div>
       </q-field>
@@ -19,16 +19,28 @@
 </template>
 
 <script>
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
+import {
+  QField,
+  QInput,
+  QSelect
+} from 'quasar'
+
 export default {
   name: 'snippet-claimGateway',
   props: ['reset', 'name', 'electedList'],
+  components: {
+    QField,
+    QInput,
+    QSelect
+  },
   data() {
     return {
-      avaliable: false,
       CLEAR: {
         selected: []
       },
-      package: {}
+      brief: '',
+      pack: {}
     }
   },
   validations: {
@@ -45,8 +57,9 @@ export default {
   },
   methods: {
     compilePackage() {
-      this.package = {
-        gateway: this.p_selected.name,
+      this.pack = {
+        pack: {
+          gateway: this.name,
           evilMembers: (() => {
             let tempArr = []
             this.CLEAR.selected.forEach(e => {
@@ -54,19 +67,32 @@ export default {
             })
             return tempArr
           })(),
-        url: this.CLEAR.url,
-        desc: this.brief
-      }
-    },
-    judge() {
-      this.$v.CLEAR.$touch()
-      this.$v.brief.$touch()
-      if (!this.$v.invalid) {
-        this.send(this.package)
+          url: this.CLEAR.url,
+          desc: this.brief
+        },
+        brief: this.brief
       }
     },
     send(stuff) {
       this.$emit('send', stuff)
+    }
+  },
+  computed: {
+    avaliable() {
+      if (this.$v.invalid !== true) {
+        this.compilePackage()
+        this.send(this.pack)
+        return true
+      }
+      return false
+    }
+  },
+  watch: {
+    avaliable(val) {
+      if (val) {
+        this.compilePackage()
+        this.send(this.pack)
+      }
     }
   }
 }

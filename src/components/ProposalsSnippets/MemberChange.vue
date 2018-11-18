@@ -1,12 +1,12 @@
 <template>
-  <div class="col-12 q-field-label-inner-center" v-show="this.first_type === 'member_n'" id="remove">
+  <div class="col-12 q-field-label-inner-center" id="remove">
     <!-- instead members -->
     <div class="row">
       <q-field align="left" class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP1')">
-      <q-select align="center" chips filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
+      <q-select align="center" chips filter v-model="MEMBER.removed" :options="electedList"></q-select>
       </q-field>
       <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP2')">
-      <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="MEMBER.unelectedList"></q-select>
+      <q-select align="center" color="secondary" chips filter v-model="MEMBER.added" :options="unelectedList"></q-select>
       </q-field>
       <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP3')">
       </q-field>
@@ -20,49 +20,35 @@
 </template>
 
 <script>
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
+import {
+  QField,
+  QInput,
+  QSelect
+} from 'quasar'
+
 export default {
   name: 'snippet-memberChange',
   props: ['reset', 'electedList', 'unelectedList'],
+  components: {
+    QField,
+    QInput,
+    QSelect
+  },
   data() {
     return {
-      avaliable: false,
       MEMBER: {
-        type: [
-          {
-            label: this.$t('proposal.SELECT_MEMBER_ADD'),
-            value: 'add'
-          },
-          {
-            label: this.$t('proposal.SELECT_MEMBER_DELETE'),
-            value: 'delete'
-          },
-          {
-            label: this.$t('proposal.SELECT_MEMBER_INSTEAD'),
-            value: 'instead'
-          }
-        ],
-        type_selected: null,
         added: [],
         removed: [],
         electedList: [],
         unelectedList: [],
-        add_selected: [],
-        delete_selected: [],
-        instead_pre: [],
-        instead_post: [],
-        memberList: [],
-        show_pre: [],
-        show_post: [],
-        clear: []
+        memberList: []
       },
-      package: {}
+      pack: {}
     }
   },
   validations: {
     MEMBER: {
-      instead_post: {
-        required
-      },
       added: {
         required,
         isEqual(val) {
@@ -84,21 +70,35 @@ export default {
   },
   methods: {
     compilePackage() {
-      this.package = {
-        gateway: this.p_selected.name,
-        from: this.MEMBER.removed.address,
-        to: this.MEMBER.added.address
-      }
-    },
-    judge() {
-      this.$v.MEMBER.$touch()
-      this.$v.brief.$touch()
-      if (!this.$v.invalid) {
-        this.send(this.package)
+      this.pack = {
+        pack: {
+          gateway: this.p_selected.name,
+          from: this.MEMBER.removed.address,
+          to: this.MEMBER.added.address
+        },
+        brief: this.brief
       }
     },
     send(stuff) {
       this.$emit('send', stuff)
+    }
+  },
+  computed: {
+    avaliable() {
+      if (this.$v.invalid !== true) {
+        this.compilePackage()
+        this.send(this.pack)
+        return true
+      }
+      return false
+    }
+  },
+  watch: {
+    avaliable(val) {
+      if (val) {
+        this.compilePackage()
+        this.send(this.pack)
+      }
     }
   }
 }

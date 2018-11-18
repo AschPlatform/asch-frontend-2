@@ -71,7 +71,7 @@
           </div>
   
           <!-- below is net new page -->
-          <div class="col-md-12" v-show="this.first_type === 'new_n'" id="new">
+          <!-- <div class="col-md-12" v-show="this.first_type === 'new_n'" id="new">
             <div class="row col-md-12">
               <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_3_16')" :label="$t('LAUNCH_MODAL.NET_NAME')">
                 <q-input type="text" v-model="NEW.name" @blur="$v.NEW.name.$touch()" :error="$v.NEW.name.$error"></q-input>
@@ -97,11 +97,6 @@
                 <q-input type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :placeholder="$t('LAUNCH_MODAL.PERSON')"></q-input>
               </q-field>
             </div>
-            <!-- <div class="row">
-                  <q-field class="col-8" label-width="2" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-                  <q-select chips multiple filter v-model="NEW.selected" :options="NEW.memberList"></q-select>
-                  </q-field>
-              </div> -->
             <div class="row col-12">
               <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
                 <q-input type="number" v-model="NEW.period" @blur="$v.NEW.period.$touch()" :error="$v.NEW.period.$error" :placeholder="$t('LAUNCH_MODAL.DAY')"></q-input>
@@ -112,10 +107,11 @@
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
-          </div>
+          </div> -->
+          <new-gateway v-if="this.first_type === 'new_n'" @send="envaluePackage"></new-gateway>
   
           <!-- below is net init page -->
-          <div class="col-12" v-show="this.first_type === 'init' && this.initFalse" id="init">
+          <!-- <div class="col-12" v-show="this.first_type === 'init' && this.initFalse" id="init">
             <div class="row">
               <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_SUGGEST_PRE')">
                 <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST', {number: gatewayMember})" @blur="$v.INIT.selected.$touch()" :error="!$v.INIT.selected.inNeed" :options="delegateList"></q-select>
@@ -126,15 +122,19 @@
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
-          </div>
+          </div> -->
+          <init-gateway v-if="this.first_type === 'init' && this.initFalse" :name="p_selected.name" :delegateList="delegateList" @send="envaluePackage">
+            <div slot="fin" class="col-12" v-show="!this.initFalse">
+              <div class="row">{{$t('ALREADY_INIT')}}</div>
+            </div>
+          </init-gateway>
 
           <!-- below is net freeze page -->
           <!-- TODO: -->
-          <div class="col-12" v-show="this.first_type === 'gateway_freeze' && this.initFalse" id="freeze">
+          <!-- <div class="col-12" v-show="this.first_type === 'gateway_freeze' && this.initFalse" id="freeze">
             <div class="row">
               <q-field class="gateway-claim col-md-8 col-xs-12 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.GATEWAY_FREEZE_TIP')">
                 <div class="text-secondary">{{p_selected.name}}</div>
-                <!-- <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST', {number: gatewayMember})" @blur="$v.INIT.selected.$touch()" :error="!$v.INIT.selected.inNeed" :options="delegateList"></q-select> -->
               </q-field>
             </div>
             <div class="row col-12">
@@ -142,11 +142,12 @@
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
-          </div>
+          </div> -->
+          <freeze-gateway v-if="this.first_type === 'gateway_freeze' && this.initFalse" :name="p_selected.name" @send="envaluePackage"></freeze-gateway>
 
           <!-- below is net clear page -->
           <!-- TODO: -->
-          <div class="col-12" v-show="this.first_type === 'gateway_clear' && this.initFalse" id="clear">
+          <!-- <div class="col-12" v-show="this.first_type === 'gateway_clear' && this.initFalse" id="clear">
             <div class="row">
               <q-field class="gateway-claim col-md-12 col-xs-12 font-16 text-four row" label-width="1" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP')">
                 <div class="text-secondary block">{{p_selected.name || ''}}</div>
@@ -154,22 +155,16 @@
                   <div>{{$t('GATEWAY_MEMBER')}}</div>
                   <q-select class="col-md-4" align="center" multiple chips filter v-model="CLEAR.selected" :options="MEMBER.electedList"></q-select>
                   <div class="col-md-5">{{$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP1')}}</div>
-                  <!-- <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_TIP1')">
-                  </q-field> -->
                 </div>
               </q-field>
             </div>
-            <!-- <div class="row col-12">
-              <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('LAUNCH_MODAL.CURRENCY_BRIEF_TIP')" :label="$t('LAUNCH_MODAL.GATEWAY_CLEAR_INVEST')">
-                <q-input type="text" v-model="CLEAR.url" @blur="$v.CLEAR.url.$touch()" :error="$v.CLEAR.url.$error" :placeholder="$t('CHECK_URL')"></q-input>
-              </q-field>
-            </div> -->
             <div class="row">
               <q-field class="col-md-6 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.GATEWAY_FREEZE_BRIEF')">
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
-          </div>
+          </div> -->
+          <claim-gateway v-if="this.first_type === 'gateway_clear' && this.initFalse" :electedList="MEMBER.electedList" :name="p_selected.name" @send="envaluePackage"></claim-gateway>
 
           <!-- below is net init disabled page -->
           <div class="col-12" v-show="this.first_type === 'init' && !this.initFalse">
@@ -195,8 +190,7 @@
           </div>
   
           <!-- below is net member page -->
-          <div class="col-12 q-field-label-inner-center" v-show="this.first_type === 'member_n'" id="remove">
-            <!-- instead members -->
+          <!-- <div class="col-12 q-field-label-inner-center" v-show="this.first_type === 'member_n'" id="remove">
             <div class="row">
               <q-field align="left" class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP1')">
                 <q-select align="center" chips filter v-model="MEMBER.removed" :options="MEMBER.electedList"></q-select>
@@ -207,17 +201,13 @@
               <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="8" :label="$t('LAUNCH_MODAL.REMOVE_COUNCIL_TIP3')">
               </q-field>
             </div>
-            <!-- <div class="row justify-around q-my-lg">
-                  <q-chips-input color="white" :float-label="$t('LAUNCH_MODAL.INSTEAD_PRE')" chips-bg-color="secondary" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="totalName" disable/>
-                  <q-icon size="33px" name="keyboard arrow right" />
-                  <q-chips-input color="white" chips-bg-color="secondary"  :float-label="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5 font-16 padding-20 text-black no-shadow border-secondary chips-input-color" inverted readonly v-model="afterName" disable/>
-                </div> -->
             <div class="row col-12">
               <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_50_1000')" :label="$t('LAUNCH_MODAL.MEMBER_REASON')">
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
-          </div>
+          </div> -->
+          <member-change v-if="this.first_type === 'member_n'" :unelectedList="MEMBER.unelectedList" :electedList="MEMBER.electedList" @send="envaluePackage"></member-change>
   
           <!-- below is remove page -->
           <div class="col-12" v-show="this.first_type === 'remove'" id="remove">
@@ -234,11 +224,6 @@
           <!-- below is period page -->
           <div class="col-12" v-show="this.first_type === 'period'" id="remove">
             <div class="row">
-              <!-- <q-field :label-width="4" :label="$t('proposal.SELECT_P_PERIOD')" class="col-3 font-16 text-four">
-                <q-input :suffix="$t('LAUNCH_MODAL.DAY')" type="number" disabled readonly v-model="PERIOD.pre" />
-              </q-field> -->
-              <!-- <span class="self-center q-ml-lg">{{$t('LAUNCH_MODAL.INSTEAD_POST')}}</span> -->
-              <!-- <span class="self-center q-ml-lg">{{$t('LAUNCH_MODAL.PERIOD_SHIFT', {pre: 3})}}</span> -->
               <q-field class="col-9 font-16 text-four" label-width="8" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_SHIFT', {pre: PERIOD.pre})">
                 <q-input :suffix="$t('LAUNCH_MODAL.DAY')" type="number" @blur="$v.PERIOD.post.$touch()" :error="$v.PERIOD.post.$error" v-model="PERIOD.post" />
               </q-field>
@@ -280,16 +265,11 @@
               </q-field>
             </div>
             <member-indicator :type="countedType"></member-indicator>
-            <!-- <div class="row justify-around q-my-lg">
-              <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_PRE')" class="col-5" inverted readonly v-model="MEMBER.show_pre" disable/>
-              <q-icon size="33px" name="keyboard arrow right" />
-              <q-chips-input color="secondary" :prefix="$t('LAUNCH_MODAL.INSTEAD_POST')" class="col-5" inverted readonly v-model="MEMBER.show_post" disable/>
-            </div> -->
           </div>
 
           <!-- TODO: -->
           <!-- below is bancor init page -->
-          <div class="col-12" v-show="this.first_type === 'new_b'">
+          <!-- <div class="col-12" v-show="this.first_type === 'new_b'">
             <div class="row gutter-md">
               <q-field align="left" class="col-md-4 col-xs-12 font-16 text-four" label-width="4" :error-label="$t('MONEY_STOCK_NOT_SAME')" :label="$t('LAUNCH_MODAL.BANCOR_ADD')">
                 <q-select align="center" chips filter v-model="BANCOR.pair_pre" @blur="$v.BANCOR.pair_pre.$touch()" :error="$v.BANCOR.pair_pre.$error" :options="BANCOR.supportBalances"></q-select>
@@ -304,9 +284,6 @@
               <q-field class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'money'">
                 <q-select color="secondary" v-model="BANCOR.money" @change="checkMoney(val, index)" @blur="$v.BANCOR.money.$touch()" :error="$v.BANCOR.money.$error" :options="moneySelect"></q-select>
               </q-field>
-              <!-- <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYCW'">
-                <q-input color="secondary" v-model="BANCOR.moneyCw"></q-input>
-              </q-field> -->
               <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'moneyBalance'">
                 <q-input color="secondary" @blur="$v.BANCOR.moneyBalance.$touch()" :error="$v.BANCOR.moneyBalance.$error" v-model="BANCOR.moneyBalance"></q-input>
               </q-field>
@@ -315,9 +292,6 @@
               <q-field class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :label="'stock'">
                 <q-input disable color="secondary" value="" :placeholder="stockSelect.assetName"></q-input>
               </q-field>
-              <!-- <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKCW'">
-                <q-input color="secondary" v-model="BANCOR.stockCw"></q-input>
-              </q-field> -->
               <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'stockBalance'">
                 <q-input color="secondary" type="number" @blur="$v.BANCOR.stockBalance.$touch()" :error="$v.BANCOR.stockBalance.$error" v-model="BANCOR.stockBalance"></q-input>
               </q-field>
@@ -332,7 +306,8 @@
                 <q-input type="textarea" v-model="brief" @blur="$v.brief.$touch()" :error="$v.brief.$error" :placeholder="$t('LAUNCH_MODAL.BRIEF_TIP')" :max-height="100" :maxlength="1000" />
               </q-field>
             </div>
-          </div>
+          </div> -->
+          <new-bancor v-if="this.first_type === 'new_b'" :supportBalances="BANCOR.supportBalances" :userInfo="userInfo" @send="envaluePackage"></new-bancor>
 
           <div class="row col-12" v-show="this.first_type !== null">
             <q-field v-if="secondSignature" class="col-6 font-16 text-four" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
@@ -361,9 +336,15 @@
 import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters } from 'vuex'
 import { secondPwd, proposalTitleReg, assetSymbolReg, gatewayNameReg } from '../utils/validators'
-import { toastError, toast, translateErrMsg } from '../utils/util'
+import { toast, translateErrMsg } from '../utils/util'
 import MemberIndicator from '../components/MemberIndicator'
 import UserAgreementModal from '../components/UserAgreementModal'
+import ClaimGateway from '../components/ProposalsSnippets/ClaimGateway'
+import FreezeGateway from '../components/ProposalsSnippets/FreezeGateway'
+import InitGateway from '../components/ProposalsSnippets/InitGateway'
+import MemberChange from '../components/ProposalsSnippets/MemberChange'
+import NewBancor from '../components/ProposalsSnippets/NewBancor'
+import NewGateway from '../components/ProposalsSnippets/NewGateway'
 import {
   QField,
   QModal,
@@ -403,11 +384,18 @@ export default {
     QPage,
     QBtn,
     MemberIndicator,
-    UserAgreementModal
+    UserAgreementModal,
+    ClaimGateway,
+    FreezeGateway,
+    InitGateway,
+    MemberChange,
+    NewBancor,
+    NewGateway
   },
   props: ['show'],
   data() {
     return {
+      pack: null,
       secondPwd: '',
       userAgreementShow: false,
       balanceSheet: [],
@@ -932,21 +920,20 @@ export default {
           url: this.CLEAR.url,
           desc: this.brief
         }
-        console.log(content)
       }
       return content
     },
     async launchProposal() {
       // if (this.first_type === 'new' || this.first_type === 'new_n') {
-      let valid = this.checkValidate(this.first_type)
-      if (!valid) {
-        toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
-        return
-      }
+      // let valid = this.checkValidate(this.first_type)
+      // if (!valid) {
+      //   toastError(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
+      //   return
+      // }
       let obj = {}
-      obj.content = this.compileContent()
+      obj.content = this.pack.pack
       obj.title = this.p_title
-      obj.desc = this.brief
+      obj.desc = this.pack.brief
       obj.topic = this.countedType
       obj.endHeight = this.endHeight
       obj.secondPwd = this.secondPwd
@@ -1185,7 +1172,11 @@ export default {
       }
       return false
     },
+    envaluePackage(pack) {
+      this.pack = pack
+    },
     resetHeader() {
+      this.pack = null
       this.p_title = null
       this.first_type = null
       this.p_time_start = null
@@ -1271,6 +1262,16 @@ export default {
   },
   computed: {
     ...mapGetters(['userInfo']),
+    // REFINE NEW COMP
+    btnAble() {
+      if (!this.$v.p_title.$invalid &&
+        !this.$v.first_type.$invalid &&
+        !this.$v.p_time_end.$invalid &&
+        this.pack !== null) {
+        return true
+      }
+      return false
+    },
     proposalLaunchClass() {
       return this.isDesk
         ? 'padding-suit q-mx-xl q-my-xl'
@@ -1293,7 +1294,7 @@ export default {
       return Number(this.NEW.period) * 8640
     },
     disableLaunch() {
-      if (this.agreeOptions.length === 2) {
+      if (this.agreeOptions.length === 2 && this.btnAble) {
         return false
       }
       return true
@@ -1417,7 +1418,7 @@ export default {
     p_selected(val) {
       if (this.first_type === 'init') {
         this.formInitList()
-      } else if (this.first_type === 'member_n' || 'gateway_clear') {
+      } else if (this.first_type === 'member_n' || this.first_type === 'gateway_clear') {
         this.formMemberList()
       }
     }

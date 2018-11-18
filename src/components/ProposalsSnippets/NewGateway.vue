@@ -1,5 +1,5 @@
 <template>
-  <div class="col-md-12" v-show="this.first_type === 'new_n'" id="new">
+  <div class="col-md-12" id="new">
     <div class="row col-md-12">
       <q-field class="block col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_3_16')" :label="$t('LAUNCH_MODAL.NET_NAME')">
         <q-input type="text" v-model="NEW.name" @blur="$v.NEW.name.$touch()" :error="$v.NEW.name.$error"></q-input>
@@ -25,11 +25,6 @@
         <q-input type="number" v-model="NEW.memberNumber" @blur="$v.NEW.memberNumber.$touch()" :error="$v.NEW.memberNumber.$error" :placeholder="$t('LAUNCH_MODAL.PERSON')"></q-input>
       </q-field>
     </div>
-    <!-- <div class="row">
-          <q-field class="col-8" label-width="2" :label="$t('LAUNCH_MODAL.MEMBER_NUMBER')">
-          <q-select chips multiple filter v-model="NEW.selected" :options="NEW.memberList"></q-select>
-          </q-field>
-      </div> -->
     <div class="row col-12">
       <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR.ERR_1_30')" :label="$t('LAUNCH_MODAL.PERIOD_NET')">
         <q-input type="number" v-model="NEW.period" @blur="$v.NEW.period.$touch()" :error="$v.NEW.period.$error" :placeholder="$t('LAUNCH_MODAL.DAY')"></q-input>
@@ -44,25 +39,35 @@
 </template>
 
 <script>
+import { required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators'
+import { assetSymbolReg, gatewayNameReg } from '../../utils/validators'
+import {
+  QField,
+  QInput
+} from 'quasar'
+
 export default {
   name: 'snippet-newGateway',
   props: ['reset'],
+  components: {
+    QField,
+    QInput
+  },
   data() {
     return {
-      avaliable: false,
       NEW: {
-      memberList: [],
-      memberNumber: null,
-      selected: [],
-      period: null,
-      agreement: [],
-      // NET SCOPE
-      name: null,
-      currency: null,
-      currencyBrief: null,
-      currencyPrecision: null
+        memberList: [],
+        memberNumber: null,
+        period: null,
+        agreement: [],
+        // NET SCOPE
+        name: null,
+        currency: null,
+        currencyBrief: null,
+        currencyPrecision: null
       },
-      package: {}
+      brief: '',
+      pack: {}
     }
   },
   validations: {
@@ -71,16 +76,6 @@ export default {
         required,
         minValue: minValue(3),
         maxValue: maxValue(33)
-      },
-      selected: {
-        required,
-        ifEnough(val) {
-          // to see whether should use the
-          if (this.NEW.memberNumber !== val.length && this.$v.NEW.selected.$dirty !== false) {
-            return true
-          }
-          return false
-        }
       },
       period: {
         required,
@@ -119,27 +114,44 @@ export default {
   },
   methods: {
     compilePackage() {
-      this.package = {
-        name: this.NEW.name,
-        desc: this.NEW.currencyBrief,
-        updateInterval: this.countedInterval,
-        minimumMembers: this.NEW.memberNumber,
-        currency: {
-          symbol: this.NEW.currency,
+      this.pack = {
+        pack: {
+          name: this.NEW.name,
           desc: this.NEW.currencyBrief,
-          precision: this.NEW.currencyPrecision
-        }
-      }
-    },
-    judge() {
-      this.$v.NEW.$touch()
-      this.$v.brief.$touch()
-      if (!this.$v.invalid) {
-        this.send(this.package)
+          updateInterval: this.countedInterval,
+          minimumMembers: this.NEW.memberNumber,
+          currency: {
+            symbol: this.NEW.currency,
+            desc: this.NEW.currencyBrief,
+            precision: this.NEW.currencyPrecision
+          }
+        },
+        brief: this.brief
       }
     },
     send(stuff) {
       this.$emit('send', stuff)
+    }
+  },
+  computed: {
+    avaliable() {
+      if (this.$v.invalid !== true) {
+        this.compilePackage()
+        this.send(this.pack)
+        return true
+      }
+      return false
+    },
+    countedInterval() {
+      return Number(this.NEW.period) * 8640
+    }
+  },
+  watch: {
+    avaliable(val) {
+      if (val) {
+        this.compilePackage()
+        this.send(this.pack)
+      }
     }
   }
 }

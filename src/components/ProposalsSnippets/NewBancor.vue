@@ -1,11 +1,11 @@
 <template>
-  <div class="col-12" v-show="this.first_type === 'new_b'">
+  <div class="col-12">
     <div class="row gutter-md">
       <q-field align="left" class="col-md-4 col-xs-12 font-16 text-four" label-width="4" :error-label="$t('MONEY_STOCK_NOT_SAME')" :label="$t('LAUNCH_MODAL.BANCOR_ADD')">
-      <q-select align="center" chips filter v-model="BANCOR.pair_pre" @blur="$v.BANCOR.pair_pre.$touch()" :error="$v.BANCOR.pair_pre.$error" :options="BANCOR.supportBalances"></q-select>
+      <q-select align="center" chips filter v-model="BANCOR.pair_pre" @blur="$v.BANCOR.pair_pre.$touch()" :error="$v.BANCOR.pair_pre.$error" :options="supportBalances"></q-select>
       </q-field>
       <q-field class="col-md-4 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('MONEY_STOCK_NOT_SAME')" :label="$t('LAUNCH_MODAL.AND')">
-      <q-select align="center" color="secondary" chips filter v-model="BANCOR.pair_post" @blur="$v.BANCOR.pair_post.$touch()" :error="$v.BANCOR.pair_post.$error" :options="BANCOR.supportBalances"></q-select>
+      <q-select align="center" color="secondary" chips filter v-model="BANCOR.pair_post" @blur="$v.BANCOR.pair_post.$touch()" :error="$v.BANCOR.pair_post.$error" :options="supportBalances"></q-select>
       </q-field>
       <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="3" :label="$t('LAUNCH_MODAL.BANCOR_ADD2')">
       </q-field>
@@ -14,9 +14,6 @@
       <q-field class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'money'">
       <q-select color="secondary" v-model="BANCOR.money" @change="checkMoney(val, index)" @blur="$v.BANCOR.money.$touch()" :error="$v.BANCOR.money.$error" :options="moneySelect"></q-select>
       </q-field>
-      <!-- <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'MONEYCW'">
-      <q-input color="secondary" v-model="BANCOR.moneyCw"></q-input>
-      </q-field> -->
       <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'moneyBalance'">
       <q-input color="secondary" @blur="$v.BANCOR.moneyBalance.$touch()" :error="$v.BANCOR.moneyBalance.$error" v-model="BANCOR.moneyBalance"></q-input>
       </q-field>
@@ -25,9 +22,6 @@
       <q-field class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :label="'stock'">
       <q-input disable color="secondary" value="" :placeholder="stockSelect.assetName"></q-input>
       </q-field>
-      <!-- <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :label="'STOCKCW'">
-      <q-input color="secondary" v-model="BANCOR.stockCw"></q-input>
-      </q-field> -->
       <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'stockBalance'">
       <q-input color="secondary" type="number" @blur="$v.BANCOR.stockBalance.$touch()" :error="$v.BANCOR.stockBalance.$error" v-model="BANCOR.stockBalance"></q-input>
       </q-field>
@@ -46,16 +40,47 @@
 </template>
 
 <script>
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
+import {
+  QField,
+  QInput,
+  QSelect
+} from 'quasar'
+
 export default {
   name: 'snippet-newBancor',
-  props: ['reset', 'supportBalances'],
+  props: ['reset', 'supportBalances', 'userInfo'],
+  components: {
+    QField,
+    QInput,
+    QSelect
+  },
   data() {
     return {
-      avaliable: false,
-      CLEAR: {
-        selected: []
+      BANCOR: {
+        // form lists
+        allCurrency: [],
+        activedList: [],
+        pair_pre: '',
+        pair_post: '',
+        // hidden stuff
+        supportBalances: [],
+        moneyAble: ['XAS', 'BCH'],
+        // content
+        money: '',
+        stock: '',
+        moneyBalance: '',
+        stockBalance: '',
+        supply: '',
+        stockCw: null,
+        moneyCw: null,
+        moneyPrecision: null,
+        stockPrecision: null,
+        name: '',
+        owner: ''
       },
-      package: {}
+      brief: '',
+      pack: {}
     }
   },
   validations: {
@@ -122,7 +147,46 @@ export default {
       maxLength: maxLength(1000)
     }
   },
+  methods: {
+    compilePackage() {
+      this.pack = {
+        pack: {
+          money: this.BANCOR.money.assetName,
+          stock: this.stockSelect.assetName,
+          moneyBalance: (this.BANCOR.moneyBalance * Math.pow(10, this.BANCOR.money.precision)).toString(),
+          stockBalance: (this.BANCOR.stockBalance * Math.pow(10, this.stockSelect.precision)).toString(),
+          supply: (this.BANCOR.supply * Math.pow(10, 8)).toString(),
+          stockCw: 1,
+          moneyCw: 1,
+          moneyPrecision: this.BANCOR.money.precision,
+          stockPrecision: this.stockSelect.precision,
+          name: this.BANCOR.money.assetName + '-' + this.stockSelect.assetName,
+          owner: this.userInfo.address
+        },
+        brief: this.brief
+      }
+    },
+    send(stuff) {
+      this.$emit('send', stuff)
+    },
+    checkMoney(val) {
+      if (val) {
+        if (this.BANCOR.moneyAble.indexOf(val.assetName) > 0) {
+          // pass the test
+          // this.BANCOR.stock =
+        }
+      }
+    }
+  },
   computed: {
+    avaliable() {
+      if (this.$v.invalid !== true) {
+        this.compilePackage()
+        this.send(this.pack)
+        return true
+      }
+      return false
+    },
     moneySelect() {
       if (this.BANCOR.pair_pre && this.BANCOR.pair_post) {
         // moneyAble filter
@@ -154,31 +218,12 @@ export default {
       return {}
     }
   },
-  methods: {
-    compilePackage() {
-      this.package = {
-        money: this.BANCOR.money.assetName,
-        stock: this.stockSelect.assetName,
-        moneyBalance: (this.BANCOR.moneyBalance * Math.pow(10, this.BANCOR.money.precision)).toString(),
-        stockBalance: (this.BANCOR.stockBalance * Math.pow(10, this.stockSelect.precision)).toString(),
-        supply: (this.BANCOR.supply * Math.pow(10, 8)).toString(),
-        stockCw: 1,
-        moneyCw: 1,
-        moneyPrecision: this.BANCOR.money.precision,
-        stockPrecision: this.stockSelect.precision,
-        name: this.BANCOR.money.assetName + '-' + this.stockSelect.assetName,
-        owner: this.userInfo.address
+  watch: {
+    avaliable(val) {
+      if (val) {
+        this.compilePackage()
+        this.send(this.pack)
       }
-    },
-    judge() {
-      this.$v.CLEAR.$touch()
-      this.$v.brief.$touch()
-      if (!this.$v.invalid) {
-        this.send(this.package)
-      }
-    },
-    send(stuff) {
-      this.$emit('send', stuff)
     }
   }
 }

@@ -1,8 +1,8 @@
 <template>
-  <div class="col-12" v-show="this.first_type === 'gateway_freeze' && this.initFalse" id="freeze">
+  <div class="col-12" id="freeze">
     <div class="row">
       <q-field class="gateway-claim col-md-8 col-xs-12 font-16 text-four" label-width="2" :label="$t('LAUNCH_MODAL.GATEWAY_FREEZE_TIP')">
-      <div class="text-secondary">{{p_selected.name}}</div>
+      <div class="text-secondary">{{name}}</div>
       </q-field>
     </div>
     <div class="row col-12">
@@ -14,13 +14,23 @@
 </template>
 
 <script>
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
+import {
+  QField,
+  QInput
+} from 'quasar'
+
 export default {
   name: 'snippet-freezeGateway',
   props: ['reset', 'name'],
+  components: {
+    QField,
+    QInput
+  },
   data() {
     return {
-      avaliable: false,
-      package: {}
+      brief: '',
+      pack: {}
     }
   },
   validations: {
@@ -32,20 +42,35 @@ export default {
   },
   methods: {
     compilePackage() {
-      this.package = {
-        gateway: this.p_selected.name,
-        from: this.MEMBER.removed.address,
-        to: this.MEMBER.added.address
-      }
-    },
-    judge() {
-      this.$v.brief.$touch()
-      if (!this.$v.invalid) {
-        this.send(this.package)
+      this.pack = {
+        pack: {
+          gateway: this.name,
+          from: this.MEMBER.removed.address,
+          to: this.MEMBER.added.address
+        },
+        brief: this.brief
       }
     },
     send(stuff) {
       this.$emit('send', stuff)
+    }
+  },
+  computed: {
+    avaliable() {
+      if (this.$v.invalid !== true) {
+        this.compilePackage()
+        this.send(this.pack)
+        return true
+      }
+      return false
+    }
+  },
+  watch: {
+    avaliable(val) {
+      if (val) {
+        this.compilePackage()
+        this.send(this.pack)
+      }
     }
   }
 }

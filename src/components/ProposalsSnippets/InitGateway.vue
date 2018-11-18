@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12" v-show="this.first_type === 'init' && this.initFalse" id="init">
+  <div class="col-12" id="init">
     <div class="row">
       <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_SUGGEST_PRE')">
       <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST', {number: gatewayMember})" @blur="$v.INIT.selected.$touch()" :error="!$v.INIT.selected.inNeed" :options="delegateList"></q-select>
@@ -11,23 +11,34 @@
       </q-field>
     </div>
     <!-- below is net init disabled page -->
-    <div class="col-12" v-show="!this.initFalse">
-      <div class="row">{{$t('ALREADY_INIT')}}</div>
-    </div>
+    <slot name="fin"></slot>
   </div>
 </template>
 
 <script>
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
+import {
+  QField,
+  QInput,
+  QSelect
+} from 'quasar'
+
 export default {
   name: 'snippet-initGateway',
-  props: ['reset', 'selected', 'initFalse'],
+  props: ['reset', 'name', 'delegateList'],
+  components: {
+    QField,
+    QInput,
+    QSelect
+  },
   data() {
     return {
       avaliable: false,
       INIT: {
         selected: []
       },
-      package: {}
+      brief: '',
+      pack: {}
     }
   },
   validations: {
@@ -48,23 +59,43 @@ export default {
       maxLength: maxLength(1000)
     }
   },
+  computed: {
+    gatewayMember() {
+      if (this.p_selected && this.p_selected.minimumMembers) {
+        return this.p_selected.minimumMembers
+      }
+      return 0
+    },
+    avaliable() {
+      if (this.$v.invalid !== true) {
+        this.compilePackage()
+        this.send(this.pack)
+        return true
+      }
+      return false
+    }
+  },
   methods: {
     compilePackage() {
-      this.package = {
-        gateway: this.p_selected.name,
-        members: this.INIT.selected,
-        desc: this.brief
-      }
-    },
-    judge() {
-      this.$v.INIT.$touch()
-      this.$v.brief.$touch()
-      if (!this.$v.invalid) {
-        this.send(this.package)
+      this.pack = {
+        pack: {
+          gateway: this.name,
+          members: this.INIT.selected,
+          desc: this.brief
+        },
+        brief: this.brief
       }
     },
     send(stuff) {
       this.$emit('send', stuff)
+    }
+  },
+  watch: {
+    avaliable(val) {
+      if (val) {
+        this.compilePackage()
+        this.send(this.pack)
+      }
     }
   }
 }
