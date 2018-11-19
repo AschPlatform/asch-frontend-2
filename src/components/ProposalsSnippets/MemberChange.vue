@@ -29,7 +29,7 @@ import {
 
 export default {
   name: 'snippet-memberChange',
-  props: ['reset', 'electedList', 'unelectedList'],
+  props: ['reset', 'name', 'electedList', 'unelectedList'],
   components: {
     QField,
     QInput,
@@ -72,7 +72,7 @@ export default {
     compilePackage() {
       this.pack = {
         pack: {
-          gateway: this.p_selected.name,
+          gateway: this.name,
           from: this.MEMBER.removed.address,
           to: this.MEMBER.added.address
         },

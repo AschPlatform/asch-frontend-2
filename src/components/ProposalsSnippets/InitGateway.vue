@@ -2,7 +2,7 @@
   <div class="col-12" id="init">
     <div class="row">
       <q-field class="col-md-8 col-xs-12 font-16 text-four" label-width="2" :error-label="$t('ERR.ERR_REQUIRE_MEMBER')" :label="$t('LAUNCH_MODAL.MEMBER_SUGGEST_PRE')">
-      <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" @input="detectChange" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST', {number: gatewayMember})" @blur="$v.INIT.selected.$touch()" :error="!$v.INIT.selected.inNeed" :options="delegateList"></q-select>
+      <q-select chips-color="secondary" chips multiple filter v-model="INIT.selected" :suffix="$t('LAUNCH_MODAL.MEMBER_SUGGEST_POST', {number: gatewayMember})" @blur="$v.INIT.selected.$touch()" :error="!$v.INIT.selected.inNeed" :options="delegateList"></q-select>
       </q-field>
     </div>
     <div class="row col-12">
@@ -33,7 +33,6 @@ export default {
   },
   data() {
     return {
-      avaliable: false,
       INIT: {
         selected: []
       },

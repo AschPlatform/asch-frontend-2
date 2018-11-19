@@ -207,7 +207,7 @@
               </q-field>
             </div>
           </div> -->
-          <member-change v-if="this.first_type === 'member_n'" :unelectedList="MEMBER.unelectedList" :electedList="MEMBER.electedList" @send="envaluePackage"></member-change>
+          <member-change v-if="this.first_type === 'member_n'" :name="p_selected.name" :unelectedList="MEMBER.unelectedList" :electedList="MEMBER.electedList" @send="envaluePackage"></member-change>
   
           <!-- below is remove page -->
           <div class="col-12" v-show="this.first_type === 'remove'" id="remove">

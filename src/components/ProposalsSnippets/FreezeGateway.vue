@@ -45,8 +45,7 @@ export default {
       this.pack = {
         pack: {
           gateway: this.name,
-          from: this.MEMBER.removed.address,
-          to: this.MEMBER.added.address
+          desc: this.brief
         },
         brief: this.brief
       }
