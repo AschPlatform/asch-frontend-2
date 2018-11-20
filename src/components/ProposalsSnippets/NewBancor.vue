@@ -11,7 +11,7 @@
       </q-field>
     </div>
     <div class="row gutter-lg">
-      <q-field class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'money'">
+      <q-field class="col-md-5 col-xs-12 font-16 text-four" label-width="3" :error-label="moneyReason" :label="'money'">
       <q-select color="secondary" v-model="BANCOR.money" @change="checkMoney(val, index)" @blur="$v.BANCOR.money.$touch()" :error="$v.BANCOR.money.$error" :options="moneySelect"></q-select>
       </q-field>
       <q-field class="col-md-6 col-xs-12 font-16 text-four" label-width="3" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'moneyBalance'">
@@ -49,7 +49,7 @@ import {
 
 export default {
   name: 'snippet-newBancor',
-  props: ['reset', 'supportBalances', 'userInfo'],
+  props: ['reset', 'supportBalances', 'userInfo', 'balanceSheet'],
   components: {
     QField,
     QInput,
@@ -216,6 +216,17 @@ export default {
         }
       }
       return {}
+    },
+    moneyReason() {
+      if (this.BANCOR.money === '') {
+        return this.$t('ERR_POSITIONLOCK_EMPTY')
+      } else {
+        console.log(this.BANCOR.money)
+        if (this.BANCOR.moneyAble.indexOf(this.BANCOR.money.assetName) > -1) {
+          return this.$t('ERR_POSITIONLOCK_EMPTY')
+        }
+        return this.$t('ERR_INCORRECT_MONEY')
+      }
     }
   },
   watch: {

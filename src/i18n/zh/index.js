@@ -995,7 +995,8 @@ const lang = {
   ERR_BANCOR_SELL_MORE: '卖出额超过 Bancor 限制',
   CAN_NOT_DEPOSIT: '暂不能充值',
   ERR_BAIL_TOO_LESS: '网关最低保证金不足',
-  ERR_SHOULD_BE_INTEGER: '精度输入不正确'
+  ERR_SHOULD_BE_INTEGER: '精度输入不正确',
+  ERR_INCORRECT_MONEY: '该资产不能作为MONEY'
 }
 
 export default lang

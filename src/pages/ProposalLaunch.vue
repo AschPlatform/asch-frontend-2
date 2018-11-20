@@ -167,7 +167,7 @@
 
           <!-- TODO: -->
           <!-- below is bancor init page -->
-          <new-bancor v-if="this.first_type === 'new_b'" :supportBalances="BANCOR.supportBalances" :userInfo="userInfo" @send="envaluePackage"></new-bancor>
+          <new-bancor v-if="this.first_type === 'new_b'" :supportBalances="BANCOR.supportBalances" :balanceSheet="balanceSheet" :userInfo="userInfo" @send="envaluePackage"></new-bancor>
 
           <div class="row col-12" v-show="this.first_type !== null">
             <q-field v-if="secondSignature" class="col-6 font-16 text-four" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
