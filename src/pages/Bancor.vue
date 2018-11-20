@@ -50,7 +50,7 @@
           <q-td key="action" class="col-md-3 col-xs-8 no-border" :class="isDesk?'offset-5':''" :props="props">
             <div class="btn-group flex justify-around">
               <q-btn color="secondary" :disable="balance === 0" @click="callBuyModal(props.row, 'XAS')">{{$t('BANCOR_BUTTON_BUY')}}</q-btn>
-              <q-btn color="red" :disabled="!myBalances[props.row.money] || myBalances[props.row.money].balance === '0'" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
+              <q-btn color="red" :disabled="!myBalances[props.row.stock] || myBalances[props.row.stock].balance === '0'" @click="callSellModal(props.row)">{{$t('BANCOR_BUTTON_SELL')}}</q-btn>
             </div>
           </q-td>
         </q-tr>
@@ -387,7 +387,7 @@ export default {
       this.dealPairInfo.balance = BigNumber(
         this.myBalances[props.stock] ? this.myBalances[props.stock].balance : 0
       )
-        .div(Math.pow(10, this.myBalances[props.stock].precision))
+        .div(Math.pow(10, this.myBalances[props.stock] ? this.myBalances[props.stock].precision : 0))
         .toString()
       this.tradeModalShow = true
     },

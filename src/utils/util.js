@@ -640,8 +640,16 @@ export const translateErrMsg = (t, input) => {
         key: 'ERR_GATEWAY_NOT_EXIST'
       },
       {
-        error: ' Buy too many',
+        error: 'Buy too many',
         key: 'ERR_BANCOR_BUY_MORE'
+      },
+      {
+        error: 'bail is not enough for gateway member',
+        key: 'ERR_BAIL_TOO_LESS'
+      },
+      {
+        error: 'Amount should be integer',
+        key: 'ERR_SHOULD_BE_INTEGER'
       },
       {
         error: ' Sell too many',
