@@ -158,7 +158,7 @@ export default {
         return false
       }
       if (this.$v.form.$error) {
-        toastWarn(this.$t('ERR_INVALID_FORM'))
+        toastWarn(this.$t('LAUNCH_MODAL.ERR_INVALID_FORM'))
         return false
       }
       if (receiver === this.user.account.address) {

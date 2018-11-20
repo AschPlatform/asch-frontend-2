@@ -648,6 +648,10 @@ export const translateErrMsg = (t, input) => {
         key: 'ERR_BAIL_TOO_LESS'
       },
       {
+        error: 'Amount should be integer',
+        key: 'ERR_SHOULD_BE_INTEGER'
+      },
+      {
         error: ' Sell too many',
         key: 'ERR_BANCOR_SELL_MORE'
       }

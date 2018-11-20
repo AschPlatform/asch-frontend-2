@@ -70,7 +70,7 @@ const lang = {
 
   // 1.5
   TRS_TYPE_GATEWAY_ADD: '网关追加储备金',
-  TTRS_TYPE_GATEWAY_RETURN: '网关提现储备金',
+  TRS_TYPE_GATEWAY_RETURN: '网关提现储备金',
   TRS_TYPE_GATEWAY_COM: '领取网关赔偿',
   TRS_TYPE_CONTRACT_POST: '发布智能合约',
   TRS_TYPE_CONTRACT_PAY: '支付智能合约',
@@ -994,7 +994,8 @@ const lang = {
   ERR_BANCOR_BUY_MORE: '买入额超过 Bancor 限制',
   ERR_BANCOR_SELL_MORE: '卖出额超过 Bancor 限制',
   CAN_NOT_DEPOSIT: '暂不能充值',
-  ERR_BAIL_TOO_LESS: '网关最低保证金不足'
+  ERR_BAIL_TOO_LESS: '网关最低保证金不足',
+  ERR_SHOULD_BE_INTEGER: '精度输入不正确'
 }
 
 export default lang
