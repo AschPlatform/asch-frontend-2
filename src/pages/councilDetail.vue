@@ -71,7 +71,7 @@
               </q-item-main>
               <q-item-side right>
                 <q-item-tile class="text-five font-16">
-                  {{balance.value | fee}}
+                  {{balance.value}}
                 </q-item-tile>
               </q-item-side>
             </q-item>
@@ -106,6 +106,7 @@ import {
 } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { compileTimeStamp, getTimeFromHight } from '../utils/util'
+import { convertFee } from '../utils/asch'
 import TransRecordContainer from '../components/TransRecordContainer'
 import BoundaryLine from '../components/BoundaryLine'
 import AssetIcon from '../components/AssetIcon'
@@ -205,7 +206,7 @@ export default {
       if (accountRes.success && accountRes.account) {
         balances.push({
           label: 'XAS',
-          value: accountRes.account.xas
+          value: convertFee(accountRes.account.xas, 8)
         })
       }
 
@@ -217,7 +218,7 @@ export default {
           if (balance.balance >= 1) {
             balances.push({
               label: balance.currency,
-              value: balance.balance
+              value: convertFee(balance.balance, balance.asset.precision)
             })
           }
         })
