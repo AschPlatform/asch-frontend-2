@@ -221,7 +221,6 @@ export default {
       if (this.BANCOR.money === '') {
         return this.$t('ERR_POSITIONLOCK_EMPTY')
       } else {
-        console.log(this.BANCOR.money)
         if (this.BANCOR.moneyAble.indexOf(this.BANCOR.money.assetName) > -1) {
           return this.$t('ERR_POSITIONLOCK_EMPTY')
         }

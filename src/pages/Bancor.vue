@@ -384,7 +384,6 @@ export default {
         stock: props.stock,
         owner: props.owner
       }
-      console.log(this.myBalances[props.stock])
       this.dealPairInfo.balance = BigNumber(
         this.myBalances[props.stock] ? this.myBalances[props.stock].balance : 0
       )
