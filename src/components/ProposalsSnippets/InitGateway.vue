@@ -66,7 +66,7 @@ export default {
       return 0
     },
     avaliable() {
-      if (this.$v.invalid !== true) {
+      if (this.$v.$invalid === false) {
         this.compilePackage()
         this.send(this.pack)
         return true

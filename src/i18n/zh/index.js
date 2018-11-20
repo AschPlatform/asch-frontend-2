@@ -993,7 +993,8 @@ const lang = {
   BLOCK_ID: '区块ID',
   ERR_BANCOR_BUY_MORE: '买入额超过 Bancor 限制',
   ERR_BANCOR_SELL_MORE: '卖出额超过 Bancor 限制',
-  CAN_NOT_DEPOSIT: '暂不能充值'
+  CAN_NOT_DEPOSIT: '暂不能充值',
+  ERR_BAIL_TOO_LESS: '网关最低保证金不足'
 }
 
 export default lang

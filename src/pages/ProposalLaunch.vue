@@ -777,7 +777,6 @@ export default {
         }
         return false
       }
-      return false
     },
     proposalLaunchClass() {
       return this.isDesk

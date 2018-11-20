@@ -44,6 +44,7 @@ export default {
         unelectedList: [],
         memberList: []
       },
+      brief: '',
       pack: {}
     }
   },
@@ -85,7 +86,7 @@ export default {
   },
   computed: {
     avaliable() {
-      if (this.$v.invalid !== true) {
+      if (this.$v.$invalid === false) {
         this.compilePackage()
         this.send(this.pack)
         return true
