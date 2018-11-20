@@ -28,7 +28,7 @@
     </div>
     <div class="row">
       <q-field class="col-md-3 col-xs-12 font-16 text-four" label-width="5" :error-label="$t('ERR_POSITIONLOCK_EMPTY')" :label="'supply'">
-      <q-input v-model="BANCOR.supply" type="number" @blur="$v.BANCOR.supply.$touch()" :error="$v.BANCOR.supply.$error"></q-input>
+      <q-input v-model="BANCOR.supply" type="number" min="0" @blur="$v.BANCOR.supply.$touch()" :error="$v.BANCOR.supply.$error"></q-input>
       </q-field>
     </div>
     <div class="row">
