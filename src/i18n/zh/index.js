@@ -550,7 +550,7 @@ const lang = {
   },
   LAUNCH_MODAL: {
     MEMBER_SUGGEST_PRE: '我提议',
-    MEMBER_SUGGEST_POST: '等{number}人成为网关成员',
+    MEMBER_SUGGEST_POST: '等至少{number}人成为网关成员',
     MEMBER_SUGGEST: '我提议\n{member}\n等\n{number}\n人成为网关成员',
     MEMBER_NUMBER: '成员数量',
     MEMBER_MEMBER: '成员信息',
@@ -631,7 +631,7 @@ const lang = {
   },
   ERR: {
     ERR_10_100: '请输入10-100个字符',
-    ERR_10_100_TITLE: '请输入10-100字符，仅限大小写英文字母、数字、标点符号等，不支持中文',
+    ERR_10_100_TITLE: '请输入10-100字符，仅限大小写英文字母、数字、标点符号等（_-+!@$%），不支持中文',
     ERR_3_15: '请输入3-15个字符',
     ERR_3_16: '请输入3-16个字符',
     ERR_1_30: '请输入1-30之间的数字',

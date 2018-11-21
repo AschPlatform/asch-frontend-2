@@ -67,7 +67,7 @@
           <new-gateway v-if="this.first_type === 'new_n'" @send="envaluePackage"></new-gateway>
   
           <!-- below is net init page -->
-          <init-gateway v-if="this.first_type === 'init' && this.initFalse" :name="p_selected.name" :delegateList="delegateList" @send="envaluePackage">
+          <init-gateway v-if="this.first_type === 'init' && this.initFalse" :name="p_selected.name" :gatewayMember="gatewayMember" :delegateList="delegateList" @send="envaluePackage">
             <div slot="fin" class="col-12" v-show="!this.initFalse">
               <div class="row">{{$t('ALREADY_INIT')}}</div>
             </div>
