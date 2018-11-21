@@ -620,6 +620,15 @@ export default {
             })
           }
         })
+      } else if (this.first_type === 'init') {
+        res.gateways.forEach(o => {
+          if (o.activated === 0 && o.revoked === 0) {
+            return ls.push({
+              label: o.name,
+              value: o
+            })
+          }
+        })
       } else {
         res.gateways.forEach(o => {
           return ls.push({
