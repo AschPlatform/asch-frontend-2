@@ -51,7 +51,7 @@
               </tr>
               <tr class="row col-12">
                 <td class="row col-12" :class="personalRightTwoClass">
-                  <span class="text-five font-16 min-width-120 text-left">{{$t('LOCK_POSITION_CONF')}}</span>
+                  <span class="text-five font-16 min-width-120 text-left">{{$t('LOCK_POSITION_CONF')}}:</span>
                   <div class="col-6" :class="personalFontClass" v-if="lockInfo">
                     <span class="white-space-initial">
                       {{$t('LOCK_DETAIL',{amount:convertFee(this.lockInfo.amount)})}}
