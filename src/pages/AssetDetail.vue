@@ -20,7 +20,7 @@
 
         <assets-panel :class="assetDetailInnerClass" v-if="status === 3" type='outer-compensate' :asset="asset" @compensate="compensate"/>
 
-        <assets-panel :class="assetDetailInnerClass" v-if="status === 4" type='outer-constrated' :asset="asset" @compensate="compensate"/>
+        <assets-panel :class="assetDetailInnerClass" v-if="status === 4" type='outer-constrated' :asset="asset" @transfer="transfer" @withdraw="withdraw"/>
 
         <q-card :class="assetDetailOuterClass" v-if="isCross">
           <q-card-main>
