@@ -155,7 +155,7 @@ export default {
           stock: this.stockSelect.assetName,
           moneyBalance: (this.BANCOR.moneyBalance * Math.pow(10, this.BANCOR.money.precision)).toString(),
           stockBalance: (this.BANCOR.stockBalance * Math.pow(10, this.stockSelect.precision)).toString(),
-          supply: (this.BANCOR.supply * Math.pow(10, 8)).toString(),
+          supply: this.BANCOR.supply.toString(),
           stockCw: 1,
           moneyCw: 1,
           moneyPrecision: this.BANCOR.money.precision,
