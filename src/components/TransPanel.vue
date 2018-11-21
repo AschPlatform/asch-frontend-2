@@ -38,6 +38,7 @@
         
         <q-input class="fee-input" v-if="feeType===1" disable v-model="form.fee" />
         <q-input v-else class="gas-input" style="border:none" v-model="form.gas" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" :placeholder="feeCount"/>
+        <p v-if="feeType!==1" class="text-secondary font-12 q-mb-xs">{{$t('AVAILABLE_BALANCE')}}{{BCHAccount | fee(8)}}</p>
       </q-field>
       <q-field v-if="!isContractPay" class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')">
         <q-input ref="remark" :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
@@ -299,6 +300,15 @@ export default {
         }
       ].concat(arr)
       return arr
+    },
+    BCHAccount() {
+      let mark = 0
+      this.balances.forEach(asset => {
+        if (asset.currency === 'BCH') {
+          mark = asset.balance
+        }
+      })
+      return mark
     },
     assetsMap() {
       let assetsMap = {}
