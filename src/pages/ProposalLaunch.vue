@@ -432,17 +432,17 @@ export default {
         owner: ''
       },
       typeMap: {
-        'new_n': 'gateway_register',
-        'init': 'gateway_init',
-        'period_n': 'gateway_period',
-        'member_n': 'gateway_update_member',
-        'new': 'council_register',
-        'change': 'council_update_mumber',
-        'period': 'council_update',
-        'remove': 'council_revoke',
-        'gateway_freeze': 'gateway_revoke',
-        'new_b': 'bancor_init',
-        'gateway_clear': 'gateway_claim'
+        new_n: 'gateway_register',
+        init: 'gateway_init',
+        period_n: 'gateway_period',
+        member_n: 'gateway_update_member',
+        new: 'council_register',
+        change: 'council_update_mumber',
+        period: 'council_update',
+        remove: 'council_revoke',
+        gateway_freeze: 'gateway_revoke',
+        new_b: 'bancor_init',
+        gateway_clear: 'gateway_claim'
       },
       tomorrow
     }
@@ -560,7 +560,13 @@ export default {
   },
   mounted() {},
   methods: {
-    ...mapActions(['postProposal', 'getGateways', 'getGatewayDelegates', 'getBancorSupports', 'getBalances']),
+    ...mapActions([
+      'postProposal',
+      'getGateways',
+      'getGatewayDelegates',
+      'getBancorSupports',
+      'getBalances'
+    ]),
     hideModal() {
       this.resetHeader()
       this.$v.$reset()
@@ -607,7 +613,7 @@ export default {
         })
       } else if (this.first_type === 'gateway_freeze') {
         res.gateways.forEach(o => {
-          if (o.revoked === 0) {
+          if (o.revoked === 0 && o.activated === 1) {
             return ls.push({
               label: o.name,
               value: o
@@ -760,28 +766,30 @@ export default {
     // REFINE NEW COMP
     btnAble() {
       if (this.secondSignature) {
-        if (!this.$v.p_title.$invalid &&
+        if (
+          !this.$v.p_title.$invalid &&
           !this.$v.first_type.$invalid &&
           !this.$v.p_time_end.$invalid &&
           !this.$v.secondPwd.$invalid &&
-          this.pack !== null) {
+          this.pack !== null
+        ) {
           return true
         }
         return false
       } else {
-        if (!this.$v.p_title.$invalid &&
+        if (
+          !this.$v.p_title.$invalid &&
           !this.$v.first_type.$invalid &&
           !this.$v.p_time_end.$invalid &&
-          this.pack !== null) {
+          this.pack !== null
+        ) {
           return true
         }
         return false
       }
     },
     proposalLaunchClass() {
-      return this.isDesk
-        ? 'padding-suit q-mx-xl q-my-xl'
-        : 'row col-12 padding-suit margin-top-20'
+      return this.isDesk ? 'padding-suit q-mx-xl q-my-xl' : 'row col-12 padding-suit margin-top-20'
     },
     secondSignature() {
       return this.userInfo ? this.userInfo.account.secondPublicKey : null
@@ -835,7 +843,12 @@ export default {
   },
   watch: {
     first_type(val) {
-      if (val === 'init' || val === 'member_n' || val === 'gateway_freeze' || val === 'gateway_clear') {
+      if (
+        val === 'init' ||
+        val === 'member_n' ||
+        val === 'gateway_freeze' ||
+        val === 'gateway_clear'
+      ) {
         this.getAllGate()
       }
       if (val === 'new_b') {
@@ -859,12 +872,19 @@ export default {
 .no-border-top {
   margin-top: 0 !important;
 }
-.padding-suit
-  padding 20px
-.agreeBtn
-  text-decoration: none
-  margin-left: 8px
-.gateway-claim
-  div
-    padding-top 6px;
+
+.padding-suit {
+  padding: 20px;
+}
+
+.agreeBtn {
+  text-decoration: none;
+  margin-left: 8px;
+}
+
+.gateway-claim {
+  div {
+    padding-top: 6px;
+  }
+}
 </style>
