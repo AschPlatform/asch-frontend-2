@@ -94,7 +94,7 @@
 import { QPage, QTable, QBtn, QTd, QTr, QTh } from 'quasar'
 import { mapActions, mapGetters } from 'vuex'
 import { toast, translateErrMsg } from '../utils/util'
-import { convertFee } from '../utils/asch'
+import { convertFee, dealGiantNumber } from '../utils/asch'
 import BancorTradeModal from '../components/BancorTradeModal'
 import { fullTimestamp } from '../utils/asch'
 import { BigNumber } from 'bignumber.js'
@@ -361,9 +361,10 @@ export default {
         stock: props.stock,
         owner: props.owner
       }
-      this.dealPairInfo.balance = BigNumber(this.myBalances[symbol].balance)
-        .div(Math.pow(10, this.myBalances[symbol].precision))
-        .toString()
+      // this.dealPairInfo.balance = BigNumber(this.myBalances[symbol].balance)
+      //   .div(Math.pow(10, this.myBalances[symbol].precision))
+      //   .toString()
+      this.dealPairInfo.balance = convertFee(this.myBalances[symbol].balance, this.myBalances[symbol].precision)
       this.balanceSymbol = symbol
       this.tradeModalShow = true
     },
@@ -384,11 +385,13 @@ export default {
         stock: props.stock,
         owner: props.owner
       }
-      this.dealPairInfo.balance = BigNumber(
-        this.myBalances[props.stock] ? this.myBalances[props.stock].balance : 0
-      )
-        .div(Math.pow(10, this.myBalances[props.stock] ? this.myBalances[props.stock].precision : 0))
-        .toString()
+      // this.dealPairInfo.balance = BigNumber(
+      //   this.myBalances[props.stock] ? this.myBalances[props.stock].balance : 0
+      // )
+      //   .div(Math.pow(10, this.myBalances[props.stock] ? this.myBalances[props.stock].precision : 0))
+      //   .toString()
+      this.dealPairInfo.balance = 
+        convertFee(this.myBalances[props.stock] ? this.myBalances[props.stock].balance : 0, this.myBalances[props.stock] ? this.myBalances[props.stock].precision : 0)
       this.tradeModalShow = true
     },
     async bancorBuy(obj) {
@@ -396,9 +399,10 @@ export default {
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
-        sourceAmount: BigNumber(amount).times(
-          Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)
-        ),
+        // sourceAmount: BigNumber(amount).times(
+        //   Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)
+        // ),
+        sourceAmount: dealGiantNumber(amount, this.myBalances[this.dealPairInfo.sell].precision),
         config: this.config,
         secondSecret: password
       })
@@ -414,9 +418,10 @@ export default {
       let result = await this.bancorTradeBySource({
         source: this.dealPairInfo.sell,
         target: this.dealPairInfo.buy,
-        sourceAmount: BigNumber(amount).times(
-          Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)
-        ),
+        // sourceAmount: BigNumber(amount).times(
+        //   Math.pow(10, this.myBalances[this.dealPairInfo.sell].precision)
+        // ),
+        sourceAmount: dealGiantNumber(amount, this.myBalances[this.dealPairInfo.sell].precision),
         config: this.config,
         secondSecret: password
       })
@@ -444,9 +449,10 @@ export default {
     },
     balance() {
       let XasBalance = this.user && this.user.account ? this.user.account.xas : 0
-      let balance = BigNumber(XasBalance)
-        .div(Math.pow(10, 8))
-        .toString()
+      // let balance = BigNumber(XasBalance)
+      //   .div(Math.pow(10, 8))
+      //   .toString()
+      let balance = convertFee(XasBalance)
       return balance
     },
     // TODO
