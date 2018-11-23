@@ -179,7 +179,7 @@ export default {
 
       if (this.feeType === 0 || this.isContractPay) {
         fee = BigNumber(-Number(this.form.gas))
-          .times(Math.pow(10, this.precision))
+          .times(Math.pow(10, 8))
           .toString()
       }
       let res
@@ -209,6 +209,7 @@ export default {
             Number(fee)
           )
         } else {
+          console.log('fee:', fee)
           trans = asch.transferAsset(
             this.form.currency,
             amount,
