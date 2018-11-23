@@ -17,7 +17,7 @@
 
         <q-table class="no-shadow" :class="isDesk?' margin-top-20':' margin-top-50'" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
           <q-td slot="body-cell-address" slot-scope="props" :props="props">
-            <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">{{props.value}}</div>
+            <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.address)">{{props.value}}</div>
           </q-td>
           <!-- <q-td slot="body-cell-name" slot-scope="props" :props="props">
             {{props.value}}
@@ -37,7 +37,7 @@
               </div>
           </q-td> 
           <q-td slot="body-cell-owner" slot-scope="props" :props="props">
-             <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row)">
+             <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.owner)">
                 {{props.value}}
               </div>
           </q-td> 
@@ -141,8 +141,8 @@ export default {
       this.type = type
       this.getContractsFunc()
     },
-    viewAccountInfo(row) {
-      this.$root.$emit('openAccountModal', row.address)
+    viewAccountInfo(address) {
+      this.$root.$emit('openAccountModal', address)
     },
     open(row) {
       this.$router.push('/contractDetail/' + row.name)
