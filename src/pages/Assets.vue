@@ -28,7 +28,7 @@
 
         <q-btn v-if="outerPagination.rowsNumber>outerBalance.length" :label="$t('LOAD_MORE')" @click="loadMoreOuter" />
         <q-card :class="outerBtnClass">
-          <div class="more-assets-btn row justify-center items-center shadow-1 asset-detail-card-h" @click="moreAssets">
+          <div class="more-assets-btn row justify-center items-center shadow-1 asset-more-asset-card" @click="moreAssets">
             <span>{{$t('MORE_ASSETS')}}</span>
           </div>
         </q-card>
