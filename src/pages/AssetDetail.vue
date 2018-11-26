@@ -315,8 +315,8 @@ export default {
     },
     assetDetailOuterClass() {
       return this.isDesk
-        ? 'col-auto bg-white asset-detail-card-h margin-l-30'
-        : 'col-12 bg-white asset-detail-card-h margin-top-20'
+        ? 'col-auto bg-white asset-detail-card-desk margin-l-30'
+        : 'col-12 bg-white asset-more-asset-card margin-top-20'
     },
     assetCardsContainerClass() {
       return this.isDesk ? 'row col-12 asset-cards-container' : 'row col-12'

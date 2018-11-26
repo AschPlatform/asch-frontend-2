@@ -439,7 +439,7 @@ const lang = {
   PRICE: '价格',
   NICKNAME_PRICE: '昵称价格对应表',
   SET_NOW: '立刻设置',
-  LOCK_POSITION_CONF: '锁仓设置:',
+  LOCK_POSITION_CONF: '锁仓设置',
   HIGHEST_LOCK: '最高可锁仓',
   LOCK_DETAIL: '已锁仓额度：{amount} XAS',
   LOCK_DETAIL_TIME: '锁仓截止时间: {date}',
