@@ -996,7 +996,8 @@ const lang = {
   CAN_NOT_DEPOSIT: '暂不能充值',
   ERR_BAIL_TOO_LESS: '网关最低保证金不足',
   ERR_SHOULD_BE_INTEGER: '精度输入不正确',
-  ERR_INCORRECT_MONEY: '该资产不能作为MONEY'
+  ERR_INCORRECT_MONEY: '该资产不能作为MONEY',
+  ERR_GATEWAY_ACCOUNT_DEPRECATE: '网关成员已经变更，请重新注册，并开通新的跨链地址'
 }
 
 export default lang
