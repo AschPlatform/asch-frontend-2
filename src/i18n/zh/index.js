@@ -1003,7 +1003,7 @@ const lang = {
   PERSONAL_REDEEM_TIME: '解冻时间',
   PERSONAL_ACTION_PLEDGE: '冻结',
   PERSONAL_ACTION_REDEEM: '解冻',
-  PLEDGE_BANDWIDTH: '抵押贷款',
+  PLEDGE_BANDWIDTH: '抵押带宽',
   PLEDGE_ENERGY: '抵押能量',
   REDEEM_BANDWIDTH: '解冻带宽资源',
   REDEEM_ENERGY: '解冻能量资源',
