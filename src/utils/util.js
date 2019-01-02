@@ -654,6 +654,10 @@ export const translateErrMsg = (t, input) => {
       {
         error: ' Sell too many',
         key: 'ERR_BANCOR_SELL_MORE'
+      },
+      {
+        error: 'Account version is not consistent with gateway version',
+        key: 'ERR_GATEWAY_ACCOUNT_DEPRECATE'
       }
     ]
     for (var idx = 0; idx < translateMap.length; idx++) {

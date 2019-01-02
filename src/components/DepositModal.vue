@@ -123,7 +123,13 @@ export default {
     // this.getGatewayInfomation()
   },
   methods: {
-    ...mapActions(['broadcastTransaction', 'getGatewayInfo', 'gateAccountAddr', 'getCurrencies', 'getGateways']),
+    ...mapActions([
+      'broadcastTransaction',
+      'getGatewayInfo',
+      'gateAccountAddr',
+      'getCurrencies',
+      'getGateways'
+    ]),
     async openAddr() {
       if (this.secondSignature && !secondPwdReg.test(this.secondPwd)) {
         toastInfo(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
@@ -176,8 +182,12 @@ export default {
       }
       if (!asset || !asset.gateway) return
       let res = await this.gateAccountAddr({ name: asset.gateway, address: this.user.address })
-      if (res.success) {
+      if (res.success && res.account) {
         this.account = res.account
+      } else {
+        // translateErrMsg(this.$t, res.error)
+        toastInfo(this.$t('ERR_GATEWAY_ACCOUNT_DEPRECATE'))
+        this.$emit('close')
       }
     },
     async getGatewayInfomation(name) {
@@ -233,9 +243,9 @@ export default {
     tipContent() {
       // TODO: status detect
       if (this.status === 2) {
-        return this.$t('DEPOSIT_TIP', {currency: this.currency})
+        return this.$t('DEPOSIT_TIP', { currency: this.currency })
       }
-      return this.$t('ALERT_TIP', {rate: this.ratio})
+      return this.$t('ALERT_TIP', { rate: this.ratio })
     },
     tipColor() {
       // TODO: status detect

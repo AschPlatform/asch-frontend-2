@@ -36,7 +36,7 @@
             <div v-if="status === 1">
               <span class="font-14 text-three">{{address}}</span>
               <q-btn v-if="address" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" color="secondary" size="xs" flat round icon="content copy" />
-              <span v-else>{{$t('NOT_OPEN')}}</span>
+              <span v-else>{{z$t(gatewayVersionChange?'ERR_GATEWAY_ACCOUNT_DEPRECATE':'NOT_OPEN')}}</span>
             </div>
             <div v-if="status === 1 && !isCross" class="row justify-center" @click="showAddrQr">
               <vue-qr v-if="isCross" :size="80" :text="address ? asset.currency + ':'+ address : 'no data'"></vue-qr>
@@ -156,6 +156,7 @@ export default {
       isDisable: false,
       isShowTip: true,
       compensateModalShow: false,
+      gatewayVersionChange: false,
       modal: {
         title: 'RESERVE_COMPENSATION_LABEL',
         type: 3
@@ -207,13 +208,23 @@ export default {
       let res = await this.gateAccountAddr({ name, address })
       if (res.success && res.account) {
         this.address = res.account.outAddress
+      } else {
+        this.gatewayVersionChange = true
       }
+
       this.getGateway()
       this.getRealClaim()
     }
   },
   methods: {
-    ...mapActions(['getBalance', 'gateAccountAddr', 'getGateways', 'getGatewayInfo', 'getGatewayRealClaim', 'getCompensation']),
+    ...mapActions([
+      'getBalance',
+      'gateAccountAddr',
+      'getGateways',
+      'getGatewayInfo',
+      'getGatewayRealClaim',
+      'getCompensation'
+    ]),
     async getData() {
       // TODO
       let res = await this.getMoreAssets()
@@ -308,9 +319,7 @@ export default {
         : 'col-12 bg-white asset-more-asset-card margin-top-20'
     },
     assetCardsContainerClass() {
-      return this.isDesk
-        ? 'row col-12 asset-cards-container'
-        : 'row col-12'
+      return this.isDesk ? 'row col-12 asset-cards-container' : 'row col-12'
     },
     isCross() {
       if (this.asset.currency === 'XAS') return false
@@ -404,6 +413,8 @@ export default {
 .asset-cards-container {
   min-width: 1366px;
 }
-.break-word
-  word-break break-word
+
+.break-word {
+  word-break: break-word;
+}
 </style>
