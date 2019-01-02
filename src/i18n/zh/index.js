@@ -997,7 +997,20 @@ const lang = {
   ERR_BAIL_TOO_LESS: '该新成员网关最低保证金不足',
   ERR_SHOULD_BE_INTEGER: '精度输入不正确',
   ERR_INCORRECT_MONEY: '该资产不能作为MONEY',
-  ERR_GATEWAY_ACCOUNT_DEPRECATE: '网关成员已经变更，请重新注册，并开通新的跨链地址'
+  ERR_GATEWAY_ACCOUNT_DEPRECATE: '网关成员已经变更，请重新注册，并开通新的跨链地址',
+  PERSONAL_MY_RESOURCE: '我的资源',
+  PERSONAL_PLEDGED: '已抵押',
+  PERSONAL_REDEEM_TIME: '解冻时间',
+  PERSONAL_ACTION_PLEDGE: '冻结',
+  PERSONAL_ACTION_REDEEM: '解冻',
+  PLEDGE_BANDWIDTH: '抵押贷款',
+  PLEDGE_ENERGY: '抵押能量',
+  REDEEM_BANDWIDTH: '解冻带宽资源',
+  REDEEM_ENERGY: '解冻能量资源',
+  PLEDGE_TIP: '通过冻结 XAS，将会获得ASCH网络的资源使用权，该部分XAS的冻结周期为3天，3天之内该部分Token不能被交易。冻结期结束后，已冻结的XAS可以被解冻。',
+  REDEEM_TIP: '通过解冻 XAS，将会释放ASCH网络的资源使用权',
+  PLEDGE_MAIN_TIP: '要冻结的XAS数量：',
+  REDEEM_MAIN_TIP: '要解冻的XAS数量：'
 }
 
 export default lang

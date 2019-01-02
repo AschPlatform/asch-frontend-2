@@ -29,6 +29,30 @@
           </div>
         </div>
 
+        <!-- new resource card -->
+        <div class="personal-bottom shadow-2 bg-white row col-12 justify-left margin-top-20">
+          <div :class="personalIconClass">
+            <i class="material-icons">email</i>
+            <span class="font-18">
+              {{$t('PERSONAL_MY_RESOURCE')}}
+            </span>
+          </div>
+          <div class="row col-12 justify-between">
+            <div class="resource-box col-4">
+              <div class="resource-inner column">
+                <span class="resource-title">Bandwidth points</span>
+                <span class="resource-record">0 / 5000</span>
+                <span class="resource-detail">{{$t('PERSONAL_PLEDGED')}} 1000XAS</span>
+                <span class="resource-detail">{{$t('PERSONAL_REDEEM_TIME')}} 2018/12/19 18:15</span>
+                <div class="resouce-btn">
+                  <q-btn @click="callPledgeModal('b')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
+                  <q-btn @click="callRedeemeModal('b')">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="personal-bottom shadow-2 bg-white row col-12 justify-left margin-top-20">
           <div :class="personalIconClass">
             <i class="material-icons">email</i>
@@ -109,6 +133,47 @@
         </div>
       </q-card-main>
     </q-card>
+
+    <!-- modal for P/R -->
+    <q-dialog v-model="pledgeModal">
+      <span slot="title">{{pledgeContent.title}}</span>
+      <div slot="body" class="column">
+        <div class="modal-tip">
+          {{pledgeContent.tip}}
+        </div>
+        <div class="modal-main">
+          <div class="text-center modal-main-sub">{{pledgeContent.main_tip}}</div>
+          <div class="modal-input">
+            <q-input type="number" suffix="XAS" hide-underline/>
+          </div>
+          <div class="text-center modal-main-sub">预计可以抵押获得 1000 Bandwidth points</div>
+        </div>
+      </div>
+      <template slot="buttons" class="row justify-between" slot-scope="props">
+        <q-btn :label="$t('label.cancel')"></q-btn>
+        <q-btn :label="$t('PERSONAL_ACTION_PLEDGE')"></q-btn>
+      </template>
+    </q-dialog>
+    <q-dialog v-model="redeemModal">
+      <span slot="title">{{redeemContent.title}}</span>
+      <div slot="body" class="column">
+        <div class="modal-tip">
+          {{redeemContent.tip}}        
+        </div>
+        <div class="modal-main">
+          <div class="text-center modal-main-sub">{{redeemContent.main_tip}}</div>
+          <div class="modal-input">
+            <q-input type="number" suffix="XAS" hide-underline/>
+          </div>
+          <div class="text-center modal-main-sub">预计可以抵押获得 1000 Bandwidth points</div>
+        </div>
+      </div>
+      <template slot="buttons" class="row justify-between" slot-scope="props">
+        <q-btn :label="$t('label.cancel')"></q-btn>
+        <q-btn :label="$t('PERSONAL_ACTION_PLEDGE')"></q-btn>
+      </template>
+    </q-dialog>
+
     <q-dialog v-model="dialogShow">
       <span slot="title">{{type=='secret'?$t('QRCODE'):$t('QRCODE_ADDRESS')}}</span>
       <div slot="body" class="row justify-center" @click="dialogShow=false">
@@ -282,6 +347,9 @@ export default {
     return {
       dialogShow: false,
       publicKeyShow: false,
+      pledgeModal: false,
+      redeemModal: false,
+      modalType: 'm',
       qrValue: '',
       type: 0,
       password: '',
@@ -304,7 +372,19 @@ export default {
       time: '',
       numError: false,
       btnDisable: false,
-      isDisable: false
+      isDisable: false,
+      resource: {
+        bandwidth: {
+          pt: 3000,
+          pledges: 100000000000,
+          expire_time: 1646412346
+        },
+        energy: {
+          pt: 3000,
+          pledges: 100000000000,
+          expire_time: 1646412346
+        }
+      }
     }
   },
   validations: {
@@ -579,7 +659,16 @@ export default {
     publicKeyClose() {
       this.publicKeyShow = false
     },
-    lowerName(val) {}
+    lowerName(val) {},
+    // pledge
+    callPledgeModal(m) {
+      this.modalType = m
+      this.pledgeModal = true
+    },
+    callRedeemModal(m) {
+      this.modalType = m
+      this.redeemModal = true
+    }
   },
   async mounted() {
     if (this.lockInfo) {
@@ -722,6 +811,48 @@ export default {
         return (left - 2.1).toFixed() + 'XAS'
       }
       return 0
+    },
+    pledgeContent() {
+      if (this.modalType) {
+        switch (this.modalType) {
+          case 'b':
+            return {
+              title: this.$t('PLEDGE_BANDWIDTH'),
+              tip: this.$t('PLEDGE_TIP'),
+              main_tip: this.$t('PLEDGE_MAIN_TIP'),
+              action: this.$t('PERSONAL_ACTION_PLEDGE')
+            }
+          case 'e':
+            return {
+              title: this.$t('PLEDGE_ENERGY'),
+              tip: this.$t('PLEDGE_TIP'),
+              main_tip: this.$t('PLEDGE_MAIN_TIP'),
+              action: this.$t('PERSONAL_ACTION_PLEDGE')
+            }
+        }
+      }
+      return {}
+    },
+    redeemContent() {
+      if (this.modalType) {
+        switch (this.modalType) {
+          case 'b':
+            return {
+              title: this.$t('REDEEM_BANDWIDTH'),
+              tip: this.$t('REDEEM_TIP'),
+              main_tip: this.$t('REDEEM_MAIN_TIP'),
+              action: this.$t('PERSONAL_ACTION_REDEEM')
+            }
+          case 'e':
+            return {
+              title: this.$t('REDEEM_ENERGY'),
+              tip: this.$t('REDEEM_TIP'),
+              main_tip: this.$t('REDEEM_MAIN_TIP'),
+              action: this.$t('PERSONAL_ACTION_REDEEM')
+            }
+        }
+      }
+      return {}
     }
   },
   watch: {
@@ -740,7 +871,7 @@ export default {
   padding: 28px 30px;
   width: 100%;
   border-radius: 6px;
-  margin-bottom: 28px;
+  // margin-bottom: 28px;
 }
 
 .personal-top-mobile {
@@ -884,4 +1015,21 @@ export default {
 .copy-btn{
   padding: 0px 0px 0px 5px;
 }
+
+.resource-box
+  text-align center
+  padding 24px
+  .resource-inner
+    background-color grey
+
+.modal-tip
+  background-color grey
+  padding 10px
+.modal-main
+  padding 10px
+  .modal-main-sub
+    margin 10px 0
+  .modal-input
+    border 1px solid
+    padding 10px
 </style>
