@@ -589,6 +589,28 @@ const asch = {
     )
   },
 
+  pledge: (bandwith, energy, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx(
+      convertTransFee({
+        type: 13,
+        fee: 0,
+        args: [bandwith, energy],
+        secret,
+        secondSecret: secondPwd
+      })
+    )
+  },
+  redeem: (bandwith, energy, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx(
+      convertTransFee({
+        type: 14,
+        fee: 0,
+        args: [bandwith, energy],
+        secret,
+        secondSecret: secondPwd
+      })
+    )
+  },
   payContract: (gasLimit, name, amount, currency, fee, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
