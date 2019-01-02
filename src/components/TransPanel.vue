@@ -38,6 +38,7 @@
         
         <q-input class="fee-input" v-if="feeType===1" disable v-model="form.fee" />
         <q-input v-else class="gas-input" style="border:none" v-model="form.gas" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" :placeholder="feeCount"/>
+        <p v-if="feeType!==1" class="text-secondary font-12 q-mb-xs">{{$t('AVAILABLE_BALANCE')}}{{BCHAccount | fee(8)}}</p>
       </q-field>
       <q-field v-if="!isContractPay" class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')">
         <q-input ref="remark" :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
@@ -51,7 +52,7 @@
 
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
-import asch from '../utils/asch'
+import asch, { convertFee, dealGiantNumber } from '../utils/asch'
 import { secondPwd, amountStrReg, smartAddressReg } from '../utils/validators'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
@@ -170,16 +171,18 @@ export default {
         return false
       }
 
-      amount = BigNumber(amount)
-        .times(Math.pow(10, this.precision))
-        .toString()
+      // amount = BigNumber(amount)
+      //   .times(Math.pow(10, this.precision))
+      //   .toString()
+      amount = dealGiantNumber(amount, this.precision)
       let trans = {}
       let fee = 10000000
 
       if (this.feeType === 0 || this.isContractPay) {
-        fee = BigNumber(-Number(this.form.gas))
-          .times(Math.pow(10, this.precision))
-          .toString()
+        // fee = BigNumber(-Number(this.form.gas))
+        //   .times(Math.pow(10, 8))
+        //   .toString()
+        fee = dealGiantNumber(-Number(this.form.gas), 8)
       }
       let res
       if (this.isContractPay) {
@@ -267,7 +270,7 @@ export default {
       let xasFee = 10000000
       let res = await this.getCostGas({ amount: xasFee })
       if (res.success) {
-        this.costGas = BigNumber(res.data).div(Math.pow(10, 8))
+        this.costGas = convertFee(res.data)
       }
     }
   },
@@ -299,6 +302,15 @@ export default {
         }
       ].concat(arr)
       return arr
+    },
+    BCHAccount() {
+      let mark = 0
+      this.balances.forEach(asset => {
+        if (asset.currency === 'BCH') {
+          mark = asset.balance
+        }
+      })
+      return mark
     },
     assetsMap() {
       let assetsMap = {}

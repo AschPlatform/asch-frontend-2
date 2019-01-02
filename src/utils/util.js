@@ -644,7 +644,7 @@ export const translateErrMsg = (t, input) => {
         key: 'ERR_BANCOR_BUY_MORE'
       },
       {
-        error: 'bail is not enough for gateway member',
+        error: 'New member\'s bail is not enough for gateway member',
         key: 'ERR_BAIL_TOO_LESS'
       },
       {

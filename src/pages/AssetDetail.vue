@@ -1,5 +1,5 @@
 <template>
-  <q-page >
+  <q-page>
     <tip-bar v-show="isShowTip && isCross && ratio < 120 && ratio !== 0" class="padding-20" :ratio="ratio" :status="status" :symbol="asset.currency"></tip-bar>
     <q-card class="no-shadow">
       <q-card-title>
@@ -20,7 +20,7 @@
 
         <assets-panel :class="assetDetailInnerClass" v-if="status === 3" type='outer-compensate' :asset="asset" @compensate="compensate"/>
 
-        <assets-panel :class="assetDetailInnerClass" v-if="status === 4" type='outer-constrated' :asset="asset" @compensate="compensate"/>
+        <assets-panel :class="assetDetailInnerClass" v-if="status === 4" type='outer-constrated' :asset="asset" @transfer="transfer" @withdraw="withdraw"/>
 
         <q-card :class="assetDetailOuterClass" v-if="isCross">
           <q-card-main>
@@ -70,7 +70,7 @@
           </q-card-main>
         </q-card>
   
-        <q-card v-if="asset.asset && status !== 3" :class="assetDetailOuterClass" style="overflow-y: scroll">
+        <q-card v-if="asset.asset && status !== 3" :class="assetDetailOuterClass" style="overflow-y: scroll; overflow-x: scroll; max-width: 400px;">
           <q-card-main>
             <p class="text-black font-22">{{$t('CURRENCY_INTRODUCE')}}</p>
             <p class="break-word">

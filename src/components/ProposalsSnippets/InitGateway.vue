@@ -25,7 +25,7 @@ import {
 
 export default {
   name: 'snippet-initGateway',
-  props: ['reset', 'name', 'delegateList'],
+  props: ['reset', 'name', 'delegateList', 'gatewayMember'],
   components: {
     QField,
     QInput,
@@ -59,12 +59,12 @@ export default {
     }
   },
   computed: {
-    gatewayMember() {
-      if (this.p_selected && this.p_selected.minimumMembers) {
-        return this.p_selected.minimumMembers
-      }
-      return 0
-    },
+    // gatewayMember() {
+    //   if (this.p_selected.minimumMembers) {
+    //     return this.p_selected.minimumMembers
+    //   }
+    //   return 0
+    // },
     avaliable() {
       if (this.$v.$invalid === false) {
         this.compilePackage()

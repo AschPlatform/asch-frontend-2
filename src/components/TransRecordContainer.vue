@@ -101,7 +101,7 @@ export default {
           temp.col2.push(this.$t('ARGS'))
           let computedFee = convertFee(e.fee)
           if (computedFee < 0) {
-            temp.fee.push(computedFee)
+            temp.fee.push('-' + convertFee(e.gasUsed))
             temp.fee.push('BCH')
           } else {
             temp.fee.push('-' + computedFee)

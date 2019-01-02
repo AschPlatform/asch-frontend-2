@@ -116,14 +116,23 @@ export const dealBigNumber = num => {
   return dealNum.replace(/,/g, '')
 }
 export const dealGiantNumber = (num, precision) => {
-  let bunch = ''
-  let tail = (function () {
+  let backup = []
+  let chunk = num.toString()
+  if (chunk.indexOf('.') > -1) {
+    backup = chunk.split('.')[1].split('')
+    chunk = chunk.split('.')[0]
+  }
+  let result = (function () {
     for (let i = 0; i < precision; i++) {
-      bunch = bunch + '0'
+      if (backup.length !== 0) {
+        chunk = chunk + backup.shift()
+      } else {
+        chunk = chunk + '0'
+      }
     }
-    return bunch
+    return chunk
   })()
-  return num + tail
+  return result
 }
 
 export const check58 = address => AschJS.crypto.isBase58CheckAddress(address)
