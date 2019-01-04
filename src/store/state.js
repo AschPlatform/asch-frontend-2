@@ -5,5 +5,6 @@ export default {
   version: {},
   balances: [],
   issuer: null,
-  outAssets: {}
+  outAssets: {},
+  pledgeDetail: {}
 }

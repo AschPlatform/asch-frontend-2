@@ -623,5 +623,42 @@ export default {
       params.secondSecret || ''
     )
     return api.broadcastTransaction(trans)
+  },
+  redeem: ({
+    commit,
+    state
+  }, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.redeem(
+      params.bandwidth,
+      params.energy,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
+  },
+  pledge: ({
+    commit,
+    state
+  }, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.pledge(
+      params.bandwidth,
+      params.energy,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
+  },
+  getPledgeDetail: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getPledgeDetail(params)
+      .then(res => {
+        if (res.success) {
+          commit('updatePledgeDetail', res)
+        }
+      })
   }
 }

@@ -400,6 +400,10 @@ const urls = {
     },
     getCostGas: {
       url: '/api/v2/markets/fee'
+    },
+    // 抵押详情
+    getPledgeDetail: {
+      url: '/api/v2/pledges'
     }
   }
 

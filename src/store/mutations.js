@@ -36,5 +36,8 @@ export default {
   },
   setOutAssetsMap: (state, map) => {
     state.outAssets = map
+  },
+  updatePledgeDetail: (state, detail) => {
+    state.pledgeDetail = detail
   }
 }

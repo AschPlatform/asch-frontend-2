@@ -38,15 +38,42 @@
             </span>
           </div>
           <div class="row col-12 justify-between">
+            <!-- bindwidth -->
             <div class="resource-box col-4">
               <div class="resource-inner column">
                 <span class="resource-title">Bandwidth points</span>
-                <span class="resource-record">0 / 5000</span>
-                <span class="resource-detail">{{$t('PERSONAL_PLEDGED')}} 1000XAS</span>
-                <span class="resource-detail">{{$t('PERSONAL_REDEEM_TIME')}} 2018/12/19 18:15</span>
+                <span class="resource-record">{{pledgeDetail.netUsed}} / {{pledgeDetail.netLimit}}</span>
+                <span class="resource-detail">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.totalPledgeForNet)}}XAS</span>
+                <span class="resource-detail">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
                 <div class="resouce-btn">
                   <q-btn @click="callPledgeModal('b')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
-                  <q-btn @click="callRedeemeModal('b')">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
+                  <q-btn @click="callRedeemModal('b')" :disable="!ableToRedeemNet">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
+                </div>
+              </div>
+            </div>
+            <!-- energy -->
+            <div class="resource-box col-4">
+              <div class="resource-inner column">
+                <span class="resource-title">energy points</span>
+                <span class="resource-record">{{pledgeDetail.energyUsed}} / {{pledgeDetail.energyLimit}}</span>
+                <span class="resource-detail">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.totalPledgeForEnergy)}}XAS</span>
+                <span class="resource-detail">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</span>
+                <div class="resouce-btn">
+                  <q-btn @click="callPledgeModal('e')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
+                  <q-btn @click="callRedeemModal('e')" :disable="!ableToRedeemEnergy">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
+                </div>
+              </div>
+            </div>
+            <!-- vote right -->
+            <div class="resource-box col-4">
+              <div class="resource-inner column">
+                <span class="resource-title">{{$t('PERSONAL_VOTE_RIGHT')}}</span>
+                <span class="resource-record">0</span>
+                <span class="resource-detail">{{$t('LOCK_DETAIL', {amount: 1000})}}</span>
+                <span class="resource-detail">{{$t('LOCK_DETAIL_TIME', {date: '2018/12/19 18:15'})}}</span>
+                <div class="resouce-btn">
+                  <q-btn @click="callPledgeModal('e')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
+                  <q-btn @click="callRedeemModal('e')">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
                 </div>
               </div>
             </div>
@@ -144,33 +171,39 @@
         <div class="modal-main">
           <div class="text-center modal-main-sub">{{pledgeContent.main_tip}}</div>
           <div class="modal-input">
-            <q-input type="number" suffix="XAS" hide-underline/>
+            <q-input type="number" v-model="pledgeNumber" suffix="XAS" hide-underline/>
           </div>
-          <div class="text-center modal-main-sub">预计可以抵押获得 1000 Bandwidth points</div>
+          <div class="text-center modal-main-sub">{{pledgeContent.suppose}}</div>
         </div>
+        <q-field v-if="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+          <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
+        </q-field>
       </div>
       <template slot="buttons" class="row justify-between" slot-scope="props">
-        <q-btn :label="$t('label.cancel')"></q-btn>
-        <q-btn :label="$t('PERSONAL_ACTION_PLEDGE')"></q-btn>
+        <q-btn :label="$t('label.cancel')" @click="resetPledge"></q-btn>
+        <q-btn :label="$t('PERSONAL_ACTION_PLEDGE')" color="secondary" @click="actPledge"></q-btn>
       </template>
     </q-dialog>
     <q-dialog v-model="redeemModal">
       <span slot="title">{{redeemContent.title}}</span>
       <div slot="body" class="column">
         <div class="modal-tip">
-          {{redeemContent.tip}}        
+          {{redeemContent.tip}}
         </div>
         <div class="modal-main">
           <div class="text-center modal-main-sub">{{redeemContent.main_tip}}</div>
           <div class="modal-input">
-            <q-input type="number" suffix="XAS" hide-underline/>
+            <q-input type="number" :value="convertFee(pledgeNumber)" readonly suffix="XAS" hide-underline/>
           </div>
-          <div class="text-center modal-main-sub">预计可以抵押获得 1000 Bandwidth points</div>
+          <!-- <div class="text-center modal-main-sub">{{$t('REDEEM_SUPPOSE', {amount: 1000})}}</div> -->
         </div>
+        <q-field v-if="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+          <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
+        </q-field>
       </div>
       <template slot="buttons" class="row justify-between" slot-scope="props">
-        <q-btn :label="$t('label.cancel')"></q-btn>
-        <q-btn :label="$t('PERSONAL_ACTION_PLEDGE')"></q-btn>
+        <q-btn :label="$t('label.cancel')" @click="resetPledge"></q-btn>
+        <q-btn :label="redeemContent.action" color="secondary" @click="actRedeem"></q-btn>
       </template>
     </q-dialog>
 
@@ -306,7 +339,7 @@
 import VueQr from 'vue-qr'
 import { required, sameAs } from 'vuelidate/lib/validators'
 import { setSecondPwd, secondPwdReg, nicknameReg } from '../utils/validators'
-import { toastWarn, toast, toastError, prompt, translateErrMsg } from '../utils/util'
+import { toastWarn, toast, toastError, prompt, translateErrMsg, getTimeFromEndHeight } from '../utils/util'
 import asch, { convertFee, fullTimestamp } from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
 import {
@@ -349,6 +382,7 @@ export default {
       publicKeyShow: false,
       pledgeModal: false,
       redeemModal: false,
+      pledgeNumber: 0,
       modalType: 'm',
       qrValue: '',
       type: 0,
@@ -411,7 +445,7 @@ export default {
     time: {}
   },
   methods: {
-    ...mapActions(['broadcastTransaction', 'setName']),
+    ...mapActions(['broadcastTransaction', 'setName', 'redeem', 'pledge', 'getPledgeDetail']),
     reset(props) {
       this.password = ''
       this.confirmPassword = ''
@@ -667,7 +701,52 @@ export default {
     },
     callRedeemModal(m) {
       this.modalType = m
+      switch (m) {
+        case 'e':
+          this.pledgeNumber = this.pledgeDetail.pledgeAmountForEnergy
+          break
+        case 'b':
+          this.pledgeNumber = this.pledgeDetail.pledgeAmountForNet
+          break
+      }
       this.redeemModal = true
+    },
+    actPledge() {
+      let result = this.pledge({
+        bandwidth: this.modalType === 'b' ? this.pledgeNumber * Math.pow(10, 8) : 0,
+        energy: this.modalType === 'e' ? this.pledgeNumber * Math.pow(10, 8) : 0,
+        secondSecret: this.secondPwd
+      })
+      if (result) {
+        console.log(result, this.modalType)
+        this.resetPledge()
+        toast(this.$t('PLEDGE_ACTION_SUCCESS'))
+      }
+    },
+    actRedeem() {
+      let result = this.redeem({
+        bandwidth: this.modalType === 'b' ? this.pledgeNumber : 0,
+        energy: this.modalType === 'e' ? this.pledgeNumber : 0,
+        secondSecret: this.secondPwd
+      })
+      if (result) {
+        this.resetPledge()
+        toast(this.$t('REDEEM_ACTION_SUCCESS'))
+      }
+    },
+    // async updatePledge() {
+    //   let result = await this.getPledgeDetail({
+    //     address: this.address
+    //   })
+    //   if (result) {
+    //     console.log(result)
+    //   }
+    // },
+    resetPledge() {
+      this.pledgeNumber = 0
+      this.secondPwd = ''
+      this.pledgeModal = false
+      this.redeemModal = false
     }
   },
   async mounted() {
@@ -677,7 +756,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userInfo', 'latestBlock']),
+    ...mapGetters(['userInfo', 'latestBlock', 'pledgeDetail']),
     personalTopClass() {
       return this.isDesk
         ? 'col-12 row justify-left shadow-2 bg-white personal-top-desktop'
@@ -820,14 +899,18 @@ export default {
               title: this.$t('PLEDGE_BANDWIDTH'),
               tip: this.$t('PLEDGE_TIP'),
               main_tip: this.$t('PLEDGE_MAIN_TIP'),
-              action: this.$t('PERSONAL_ACTION_PLEDGE')
+              action: this.$t('PERSONAL_ACTION_PLEDGE'),
+              // add amount computed
+              suppose: this.$t('PLEDGE_SUPPOSE_B', {amount: this.pledgeDetail.netPerPledgedXAS * this.pledgeNumber})
             }
           case 'e':
             return {
               title: this.$t('PLEDGE_ENERGY'),
               tip: this.$t('PLEDGE_TIP'),
               main_tip: this.$t('PLEDGE_MAIN_TIP'),
-              action: this.$t('PERSONAL_ACTION_PLEDGE')
+              action: this.$t('PERSONAL_ACTION_PLEDGE'),
+              // add amount computed
+              suppose: this.$t('PLEDGE_SUPPOSE_E', {amount: this.pledgeDetail.energyPerPledgedXAS * this.pledgeNumber})
             }
         }
       }
@@ -853,6 +936,36 @@ export default {
         }
       }
       return {}
+    },
+    countRedeemTimeNet() {
+      if (this.pledgeDetail && this.pledgeDetail.netLockHeight) {
+        return getTimeFromEndHeight({
+          endHeight: 8640 * 3 + Number(this.pledgeDetail.netLockHeight),
+          currentHeight: Number(this.pledgeDetail.netLockHeight)
+        })
+      }
+    },
+    countRedeemTimeEnergy() {
+      if (this.pledgeDetail && this.pledgeDetail.energyLockHeight) {
+        return getTimeFromEndHeight({
+          endHeight: 8640 * 3 + Number(this.pledgeDetail.energyLockHeight),
+          currentHeight: Number(this.pledgeDetail.energyLockHeight)
+        })
+      }
+    },
+    ableToRedeemNet() {
+      let { height } = this.latestBlock
+      if (height > this.pledgeDetail.netLockHeight + 3 * 8640) {
+        return true
+      }
+      return false
+    },
+    ableToRedeemEnergy() {
+      let { height } = this.latestBlock
+      if (height > this.pledgeDetail.energyLockHeight + 3 * 8640) {
+        return true
+      }
+      return false
     }
   },
   watch: {
@@ -1021,6 +1134,8 @@ export default {
   padding 24px
   .resource-inner
     background-color grey
+    padding 8px
+    border-radius 6px
 
 .modal-tip
   background-color grey

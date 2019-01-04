@@ -589,23 +589,23 @@ const asch = {
     )
   },
 
-  pledge: (bandwith, energy, secret, secondPwd = '') => {
+  pledge: (bandwidth, energy, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 13,
         fee: 0,
-        args: [bandwith, energy],
+        args: [bandwidth, energy],
         secret,
         secondSecret: secondPwd
       })
     )
   },
-  redeem: (bandwith, energy, secret, secondPwd = '') => {
+  redeem: (bandwidth, energy, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 14,
         fee: 0,
-        args: [bandwith, energy],
+        args: [bandwidth, energy],
         secret,
         secondSecret: secondPwd
       })
@@ -673,6 +673,12 @@ const feeFuncMap = {
   },
   12: trs => {
     return 0.1
+  },
+  13: trs => {
+    return 0
+  },
+  14: trs => {
+    return 0
   },
   20: trs => {
     return 0

@@ -237,7 +237,8 @@ export default {
       'getAccountsInfo',
       'getBalances',
       'getIssuer',
-      'registGateway'
+      'registGateway',
+      'getPledgeDetail'
     ]),
     ...mapMutations([
       'updateUserInfo',
@@ -328,6 +329,12 @@ export default {
         this.disableBtn('btnDisable')
       }
     },
+    async getPledge() {
+      let user = this.userInfo || getCache('user') || null
+      await this.getPledgeDetail({
+        address: user.account.address
+      })
+    },
     disableBtn(model) {
       this[model] = true
       this._.delay(() => {
@@ -375,7 +382,10 @@ export default {
         this.setUserInfo(userInfo)
         this.setLatestBlock(res.latestBlock)
         this.setVersion(res.version)
-        this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
+        this.intervalNum = setInterval(() => {
+          this.refreshAccounts()
+          this.getPledge()
+        }, 10000)
       }
       this.getIssuer()
       // if (res.success && res.issuer) {

@@ -31,6 +31,9 @@ const getters = {
   },
   outAssets: state => {
     return state.outAssets
+  },
+  pledgeDetail: state => {
+    return state.pledgeDetail
   }
 }
 

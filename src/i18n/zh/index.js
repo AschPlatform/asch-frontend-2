@@ -1010,7 +1010,14 @@ const lang = {
   PLEDGE_TIP: '通过冻结 XAS，将会获得ASCH网络的资源使用权，该部分XAS的冻结周期为3天，3天之内该部分Token不能被交易。冻结期结束后，已冻结的XAS可以被解冻。',
   REDEEM_TIP: '通过解冻 XAS，将会释放ASCH网络的资源使用权',
   PLEDGE_MAIN_TIP: '要冻结的XAS数量：',
-  REDEEM_MAIN_TIP: '要解冻的XAS数量：'
+  REDEEM_MAIN_TIP: '要解冻的XAS数量：',
+  PLEDGE_SUPPOSE_B: '预计可以抵押获得 {amount} Bandwidth points',
+  PLEDGE_SUPPOSE_E: '预计可以抵押获得 {amount} Energy',
+  REDEEM_SUPPOSE: '可以赎回 {amount} XAS',
+  PERSONAL_VOTE_RIGHT: '投票权',
+  PLEDGE_ACTION_SUCCESS: '抵押成功',
+  REDEEM_ACTION_SUCCESS: '抵押成功',
+  PLEDGE_ACTION_FAIL: '抵押失败'
 }
 
 export default lang

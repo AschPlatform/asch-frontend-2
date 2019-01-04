@@ -398,6 +398,11 @@ api2.getCostGas = params => {
   return fetch(urls.v2.getCostGas, params, 'get')
 }
 
+// 获取用户抵押详情
+api2.getPledgeDetail = params => {
+  return fetch(urls.v2.getPledgeDetail, params, 'get')
+}
+
 export {
   api,
   api2

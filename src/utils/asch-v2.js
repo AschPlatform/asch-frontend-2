@@ -443,6 +443,12 @@ const feeFuncMap = {
   12: trs => {
     return 0.1
   },
+  13: trs => {
+    return 0
+  },
+  14: trs => {
+    return 0
+  },
   100: trs => {
     return 100
   },
