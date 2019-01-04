@@ -68,12 +68,12 @@
             <div class="resource-box col-4">
               <div class="resource-inner column">
                 <span class="resource-title">{{$t('PERSONAL_VOTE_RIGHT')}}</span>
-                <span class="resource-record">0</span>
-                <span class="resource-detail">{{$t('LOCK_DETAIL', {amount: 1000})}}</span>
-                <span class="resource-detail">{{$t('LOCK_DETAIL_TIME', {date: '2018/12/19 18:15'})}}</span>
+                <span class="resource-record">{{convertFee(this.lockInfo.amount)}}</span>
+                <span class="resource-detail">{{$t('LOCK_DETAIL', {amount: convertFee(this.lockInfo.amount)})}}</span>
+                <span class="resource-detail">{{$t('LOCK_DETAIL_TIME', {date: this.lockInfo.time})}}</span>
                 <div class="resouce-btn">
-                  <q-btn @click="callPledgeModal('e')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
-                  <q-btn @click="callRedeemModal('e')">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
+                  <q-btn @click="callLockPanel">{{$t('TRS_TYPE_LOCK')}}</q-btn>
+                  <q-btn @click="unlock" :disable="!this.lockInfo.expire">{{$t('UNLOCK')}}</q-btn>
                 </div>
               </div>
             </div>
