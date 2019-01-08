@@ -60,10 +60,6 @@
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('TRANSFER')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('bancor')">
-          <q-item-side icon="repeat" />
-          <q-item-main :label="$t('BANCOR')" />
-        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('proposal')">
           <q-item-side icon="gavel" />
           <q-item-main :label="$t('PROPOSAL')" />
@@ -417,7 +413,6 @@ export default {
         applications: 'APPLICATIONS',
         personal: 'PERSONAL',
         issuer: 'TRS_TYPE_UIA_ISSUE',
-        bancor: 'BANCOR',
         contract: 'SMART_CONTRACT',
         contractDetail: 'SMART_CONTRACT_DETAIL',
         councilDetail: 'COUNCIL',

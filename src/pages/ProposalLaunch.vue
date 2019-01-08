@@ -165,10 +165,6 @@
             <member-indicator :type="countedType"></member-indicator>
           </div>
 
-          <!-- TODO: -->
-          <!-- below is bancor init page -->
-          <new-bancor v-if="this.first_type === 'new_b'" :supportBalances="BANCOR.supportBalances" :balanceSheet="balanceSheet" :userInfo="userInfo" @send="envaluePackage"></new-bancor>
-
           <div class="row col-12" v-show="this.first_type !== null">
             <q-field v-if="secondSignature" class="col-6 font-16 text-four" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
               <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
@@ -203,7 +199,6 @@ import ClaimGateway from '../components/ProposalsSnippets/ClaimGateway'
 import FreezeGateway from '../components/ProposalsSnippets/FreezeGateway'
 import InitGateway from '../components/ProposalsSnippets/InitGateway'
 import MemberChange from '../components/ProposalsSnippets/MemberChange'
-import NewBancor from '../components/ProposalsSnippets/NewBancor'
 import NewGateway from '../components/ProposalsSnippets/NewGateway'
 import {
   QField,
@@ -249,7 +244,6 @@ export default {
     FreezeGateway,
     InitGateway,
     MemberChange,
-    NewBancor,
     NewGateway
   },
   props: ['show'],
@@ -310,10 +304,6 @@ export default {
         {
           label: this.$t('proposal.NETGATEWAY_CLEAR'),
           value: 'gateway_clear'
-        },
-        {
-          label: this.$t('proposal.SELECT_NEWBANCOR'),
-          value: 'new_b'
         }
         // {
         //   label: this.$t('proposal.SELECT_NETPERIOD'),
@@ -409,28 +399,6 @@ export default {
       CLEAR: {
         selected: []
       },
-      BANCOR: {
-        // form lists
-        allCurrency: [],
-        activedList: [],
-        pair_pre: '',
-        pair_post: '',
-        // hidden stuff
-        supportBalances: [],
-        moneyAble: ['XAS', 'BCH'],
-        // content
-        money: '',
-        stock: '',
-        moneyBalance: '',
-        stockBalance: '',
-        supply: '',
-        stockCw: null,
-        moneyCw: null,
-        moneyPrecision: null,
-        stockPrecision: null,
-        name: '',
-        owner: ''
-      },
       typeMap: {
         new_n: 'gateway_register',
         init: 'gateway_init',
@@ -441,7 +409,6 @@ export default {
         period: 'council_update',
         remove: 'council_revoke',
         gateway_freeze: 'gateway_revoke',
-        new_b: 'bancor_init',
         gateway_clear: 'gateway_claim'
       },
       tomorrow
@@ -564,7 +531,6 @@ export default {
       'postProposal',
       'getGateways',
       'getGatewayDelegates',
-      'getBancorSupports',
       'getBalances'
     ]),
     hideModal() {
@@ -706,23 +672,6 @@ export default {
       this.MEMBER.unelectedList = unelected
       this.delegateList = total
     },
-    async getBancorSupportList() {
-      let result = await this.getBancorSupports()
-      if (result.success) {
-        // this.BANCOR.supportBalances = result.data
-        let tempArr = []
-        // let tempObj = {}
-        result.data.forEach(e => {
-          // tempObj.label = e.assetName
-          // tempObj.value = e
-          tempArr.push({
-            label: e.assetName,
-            value: e
-          })
-        })
-        this.BANCOR.supportBalances = tempArr
-      }
-    },
     async getBalance() {
       let result = await this.getBalances({
         address: this.userInfo.address
@@ -859,11 +808,6 @@ export default {
         val === 'gateway_clear'
       ) {
         this.getAllGate()
-      }
-      if (val === 'new_b') {
-        this.getCurrency()
-        this.getBancorSupportList()
-        this.getBalance()
       }
     },
     p_selected(val) {
