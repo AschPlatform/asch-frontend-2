@@ -68,12 +68,12 @@
             <div class="resource-box col-4">
               <div class="resource-inner column">
                 <span class="resource-title">{{$t('PERSONAL_VOTE_RIGHT')}}</span>
-                <span class="resource-record">{{convertFee(this.lockInfo.amount)}}</span>
-                <span class="resource-detail">{{$t('LOCK_DETAIL', {amount: convertFee(this.lockInfo.amount)})}}</span>
-                <span class="resource-detail">{{$t('LOCK_DETAIL_TIME', {date: this.lockInfo.time})}}</span>
+                <span class="resource-record">{{convertFee(lockInfo ? this.lockInfo.amount : 0)}}</span>
+                <span class="resource-detail">{{$t('LOCK_DETAIL', {amount: lockInfo ? convertFee(this.lockInfo.amount) : 0})}}</span>
+                <span class="resource-detail">{{lockInfo ? $t('LOCK_DETAIL_TIME', {date: this.lockInfo.time}) : 0}}</span>
                 <div class="resouce-btn">
                   <q-btn @click="callLockPanel">{{$t('TRS_TYPE_LOCK')}}</q-btn>
-                  <q-btn @click="unlock" :disable="!this.lockInfo.expire">{{$t('UNLOCK')}}</q-btn>
+                  <q-btn @click="unlock" :disable="this.lockInfo && !this.lockInfo.expire">{{$t('UNLOCK')}}</q-btn>
                 </div>
               </div>
             </div>
@@ -718,7 +718,6 @@ export default {
         secondSecret: this.secondPwd
       })
       if (result) {
-        console.log(result, this.modalType)
         this.resetPledge()
         toast(this.$t('PLEDGE_ACTION_SUCCESS'))
       }
