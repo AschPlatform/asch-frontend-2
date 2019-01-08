@@ -20,7 +20,7 @@
         <q-field :label-width="2" :label="$t('proposal.SELECT_P_COUNCIL')" class="col-md-8 col-xs-12 font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change' || this.first_type === 'period' ">
           <q-select v-model="p_selected" :options="councilList" @blur="$v.p_selected.$touch()" :error="$v.p_selected.$error" :placeholder="$t('proposal.SELECT_P_COUNCIL')" />
         </q-field>
-        <q-field class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_NET')" :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'init' || this.first_type === 'member_n' || this.first_type === 'gateway_freeze' || this.first_type === 'gateway_clear' && this.first_type !== 'new' && this.first_type !== null">
+        <q-field class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_NET')" :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'init' || this.first_type === 'member_n' || this.first_type === 'gateway_clear' && this.first_type !== 'new' && this.first_type !== null">
           <q-select v-model="p_selected" :options="netList" @change="val => {console.log(val)}" @blur="$v.p_selected.$touch()" :error="$v.p_selected.isSelected" :placeholder="$t('proposal.SELECT_P_NET')" />
         </q-field>
       </div>
@@ -72,10 +72,6 @@
               <div class="row">{{$t('ALREADY_INIT')}}</div>
             </div>
           </init-gateway>
-
-          <!-- below is net freeze page -->
-          <!-- TODO: -->
-          <freeze-gateway v-if="this.first_type === 'gateway_freeze' && this.initFalse" :name="p_selected.name" @send="envaluePackage"></freeze-gateway>
 
           <!-- below is net clear page -->
           <!-- TODO: -->
@@ -196,7 +192,6 @@ import { toast, translateErrMsg } from '../utils/util'
 import MemberIndicator from '../components/MemberIndicator'
 import UserAgreementModal from '../components/UserAgreementModal'
 import ClaimGateway from '../components/ProposalsSnippets/ClaimGateway'
-import FreezeGateway from '../components/ProposalsSnippets/FreezeGateway'
 import InitGateway from '../components/ProposalsSnippets/InitGateway'
 import MemberChange from '../components/ProposalsSnippets/MemberChange'
 import NewGateway from '../components/ProposalsSnippets/NewGateway'
@@ -241,7 +236,6 @@ export default {
     MemberIndicator,
     UserAgreementModal,
     ClaimGateway,
-    FreezeGateway,
     InitGateway,
     MemberChange,
     NewGateway
@@ -296,10 +290,6 @@ export default {
         {
           label: this.$t('proposal.SELECT_CHANGEMEMBER'),
           value: 'member_n'
-        },
-        {
-          label: this.$t('proposal.NETGATEWAY_FREEZE'),
-          value: 'gateway_freeze'
         },
         {
           label: this.$t('proposal.NETGATEWAY_CLEAR'),
@@ -408,7 +398,6 @@ export default {
         change: 'council_update_mumber',
         period: 'council_update',
         remove: 'council_revoke',
-        gateway_freeze: 'gateway_revoke',
         gateway_clear: 'gateway_claim'
       },
       tomorrow
@@ -571,15 +560,6 @@ export default {
       } else if (this.first_type === 'gateway_clear') {
         res.gateways.forEach(o => {
           if (o.revoked === 1) {
-            return ls.push({
-              label: o.name,
-              value: o
-            })
-          }
-        })
-      } else if (this.first_type === 'gateway_freeze') {
-        res.gateways.forEach(o => {
-          if (o.revoked === 0 && o.activated === 1) {
             return ls.push({
               label: o.name,
               value: o
@@ -804,7 +784,6 @@ export default {
       if (
         val === 'init' ||
         val === 'member_n' ||
-        val === 'gateway_freeze' ||
         val === 'gateway_clear'
       ) {
         this.getAllGate()
