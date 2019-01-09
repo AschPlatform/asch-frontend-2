@@ -97,9 +97,7 @@ export default {
       balance: '',
       precision: 0,
       feeType: 0, // 1 XAS, 0 BCH
-      isContractPay: false,
-      bancorStatue: null,
-      costGas: ''
+      isContractPay: false
     }
   },
   validations: {
@@ -150,9 +148,7 @@ export default {
     ...mapActions([
       'broadcastTransaction',
       'getBalances',
-      'payContract',
-      'getBancorPairs',
-      'getCostGas'
+      'payContract'
     ]),
     ...mapMutations(['setBalances']),
     async send() {
@@ -272,20 +268,20 @@ export default {
         this.setBalances(res.balances)
       }
     },
-    async getBncorsPairs() {
-      let result = await this.getBancorPairs()
-      if (result.success) {
-        let bancors = result.bancors
-        this.bancorStatue = bancors[0]
-      }
-    },
-    async queryCostGas() {
-      let xasFee = 10000000
-      let res = await this.getCostGas({ amount: xasFee })
-      if (res.success) {
-        this.costGas = convertFee(res.data)
-      }
-    }
+    // async getBncorsPairs() {
+    //   let result = await this.getBancorPairs()
+    //   if (result.success) {
+    //     let bancors = result.bancors
+    //     this.bancorStatue = bancors[0]
+    //   }
+    // },
+    // async queryCostGas() {
+    //   let xasFee = 10000000
+    //   let res = await this.getCostGas({ amount: xasFee })
+    //   if (res.success) {
+    //     this.costGas = convertFee(res.data)
+    //   }
+    // }
   },
   mounted() {
     if (this.asset) {
@@ -294,7 +290,7 @@ export default {
       this.balance = balance
       this.precision = precision
     }
-    this.queryCostGas()
+    // this.queryCostGas()
   },
   computed: {
     ...mapGetters(['balances', 'userInfo', 'pledgeDetail']),
@@ -374,7 +370,7 @@ export default {
     },
     user(val) {
       this.refreshBalances()
-      this.queryCostGas()
+      // this.queryCostGas()
     }
   }
 }

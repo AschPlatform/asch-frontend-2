@@ -120,7 +120,7 @@
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
             <q-btn v-show="getAddBtnShow" big class="col-5 padding-10" :class="isDesk?'font-18':'font-14'" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
             <q-btn v-show="getReturnBtnShow" big class="col-5 padding-10" :class="isDesk?'font-18':'font-14'" color="secondary" @click="showPromptModal(2)" :label="$t('RESERVE_RETURN_LABEL')" />
-            <q-btn v-show="getCompensatioBtnShow" big class="col-5 padding-10" :class="isDesk?'font-18':'font-14'" color="secondary" @click="showPromptModal(3)" :label="$t('RESERVE_COMPENSATION_LABEL')" />
+            <!-- <q-btn v-show="getCompensatioBtnShow" big class="col-5 padding-10" :class="isDesk?'font-18':'font-14'" color="secondary" @click="showPromptModal(3)" :label="$t('RESERVE_COMPENSATION_LABEL')" /> -->
           </div>
           </q-card-main>
         </div> 
@@ -135,13 +135,13 @@
               <span class="font-24 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}} </span>
               <span class="font-18 text-secondary">{{gateway && gateway.bail ?gateway.bail.symbol:''}}</span>
             </div>
-            <div class="font-20 text-secondary">
+            <!-- <div class="font-20 text-secondary">
               <span>{{gateway && gateway.bail ?' ≈ ' + (gateway.bail.ratio *100).toFixed(2) + '% ':'' }}{{'( '+$t('GATEWAY_PLEDGE_RATIO')+' )'}}</span>
               <span class="relative-position message-content">
                 <i class="material-icons vertical-align-super font-20 text-secondary  cursor-pointer">help</i>
                 <prompt-message class="margin-bottom-10" :message="$t('ABOUT_GATEWAY_RETURN_CONTENT')" />
               </span>      
-            </div>
+            </div> -->
             
           </q-card-main>
         </div>  
@@ -262,6 +262,7 @@ export default {
       candidateNum: 0,
       memberType: 1, // elected 1 , candidate 0
       isGatewayMember: false,
+      isElected: false,
       isClickToApply: false,
       modal: {
         // prompt modal for gateway
@@ -331,10 +332,12 @@ export default {
         offset: (pageNo - 1) * limit,
         name: this.gateway.name
       })
+      console.log(res.data)
       let electedNume = 0
       let candidateNum = 0
       if (res.success) {
         this.datas = res.data.filter(p => {
+          if (p.elected === 1) this.isElected = true
           if (this.address === p.address) this.isGatewayMember = true
           if (p.elected === 1) {
             electedNume++
@@ -479,14 +482,14 @@ export default {
       let showStates = [0, 1, 2]
       let gatewayState = this.getGatewayState
       let flag = showStates.indexOf(gatewayState) > -1
-      return flag && this.isGatewayMember
+      return flag && this.isGatewayMember && !this.isElected
     },
-    getCompensatioBtnShow() {
-      let showStates = [4]
-      let gatewayState = this.getGatewayState
-      let flag = showStates.indexOf(gatewayState) > -1
-      return flag
-    },
+    // getCompensatioBtnShow() {
+    //   let showStates = [4]
+    //   let gatewayState = this.getGatewayState
+    //   let flag = showStates.indexOf(gatewayState) > -1
+    //   return flag
+    // },
     user() {
       return this.userInfo
     },

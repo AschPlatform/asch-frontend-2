@@ -47,7 +47,7 @@
         <div class="inner-box col-12 bg-nine">
           <q-input class="inner-fee" readonly :value="netForTransfer ? '1000' : '0.1'" :suffix="netForTransfer ? 'Bandwidth Ponint' : 'XAS'"/>
           <div v-show="netForTransfer">{{$t('TRANSFER_NET_ENOUGH', {amount: (pledgeDetail.netLimit - pledgeDetail.netUsed) + ' + ' + (pledgeDetail.freeNetLimit - pledgeDetail.freeNetUsed)})}}</div>
-          <div v-show="!netForTransfer">{{$t('TRANSFER_NET_NOT_ENOUGH', {amount: (pledgeDetail.netLimit - pledgeDetail.netUsed) + ' + ' + (pledgeDetail.freeNetLimit - pledgeDetail.freeNetUsed)})}}</div>
+          <div v-show="!netForTransfer">{{$t('TRANSFER_NET_NOT_ENOUGH', {amount: (pledgeDetail.netLimit || 0 - pledgeDetail.netUsed || 0) + ' + ' + (pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0)})}}</div>
         </div>
         <!-- <div v-else class="inner-box col-12 bg-nine">
           <q-input class="inner-fee" v-model="form.gas" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" :placeholder="$t('TRANSFER_ENERGY_TIP')" :suffix="'XAS'"/>
@@ -64,7 +64,7 @@
 
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
-import asch, { convertFee, dealGiantNumber } from '../utils/asch'
+import asch, { dealGiantNumber } from '../utils/asch'
 import { secondPwd, amountStrReg } from '../utils/validators'
 import { required, maxLength } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
@@ -95,9 +95,7 @@ export default {
       balance: '',
       precision: 0,
       feeType: 1, // 1 XAS, 0 BCH
-      isContractPay: false,
-      bancorStatue: null,
-      costGas: ''
+      isContractPay: false
     }
   },
   validations: {
@@ -141,9 +139,7 @@ export default {
     ...mapActions([
       'broadcastTransaction',
       'getBalances',
-      'payContract',
-      'getBancorPairs',
-      'getCostGas'
+      'payContract'
     ]),
     ...mapMutations(['setBalances']),
     async send() {
@@ -248,21 +244,21 @@ export default {
       if (res.success) {
         this.setBalances(res.balances)
       }
-    },
-    async getBncorsPairs() {
-      let result = await this.getBancorPairs()
-      if (result.success) {
-        let bancors = result.bancors
-        this.bancorStatue = bancors[0]
-      }
-    },
-    async queryCostGas() {
-      let xasFee = 10000000
-      let res = await this.getCostGas({ amount: xasFee })
-      if (res.success) {
-        this.costGas = convertFee(res.data)
-      }
     }
+    // async getBncorsPairs() {
+    //   let result = await this.getBancorPairs()
+    //   if (result.success) {
+    //     let bancors = result.bancors
+    //     this.bancorStatue = bancors[0]
+    //   }
+    // },
+    // async queryCostGas() {
+    //   let xasFee = 10000000
+    //   let res = await this.getCostGas({ amount: xasFee })
+    //   if (res.success) {
+    //     this.costGas = convertFee(res.data)
+    //   }
+    // }
   },
   mounted() {
     if (this.asset) {
@@ -271,7 +267,7 @@ export default {
       this.balance = balance
       this.precision = precision
     }
-    this.queryCostGas()
+    // this.queryCostGas()
   },
   computed: {
     ...mapGetters(['balances', 'userInfo', 'pledgeDetail']),
@@ -351,7 +347,7 @@ export default {
     },
     user(val) {
       this.refreshBalances()
-      this.queryCostGas()
+      // this.queryCostGas()
     }
   }
 }

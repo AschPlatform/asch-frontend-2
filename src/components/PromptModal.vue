@@ -3,7 +3,7 @@
     <big class="modal-title">{{$t(title)}}</big>
     <div class="prompt-modal-conent-container">
       <q-field v-if="type==1" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_ADD')" orientation="vertical">
-        <q-input @blur="$v.addForm.val.$touch" v-model="addForm.val" :error="$v.addForm.val.$error" :placeholder="$t('PLACEHOLDER_GATEWAY_ADD',{amount:getAmount('status','needSupply')})" />
+        <q-input @blur="$v.addForm.val.$touch" v-model="addForm.val" :error="$v.addForm.val.$error" :placeholder="$t('PLACEHOLDER_GATEWAY_ADD')" />
       </q-field>
       <q-field v-if="type==2" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_RETURN')" :error-label="$t('ERR_GATEWAY_RETURN')" orientation="vertical">
         <q-input @blur="$v.returnForm.val.$touch" v-model="returnForm.val" :error="$v.returnForm.val.$error" :placeholder="$t('PLACEHOLDER_GATEWAY_RETURN',{amount:getAmount('status','withdrawl')})" />
@@ -15,13 +15,13 @@
         <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
       </q-field>
       <br/>
-      <div v-if="type>0" class="tips">
+      <div v-if="type>=3" class="tips">
         <div class="tip-title">{{$t('TIP')}}</div>
         <div v-if="type<3">
           <div class="text-three">{{$t(type==1?'RESERVE_ADD_TIP':'RESERVE_RETURN_TIP',{amount:getAmount('status','currentBail'),ratio:getAmount('status','ratio'),val:getAmount('status',type===1?'needSupply':'withdrawl')})}}</div>
           <div class="text-three margin-top-30">{{$t('RESERVE_RATIO_TIP')}}</div>
         </div>
-        <div v-else class="text-three">
+        <div class="text-three">
           {{$t('RESERVE_COMPENSATION_TIP', {amount:getAmount('claim','lockedBail'), asset:getAmount('claim','totalAmount')+gatewaySymbol, balance:getAmount('claim','userAmount')+gatewaySymbol, formula: '( '+getAmount('claim','userAmount')+'/'+getAmount('claim','totalAmount')+')'})
           }}
         </div>

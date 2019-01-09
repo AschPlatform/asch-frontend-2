@@ -905,7 +905,7 @@ const lang = {
   ERR_GAS_NUM_WRONG: '请输入正确的燃料费',
   ERR_GATEWAY_ADD: '追加的储备金额度不正确，需为正整数',
   LABEL_GATEWAY_ADD: '请输入您要追加的储备金额度',
-  PLACEHOLDER_GATEWAY_ADD: '请追加至少{amount} XAS',
+  PLACEHOLDER_GATEWAY_ADD: '请输入数额',
   ERR_GATEWAY_RETURN: '退回的储备金额度不正确，需为正整数',
   LABEL_GATEWAY_RETURN: '请输入您要退回的储备金额度',
   PLACEHOLDER_GATEWAY_RETURN: '您最多可退回{amount} XAS',
