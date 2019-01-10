@@ -656,8 +656,14 @@ export default {
   }, params) => {
     return api2.getPledgeDetail(params)
       .then(res => {
-        if (res.success) {
+        if (res.success && Object.keys(res).length > 1) {
           commit('updatePledgeDetail', res)
+        } else {
+          api2.getPledgeDetail().then(res => {
+            if (res.success) {
+              commit('updatePledgeDetail', res)
+            }
+          })
         }
       })
   }

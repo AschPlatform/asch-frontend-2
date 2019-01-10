@@ -43,7 +43,7 @@
               <div class="resource-inner column">
                 <span class="resource-title">Bandwidth points</span>
                 <span class="resource-record">{{pledgeDetail.netUsed || 0}} / {{pledgeDetail.netLimit || 0}}</span>
-                <span class="resource-detail">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.totalPledgeForNet) || 0}}XAS</span>
+                <span class="resource-detail">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForNet) || 0}}XAS</span>
                 <span class="resource-detail">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
                 <div class="resouce-btn">
                   <q-btn @click="callPledgeModal('b')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
@@ -56,7 +56,7 @@
               <div class="resource-inner column">
                 <span class="resource-title">energy points</span>
                 <span class="resource-record">{{pledgeDetail.energyUsed || 0}} / {{pledgeDetail.energyLimit || 0}}</span>
-                <span class="resource-detail">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.totalPledgeForEnergy) || 0}}XAS</span>
+                <span class="resource-detail">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForEnergy) || 0}}XAS</span>
                 <span class="resource-detail">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</span>
                 <div class="resouce-btn">
                   <q-btn @click="callPledgeModal('e')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
