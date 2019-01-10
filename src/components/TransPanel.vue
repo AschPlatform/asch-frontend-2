@@ -289,15 +289,6 @@ export default {
       ].concat(arr)
       return arr
     },
-    BCHAccount() {
-      let mark = 0
-      this.balances.forEach(asset => {
-        if (asset.currency === 'BCH') {
-          mark = asset.balance
-        }
-      })
-      return mark
-    },
     assetsMap() {
       let assetsMap = {}
       this.balances.forEach(asset => {

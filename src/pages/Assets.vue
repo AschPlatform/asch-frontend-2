@@ -131,19 +131,7 @@ export default {
         offset: (pageNo - 1) * limit
       })
       if (res.success) {
-        // this.outerBalance = res.balances
-        this.outerBalance = [
-          {
-            currency: 'BCH',
-            asset: {
-              desc: 'desc',
-              gateway: 'bitcoincash',
-              symbol: 'BCH',
-              precision: 8,
-              url: ''
-            }
-          }
-        ]
+        this.outerBalance = res.balances
         // set max
         this.outerPagination.rowsNumber = res.count
         this.loading = false

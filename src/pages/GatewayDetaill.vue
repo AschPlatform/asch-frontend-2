@@ -1,6 +1,6 @@
 <template>
   <q-page class="gatewayDetail-container">
-    <tip-bar class="padding-0 margin-bottom-20" v-if="tipBarShow" :ratio="gateway.bail.ratio*100" :status="ratioStatus" :symbol="gateway.bail.symbol"/>
+    <!-- <tip-bar class="padding-0 margin-bottom-20" v-if="tipBarShow" :ratio="gateway.bail.ratio*100" :status="ratioStatus" :symbol="gateway.bail.symbol"/> -->
     <div class="gatewayDetail-content">
       <div class="no-wrap q-pa-md row justify-between">
         <span>
@@ -167,7 +167,7 @@ import {
 import PromptModal from '../components/PromptModal'
 import BoundaryLine from '../components/BoundaryLine'
 import PromptMessage from '../components/PromptMessage'
-import TipBar from '../components/TipBar'
+// import TipBar from '../components/TipBar'
 
 export default {
   name: 'GatewayDetail',
@@ -184,8 +184,7 @@ export default {
     QBtnToggle,
     PromptModal,
     BoundaryLine,
-    PromptMessage,
-    TipBar
+    PromptMessage
   },
   data() {
     return {
@@ -504,11 +503,11 @@ export default {
           return 1
         }
       }
-    },
-    tipBarShow() {
-      let gateway = this.gateway
-      return gateway && gateway.bail && gateway.bail.ratio <= 1.2 && gateway.bail.ratio !== 0
     }
+    // tipBarShow() {
+    //   let gateway = this.gateway
+    //   return gateway && gateway.bail && gateway.bail.ratio <= 1.2 && gateway.bail.ratio !== 0
+    // }
   },
   watch: {
     userObj(val) {},

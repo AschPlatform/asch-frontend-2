@@ -312,15 +312,6 @@ export default {
       ].concat(arr)
       return arr
     },
-    BCHAccount() {
-      let mark = 0
-      this.balances.forEach(asset => {
-        if (asset.currency === 'BCH') {
-          mark = asset.balance
-        }
-      })
-      return mark
-    },
     assetsMap() {
       let assetsMap = {}
       this.balances.forEach(asset => {
@@ -334,11 +325,6 @@ export default {
         }
       }
       return assetsMap
-    },
-    feeCount() {
-      return this.isContractPay
-        ? this.$t('CONTRACT_GAS_LIMIT_TIP', { num: 0.1 })
-        : this.$t('COUNTED_FEE') + (this.costGas || 0) + ' BCH'
     },
     netForTransfer() {
       if (Object.keys(this.pledgeDetail).length > 0) {
