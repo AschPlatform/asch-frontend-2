@@ -101,7 +101,7 @@
         </div>
       </div>
       <div class="row q-px-md" :class="isDesk?'gutter-md':'gutter-xs'">
-      <q-card class="no-shadow margin-top-30 col-md-4 col-xs-12" align="left">
+      <!-- <q-card class="no-shadow margin-top-30 col-md-4 col-xs-12" align="left">
         <div class="bg-white shadow-2" :class="isDesk?' fixed-info-height':'padding-bottom-20'">
           <q-card-title class="bg-nine custom-card-title">
             <span class="font-16 text-tertiary font-weight">{{$t('RESERVE_TOTAL_AMOUNT')}} </span>
@@ -120,7 +120,6 @@
           <div class="flex row margin-top-30" :class="getAddBtnShow&&getReturnBtnShow?'justify-between':'justify-end'">
             <q-btn v-show="getAddBtnShow" big class="col-5 padding-10" :class="isDesk?'font-18':'font-14'" color="secondary" @click="showPromptModal(1)" :label="$t('RESERVE_ADD_LABEL')" />
             <q-btn v-show="getReturnBtnShow" big class="col-5 padding-10" :class="isDesk?'font-18':'font-14'" color="secondary" @click="showPromptModal(2)" :label="$t('RESERVE_RETURN_LABEL')" />
-            <!-- <q-btn v-show="getCompensatioBtnShow" big class="col-5 padding-10" :class="isDesk?'font-18':'font-14'" color="secondary" @click="showPromptModal(3)" :label="$t('RESERVE_COMPENSATION_LABEL')" /> -->
           </div>
           </q-card-main>
         </div> 
@@ -135,17 +134,9 @@
               <span class="font-24 text-tertiary">{{gateway && gateway.bail ?gateway.bail.hosting:'' | fee}} </span>
               <span class="font-18 text-secondary">{{gateway && gateway.bail ?gateway.bail.symbol:''}}</span>
             </div>
-            <!-- <div class="font-20 text-secondary">
-              <span>{{gateway && gateway.bail ?' ≈ ' + (gateway.bail.ratio *100).toFixed(2) + '% ':'' }}{{'( '+$t('GATEWAY_PLEDGE_RATIO')+' )'}}</span>
-              <span class="relative-position message-content">
-                <i class="material-icons vertical-align-super font-20 text-secondary  cursor-pointer">help</i>
-                <prompt-message class="margin-bottom-10" :message="$t('ABOUT_GATEWAY_RETURN_CONTENT')" />
-              </span>      
-            </div> -->
-            
           </q-card-main>
         </div>  
-      </q-card>
+      </q-card> -->
       <q-card class="no-shadow margin-top-30 col-md-4 col-xs-12" align="left">
         <div class="bg-white shadow-2" :class="isDesk?' fixed-info-height':'padding-bottom-20'">
           <q-card-title class="bg-nine self-start bottom-container-top">
@@ -280,14 +271,14 @@ export default {
     this.gateway = gateway
     if (gateway) {
       await this.loadData()
-      let res = await this.getGatewayInfo({
-        name: gateway.name
-      })
-      if (res.success) {
-        this.gateway = this._.merge({}, this.gateway, {
-          bail: res
-        })
-      }
+      // let res = await this.getGatewayInfo({
+      //   name: gateway.name
+      // })
+      // if (res.success) {
+      //   this.gateway = this._.merge({}, this.gateway, {
+      //     bail: res
+      //   })
+      // }
     }
   },
   methods: {
@@ -295,7 +286,6 @@ export default {
       'getGatewayMembers',
       'getGatewayInfo',
       'getGatewayBailStatus',
-      'getGatewayRealClaim',
       'getCompensation',
       'returnBailAmount',
       'addBailAmount'
@@ -349,18 +339,18 @@ export default {
       }
       this.candidateNum = candidateNum
       this.electedNum = electedNume
-      let params = {
-        name: this.gateway.name,
-        address: this.address
-      }
-      let resStatus = await this.getGatewayBailStatus(params)
-      if (resStatus.success) {
-        this.gateway.status = resStatus
-      }
-      let resClaim = await this.getGatewayRealClaim(params)
-      if (resClaim.success) {
-        this.gateway.claim = resClaim
-      }
+      // let params = {
+      //   name: this.gateway.name,
+      //   address: this.address
+      // }
+      // let resStatus = await this.getGatewayBailStatus(params)
+      // if (resStatus.success) {
+      //   this.gateway.status = resStatus
+      // }
+      // let resClaim = await this.getGatewayRealClaim(params)
+      // if (resClaim.success) {
+      //   this.gateway.claim = resClaim
+      // }
     },
     async request(props) {
       this.loading = true

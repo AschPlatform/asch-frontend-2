@@ -19,42 +19,6 @@
               </div>
             </q-td>
           </q-table>
-          <div class="row justify-between gutter-md pool-container">
-            <q-card class="col-md-6 col-xs-12 no-shadow" align="left">
-              <div class="bg-white shadow-2">
-                <q-card-title class="bg-nine ">
-                  <span class="font-16 text-five font-weight">{{$t('BUY_BACK_POOL')}}</span>
-                  <span class="font-16 text-five font-weight relative-position message-content"> 
-                    <i class="material-icons vertical-align-sub font-20 text-secondary margin-left-10 cursor-pointer">help</i>
-                    <prompt-message :message="$t('BUY_BACK_POOL_CONTENT')" />
-                 </span>
-                </q-card-title>
-                <q-card-main class="word-wrap-break q-card-main q-card-container padding-b-40 padding-t-40 relative-position">
-                  <span class="font-30 text-five">{{buyBackBalance | fee}}</span><span class="q-pl-xs font-futura text-secondary">BCH</span>
-                  <div class="card-main-icon">
-                    <img class="buy-back-icon" :src="buyBackIcon" alt="icon">
-                  </div>
-                </q-card-main>
-              </div>
-            </q-card>
-            <q-card class="col-md-6 col-xs-12 no-shadow" align="left">
-              <div class="bg-white shadow-2">
-                <q-card-title class="bg-nine">
-                  <span class="font-16 text-five font-weight">{{$t('BURN_POOL')}}</span>
-                  <span class="font-16 text-five font-weight relative-position message-content">
-                    <i class="material-icons vertical-align-sub font-20 text-secondary margin-left-10 cursor-pointer">help</i>
-                    <prompt-message :message="$t('BURN_POOL_CONTENT')" />
-                  </span>
-                </q-card-title>
-                <q-card-main class="word-wrap-break q-card-main q-card-container padding-b-40 padding-t-40 relative-position">
-                  <span class="font-30 text-five">{{burnAccount | fee}}</span><span class="q-pl-xs font-futura text-secondary">XAS</span>
-                  <div class="card-main-icon">
-                    <img class="burn-icon" :src="burnIcon" alt="icon">
-                  </div>
-                </q-card-main>
-              </div>
-            </q-card>
-          </div>
         </div>
   
         <div v-if="accountLeft" :class="gatewayDetailClass">
@@ -111,7 +75,6 @@ import TransRecordContainer from '../components/TransRecordContainer'
 import BoundaryLine from '../components/BoundaryLine'
 import AssetIcon from '../components/AssetIcon'
 import PromptMessage from '../components/PromptMessage'
-import burnIcon from '../assets/burn_icon.png'
 import buyBackIcon from '../assets/buy_back_icon.png'
 
 export default {
@@ -141,7 +104,6 @@ export default {
   },
   data() {
     return {
-      burnIcon,
       buyBackIcon,
       isMouseover: false,
       columns: [
@@ -172,18 +134,14 @@ export default {
       balances: [],
       group: null,
       accountLeft: 0,
-      buyBackBalance: 0,
-      burnAccount: 0,
-      address: 'GADQ2bozmxjBfYHDQx3uwtpwXmdhafUdkN',
-      buyBackAddress: 'ARepurchaseAddr1234567890123456789',
-      burnAddress: 'ABuringPoolAddr1234567890123456789'
+      address: 'GADQ2bozmxjBfYHDQx3uwtpwXmdhafUdkN'
     }
   },
   mounted() {
     this.loadData()
     this.getGroupAccount()
-    this.getBurnAccount()
-    this.getBuyBackBalance()
+    // this.getBurnAccount()
+    // this.getBuyBackBalance()
     this.getCouncilAssets()
   },
   methods: {
@@ -224,22 +182,6 @@ export default {
         })
       }
       this.balances = this.balances.concat(balances)
-    },
-    async getBurnAccount() {
-      let res = await this.getAccountsInfo({
-        address: this.burnAddress
-      })
-      if (res.success && res.account) {
-        this.burnAccount = res.account.xas
-      }
-    },
-    async getBuyBackBalance() {
-      let res = await this.getBalances({
-        address: this.buyBackAddress
-      })
-      if (res.success && res.balances) {
-        this.buyBackBalance = res.balances[0].balance
-      }
     },
     async getGroupAccount() {
       let res = await this.getAccountsInfo({
