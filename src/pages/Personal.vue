@@ -711,26 +711,32 @@ export default {
       }
       this.redeemModal = true
     },
-    actPledge() {
-      let result = this.pledge({
+    async actPledge() {
+      const t = this.$t
+      let result = await this.pledge({
         bandwidth: this.modalType === 'b' ? this.pledgeNumber * Math.pow(10, 8) : 0,
         energy: this.modalType === 'e' ? this.pledgeNumber * Math.pow(10, 8) : 0,
         secondSecret: this.secondPwd
       })
-      if (result) {
+      if (result.success) {
         this.resetPledge()
         toast(this.$t('PLEDGE_ACTION_SUCCESS'))
+      } else {
+        translateErrMsg(t, result.error)
       }
     },
-    actRedeem() {
-      let result = this.redeem({
+    async actRedeem() {
+      const t = this.$t
+      let result = await this.redeem({
         bandwidth: this.modalType === 'b' ? this.pledgeNumber * Math.pow(10, 8) : 0,
         energy: this.modalType === 'e' ? this.pledgeNumber * Math.pow(10, 8) : 0,
         secondSecret: this.secondPwd
       })
-      if (result) {
+      if (result.success) {
         this.resetPledge()
         toast(this.$t('REDEEM_ACTION_SUCCESS'))
+      } else {
+        translateErrMsg(t, result.error)
       }
     },
     // async updatePledge() {
