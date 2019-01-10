@@ -1135,7 +1135,7 @@ export default {
   padding 24px
   .resource-inner
     background-color #E3E3E3
-    padding 8px
+    padding 24px 0
     border-radius 6px
     .resource-record
       margin 10px 0
