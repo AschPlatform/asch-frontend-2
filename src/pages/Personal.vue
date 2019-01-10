@@ -940,7 +940,7 @@ export default {
       if (this.pledgeDetail && this.pledgeDetail.netLockHeight) {
         return getTimeFromEndHeight({
           endHeight: 8640 * 3 + Number(this.pledgeDetail.netLockHeight),
-          currentHeight: Number(this.pledgeDetail.netLockHeight)
+          currentHeight: Number(this.latestBlock.height)
         })
       }
     },
@@ -948,7 +948,7 @@ export default {
       if (this.pledgeDetail && this.pledgeDetail.energyLockHeight) {
         return getTimeFromEndHeight({
           endHeight: 8640 * 3 + Number(this.pledgeDetail.energyLockHeight),
-          currentHeight: Number(this.pledgeDetail.energyLockHeight)
+          currentHeight: Number(this.latestBlock.height)
         })
       }
     },
