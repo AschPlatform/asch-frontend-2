@@ -675,10 +675,10 @@ const feeFuncMap = {
     return 0.1
   },
   13: trs => {
-    return 0
+    return 0.1
   },
   14: trs => {
-    return 0
+    return 0.1
   },
   20: trs => {
     return 0

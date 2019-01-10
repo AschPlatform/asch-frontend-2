@@ -41,6 +41,8 @@ const lang = {
   TRS_TYPE_UIA_ACL: '资产访问控制',
   TRS_TYPE_UIA_ISSUE: '资产发行',
   TRS_TYPE_UIA_TRANSFER: '资产转账',
+  TRS_TYPE_PLEDGE: '资产抵押',
+  TRS_TYPE_REDEEM: '资产赎回',
   TRS_TYPE_LOCK: '锁仓',
   TRS_TYPE_UNLOCK: '解锁',
   TRS_TYPE_MULTI_ACCOUNT: '设置多签账户',

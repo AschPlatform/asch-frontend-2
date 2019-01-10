@@ -41,39 +41,39 @@
             <!-- bindwidth -->
             <div class="resource-box col-4">
               <div class="resource-inner column">
-                <span class="resource-title">Bandwidth points</span>
-                <span class="resource-record">{{pledgeDetail.netUsed || 0}} / {{pledgeDetail.netLimit || 0}}</span>
-                <span class="resource-detail">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForNet) || 0}}XAS</span>
-                <span class="resource-detail">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
+                <span class="resource-title font-18">Bandwidth points</span>
+                <span class="resource-record text-secondary font-22">{{pledgeDetail.netUsed || 0}} / {{pledgeDetail.netLimit || 0}}</span>
+                <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForNet) || 0}}XAS</span>
+                <span class="resource-detail font-16">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
                 <div class="resouce-btn">
-                  <q-btn @click="callPledgeModal('b')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
-                  <q-btn @click="callRedeemModal('b')" :disable="!ableToRedeemNet">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
+                  <q-btn color="secondary" @click="callPledgeModal('b')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
+                  <q-btn class="margin-left-10" @click="callRedeemModal('b')" :disable="!ableToRedeemNet">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
                 </div>
               </div>
             </div>
             <!-- energy -->
             <div class="resource-box col-4">
               <div class="resource-inner column">
-                <span class="resource-title">energy points</span>
-                <span class="resource-record">{{pledgeDetail.energyUsed || 0}} / {{pledgeDetail.energyLimit || 0}}</span>
-                <span class="resource-detail">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForEnergy) || 0}}XAS</span>
-                <span class="resource-detail">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</span>
+                <span class="resource-title font-18">energy points</span>
+                <span class="resource-record text-secondary font-22">{{pledgeDetail.energyUsed || 0}} / {{pledgeDetail.energyLimit || 0}}</span>
+                <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForEnergy) || 0}}XAS</span>
+                <span class="resource-detail font-16">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</span>
                 <div class="resouce-btn">
-                  <q-btn @click="callPledgeModal('e')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
-                  <q-btn @click="callRedeemModal('e')" :disable="!ableToRedeemEnergy">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
+                  <q-btn color="secondary" @click="callPledgeModal('e')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
+                  <q-btn class="margin-left-10" @click="callRedeemModal('e')" :disable="!ableToRedeemEnergy">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
                 </div>
               </div>
             </div>
             <!-- vote right -->
             <div class="resource-box col-4">
               <div class="resource-inner column">
-                <span class="resource-title">{{$t('PERSONAL_VOTE_RIGHT')}}</span>
-                <span class="resource-record">{{convertFee(lockInfo ? this.lockInfo.amount : 0)}}</span>
-                <span class="resource-detail">{{$t('LOCK_DETAIL', {amount: lockInfo ? convertFee(this.lockInfo.amount) : 0})}}</span>
-                <span class="resource-detail">{{lockInfo ? $t('LOCK_DETAIL_TIME', {date: this.lockInfo.time}) : 0}}</span>
+                <span class="resource-title font-18">{{$t('PERSONAL_VOTE_RIGHT')}}</span>
+                <span class="resource-record text-secondary font-22">{{convertFee(lockInfo ? this.lockInfo.amount : 0)}}</span>
+                <span class="resource-detail font-16">{{$t('LOCK_DETAIL', {amount: lockInfo ? convertFee(this.lockInfo.amount) : 0})}}</span>
+                <span class="resource-detail font-16">{{lockInfo ? $t('LOCK_DETAIL_TIME', {date: this.lockInfo.time}) : 0}}</span>
                 <div class="resouce-btn">
-                  <q-btn @click="callLockPanel">{{$t('TRS_TYPE_LOCK')}}</q-btn>
-                  <q-btn @click="unlock" :disable="this.lockInfo && !this.lockInfo.expire">{{$t('UNLOCK')}}</q-btn>
+                  <q-btn color="secondary" @click="callLockPanel">{{$t('TRS_TYPE_LOCK')}}</q-btn>
+                  <q-btn class="margin-left-10" @click="unlock" :disable="this.lockInfo && !this.lockInfo.expire">{{$t('UNLOCK')}}</q-btn>
                 </div>
               </div>
             </div>
@@ -724,8 +724,8 @@ export default {
     },
     actRedeem() {
       let result = this.redeem({
-        bandwidth: this.modalType === 'b' ? this.pledgeNumber : 0,
-        energy: this.modalType === 'e' ? this.pledgeNumber : 0,
+        bandwidth: this.modalType === 'b' ? this.pledgeNumber * Math.pow(10, 8) : 0,
+        energy: this.modalType === 'e' ? this.pledgeNumber * Math.pow(10, 8) : 0,
         secondSecret: this.secondPwd
       })
       if (result) {
@@ -953,18 +953,20 @@ export default {
       }
     },
     ableToRedeemNet() {
-      let { height } = this.latestBlock
-      if (height > this.pledgeDetail.netLockHeight + 3 * 8640) {
-        return true
-      }
-      return false
+      // let { height } = this.latestBlock
+      // if (height > this.pledgeDetail.netLockHeight + 3 * 8640) {
+      //   return true
+      // }
+      // return false
+      return true
     },
     ableToRedeemEnergy() {
-      let { height } = this.latestBlock
-      if (height > this.pledgeDetail.energyLockHeight + 3 * 8640) {
-        return true
-      }
-      return false
+      // let { height } = this.latestBlock
+      // if (height > this.pledgeDetail.energyLockHeight + 3 * 8640) {
+      //   return true
+      // }
+      // return false
+      return true
     }
   },
   watch: {
@@ -1132,9 +1134,13 @@ export default {
   text-align center
   padding 24px
   .resource-inner
-    background-color grey
+    background-color #E3E3E3
     padding 8px
     border-radius 6px
+    .resource-record
+      margin 10px 0
+    .resource-detail
+      margin-bottom 5px
 
 .modal-tip
   background-color grey
