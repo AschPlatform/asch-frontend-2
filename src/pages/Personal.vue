@@ -44,11 +44,11 @@
                 <span class="resource-title font-18">Bandwidth points</span>
                 <span class="resource-record text-secondary font-22">
                   <q-tooltip>
-                    {{$t('BANDWIDTH_TIP', {free: pledgeDetail.freeNetUsed || 0, net: pledgeDetail.netLimit || 0})}}
+                    {{$t('BANDWIDTH_TIP', {free: pledgeDetail.freeNetLimit || 0, net: pledgeDetail.netLimit || 0})}}
                   </q-tooltip>
                   {{(pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetUsed || 0)}} / {{(pledgeDetail.netLimit || 0) + (pledgeDetail.freeNetLimit || 0)}}</span>
                 <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForNet) || 0}}XAS</span>
-                <span class="resource-detail font-16">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
+                <span class="resource-detail font-16" v-if="pledgeDetail.pledgeAmountForNet">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
                 <div class="resouce-btn">
                   <q-btn color="secondary" @click="callPledgeModal('b')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
                   <q-btn class="margin-left-10" @click="callRedeemModal('b')" :disable="!ableToRedeemNet">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
@@ -61,7 +61,7 @@
                 <span class="resource-title font-18">energy points</span>
                 <span class="resource-record text-secondary font-22">{{pledgeDetail.energyUsed || 0}} / {{pledgeDetail.energyLimit || 0}}</span>
                 <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForEnergy) || 0}}XAS</span>
-                <span class="resource-detail font-16">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</span>
+                <span class="resource-detail font-16" v-if="pledgeDetail.pledgeAmountForEnergy">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</span>
                 <div class="resouce-btn">
                   <q-btn color="secondary" @click="callPledgeModal('e')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
                   <q-btn class="margin-left-10" @click="callRedeemModal('e')" :disable="!ableToRedeemEnergy">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
@@ -734,8 +734,8 @@ export default {
     async actRedeem() {
       const t = this.$t
       let result = await this.redeem({
-        bandwidth: this.modalType === 'b' ? this.pledgeNumber * Math.pow(10, 8) : 0,
-        energy: this.modalType === 'e' ? this.pledgeNumber * Math.pow(10, 8) : 0,
+        bandwidth: this.modalType === 'b' ? this.pledgeNumber : 0,
+        energy: this.modalType === 'e' ? this.pledgeNumber : 0,
         secondSecret: this.secondPwd
       })
       if (result.success) {
