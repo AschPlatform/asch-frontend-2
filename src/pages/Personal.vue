@@ -42,7 +42,7 @@
             <div class="resource-box col-4">
               <div class="resource-inner column">
                 <span class="resource-title font-18">Bandwidth points</span>
-                <span class="resource-record text-secondary font-22">{{pledgeDetail.netUsed || 0}} / {{pledgeDetail.netLimit || 0}}</span>
+                <span class="resource-record text-secondary font-22">{{pledgeDetail.netUsed || 0}} + {{pledgeDetail.freeNetUsed || 0}} / {{pledgeDetail.netLimit || 0}} + {{pledgeDetail.freeNetLimit}}</span>
                 <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForNet) || 0}}XAS</span>
                 <span class="resource-detail font-16">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
                 <div class="resouce-btn">
@@ -117,7 +117,7 @@
                   </a>
                 </td>
               </tr>
-              <tr class="row col-12">
+              <!-- <tr class="row col-12">
                 <td class="row col-12" :class="personalRightClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('AGENT_INFO')}}</span>
                   <span class="" :class="personalFontClass" v-if="isAgent || isDelegate === 1">
@@ -127,7 +127,7 @@
                     {{$t('REGISTER_AGENT')}}
                   </a>
                 </td>
-              </tr>
+              </tr> -->
             </tbody>
             <span class="border-split col-md-1"></span>
             <tbody class="row info-tbody col-md-5 col-sm-12">
@@ -145,7 +145,7 @@
                   </a>
                 </td>
               </tr>
-              <tr class="row col-12">
+              <!-- <tr class="row col-12">
                 <td class="row col-12" :class="personalRightThreeClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('GATEWAY_CANDIDATE')}}</span>
                   <div class="" @click="jump2Doc">
@@ -154,7 +154,7 @@
                     </a>
                   </div>
                 </td>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
         </div>
