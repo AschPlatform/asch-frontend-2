@@ -906,7 +906,7 @@ export default {
               main_tip: this.$t('PLEDGE_MAIN_TIP'),
               action: this.$t('PERSONAL_ACTION_PLEDGE'),
               // add amount computed
-              suppose: this.$t('PLEDGE_SUPPOSE_B', {amount: this.pledgeDetail.netPerPledgedXAS * this.pledgeNumber})
+              suppose: this.$t('PLEDGE_SUPPOSE_B', {amount: (this.pledgeDetail.netPerPledgedXAS || 0) * this.pledgeNumber})
             }
           case 'e':
             return {
@@ -915,7 +915,7 @@ export default {
               main_tip: this.$t('PLEDGE_MAIN_TIP'),
               action: this.$t('PERSONAL_ACTION_PLEDGE'),
               // add amount computed
-              suppose: this.$t('PLEDGE_SUPPOSE_E', {amount: this.pledgeDetail.energyPerPledgedXAS * this.pledgeNumber})
+              suppose: this.$t('PLEDGE_SUPPOSE_E', {amount: (this.pledgeDetail.energyPerPledgedXAS || 0) * this.pledgeNumber})
             }
         }
       }
