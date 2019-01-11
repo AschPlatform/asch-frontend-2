@@ -100,7 +100,7 @@
                   </a>
                 </td>
               </tr>
-              <tr class="row col-12">
+              <!-- <tr class="row col-12">
                 <td class="row col-12" :class="personalRightTwoClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('LOCK_POSITION_CONF')}}:</span>
                   <div class="col-6" :class="personalFontClass" v-if="lockInfo">
@@ -116,8 +116,8 @@
                     {{$t('SET_NOW')}}
                   </a>
                 </td>
-              </tr>
-              <!-- <tr class="row col-12">
+              </tr> -->
+              <tr class="row col-12">
                 <td class="row col-12" :class="personalRightClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('AGENT_INFO')}}</span>
                   <span class="" :class="personalFontClass" v-if="isAgent || isDelegate === 1">
@@ -127,9 +127,9 @@
                     {{$t('REGISTER_AGENT')}}
                   </a>
                 </td>
-              </tr> -->
+              </tr>
             </tbody>
-            <span class="border-split col-md-1"></span>
+            <span class="border-split col-md-1 offset-md-1"></span>
             <tbody class="row info-tbody col-md-5 col-sm-12">
                <tr class="row col-12">
                 <td class="row col-12" :class="personalRightClass">
