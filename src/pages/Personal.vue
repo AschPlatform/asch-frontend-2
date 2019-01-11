@@ -44,12 +44,12 @@
                 <span class="resource-title font-18">Bandwidth points</span>
                 <span class="resource-record text-secondary font-22">
                   <q-tooltip>
-                    {{$t('BANDWIDTH_TIP', {free: pledgeDetail.freeNetLimit || 0, net: pledgeDetail.netLimit || 0})}}
+                    {{$t('BANDWIDTH_TIP', {free: pledgeDetail.freeNetLimit || 0, net: pledgeDetail.netLimit || 0, freeUsed: pledgeDetail.freeNetUsed || 0, netUsed: netUsed || 0})}}
                   </q-tooltip>
                   {{(pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetUsed || 0)}} / {{(pledgeDetail.netLimit || 0) + (pledgeDetail.freeNetLimit || 0)}}</span>
                 <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForNet) || 0}}XAS</span>
                 <span class="resource-detail font-16" v-if="pledgeDetail.pledgeAmountForNet">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
-                <div class="resouce-btn">
+                <div class="resouce-btn items-end">
                   <q-btn color="secondary" @click="callPledgeModal('b')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
                   <q-btn class="margin-left-10" @click="callRedeemModal('b')" :disable="!ableToRedeemNet">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
                 </div>
@@ -62,7 +62,7 @@
                 <span class="resource-record text-secondary font-22">{{pledgeDetail.energyUsed || 0}} / {{pledgeDetail.energyLimit || 0}}</span>
                 <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForEnergy) || 0}}XAS</span>
                 <span class="resource-detail font-16" v-if="pledgeDetail.pledgeAmountForEnergy">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</span>
-                <div class="resouce-btn">
+                <div class="resouce-btn items-end">
                   <q-btn color="secondary" @click="callPledgeModal('e')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
                   <q-btn class="margin-left-10" @click="callRedeemModal('e')" :disable="!ableToRedeemEnergy">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
                 </div>
@@ -75,7 +75,7 @@
                 <span class="resource-record text-secondary font-22">{{convertFee(lockInfo ? this.lockInfo.amount : 0)}}</span>
                 <span class="resource-detail font-16">{{$t('LOCK_DETAIL', {amount: lockInfo ? convertFee(this.lockInfo.amount) : 0})}}</span>
                 <span class="resource-detail font-16">{{lockInfo ? $t('LOCK_DETAIL_TIME', {date: this.lockInfo.time}) : 0}}</span>
-                <div class="resouce-btn">
+                <div class="resouce-btn items-end">
                   <q-btn color="secondary" @click="callLockPanel">{{$t('TRS_TYPE_LOCK')}}</q-btn>
                   <q-btn class="margin-left-10" @click="unlock" :disable="this.lockInfo && !this.lockInfo.expire">{{$t('UNLOCK')}}</q-btn>
                 </div>
@@ -312,7 +312,7 @@
         <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError || $v.num.$error" :error-label="$t('ERR_LOCKAMOUNT', {num:lockableNum})" :helper="numLimit">
           <q-input @blur="validateNum" :placeholder="$t('LOCK_DETAIL_TIP')" type="number" :decimals="0" v-model="num" />
         </q-field>
-         <q-field class="col-10" :label="$t('HEIGHT')" color="black" :label-width="3" :error="$v.time.$error" 
+         <q-field class="col-10" :label="$t('DATE')" color="black" :label-width="3" :error="$v.time.$error" 
          :error-label="$t('ERR_NICKNAME')" :helper="$t('UNLOCK_TIPS')">
           <!-- <p class="text-secondary font-12">{{$t('UNLOCK_TIPS')}}</p> -->
           <q-datetime
@@ -1145,10 +1145,12 @@ export default {
 .resource-box
   text-align center
   padding 24px
+  align-self stretch
   .resource-inner
     background-color #E3E3E3
     padding 24px 0
     border-radius 6px
+    height 100%
     .resource-record
       margin 10px 0
     .resource-detail
