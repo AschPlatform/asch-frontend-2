@@ -42,7 +42,11 @@
             <div class="resource-box col-4">
               <div class="resource-inner column">
                 <span class="resource-title font-18">Bandwidth points</span>
-                <span class="resource-record text-secondary font-22">{{pledgeDetail.netUsed || 0}} + {{pledgeDetail.freeNetUsed || 0}} / {{pledgeDetail.netLimit || 0}} + {{pledgeDetail.freeNetLimit}}</span>
+                <span class="resource-record text-secondary font-22">
+                  <q-tooltip>
+                    {{$t('BANDWIDTH_TIP', {free: pledgeDetail.freeNetUsed || 0, net: pledgeDetail.netLimit || 0})}}
+                  </q-tooltip>
+                  {{(pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetUsed || 0)}} / {{(pledgeDetail.netLimit || 0) + (pledgeDetail.freeNetLimit || 0)}}</span>
                 <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForNet) || 0}}XAS</span>
                 <span class="resource-detail font-16">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
                 <div class="resouce-btn">
@@ -353,7 +357,8 @@ import {
   openURL,
   QBtn,
   QField,
-  QInput
+  QInput,
+  QTooltip
 } from 'quasar'
 import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
@@ -374,7 +379,8 @@ export default {
     date,
     openURL,
     QField,
-    QInput
+    QInput,
+    QTooltip
   },
   data() {
     return {

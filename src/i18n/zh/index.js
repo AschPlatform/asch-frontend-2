@@ -1023,7 +1023,8 @@ const lang = {
   TRANSFER_NET_ENOUGH: '您拥有的带宽资源 {amount}，满足本次交易的要求，系统将扣除您的BP作为燃料费，单笔额度超出则直接扣除XAS。抵押XAS即可获得ASCH网络免费使用资源',
   TRANSFER_NET_NOT_ENOUGH: '您拥有的带宽资源 {amount}，不满足本次交易的要求，系统将扣除您的XAS作为燃料费。抵押XAS即可获得ASCH网络免费使用资源',
   TRANSFER_ENERGY_TIP: '请输入你的Gas',
-  TRANSFER_ENERGY_ENOUGH: '您拥有的能量资源 {amount} Energy ，可以抵扣{count}XAS作为燃料费，单笔额度超出则直接扣除XAS。抵押XAS即可获得ASCH网络免费使用资源'
+  TRANSFER_ENERGY_ENOUGH: '您拥有的能量资源 {amount} Energy ，可以抵扣{count}XAS作为燃料费，单笔额度超出则直接扣除XAS。抵押XAS即可获得ASCH网络免费使用资源',
+  BANDWIDTH_TIP: '包含{free}免费带宽与{net}付费带宽'
 }
 
 export default lang
