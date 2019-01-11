@@ -19,8 +19,8 @@
     </div>
     <span v-if="isDesktop && isShowLine" class="transfer-title-line"></span>
     <div class="scroll q-table-middle">
-      <div class="q-table modified">
-        <div id="tr" v-if="dataInfo.length > 0" v-for="(item, index) in dataInfo" :key="index" class="justify-between row">
+      <div class="q-table modified" v-if="dataInfo.length > 0">
+        <div id="tr" v-for="(item, index) in dataInfo" :key="index" class="justify-between row">
        
           <div id="td" class="col-xs-12 col-md-3 row justify-left">
             <asset-icon id="asset-icon" :iconKey="item.iconKey" class="q-mr-xs" />

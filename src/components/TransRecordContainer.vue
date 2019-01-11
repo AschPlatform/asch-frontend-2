@@ -100,9 +100,9 @@ export default {
           temp.col2.push(this.dueArg(e.args))
           temp.col2.push(this.$t('ARGS'))
           let computedFee = convertFee(e.fee)
-          if (computedFee < 0) {
-            temp.fee.push('-' + convertFee(e.gasUsed || 0))
-            temp.fee.push('BCH')
+          if (e.feeType === 'NET') {
+            temp.fee.push('-' + e.netUsed || 0)
+            temp.fee.push('NET')
           } else {
             temp.fee.push('-' + computedFee)
             temp.fee.push('XAS')
