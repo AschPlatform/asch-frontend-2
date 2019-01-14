@@ -46,8 +46,8 @@
       <q-field class="col-12" :label="$t('TRANSFER_FEE')+':'" :label-width="3" :error-label="$t('ERR_GAS_NUM_WRONG')">
         <div class="inner-box col-12 bg-nine">
           <q-input class="inner-fee" readonly :value="netForTransfer ? '1000' : '0.1'" :suffix="netForTransfer ? 'Bandwidth Ponint' : 'XAS'"/>
-          <div v-show="netForTransfer">{{$t('TRANSFER_NET_ENOUGH', {amount: (pledgeDetail.netLimit || 0 - pledgeDetail.netUsed || 0), free: pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0})}}</div>
-          <div v-show="!netForTransfer">{{$t('TRANSFER_NET_NOT_ENOUGH', {amount: (pledgeDetail.netLimit || 0 - pledgeDetail.netUsed || 0) + ' + ' + (pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0)})}}</div>
+          <div v-show="netForTransfer">{{$t('TRANSFER_NET_ENOUGH', {amount: (pledgeDetail.netLimit || 0 - pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0), free: (pledgeDetail.freeNetLimit || 0) - (pledgeDetail.freeNetUsed || 0)})}}</div>
+          <div v-show="!netForTransfer">{{$t('TRANSFER_NET_NOT_ENOUGH', {amount: (pledgeDetail.netLimit || 0 - pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0), free: pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0})}}</div>
         </div>
         <!-- <div v-else class="inner-box col-12 bg-nine">
           <q-input class="inner-fee" v-model="form.gas" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" :placeholder="$t('TRANSFER_ENERGY_TIP')" :suffix="'XAS'"/>

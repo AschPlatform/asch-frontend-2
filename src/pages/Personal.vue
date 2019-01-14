@@ -44,7 +44,9 @@
                 <span class="resource-title font-18">Bandwidth points</span>
                 <span class="resource-record text-secondary font-22">
                   <q-tooltip>
-                    {{$t('BANDWIDTH_TIP', {free: pledgeDetail.freeNetLimit || 0, net: pledgeDetail.netLimit || 0, freeUsed: pledgeDetail.freeNetUsed || 0, netUsed: netUsed || 0})}}
+                    {{$t('BANDWIDTH_TIP_LINE_1', {net: pledgeDetail.netLimit || 0, netUsed: netUsed || 0})}}
+                    <br />
+                    {{$t('BANDWIDTH_TIP_LINE_2', {free: pledgeDetail.freeNetLimit || 0, freeUsed: pledgeDetail.freeNetUsed || 0})}}
                   </q-tooltip>
                   {{(pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetUsed || 0)}} / {{(pledgeDetail.netLimit || 0) + (pledgeDetail.freeNetLimit || 0)}}</span>
                 <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForNet) || 0}}XAS</span>
