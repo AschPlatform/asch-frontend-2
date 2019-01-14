@@ -44,7 +44,7 @@
                 <span class="resource-title font-18">Bandwidth points</span>
                 <span class="resource-record text-secondary font-22">
                   <q-tooltip>
-                    {{$t('BANDWIDTH_TIP_LINE_1', {net: pledgeDetail.netLimit || 0, netUsed: netUsed || 0})}}
+                    {{$t('BANDWIDTH_TIP_LINE_1', {net: pledgeDetail.netLimit || 0, netUsed: pledgeDetail.netUsed || 0})}}
                     <br />
                     {{$t('BANDWIDTH_TIP_LINE_2', {free: pledgeDetail.freeNetLimit || 0, freeUsed: pledgeDetail.freeNetUsed || 0})}}
                   </q-tooltip>
@@ -59,12 +59,12 @@
             </div>
             <!-- energy -->
             <div class="resource-box col-4">
-              <div class="resource-inner column">
-                <span class="resource-title font-18">energy points</span>
-                <span class="resource-record text-secondary font-22">{{pledgeDetail.energyUsed || 0}} / {{pledgeDetail.energyLimit || 0}}</span>
-                <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForEnergy) || 0}}XAS</span>
-                <span class="resource-detail font-16" v-if="pledgeDetail.pledgeAmountForEnergy">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</span>
-                <div class="resouce-btn items-end">
+              <div class="resource-inner row">
+                <div class="resource-title font-18 col-12">energy points</div>
+                <div class="resource-record text-secondary font-22 col-12">{{pledgeDetail.energyUsed || 0}} / {{pledgeDetail.energyLimit || 0}}</div>
+                <div class="resource-detail font-16 col-12">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForEnergy) || 0}}XAS</div>
+                <div class="resource-detail font-16 col-12" v-if="pledgeDetail.pledgeAmountForEnergy">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</div>
+                <div class="resouce-btn col-12 items-end">
                   <q-btn color="secondary" @click="callPledgeModal('e')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
                   <q-btn class="margin-left-10" @click="callRedeemModal('e')" :disable="!ableToRedeemEnergy">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
                 </div>
@@ -76,7 +76,7 @@
                 <span class="resource-title font-18">{{$t('PERSONAL_VOTE_RIGHT')}}</span>
                 <span class="resource-record text-secondary font-22">{{convertFee(lockInfo ? this.lockInfo.amount : 0)}}</span>
                 <span class="resource-detail font-16">{{$t('LOCK_DETAIL', {amount: lockInfo ? convertFee(this.lockInfo.amount) : 0})}}</span>
-                <span class="resource-detail font-16">{{lockInfo ? $t('LOCK_DETAIL_TIME', {date: this.lockInfo.time}) : 0}}</span>
+                <span v-show="lockInfo" class="resource-detail font-16">{{lockInfo ? $t('LOCK_DETAIL_TIME', {date: this.lockInfo.time}) : 0}}</span>
                 <div class="resouce-btn items-end">
                   <q-btn color="secondary" @click="callLockPanel">{{$t('TRS_TYPE_LOCK')}}</q-btn>
                   <q-btn class="margin-left-10" @click="unlock" :disable="this.lockInfo && !this.lockInfo.expire">{{$t('UNLOCK')}}</q-btn>
