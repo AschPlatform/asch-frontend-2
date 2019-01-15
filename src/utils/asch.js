@@ -577,12 +577,13 @@ const asch = {
     )
   },
 
-  postContract: (gasLimit, name, version, desc, code, fee, secret, secondPwd = '') => {
+  postContract: (gasLimit, name, version, desc, code, fee, secret, consumeOwnerEnergy, secondPwd = '') => {
+    console.log(secret)
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 600,
         fee: 0,
-        args: [gasLimit, name, version, desc, code],
+        args: [gasLimit, name, version, desc, code, consumeOwnerEnergy],
         secret,
         secondSecret: secondPwd
       })

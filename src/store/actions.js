@@ -596,6 +596,7 @@ export default {
     state
   }, params) => {
     let secret = state.userInfo.secret
+    console.log(secret)
     let trans = asch.postContract(
       params.gasLimit,
       params.name,
@@ -604,6 +605,7 @@ export default {
       params.code,
       params.fee || 0,
       secret,
+      params.consumeOwnerEnergy,
       params.secondSecret || ''
     )
     return api.broadcastTransaction(trans)

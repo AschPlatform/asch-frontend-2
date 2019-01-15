@@ -31,10 +31,30 @@
         </div>
         <div class="row col-12" :class="isDesk?'padding-l-15':''">
           <q-field class="block col-md-5 col-xs-12 font-16 custom-postContract-field" label-width="2" :label="'Gas_Limit : '" :error-label="$t('ERR_CONTRACT_GAS')">
-            <q-input class="border-1" hide-underline v-model="content.gas" value="" :placeholder="$t('PLACEHOLDER_CONTRACT_GAS')" :error="$v.content.gas.$error" />
+            <q-input class="border-1" hide-underline v-model="content.gas" value="" :placeholder="$t('PLACEHOLDER_CONTRACT_GAS')"/>
           </q-field>
           <div class="row justify-center items-center text-secondary font-16 padding-bottom-10" :class="isDesk?'margin-left-20':''">{{$t('EXPEND_GAS_LIMIT',{gas:costGas})}}</div>
         </div>
+        <div class="row col-12" :class="isDesk?'padding-l-15':''">
+          <q-field class="block col-md-5 col-xs-12 font-16 custom-postContract-field" label-width="2" label=" ">
+            <q-checkbox
+              v-model="content.consumeOwnerEnergy"
+              color="teal"
+              left-label
+              :label="$t('SMART_CONTRACT_TICK_1')"
+            />
+          </q-field>
+        </div>
+        <!-- <div class="row col-12" :class="isDesk?'padding-l-15':''">
+          <q-field class="block col-md-5 col-xs-12 font-16 custom-postContract-field" label-width="2" label=" ">
+            <q-checkbox
+              v-model="content.enablePayGasInXAS"
+              color="teal"
+              left-label
+              :label="$t('SMART_CONTRACT_TICK_2')"
+            />
+          </q-field>
+        </div> -->
         <div v-if="secondSignature" class="row col-12" :class="isDesk?'padding-l-15':''">
           <q-field class="block col-5 font-16 custom-postContract-field" label-width="2" :label="$t('TRS_TYPE_SECOND_PASSWORD')+' : '" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"> 
             <q-input class="border-1" hide-underline v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error="$v.secondPwd.$error" />
@@ -49,9 +69,9 @@
 </template>
 
 <script>
-import { QPage, QField, QInput, QBtn } from 'quasar'
+import { QPage, QField, QInput, QBtn, QCheckbox } from 'quasar'
 import { required, maxLength } from 'vuelidate/lib/validators'
-import { secondPwd, amountStrReg, contractNameReg } from '../utils/validators'
+import { secondPwd, contractNameReg } from '../utils/validators'
 import { toastError, toast, translateErrMsg } from '../utils/util'
 import { mapActions, mapGetters } from 'vuex'
 import { codemirror } from 'vue-codemirror-lite'
@@ -66,7 +86,8 @@ export default {
     QInput,
     QBtn,
     codemirror,
-    BoundaryLine
+    BoundaryLine,
+    QCheckbox
   },
   data() {
     return {
@@ -74,7 +95,9 @@ export default {
         name: '',
         code: '',
         desc: '',
-        gas: ''
+        gas: '',
+        consumeOwnerEnergy: false,
+        enablePayGasInXAS: false
       },
       secondPwd: ''
     }
@@ -95,13 +118,13 @@ export default {
       code: {
         required,
         maxLength: maxLength(20480)
-      },
-      gas: {
-        required,
-        gtZero(value) {
-          return amountStrReg.test(value)
-        }
       }
+      // gas: {
+      //   required,
+      //   gtZero(value) {
+      //     return amountStrReg.test(value)
+      //   }
+      // }
     },
     secondPwd: {
       secondPwd: secondPwd()
@@ -116,7 +139,7 @@ export default {
       this.$v.content.$touch()
     },
     async submit() {
-      let { code, name, gas, desc } = this.content
+      let { code, name, gas, desc, consumeOwnerEnergy } = this.content
       this.$v.content.$touch()
       name = name.trim()
       if (this.$v.content.$error) {
@@ -131,14 +154,16 @@ export default {
         return null
       }
       code = Buffer.from(code).toString('hex')
-      let gasLimit = BigNumber(+gas)
-        .times(Math.pow(10, 8))
-        .toString()
+      let gasLimit = gas || 3000
+      // let gasLimit = BigNumber(+gas || 3000)
+      //   .times(Math.pow(10, 8))
+      //   .toString()
       let params = {
         gasLimit,
         code,
         name,
         desc,
+        consumeOwnerEnergy,
         secondSecret: this.secondPwd
       }
       let res = await this.postContract(params)
