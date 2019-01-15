@@ -36,8 +36,8 @@
                 {{props.value}}
               </div>
           </q-td> 
-          <q-td slot="body-cell-owner" slot-scope="props" :props="props">
-             <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.owner)">
+          <q-td slot="body-cell-ownerId" slot-scope="props" :props="props">
+             <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.ownerId)">
                 {{props.value}}
               </div>
           </q-td> 
@@ -99,11 +99,11 @@ export default {
           field: 'vmVersion'
         },
         {
-          name: 'owner',
+          name: 'ownerId',
           required: true,
           label: this.$t('SMART_CONTRACT_OWNER'),
           align: 'center',
-          field: 'owner'
+          field: 'ownerId'
         },
         {
           name: 'timestamp',
