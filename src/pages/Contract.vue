@@ -41,9 +41,9 @@
                 {{props.value}}
               </div>
           </q-td>
-          <q-td slot="body-cell-opt" slot-scope="props" :props="props">
+          <!-- <q-td slot="body-cell-opt" slot-scope="props" :props="props">
             <q-btn dense rounded color="secondary">{{$t('SMART_CONTRACT_OPT')}}</q-btn>
-          </q-td>
+          </q-td> -->
         </q-table>
       </div>
     </div>
@@ -114,14 +114,14 @@ export default {
           label: this.$t('CREATE_TIME'),
           align: 'center',
           field: 'timestamp'
-        },
-        {
-          name: 'opt',
-          required: true,
-          label: this.$t('OPERATION'),
-          align: 'center',
-          field: 'opt'
         }
+        // {
+        //   name: 'opt',
+        //   required: true,
+        //   label: this.$t('OPERATION'),
+        //   align: 'center',
+        //   field: 'opt'
+        // }
       ]
     }
   },
