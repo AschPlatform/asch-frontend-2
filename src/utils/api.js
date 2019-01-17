@@ -397,6 +397,9 @@ api2.getContractDetail = params => {
 api2.getCostGas = params => {
   return fetch(urls.v2.getCostGas, params, 'get')
 }
+api2.getContractInfo = params => {
+  return fetch(urls.v2.getContractInfo, params, 'get')
+}
 
 // 获取用户抵押详情
 api2.getPledgeDetail = params => {

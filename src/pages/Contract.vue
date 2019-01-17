@@ -41,9 +41,9 @@
                 {{props.value}}
               </div>
           </q-td>
-          <!-- <q-td slot="body-cell-opt" slot-scope="props" :props="props">
-            <q-btn dense rounded color="secondary">{{$t('SMART_CONTRACT_OPT')}}</q-btn>
-          </q-td> -->
+          <q-td slot="body-cell-opt" slot-scope="props" :props="props">
+            <q-btn dense rounded color="secondary" @click="openContractDialog(props.row)">{{$t('SMART_CONTRACT_OPT')}}</q-btn>
+          </q-td>
         </q-table>
       </div>
     </div>
@@ -114,14 +114,14 @@ export default {
           label: this.$t('CREATE_TIME'),
           align: 'center',
           field: 'timestamp'
+        },
+        {
+          name: 'opt',
+          required: true,
+          label: this.$t('OPERATION'),
+          align: 'center',
+          field: 'opt'
         }
-        // {
-        //   name: 'opt',
-        //   required: true,
-        //   label: this.$t('OPERATION'),
-        //   align: 'center',
-        //   field: 'opt'
-        // }
       ]
     }
   },
@@ -175,6 +175,32 @@ export default {
         toastError(this.$t('ERR_CONTRACT_NOT_EXIST'))
       }
       this.searchStr = ''
+    },
+    async openContractDialog(row) {
+      let methodsOptions = []
+      let { address, name } = row
+      console.log(address)
+      let res = await this.getContractDetail({
+        name: name
+      })
+      if (res.success && res.contract && res.contract.metadata && res.contract.metadata.methods) {
+        res.contract.metadata.methods.forEach(e => {
+          if (e.isPayable) {
+            methodsOptions.push({
+              label: e.name,
+              value: {
+                isDefaultPayable: e.isDefaultPayable,
+                name: e.name
+              }
+            })
+          }
+        })
+      }
+      let pack = {
+        address: address,
+        methodsOptions: methodsOptions
+      }
+      this.$root.$emit('openContractDialog', pack)
     }
   },
   computed: {

@@ -401,6 +401,9 @@ const urls = {
     getCostGas: {
       url: '/api/v2/markets/fee'
     },
+    getContractInfo: {
+      url: '/:name/constant/:method/:args'
+    },
     // 抵押详情
     getPledgeDetail: {
       url: '/api/v2/pledges'

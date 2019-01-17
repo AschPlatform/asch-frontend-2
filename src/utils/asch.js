@@ -578,12 +578,23 @@ const asch = {
   },
 
   postContract: (gasLimit, name, version, desc, code, fee, secret, consumeOwnerEnergy, secondPwd = '') => {
-    console.log(secret)
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 600,
         fee: 0,
         args: [gasLimit, name, version, desc, code, consumeOwnerEnergy],
+        secret,
+        secondSecret: secondPwd
+      })
+    )
+  },
+
+  payContract: (gasLimit, enablePayGasInXAS, receiverPath, amount, currency, fee, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx(
+      convertTransFee({
+        type: 602,
+        fee: 0,
+        args: [gasLimit, enablePayGasInXAS, receiverPath, amount, currency],
         secret,
         secondSecret: secondPwd
       })
@@ -607,17 +618,6 @@ const asch = {
         type: 14,
         fee: 0,
         args: [bandwidth, energy],
-        secret,
-        secondSecret: secondPwd
-      })
-    )
-  },
-  payContract: (gasLimit, name, amount, currency, fee, secret, secondPwd = '') => {
-    return AschJS.transaction.createTransactionEx(
-      convertTransFee({
-        type: 602,
-        fee: fee || 0,
-        args: [gasLimit, name, amount, currency],
         secret,
         secondSecret: secondPwd
       })

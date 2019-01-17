@@ -1029,7 +1029,12 @@ const lang = {
   SMART_CONTRACT_OPT: '向合约转账',
   SMART_CONTRACT_TICK_1: '优先消耗合约创建者的能量',
   SMART_CONTRACT_TICK_2: '能量不够可以用XAS支付',
-  ERR_ENERGY_NOT_ENOUGH: '能量不足'
+  ERR_ENERGY_NOT_ENOUGH: '能量不足',
+  CONTRACT_PANEL_TITLE: '向合约转账',
+  CONTRACT_PANEL_ADDRESS: '合约地址',
+  CONTRACT_PANEL_ADDRESS_TIP: '请输入正确的合约地址',
+  CONTRACT_PANEL_ENTRANCE: '接收入口',
+  CONTRACT_PANEL_TICK: '能量不足用XAS代替'
 }
 
 export default lang

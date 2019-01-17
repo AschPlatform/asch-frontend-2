@@ -617,7 +617,8 @@ export default {
     let secret = state.userInfo.secret
     let trans = asch.payContract(
       params.gasLimit,
-      params.name,
+      params.enablePayGasInXAS,
+      params.receiverPath,
       params.amount,
       params.currency,
       params.fee || 0,
@@ -668,5 +669,11 @@ export default {
           })
         }
       })
+  },
+  getContractInfo: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getContractInfo(params)
   }
 }
