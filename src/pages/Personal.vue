@@ -185,7 +185,7 @@
           <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
         </q-field>
       </div>
-      <template slot="buttons" class="row justify-between" slot-scope="props">
+      <template slot="buttons" class="row justify-between">
         <q-btn :label="$t('label.cancel')" @click="resetPledge"></q-btn>
         <q-btn :label="$t('PERSONAL_ACTION_PLEDGE')" color="secondary" @click="actPledge"></q-btn>
       </template>
@@ -207,7 +207,7 @@
           <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
         </q-field>
       </div>
-      <template slot="buttons" class="row justify-between" slot-scope="props">
+      <template slot="buttons" class="row justify-between" >
         <q-btn :label="$t('label.cancel')" @click="resetPledge"></q-btn>
         <q-btn :label="redeemContent.action" color="secondary" @click="actRedeem"></q-btn>
       </template>
