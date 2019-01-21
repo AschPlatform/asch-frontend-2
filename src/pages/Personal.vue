@@ -79,7 +79,7 @@
                 <span v-show="lockInfo" class="resource-detail font-16">{{lockInfo ? $t('LOCK_DETAIL_TIME', {date: this.lockInfo.time}) : 0}}</span>
                 <div class="resouce-btn items-end">
                   <q-btn color="secondary" @click="callLockPanel">{{$t('TRS_TYPE_LOCK')}}</q-btn>
-                  <q-btn class="margin-left-10" @click="unlock" :disable="this.lockInfo && !this.lockInfo.expire">{{$t('UNLOCK')}}</q-btn>
+                  <q-btn class="margin-left-10" @click="unlock" :disable="lockInfo && !lockInfo.expire && !lockState">{{$t('UNLOCK')}}</q-btn>
                 </div>
               </div>
             </div>
@@ -367,6 +367,7 @@ import UserAgreementModal from '../components/UserAgreementModal'
 
 export default {
   props: ['userObj'],
+  name: 'Personal',
   components: {
     VueQr,
     QPage,
@@ -642,6 +643,9 @@ export default {
       const t = this.$t
       let lockHeight = this.user.account.lockHeight
       let height = this.latestBlock.height
+      if (this.user && this.user.account && !this.user.account.weight) {
+        toastError(this.$t('UNLOCK_NOTHNG_REDEEM'))
+      }
       if (height <= lockHeight) {
         toastError(this.$t('HEIGHT_NOT_ARRIVE'))
       } else {
@@ -967,20 +971,18 @@ export default {
       }
     },
     ableToRedeemNet() {
-      // let { height } = this.latestBlock
-      // if (height > this.pledgeDetail.netLockHeight + 3 * 8640) {
-      //   return true
-      // }
-      // return false
-      return true
+      let { height } = this.latestBlock
+      if (height > this.pledgeDetail.netLockHeight + 3 * 8640 && this.pledgeDetail.netLimit !== 0) {
+        return true
+      }
+      return false
     },
     ableToRedeemEnergy() {
-      // let { height } = this.latestBlock
-      // if (height > this.pledgeDetail.energyLockHeight + 3 * 8640) {
-      //   return true
-      // }
-      // return false
-      return true
+      let { height } = this.latestBlock
+      if (height > this.pledgeDetail.energyLockHeight + 3 * 8640 && this.pledgeDetail.energyLimit !== 0) {
+        return true
+      }
+      return false
     }
   },
   watch: {

@@ -18,7 +18,7 @@
           </div>
           <div class="row justify-between" >
             <span class="font-16 text-tertiary font-bold" :class="isDesk?'padding-right-20':'col-4'">{{$t('SMART_CONTRACT_OWNER')}} : </span>
-            <span class="row items-center text-secondary cursor-pointer" :class="isDesk?'font-16':'font-14 col-8 break-word'"  @click="viewAccountInfo(contract.owner)">{{contract.owner}}</span>
+            <span class="row items-center text-secondary cursor-pointer" :class="isDesk?'font-16':'font-14 col-8 break-word'"  @click="viewAccountInfo(contract.owner)">{{contract.ownerId}}</span>
           </div>
         </div>
         <div class="row col-12 " :class="isDesk?'padding-l-15 margin-top-30':'margin-top-10'">
@@ -86,7 +86,10 @@ export default {
   computed: {
     getCode() {
       let code = this.contract.code
-      return Buffer.from(code, 'hex').toString('utf-8')
+      // console.log('contract detail:', this.contract)
+      // console.log('tring decode:', Buffer.from(code, 'hex').toJSON())
+      return code
+      // return Buffer.from(code, 'hex').toString('utf-8')
       // return Buffer.from(code, 'hex').toString('utf8')
     },
     getCodeOption() {

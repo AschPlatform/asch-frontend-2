@@ -320,7 +320,7 @@ const lang = {
   // toast info
   INF_REGISTER_SUCCESS: '注册成功',
   INF_DELETE_SUCCESS: '删除成功',
-  INF_TRANSFER_SUCCESS: '转账成功',
+  INF_TRANSFER_SUCCESS: '发送成功',
   INF_OPERATION_SUCCEEDED: '操作成功',
   INF_VOTE_SUCCESS: '投票成功',
   INF_SECND_PASSWORD_SET_SUCCESS: '二级密码设置成功',
@@ -891,7 +891,7 @@ const lang = {
   CONTRACT_ERR_NAME: '名称应为 5 ~ 64 长度',
   CONTRACT_ERR_DESC: '描述应为 5 ~ 256 长度',
   CONTRACT_ERR_CODE: '合约代码不能为空，且长度不能超过 20 kb ',
-  CONTRACT_ERR_GAS: '请输入 gaslimit',
+  CONTRACT_ERR_GAS: 'Gaslimit，默认为3000',
 
   // ASCH 1.5
   BUY_BACK_POOL: '回购池',
@@ -1034,7 +1034,8 @@ const lang = {
   CONTRACT_PANEL_ADDRESS: '合约地址',
   CONTRACT_PANEL_ADDRESS_TIP: '请输入正确的合约地址',
   CONTRACT_PANEL_ENTRANCE: '接收入口',
-  CONTRACT_PANEL_TICK: '能量不足用XAS代替'
+  CONTRACT_PANEL_TICK: '能量不足用XAS代替',
+  UNLOCK_NOTHNG_REDEEM: '并未有资产抵押'
 }
 
 export default lang
