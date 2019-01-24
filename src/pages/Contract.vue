@@ -144,7 +144,7 @@ export default {
         limit: limit,
         offset: (pageNo - 1) * limit
       }
-      if (this.type === 0) params.owner = this.address
+      if (this.type === 0) params.ownerId = this.address
       let res = await this.getContracts(params)
       if (res.success) {
         this.contracts = res.contracts
@@ -153,6 +153,12 @@ export default {
     },
     changeType(type) {
       this.type = type
+      this.contracts = []
+      this.pagination = {
+        page: 1,
+        rowsNumber: 0,
+        rowsPerPage: 10
+      }
       this.getContractsFunc()
     },
     viewAccountInfo(address) {
