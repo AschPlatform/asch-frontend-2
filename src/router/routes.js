@@ -42,11 +42,6 @@ export default [
         name: 'personal',
         component: load('Personal')
       },
-      {
-        path: 'bancor',
-        name: 'bancor',
-        component: load('Bancor')
-      },
       // {
       //   path: 'forging',
       //   name: 'forging',
@@ -153,11 +148,6 @@ export default [
         path: 'issuer',
         name: 'issuer',
         component: load('Issuer')
-      },
-      {
-        path: 'bancor',
-        name: 'bancor',
-        component: load('Bancor')
       },
       {
         path: 'contract',

@@ -60,10 +60,6 @@
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('TRANSFER')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('bancor')">
-          <q-item-side icon="repeat" />
-          <q-item-main :label="$t('BANCOR')" />
-        </q-item>
         <q-item class="list-item-container" item :to="getRouterConf('proposal')">
           <q-item-side icon="gavel" />
           <q-item-main :label="$t('PROPOSAL')" />
@@ -120,6 +116,17 @@
           </trans-panel>
         </div>
       </q-modal>
+
+      <q-modal class="transfer-modal-container" content-class="modal-content-limit" v-model="contractShow" no-backdrop-dismiss>
+        <div class="col-8">
+          <contract-panel :showTitle="true" :assets="assets" :address="contractAddress" :methodsOptions="methodsOptions" :asset="asset" :user="userInfo">
+            <div slot="btns" slot-scope="props" class="row col-12 justify-between">
+              <q-btn big outline class="col-auto" color="secondary" @click="contractShow=false;props.cancel()" :label="$t('label.close')" />
+              <q-btn big class="col-auto" color="secondary" :disable="btnDisable" @click="sendContract(props.send)" :label="$t('SEND')" />
+            </div>
+          </contract-panel>
+        </div>
+      </q-modal>
   
       <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText" :title="QRCodeTitle" />
       <trans-info-modal class="code-modal-container" :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false" />
@@ -154,6 +161,7 @@
 import { setCache, getCache, removeCache, toastInfo } from '../utils/util'
 import FloatMenu from '../components/FloatMenu'
 import TransPanel from '../components/TransPanel'
+import ContractPanel from '../components/ContractPanel'
 import AccountInfo from '../components/AccountInfo'
 import CodeModal from '../components/QRCodeModal'
 import TransInfoModal from '../components/TransInfoModal'
@@ -209,7 +217,8 @@ export default {
     QIcon,
     QListHeader,
     QAjaxBar,
-    QTooltip
+    QTooltip,
+    ContractPanel
   },
   data() {
     return {
@@ -220,6 +229,7 @@ export default {
       accountInfo: {},
       asset: null,
       transShow: false,
+      contractShow: false,
       showFloatBtns: true,
       address: '',
       QRCodeShow: false,
@@ -228,7 +238,9 @@ export default {
       intervalNum: -1,
       trans: null,
       transInfoModalShow: false,
-      btnDisable: false
+      btnDisable: false,
+      methodsOptions: [],
+      contractAddress: ''
     }
   },
   methods: {
@@ -237,7 +249,8 @@ export default {
       'getAccountsInfo',
       'getBalances',
       'getIssuer',
-      'registGateway'
+      'registGateway',
+      'getPledgeDetail'
     ]),
     ...mapMutations([
       'updateUserInfo',
@@ -276,6 +289,22 @@ export default {
         }
       }
       this.transShow = true
+    },
+    async openContractDialog(pack) {
+      // if (pack) {
+      // asset.symbol = asset.name
+      // this.asset = this._.merge({}, asset)
+      // } else {
+      //   this.asset = {
+      //     currency: 'XAS',
+      //     precision: 8,
+      //     balance: this.userInfo.account.xas
+      //   }
+      // }
+      let { address, methodsOptions } = pack
+      this.contractAddress = address
+      this.methodsOptions = methodsOptions
+      this.contractShow = true
     },
     async openAccountModal(address) {
       let res = await this.getAccountsInfo({
@@ -328,6 +357,20 @@ export default {
         this.disableBtn('btnDisable')
       }
     },
+    async sendContract(send) {
+      let flag = await send()
+      if (flag) {
+        this.contractShow = false
+      } else {
+        this.disableBtn('btnDisable')
+      }
+    },
+    async getPledge() {
+      let user = this.userInfo || getCache('user') || null
+      await this.getPledgeDetail({
+        address: user.account.address
+      })
+    },
     disableBtn(model) {
       this[model] = true
       this._.delay(() => {
@@ -375,7 +418,10 @@ export default {
         this.setUserInfo(userInfo)
         this.setLatestBlock(res.latestBlock)
         this.setVersion(res.version)
-        this.intervalNum = setInterval(() => this.refreshAccounts(), 10000)
+        this.intervalNum = setInterval(() => {
+          this.refreshAccounts()
+          this.getPledge()
+        }, 10000)
       }
       this.getIssuer()
       // if (res.success && res.issuer) {
@@ -407,7 +453,6 @@ export default {
         applications: 'APPLICATIONS',
         personal: 'PERSONAL',
         issuer: 'TRS_TYPE_UIA_ISSUE',
-        bancor: 'BANCOR',
         contract: 'SMART_CONTRACT',
         contractDetail: 'SMART_CONTRACT_DETAIL',
         councilDetail: 'COUNCIL',
@@ -437,6 +482,7 @@ export default {
     this.$root.$on('showTransInfoModal', this.openTransInfoModal)
     this.$root.$on('openAccountModal', this.openAccountModal)
     this.$root.$on('openTransactionDialog', this.openTransactionDialog)
+    this.$root.$on('openContractDialog', this.openContractDialog)
     this.$root.$on('showAjaxBar', this.showAjaxBar)
     this.$root.$on('showQRCodeModal', this.showQRCodeModal)
     // this.$root.$on('showAssetDetailModal', this.showAssetDetailModal)
@@ -445,6 +491,7 @@ export default {
     clearInterval(this.intervalNum)
     this.$root.$off('openAccountModal', this.openAccountModal)
     this.$root.$off('openTransactionDialog', this.openTransactionDialog)
+    this.$root.$off('openContractDialog', this.openContractDialog)
     this.$root.$off('showAjaxBar', this.showAjaxBar)
     this.$root.$off('showQRCodeModal', this.showQRCodeModal)
     this.$root.$off('showTransInfoModal', this.openTransInfoModal)

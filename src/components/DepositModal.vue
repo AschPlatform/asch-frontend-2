@@ -125,7 +125,6 @@ export default {
   methods: {
     ...mapActions([
       'broadcastTransaction',
-      'getGatewayInfo',
       'gateAccountAddr',
       'getCurrencies',
       'getGateways'
@@ -190,16 +189,16 @@ export default {
         this.$emit('close')
       }
     },
-    async getGatewayInfomation(name) {
-      if (this.defaultName.name || this.outAssets[this.currency]) {
-        let result = await this.getGatewayInfo({
-          name: this.defaultName.name || this.outAssets[this.currency].gateway
-        })
-        if (result.success) {
-          this.bailInfo = result
-        }
-      }
-    },
+    // async getGatewayInfomation(name) {
+    //   if (this.defaultName.name || this.outAssets[this.currency]) {
+    //     let result = await this.getGatewayInfo({
+    //       name: this.defaultName.name || this.outAssets[this.currency].gateway
+    //     })
+    //     if (result.success) {
+    //       this.bailInfo = result
+    //     }
+    //   }
+    // },
     async getOuterAddress() {
       let result = await this.gateAccountAddr({
         name: this.asset.gateway,
@@ -289,7 +288,7 @@ export default {
       if (this.user && this.currency) {
         this.getAddr()
         // this.getOuterAddress()
-        this.getGatewayInfomation()
+        // this.getGatewayInfomation()
       }
     },
     currency(val) {
@@ -303,7 +302,7 @@ export default {
       if (this.user) {
         this.currency = val.symbol
         this.getAddr()
-        this.getGatewayInfomation()
+        // this.getGatewayInfomation()
       }
     }
   }

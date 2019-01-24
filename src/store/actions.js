@@ -604,6 +604,7 @@ export default {
       params.code,
       params.fee || 0,
       secret,
+      params.consumeOwnerEnergy,
       params.secondSecret || ''
     )
     return api.broadcastTransaction(trans)
@@ -615,7 +616,8 @@ export default {
     let secret = state.userInfo.secret
     let trans = asch.payContract(
       params.gasLimit,
-      params.name,
+      params.enablePayGasInXAS,
+      params.receiverPath,
       params.amount,
       params.currency,
       params.fee || 0,
@@ -623,5 +625,54 @@ export default {
       params.secondSecret || ''
     )
     return api.broadcastTransaction(trans)
+  },
+  redeem: ({
+    commit,
+    state
+  }, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.redeem(
+      params.bandwidth,
+      params.energy,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
+  },
+  pledge: ({
+    commit,
+    state
+  }, params) => {
+    let secret = state.userInfo.secret
+    let trans = asch.pledge(
+      params.bandwidth,
+      params.energy,
+      secret,
+      params.secondSecret || ''
+    )
+    return api.broadcastTransaction(trans)
+  },
+  getPledgeDetail: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getPledgeDetail(params)
+      .then(res => {
+        if (res.success && Object.keys(res).length > 1) {
+          commit('updatePledgeDetail', res)
+        } else {
+          api2.getPledgeDetail().then(res => {
+            if (res.success) {
+              commit('updatePledgeDetail', res)
+            }
+          })
+        }
+      })
+  },
+  getContractInfo: ({
+    commit,
+    state
+  }, params) => {
+    return api2.getContractInfo(params)
   }
 }

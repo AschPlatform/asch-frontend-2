@@ -29,6 +29,63 @@
           </div>
         </div>
 
+        <!-- new resource card -->
+        <div class="personal-bottom shadow-2 bg-white row col-12 justify-left margin-top-20">
+          <div :class="personalIconClass">
+            <i class="material-icons">email</i>
+            <span class="font-18">
+              {{$t('PERSONAL_MY_RESOURCE')}}
+            </span>
+          </div>
+          <div class="row col-12 justify-between">
+            <!-- bindwidth -->
+            <div class="resource-box col-4">
+              <div class="resource-inner column">
+                <span class="resource-title font-18">Bandwidth points</span>
+                <span class="resource-record text-secondary font-22">
+                  <q-tooltip>
+                    {{$t('BANDWIDTH_TIP_LINE_1', {net: pledgeDetail.netLimit || 0, netUsed: pledgeDetail.netUsed || 0})}}
+                    <br />
+                    {{$t('BANDWIDTH_TIP_LINE_2', {free: pledgeDetail.freeNetLimit || 0, freeUsed: pledgeDetail.freeNetUsed || 0})}}
+                  </q-tooltip>
+                  {{(pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetUsed || 0)}} / {{(pledgeDetail.netLimit || 0) + (pledgeDetail.freeNetLimit || 0)}}</span>
+                <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForNet) || 0}}XAS</span>
+                <span class="resource-detail font-16" v-if="pledgeDetail.pledgeAmountForNet">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
+                <div class="resouce-btn items-end">
+                  <q-btn color="secondary" @click="callPledgeModal('b')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
+                  <q-btn class="margin-left-10" @click="callRedeemModal('b')" :disable="!ableToRedeemNet">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
+                </div>
+              </div>
+            </div>
+            <!-- energy -->
+            <div class="resource-box col-4">
+              <div class="resource-inner row">
+                <div class="resource-title font-18 col-12">energy points</div>
+                <div class="resource-record text-secondary font-22 col-12">{{pledgeDetail.energyUsed || 0}} / {{pledgeDetail.energyLimit || 0}}</div>
+                <div class="resource-detail font-16 col-12">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForEnergy) || 0}}XAS</div>
+                <div class="resource-detail font-16 col-12" v-if="pledgeDetail.pledgeAmountForEnergy">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</div>
+                <div class="resouce-btn col-12 items-end">
+                  <q-btn color="secondary" @click="callPledgeModal('e')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
+                  <q-btn class="margin-left-10" @click="callRedeemModal('e')" :disable="!ableToRedeemEnergy">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
+                </div>
+              </div>
+            </div>
+            <!-- vote right -->
+            <div class="resource-box col-4">
+              <div class="resource-inner column">
+                <span class="resource-title font-18">{{$t('PERSONAL_VOTE_RIGHT')}}</span>
+                <span class="resource-record text-secondary font-22">{{convertFee(lockInfo ? this.lockInfo.amount : 0)}}</span>
+                <span class="resource-detail font-16">{{$t('LOCK_DETAIL', {amount: lockInfo ? convertFee(this.lockInfo.amount) : 0})}}</span>
+                <span v-show="lockInfo" class="resource-detail font-16">{{lockInfo ? $t('LOCK_DETAIL_TIME', {date: this.lockInfo.time}) : 0}}</span>
+                <div class="resouce-btn items-end">
+                  <q-btn color="secondary" @click="callLockPanel">{{$t('TRS_TYPE_LOCK')}}</q-btn>
+                  <q-btn class="margin-left-10" @click="unlock" :disable="lockInfo && !lockInfo.expire && !lockState">{{$t('UNLOCK')}}</q-btn>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="personal-bottom shadow-2 bg-white row col-12 justify-left margin-top-20">
           <div :class="personalIconClass">
             <i class="material-icons">email</i>
@@ -49,7 +106,7 @@
                   </a>
                 </td>
               </tr>
-              <tr class="row col-12">
+              <!-- <tr class="row col-12">
                 <td class="row col-12" :class="personalRightTwoClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('LOCK_POSITION_CONF')}}:</span>
                   <div class="col-6" :class="personalFontClass" v-if="lockInfo">
@@ -65,7 +122,7 @@
                     {{$t('SET_NOW')}}
                   </a>
                 </td>
-              </tr>
+              </tr> -->
               <tr class="row col-12">
                 <td class="row col-12" :class="personalRightClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('AGENT_INFO')}}</span>
@@ -78,7 +135,7 @@
                 </td>
               </tr>
             </tbody>
-            <span class="border-split col-md-1"></span>
+            <span class="border-split col-md-1 offset-md-1"></span>
             <tbody class="row info-tbody col-md-5 col-sm-12">
                <tr class="row col-12">
                 <td class="row col-12" :class="personalRightClass">
@@ -94,7 +151,7 @@
                   </a>
                 </td>
               </tr>
-              <tr class="row col-12">
+              <!-- <tr class="row col-12">
                 <td class="row col-12" :class="personalRightThreeClass">
                   <span class="text-five font-16 min-width-120 text-left">{{$t('GATEWAY_CANDIDATE')}}</span>
                   <div class="" @click="jump2Doc">
@@ -103,12 +160,59 @@
                     </a>
                   </div>
                 </td>
-              </tr>
+              </tr> -->
             </tbody>
           </table>
         </div>
       </q-card-main>
     </q-card>
+
+    <!-- modal for P/R -->
+    <q-dialog v-model="pledgeModal">
+      <span slot="title">{{pledgeContent.title}}</span>
+      <div slot="body" class="column">
+        <div class="modal-tip">
+          {{pledgeContent.tip}}
+        </div>
+        <div class="modal-main">
+          <div class="text-center modal-main-sub">{{pledgeContent.main_tip}}</div>
+          <div class="modal-input">
+            <q-input type="number" v-model="pledgeNumber" suffix="XAS" hide-underline/>
+          </div>
+          <div class="text-center modal-main-sub">{{pledgeContent.suppose}}</div>
+        </div>
+        <q-field v-if="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+          <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
+        </q-field>
+      </div>
+      <template slot="buttons" class="row justify-between">
+        <q-btn :label="$t('label.cancel')" @click="resetPledge"></q-btn>
+        <q-btn :label="$t('PERSONAL_ACTION_PLEDGE')" color="secondary" @click="actPledge"></q-btn>
+      </template>
+    </q-dialog>
+    <q-dialog v-model="redeemModal">
+      <span slot="title">{{redeemContent.title}}</span>
+      <div slot="body" class="column">
+        <div class="modal-tip">
+          {{redeemContent.tip}}
+        </div>
+        <div class="modal-main">
+          <div class="text-center modal-main-sub">{{redeemContent.main_tip}}</div>
+          <div class="modal-input">
+            <q-input type="number" :value="convertFee(pledgeNumber)" readonly suffix="XAS" hide-underline/>
+          </div>
+          <!-- <div class="text-center modal-main-sub">{{$t('REDEEM_SUPPOSE', {amount: 1000})}}</div> -->
+        </div>
+        <q-field v-if="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+          <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
+        </q-field>
+      </div>
+      <template slot="buttons" class="row justify-between" >
+        <q-btn :label="$t('label.cancel')" @click="resetPledge"></q-btn>
+        <q-btn :label="redeemContent.action" color="secondary" @click="actRedeem"></q-btn>
+      </template>
+    </q-dialog>
+
     <q-dialog v-model="dialogShow">
       <span slot="title">{{type=='secret'?$t('QRCODE'):$t('QRCODE_ADDRESS')}}</span>
       <div slot="body" class="row justify-center" @click="dialogShow=false">
@@ -210,7 +314,7 @@
         <q-field class="col-10" :label="$t('NUM')" :label-width="3" :error="numError || $v.num.$error" :error-label="$t('ERR_LOCKAMOUNT', {num:lockableNum})" :helper="numLimit">
           <q-input @blur="validateNum" :placeholder="$t('LOCK_DETAIL_TIP')" type="number" :decimals="0" v-model="num" />
         </q-field>
-         <q-field class="col-10" :label="$t('HEIGHT')" color="black" :label-width="3" :error="$v.time.$error" 
+         <q-field class="col-10" :label="$t('DATE')" color="black" :label-width="3" :error="$v.time.$error" 
          :error-label="$t('ERR_NICKNAME')" :helper="$t('UNLOCK_TIPS')">
           <!-- <p class="text-secondary font-12">{{$t('UNLOCK_TIPS')}}</p> -->
           <q-datetime
@@ -226,12 +330,12 @@
           <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
         </q-field>
       </div>
-<template slot="buttons" slot-scope="props">
-  <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()" />
-  <q-btn class="col-3 self-lef" color="secondary" @click="editLock(props.ok)">
-    {{$t('TRS_TYPE_LOCK')}}
-  </q-btn>
-</template>
+      <template slot="buttons" slot-scope="props">
+        <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()" />
+        <q-btn class="col-3 self-lef" color="secondary" @click="editLock(props.ok)">
+          {{$t('TRS_TYPE_LOCK')}}
+        </q-btn>
+      </template>
     </q-dialog>
   <user-agreement-modal :show="userAgreementShow" @confirm="registerAgent" @cancel="userAgreementShow=false" :title="$t('REGISTER_AGENT')" :content="$t('AGREEMENT_REGISTER_AGENT_CONTENT')" :tips="$t('REGISTER_AGENT')+$t('COST_FEE',{num:100})" />
   </q-page>
@@ -241,7 +345,7 @@
 import VueQr from 'vue-qr'
 import { required, sameAs } from 'vuelidate/lib/validators'
 import { setSecondPwd, secondPwdReg, nicknameReg } from '../utils/validators'
-import { toastWarn, toast, toastError, prompt, translateErrMsg } from '../utils/util'
+import { toastWarn, toast, toastError, prompt, translateErrMsg, getTimeFromEndHeight } from '../utils/util'
 import asch, { convertFee, fullTimestamp } from '../utils/asch'
 import { mapActions, mapGetters } from 'vuex'
 import {
@@ -255,13 +359,15 @@ import {
   openURL,
   QBtn,
   QField,
-  QInput
+  QInput,
+  QTooltip
 } from 'quasar'
 import Jdenticon from '../components/Jdenticon'
 import UserAgreementModal from '../components/UserAgreementModal'
 
 export default {
   props: ['userObj'],
+  name: 'Personal',
   components: {
     VueQr,
     QPage,
@@ -276,12 +382,17 @@ export default {
     date,
     openURL,
     QField,
-    QInput
+    QInput,
+    QTooltip
   },
   data() {
     return {
       dialogShow: false,
       publicKeyShow: false,
+      pledgeModal: false,
+      redeemModal: false,
+      pledgeNumber: 0,
+      modalType: 'm',
       qrValue: '',
       type: 0,
       password: '',
@@ -304,7 +415,19 @@ export default {
       time: '',
       numError: false,
       btnDisable: false,
-      isDisable: false
+      isDisable: false,
+      resource: {
+        bandwidth: {
+          pt: 3000,
+          pledges: 100000000000,
+          expire_time: 1646412346
+        },
+        energy: {
+          pt: 3000,
+          pledges: 100000000000,
+          expire_time: 1646412346
+        }
+      }
     }
   },
   validations: {
@@ -331,7 +454,7 @@ export default {
     time: {}
   },
   methods: {
-    ...mapActions(['broadcastTransaction', 'setName']),
+    ...mapActions(['broadcastTransaction', 'setName', 'redeem', 'pledge', 'getPledgeDetail']),
     reset(props) {
       this.password = ''
       this.confirmPassword = ''
@@ -520,6 +643,9 @@ export default {
       const t = this.$t
       let lockHeight = this.user.account.lockHeight
       let height = this.latestBlock.height
+      if (this.user && this.user.account && !this.user.account.weight) {
+        toastError(this.$t('UNLOCK_NOTHNG_REDEEM'))
+      }
       if (height <= lockHeight) {
         toastError(this.$t('HEIGHT_NOT_ARRIVE'))
       } else {
@@ -579,7 +705,66 @@ export default {
     publicKeyClose() {
       this.publicKeyShow = false
     },
-    lowerName(val) {}
+    lowerName(val) {},
+    // pledge
+    callPledgeModal(m) {
+      this.modalType = m
+      this.pledgeModal = true
+    },
+    callRedeemModal(m) {
+      this.modalType = m
+      switch (m) {
+        case 'e':
+          this.pledgeNumber = this.pledgeDetail.pledgeAmountForEnergy
+          break
+        case 'b':
+          this.pledgeNumber = this.pledgeDetail.pledgeAmountForNet
+          break
+      }
+      this.redeemModal = true
+    },
+    async actPledge() {
+      const t = this.$t
+      let result = await this.pledge({
+        bandwidth: this.modalType === 'b' ? this.pledgeNumber * Math.pow(10, 8) : 0,
+        energy: this.modalType === 'e' ? this.pledgeNumber * Math.pow(10, 8) : 0,
+        secondSecret: this.secondPwd
+      })
+      if (result.success) {
+        this.resetPledge()
+        toast(this.$t('PLEDGE_ACTION_SUCCESS'))
+      } else {
+        translateErrMsg(t, result.error)
+      }
+    },
+    async actRedeem() {
+      const t = this.$t
+      let result = await this.redeem({
+        bandwidth: this.modalType === 'b' ? this.pledgeNumber : 0,
+        energy: this.modalType === 'e' ? this.pledgeNumber : 0,
+        secondSecret: this.secondPwd
+      })
+      if (result.success) {
+        this.resetPledge()
+        toast(this.$t('REDEEM_ACTION_SUCCESS'))
+      } else {
+        translateErrMsg(t, result.error)
+      }
+    },
+    // async updatePledge() {
+    //   let result = await this.getPledgeDetail({
+    //     address: this.address
+    //   })
+    //   if (result) {
+    //     console.log(result)
+    //   }
+    // },
+    resetPledge() {
+      this.pledgeNumber = 0
+      this.secondPwd = ''
+      this.pledgeModal = false
+      this.redeemModal = false
+    }
   },
   async mounted() {
     if (this.lockInfo) {
@@ -588,7 +773,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['userInfo', 'latestBlock']),
+    ...mapGetters(['userInfo', 'latestBlock', 'pledgeDetail']),
     personalTopClass() {
       return this.isDesk
         ? 'col-12 row justify-left shadow-2 bg-white personal-top-desktop'
@@ -722,6 +907,82 @@ export default {
         return (left - 2.1).toFixed() + 'XAS'
       }
       return 0
+    },
+    pledgeContent() {
+      if (this.modalType) {
+        switch (this.modalType) {
+          case 'b':
+            return {
+              title: this.$t('PLEDGE_BANDWIDTH'),
+              tip: this.$t('PLEDGE_TIP'),
+              main_tip: this.$t('PLEDGE_MAIN_TIP'),
+              action: this.$t('PERSONAL_ACTION_PLEDGE'),
+              // add amount computed
+              suppose: this.$t('PLEDGE_SUPPOSE_B', {amount: (this.pledgeDetail.netPerPledgedXAS || 0) * this.pledgeNumber})
+            }
+          case 'e':
+            return {
+              title: this.$t('PLEDGE_ENERGY'),
+              tip: this.$t('PLEDGE_TIP'),
+              main_tip: this.$t('PLEDGE_MAIN_TIP'),
+              action: this.$t('PERSONAL_ACTION_PLEDGE'),
+              // add amount computed
+              suppose: this.$t('PLEDGE_SUPPOSE_E', {amount: (this.pledgeDetail.energyPerPledgedXAS || 0) * this.pledgeNumber})
+            }
+        }
+      }
+      return {}
+    },
+    redeemContent() {
+      if (this.modalType) {
+        switch (this.modalType) {
+          case 'b':
+            return {
+              title: this.$t('REDEEM_BANDWIDTH'),
+              tip: this.$t('REDEEM_TIP'),
+              main_tip: this.$t('REDEEM_MAIN_TIP'),
+              action: this.$t('PERSONAL_ACTION_REDEEM')
+            }
+          case 'e':
+            return {
+              title: this.$t('REDEEM_ENERGY'),
+              tip: this.$t('REDEEM_TIP'),
+              main_tip: this.$t('REDEEM_MAIN_TIP'),
+              action: this.$t('PERSONAL_ACTION_REDEEM')
+            }
+        }
+      }
+      return {}
+    },
+    countRedeemTimeNet() {
+      if (this.pledgeDetail && this.pledgeDetail.netLockHeight) {
+        return getTimeFromEndHeight({
+          endHeight: 8640 * 3 + Number(this.pledgeDetail.netLockHeight),
+          currentHeight: Number(this.latestBlock.height)
+        })
+      }
+    },
+    countRedeemTimeEnergy() {
+      if (this.pledgeDetail && this.pledgeDetail.energyLockHeight) {
+        return getTimeFromEndHeight({
+          endHeight: 8640 * 3 + Number(this.pledgeDetail.energyLockHeight),
+          currentHeight: Number(this.latestBlock.height)
+        })
+      }
+    },
+    ableToRedeemNet() {
+      let { height } = this.latestBlock
+      if (height > this.pledgeDetail.netLockHeight + 3 * 8640 && this.pledgeDetail.netLimit !== 0) {
+        return true
+      }
+      return false
+    },
+    ableToRedeemEnergy() {
+      let { height } = this.latestBlock
+      if (height > this.pledgeDetail.energyLockHeight + 3 * 8640 && this.pledgeDetail.energyLimit !== 0) {
+        return true
+      }
+      return false
     }
   },
   watch: {
@@ -740,7 +1001,7 @@ export default {
   padding: 28px 30px;
   width: 100%;
   border-radius: 6px;
-  margin-bottom: 28px;
+  // margin-bottom: 28px;
 }
 
 .personal-top-mobile {
@@ -884,4 +1145,29 @@ export default {
 .copy-btn{
   padding: 0px 0px 0px 5px;
 }
+
+.resource-box
+  text-align center
+  padding 24px
+  align-self stretch
+  .resource-inner
+    background-color #E3E3E3
+    padding 24px 0
+    border-radius 6px
+    height 100%
+    .resource-record
+      margin 10px 0
+    .resource-detail
+      margin-bottom 5px
+
+.modal-tip
+  background-color #E3E3E3
+  padding 10px
+.modal-main
+  padding 10px
+  .modal-main-sub
+    margin 10px 0
+  .modal-input
+    border 1px solid
+    padding 10px
 </style>

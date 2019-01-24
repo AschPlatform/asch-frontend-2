@@ -1,24 +1,28 @@
 <template>
-  <div class="col-10 transPanel-container" v-if="asset">
+  <div class="col-10 transPanel-container">
     <div class="bg-secondary transfer-top-container" v-if="showTitle">
       <span class="text-white font-18">
           <i class="material-icons">border_color</i>
         </span>
       <span class="text-white font-18">
-              {{$t('TRS_TYPE_TRANSFER')}}
+              {{$t('CONTRACT_PANEL_TITLE')}}
         </span>
       <span v-if="isDesk" class="text-white font-12">
            {{$t('PAY_TIP')}}
         </span>
     </div>
     <div class="transfer-top-Portraits row justify-center" v-if="showTitle">
-      <jdenticon class="transfer-jdenticon" :address="form.receiver" :size="60" />
+      <jdenticon class="transfer-jdenticon" :address="address" :size="60" />
     </div>
     <div class="transfer-bottom-container" v-if="user && user.account">
-      <q-field class="col-8 text-four" :label="$t('RECIPIENT')+':'" :label-width="3" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')">
-        <q-input class="col-8 font-12" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error" :placeholder="$t('RECIPIENT_NAME_ADDRESS')" />
+      <q-field class="col-8 text-four" :label="$t('CONTRACT_PANEL_ADDRESS')+':'" :label-width="3" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')">
+        <q-input class="col-8 font-12" :value="address" disabled :placeholder="$t('CONTRACT_PANEL_ADDRESS_TIP')" />
       </q-field>
-      <q-field class="col-12" :label="$t('DAPP_CATEGORY')+':'" :label-width="3">
+      <q-field class="col-12" :label="$t('CONTRACT_PANEL_ENTRANCE')+':'" :label-width="3" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')">
+        <q-select v-model="form.receiverPath" :options="methodsOptions" />
+        <!-- <p class="text-secondary font-12" v-if="form.currency">{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p> -->
+      </q-field>
+      <q-field class="col-12" :label="$t('ASSET_CATEGORY')+':'" :label-width="3" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')">
         <q-select v-model="form.currency" :options="assetsOpt" />
         <p class="text-secondary font-12" v-if="form.currency">{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
       </q-field>
@@ -40,20 +44,23 @@
         <q-input v-else class="gas-input" style="border:none" v-model="form.gas" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" :placeholder="feeCount"/>
         <p v-if="feeType!==1" class="text-secondary font-12 q-mb-xs">{{$t('AVAILABLE_BALANCE')}}{{BCHAccount | fee(8)}}</p>
       </q-field> -->
-      <q-field class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')">
+      <!-- <q-field v-if="!isContractPay" class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')">
         <q-input ref="remark" :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
-      </q-field>
+      </q-field> -->
       <q-field class="col-12" :label="$t('TRANSFER_FEE')+':'" :label-width="3" :error-label="$t('ERR_GAS_NUM_WRONG')">
         <div class="inner-box col-12 bg-nine">
-          <q-input class="inner-fee" readonly :value="netForTransfer ? '1000' : '0.1'" :suffix="netForTransfer ? 'Bandwidth Ponint' : 'XAS'"/>
-          <div v-show="netForTransfer">{{$t('TRANSFER_NET_ENOUGH', {amount: (pledgeDetail.netLimit || 0 - pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0), free: (pledgeDetail.freeNetLimit || 0) - (pledgeDetail.freeNetUsed || 0)})}}</div>
-          <div v-show="!netForTransfer">{{$t('TRANSFER_NET_NOT_ENOUGH', {amount: (pledgeDetail.netLimit || 0 - pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0), free: pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0})}}</div>
+          <q-input class="inner-fee" v-model="form.gas" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" :placeholder="$t('TRANSFER_ENERGY_TIP')" :suffix="'Energy'"/>
+          <div>{{$t('TRANSFER_ENERGY_ENOUGH', {amount: pledgeDetail.energyLimit || 0, count: (pledgeDetail.energyLimit || 0) / pledgeDetail.energyPerXAS })}}</div>
+          <!-- <div v-show="!netForTransfer">{{$t('TRANSFER_ENERGY_NOT_ENOUGH', {amount: (pledgeDetail.energyLimit - pledgeDetail.energyUsed)})}}</div> -->
         </div>
-        <!-- <div v-else class="inner-box col-12 bg-nine">
-          <q-input class="inner-fee" v-model="form.gas" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" :placeholder="$t('TRANSFER_ENERGY_TIP')" :suffix="'XAS'"/>
-          <div>{{$t('TRANSFER_ENERGY_ENOUGH', {amount: (pledgeDetail.energyLimit - pledgeDetail.energyUsed), count: pledgeDetail.energyLimit / (pledgeDetail.energyPerPledgedXAS * Math.pow(10, 8))})}}</div>
-          <div v-show="!netForTransfer">{{$t('TRANSFER_ENERGY_NOT_ENOUGH', {amount: (pledgeDetail.energyLimit - pledgeDetail.energyUsed)})}}</div>
-        </div> -->
+      </q-field>
+      <q-field class="block col-md-5 col-xs-12 font-16 custom-postContract-field" label-width="3" label=" ">
+        <q-checkbox
+          v-model="form.enablePayGasInXAS"
+          color="secondary"
+          left-label
+          :label="$t('CONTRACT_PANEL_TICK')"
+        />
       </q-field>
       <div class="panelBtn col-6">
         <slot name="btns" :send="send" :cancel="cancel" />
@@ -64,37 +71,41 @@
 
 <script>
 import { toastWarn, toast, translateErrMsg } from '../utils/util'
-import asch, { dealGiantNumber } from '../utils/asch'
-import { secondPwd, amountStrReg } from '../utils/validators'
-import { required, maxLength } from 'vuelidate/lib/validators'
+import { dealGiantNumber } from '../utils/asch'
+import { secondPwd, amountStrReg, smartAddressReg } from '../utils/validators'
+import { required } from 'vuelidate/lib/validators'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import Jdenticon from '../components/Jdenticon'
-import { QField, QInput, QSelect, QBtnToggle } from 'quasar'
+import { QField, QInput, QSelect, QBtnToggle, QCheckbox } from 'quasar'
+// import { BigNumber } from 'bignumber.js'
 
 export default {
-  props: ['user', 'asset', 'showTitle'],
+  name: 'ContractPanel',
+  props: ['user', 'showTitle', 'address', 'methodsOptions'],
   components: {
     Jdenticon,
     QField,
     QInput,
     QSelect,
-    QBtnToggle
+    QBtnToggle,
+    QCheckbox
   },
   data() {
     return {
       form: {
         from: '',
         receiver: '',
+        receiverPath: '',
         amount: '',
         fee: '0.1 XAS',
-        remark: '',
         currency: '',
-        gas: ''
+        gas: '',
+        enablePayGasInXAS: false
       },
       secondPwd: '',
       balance: '',
       precision: 0,
-      feeType: 1, // 1 XAS, 0 BCH
+      feeType: 0, // 1 XAS, 0 BCH
       isContractPay: false
     }
   },
@@ -114,12 +125,16 @@ export default {
           }
         }
       },
-      receiver: {
-        required
-      },
-      remark: {
-        maxLength: maxLength(255)
-      },
+      // receiver: {
+      //   required,
+      //   address(val) {
+      //     if (this.isContractPay) {
+      //       return smartAddressReg.test(val)
+      //     } else {
+      //       return true
+      //     }
+      //   }
+      // },
       gas: {
         // required,
         validate(value) {
@@ -145,9 +160,9 @@ export default {
     async send() {
       this.$v.form.$touch()
       let invlaidPwd = false
-      let { amount, receiver, remark } = this.form
+      let { receiver } = this.form
       receiver = receiver.trim()
-      if (this.feeType === 0) {
+      if (this.feeType === 0 || this.isContractPay) {
         this.$v.form.gas.$touch()
       }
       if (this.secondSignature) {
@@ -174,41 +189,26 @@ export default {
       // amount = BigNumber(amount)
       //   .times(Math.pow(10, this.precision))
       //   .toString()
-      amount = dealGiantNumber(amount, this.precision)
-      let trans = {}
-      let fee = 10000000
+      let amount = dealGiantNumber(this.form.amount, this.precision)
+      // fee = dealGiantNumber(Number(this.form.gas), 8)
+      let fee = Number(this.form.gas)
+      let finalReceiver
 
-      // if (this.feeType === 0 || this.isContractPay) {
-      //   // fee = BigNumber(-Number(this.form.gas))
-      //   //   .times(Math.pow(10, 8))
-      //   //   .toString()
-      //   fee = dealGiantNumber(-Number(this.form.gas), 8)
-      // }
-      let res
-      if (this.form.currency === 'XAS') {
-        // fee = BigNumber(fee)
-        //   .times(Math.pow(10, this.precision))
-        //   .toString()
-        trans = asch.transferXAS(
-          amount,
-          receiver,
-          remark,
-          this.user.secret,
-          this.secondPwd,
-          Number(fee)
-        )
-      } else {
-        trans = asch.transferAsset(
-          this.form.currency,
-          amount,
-          receiver,
-          remark,
-          this.user.secret,
-          this.secondPwd,
-          Number(fee)
-        )
+      if (this.form.receiverPath) {
+        finalReceiver = this.form.receiverPath.isDefaultPayable ? this.address : this.address + '/' + this.form.receiverPath.name
       }
-      res = await this.broadcastTransaction(trans)
+      let res
+      let { currency } = this.form
+      let params = {
+        gasLimit: fee,
+        name: this.form.receiverPath.name,
+        amount,
+        enablePayGasInXAS: this.form.enablePayGasInXAS,
+        receiverPath: finalReceiver,
+        currency,
+        secondSecret: this.secondPwd
+      }
+      res = await this.payContract(params)
 
       if (res.success === true) {
         toast(this.$t('INF_TRANSFER_SUCCESS'))
@@ -228,7 +228,6 @@ export default {
         amount: '',
         secondPwd: '',
         fee: '0.1 XAS',
-        remark: '',
         currency: ''
       }
       // this.$refs.remark.focus()
@@ -261,12 +260,12 @@ export default {
     // }
   },
   mounted() {
-    if (this.asset) {
-      let { currency, precision, balance } = this.asset
-      this.form.currency = currency
-      this.balance = balance
-      this.precision = precision
-    }
+    // if (this.asset) {
+    //   let { currency, precision, balance } = this.asset
+    //   this.form.currency = currency
+    //   this.balance = balance
+    //   this.precision = precision
+    // }
     // this.queryCostGas()
   },
   computed: {
@@ -302,17 +301,6 @@ export default {
         }
       }
       return assetsMap
-    },
-    // feeCount() {
-    //   return this.isContractPay
-    //     ? this.$t('CONTRACT_GAS_LIMIT_TIP', { num: 0.1 })
-    //     : this.$t('COUNTED_FEE') + (this.costGas || 0) + ' BCH'
-    // },
-    netForTransfer() {
-      if (Object.keys(this.pledgeDetail).indexOf('netLimit') >= 0) {
-        return this.pledgeDetail.netLimit - this.pledgeDetail.netUsed > 1000 || this.pledgeDetail.freeNetLimit - this.pledgeDetail.freeNetUsed > 1000
-      }
-      return false
     }
   },
   watch: {
@@ -325,16 +313,13 @@ export default {
         }
       }
     },
-    // 'form.receiver'(val) {
-    //   if (smartAddressReg.test(val)) {
-    //     this.feeType = 0
-    //     this.isContractPay = true
-    //   } else {
-    //     this.isContractPay = false
-    //   }
-    // },
-    asset(val) {
-      if (!this.form.currency) this.form.currency = val.currency
+    'form.receiver'(val) {
+      if (smartAddressReg.test(val)) {
+        this.feeType = 0
+        this.isContractPay = true
+      } else {
+        this.isContractPay = false
+      }
     },
     user(val) {
       this.refreshBalances()
@@ -387,7 +372,7 @@ export default {
 }
 
 .inner-box
-  padding 0 20px 20px 20px
+  padding 20px
   .inner-fee
     margin-bottom 20px
 </style>

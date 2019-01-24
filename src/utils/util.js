@@ -656,6 +656,10 @@ export const translateErrMsg = (t, input) => {
         key: 'ERR_BANCOR_SELL_MORE'
       },
       {
+        error: 'Insuffient energy',
+        key: 'ERR_ENERGY_NOT_ENOUGH'
+      },
+      {
         error: 'Account version is not consistent with gateway version',
         key: 'ERR_GATEWAY_ACCOUNT_DEPRECATE'
       }

@@ -20,7 +20,7 @@
         <q-field :label-width="2" :label="$t('proposal.SELECT_P_COUNCIL')" class="col-md-8 col-xs-12 font-16 text-four" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'change' || this.first_type === 'period' ">
           <q-select v-model="p_selected" :options="councilList" @blur="$v.p_selected.$touch()" :error="$v.p_selected.$error" :placeholder="$t('proposal.SELECT_P_COUNCIL')" />
         </q-field>
-        <q-field class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_NET')" :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'init' || this.first_type === 'member_n' || this.first_type === 'gateway_freeze' || this.first_type === 'gateway_clear' && this.first_type !== 'new' && this.first_type !== null">
+        <q-field class="col-md-8 col-xs-12 font-16 text-four" :label="$t('proposal.SELECT_P_NET')" :label-width="2" :error-label="$t('ERR.ERR_REQUIRE_CONTENT')" v-show="this.first_type === 'init' || this.first_type === 'member_n' || this.first_type === 'gateway_clear' && this.first_type !== 'new' && this.first_type !== null">
           <q-select v-model="p_selected" :options="netList" @change="val => {console.log(val)}" @blur="$v.p_selected.$touch()" :error="$v.p_selected.isSelected" :placeholder="$t('proposal.SELECT_P_NET')" />
         </q-field>
       </div>
@@ -72,10 +72,6 @@
               <div class="row">{{$t('ALREADY_INIT')}}</div>
             </div>
           </init-gateway>
-
-          <!-- below is net freeze page -->
-          <!-- TODO: -->
-          <freeze-gateway v-if="this.first_type === 'gateway_freeze' && this.initFalse" :name="p_selected.name" @send="envaluePackage"></freeze-gateway>
 
           <!-- below is net clear page -->
           <!-- TODO: -->
@@ -165,10 +161,6 @@
             <member-indicator :type="countedType"></member-indicator>
           </div>
 
-          <!-- TODO: -->
-          <!-- below is bancor init page -->
-          <new-bancor v-if="this.first_type === 'new_b'" :supportBalances="BANCOR.supportBalances" :balanceSheet="balanceSheet" :userInfo="userInfo" @send="envaluePackage"></new-bancor>
-
           <div class="row col-12" v-show="this.first_type !== null">
             <q-field v-if="secondSignature" class="col-6 font-16 text-four" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3">
               <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
@@ -200,10 +192,8 @@ import { toast, translateErrMsg } from '../utils/util'
 import MemberIndicator from '../components/MemberIndicator'
 import UserAgreementModal from '../components/UserAgreementModal'
 import ClaimGateway from '../components/ProposalsSnippets/ClaimGateway'
-import FreezeGateway from '../components/ProposalsSnippets/FreezeGateway'
 import InitGateway from '../components/ProposalsSnippets/InitGateway'
 import MemberChange from '../components/ProposalsSnippets/MemberChange'
-import NewBancor from '../components/ProposalsSnippets/NewBancor'
 import NewGateway from '../components/ProposalsSnippets/NewGateway'
 import {
   QField,
@@ -246,10 +236,8 @@ export default {
     MemberIndicator,
     UserAgreementModal,
     ClaimGateway,
-    FreezeGateway,
     InitGateway,
     MemberChange,
-    NewBancor,
     NewGateway
   },
   props: ['show'],
@@ -304,16 +292,8 @@ export default {
           value: 'member_n'
         },
         {
-          label: this.$t('proposal.NETGATEWAY_FREEZE'),
-          value: 'gateway_freeze'
-        },
-        {
           label: this.$t('proposal.NETGATEWAY_CLEAR'),
           value: 'gateway_clear'
-        },
-        {
-          label: this.$t('proposal.SELECT_NEWBANCOR'),
-          value: 'new_b'
         }
         // {
         //   label: this.$t('proposal.SELECT_NETPERIOD'),
@@ -409,28 +389,6 @@ export default {
       CLEAR: {
         selected: []
       },
-      BANCOR: {
-        // form lists
-        allCurrency: [],
-        activedList: [],
-        pair_pre: '',
-        pair_post: '',
-        // hidden stuff
-        supportBalances: [],
-        moneyAble: ['XAS', 'BCH'],
-        // content
-        money: '',
-        stock: '',
-        moneyBalance: '',
-        stockBalance: '',
-        supply: '',
-        stockCw: null,
-        moneyCw: null,
-        moneyPrecision: null,
-        stockPrecision: null,
-        name: '',
-        owner: ''
-      },
       typeMap: {
         new_n: 'gateway_register',
         init: 'gateway_init',
@@ -440,8 +398,6 @@ export default {
         change: 'council_update_mumber',
         period: 'council_update',
         remove: 'council_revoke',
-        gateway_freeze: 'gateway_revoke',
-        new_b: 'bancor_init',
         gateway_clear: 'gateway_claim'
       },
       tomorrow
@@ -564,7 +520,6 @@ export default {
       'postProposal',
       'getGateways',
       'getGatewayDelegates',
-      'getBancorSupports',
       'getBalances'
     ]),
     hideModal() {
@@ -605,15 +560,6 @@ export default {
       } else if (this.first_type === 'gateway_clear') {
         res.gateways.forEach(o => {
           if (o.revoked === 1) {
-            return ls.push({
-              label: o.name,
-              value: o
-            })
-          }
-        })
-      } else if (this.first_type === 'gateway_freeze') {
-        res.gateways.forEach(o => {
-          if (o.revoked === 0 && o.activated === 1) {
             return ls.push({
               label: o.name,
               value: o
@@ -705,23 +651,6 @@ export default {
       this.MEMBER.electedList = elected
       this.MEMBER.unelectedList = unelected
       this.delegateList = total
-    },
-    async getBancorSupportList() {
-      let result = await this.getBancorSupports()
-      if (result.success) {
-        // this.BANCOR.supportBalances = result.data
-        let tempArr = []
-        // let tempObj = {}
-        result.data.forEach(e => {
-          // tempObj.label = e.assetName
-          // tempObj.value = e
-          tempArr.push({
-            label: e.assetName,
-            value: e
-          })
-        })
-        this.BANCOR.supportBalances = tempArr
-      }
     },
     async getBalance() {
       let result = await this.getBalances({
@@ -855,15 +784,9 @@ export default {
       if (
         val === 'init' ||
         val === 'member_n' ||
-        val === 'gateway_freeze' ||
         val === 'gateway_clear'
       ) {
         this.getAllGate()
-      }
-      if (val === 'new_b') {
-        this.getCurrency()
-        this.getBancorSupportList()
-        this.getBalance()
       }
     },
     p_selected(val) {

@@ -577,46 +577,47 @@ const asch = {
     )
   },
 
-  postContract: (gasLimit, name, version, desc, code, fee, secret, secondPwd = '') => {
+  postContract: (gasLimit, name, version, desc, code, fee, secret, consumeOwnerEnergy, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 600,
         fee: 0,
-        args: [gasLimit, name, version, desc, code],
+        args: [gasLimit, name, version, desc, code, consumeOwnerEnergy],
         secret,
         secondSecret: secondPwd
       })
     )
   },
 
-  pledge: (bandwith, energy, secret, secondPwd = '') => {
+  payContract: (gasLimit, enablePayGasInXAS, receiverPath, amount, currency, fee, secret, secondPwd = '') => {
+    return AschJS.transaction.createTransactionEx(
+      convertTransFee({
+        type: 602,
+        fee: 0,
+        args: [gasLimit, enablePayGasInXAS, receiverPath, amount, currency],
+        secret,
+        secondSecret: secondPwd
+      })
+    )
+  },
+
+  pledge: (bandwidth, energy, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 13,
         fee: 0,
-        args: [bandwith, energy],
+        args: [bandwidth, energy],
         secret,
         secondSecret: secondPwd
       })
     )
   },
-  redeem: (bandwith, energy, secret, secondPwd = '') => {
+  redeem: (bandwidth, energy, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 14,
         fee: 0,
-        args: [bandwith, energy],
-        secret,
-        secondSecret: secondPwd
-      })
-    )
-  },
-  payContract: (gasLimit, name, amount, currency, fee, secret, secondPwd = '') => {
-    return AschJS.transaction.createTransactionEx(
-      convertTransFee({
-        type: 602,
-        fee: fee || 0,
-        args: [gasLimit, name, amount, currency],
+        args: [bandwidth, energy],
         secret,
         secondSecret: secondPwd
       })
@@ -672,6 +673,12 @@ const feeFuncMap = {
     return 0.1
   },
   12: trs => {
+    return 0.1
+  },
+  13: trs => {
+    return 0.1
+  },
+  14: trs => {
     return 0.1
   },
   20: trs => {

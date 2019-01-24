@@ -36,11 +36,14 @@
                 {{props.value}}
               </div>
           </q-td> 
-          <q-td slot="body-cell-owner" slot-scope="props" :props="props">
-             <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.owner)">
+          <q-td slot="body-cell-ownerId" slot-scope="props" :props="props">
+             <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.ownerId)">
                 {{props.value}}
               </div>
-          </q-td> 
+          </q-td>
+          <q-td slot="body-cell-opt" slot-scope="props" :props="props">
+            <q-btn dense rounded color="secondary" @click="openContractDialog(props.row)">{{$t('SMART_CONTRACT_OPT')}}</q-btn>
+          </q-td>
         </q-table>
       </div>
     </div>
@@ -99,11 +102,11 @@ export default {
           field: 'vmVersion'
         },
         {
-          name: 'owner',
+          name: 'ownerId',
           required: true,
           label: this.$t('SMART_CONTRACT_OWNER'),
           align: 'center',
-          field: 'owner'
+          field: 'ownerId'
         },
         {
           name: 'timestamp',
@@ -111,6 +114,13 @@ export default {
           label: this.$t('CREATE_TIME'),
           align: 'center',
           field: 'timestamp'
+        },
+        {
+          name: 'opt',
+          required: true,
+          label: this.$t('OPERATION'),
+          align: 'center',
+          field: 'opt'
         }
       ]
     }
@@ -121,6 +131,10 @@ export default {
   methods: {
     ...mapActions(['getContracts', 'getContractDetail']),
     async request(props) {
+      let pagi = props.pagination
+      this.pagination.page = pagi.page
+      this.pagination.rowsNumber = pagi.rowsNumber
+      this.pagination.rowsPerPage = pagi.rowsPerPage
       await this.getContractsFunc(props.pagination, props.filter)
     },
     async getContractsFunc(pagination = {}, filter = '') {
@@ -130,7 +144,7 @@ export default {
         limit: limit,
         offset: (pageNo - 1) * limit
       }
-      if (this.type === 0) params.owner = this.address
+      if (this.type === 0) params.ownerId = this.address
       let res = await this.getContracts(params)
       if (res.success) {
         this.contracts = res.contracts
@@ -139,6 +153,12 @@ export default {
     },
     changeType(type) {
       this.type = type
+      this.contracts = []
+      this.pagination = {
+        page: 1,
+        rowsNumber: 0,
+        rowsPerPage: 10
+      }
       this.getContractsFunc()
     },
     viewAccountInfo(address) {
@@ -165,6 +185,31 @@ export default {
         toastError(this.$t('ERR_CONTRACT_NOT_EXIST'))
       }
       this.searchStr = ''
+    },
+    async openContractDialog(row) {
+      let methodsOptions = []
+      let { address, name } = row
+      let res = await this.getContractDetail({
+        name: name
+      })
+      if (res.success && res.contract && res.contract.metadata && res.contract.metadata.methods) {
+        res.contract.metadata.methods.forEach(e => {
+          if (e.isPayable) {
+            methodsOptions.push({
+              label: e.name,
+              value: {
+                isDefaultPayable: e.isDefaultPayable,
+                name: e.name
+              }
+            })
+          }
+        })
+      }
+      let pack = {
+        address: address,
+        methodsOptions: methodsOptions
+      }
+      this.$root.$emit('openContractDialog', pack)
     }
   },
   computed: {

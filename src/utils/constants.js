@@ -82,7 +82,7 @@ const officialPeers = [
   }
 ]
 const urls = {
-  serverUrl: 'http://192.168.1.79:4096',
+  serverUrl: 'http://192.168.1.79:8000',
   // 区分 local 与 mainnet 的请求头参数
   magic: '594fe0f3',
   // 登录接
@@ -400,6 +400,13 @@ const urls = {
     },
     getCostGas: {
       url: '/api/v2/markets/fee'
+    },
+    getContractInfo: {
+      url: '/:name/constant/:method/:args'
+    },
+    // 抵押详情
+    getPledgeDetail: {
+      url: '/api/v2/pledges'
     }
   }
 
@@ -419,6 +426,8 @@ const transTypes = {
   10: 'TRS_TYPE_DELEGATE',
   11: 'TRS_TYPE_VOTE',
   12: 'TRS_TYPE_REPEAL_VOTE',
+  13: 'TRS_TYPE_PLEDGE',
+  14: 'TRS_TYPE_REDEEM',
   21: 'TRS_TYPE_TRANS_BANCOR',
 
   100: 'TRS_TYPE_UIA_ISSUER',

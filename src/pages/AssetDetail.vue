@@ -1,6 +1,6 @@
 <template>
   <q-page>
-    <tip-bar v-show="isShowTip && isCross && ratio < 120 && ratio !== 0" class="padding-20" :ratio="ratio" :status="status" :symbol="asset.currency"></tip-bar>
+    <!-- <tip-bar v-show="isShowTip && isCross && ratio < 120 && ratio !== 0" class="padding-20" :ratio="ratio" :status="status" :symbol="asset.currency"></tip-bar> -->
     <q-card class="no-shadow">
       <q-card-title>
         <div class="row justify-between">
@@ -36,7 +36,7 @@
             <div v-if="status === 1">
               <span class="font-14 text-three">{{address}}</span>
               <q-btn v-if="address" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" color="secondary" size="xs" flat round icon="content copy" />
-              <span v-else>{{z$t(gatewayVersionChange?'ERR_GATEWAY_ACCOUNT_DEPRECATE':'NOT_OPEN')}}</span>
+              <span v-else>{{$t(gatewayVersionChange?'ERR_GATEWAY_ACCOUNT_DEPRECATE':'NOT_OPEN')}}</span>
             </div>
             <div v-if="status === 1 && !isCross" class="row justify-center" @click="showAddrQr">
               <vue-qr v-if="isCross" :size="80" :text="address ? asset.currency + ':'+ address : 'no data'"></vue-qr>
@@ -96,7 +96,7 @@ import AssetsPanel from '../components/AssetsPanel'
 import VueQr from 'vue-qr'
 import DepositModal from '../components/DepositModal'
 import WithdrawModal from '../components/WithdrawModal'
-import TipBar from '../components/TipBar'
+// import TipBar from '../components/TipBar'
 
 import {
   QModalLayout,
@@ -141,7 +141,6 @@ export default {
     VueQr,
     DepositModal,
     WithdrawModal,
-    TipBar,
     QIcon,
     PromptModal
   },
@@ -213,7 +212,7 @@ export default {
       }
 
       this.getGateway()
-      this.getRealClaim()
+      // this.getRealClaim()
     }
   },
   methods: {
@@ -221,8 +220,6 @@ export default {
       'getBalance',
       'gateAccountAddr',
       'getGateways',
-      'getGatewayInfo',
-      'getGatewayRealClaim',
       'getCompensation'
     ]),
     async getData() {
@@ -284,29 +281,28 @@ export default {
       )
     },
     async getGateway(name) {
-      let result = await this.getGatewayInfo({
-        name: this.asset.asset.gateway
-      })
+      // let result = await this.getGatewayInfo({
+      //   name: this.asset.asset.gateway
+      // })
       let resultGateway = await this.getGateways()
-      if (result.success && resultGateway.success) {
+      if (resultGateway.success) {
         let tempArray = resultGateway.gateways
         tempArray.forEach(e => {
           if (e.name === this.asset.asset.gateway) {
             this.runningInfo = e
           }
         })
-        this.bailInfo = result
-      }
-    },
-    async getRealClaim() {
-      let res = await this.getGatewayRealClaim({
-        name: this.asset.asset.gateway,
-        address: this.userInfo.address
-      })
-      if (res.success) {
-        this.gatewayInfo.claim = res
       }
     }
+    // async getRealClaim() {
+    //   let res = await this.getGatewayRealClaim({
+    //     name: this.asset.asset.gateway,
+    //     address: this.userInfo.address
+    //   })
+    //   if (res.success) {
+    //     this.gatewayInfo.claim = res
+    //   }
+    // }
   },
   computed: {
     ...mapGetters(['userInfo', 'outAssets']),
