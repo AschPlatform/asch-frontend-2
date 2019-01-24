@@ -199,7 +199,6 @@ export default {
       }
       let res
       let { currency } = this.form
-      console.log(this.receiverPath)
       let params = {
         gasLimit: fee,
         name: this.form.receiverPath.name,
@@ -241,7 +240,6 @@ export default {
       let res = await this.getBalances({
         address: this.user.account.address
       })
-      console.log(res)
       if (res.success) {
         this.setBalances(res.balances)
       }

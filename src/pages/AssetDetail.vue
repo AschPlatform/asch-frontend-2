@@ -365,7 +365,6 @@ export default {
        */
       let gateway = this.runningInfo
       if (gateway) {
-        console.log('info:', gateway)
         let { activated, revoked } = gateway
         if (activated === 0) {
           return 0

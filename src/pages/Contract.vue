@@ -131,6 +131,10 @@ export default {
   methods: {
     ...mapActions(['getContracts', 'getContractDetail']),
     async request(props) {
+      let pagi = props.pagination
+      this.pagination.page = pagi.page
+      this.pagination.rowsNumber = pagi.rowsNumber
+      this.pagination.rowsPerPage = pagi.rowsPerPage
       await this.getContractsFunc(props.pagination, props.filter)
     },
     async getContractsFunc(pagination = {}, filter = '') {
@@ -179,7 +183,6 @@ export default {
     async openContractDialog(row) {
       let methodsOptions = []
       let { address, name } = row
-      console.log(address)
       let res = await this.getContractDetail({
         name: name
       })

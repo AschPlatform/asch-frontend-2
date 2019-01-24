@@ -321,7 +321,6 @@ export default {
         offset: (pageNo - 1) * limit,
         name: this.gateway.name
       })
-      console.log(res.data)
       let electedNume = 0
       let candidateNum = 0
       if (res.success) {
