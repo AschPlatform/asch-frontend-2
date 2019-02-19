@@ -1,30 +1,66 @@
 <template>
   <!-- if you want automatic padding use "layout-padding" class -->
   <q-page>
-    <q-card class="no-shadow" v-if="user">
+    <q-card
+      class="no-shadow"
+      v-if="user"
+    >
       <q-card-main class="row col-12 justify-center">
         <div :class="personalTopClass">
           <div class="desktop-only">
-            <jdenticon class="personal-head-canvas" :address="address" :size="60" />
+            <jdenticon
+              class="personal-head-canvas"
+              :address="address"
+              :size="60"
+            />
           </div>
           <div class="col-md-6 col-xs-12 text-left row justify-left margin-left-10">
             <div>
-              <span v-if="!userNickname" class="text-black font-22 vertical-align-middle">
-                  {{$t('HELLO')}}
-                </span>
-              <span v-else class="text-black font-22 vertical-align-middle">
-                  {{$t('HELLO')+'，'}}
-                </span>
-              <a class="font-14 set-nickname bg-secondary text-white vertical-align-middle" v-if="!userNickname" :label="$t('SET_NICKNAME')" @click="nicknameFormShow=true">{{$t('SET_NICKNAME')}}</a> <span v-else class="text-black font-22 vertical-align-middle">{{userNickname}}</span>
+              <span
+                v-if="!userNickname"
+                class="text-black font-22 vertical-align-middle"
+              >
+                {{$t('HELLO')}}
+              </span>
+              <span
+                v-else
+                class="text-black font-22 vertical-align-middle"
+              >
+                {{$t('HELLO')+'，'}}
+              </span>
+              <a
+                class="font-14 set-nickname bg-secondary text-white vertical-align-middle"
+                v-if="!userNickname"
+                :label="$t('SET_NICKNAME')"
+                @click="nicknameFormShow=true"
+              >{{$t('SET_NICKNAME')}}</a> <span
+                v-else
+                class="text-black font-22 vertical-align-middle"
+              >{{userNickname}}</span>
             </div>
             <div class="row col-12 justify-left text-five">
-              <span class="col-md-12 col-xs-12 height-36">{{address}}<q-btn class="height-36 font-12 text-secondary" :class="isDesk?'padding-10':' copy-btn'" v-clipboard="address || 'no data'" @success="info($t('COPY_SUCCESS'))" flat icon="content copy" /></span>
+              <span class="col-md-12 col-xs-12 height-36">{{address}}
+                <q-btn
+                  class="height-36 font-12 text-secondary"
+                  :class="isDesk?'padding-10':' copy-btn'"
+                  v-clipboard="address || 'no data'"
+                  @success="info($t('COPY_SUCCESS'))"
+                  flat
+                  icon="content copy"
+                /></span>
             </div>
           </div>
           <div :class="personalTopQrClass">
             <span class="right-line desktop-only"></span>
-            <div class="row justify-center" @click="showAddrQr">
-              <vue-qr class="personal-qr-container" :size="103" :text="address"></vue-qr>
+            <div
+              class="row justify-center"
+              @click="showAddrQr"
+            >
+              <vue-qr
+                class="personal-qr-container"
+                :size="103"
+                :text="address"
+              ></vue-qr>
             </div>
           </div>
         </div>
@@ -48,12 +84,23 @@
                     <br />
                     {{$t('BANDWIDTH_TIP_LINE_2', {free: pledgeDetail.freeNetLimit || 0, freeUsed: pledgeDetail.freeNetUsed || 0})}}
                   </q-tooltip>
-                  {{(pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetUsed || 0)}} / {{(pledgeDetail.netLimit || 0) + (pledgeDetail.freeNetLimit || 0)}}</span>
+                  {{(pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetUsed || 0)}} / {{(pledgeDetail.netLimit || 0) + (pledgeDetail.freeNetLimit || 0)}}
+                </span>
                 <span class="resource-detail font-16">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForNet) || 0}}XAS</span>
-                <span class="resource-detail font-16" v-if="pledgeDetail.pledgeAmountForNet">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
+                <span
+                  class="resource-detail font-16"
+                  v-if="pledgeDetail.pledgeAmountForNet"
+                >{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeNet}}</span>
                 <div class="resouce-btn items-end">
-                  <q-btn color="secondary" @click="callPledgeModal('b')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
-                  <q-btn class="margin-left-10" @click="callRedeemModal('b')" :disable="!ableToRedeemNet">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
+                  <q-btn
+                    color="secondary"
+                    @click="callPledgeModal('b')"
+                  >{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
+                  <q-btn
+                    class="margin-left-10"
+                    @click="callRedeemModal('b')"
+                    :disable="!ableToRedeemNet"
+                  >{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
                 </div>
               </div>
             </div>
@@ -63,10 +110,20 @@
                 <div class="resource-title font-18 col-12">energy points</div>
                 <div class="resource-record text-secondary font-22 col-12">{{pledgeDetail.energyUsed || 0}} / {{pledgeDetail.energyLimit || 0}}</div>
                 <div class="resource-detail font-16 col-12">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForEnergy) || 0}}XAS</div>
-                <div class="resource-detail font-16 col-12" v-if="pledgeDetail.pledgeAmountForEnergy">{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</div>
+                <div
+                  class="resource-detail font-16 col-12"
+                  v-if="pledgeDetail.pledgeAmountForEnergy"
+                >{{$t('PERSONAL_REDEEM_TIME')}} {{countRedeemTimeEnergy}}</div>
                 <div class="resouce-btn col-12 items-end">
-                  <q-btn color="secondary" @click="callPledgeModal('e')">{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
-                  <q-btn class="margin-left-10" @click="callRedeemModal('e')" :disable="!ableToRedeemEnergy">{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
+                  <q-btn
+                    color="secondary"
+                    @click="callPledgeModal('e')"
+                  >{{$t('PERSONAL_ACTION_PLEDGE')}}</q-btn>
+                  <q-btn
+                    class="margin-left-10"
+                    @click="callRedeemModal('e')"
+                    :disable="!ableToRedeemEnergy"
+                  >{{$t('PERSONAL_ACTION_REDEEM')}}</q-btn>
                 </div>
               </div>
             </div>
@@ -76,10 +133,20 @@
                 <span class="resource-title font-18">{{$t('PERSONAL_VOTE_RIGHT')}}</span>
                 <span class="resource-record text-secondary font-22">{{convertFee(lockInfo ? this.lockInfo.amount : 0)}}</span>
                 <span class="resource-detail font-16">{{$t('LOCK_DETAIL', {amount: lockInfo ? convertFee(this.lockInfo.amount) : 0})}}</span>
-                <span v-show="lockInfo" class="resource-detail font-16">{{lockInfo ? $t('LOCK_DETAIL_TIME', {date: this.lockInfo.time}) : 0}}</span>
+                <span
+                  v-show="lockInfo"
+                  class="resource-detail font-16"
+                >{{lockInfo ? $t('LOCK_DETAIL_TIME', {date: this.lockInfo.time}) : 0}}</span>
                 <div class="resouce-btn items-end">
-                  <q-btn color="secondary" @click="callLockPanel">{{$t('TRS_TYPE_LOCK')}}</q-btn>
-                  <q-btn class="margin-left-10" @click="unlock" :disable="lockInfo && !lockInfo.expire && !lockState">{{$t('UNLOCK')}}</q-btn>
+                  <q-btn
+                    color="secondary"
+                    @click="callLockPanel"
+                  >{{$t('TRS_TYPE_LOCK')}}</q-btn>
+                  <q-btn
+                    class="margin-left-10"
+                    @click="unlock"
+                    :disable="lockInfo && !lockInfo.expire && !lockState"
+                  >{{$t('UNLOCK')}}</q-btn>
                 </div>
               </div>
             </div>
@@ -95,13 +162,23 @@
           </div>
           <table class="personal-table q-mt-md q-table bordered highlight responsive row">
             <tbody class='row info-tbody col-md-5 col-sm-12'>
-                <tr class="row col-12">
-                <td class="row col-12" :class="personalRightClass">
+              <tr class="row col-12">
+                <td
+                  class="row col-12"
+                  :class="personalRightClass"
+                >
                   <span class="text-five font-16 min-width-120 text-left">{{$t('SECOND_PASSWORD')}}</span>
-                  <span v-if="secondSignature" class="text-black font-16 ">
+                  <span
+                    v-if="secondSignature"
+                    class="text-black font-16 "
+                  >
                     {{$t('ALREADY_SET')}}
                   </span>
-                  <a v-else class="text-secondary font-16 " @click="secondPwdShow=true">
+                  <a
+                    v-else
+                    class="text-secondary font-16 "
+                    @click="secondPwdShow=true"
+                  >
                     {{$t('SET_NOW')}}
                   </a>
                 </td>
@@ -124,12 +201,23 @@
                 </td>
               </tr> -->
               <tr class="row col-12">
-                <td class="row col-12" :class="personalRightClass">
+                <td
+                  class="row col-12"
+                  :class="personalRightClass"
+                >
                   <span class="text-five font-16 min-width-120 text-left">{{$t('AGENT_INFO')}}</span>
-                  <span class="" :class="personalFontClass" v-if="isAgent || isDelegate === 1">
+                  <span
+                    class=""
+                    :class="personalFontClass"
+                    v-if="isAgent || isDelegate === 1"
+                  >
                     {{$t('IS_AGENT')}}
                   </span>
-                  <a v-else class="text-secondary font-16 " @click="callDelegatePanel">
+                  <a
+                    v-else
+                    class="text-secondary font-16 "
+                    @click="callDelegatePanel"
+                  >
                     {{$t('REGISTER_AGENT')}}
                   </a>
                 </td>
@@ -137,16 +225,29 @@
             </tbody>
             <span class="border-split col-md-1 offset-md-1"></span>
             <tbody class="row info-tbody col-md-5 col-sm-12">
-               <tr class="row col-12">
-                <td class="row col-12" :class="personalRightClass">
+              <tr class="row col-12">
+                <td
+                  class="row col-12"
+                  :class="personalRightClass"
+                >
                   <span class="text-five font-16 min-width-120 text-left">{{$t('PERSONAL_PUBLIC_KEY')}} :</span>
-                  <span class="row shadow text-secondary font-16 min-height-0 padding-0  cursor-pointer" v-clipboard="user.publicKey"  @success="info($t('COPY_SUCCESS'))">{{$t('COPY_PUBLIC_KEY')}}</span>
+                  <span
+                    class="row shadow text-secondary font-16 min-height-0 padding-0  cursor-pointer"
+                    v-clipboard="user.publicKey"
+                    @success="info($t('COPY_SUCCESS'))"
+                  >{{$t('COPY_PUBLIC_KEY')}}</span>
                 </td>
               </tr>
-               <tr class="row col-12">
-                <td class="row col-12" :class="personalRightClass">
+              <tr class="row col-12">
+                <td
+                  class="row col-12"
+                  :class="personalRightClass"
+                >
                   <span class="text-five font-16 min-width-120 text-left">{{$t('QR_SECRET')}} :</span>
-                  <a class="text-secondary font-16 " @click="showSecretQr()">
+                  <a
+                    class="text-secondary font-16 "
+                    @click="showSecretQr()"
+                  >
                     {{$t('CHECK_NOW')}}
                   </a>
                 </td>
@@ -170,76 +271,202 @@
     <!-- modal for P/R -->
     <q-dialog v-model="pledgeModal">
       <span slot="title">{{pledgeContent.title}}</span>
-      <div slot="body" class="column">
+      <div
+        slot="body"
+        class="column"
+      >
         <div class="modal-tip">
           {{pledgeContent.tip}}
         </div>
         <div class="modal-main">
           <div class="text-center modal-main-sub">{{pledgeContent.main_tip}}</div>
           <div class="modal-input">
-            <q-input type="number" v-model="pledgeNumber" suffix="XAS" hide-underline/>
+            <q-input
+              type="number"
+              v-model="pledgeNumber"
+              suffix="XAS"
+              hide-underline
+            />
           </div>
           <div class="text-center modal-main-sub">{{pledgeContent.suppose}}</div>
         </div>
-        <q-field v-if="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
-          <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
+        <q-field
+          v-if="secondSignature"
+          class="col-10"
+          :label="$t('TRS_TYPE_SECOND_PASSWORD')"
+          :error="secondPwdError"
+          :label-width="3"
+          :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
+        >
+          <q-input
+            @blur="validateSecondPwd"
+            type="password"
+            v-model="secondPwd"
+          />
         </q-field>
       </div>
-      <template slot="buttons" class="row justify-between">
-        <q-btn :label="$t('label.cancel')" @click="resetPledge"></q-btn>
-        <q-btn :label="$t('PERSONAL_ACTION_PLEDGE')" color="secondary" @click="actPledge"></q-btn>
-      </template>
+      <!-- <div
+        slot="buttons"
+        class="row justify-between"
+      >
+        <q-btn
+          :label="$t('label.cancel')"
+          @click="resetPledge"
+        />
+        <q-btn
+          :label="$t('PERSONAL_ACTION_PLEDGE')"
+          color="secondary"
+          @click="actPledge"
+        />
+      </div> -->
+      <template slot="buttons" slot-scope="props">
+      <q-btn
+          :label="$t('label.cancel')"
+          @click="resetPledge"
+        />
+      <q-btn
+          :label="$t('PERSONAL_ACTION_PLEDGE')"
+          color="secondary"
+          @click="actPledge"
+        />
+    </template>
     </q-dialog>
+
     <q-dialog v-model="redeemModal">
       <span slot="title">{{redeemContent.title}}</span>
-      <div slot="body" class="column">
+      <div
+        slot="body"
+        class="column"
+      >
         <div class="modal-tip">
           {{redeemContent.tip}}
         </div>
         <div class="modal-main">
           <div class="text-center modal-main-sub">{{redeemContent.main_tip}}</div>
           <div class="modal-input">
-            <q-input type="number" :value="convertFee(pledgeNumber)" readonly suffix="XAS" hide-underline/>
+            <q-input
+              type="number"
+              :value="convertFee(pledgeNumber)"
+              readonly
+              suffix="XAS"
+              hide-underline
+            />
           </div>
           <!-- <div class="text-center modal-main-sub">{{$t('REDEEM_SUPPOSE', {amount: 1000})}}</div> -->
         </div>
-        <q-field v-if="secondSignature" class="col-10" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="3"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
-          <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
+        <q-field
+          v-if="secondSignature"
+          class="col-10"
+          :label="$t('TRS_TYPE_SECOND_PASSWORD')"
+          :error="secondPwdError"
+          :label-width="3"
+          :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
+        >
+          <q-input
+            @blur="validateSecondPwd"
+            type="password"
+            v-model="secondPwd"
+          />
         </q-field>
       </div>
-      <template slot="buttons" class="row justify-between" >
-        <q-btn :label="$t('label.cancel')" @click="resetPledge"></q-btn>
-        <q-btn :label="redeemContent.action" color="secondary" @click="actRedeem"></q-btn>
+      <template
+        slot="buttons"
+        class="row justify-between"
+        slot-scope="props"
+      >
+        <q-btn
+          :label="$t('label.cancel')"
+          @click="resetPledge"
+        ></q-btn>
+        <q-btn
+          :label="redeemContent.action"
+          color="secondary"
+          @click="actRedeem"
+        ></q-btn>
       </template>
     </q-dialog>
 
     <q-dialog v-model="dialogShow">
       <span slot="title">{{type=='secret'?$t('QRCODE'):$t('QRCODE_ADDRESS')}}</span>
-      <div slot="body" class="row justify-center" @click="dialogShow=false">
+      <div
+        slot="body"
+        class="row justify-center"
+        @click="dialogShow=false"
+      >
         <vue-qr :text="qrValue"></vue-qr>
       </div>
     </q-dialog>
-  
-    <q-dialog :class="personalLockClass" v-model="secondPwdShow">
+
+    <q-dialog
+      :class="personalLockClass"
+      v-model="secondPwdShow"
+    >
       <span slot="title">{{$t('SET_SECOND_PASSWORD')}}</span>
-      <div slot="body" class="column justify-left">
-        <q-field class="row col-12 secondPwd-field" :label="$t('PASSWORD')" :label-width="2" :error="$v.password.$error" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
-          <q-input @blur="$v.password.$touch" :placeholder="$t('SECOND_PASSWORD_TIP')" type="password" v-model="password" orientation="vertical" />
+      <div
+        slot="body"
+        class="column justify-left"
+      >
+        <q-field
+          class="row col-12 secondPwd-field"
+          :label="$t('PASSWORD')"
+          :label-width="2"
+          :error="$v.password.$error"
+          :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')"
+        >
+          <q-input
+            @blur="$v.password.$touch"
+            :placeholder="$t('SECOND_PASSWORD_TIP')"
+            type="password"
+            v-model="password"
+            orientation="vertical"
+          />
         </q-field>
-        <q-field class="col-12 secondPwd-field" :label="$t('CONFIRM')" :label-width="2" :error="$v.confirmPassword.$error" :error-label="$t('ERR_TWO_INPUTS_NOT_EQUAL')">
-          <q-input @blur="$v.confirmPassword.$touch" :placeholder="$t('SECOND_PASSWORD_CONFIRM')" type="password" v-model="confirmPassword" orientation="vertical" />
+        <q-field
+          class="col-12 secondPwd-field"
+          :label="$t('CONFIRM')"
+          :label-width="2"
+          :error="$v.confirmPassword.$error"
+          :error-label="$t('ERR_TWO_INPUTS_NOT_EQUAL')"
+        >
+          <q-input
+            @blur="$v.confirmPassword.$touch"
+            :placeholder="$t('SECOND_PASSWORD_CONFIRM')"
+            type="password"
+            v-model="confirmPassword"
+            orientation="vertical"
+          />
         </q-field>
       </div>
-      <template slot="buttons" class="row justify-between" slot-scope="props">
-          <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="reset(props)"/>
-          <q-btn class="col-3 self-lef margin-left-10" color="secondary" @click="setPwd(props.ok)">
-            {{$t('CONFIRM')}}
-          </q-btn>
-</template>
+      <template
+        slot="buttons"
+        class="row justify-between"
+        slot-scope="props"
+      >
+        <q-btn
+          :label="$t('label.cancel')"
+          class="col-3 self-lef"
+          color="secondary"
+          outline
+          @click="reset(props)"
+        />
+        <q-btn
+          class="col-3 self-lef margin-left-10"
+          color="secondary"
+          @click="setPwd(props.ok)"
+        >
+          {{$t('CONFIRM')}}
+        </q-btn>
+      </template>
     </q-dialog>
 
-    <q-dialog :class="personalLockClass" v-model="publicKeyShow">
-      <div slot="body" class="width-500">
+    <q-dialog
+      :class="personalLockClass"
+      v-model="publicKeyShow"
+    >
+      <div
+        slot="body"
+        class="width-500"
+      >
         <div class="col-12 text-center modal-title no-scroll">
           {{$t('PERSONAL_PUBLIC_KEY')}}
           <span class="transfer-title-line"></span>
@@ -252,15 +479,28 @@
           </div>
           <div class="row width-100 q-ma-none q-pa-none">
             <div class="width-100 justify-center row">
-              <q-btn color="secondary" v-clipboard="user.publicKey" rounded icon="content copy" class="q-px-sm row">
+              <q-btn
+                color="secondary"
+                v-clipboard="user.publicKey"
+                rounded
+                icon="content copy"
+                class="q-px-sm row"
+              >
               </q-btn>
             </div>
           </div>
         </div>
       </div>
-      <template slot="buttons" slot-scope="props">
+      <template
+        slot="buttons"
+        slot-scope="props"
+      >
         <div class="width-100 justify-center row">
-          <q-btn color="secondary" :label="$t('label.close')" @click="publicKeyClose" />
+          <q-btn
+            color="secondary"
+            :label="$t('label.close')"
+            @click="publicKeyClose"
+          />
         </div>
       </template>
       </div>
@@ -301,11 +541,21 @@
         </div>
       </div>
       <template slot="buttons" slot-scope="props">
-        <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()" />
-        <q-btn class="col-3 self-lef" color="secondary" @click="setNickname(props.ok)">
-          {{$t('CONFIRM')}}
-        </q-btn>
-      </template>
+  <q-btn
+    :label="$t('label.cancel')"
+    class="col-3 self-lef"
+    color="secondary"
+    outline
+    @click="props.cancel()"
+  />
+  <q-btn
+    class="col-3 self-lef"
+    color="secondary"
+    @click="setNickname(props.ok)"
+  >
+    {{$t('CONFIRM')}}
+  </q-btn>
+</template>
     </q-dialog>
 
     <q-dialog :class="personalLockClass" style="min-height: 120px" v-model="lockPanelShow">
@@ -331,12 +581,23 @@
         </q-field>
       </div>
       <template slot="buttons" slot-scope="props">
-        <q-btn :label="$t('label.cancel')" class="col-3 self-lef" color="secondary" outline @click="props.cancel()" />
-        <q-btn class="col-3 self-lef" color="secondary" @click="editLock(props.ok)">
-          {{$t('TRS_TYPE_LOCK')}}
-        </q-btn>
-      </template>
+  <q-btn
+    :label="$t('label.cancel')"
+    class="col-3 self-lef"
+    color="secondary"
+    outline
+    @click="props.cancel()"
+  />
+  <q-btn
+    class="col-3 self-lef"
+    color="secondary"
+    @click="editLock(props.ok)"
+  >
+    {{$t('TRS_TYPE_LOCK')}}
+  </q-btn>
+</template>
     </q-dialog>
+
   <user-agreement-modal :show="userAgreementShow" @confirm="registerAgent" @cancel="userAgreementShow=false" :title="$t('REGISTER_AGENT')" :content="$t('AGREEMENT_REGISTER_AGENT_CONTENT')" :tips="$t('REGISTER_AGENT')+$t('COST_FEE',{num:100})" />
   </q-page>
 </template>
@@ -1138,36 +1399,50 @@ export default {
   min-width: 120px;
 }
 
-.padding-left-55{
-  padding-left:55px;
+.padding-left-55 {
+  padding-left: 55px;
 }
 
-.copy-btn{
+.copy-btn {
   padding: 0px 0px 0px 5px;
 }
 
-.resource-box
-  text-align center
-  padding 24px
-  align-self stretch
-  .resource-inner
-    background-color #E3E3E3
-    padding 24px 0
-    border-radius 6px
-    height 100%
-    .resource-record
-      margin 10px 0
-    .resource-detail
-      margin-bottom 5px
+.resource-box {
+  text-align: center;
+  padding: 24px;
+  align-self: stretch;
 
-.modal-tip
-  background-color #E3E3E3
-  padding 10px
-.modal-main
-  padding 10px
-  .modal-main-sub
-    margin 10px 0
-  .modal-input
-    border 1px solid
-    padding 10px
+  .resource-inner {
+    background-color: #E3E3E3;
+    padding: 24px 0;
+    border-radius: 6px;
+    height: 100%;
+
+    .resource-record {
+      margin: 10px 0;
+    }
+
+    .resource-detail {
+      margin-bottom: 5px;
+    }
+  }
+}
+
+.modal-tip {
+  background-color: #E3E3E3;
+  padding: 10px;
+}
+
+.modal-main {
+  padding: 10px;
+
+  .modal-main-sub {
+    margin: 10px 0;
+  }
+
+  .modal-input {
+    border: 1px solid;
+    padding: 10px;
+  }
+}
 </style>
