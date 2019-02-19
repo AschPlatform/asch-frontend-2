@@ -661,11 +661,11 @@ export default {
         if (res.success && Object.keys(res).length > 1) {
           commit('updatePledgeDetail', res)
         } else {
-          api2.getPledgeDetail().then(res => {
-            if (res.success) {
-              commit('updatePledgeDetail', res)
-            }
-          })
+          // api2.getPledgeDetail().then(res => {
+          //   if (res.success) {
+          //     commit('updatePledgeDetail', res)
+          //   }
+          // })
         }
       })
   },
