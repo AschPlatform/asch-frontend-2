@@ -1,21 +1,72 @@
 <template>
-  <q-modal minimized content-class="modal-content-limit" no-backdrop-dismiss v-model="show" content-css="padding: 0px">
+  <q-modal
+    minimized
+    content-class="modal-content-limit"
+    no-backdrop-dismiss
+    v-model="show"
+    content-css="padding: 0px"
+  >
     <big class="modal-title">{{$t(title)}}</big>
     <div class="prompt-modal-conent-container">
-      <q-field v-if="type==1" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_ADD')" :error-label="$t('ERR_GATEWAY_ADD')" orientation="vertical">
-        <q-input @blur="$v.addForm.val.$touch" v-model="addForm.val" :error="$v.addForm.val.$error" :placeholder="$t('PLACEHOLDER_GATEWAY_ADD')" />
+      <q-field
+        v-if="type==1"
+        class="col-12 margin-top-54"
+        :label="$t('LABEL_GATEWAY_ADD')"
+        :error-label="$t('ERR_GATEWAY_ADD')"
+        orientation="vertical"
+      >
+        <q-input
+          @blur="$v.addForm.val.$touch"
+          v-model="addForm.val"
+          :error="$v.addForm.val.$error"
+          :placeholder="$t('PLACEHOLDER_GATEWAY_ADD')"
+        />
       </q-field>
-      <q-field v-if="type==2" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_RETURN')" :error-label="$t('ERR_GATEWAY_RETURN')" orientation="vertical">
-        <q-input @blur="$v.returnForm.val.$touch" v-model="returnForm.val" :error="$v.returnForm.val.$error" :placeholder="$t('PLACEHOLDER_GATEWAY_RETURN',{amount:getAmount('status','withdrawl')})" />
+      <q-field
+        v-if="type==2"
+        class="col-12 margin-top-54"
+        :label="$t('LABEL_GATEWAY_RETURN')"
+        :error-label="$t('ERR_GATEWAY_RETURN')"
+        orientation="vertical"
+      >
+        <q-input
+          @blur="$v.returnForm.val.$touch"
+          v-model="returnForm.val"
+          :error="$v.returnForm.val.$error"
+        />
       </q-field>
-      <q-field v-if="type==3" class="col-12 margin-top-54" :label="$t('LABEL_GATEWAY_COM')" :error-label="$t('ERR_GATEWAY_RETURN')" orientation="vertical">
-        <q-input :disable="true" v-model="compensationForm.address" :placeholder="getAmount('claim','realClaim') + ' XAS'" />
+      <q-field
+        v-if="type==3"
+        class="col-12 margin-top-54"
+        :label="$t('LABEL_GATEWAY_COM')"
+        :error-label="$t('ERR_GATEWAY_RETURN')"
+        orientation="vertical"
+      >
+        <q-input
+          :disable="true"
+          v-model="compensationForm.address"
+          :placeholder="getAmount('claim','realClaim') + ' XAS'"
+        />
       </q-field>
-      <q-field v-if="secondSignature" :label="$t('TRS_TYPE_SECOND_PASSWORD')" class="col-12 margin-top-54" orientation="vertical">
-        <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
+      <q-field
+        v-if="secondSignature"
+        :label="$t('TRS_TYPE_SECOND_PASSWORD')"
+        class="col-12 margin-top-54"
+        orientation="vertical"
+      >
+        <q-input
+          v-model="secondPwd"
+          type="password"
+          @blur="$v.secondPwd.$touch"
+          :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
+          :error="$v.secondPwd.$error"
+        />
       </q-field>
-      <br/>
-      <div v-if="type>=3" class="tips">
+      <br />
+      <div
+        v-if="type>=3"
+        class="tips"
+      >
         <div class="tip-title">{{$t('TIP')}}</div>
         <div v-if="type<3">
           <div class="text-three">{{$t(type==1?'RESERVE_ADD_TIP':'RESERVE_RETURN_TIP',{amount:getAmount('status','currentBail'),ratio:getAmount('status','ratio'),val:getAmount('status',type===1?'needSupply':'withdrawl')})}}</div>
@@ -27,8 +78,18 @@
         </div>
       </div>
       <div class="row justify-center btn-container">
-        <q-btn class="col-4 bottom-btn" color="secondary" @click="close" :label="$t('label.cancel')" />
-        <q-btn class="col-4 bottom-btn" color="secondary" @click="submit" :label="$t('label.ok')" />
+        <q-btn
+          class="col-4 bottom-btn"
+          color="secondary"
+          @click="close"
+          :label="$t('label.cancel')"
+        />
+        <q-btn
+          class="col-4 bottom-btn"
+          color="secondary"
+          @click="submit"
+          :label="$t('label.ok')"
+        />
       </div>
     </div>
   </q-modal>

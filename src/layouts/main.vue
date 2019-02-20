@@ -366,7 +366,6 @@ export default {
       }
     },
     async getPledge() {
-      debugger
       let user = this.userInfo || getCache('user') || null
       await this.getPledgeDetail({
         address: user.account.address

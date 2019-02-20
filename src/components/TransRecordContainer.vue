@@ -1,6 +1,15 @@
 <template>
   <div>
-    <record-table :data="trans" :options="toggleBtn" :maxPage="maxPage" @changePage="changePage" @changeType="changeType" :title="computedTitle" :clip="{col1: false, col2: true}" class="table"></record-table>
+    <record-table
+      :data="trans"
+      :options="toggleBtn"
+      :maxPage="maxPage"
+      @changePage="changePage"
+      @changeType="changeType"
+      :title="computedTitle"
+      :clip="{col1: false, col2: true}"
+      class="table"
+    ></record-table>
   </div>
 </template>
 
