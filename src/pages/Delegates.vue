@@ -1,67 +1,150 @@
 <template>
   <div class="tab-panel-container row ">
-    <div v-if="delegates" class="col-12 shadow-1">
-      <q-table :data="delegates" :filter="filter" color="primary"
-      selection="multiple" :selected.sync="selected" row-key="address"
-      :columns="columns"  @request="request" :pagination.sync="pagination" 
-      :loading="loading" :title="$t('TOTAL_PEOPLES',{count:pagination.rowsNumber})"
-      :rows-per-page-options="[10]"
+    <div
+      v-if="delegates"
+      class="col-12 shadow-1"
+    >
+      <q-table
+        :data="delegates"
+        :filter="filter"
+        color="primary"
+        selection="multiple"
+        :selected.sync="selected"
+        row-key="address"
+        :columns="columns"
+        @request="request"
+        :pagination.sync="pagination"
+        :loading="loading"
+        :title="$t('TOTAL_PEOPLES',{count:pagination.rowsNumber})"
+        :rows-per-page-options="[10]"
       >
-      
-        <template slot="top-right" slot-scope="props">
-          <q-btn v-if="selected.length" color="positive" flat round  icon="thumb up" @click="vote" >
-            <q-tooltip anchor="top middle" self="bottom middle" :offset="[0, 10]">{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
+
+        <template
+          slot="top-right"
+          slot-scope="props"
+        >
+          <q-btn
+            v-if="selected.length"
+            color="positive"
+            flat
+            round
+            icon="thumb up"
+            @click="vote"
+          >
+            <q-tooltip
+              anchor="top middle"
+              self="bottom middle"
+              :offset="[0, 10]"
+            >{{$t('TRS_TYPE_VOTE')}}</q-tooltip>
           </q-btn>
-          <q-btn flat round  icon="refresh" color="primary" @click="refresh" >
+          <q-btn
+            flat
+            round
+            icon="refresh"
+            color="primary"
+            @click="refresh"
+          >
           </q-btn>
-          <q-btn flat round  color="primary" :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen" >
+          <q-btn
+            flat
+            round
+            color="primary"
+            :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'"
+            @click="props.toggleFullscreen"
+          >
           </q-btn>
         </template>
-          
-        <q-td slot="body-cell-address"  slot-scope="props" :props="props">
-          <div class="text-primary" @click="viewAccountInfo(props.row)">
+
+        <q-td
+          slot="body-cell-address"
+          slot-scope="props"
+          :props="props"
+        >
+          <div
+            class="text-primary"
+            @click="viewAccountInfo(props.row)"
+          >
             {{props.value}}
           </div>
         </q-td>
-        <q-td slot="body-cell-nickname"  slot-scope="props" :props="props">
+        <q-td
+          slot="body-cell-nickname"
+          slot-scope="props"
+          :props="props"
+        >
           {{props.value}}
         </q-td>
-        <q-td slot="body-cell-approval"  slot-scope="props" :props="props">
+        <q-td
+          slot="body-cell-approval"
+          slot-scope="props"
+          :props="props"
+        >
           {{props.value | approval}}
         </q-td>
       </q-table>
     </div>
-    <q-dialog v-model="dialogShow" prevent-close @ok="onOk" @cancel="onCancel">
+    <q-dialog
+      v-model="dialogShow"
+      prevent-close
+      @ok="onOk"
+      @cancel="onCancel"
+    >
 
-    <span slot="title">{{$t('VOTE_TITLE')}}</span>
-    <span slot="message">{{$t('VOTE_TIP')}}
-      <br/>
-      {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
-    </span>
+      <span slot="title">{{$t('VOTE_TITLE')}}</span>
+      <span slot="message">{{$t('VOTE_TIP')}}
+        <br />
+        {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
+      </span>
       <div slot="body">
-        <q-field v-if="secondSignature"
+        <q-field
+          v-if="secondSignature"
           :label="$t('TRS_TYPE_SECOND_PASSWORD')"
           :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
           :label-width="4"
         >
-          <q-input v-model="secondPwd" type="password" />
+          <q-input
+            v-model="secondPwd"
+            type="password"
+          />
         </q-field>
-       <table class="q-table horizontal-separator highlight loose ">
+        <table class="q-table horizontal-separator highlight loose ">
           <tbody class='info-tbody'>
-             <tr>
-              <td >{{$t('DAPP_NAME')}}</td>
-              <td >{{$t('ADDRESS')}}</td>
+            <tr>
+              <td>{{$t('DAPP_NAME')}}</td>
+              <td>{{$t('ADDRESS')}}</td>
             </tr>
-            <tr v-for="delegate in selected" :key="delegate.address">
-              <td >{{delegate.name}} <q-icon v-if="delegate.voted" name="check circle" color="positive"/></td>
-              <td >{{delegate.address}} </td>
+            <tr
+              v-for="delegate in selected"
+              :key="delegate.address"
+            >
+              <td>{{delegate.name}}
+                <q-icon
+                  v-if="delegate.voted"
+                  name="check circle"
+                  color="positive"
+                />
+              </td>
+              <td>{{delegate.address}} </td>
             </tr>
           </tbody>
         </table>
-        </div>
-      <template slot="buttons" slot-scope="props">
-        <q-btn  flat color="primary" :label="$t('label.cancel')" @click="props.cancel" />
-        <q-btn  flat color="primary" :label="$t('label.ok')" @click="props.ok" />
+      </div>
+      <template
+        slot="buttons"
+        slot-scope="props"
+      >
+        <q-btn
+          flat
+          color="primary"
+          :label="$t('label.cancel')"
+          @click="props.cancel"
+        />
+        <q-btn
+          flat
+          color="primary"
+          :label="$t('label.ok')"
+          @click="props.ok"
+        />
       </template>
     </q-dialog>
   </div>
