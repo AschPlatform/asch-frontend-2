@@ -1023,7 +1023,7 @@ const lang = {
   TRANSFER_NET_ENOUGH: '您拥有额度{}满足本次交易的要求，系统将扣除您的BP作为燃料费，单笔额度超出则直接扣除XAS。抵押XAS即可获得ASCH网络免费使用资源',
   TRANSFER_NET_NOT_ENOUGH: '您拥有的额度 {amount}，不满足本次交易的要求，系统将扣除您的XAS作为燃料费。抵押XAS即可获得ASCH网络免费使用资源',
   TRANSFER_ENERGY_TIP: '请输入你的Gas',
-  TRANSFER_ENERGY_ENOUGH: '您拥有的能量资源 {amount} Energy ，可以抵扣{count}XAS作为燃料费，单笔额度超出则直接扣除XAS。抵押XAS即可获得ASCH网络免费使用资源',
+  TRANSFER_ENERGY_ENOUGH: '您拥有的能量资源 {amount} Energy ，可以抵扣 {count} XAS作为燃料费，单笔额度超出则直接扣除XAS。抵押XAS即可获得ASCH网络免费使用资源',
   BANDWIDTH_TIP_LINE_1: '抵押额度: {net} (已使用 {netUsed})',
   BANDWIDTH_TIP_LINE_2: '免费额度: {free}  (已使用 {freeUsed})',
   SMART_CONTRACT_OPT: '向合约转账',

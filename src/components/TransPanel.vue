@@ -1,32 +1,94 @@
 <template>
-  <div class="col-10 transPanel-container" v-if="asset">
-    <div class="bg-secondary transfer-top-container" v-if="showTitle">
+  <div
+    class="col-10 transPanel-container"
+    v-if="asset"
+  >
+    <div
+      class="bg-secondary transfer-top-container"
+      v-if="showTitle"
+    >
       <span class="text-white font-18">
-          <i class="material-icons">border_color</i>
-        </span>
+        <i class="material-icons">border_color</i>
+      </span>
       <span class="text-white font-18">
-              {{$t('TRS_TYPE_TRANSFER')}}
-        </span>
-      <span v-if="isDesk" class="text-white font-12">
-           {{$t('PAY_TIP')}}
-        </span>
+        {{$t('TRS_TYPE_TRANSFER')}}
+      </span>
+      <span
+        v-if="isDesk"
+        class="text-white font-12"
+      >
+        {{$t('PAY_TIP')}}
+      </span>
     </div>
-    <div class="transfer-top-Portraits row justify-center" v-if="showTitle">
-      <jdenticon class="transfer-jdenticon" :address="form.receiver" :size="60" />
+    <div
+      class="transfer-top-Portraits row justify-center"
+      v-if="showTitle"
+    >
+      <jdenticon
+        class="transfer-jdenticon"
+        :address="form.receiver"
+        :size="60"
+      />
     </div>
-    <div class="transfer-bottom-container" v-if="user && user.account">
-      <q-field class="col-8 text-four" :label="$t('RECIPIENT')+':'" :label-width="3" :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')">
-        <q-input class="col-8 font-12" @blur="$v.form.receiver.$touch" v-model="form.receiver" :error="$v.form.receiver.$error" :placeholder="$t('RECIPIENT_NAME_ADDRESS')" />
+    <div
+      class="transfer-bottom-container"
+      v-if="user && user.account"
+    >
+      <q-field
+        class="col-8 text-four"
+        :label="$t('RECIPIENT')+':'"
+        :label-width="3"
+        :error-label="$t('ERR_RECIPIENT_ADDRESS_FORMAT')"
+      >
+        <q-input
+          class="col-8 font-12"
+          @blur="$v.form.receiver.$touch"
+          v-model="form.receiver"
+          :error="$v.form.receiver.$error"
+          :placeholder="$t('RECIPIENT_NAME_ADDRESS')"
+        />
       </q-field>
-      <q-field class="col-12" :label="$t('DAPP_CATEGORY')+':'" :label-width="3">
-        <q-select v-model="form.currency" :options="assetsOpt" />
-        <p class="text-secondary font-12" v-if="form.currency">{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
+      <q-field
+        class="col-12"
+        :label="$t('DAPP_CATEGORY')+':'"
+        :label-width="3"
+      >
+        <q-select
+          v-model="form.currency"
+          :options="assetsOpt"
+        />
+        <p
+          class="text-secondary font-12"
+          v-if="form.currency"
+        >{{$t('AVAILABLE_BALANCE')}}{{balance | fee(precision)}}</p>
       </q-field>
-      <q-field class="col-12" :label="$t('AMOUNTS')+':'" :label-width="3" :error-label="$t('ERR_AMOUNT_INVALID')">
-        <q-input class="font-12" @blur="$v.form.amount.$touch" v-model="form.amount" :error="$v.form.amount.$error" />
+      <q-field
+        class="col-12"
+        :label="$t('AMOUNTS')+':'"
+        :label-width="3"
+        :error-label="$t('ERR_AMOUNT_INVALID')"
+      >
+        <q-input
+          class="font-12"
+          @blur="$v.form.amount.$touch"
+          v-model="form.amount"
+          :error="$v.form.amount.$error"
+        />
       </q-field>
-      <q-field v-if="secondSignature" class="col-12" :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'" :label-width="3" :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')">
-        <q-input v-model="secondPwd" type="password" @blur="$v.secondPwd.$touch" :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')" :error="$v.secondPwd.$error" />
+      <q-field
+        v-if="secondSignature"
+        class="col-12"
+        :label="$t('TRS_TYPE_SECOND_PASSWORD')+':'"
+        :label-width="3"
+        :error-label="$t('ERR_SECOND_PASSWORD_FORMAT')"
+      >
+        <q-input
+          v-model="secondPwd"
+          type="password"
+          @blur="$v.secondPwd.$touch"
+          :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')"
+          :error="$v.secondPwd.$error"
+        />
       </q-field>
       <!-- <q-field class="col-12" :label="$t('TRANSFER_FEE')+':'" :label-width="3" :error-label="$t('ERR_GAS_NUM_WRONG')">
         <div v-if="!isContractPay" class="row justify-center col-12 custom-transpanel-btns">
@@ -40,12 +102,33 @@
         <q-input v-else class="gas-input" style="border:none" v-model="form.gas" :decimals="8" @blur="$v.form.gas.$touch" :error="$v.form.gas.$error" :placeholder="feeCount"/>
         <p v-if="feeType!==1" class="text-secondary font-12 q-mb-xs">{{$t('AVAILABLE_BALANCE')}}{{BCHAccount | fee(8)}}</p>
       </q-field> -->
-      <q-field class="col-12" :label="$t('REMARK')+':'" :label-width="3" :error-label="$t('ERR_INVALID_REMARK')">
-        <q-input ref="remark" :helper="$t('REMARK_TIP')+'0 ~ 255'" @blur="$v.form.remark.$touch" v-model="form.remark" :error="$v.form.remark.$error" />
+      <q-field
+        class="col-12"
+        :label="$t('REMARK')+':'"
+        :label-width="3"
+        :error-label="$t('ERR_INVALID_REMARK')"
+      >
+        <q-input
+          ref="remark"
+          :helper="$t('REMARK_TIP')+'0 ~ 255'"
+          @blur="$v.form.remark.$touch"
+          v-model="form.remark"
+          :error="$v.form.remark.$error"
+        />
       </q-field>
-      <q-field class="col-12" :label="$t('TRANSFER_FEE')+':'" :label-width="3" :error-label="$t('ERR_GAS_NUM_WRONG')">
+      <q-field
+        class="col-12"
+        :label="$t('TRANSFER_FEE')+':'"
+        :label-width="3"
+        :error-label="$t('ERR_GAS_NUM_WRONG')"
+      >
         <div class="inner-box col-12 bg-nine">
-          <q-input class="inner-fee" readonly :value="netForTransfer ? '1000' : '0.1'" :suffix="netForTransfer ? 'Bandwidth Ponint' : 'XAS'"/>
+          <q-input
+            class="inner-fee"
+            readonly
+            :value="netForTransfer ? '1000' : '0.1'"
+            :suffix="netForTransfer ? 'Bandwidth Point' : 'XAS'"
+          />
           <div v-show="netForTransfer">{{$t('TRANSFER_NET_ENOUGH', {amount: (pledgeDetail.netLimit || 0 - pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0), free: (pledgeDetail.freeNetLimit || 0) - (pledgeDetail.freeNetUsed || 0)})}}</div>
           <div v-show="!netForTransfer">{{$t('TRANSFER_NET_NOT_ENOUGH', {amount: (pledgeDetail.netLimit || 0 - pledgeDetail.netUsed || 0) + (pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0), free: pledgeDetail.freeNetLimit || 0 - pledgeDetail.freeNetUsed || 0})}}</div>
         </div>
@@ -56,7 +139,11 @@
         </div> -->
       </q-field>
       <div class="panelBtn col-6">
-        <slot name="btns" :send="send" :cancel="cancel" />
+        <slot
+          name="btns"
+          :send="send"
+          :cancel="cancel"
+        />
       </div>
     </div>
   </div>
@@ -386,8 +473,11 @@ export default {
   font-size: 16px;
 }
 
-.inner-box
-  padding 0 20px 20px 20px
-  .inner-fee
-    margin-bottom 20px
+.inner-box {
+  padding: 0 20px 20px 20px;
+
+  .inner-fee {
+    margin-bottom: 20px;
+  }
+}
 </style>
