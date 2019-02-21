@@ -112,6 +112,9 @@ export default {
           if (e.feeType === 'NET') {
             temp.fee.push('-' + e.netUsed || 0)
             temp.fee.push('NET')
+          } else if (e.feeType === 'ENERGY') {
+            temp.fee.push('-' + e.energyUsed || 0)
+            temp.fee.push('ENERGY')
           } else {
             temp.fee.push('-' + computedFee)
             temp.fee.push('XAS')
