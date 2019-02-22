@@ -79,6 +79,7 @@ export default {
       await this.getTrans(props.pagination, props.filter)
     },
     async getTrans(pagination = {}, filter = '') {
+      debugger
       this.loading = true
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage
@@ -106,7 +107,7 @@ export default {
           }
           temp.col1.push(this.getTransType(e.type))
           temp.col1.push(fullTimestamp(e.timestamp))
-          temp.col2.push(this.dueArg(e.args))
+          temp.col2.push(this.dueArg(e.args || ''))
           temp.col2.push(this.$t('ARGS'))
           let computedFee = convertFee(e.fee)
           if (e.feeType === 'NET') {
@@ -123,6 +124,7 @@ export default {
           temp.tid = e.id
           temps.push(temp)
         })
+
         this.trans = temps
       } else {
         condition.ownerId = this.userInfo.account.address
@@ -217,7 +219,7 @@ export default {
         let str = ''
         let tempStr
         args.forEach(e => {
-          if (typeof e === 'object') {
+          if (e && typeof e === 'object') {
             tempStr = '{ ' + Object.values(e).join(', ') + ' }'
             // if (str === '') {
             //   str = tempStr

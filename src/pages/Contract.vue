@@ -3,21 +3,65 @@
     <div class="contract-content bg-white shadow-2 border-r-6">
       <div class="relative w-full border-1 border-solid border-tw-grey">
         <div class="top-bar">
-          <button :class="isDesk?this.type === 1 ? styleSelected : styleUnselected:this.type === 1 ? styleSelectedMobile : styleUnselectedMobile" @click="changeType(1)">
+          <button
+            :class="isDesk?this.type === 1 ? styleSelected : styleUnselected:this.type === 1 ? styleSelectedMobile : styleUnselectedMobile"
+            @click="changeType(1)"
+          >
             {{$t('SMART_CONTRACT_LIST')}}
           </button>
-          <button :class="isDesk?this.type === 0 ? styleSelected : styleUnselected:this.type === 0 ? styleSelectedMobile : styleUnselectedMobile" @click="changeType(0)">
+          <button
+            :class="isDesk?this.type === 0 ? styleSelected : styleUnselected:this.type === 0 ? styleSelectedMobile : styleUnselectedMobile"
+            @click="changeType(0)"
+          >
             {{$t('SMART_CONTRACT_MINE')}}
           </button>
-          <div class="float-right contract-search-container" :class="isDesk?'padding-top-10 padding-right-40':'width-100 row justify-center padding-top-10'">
-            <q-btn v-if="this.type === 0" class="font-14" :class="isDesk?'pos':'col-10'" rounded color="secondary" :label="$t('SMART_CONTRACT_NEW')" @click="newContract" />
-            <q-input color="secondary" v-else class="" :class="isDesk?'contract-search':'col-10 contract-search-mobile'" type="text" v-model="searchStr" :after="searchIcon"  @keyup.enter="search" :placeholder="$t('SEARCH_BY_CONTRACT_NAME')" hide-underline />
+          <div
+            class="float-right contract-search-container"
+            :class="isDesk?'padding-top-10 padding-right-40':'width-100 row justify-center padding-top-10'"
+          >
+            <q-btn
+              v-if="this.type === 0"
+              class="font-14"
+              :class="isDesk?'pos':'col-10'"
+              rounded
+              color="secondary"
+              :label="$t('SMART_CONTRACT_NEW')"
+              @click="newContract"
+            />
+            <q-input
+              color="secondary"
+              v-else
+              class=""
+              :class="isDesk?'contract-search':'col-10 contract-search-mobile'"
+              type="text"
+              v-model="searchStr"
+              :after="searchIcon"
+              @keyup.enter="search"
+              :placeholder="$t('SEARCH_BY_CONTRACT_NAME')"
+              hide-underline
+            />
           </div>
         </div>
 
-        <q-table class="no-shadow" :class="isDesk?' margin-top-20':' margin-top-50'" :data="contracts" :columns="columns" row-key="index" :pagination.sync="pagination" @request="request" :rows-per-page-options="[10]">
-          <q-td slot="body-cell-address" slot-scope="props" :props="props">
-            <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.address)">{{props.value}}</div>
+        <q-table
+          class="no-shadow"
+          :class="isDesk?' margin-top-20':' margin-top-50'"
+          :data="contracts"
+          :columns="columns"
+          row-key="index"
+          :pagination.sync="pagination"
+          @request="request"
+          :rows-per-page-options="[10]"
+        >
+          <q-td
+            slot="body-cell-address"
+            slot-scope="props"
+            :props="props"
+          >
+            <div
+              class="text-secondary cursor-pointer"
+              @click="viewAccountInfo(props.row.address)"
+            >{{props.value}}</div>
           </q-td>
           <!-- <q-td slot="body-cell-name" slot-scope="props" :props="props">
             {{props.value}}
@@ -28,21 +72,48 @@
           <q-td slot="body-cell-owner" slot-scope="props" :props="props">
             {{props.value}}
           </q-td> -->
-          <q-td slot="body-cell-timestamp" slot-scope="props" :props="props">
+          <q-td
+            slot="body-cell-timestamp"
+            slot-scope="props"
+            :props="props"
+          >
             {{props.value | time}}
-          </q-td> 
-          <q-td slot="body-cell-name" slot-scope="props" :props="props">
-             <div class="text-secondary cursor-pointer" @click="open(props.row)">
-                {{props.value}}
-              </div>
-          </q-td> 
-          <q-td slot="body-cell-ownerId" slot-scope="props" :props="props">
-             <div class="text-secondary cursor-pointer" @click="viewAccountInfo(props.row.ownerId)">
-                {{props.value}}
-              </div>
           </q-td>
-          <q-td slot="body-cell-opt" slot-scope="props" :props="props">
-            <q-btn dense rounded color="secondary" @click="openContractDialog(props.row)">{{$t('SMART_CONTRACT_OPT')}}</q-btn>
+          <q-td
+            slot="body-cell-name"
+            slot-scope="props"
+            :props="props"
+          >
+            <div
+              class="text-secondary cursor-pointer"
+              @click="open(props.row)"
+            >
+              {{props.value}}
+            </div>
+          </q-td>
+          <q-td
+            slot="body-cell-ownerId"
+            slot-scope="props"
+            :props="props"
+          >
+            <div
+              class="text-secondary cursor-pointer"
+              @click="viewAccountInfo(props.row.ownerId)"
+            >
+              {{props.value}}
+            </div>
+          </q-td>
+          <q-td
+            slot="body-cell-opt"
+            slot-scope="props"
+            :props="props"
+          >
+            <q-btn
+              dense
+              rounded
+              color="secondary"
+              @click="openContractDialog(props.row)"
+            >{{$t('SMART_CONTRACT_OPT')}}</q-btn>
           </q-td>
         </q-table>
       </div>
@@ -142,7 +213,8 @@ export default {
       let pageNo = pagination.page || this.pagination.page
       let params = {
         limit: limit,
-        offset: (pageNo - 1) * limit
+        offset: (pageNo - 1) * limit,
+        orderBy: 'timestamp:DESC'
       }
       if (this.type === 0) params.ownerId = this.address
       let res = await this.getContracts(params)
@@ -162,7 +234,7 @@ export default {
       this.getContractsFunc()
     },
     viewAccountInfo(address) {
-      this.$root.$emit('openAccountModal', address)
+      this.$root.$emit('openAccountModal', address, true)
     },
     open(row) {
       this.$router.push('/contractDetail/' + row.name)

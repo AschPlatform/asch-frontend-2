@@ -306,12 +306,21 @@ export default {
       this.methodsOptions = methodsOptions
       this.contractShow = true
     },
-    async openAccountModal(address) {
+    async openAccountModal(address, needBalance = false) {
+      debugger
       let res = await this.getAccountsInfo({
         address: address
       })
       if (res.success && res.unconfirmedAccount) {
         this.accountInfo = res.account
+        if (needBalance) {
+          let resBalance = await this.getBalances({
+            address: address
+          })
+          if (resBalance.success) {
+            this.accountInfo.balances = resBalance.balances
+          }
+        }
         this.accountShow = true
       } else {
         toastInfo(this.$t('table.noData'))
