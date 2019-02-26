@@ -79,7 +79,6 @@ export default {
       await this.getTrans(props.pagination, props.filter)
     },
     async getTrans(pagination = {}, filter = '') {
-      debugger
       this.loading = true
       if (pagination.page) this.pagination = pagination
       let limit = this.pagination.rowsPerPage

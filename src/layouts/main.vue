@@ -307,7 +307,6 @@ export default {
       this.contractShow = true
     },
     async openAccountModal(address, needBalance = false) {
-      debugger
       let res = await this.getAccountsInfo({
         address: address
       })
