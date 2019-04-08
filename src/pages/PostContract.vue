@@ -99,10 +99,10 @@
               :placeholder="$t('PLACEHOLDER_CONTRACT_GAS')"
             />
           </q-field>
-          <div
+          <!-- <div
             class="row justify-center items-center text-secondary font-16 padding-bottom-10"
             :class="isDesk?'margin-left-20':''"
-          >{{$t('EXPEND_GAS_LIMIT',{gas:costGas})}}</div>
+          >{{$t('EXPEND_GAS_LIMIT',{gas:costGas})}}</div> -->
         </div>
         <div
           class="row col-12"
@@ -252,7 +252,7 @@ export default {
         return null
       }
       // code = Buffer.from(code).toString('hex')
-      let gasLimit = gas || 3000
+      let gasLimit = gas || 20000
       // let gasLimit = BigNumber(+gas || 3000)
       //   .times(Math.pow(10, 8))
       //   .toString()
@@ -300,7 +300,7 @@ export default {
     costGas() {
       let len = this.content.code.length
       return len
-        ? BigNumber(len * 2 + 1000).div(Math.pow(10, 8)).toFormat(8) : 0
+        ? BigNumber(len * 2 + 5000).div(Math.pow(10, 8)).toFormat(8) : 0
     }
   }
 }
