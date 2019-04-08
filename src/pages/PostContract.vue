@@ -99,10 +99,10 @@
               :placeholder="$t('PLACEHOLDER_CONTRACT_GAS')"
             />
           </q-field>
-          <!-- <div
+          <div
             class="row justify-center items-center text-secondary font-16 padding-bottom-10"
             :class="isDesk?'margin-left-20':''"
-          >{{$t('EXPEND_GAS_LIMIT',{gas:costGas})}}</div> -->
+          >{{$t('EXPEND_GAS_LIMIT',{gas:costGas})}}</div>
         </div>
         <div
           class="row col-12"
