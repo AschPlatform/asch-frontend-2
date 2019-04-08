@@ -335,8 +335,8 @@ export default {
       this.dialog = {
         title: t('WRITEOFF'),
         message: `${t('WRITEOFF')} ${assetsName}, ${t('CANT_ROLLBACK')}, ${t(
-          'REQUIRES_FEE'
-        )} 0.1 XAS`,
+          'REQUIRES_FEE', { net: 1000, fee: 0.1 }
+        )}`,
         form: 1
       }
       this.row = row
@@ -347,7 +347,7 @@ export default {
 
       this.dialog = {
         title: t('TRS_TYPE_UIA_ISSUE'),
-        message: `${row.name}, ${t('CANT_ROLLBACK')}, ${t('REQUIRES_FEE')} 0.1 XAS`,
+        message: `${row.name}, ${t('CANT_ROLLBACK')}, ${t('REQUIRES_FEE', { net: 1000, fee: 0.1 })}`,
         form: 2
       }
       this.row = row
@@ -357,9 +357,7 @@ export default {
       const t = this.$t
       this.dialog = {
         title: t('TRS_TYPE_UIA_FLAGS'),
-        message: `${row.name} ${t('TRS_TYPE_UIA_FLAGS')}, ${t('CANT_ROLLBACK')}, ${t(
-          'REQUIRES_FEE'
-        )} 0.1 XAS`,
+        message: `${row.name} ${t('TRS_TYPE_UIA_FLAGS')}, ${t('CANT_ROLLBACK')}, ${t('REQUIRES_FEE', { net: 1000, fee: 0.1 })}`,
         form: 3
       }
       this.row = row
@@ -481,7 +479,8 @@ export default {
           tips:
             t('REGISTERED_ASSETS') +
             t('COST_FEE', {
-              num: 500
+              num: 500,
+              net: 5000000
             }),
           content: t('AGREEMENT_ASSET_CONTENT'),
           type: 2
@@ -496,7 +495,8 @@ export default {
         tips:
           t('REGISTERED_PUBLISHER') +
           t('COST_FEE', {
-            num: 100
+            num: 100,
+            net: 1000000
           }),
         content: t('AGREEMENT_ISSUER_CONTENT'),
         type: 1

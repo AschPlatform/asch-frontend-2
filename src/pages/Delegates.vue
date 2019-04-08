@@ -8,7 +8,7 @@
         :data="delegates"
         :filter="filter"
         color="primary"
-        selection="multiple"
+        selection="single"
         :selected.sync="selected"
         row-key="address"
         :columns="columns"
@@ -93,7 +93,7 @@
       <span slot="title">{{$t('VOTE_TITLE')}}</span>
       <span slot="message">{{$t('VOTE_TIP')}}
         <br />
-        {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
+        {{$t('OPERATION_REQUIRES_NET_OR_FEE',{ net: '1000',fee: '0.1'})}}
       </span>
       <div slot="body">
         <q-field
@@ -167,7 +167,7 @@ export default {
         rowsNumber: 0,
         rowsPerPage: 10
       },
-      selected: [],
+      selected: '',
       filter: '',
       loading: false,
       columns: [
@@ -248,7 +248,7 @@ export default {
     },
     async onOk() {
       if (this.selectedDelegate.length === 0) {
-        this.selected = []
+        this.selected = ''
 
         return
       }
@@ -294,12 +294,8 @@ export default {
       }
     },
     selectedDelegate() {
-      let selected = this.selected.filter(d => {
-        return !d.voted
-      })
-      return selected.map(delegate => {
-        return '+' + delegate.publicKey
-      })
+      let selected = this.selected.length ? '+' + this.selected : ''
+      return selected
     }
   },
   watch: {

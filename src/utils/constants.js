@@ -81,7 +81,8 @@ const officialPeers = [
   }
 ]
 const urls = {
-  serverUrl: 'http://testnet.asch.cn',
+  // serverUrl: 'http://testnet.asch.cn',
+  serverUrl: 'http://47.94.230.48:4096',
   // 区分 local 与 mainnet 的请求头参数
   magic: '594fe0f3',
   // 登录接

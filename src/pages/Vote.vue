@@ -11,7 +11,7 @@
           :data="delegatesData"
           :filter="filter"
           color="secondary"
-          selection="multiple"
+          selection="single"
           :selected.sync="selected"
           row-key="rate"
           :columns="columns"
@@ -131,7 +131,7 @@
       <span slot="title">{{$t('VOTE_TITLE')}}</span>
       <span slot="message">{{$t('VOTE_TIP')}}
         <br />
-        {{$t('OPERATION_REQUIRES_FEE')+'0.1 XAS'}}
+        {{$t('OPERATION_REQUIRES_NET_OR_FEE', {net: 1000, fee:0.1})}}
       </span>
       <div slot="body">
         <q-field
@@ -335,7 +335,7 @@ export default {
         return
       }
       if (this.selectedDelegate.length > 33) {
-        toastWarn(this.$t('ERR.NO_MORE_THAN_33'))
+        toastWarn(this.$t('ERR.NO_MORE_THAN_1'))
         return
       }
       let trans = asch.voteDelegate(

@@ -57,7 +57,7 @@
         </div>
       </div>
     </div>
-    <user-agreement-modal :show="userAgreementShow" @confirm="confirm" @cancel="userAgreementShow=false" :title="$t('ERR_READ_ALL')" :tips="$t('APPLY_FOR_GATEWAY')+$t('COST_FEE',{num:100})" :content="$t('AGREEMENT_ASSET_CONTENT')" />
+    <user-agreement-modal :show="userAgreementShow" @confirm="confirm" @cancel="userAgreementShow=false" :title="$t('ERR_READ_ALL')" :tips="$t('APPLY_FOR_GATEWAY')+$t('COST_FEE',{net:1000000,num:100})" :content="$t('AGREEMENT_ASSET_CONTENT')" />
   </q-page>
 </template>
 

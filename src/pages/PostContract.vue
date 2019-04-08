@@ -173,7 +173,7 @@ import { secondPwd, contractNameReg } from '../utils/validators'
 import { toastError, toast, translateErrMsg } from '../utils/util'
 import { mapActions, mapGetters } from 'vuex'
 import { codemirror } from 'vue-codemirror-lite'
-import { BigNumber } from 'bignumber.js'
+// import { BigNumber } from 'bignumber.js'
 import BoundaryLine from '../components/BoundaryLine'
 
 export default {
@@ -252,10 +252,7 @@ export default {
         return null
       }
       // code = Buffer.from(code).toString('hex')
-      let gasLimit = gas || 20000
-      // let gasLimit = BigNumber(+gas || 3000)
-      //   .times(Math.pow(10, 8))
-      //   .toString()
+      let gasLimit = gas || this.costGas
       let params = {
         gasLimit,
         code,
@@ -300,7 +297,7 @@ export default {
     costGas() {
       let len = this.content.code.length
       return len
-        ? BigNumber(len * 2 + 5000).div(Math.pow(10, 8)).toFormat(8) : 0
+        ? (len * 2 + 5000).toFixed(0) : 5000
     }
   }
 }

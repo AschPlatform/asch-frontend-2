@@ -538,6 +538,9 @@
               </tr>
             </tbody>
           </table>
+          <div>
+            {{$t('NAME_TIP')}}
+          </div>
         </div>
       </div>
       <template slot="buttons" slot-scope="props">
@@ -598,7 +601,7 @@
 </template>
     </q-dialog>
 
-  <user-agreement-modal :show="userAgreementShow" @confirm="registerAgent" @cancel="userAgreementShow=false" :title="$t('REGISTER_AGENT')" :content="$t('AGREEMENT_REGISTER_AGENT_CONTENT')" :tips="$t('REGISTER_AGENT')+$t('COST_FEE',{num:100})" />
+  <user-agreement-modal :show="userAgreementShow" @confirm="registerAgent" @cancel="userAgreementShow=false" :title="$t('REGISTER_AGENT')" :content="$t('AGREEMENT_REGISTER_AGENT_CONTENT')" :tips="$t('REGISTER_AGENT')+$t('COST_FEE',{ net: 100000, num:100})" />
   </q-page>
 </template>
 

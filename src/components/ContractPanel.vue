@@ -283,7 +283,7 @@ export default {
       let finalReceiver
 
       if (this.form.receiverPath) {
-        finalReceiver = this.form.receiverPath.isDefaultPayable ? this.address : this.address + '/' + this.form.receiverPath.name
+        finalReceiver = this.form.receiverPath.defaultPayable ? this.address : this.address + '/' + this.form.receiverPath.name
       }
       let res
       let { currency } = this.form

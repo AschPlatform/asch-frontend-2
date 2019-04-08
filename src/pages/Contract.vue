@@ -266,11 +266,11 @@ export default {
       })
       if (res.success && res.contract && res.contract.metadata && res.contract.metadata.methods) {
         res.contract.metadata.methods.forEach(e => {
-          if (e.isPayable) {
+          if (e.payable) {
             methodsOptions.push({
               label: e.name,
               value: {
-                isDefaultPayable: e.isDefaultPayable,
+                defaultPayable: e.defaultPayable,
                 name: e.name
               }
             })
