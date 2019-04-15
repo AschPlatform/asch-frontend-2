@@ -279,7 +279,8 @@ export default {
       }
       let pack = {
         address: address,
-        methodsOptions: methodsOptions
+        methodsOptions: methodsOptions,
+        contractName: name
       }
       this.$root.$emit('openContractDialog', pack)
     }

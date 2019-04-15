@@ -169,7 +169,7 @@ import { QField, QInput, QSelect, QBtnToggle, QCheckbox } from 'quasar'
 
 export default {
   name: 'ContractPanel',
-  props: ['user', 'showTitle', 'address', 'methodsOptions'],
+  props: ['user', 'showTitle', 'address', 'methodsOptions', 'contractName'],
   components: {
     Jdenticon,
     QField,
@@ -280,21 +280,23 @@ export default {
       let amount = dealGiantNumber(this.form.amount, this.precision)
       // fee = dealGiantNumber(Number(this.form.gas), 8)
       let fee = Number(this.form.gas)
-      let finalReceiver
+      // let finalReceiver
 
-      if (this.form.receiverPath) {
-        finalReceiver = this.form.receiverPath.defaultPayable ? this.address : this.address + '/' + this.form.receiverPath.name
-      }
       let res
       let { currency } = this.form
       let params = {
         gasLimit: fee,
-        name: this.form.receiverPath.name,
+        name: this.contractName,
         amount,
         enablePayGasInXAS: this.form.enablePayGasInXAS,
-        receiverPath: finalReceiver,
+        // receiverPath: finalReceiver,
+        method: '',
         currency,
         secondSecret: this.secondPwd
+      }
+      if (this.form.receiverPath && !this.form.receiverPath.defaultPayable) {
+        // finalReceiver = this.form.receiverPath.defaultPayable ? this.address : this.address + '/' + this.form.receiverPath.name
+        params.method = this.form.receiverPath.name || ''
       }
       res = await this.payContract(params)
 

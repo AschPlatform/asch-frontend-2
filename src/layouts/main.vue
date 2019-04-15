@@ -1,158 +1,326 @@
 <template>
-  <q-layout ref="layout" view="lHh Lpr lFf">
+  <q-layout
+    ref="layout"
+    view="lHh Lpr lFf"
+  >
     <q-layout-header class="no-shadow">
-  
+
       <q-toolbar class="head-mobile-top row justify-between bg-white">
         <div class="head-top-left">
-          <q-btn flat @click="showLeft=!showLeft">
-            <q-icon name="menu" class="text-faded" />
+          <q-btn
+            flat
+            @click="showLeft=!showLeft"
+          >
+            <q-icon
+              name="menu"
+              class="text-faded"
+            />
           </q-btn>
           <div class="mobile-hide head-top-left-container">
             <span class="font-18 text-black font-weight">
-                {{$t(' LATEST_BLOCK_HEIGHT')}}
-              </span>
-            <i v-for='n in 3' :key=n class="height-icon material-icons vertical-align-middle text-secondary font-22">equalizer</i>
+              {{$t(' LATEST_BLOCK_HEIGHT')}}
+            </span>
+            <i
+              v-for='n in 3'
+              :key=n
+              class="height-icon material-icons vertical-align-middle text-secondary font-22"
+            >equalizer</i>
             <span class="font-30 text-secondary margin-left-10 font-weight vertical-align-sub">{{latestBlock.height}}</span>
           </div>
           <span class="mobile-hide head-top-left-line vertical-align-middle"></span>
           <div class="mobile-hide head-top-left-container  vertical-align-middle">
             <span class="font-18 text-black font-weight vertical-align-middle">
-                {{$t(' TIME_LAST')}}
-              </span>
+              {{$t(' TIME_LAST')}}
+            </span>
             <span class="font-22 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
           </div>
         </div>
-  
+
         <div class="desktop-hide text-black">
           {{clientPathName}}
         </div>
-  
-        <q-btn flat @click="logout">
+
+        <q-btn
+          flat
+          @click="logout"
+        >
           <q-tooltip>
             {{$t('EXIT')}}
           </q-tooltip>
-          <q-icon name="power settings new" class="text-faded" />
+          <q-icon
+            name="power settings new"
+            class="text-faded"
+          />
         </q-btn>
-  
+
       </q-toolbar>
     </q-layout-header>
-  
-    <q-layout-drawer class="bg-seven main-left-list-container" v-model="showLeft" side="left">
-      <q-list no-border link inset-delimiter>
+
+    <q-layout-drawer
+      class="bg-seven main-left-list-container"
+      v-model="showLeft"
+      side="left"
+    >
+      <q-list
+        no-border
+        link
+        inset-delimiter
+      >
         <q-list-header class="header-container row justify-left">
-          <div class="header-left row justify-center items-center" @click="toHome">
+          <div
+            class="header-left row justify-center items-center"
+            @click="toHome"
+          >
             <span class="menu-logo"></span>
           </div>
-          <div class="header-right margin-left-10" @click="toHome">
+          <div
+            class="header-right margin-left-10"
+            @click="toHome"
+          >
             <span class="header-right-top">{{$t('ASCH')}}</span>
             <span class="header-right-bottom font-12">Asch Client {{version.version}}-{{version.net}}</span>
           </div>
         </q-list-header>
-        <q-item class="list-item-container" item :to="getRouterConf('home')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('home')"
+        >
           <q-item-side icon="home" />
           <q-item-main :label="$t('HOME')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('assets')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('assets')"
+        >
           <q-item-side icon="attach money" />
           <q-item-main :label="$t('ASSET')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('transfer')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('transfer')"
+        >
           <q-item-side icon="compare arrows" />
           <q-item-main :label="$t('TRANSFER')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('proposal')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('proposal')"
+        >
           <q-item-side icon="gavel" />
           <q-item-main :label="$t('PROPOSAL')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('contract')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('contract')"
+        >
           <q-item-side icon="list_alt" />
           <q-item-main :label="$t('SMART_CONTRACT')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('gateway')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('gateway')"
+        >
           <q-item-side icon="account_balance" />
           <q-item-main :label="$t('GATEWAY')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('councilDetail')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('councilDetail')"
+        >
           <q-item-side icon="group" />
           <q-item-main :label="$t('COUNCIL')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('delegates')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('delegates')"
+        >
           <q-item-side icon="format list numbered" />
           <q-item-main :label="$t('VOTE')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('blocks')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('blocks')"
+        >
           <q-item-side icon="public" />
           <q-item-main :label="$t('BLOCKS')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('applications')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('applications')"
+        >
           <q-item-side icon="apps" />
           <q-item-main :label="$t('APPLICATIONS')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('personal')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('personal')"
+        >
           <q-item-side icon="person" />
           <q-item-main :label="$t('PERSONAL')" />
         </q-item>
-        <q-item class="list-item-container" item :to="getRouterConf('issuer')">
+        <q-item
+          class="list-item-container"
+          item
+          :to="getRouterConf('issuer')"
+        >
           <q-item-side icon="send" />
           <q-item-main :label="$t('TRS_TYPE_UIA_ISSUE')" />
         </q-item>
       </q-list>
     </q-layout-drawer>
     <q-page-container class="all-page-container">
-      <transition appear enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="500">
+      <transition
+        appear
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+        mode="out-in"
+        :duration="500"
+      >
         <router-view :userObj="user" />
       </transition>
-  
+
       <!-- common component with event -->
-      <account-info :show="accountShow" :account="accountInfo" @close="accountShow=false" />
-  
-      <q-modal class="transfer-modal-container" content-class="modal-content-limit" v-model="transShow" no-backdrop-dismiss>
+      <account-info
+        :show="accountShow"
+        :account="accountInfo"
+        @close="accountShow=false"
+      />
+
+      <q-modal
+        class="transfer-modal-container"
+        content-class="modal-content-limit"
+        v-model="transShow"
+        no-backdrop-dismiss
+      >
         <div class="col-8">
-          <trans-panel :showTitle="true" :assets="assets" :asset="asset" :user="userInfo">
-            <div slot="btns" slot-scope="props" class="row col-12 justify-between">
-              <q-btn big outline class="col-auto" color="secondary" @click="transShow=false;props.cancel()" :label="$t('label.close')" />
-              <q-btn big class="col-auto" color="secondary" :disable="btnDisable" @click="sendTrans(props.send)" :label="$t('SEND')" />
+          <trans-panel
+            :showTitle="true"
+            :assets="assets"
+            :asset="asset"
+            :user="userInfo"
+          >
+            <div
+              slot="btns"
+              slot-scope="props"
+              class="row col-12 justify-between"
+            >
+              <q-btn
+                big
+                outline
+                class="col-auto"
+                color="secondary"
+                @click="transShow=false;props.cancel()"
+                :label="$t('label.close')"
+              />
+              <q-btn
+                big
+                class="col-auto"
+                color="secondary"
+                :disable="btnDisable"
+                @click="sendTrans(props.send)"
+                :label="$t('SEND')"
+              />
             </div>
           </trans-panel>
         </div>
       </q-modal>
 
-      <q-modal class="transfer-modal-container" content-class="modal-content-limit" v-model="contractShow" no-backdrop-dismiss>
+      <q-modal
+        class="transfer-modal-container"
+        content-class="modal-content-limit"
+        v-model="contractShow"
+        no-backdrop-dismiss
+      >
         <div class="col-8">
-          <contract-panel :showTitle="true" :assets="assets" :address="contractAddress" :methodsOptions="methodsOptions" :asset="asset" :user="userInfo">
-            <div slot="btns" slot-scope="props" class="row col-12 justify-between">
-              <q-btn big outline class="col-auto" color="secondary" @click="contractShow=false;props.cancel()" :label="$t('label.close')" />
-              <q-btn big class="col-auto" color="secondary" :disable="btnDisable" @click="sendContract(props.send)" :label="$t('SEND')" />
+          <contract-panel
+            :showTitle="true"
+            :assets="assets"
+            :address="contractAddress"
+            :contractName="contractName"
+            :methodsOptions="methodsOptions"
+            :asset="asset"
+            :user="userInfo"
+          >
+            <div
+              slot="btns"
+              slot-scope="props"
+              class="row col-12 justify-between"
+            >
+              <q-btn
+                big
+                outline
+                class="col-auto"
+                color="secondary"
+                @click="contractShow=false;props.cancel()"
+                :label="$t('label.close')"
+              />
+              <q-btn
+                big
+                class="col-auto"
+                color="secondary"
+                :disable="btnDisable"
+                @click="sendContract(props.send)"
+                :label="$t('SEND')"
+              />
             </div>
           </contract-panel>
         </div>
       </q-modal>
-  
-      <code-modal :show="QRCodeShow" @close="QRCodeShow = false" :text="QRCodeText" :title="QRCodeTitle" />
-      <trans-info-modal class="code-modal-container" :show="transInfoModalShow" :row="trans" @close="transInfoModalShow=false" />
+
+      <code-modal
+        :show="QRCodeShow"
+        @close="QRCodeShow = false"
+        :text="QRCodeText"
+        :title="QRCodeTitle"
+      />
+      <trans-info-modal
+        class="code-modal-container"
+        :show="transInfoModalShow"
+        :row="trans"
+        @close="transInfoModalShow=false"
+      />
     </q-page-container>
-  
-    <q-ajax-bar ref="bar" position="top" color="orange" />
-  
+
+    <q-ajax-bar
+      ref="bar"
+      position="top"
+      color="orange"
+    />
+
     <q-layout-footer class="no-shadow footer-container ">
       <div class="desktop-hide row justify-left height-28 footer-introduce">
         <span class="font-14 text-black font-weight height-36">
-                {{$t(' LATEST_BLOCK_HEIGHT')}}
-          </span>
-        <i v-for="n in 3" :key=n class="material-icons text-secondary font-18 margin-right-minus-5 height-36">equalizer</i>
+          {{$t(' LATEST_BLOCK_HEIGHT')}}
+        </span>
+        <i
+          v-for="n in 3"
+          :key=n
+          class="material-icons text-secondary font-18 margin-right-minus-5 height-36"
+        >equalizer</i>
         <span class="text-secondary font-24 margin-left-10 font-weight height-36">{{latestBlock.height}}</span>
       </div>
       <div class="desktop-hide row justify-left height-28 footer-introduce">
         <span class="font-14 text-black font-weight vertical-align-middle">
-                {{$t(' TIME_LAST')}}
-            </span>
+          {{$t(' TIME_LAST')}}
+        </span>
         <span class="font-18 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
       </div>
       <div class="row justify-between height-36">
         <span class="footer-introduce font-12">©2018 copyright</span>
         <span class="footer-introduce font-12">{{version.version}} {{version.net}} {{version.build}}</span>
       </div>
-  
+
     </q-layout-footer>
   </q-layout>
 </template>
@@ -240,7 +408,8 @@ export default {
       transInfoModalShow: false,
       btnDisable: false,
       methodsOptions: [],
-      contractAddress: ''
+      contractAddress: '',
+      contractName: ''
     }
   },
   methods: {
@@ -301,8 +470,9 @@ export default {
       //     balance: this.userInfo.account.xas
       //   }
       // }
-      let { address, methodsOptions } = pack
+      let { address, methodsOptions, contractName } = pack
       this.contractAddress = address
+      this.contractName = contractName
       this.methodsOptions = methodsOptions
       this.contractShow = true
     },

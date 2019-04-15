@@ -617,7 +617,8 @@ export default {
     let trans = asch.payContract(
       params.gasLimit,
       params.enablePayGasInXAS,
-      params.receiverPath,
+      params.name,
+      params.method || '',
       params.amount,
       params.currency,
       params.fee || 0,

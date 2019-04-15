@@ -589,12 +589,12 @@ const asch = {
     )
   },
 
-  payContract: (gasLimit, enablePayGasInXAS, receiverPath, amount, currency, fee, secret, secondPwd = '') => {
+  payContract: (gasLimit, enablePayGasInXAS, name, method, amount, currency, fee, secret, secondPwd = '') => {
     return AschJS.transaction.createTransactionEx(
       convertTransFee({
         type: 602,
         fee: 0,
-        args: [gasLimit, enablePayGasInXAS, receiverPath, amount, currency],
+        args: [gasLimit, enablePayGasInXAS, name, method, amount, currency],
         secret,
         secondSecret: secondPwd
       })
