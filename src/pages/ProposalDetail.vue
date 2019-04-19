@@ -463,7 +463,7 @@ export default {
         } else if (this.detail.endHeight < this.latestBlock.height) {
           this.btnInfo = 'proposal.EXPIRED'
           this.isBtnAble = true
-        } else if (this.voteTotalNum <= 67) {
+        } else if (this.voteTotalNum <= 14) {
           this.btnInfo = 'proposal.BTN_VOTE'
           this.isBtnAble = false
           this.activeState = 0

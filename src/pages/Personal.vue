@@ -77,7 +77,7 @@
             <!-- bindwidth -->
             <div class="resource-box col-4">
               <div class="resource-inner column">
-                <span class="resource-title font-18">Bandwidth points</span>
+                <span class="resource-title font-18">NET</span>
                 <span class="resource-record text-secondary font-22">
                   <q-tooltip>
                     {{$t('BANDWIDTH_TIP_LINE_1', {net: pledgeDetail.netLimit || 0, netUsed: pledgeDetail.netUsed || 0})}}

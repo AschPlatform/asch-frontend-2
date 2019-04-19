@@ -140,7 +140,7 @@
         label=" "
       >
         <q-checkbox
-          v-model="form.enablePayGasInXAS"
+          v-model="enablePayGasInXAS"
           color="secondary"
           left-label
           :label="$t('CONTRACT_PANEL_TICK')"
@@ -187,9 +187,9 @@ export default {
         amount: '',
         fee: '0.1 XAS',
         currency: '',
-        gas: '',
-        enablePayGasInXAS: false
+        gas: ''
       },
+      enablePayGasInXAS: false,
       secondPwd: '',
       balance: '',
       precision: 0,
@@ -288,7 +288,7 @@ export default {
         gasLimit: fee,
         name: this.contractName,
         amount,
-        enablePayGasInXAS: this.form.enablePayGasInXAS,
+        enablePayGasInXAS: this.enablePayGasInXAS,
         // receiverPath: finalReceiver,
         method: '',
         currency,
