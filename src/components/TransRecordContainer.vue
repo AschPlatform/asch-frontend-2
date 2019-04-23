@@ -115,6 +115,9 @@ export default {
           } else if (e.feeType === 'ENERGY') {
             temp.fee.push('-' + e.energyUsed || 0)
             temp.fee.push('ENERGY')
+            if (e.address && !this.matchSelf(e.address)) {
+              temp.fee.push(this.$t('PAYED'))
+            }
           } else {
             temp.fee.push('-' + computedFee)
             temp.fee.push('XAS')

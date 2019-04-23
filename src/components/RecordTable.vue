@@ -163,12 +163,17 @@
             class="col-xs-12 col-md-4"
           >
             <span class="number">{{item.fee[0]}}</span><span class="fee">{{item.fee[1]}}</span>
+            <br v-if="item.fee[2]" /> <span v-if="item.fee[2]" class="tip-info">{{item.fee[2]}}</span>
           </div>
           <div
             v-else
             id="account"
           >
             <span class="number">{{item.fee[0]}}</span><br /><span class="fee">{{item.fee[1]}}</span>
+            <br v-if="item.fee[2]" /> <span
+              v-if="item.fee[2]"
+              class="tip-info"
+            >{{item.fee[2]}}</span>
           </div>
         </div>
       </div>
@@ -366,6 +371,11 @@ export default {
 
 .number {
   font-size: 22px;
+}
+
+.tip-info {
+  color: #999;
+  font-size: 12px;
 }
 
 .table-container {

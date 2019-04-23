@@ -107,7 +107,7 @@
             <!-- energy -->
             <div class="resource-box col-4">
               <div class="resource-inner row">
-                <div class="resource-title font-18 col-12">energy points</div>
+                <div class="resource-title font-18 col-12">Energy points</div>
                 <div class="resource-record text-secondary font-22 col-12">{{pledgeDetail.energyUsed || 0}} / {{pledgeDetail.energyLimit || 0}}</div>
                 <div class="resource-detail font-16 col-12">{{$t('PERSONAL_PLEDGED')}} {{convertFee(pledgeDetail.pledgeAmountForEnergy) || 0}}XAS</div>
                 <div

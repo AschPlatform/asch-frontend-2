@@ -1037,7 +1037,8 @@ const lang = {
   CONTRACT_PANEL_ADDRESS_TIP: '请输入正确的合约地址',
   CONTRACT_PANEL_ENTRANCE: '接收入口',
   CONTRACT_PANEL_TICK: 'Energy 不足时，允许扣除XAS作为燃料费',
-  UNLOCK_NOTHNG_REDEEM: '并未有资产抵押'
+  UNLOCK_NOTHNG_REDEEM: '并未有资产抵押',
+  PAYED: '开发者代付'
 }
 
 export default lang
