@@ -115,24 +115,25 @@ export const dealBigNumber = num => {
   let dealNum = dealNumB.toFormat(0).toString()
   return dealNum.replace(/,/g, '')
 }
-export const dealGiantNumber = (num, precision) => {
-  let backup = []
-  let chunk = num.toString()
-  if (chunk.indexOf('.') > -1) {
-    backup = chunk.split('.')[1].split('')
-    chunk = chunk.split('.')[0]
-  }
-  let result = (function () {
-    for (let i = 0; i < precision; i++) {
-      if (backup.length !== 0) {
-        chunk = chunk + backup.shift()
-      } else {
-        chunk = chunk + '0'
-      }
-    }
-    return chunk
-  })()
-  return result
+export const dealGiantNumber = (num, precision = 8) => {
+  // let backup = []
+  // let chunk = num.toString()
+  // if (chunk.indexOf('.') > -1) {
+  //   backup = chunk.split('.')[1].split('')
+  //   chunk = chunk.split('.')[0]
+  // }
+  // let result = (function () {
+  //   for (let i = 0; i < precision; i++) {
+  //     if (backup.length !== 0) {
+  //       chunk = chunk + backup.shift()
+  //     } else {
+  //       chunk = chunk + '0'
+  //     }
+  //   }
+  //   return chunk
+  // })()
+  // return result
+  return new BigNumber(num).times(Math.pow(10, precision)).toString()
 }
 
 export const check58 = address => AschJS.crypto.isBase58CheckAddress(address)
