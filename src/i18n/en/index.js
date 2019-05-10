@@ -130,7 +130,8 @@ const lang = {
   LATEST_BLOCK_HEIGHT: 'Latest Block Height',
   VERSION_INFO: 'Version',
   MY_TRSACTIONS: 'My Transactions',
-  HOME_TIPES: 'Tips: Transferring is irreversible. Please check the receipt wallet address.',
+  HOME_TIPES:
+    'Tips: Transferring is irreversible. Please check the receipt wallet address.',
 
   // login
   INPUT_PASSWORD: 'Type the master secret',
@@ -140,20 +141,25 @@ const lang = {
   STEP: 'Step',
   CREATE_MASTER_PASSWORD: 'Create Master Secret',
   NEW_PASSWORD: 'New Master Secret',
-  NEW_PWD_TIP_1: 'System has already generated a new secure secret, you need to re-type this secret in the next step to confirm.',
+  NEW_PWD_TIP_1:
+    'System has already generated a new secure secret, you need to re-type this secret in the next step to confirm.',
   NEXT_STEP: 'Next Step',
   SAVE_PASSWORD: 'Save Master Secret',
   CONFIRM_PASSWORD: 'Confirm master secret',
   INPUT_PASSWORD_AGAIN: 'Please re-type your master secret',
-  NEW_PWD_TIP_2: 'Make sure you have saved your master secret in a safe place. Otherwise, your might not be available and you will lost all your XAS.',
+  NEW_PWD_TIP_2:
+    'Make sure you have saved your master secret in a safe place. Otherwise, your might not be available and you will lost all your XAS.',
   CONFIRM: 'Confirm',
   CANCEL: 'Cancel',
   CANCEL_LOGIN: 'Back',
   CREATE: 'Create',
-  CREATE_TIP1: 'The master secret is generated locally by the browser. Please back it up and save it.',
+  CREATE_TIP1:
+    'The master secret is generated locally by the browser. Please back it up and save it.',
   CREATE_TIP2: 'Copy or enter the master secret above',
-  READ_TIP1: 'I understand that if I lose my master secret, I will never be able to access my assets.',
-  READ_TIP2: 'I understand that if I forget or lose my master secret, no one can help me recover it.',
+  READ_TIP1:
+    'I understand that if I lose my master secret, I will never be able to access my assets.',
+  READ_TIP2:
+    'I understand that if I forget or lose my master secret, no one can help me recover it.',
   READ_TIP3: 'I have written down or saved my master secret in other ways.',
   CHOSE_SERVER: 'Select Server Node',
   DEFAULT_SERVER: 'Default Node',
@@ -162,7 +168,8 @@ const lang = {
   // transfer/pay
   SEND: 'Send',
   ALREADY_LOCKED: 'The transaction is rejected due to the account lock.',
-  PAY_TIP: '  *Make sure you send to the correct address. This operation cannot be cancelled.',
+  PAY_TIP:
+    '  *Make sure you send to the correct address. This operation cannot be cancelled.',
 
   // peers
   PEER_LIST: 'Peer List',
@@ -170,7 +177,7 @@ const lang = {
   VERSION: 'Version',
   // ASSET: '资产'
   REGISTERED_PUBLISHER: 'Registered Publisher',
-  REGISTERED_ASSETS: 'Registered Assets',
+  REGISTERED_ASSETS: 'Register Assets',
   VALUE: 'Value',
   MY_ASSETS: 'My Issued Assets',
   OPERATION_RECORD: 'Operation Record',
@@ -193,7 +200,8 @@ const lang = {
   UPDATE_ACL: 'Update ACL',
   PUBLISHER_ALREADY_REGISTERED: 'You have already registered this publisher',
   NO_ASSET_RELATED_INFORMATION: 'No asset related information',
-  STRATEGY_WARNING: 'If you do not know how to use it, do not arbitrarily set this field',
+  STRATEGY_WARNING:
+    'If you do not know how to use it, do not arbitrarily set this field',
   CHANGE_ACL_MODAL: 'Change ACL modal',
   CHANGE_TO: 'Change to',
   // personal
@@ -210,10 +218,12 @@ const lang = {
   ALREADY_SET_TPI: 'You have already set the second secret.',
   ALREADY_SET_POSITIONLOCK: 'You have already set the block height.',
   SET_SECOND_PASSWORD: 'Set the second secret',
-  PASSWORD_RULE_TIP: 'Second secret must be from 8 to 16 alphanumeric characters',
+  PASSWORD_RULE_TIP:
+    'Second secret must be from 8 to 16 alphanumeric characters',
   INPUT_AGAIN: 'Enter Again',
   PASSWORD: 'Secret',
-  SUBMIT_SECOND_PASSWORD_TIP: 'Make sure you have saved your second secret in a safe place. If you lost it, you will not be able to recover your assets in Asch system. You will be charged in XAS when you reset the second password.',
+  SUBMIT_SECOND_PASSWORD_TIP:
+    'Make sure you have saved your second secret in a safe place. If you lost it, you will not be able to recover your assets in Asch system. You will be charged in XAS when you reset the second password.',
   SUBMIT: 'Submit',
   ALREADY_SET: 'Already Set',
   NOT_SET: 'Not set yet',
@@ -266,16 +276,19 @@ const lang = {
 
   // toast errors
   ERR_INPUT_PASSWORD: 'Please input secret',
-  ERR_VIOLATE_BIP39: 'The password format does not comply with BIP39 safety regulations',
+  ERR_VIOLATE_BIP39:
+    'The password format does not comply with BIP39 safety regulations',
   ERR_SERVER_ERROR: 'Server error !',
   ERR_PASSWORD_NOT_EQUAL: 'The master password you entered is not consistent',
   ERR_DELEGATE_NAME_EMPTY: 'Delegate name should not empty',
   ERR_DELEGATE_NAME_ADDRESS: 'Delegate name should not be address',
   ERR_DELEGATE_NAME_FORMAT: 'Incorrect delegate name format',
-  ERR_SECOND_PASSWORD_FORMAT: 'The secondary password input format is incorrect',
+  ERR_SECOND_PASSWORD_FORMAT:
+    'The secondary password input format is incorrect',
   ERR_NO_RECIPIENT_ADDRESS: 'You must enter the receiving address',
   ERR_RECIPIENT_ADDRESS_FORMAT: 'Receiving address format is incorrect',
-  ERR_RECIPIENT_EQUAL_SENDER: 'Receiving address and send address can not be the same',
+  ERR_RECIPIENT_EQUAL_SENDER:
+    'Receiving address and send address can not be the same',
   ERR_AMOUNT_INVALID: 'Send amount incorrectly entered',
   ERR_BALANCE_NOT_ENOUGH: 'Insufficient balance',
   ERR_NO_SECND_PASSWORD: 'You must enter the secondary password',
@@ -294,9 +307,12 @@ const lang = {
   ERR_ASSET_NAME_3_TO_6_CAPITAL_LETTERS: 'Please enter 3-6 capital letters',
   ERR_MISSING_ASSET_DESCRIPTION: 'Please enter an asset description',
   ERR_ASSET_TOPLIMIT_NOT_CORRECT: 'The top limit you entered is not correct',
-  ERR_ASSET_TOPLIMIT_NOT_CORRECT2: 'It should be integer from 1 to 30 that does not contain a decimal point',
-  ERR_ASSET_PRECISION_NOT_CORRECT: 'The precision for the asset you entered is not correct',
-  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16: 'This must be an integer between 1 and 16',
+  ERR_ASSET_TOPLIMIT_NOT_CORRECT2:
+    'It should be integer from 1 to 30 that does not contain a decimal point',
+  ERR_ASSET_PRECISION_NOT_CORRECT:
+    'The precision for the asset you entered is not correct',
+  ERR_ASSET_PRECISION_MUST_BE_INTEGER_BETWEEN_0_16:
+    'This must be an integer between 1 and 16',
   // toast error was bound here
   ERR_TOAST_SECONDKEY_WRONG: 'Your second password is wrong',
   ERR_TOAST_TRANSACTION_AMOUNT_WRONG: 'Transaction amount wrong',
@@ -305,7 +321,8 @@ const lang = {
   ERR_TOAST_VOTE_LIMIT: 'Only less then 1 calenders are required',
   ERR_TOAST_ACCOUNT_ALREADY_LOCKED: 'Already locked',
   ERR_TOAST_ACCOUNT_INVALID_RECIPIENT: 'Wrong recipent address',
-  ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP: 'There is something wrong with your local time',
+  ERR_TOAST_ACCOUNT_INVALID_TIMESTAMP:
+    'There is something wrong with your local time',
   ERR_TOAST_VOTE_OVERDOSE: 'Vote number exceeded',
   ERR_READ_ALL: 'Please read and tick the notes carefully.',
   // toast info
@@ -331,7 +348,8 @@ const lang = {
   OPERATION_REQUIRES_FEE: 'This operation costs a fee',
   OPERATION_REQUIRES_NET_OR_FEE: 'This operation costs {net} NET or {fee} XAS',
   REQUIRES_FEE: 'Need to cost {net} Net or {fee} XAS',
-  ERR_FEE_INVALID: 'The fee cannot be empty or less than the default value {fee}',
+  ERR_FEE_INVALID:
+    'The fee cannot be empty or less than the default value {fee}',
 
   // FRAGIL SET
   FRAGIL_PRE: 'Account will be unlocked when the block height ',
@@ -366,17 +384,22 @@ const lang = {
   QRCODE_CLOSE: 'Click to close',
 
   // ============== new add =================
-  AT_LEAST_7DAY: '(It is recommended to set the end time after one week to allow enough time for the users to find, evaluate, and vote on the project.)',
+  AT_LEAST_7DAY:
+    '(It is recommended to set the end time after one week to allow enough time for the users to find, evaluate, and vote on the project.)',
   CURRENCY_INTRODUCE: 'Currency Introduction',
   NAME_OF_DISTRIBUTOR: 'Please enter the name, length is required under 15',
-  DESCRIBE_OF_DISTRIBUTOR: 'Please enter the description, length is required under 500',
+  DESCRIBE_OF_DISTRIBUTOR:
+    'Please enter the description, length is required under 500',
   CHAINS_OVERVIEW: 'Asset Profile',
-  USER_AGREEMENT_MODAL_TIPS: '*Registering as an agent will cost  1000000 NET or 100 XAS',
-  USER_AGREEMENT_MODAL_CONTENT: ' Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互',
+  USER_AGREEMENT_MODAL_TIPS:
+    '*Registering as an agent will cost  1000000 NET or 100 XAS',
+  USER_AGREEMENT_MODAL_CONTENT:
+    ' Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互，Asch 是一个去中心化的应用平台。它提供了一系列的 sdk 和 api 来帮助开发者构建基于 Javascript 和侧链技术的去中心化应用。Asch 通过定制侧链、智能合约、应用托管等一体化的行业解决方案，致力于打造一个易于使用、功能完备、即插即用的系统。利用 Asch 生态系统，开发者可以快速迭代他们的 Javascript 应用，并发布到系统内置的应用商店中，这些应用可以被平台中的分布式节点下载并执行，并服务于普通用户，整个过程都由诚实安全的 Asch 侧链共识网络提供安全保证。Asch 系统本身也是一个完全开放的、去中心化的应用，内置有代币，单位为 XAS，中文名叫阿希币。阿希币可以通过双向楔入的方式与侧链或 dapp 进行交互',
   LOCK_DETAIL_TIP: 'Lock limit, cost you 1000 NET or 0.1 XAS',
   RETREAT_VOTE_SUCCESS: 'Cancel Vote Success',
   DELEGATE_LIST_DETAILS: 'Detailed list of Delegates',
-  SECOND_PASSWORD_TIP: 'Password with more than 8 digits, cost you 50000 NET or 5 XAS',
+  SECOND_PASSWORD_TIP:
+    'Password with more than 8 digits, cost you 50000 NET or 5 XAS',
   SECOND_PASSWORD_CONFIRM: 'Please confirm the password',
   // CANAEL: 'Cancel',
   TO: 'To',
@@ -384,7 +407,8 @@ const lang = {
   RECORD: 'Record',
   MAIN_ASSET: 'Main Asset',
   SEE_ALL_ASSETS: 'See all assets',
-  TRANSFER_TIP: 'Transferring is irreversible. Please check the receipt wallet address.',
+  TRANSFER_TIP:
+    'Transferring is irreversible. Please check the receipt wallet address.',
   RECEIVE: 'Receive',
   X_ASSETS: 'X-Assets',
   CROSS_ASSETS: 'Cross-assets',
@@ -394,15 +418,19 @@ const lang = {
   AVAILABLE_BALANCE_LIMIT: 'Available Balance Limit',
   PROPOSAL: 'Proposal',
   COUNCIL: 'Council',
-  DEPOSIT_NO_ADDR_TIP: 'You have not opened your {currency} wallet receipt address',
-  DEPOSIT_TIP: 'Please deposit {currency} to the above address, which only supports receiving {currency}. If you need to transfer another token, please switch to the corresponding token to get the wallet receipt address to be transferred ',
-  DEPOSIT_TIP2: '*in case of property losing, please check your receipt wallet address',
+  DEPOSIT_NO_ADDR_TIP:
+    'You have not opened your {currency} wallet receipt address',
+  DEPOSIT_TIP:
+    'Please deposit {currency} to the above address, which only supports receiving {currency}. If you need to transfer another token, please switch to the corresponding token to get the wallet receipt address to be transferred ',
+  DEPOSIT_TIP2:
+    '*in case of property losing, please check your receipt wallet address',
   OPEN_ADDR: 'Open',
   VOTE_DELEGATE: 'Agent',
   VOTE_DELEGATE_DETAIL: 'Agent Detail',
   VOTE_CANCEL: 'Cancel Agent',
   VOTE_SET: 'Set Agent',
-  VOTE_DELEGATE_TIP: 'Please input name or wallet address, this will cost 1000 NET or 0.1 XAS',
+  VOTE_DELEGATE_TIP:
+    'Please input name or wallet address, this will cost 1000 NET or 0.1 XAS',
   ALL_BLOCKS: 'All Blocks',
   NOT_DELEGATE: 'Not Delegate',
   CHECK: 'Check',
@@ -426,11 +454,15 @@ const lang = {
   SET_NICKNAME: 'Set Nickname',
   NICKNAME: 'Nickname',
   INPUT_NICKNAME: 'Input nickname',
-  ERR_NICKNAME: 'The nickname input is incorrect. It should be a combination of 3-20 lowercase letters and numbers',
-  ERR_LOCKAMOUNT: 'This will cost you 0.1 XAS, for the common use，you should left at least 1.1XAS, now you are able to lock with num {num}',
-  NICKNAME_TIP: ' Nickname can be used to transfer assets, please fill in carefully, up to 2-20 characters',
+  ERR_NICKNAME:
+    'The nickname input is incorrect. It should be a combination of 3-20 lowercase letters and numbers',
+  ERR_LOCKAMOUNT:
+    'This will cost you 0.1 XAS, for the common use，you should left at least 1.1XAS, now you are able to lock with num {num}',
+  NICKNAME_TIP:
+    ' Nickname can be used to transfer assets, please fill in carefully, up to 2-20 characters',
   CHAR_NUM: 'Character Number',
-  NAME_TIP: 'NET can be consumed to deduct costs. The deduction ratio: 1XAS = 10000NET',
+  NAME_TIP:
+    'NET can be consumed to deduct costs. The deduction ratio: 1XAS = 10000NET',
 
   PRICE: 'Price',
   NICKNAME_PRICE: 'Nickname Price',
@@ -440,13 +472,15 @@ const lang = {
   LOCK_DETAIL: 'Locked Limit: {amount} XAS',
   LOCK_DETAIL_TIME: 'Lock Deadline: {date}',
   AGENT_INFO: 'Agent Info:',
-  IS_AGENT: 'You are already an agent or delegate',
-  REGISTER_AGENT: 'Register Agent',
+  IS_AGENT: 'You are already an delegate',
+  CHECK_NOW: 'Check now',
+  REGISTER_AGENT: 'Register Delegate',
   EDIT: 'Edit',
   UNLOCK: 'Unlock',
   NUM: 'Number',
   UNLOCK_TIME_TIPS: 'When arrive the height you can unlock by yourself',
-  UNLOCK_TIPS: 'After the lock, the quota will not be used for the daily consumption of voting / transferring. Please set aside the amount needed for voting / transferring according to the actual situation. Please kindly note: The lock time you choose will be actually converted to the block height and recorded on the blockchain. In case of network abnormality during the operation of the blockchain network, the unlock time will be recalculated according to the block height you set (the error is generally less than 24 hours).',
+  UNLOCK_TIPS:
+    'After the lock, the quota will not be used for the daily consumption of voting / transferring. Please set aside the amount needed for voting / transferring according to the actual situation. Please kindly note: The lock time you choose will be actually converted to the block height and recorded on the blockchain. In case of network abnormality during the operation of the blockchain network, the unlock time will be recalculated according to the block height you set (the error is generally less than 24 hours).',
   SET_UNLOCK_TIME: 'Choose Time',
   HEIGHT_NOT_ARRIVE: 'Height not arrive',
   NO_ISSUER_INFO: ' You are not a publisher',
@@ -485,7 +519,8 @@ const lang = {
   ELECTED: 'Elected',
   UPDATE_LIMIT: 'Update Limit:',
   AGENT_ALREADY: 'You are already an agent and this action is rejected',
-  ALREADY_INIT: 'The gateway has been initialized successfully and cannot perform this function for now',
+  ALREADY_INIT:
+    'The gateway has been initialized successfully and cannot perform this function for now',
   ERR_SHOULD_EQUAL: 'The two-party substitution should be equal in number',
   EXIT: 'Exit',
   CANCEL_VOTE: 'Cancel Vote',
@@ -534,7 +569,8 @@ const lang = {
     SELECT_INITNET: 'Initiate Gateway',
     SELECT_NETPERIOD: 'Gateway Period',
     SELECT_NETMEMBER: 'Update Member',
-    VOTE_STATUS: 'A total of {number} people participated in the vote, with a rate of {rate}%',
+    VOTE_STATUS:
+      'A total of {number} people participated in the vote, with a rate of {rate}%',
     ACTIVATED: 'Activated',
     EXPIRED: 'Expired',
     ACTIVE: 'Active',
@@ -543,8 +579,10 @@ const lang = {
   },
   LAUNCH_MODAL: {
     MEMBER_SUGGEST_PRE: 'I propose',
-    MEMBER_SUGGEST_POST: 'Wait for {number} people to become members of the gateway',
-    MEMBER_SUGGEST: 'I propose\n{member}\nthose\n{number}\npersons to be the member of gateway   ',
+    MEMBER_SUGGEST_POST:
+      'Wait for {number} people to become members of the gateway',
+    MEMBER_SUGGEST:
+      'I propose\n{member}\nthose\n{number}\npersons to be the member of gateway   ',
     MEMBER_NUMBER: 'Member Number',
     MEMBER_MEMBER: 'Member Information',
     MEMBER_REASON: 'Reason For Updating Members',
@@ -559,7 +597,8 @@ const lang = {
     BRIEF_TIP: 'Input Brief Introduction',
     DAY: 'Day',
     REMOVE_COUNCIL: 'I propose to revoke the Council',
-    GATEWAY_MEMBER_UPDATE: 'I propose to withdraw\n\n{pre}\n\nand suggest\n\n{post}\n\nto be the new member of our gateway',
+    GATEWAY_MEMBER_UPDATE:
+      'I propose to withdraw\n\n{pre}\n\nand suggest\n\n{post}\n\nto be the new member of our gateway',
     REMOVE_COUNCIL_TIP1: 'I propose to withdraw',
     REMOVE_COUNCIL_TIP2: 'And propose',
     REMOVE_COUNCIL_TIP3: 'Become a new gateway member。',
@@ -567,16 +606,19 @@ const lang = {
     REMOVE_OBJECT: 'Revoke Object',
     PERIOD_REASON: 'Reason for changing tenure cycle',
     INIT_REASON: 'Reason for gateway initialization',
-    READ_TIP1: 'Conscientiously abide by the agreement on community self-government',
+    READ_TIP1:
+      'Conscientiously abide by the agreement on community self-government',
     READ_TIP2: ' Issue proposal will consume 100000 NET or 10 XAS',
     INSTEAD_PRE: 'Pre Change Members',
     INSTEAD_POST: ' Post Change Member',
-    PERIOD_SHIFT: 'I propose the the change the minimum update period from\n{pre}\nchange to:',
+    PERIOD_SHIFT:
+      'I propose the the change the minimum update period from\n{pre}\nchange to:',
     NET_PERIOD: ' Gateway minimum update frequency parameters',
     PRECISION_TIP: 'Need to fill in precision, 0-16',
     CURRENCY_BRIEF: 'Currency Brief ',
     CURRENCY_BRIEF_TIP: 'Please enter 1~256 characters',
-    ERR_INVALID_FORM: 'The form is incomplete or not in accordance with the requirements',
+    ERR_INVALID_FORM:
+      'The form is incomplete or not in accordance with the requirements',
     LAUNCH_SUCCESS: 'Launch the proposal successfully',
     PROPOSE: 'Proposal',
     VOTE_LIST: 'Vote Member List',
@@ -596,7 +638,8 @@ const lang = {
     PERIOD_REASON: 'Reason for changing tenure cycle',
     INSTEAD_PRE: 'by',
     INSTEAD_POST: 'replace',
-    PERIOD_TITLE: 'I revoke to replace council member tenure cycle by {pre} replace {post}',
+    PERIOD_TITLE:
+      'I revoke to replace council member tenure cycle by {pre} replace {post}',
     ADD_TITLE: 'I revoke add the following delegates to be council new members',
     REMOVE_TITLE: 'I revoke to cancel the following council members',
     INIT_TIP_PRE: ' {number} members before initialization',
@@ -615,7 +658,8 @@ const lang = {
   },
   ERR: {
     ERR_10_100: ' Please enter 10-100 characters',
-    ERR_10_100_TITLE: 'Please enter 10-100 characters, only upper and lower case English letters, numbers, punctuation, etc., do not support Chinese',
+    ERR_10_100_TITLE:
+      'Please enter 10-100 characters, only upper and lower case English letters, numbers, punctuation, etc., do not support Chinese',
     ERR_3_15: ' Please enter 3-15 characters',
     ERR_3_16: ' Please enter 3-16 characters',
     ERR_1_30: ' Please enter 1-30 characters',
@@ -623,7 +667,8 @@ const lang = {
     ERR_50_1000: ' Please enter 50-1000 characters',
     ERR_REQUIRE_TYPE: 'Please choose proposal type',
     ERR_REQUIRE_CONTENT: 'Please choose content',
-    ERR_REQUIRE_TIME: 'It is recommended to set the end time after one week to allow enough time for the users to find, evaluate, and vote on the project.',
+    ERR_REQUIRE_TIME:
+      'It is recommended to set the end time after one week to allow enough time for the users to find, evaluate, and vote on the project.',
     ERR_REQUIRE_DETAIL: 'Please choose proposal details',
     ERR_REQUIRE_NUMBER: 'Member number is in 7-1',
     ERR_REQUIRE_MEMBER: 'Please nominate the candidates',
@@ -633,12 +678,13 @@ const lang = {
     RECIPIENT_NAME_NOT_EXIST: 'The recipient seems not exist',
     INVALID_NAME: 'Invalid name',
     NAME_ALREADY_EXIST: 'The nick already exist',
-    NAME_ALREADY_SET: 'You\'ve already set it',
-    PASSWORD_ALREADY_SET: 'You\'ve already set it',
+    NAME_ALREADY_SET: "You've already set it",
+    PASSWORD_ALREADY_SET: "You've already set it",
     AGENT_CANNOT_LOCK: 'Agent cannot lock',
     LOCK_HEIGHT_AMOUNT_ERROR: 'Wrong lock height',
     LOCK_AMOUNT_ERROR: 'Wrong lock amount',
-    AGENT_ACCOUNT_NOT_ENOUGH: 'Agent\'s account not enough or this nick doesnot exist',
+    AGENT_ACCOUNT_NOT_ENOUGH:
+      "Agent's account not enough or this nick doesnot exist",
     ACCOUNT_NOT_ENOUGH: 'Donnot have enough balance',
     ACCOUNT_NOT_LOCK: 'This account can not lock yet',
     ACCOUNT_CAN_NOT_UNLOCK: 'This account can not unlock yet',
@@ -688,7 +734,7 @@ const lang = {
     ACCOUNT_NOT_ISSUER: 'Account not a issuer',
     ASSET_ALREADY_EXIST: 'Asset already exist',
     NO_BALANCE: 'Balance not enough',
-    GATEWAY_CURRENCY_NOT_EXIST: 'Gateway doesn\'t have currency',
+    GATEWAY_CURRENCY_NOT_EXIST: "Gateway doesn't have currency",
     ISSUER_NOT_FOUND: 'Issuer ',
     ASSET_NOT_FOUND: 'Asset not found',
     BLOCK_NOT_READY: 'Block not ready',
@@ -750,7 +796,13 @@ const lang = {
     noResults: 'Not marched',
     loading: 'loading...',
     selectedRows: rows =>
-      rows > 1 ? `${rows} selected row(s).` : `${rows === 0 ? 'No' : '1'} selected rows.`,
+      rows > 1
+        ? `${rows} selected row(s).`
+        : `${rows === 0 ? 'No' : '1'} selected rows.`,
+    selectedRecords: rows =>
+      rows > 1
+        ? `${rows} selected row(s).`
+        : `${rows === 0 ? 'No' : '1'} selected rows.`,
     rowsPerPage: '每页的行数:',
     allRows: '全部',
     pagination: (start, end, total) => `${start}-${end} of ${total}`,
@@ -826,7 +878,8 @@ const lang = {
   ERR_WITHDRAWL_EXCEED: 'Amount exceeds the maximum limit',
   ERR_GATEWAY_OFFLINE: 'Current gateway is offline',
   ERR_GATEWAY_NOT_EXIST: 'Gateway not found',
-  ERR_GATEWAY_NOT_REVOKED: 'Gateway is not frozen, cannot proceed with compensation',
+  ERR_GATEWAY_NOT_REVOKED:
+    'Gateway is not frozen, cannot proceed with compensation',
   COPY_PUBLIC_KEY: 'Copy',
   COMPENSATE: 'Compensate',
   COUNTED_FEE: 'Estimated cost is: ',
@@ -840,7 +893,8 @@ const lang = {
   // COUNTED_FEE: 'Estimated cost is: ',
   APPLY_FOR_GATEWAY: 'Apply for gateway candidate',
   APPLY_FOR_GATEWAY_SUCCESS: 'Application successful',
-  ERR_APPLY_FOR_GATEWAY: 'Only letters and numbers allowed, between 1-255 characters',
+  ERR_APPLY_FOR_GATEWAY:
+    'Only letters and numbers allowed, between 1-255 characters',
   ALREADY_GATEWAY: 'You are already a gateway candidate',
   SUSPEND_APPLY: 'Pause application',
   APPLY_NOW: 'Apply now',
@@ -849,14 +903,17 @@ const lang = {
   ACCOUNT_ADDRESS: 'Account address: ',
   GATEWAY_PUBLIC_KEY: 'Gateway public key: ',
   PERSONAL_INTRODUCE: 'Personal introduction: ',
-  ERR_PERSONAL_INTRODUCE: 'Personal introduction should be between 10-100 characters. ',
+  ERR_PERSONAL_INTRODUCE:
+    'Personal introduction should be between 10-100 characters. ',
   MATTERS_NEED_ATTENTION: 'Matters needed attention: ',
   GET_GATEWAY_PUBLIC_KEY: 'How to get gateway public key ',
   INPUT_GATEWAY_PUBLIC_KEY: 'Please input gateway public key',
   INPUT_PERSONAL_INTRODUCE: 'Please introduce yourself briefly',
-  MATTERS_NEED_ATTENTION_INFO: '1. After applying to be a gateway candidate, any user can initiate a proposal to nominate you as a gateway member. <br /> 2. After being elected as the gateway candidate, you need to pay the corresponding amount of XAS as security deposit as required. <br /> 3. In order to ensure the normal operation of the gateway, you may need to add the security deposit at any time according to the amount the gateway held in escrow. <br /> 4. If you do not work for a long time or do not add security deposit as required, you may be replaced by other candidates. ',
+  MATTERS_NEED_ATTENTION_INFO:
+    '1. After applying to be a gateway candidate, any user can initiate a proposal to nominate you as a gateway member. <br /> 2. After being elected as the gateway candidate, you need to pay the corresponding amount of XAS as security deposit as required. <br /> 3. In order to ensure the normal operation of the gateway, you may need to add the security deposit at any time according to the amount the gateway held in escrow. <br /> 4. If you do not work for a long time or do not add security deposit as required, you may be replaced by other candidates. ',
   READ_ASCH_PROTOCOL: 'Agree to《ASCH User Agreement》',
-  ERROR_CLICK_APPLY_GATEWAY: 'Please complete the account nickname setting before applying to be a gateway candidate ',
+  ERROR_CLICK_APPLY_GATEWAY:
+    'Please complete the account nickname setting before applying to be a gateway candidate ',
   ERROR_READ_ASCH_PROTOCOL: 'Please check ASCH User Agreement',
   TRS_TYPE_TRANS_BANCOR: 'BANCOR exchange',
   BANCOR_INIT: 'BANCOR innitiation',
@@ -864,7 +921,8 @@ const lang = {
   NOT_OPEN: 'No',
   GATEWAY_ALREADY_FREEZED: 'Gateway is frozen',
   AGENT_ALREADY_DELEGATE: 'Already a delegate, request has been rejected. ',
-  ALREADY_GATEWAYMEMBER: 'Already a gateway member or candidate, request has been rejected. ',
+  ALREADY_GATEWAYMEMBER:
+    'Already a gateway member or candidate, request has been rejected. ',
   CONTRACT_GAS_LIMIT_TIP: 'Maximum {num} BCH',
   BLOCK_ID: 'Block ID',
   ERR_BANCOR_BUY_MORE: 'Buying amount exceeds BANCOR limit',
@@ -873,18 +931,21 @@ const lang = {
   ERR_BAIL_TOO_LESS: 'Insufficient security deposit',
   ERR_SHOULD_BE_INTEGER: 'Incorrect precision',
   ERR_INCORRECT_MONEY: 'The asset cannot be seen as MONEY',
-  ERR_GATEWAY_ACCOUNT_DEPRECATE: 'Gateway member has been updated, please re-register and open a new cross-chain address.',
+  ERR_GATEWAY_ACCOUNT_DEPRECATE:
+    'Gateway member has been updated, please re-register and open a new cross-chain address.',
   PERSONAL_MY_RESOURCE: 'My resource',
   PERSONAL_PLEDGED: 'Security deposit',
-  PERSONAL_REDEEM_TIME: 'Freeze time',
+  PERSONAL_REDEEM_TIME: 'Unfreeze time',
   PERSONAL_ACTION_PLEDGE: 'Freeze',
   PERSONAL_ACTION_REDEEM: 'Unfreeze',
   PLEDGE_BANDWIDTH: 'Get NET',
   PLEDGE_ENERGY: 'Get Energy',
   REDEEM_BANDWIDTH: 'Unfreeze NET',
   REDEEM_ENERGY: 'Unfreeze Energy',
-  PLEDGE_TIP: 'You will get the right to use resources on ASCH by freezing XAS. You are unable to trade or unfreeze the frozen XAS for at least 3 days. ',
-  REDEEM_TIP: 'The right of using resources on ASCH will be released by freezing XAS. ',
+  PLEDGE_TIP:
+    'You will get the right to use resources on ASCH by freezing XAS. You are unable to trade or unfreeze the frozen XAS for at least 3 days. ',
+  REDEEM_TIP:
+    'The right of using resources on ASCH will be released by freezing XAS. ',
   PLEDGE_MAIN_TIP: 'Freezing XAS amount: ',
   REDEEM_MAIN_TIP: 'Unfreezing XAS amount: ',
   PLEDGE_SUPPOSE_B: 'Expected to get around {amount} NET points',
@@ -894,10 +955,13 @@ const lang = {
   PLEDGE_ACTION_SUCCESS: 'Submit successful',
   REDEEM_ACTION_SUCCESS: 'Submit successful',
   PLEDGE_ACTION_FAIL: 'Freeze failed',
-  TRANSFER_NET_ENOUGH: 'Your resource balance {} is sufficient for this transaction, system will deduct your NET as Gas, otherwise, XAS will be deducted directly. Freeze XAS to get free access to ASCH network resources. ',
-  TRANSFER_NET_NOT_ENOUGH: 'Your resource balance {amount}  is not sufficient for this transaction, XAS will be deducted from your account as Gas. Freeze XAS to get free access to ASCH network resources. ',
+  TRANSFER_NET_ENOUGH:
+    'Your resource balance {} is sufficient for this transaction, system will deduct your NET as Gas, otherwise, XAS will be deducted directly. Freeze XAS to get free access to ASCH network resources. ',
+  TRANSFER_NET_NOT_ENOUGH:
+    'Your resource balance {amount}  is not sufficient for this transaction, XAS will be deducted from your account as Gas. Freeze XAS to get free access to ASCH network resources. ',
   TRANSFER_ENERGY_TIP: 'Please input your Gas',
-  TRANSFER_ENERGY_ENOUGH: 'You have {amount} Energy, it can cover {count} XAS as Gas. XAS will be deducted if your Energy is not enough for a transaction. Freeze XAS to get free access to ASCH network resources. ',
+  TRANSFER_ENERGY_ENOUGH:
+    'You have {amount} Energy, it can cover {count} XAS as Gas. XAS will be deducted if your Energy is not enough for a transaction. Freeze XAS to get free access to ASCH network resources. ',
   BANDWIDTH_TIP_LINE_1: 'Obtained Balance: {net} (Used {netUsed})',
   BANDWIDTH_TIP_LINE_2: 'Free Balance: {free} (Used {freeUsed})',
   SMART_CONTRACT_OPT: 'Transfer to smart contract',
@@ -909,7 +973,18 @@ const lang = {
   CONTRACT_PANEL_ADDRESS_TIP: 'Please input correct contract address',
   CONTRACT_PANEL_ENTRANCE: 'Receiving portal',
   CONTRACT_PANEL_TICK: 'Use XAS when Energy is insufficient',
-  UNLOCK_NOTHNG_REDEEM: 'No asset is frozen'
+  UNLOCK_NOTHNG_REDEEM: 'No asset is frozen',
+  SMART_CONTRACT: 'Smart contract',
+  SMART_CONTRACT_LIST: 'Contract list',
+  SMART_CONTRACT_MINE: 'My contract',
+  SMART_CONTRACT_NAME: 'Contract name',
+  SMART_CONTRACT_OWNER: 'Owner',
+  SMART_CONTRACT_NEW: 'Create contract',
+  SMART_CONTRACT_POST: 'Deploy contract',
+  SMART_CONTRACT_DESC: 'Description',
+  SMART_CONTRACT_CODE: 'Code',
+  SMART_CONTRACT_COMMIT: 'Submit',
+  SMART_CONTRACT_DETAIL: 'Contract detail'
 }
 
 export default lang

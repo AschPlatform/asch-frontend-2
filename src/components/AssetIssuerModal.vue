@@ -8,13 +8,13 @@
       <div slot="subtitle"> </div>
     </div>
     <q-card-main  class="row col-12 justify-center ">
-      <q-field class="col-md-8 col-xs-12" :label="$t('DAPP_NAME')" :label-width="2" :error="$v.issuer.name.$error" :error-label="$t('NAME_OF_DISTRIBUTOR')" :count="15">
+      <q-field class="col-md-11 col-xs-12" :label="$t('DAPP_NAME')" :label-width="2" :error="$v.issuer.name.$error" :error-label="$t('NAME_OF_DISTRIBUTOR')" :count="15">
         <q-input @blur="$v.issuer.name.$touch" v-model="issuer.name" clearable :disable="!!user.issuer" />
       </q-field>
-      <q-field class="col-md-8 col-xs-12" :label="$t('DESCRIBE')" :label-width="2" :error="$v.issuer.desc.$error" :row="5" :count="500" :error-label="$t('DESCRIBE_OF_DISTRIBUTOR')">
+      <q-field class="col-md-11 col-xs-12" :label="$t('DESCRIBE')" :label-width="2" :error="$v.issuer.desc.$error" :row="5" :count="500" :error-label="$t('DESCRIBE_OF_DISTRIBUTOR')">
         <q-input @blur="$v.issuer.desc.$touch" type="textarea" v-model="issuer.desc" clearable  :disable="!!user.issuer" :max-height="100" :maxlength="1000" />
       </q-field>
-      <q-field v-if="!user.issuer && secondSignature" class="col-md-8 col-xs-12" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
+      <q-field v-if="!user.issuer && secondSignature" class="col-md-11 col-xs-12" :label="$t('TRS_TYPE_SECOND_PASSWORD')" :error="secondPwdError" :label-width="2"  :error-label="$t('ERR_TOAST_SECONDKEY_WRONG')">
         <q-input @blur="validateSecondPwd" type="password" v-model="secondPwd"  />
       </q-field>
       <div class="row col-10 justify-between margin-top-20">

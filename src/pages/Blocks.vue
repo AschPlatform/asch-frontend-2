@@ -5,7 +5,7 @@
       <span class="font-20 text-black vertical-align-middle">{{$t('BLOCKS')}}</span>
     </div>
     <div class="blocks-content row">
-      <div class="col-md-9 col-xs-12">
+      <div class="col-md-12 col-xs-12">
         <q-table :data="blocksData" :rows-per-page-options="[10]" :columns="columns" @request="request" :pagination.sync="pagination" :loading="loading" :title="$t('PRODUCED_BLOCKS')">
           <template slot="top-left" slot-scope="props">
             {{isOwn === false ? $t('ALL_BLOCKS') : $t('MY_BLOCKS')}}
@@ -44,7 +44,7 @@
           </q-td>
         </q-table>
       </div>
-      <div :class="blockRightClass">
+      <!-- <div :class="blockRightClass">
         <div :class="blockRightContentClass">
           <q-card class="q-px-sm">
           <q-card-title>
@@ -84,7 +84,7 @@
           </q-card-main>
         </q-card>
         </div>
-      </div>
+      </div> -->
 
       <!-- below are modals -->
       <q-modal  v-model="modalInfoShow" content-css="padding: 20px;">

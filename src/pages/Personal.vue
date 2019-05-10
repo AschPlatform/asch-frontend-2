@@ -222,6 +222,28 @@
                   </a>
                 </td>
               </tr>
+              <!-- <tr class="row col-12">
+                <td
+                  class="row col-12"
+                  :class="personalRightClass"
+                >
+                  <span class="text-five font-16 min-width-120 text-left">{{$t('AGENT_INFO')}}</span>
+                  <span
+                    class=""
+                    :class="personalFontClass"
+                    v-if="isAgent || isDelegate === 1"
+                  >
+                    {{$t('IS_AGENT')}}
+                  </span>
+                  <a
+                    v-else
+                    class="text-secondary font-16 "
+                    @click="callDelegatePanel"
+                  >
+                    {{$t('REGISTER_AGENT')}}
+                  </a>
+                </td>
+              </tr> -->
             </tbody>
             <span class="border-split col-md-1 offset-md-1"></span>
             <tbody class="row info-tbody col-md-5 col-sm-12">
@@ -601,7 +623,7 @@
 </template>
     </q-dialog>
 
-  <user-agreement-modal :show="userAgreementShow" @confirm="registerAgent" @cancel="userAgreementShow=false" :title="$t('REGISTER_AGENT')" :content="$t('AGREEMENT_REGISTER_AGENT_CONTENT')" :tips="$t('REGISTER_AGENT')+$t('COST_FEE',{ net: 100000, num:100})" />
+  <user-agreement-modal :show="userAgreementShow" @confirm="callRegister" @cancel="userAgreementShow=false" :title="$t('REGISTER_AGENT')" :content="$t('AGREEMENT_REGISTER_AGENT_CONTENT')" :tips="$t('REGISTER_AGENT')+$t('COST_FEE',{ net: 100000, num:100})" />
   </q-page>
 </template>
 
@@ -844,13 +866,45 @@ export default {
         }
       }
     },
-    async registerAgent(flag = true) {
+    // async registerAgent(flag = true) {
+    //   const t = this.$t
+    //   let secondFlag = this.secondSignature && flag
+    //   if (secondFlag) {
+    //     prompt(
+    //       {
+    //         title: t('REGISTER_AGENT'),
+    //         message: t('ACCOUNT_TYPE2_HINT'),
+    //         prompt: {
+    //           model: '',
+    //           type: 'password' // optional
+    //         }
+    //       },
+    //       data => {
+    //         this.secondPwd = data
+    //         this.registerAgent(false)
+    //       }
+    //     )
+    //     return
+    //   }
+    //   if (this.secondSignature && this.pwdValid) {
+    //     toastError(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
+    //     return
+    //   }
+    //   let trans = asch.registerAgent(this.user.secret, this.secondPwd)
+    //   let res = await this.broadcastTransaction(trans)
+    //   if (res.success) {
+    //     toast(t('INF_OPERATION_SUCCEEDED'))
+    //   } else {
+    //     translateErrMsg(t, res.error)
+    //   }
+    //   this.userAgreementShow = false
+    // },
+    callRegister() {
       const t = this.$t
-      let secondFlag = this.secondSignature && flag
-      if (secondFlag) {
+      if (this.secondSignature) {
         prompt(
           {
-            title: t('REGISTER_AGENT'),
+            title: t('DELEGATE_TITLE'),
             message: t('ACCOUNT_TYPE2_HINT'),
             prompt: {
               model: '',
@@ -859,21 +913,21 @@ export default {
           },
           data => {
             this.secondPwd = data
-            this.registerAgent(false)
+            this.boardTransaction()
           }
         )
         return
       }
-      if (this.secondSignature && this.pwdValid) {
-        toastError(this.$t('ERR_SECOND_PASSWORD_FORMAT'))
-        return
-      }
-      let trans = asch.registerAgent(this.user.secret, this.secondPwd)
+      this.boardTransaction()
+    },
+    async boardTransaction() {
+      let trans = asch.registerDelegate(this.user.secret, this.secondPwd || '')
       let res = await this.broadcastTransaction(trans)
-      if (res.success) {
-        toast(t('INF_OPERATION_SUCCEEDED'))
+      if (res.success === true) {
+        toast(this.$t('INF_OPERATION_SUCCEEDED'))
+        this.closeModal()
       } else {
-        translateErrMsg(t, res.error)
+        translateErrMsg(this.$t, res.error)
       }
       this.userAgreementShow = false
     },

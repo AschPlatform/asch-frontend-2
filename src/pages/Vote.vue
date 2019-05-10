@@ -13,7 +13,7 @@
           color="secondary"
           selection="single"
           :selected.sync="selected"
-          row-key="rate"
+          row-key="address"
           :columns="columns"
           @request="request"
           :pagination.sync="pagination"
@@ -448,6 +448,9 @@ export default {
       if (val) {
         this.getDelegates()
       }
+    },
+    selected(val) {
+      console.log(val)
     }
   }
 }
