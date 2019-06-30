@@ -297,7 +297,7 @@ export default {
     costGas() {
       let len = this.content.code.length
       return len
-        ? (len * 2 + 5000).toFixed(0) : 5000
+        ? (len * 4 + 5000).toFixed(0) : 5000
     }
   }
 }
