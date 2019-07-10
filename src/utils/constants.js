@@ -83,9 +83,9 @@ const officialPeers = [
 const urls = {
   // serverUrl: 'http://testnet.asch.cn',
   // serverUrl: 'http://123.206.19.30:4096',
-  serverUrl: 'http://47.52.109.93:4096',
+  serverUrl: '',
   // 区分 local 与 mainnet 的请求头参数
-  magic: '594fe0f3',
+  magic: '5f5b3cf5',
   // 登录接
   loginApi: {
     mock: '/data/home/accounts.json',
