@@ -17,7 +17,7 @@
     "bignumber.js": "^6.0.0",
     "bip39": "^2.5.0",
     "jdenticon": "^2.1.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.13",
     "quasar": "0.0.18",
     "transform-runtime": "0.0.0",
     "vue-clipboards": "^1.2.1",
