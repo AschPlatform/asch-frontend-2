@@ -4,26 +4,26 @@
     v-if="user"
     class="home-container self-center"
   >
-    <div class="row gutter-xs col-12">
+    <div class="row gutter-xs col-12 " >
       <div class="home-top col-12 col-auto  col-xs-12">
-        <q-card class="bg-white no-shadow">
-          <q-card-main class="row shadow-2">
-            <div class="col-md-6 col-xs-12 row justify-left">
+        <q-card class="bg-white no-shadow ">
+          <q-card-main class="row home-top-panel">
+            <div class="col-md-6 col-xs-12 row justify-left q-p">
               <jdenticon
                 class="desktop-only home-jdenticon"
                 :address="user.account.address"
-                :size="60"
+                :size="90"
               />
               <div class="home-top-set-nickname">
                 <span
                   v-if="!userNickname"
-                  class="text-black font-20 vertical-align-middle font-weight"
+                  class="text-primary font-24 vertical-align-middle font-weight "
                 >
                   {{$t('HELLO')}}
                 </span>
                 <span
                   v-else
-                  class="text-black font-20 vertical-align-middle font-weight"
+                  class="text-primary font-24 vertical-align-middle font-weight"
                 >
                   {{$t('HELLO')+','}}
                 </span>
@@ -32,33 +32,50 @@
                   v-if="!userNickname"
                   :label="$t('SET_NICKNAME')"
                   @click="toPersonalSetNickname"
-                >{{$t('SET_NICKNAME')}}</a> <span
+                >{{$t('SET_NICKNAME')}}</a>
+                <span
                   v-else
-                  class="font-20 vertical-align-middle"
-                >{{userNickname}}</span>
-                <p class="font-14 text-three">{{$t('HOME_TIPES')}}</p>
+                  class="font-26 vertical-align-middle primary-color"
+                >{{userNickname}}
+                </span>
+                <p class="font-14 text-secondary margin-top-10 trans-tips">{{$t('HOME_TIPES')}}</p>
               </div>
             </div>
             <div :class="homeTopRightClass">
-              <div class="home-top-btn-container">
-                <i class="material-icons font-24 vertical-align-middle text-eight">call_missed</i>
+              <div class="home-top-btn-container " @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})">
+<!--                <i class="material-icons font-24 vertical-align-middle text-eight">call_missed</i>-->
+                <img :src="transImg" alt=""><br>
                 <q-btn
-                  class="text-secondary font-18 font-weight"
+                  class="text-secondary font-16 font-weight"
                   size="xs"
                   :label="$t('TRS_TYPE_TRANSFER')"
                   flat
-                  @click="$root.$emit('openTransactionDialog',{currency:'XAS',precision:8})"
+                  style="padding: 4px 10px"
                 />
               </div>
-              <span class="btn-container-line"></span>
-              <div class="home-top-btn-container">
-                <i class="material-icons material-icons font-24 vertical-align-middle text-eight">call_missed_outgoing</i>
+              <div class="home-top-btn-container " @click="showAddrQr">
+<!--                <i class="material-icons material-icons font-24 vertical-align-middle text-eight">call_missed_outgoing</i>-->
+                <img :src="receiveImg" alt=""><br>
                 <q-btn
-                  class="text-secondary font-18 font-weight"
+                  class="text-secondary font-16 font-weight "
                   size="xs"
                   :label="$t('RECEIVE')"
                   flat
-                  @click="showAddrQr"
+                  style="padding: 4px 10px"
+
+                />
+              </div>
+
+              <div class="home-top-btn-container " @click="showAddrQr">
+<!--                <i class="material-icons material-icons font-24 vertical-align-middle text-eight">call_missed_outgoing</i>-->
+                <img :src="coexImg" alt=""><br>
+                <q-btn
+                  class="text-secondary font-16 font-weight "
+                  size="xs"
+                  :label="$t('RECEIVE')"
+                  flat
+                  style="padding: 4px 10px"
+
                 />
               </div>
             </div>
@@ -70,32 +87,26 @@
 
     <div class="home-bottom no-border row col no-shadow">
       <div :class="homeBottomLeftClass">
-        <div class="home-bottom-left-container bg-white shadow-1 padding-bottom-30">
+        <div class="home-bottom-left-container bg-white ">
           <q-card class="no-shadow">
-            <q-card-title>
-              <i class="material-icons font-24 vertical-align-middle text-secondary">account_balance_wallet</i>
-              <span class="margin-left-10 text-black font-18 font-weight">
-                {{$t('BALANCE')}}
-              </span>
-              <span class="margin-left-10 text-three font-16 font-weight">
-                {{$t('MAIN_ASSET')}}
-              </span>
-              <span
-                class="qr-right-container"
-                @click="showAddrQr"
-              >
-                <vue-qr
-                  class="add-qr-container"
-                  :size="20"
-                  :text="address"
-                ></vue-qr>
-              </span>
-            </q-card-title>
-            <q-card-main>
-              <span class="text-secondary font-20 font-weight">
+            <div class="text-white font-default font-weight title-bg">
+              {{$t('BALANCE')}}
+            </div>
+<!--            <q-card-title>-->
+<!--&lt;!&ndash;              <i class="material-icons font-24 vertical-align-middle text-white">account_balance_wallet</i>&ndash;&gt;-->
+<!--              <span class="margin-left-10 text-three font-16 font-weight">-->
+<!--                {{$t('MAIN_ASSET')}}-->
+<!--              </span>-->
+<!--            </q-card-title>-->
+            <q-card-main class="align-center ">
+              <span class="primary-color font-18 font-weight">
                 {{totalBalance}}
               </span>
-              <span class="text-secondary font-12">XAS</span>
+              <br>
+              <span class="primary-color font-18 font-weight">
+                {{$t('MAIN_ASSET')}}
+              </span>
+              <span class="primary-color font-18">ECO2</span>
               <br />
               <div class="border-top row">
                 <span
@@ -108,17 +119,33 @@
                 </span>
               </div>
 
-              <div class="text-three font-12 font-weight">
-                {{address}}
-                <q-btn
-                  class="text-secondary font-12"
-                  v-clipboard="address || 'no data'"
-                  @success="info($t('COPY_SUCCESS'))"
-                  size="xs"
-                  flat
-                  round
-                  icon="content copy"
-                />
+              <div class="text-three font-12 font-weight just-center ">
+                <div
+                  class="qr-container"
+                  @click="showAddrQr"
+                  style="width: 42px"
+                >
+                  <vue-qr
+                    class="add-qr-container"
+                    :size="60"
+                    :text="address"
+                  ></vue-qr>
+                </div>
+                <div class="text-secondary font-13" style="margin: 5px 0px; word-break: break-all; text-align: left">
+                  {{address}}
+                </div>
+                <div>
+                  <q-btn
+                    class="text-secondary font-12"
+                    v-clipboard="address || 'no data'"
+                    @success="info($t('COPY_SUCCESS'))"
+                    size="xs"
+                    flat
+                    round
+                    icon="content copy"
+                  />
+                </div>
+
               </div>
 
             </q-card-main>
@@ -129,49 +156,47 @@
                 highlight
               >
                 <q-item
-                  class="blances-container shadow-1 bg-white"
+                  class="blances-container bg-white"
                   v-for="(balance,idx) in  balances"
                   :to="{name:'assetDetail',params:{asset:balance, user: userInfo}}"
                   :key="idx"
+
                 >
                   <q-item-side>
                     <q-item-tile>
                       <asset-icon
-                        class="vertical-align-middle q-ml-sm"
+                        class="vertical-align-middle q-ml-xs"
                         :iconKey="balance.currency.toUpperCase()"
+                        :size="36"
                       ></asset-icon>
                     </q-item-tile>
                   </q-item-side>
                   <q-item-main
-                    class="text-five font-16 font-weight"
+                    class="text-primary font-16 font-weight margin-left-20"
                     :label="balance.currency"
                   />
                   <q-item-side right>
-                    <q-item-tile class="text-five font-16">
+                    <q-item-tile class="text-primary font-16" @click="$router.push({name:'assets',params:{asset:balance}})">
                       {{balance.balance | fee(balance.asset.precision)}}
-                      <q-btn
-                        class="text-secondary"
-                        flat
-                        round
-                        icon="arrow forward"
-                        @click="$router.push({name:'assets',params:{asset:balance}})"
-                      />
                     </q-item-tile>
                   </q-item-side>
                 </q-item>
               </q-list>
-              <q-btn
-                class="home-all-btn q-hoverable bg-secondary text-white q-btn-rounded"
-                color="secondary"
-                @click="assets"
-                flat
-                :label="$t('SEE_ALL_ASSETS')"
-              />
+              <div class="just-center" style="float: bottom">
+                <q-btn
+                  class="home-all-btn q-hoverable bg-secondary text-white "
+                  color="secondary"
+                  @click="assets"
+                  flat
+                  :label="$t('SEE_ALL_ASSETS')"
+                />
+              </div>
+
             </q-card-main>
           </q-card>
         </div>
       </div>
-      <div class="col-md-8 col-xs-12 bg-white shadow-1">
+      <div class="col-md-8 col-xs-12 bg-white ">
         <trans-record-container
           :userInfo="userInfo"
           class="table"
@@ -190,6 +215,10 @@ import { mapGetters } from 'vuex'
 import AssetIcon from '../components/AssetIcon'
 import { convertFee } from '../utils/asch'
 import { BigNumber } from 'bignumber.js'
+import transImg from '../assets/transfer.png'
+import receiveImg from '../assets/receive.png'
+import coexImg from '../assets/coex.png'
+
 import {
   QCard,
   QCardMain,
@@ -234,7 +263,10 @@ export default {
   data() {
     return {
       refreshLoading: false,
-      isDisable: false
+      isDisable: false,
+      transImg,
+      receiveImg,
+      coexImg
     }
   },
   methods: {
@@ -307,30 +339,60 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+
+.title-bg{
+  width 106px
+  height 26 !important
+  line-height 26px
+  background linear-gradient(90deg, rgba(81,187,169,1), rgba(62,159,255,1))
+  border-radius 2px 20px 0 0 !important
+  text-align center
+  margin-bottom 30px
+}
 .home-container {
-  padding: 20px;
+  padding: 30px 40px;
 }
 
 .balance-panel {
   min-height: 500px;
 }
 
+.home-top-panel{
+  height : 150px;
+  padding : 30px 20px;
+
+}
+
+.trans-tips {
+  height : 32px;
+  line-height :32px;
+  border-radius :2px;
+  background-color rgba(246,249,251,1)
+  padding:0 10px;
+}
+
 .home-top {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .home-jdenticon {
-  margin-left: 10px;
+
   vertical-align: top;
-  border-radius: 50%;
+  border-radius: 60px;
+  height :90px;
+  width : 90px;
 }
 
 .home-top-btn-container:hover i {
   color: #43aea8 !important;
+  font-weight : 500
 }
 
 .home-top-btn-container {
-  display: inline-block;
+  /*display: inline-block;*/
+  display block
+  justify-content space-between
+  margin 0 15px
 }
 
 .btn-container-line {
@@ -342,17 +404,18 @@ export default {
 }
 
 .home-bottom-left-container {
-  height: 100%;
+  height: calc(100% - 30px) !important
+
 }
 
-.qr-right-container {
-  float: right;
+.qr-container {
   cursor: pointer;
 }
 
 .add-qr-container {
   display: inline-block;
   vertical-align: text-top !important;
+  margin -10px
 }
 
 .blances-container:hover {
@@ -362,13 +425,15 @@ export default {
 .blances-container {
   padding-left: 0px !important;
   padding-right: 0px !important;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   cursor: pointer;
   border-radius: 6px;
+  height 36px
+
 }
 
 .home-all-btn {
-  float: right;
+  align-self center
 }
 
 .q-btn {
@@ -376,7 +441,7 @@ export default {
 }
 
 .home-top-set-nickname {
-  height: 100%;
+  height : 90px
   vertical-align: text-bottom;
   display: inline-block;
   margin-left: 20px;

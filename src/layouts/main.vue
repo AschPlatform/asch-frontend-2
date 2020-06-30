@@ -13,33 +13,34 @@
           >
             <q-icon
               name="menu"
-              class="text-faded"
+              class="text-faded menu-icon"
             />
           </q-btn>
           <div class="mobile-hide head-top-left-container">
-            <span class="font-18 text-black font-weight">
+            <span class="font-18 text-primary ">
               {{$t(' LATEST_BLOCK_HEIGHT')}}
             </span>
-            <i
-              v-for='n in 3'
-              :key=n
-              class="height-icon material-icons vertical-align-middle text-secondary font-22"
-            >equalizer</i>
-            <span class="font-30 text-secondary margin-left-10 font-weight vertical-align-sub">{{latestBlock.height}}</span>
+            <span>
+              <img :src="heightImg" alt="" >
+            </span>
+            <span class="font-18 text-primary margin-left-10 ">{{latestBlock.height}}</span>
           </div>
           <span class="mobile-hide head-top-left-line vertical-align-middle"></span>
           <div class="mobile-hide head-top-left-container  vertical-align-middle">
             <span class="font-18 text-black font-weight vertical-align-middle">
               {{$t(' TIME_LAST')}}
             </span>
-            <span class="font-22 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
+            <span class="font-18 text-primary vertical-align-middle">{{latestBlock.timestamp | time}}</span>
           </div>
+
         </div>
 
         <div class="desktop-hide text-black">
           {{clientPathName}}
         </div>
-
+        <div class=" font-16 head-top-left-container vertical-align-middle primary-color ">
+          {{$t('MY_RESOURCE')}}
+        </div>
         <q-btn
           flat
           @click="logout"
@@ -49,7 +50,7 @@
           </q-tooltip>
           <q-icon
             name="power settings new"
-            class="text-faded"
+            class="text-faded exit-icon"
           />
         </q-btn>
 
@@ -60,6 +61,7 @@
       class="bg-seven main-left-list-container"
       v-model="showLeft"
       side="left"
+      :width="267"
     >
       <q-list
         no-border
@@ -77,8 +79,8 @@
             class="header-right margin-left-10"
             @click="toHome"
           >
-            <span class="header-right-top">{{$t('ASCH')}}</span>
-            <span class="header-right-bottom font-12">Asch Client {{version.version}}-{{version.net}}</span>
+            <span class="header-right-top text-primary font-18">{{$t('ASCH')}}</span>
+            <span class="header-right-bottom font-12 text-secondary  ">ECO2 Ledger {{version.version}}-{{version.net}}</span>
           </div>
         </q-list-header>
         <q-item
@@ -220,7 +222,7 @@
                 outline
                 class="col-auto"
                 color="secondary"
-                @click="transShow=false;props.cancel()"
+                @click="transShow=false; props.cancel()"
                 :label="$t('label.close')"
               />
               <q-btn
@@ -298,30 +300,30 @@
       color="orange"
     />
 
-    <q-layout-footer class="no-shadow footer-container ">
-      <div class="desktop-hide row justify-left height-28 footer-introduce">
-        <span class="font-14 text-black font-weight height-36">
-          {{$t(' LATEST_BLOCK_HEIGHT')}}
-        </span>
-        <i
-          v-for="n in 3"
-          :key=n
-          class="material-icons text-secondary font-18 margin-right-minus-5 height-36"
-        >equalizer</i>
-        <span class="text-secondary font-24 margin-left-10 font-weight height-36">{{latestBlock.height}}</span>
-      </div>
-      <div class="desktop-hide row justify-left height-28 footer-introduce">
-        <span class="font-14 text-black font-weight vertical-align-middle">
-          {{$t(' TIME_LAST')}}
-        </span>
-        <span class="font-18 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>
-      </div>
-      <div class="row justify-between height-36">
-        <span class="footer-introduce font-12">©2018 copyright</span>
-        <span class="footer-introduce font-12">{{version.version}} {{version.net}} {{version.build}}</span>
-      </div>
+<!--    <q-layout-footer class="no-shadow footer-container ">-->
+<!--      <div class="desktop-hide row justify-left height-28 footer-introduce">-->
+<!--        <span class="font-14 text-black font-weight height-36">-->
+<!--          {{$t(' LATEST_BLOCK_HEIGHT')}}-->
+<!--        </span>-->
+<!--        <i-->
+<!--          v-for="n in 3"-->
+<!--          :key=n-->
+<!--          class="material-icons text-secondary font-18 margin-right-minus-5 height-36"-->
+<!--        >equalizer</i>-->
+<!--        <span class="text-secondary font-24 margin-left-10 font-weight height-36">{{latestBlock.height}}</span>-->
+<!--      </div>-->
+<!--      <div class="desktop-hide row justify-left height-28 footer-introduce">-->
+<!--        <span class="font-14 text-black font-weight vertical-align-middle">-->
+<!--          {{$t(' TIME_LAST')}}-->
+<!--        </span>-->
+<!--        <span class="font-18 text-secondary font-weight vertical-align-middle">{{latestBlock.timestamp | time}}</span>-->
+<!--      </div>-->
+<!--      <div class="row justify-between height-36">-->
+<!--        <span class="footer-introduce font-12">©2018 copyright</span>-->
+<!--        <span class="footer-introduce font-12">{{version.version}} {{version.net}} {{version.build}}</span>-->
+<!--      </div>-->
 
-    </q-layout-footer>
+<!--    </q-layout-footer>-->
   </q-layout>
 </template>
 
@@ -333,6 +335,7 @@ import ContractPanel from '../components/ContractPanel'
 import AccountInfo from '../components/AccountInfo'
 import CodeModal from '../components/QRCodeModal'
 import TransInfoModal from '../components/TransInfoModal'
+import heightImg from '../assets/height.png'
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import {
   QLayout,
@@ -409,7 +412,8 @@ export default {
       btnDisable: false,
       methodsOptions: [],
       contractAddress: '',
-      contractName: ''
+      contractName: '',
+      heightImg
     }
   },
   methods: {
@@ -678,9 +682,17 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 body {
   background: #e7ebee;
+}
+
+.menu-icon {
+  font-size :24px !important;
+}
+
+.exit-icon {
+  font-size: 25px !important;
 }
 
 .main-left-list-container {
@@ -691,18 +703,15 @@ body {
 }
 
 .q-list-header {
-  padding-left: 40px !important;
+  padding-left: 30px !important;
   cursor: pointer;
 }
 
 .header-container {
-  padding-bottom: 16px;
+  padding-bottom: 22px;
 }
 
 .header-left {
-  width: 70px;
-  height: 70px;
-  background: #3e4654;
   border-radius: 10px;
 }
 
@@ -713,7 +722,7 @@ body {
 
 .menu-logo {
   display: block;
-  background: url('../assets/logo1.png') no-repeat;
+  background: url('../assets/logo.png') no-repeat;
   background-size: 100%;
   width: 40px;
   height: 40px;
@@ -745,7 +754,7 @@ body {
 }
 
 .head-mobile-top {
-  height: 40px;
+  height: 56px !important;
 }
 
 .head-bottom {
@@ -762,36 +771,45 @@ body {
 }
 
 .q-layout-drawer {
-  background: #252d3a;
+  background: rgba(255,255,255,1);
+  width: 265px !important;
+  box-shadow :2px 0px 0px 0px rgba(230, 233, 242, 1)
 }
 
 .list-item-container:hover i {
-  color: #ffffff;
+  color: #52bba8;
 }
 
 .list-item-container:hover {
-  color: #ffffff !important;
-  border-left: 4px solid #ff750b;
-  background: #252d3a !important;
+  color: #52bba8 !important;
+  /*border-right: 6px solid #52bba8;*/
+  background: #ffffff !important;
 }
 
 .list-item-container {
-  height: 70px;
+  height: 60px;
   color: #8b939e !important;
   font-size: 18px;
-  padding-left: 40px;
-  border-bottom: 1px solid #2c3411;
-  border-left: 4px solid transparent;
+  padding-left: 48px;
+  padding-top: 18px;
+  padding-bottom: 18px;
+
+  /*border-bottom: 1px solid #2c3411;*/
+  /*border-left: 4px solid transparent;*/
 }
 
 .q-item.active, .q-item.router-link-active, .q-item:focus {
-  color: #ffffff !important;
-  border-left: 4px solid #ff750b;
-  background: #252d3a;
+  color: #009d96 !important;
+  /*border-right: 6px solid #52bba8;*/
+  background: #ffffff;
+  .q-item-main {
+    border-right: 6px solid #009d96
+    margin-right: 10px;
+  }
 }
 
 .q-item.active i, .q-item.router-link-active i, .q-item:focus i {
-  color: #ffffff;
+  color: #52bba8;
 }
 
 .head-bottom-item-container {
@@ -805,6 +823,7 @@ body {
 .head-top-left-container {
   display: inline-block;
   vertical-align: middle;
+
 }
 
 .head-top-left-line {
@@ -812,7 +831,7 @@ body {
   height: 20px;
   display: inline-block;
   background: #dddddd;
-  margin: 0 30px;
+  margin: 0 30px 0 69px;
 }
 
 .footer-container {

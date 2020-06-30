@@ -1,32 +1,118 @@
 // app global css
 
+$primary-color = #52bba8
+$text-primary = #343c3c
+$text-secondary = #a2a8a8
+$text-white = #ffffff
+$text-highlight = #52bba8
+$bg-color = #ebf2f6
+$logo-color = #3e9fe2
+$bordor-color = #dde2e2
+$disabled-color = #d8d6d8
+
+$icon-blue = #3e9fe2
+$icon-orange = #fac135
+$icon-aqua = #52bba8
+$icon-green = #009d96
+$icon-gray = #343c3c
+
+
+$font-default = 24pt
+$font-blob = 18pt
+$font-title = 14pt
+$font-desc = 12pt
+
+.primary-color
+ color: $primary-color !important
+.text-primary
+ color: $text-primary !important
+.text-secondary
+ color: $text-secondary !important
+.text-white
+ color: $text-white !important
+.text-highlight
+ color: $text-highlight !important
+.bg-color
+ background-color: $bg-color !important
+.logo-color
+ color: $logo-color !important
+.bordor-color
+ color: $bordor-color !important
+.disabled-color
+ color: $disabled-color !important
+.disabled-bg
+ background-color: $disabled-color !important
+.icon-blue
+ color: $icon-blue !important
+.icon-orange
+ color: $icon-orange !important
+.icon-aqua
+ color: $icon-aqua !important
+.icon-green
+  color: $icon-green  !important
+.icon-gray
+ color: $icon-gray !important
+.font-default
+ color: $font-default !important
+.font-blob
+ color: $font-blob !important
+.font-title
+ color: $font-title !important
+.font-desc
+ color: $font-desc !important
+
+.f-d {
+  font-size :$font-default
+}
+.f-b {
+  font-size :$font-blob
+}
+.f-t {
+  font-size :$font-title
+}
+.f-de {
+  font-size :$font-desc
+}
+
+// ======
+$bg-seven=$text-white
+
+
+// ==================
+
+.just-center {
+  display flex
+  justify-content center
+}
+
+// ===================
+
 $lite-organge=#FF7508
 $bg-secondary=#43aea8
 $text-three=#999999
 $text-four=#333333
 $text-five=#575757
 $text-six=#6a7082
-$bg-seven=#252d3a
 $text-eight=#d7d7d7
 $bg-nine=#e7ebee
 $card-font=30px
 $text-ten=#0f837c
 $bg-ten=#f0f3f6
 
-.lite-orange
- color: $lite-organge !important 
+.lite-orang
+ color: $lite-organgee !important
 
 .text-three
- color:$text-three !important    
+ color:$text-three !important
 
 .text-four
- color:$text-four !important  
+ color:$text-four !important
 
 .text-five
- color:$text-five !important 
+ color:$text-five !important
 
 .text-six
- color:$text-six !important 
+ color:$text-six !important
 
 .bg-seven
  background:$bg-seven !important
@@ -50,14 +136,14 @@ $bg-ten=#f0f3f6
  background-color: $bg-secondary !important
 
 .font-weight
- font-weight:500 !important  
+ font-weight:500 !important
 
 .font-bold
  font-weight:600 !important
 
 .font-futura
  font-family: 'futura';
- 
+
 .q-table-title
  font-weight: 400
  font-size: 18px
@@ -66,19 +152,22 @@ $bg-ten=#f0f3f6
    font-size 18px !important
 
 .font-60
- font-size:60px !important     
+ font-size:60px !important
 
 .font-44
- font-size:44px !important    
+ font-size:44px !important
 
 .font-36
- font-size:36px !important    
+ font-size:36px !important
 
 .font-30
- font-size:30px !important  
+ font-size:30px !important
 
 .font-24
  font-size:24px !important
+
+.font-26
+ font-size:26px !important
 
 .font-22
  font-size:22px !important
@@ -96,67 +185,70 @@ $bg-ten=#f0f3f6
  font-size:14px !important
 
 .font-12
- font-size:12px !important  
+ font-size:12px !important
+
+.font-13
+ font-size:13px !important
 
 .font-10
- font-size:10px !important 
+ font-size:10px !important
 
 .vertical-align-middle
- vertical-align: middle !important;    
+ vertical-align: middle !important;
 
 .vertical-align-sub
- vertical-align: sub !important;  
+ vertical-align: sub !important;
 
 .vertical-align-super
- vertical-align: super !important;  
+ vertical-align: super !important;
 
 .vertical-align-baseline
  vertical-align: baseline
 
 .margin-left-10
- margin-left: 10px   
+ margin-left: 10px !important
 
 .margin-left-20
- margin-left: 20px  
+ margin-left: 20px !important
 
 .margin-left-24
- margin-left: 24px  
+ margin-left: 24px !important
 
 .margin-left-30
- margin-left: 30px 
+ margin-left: 30px !important
 
 .margin-right-minus-5
- margin-right: -5px 
+ margin-right: -5px
 
 .margin-right-10
- margin-right: 10px 
+ margin-right: 10px
 
 .margin-top-10
- margin-top: 10px 
+ margin-top: 10px
 
 .margin-top-15
- margin-top: 15px 
+ margin-top: 15px
 
 .margin-top-20
- margin-top: 20px 
+ margin-top: 20px
 
 .margin-top-30
- margin-top: 30px 
+ margin-top: 30px
 
 .margin-top-50
- margin-top: 50px 
+ margin-top: 50px
 
 .margin-t-54
  margin-top: 54px
 
 .margin-b-0
- margin-bottom: 0px  
+ margin-bottom: 0px
 
 .margin-bottom-10
- margin-bottom: 10px  
+ margin-bottom: 10px
 
 .margin-bottom-20
- margin-bottom: 20px 
+ margin-bottom: 20px
 
 .height-62
  height: 62px
@@ -178,16 +270,16 @@ $bg-ten=#f0f3f6
 .line-height-36
   line-height: 36px
 
-.padding-40 
+.padding-40
  padding: 0 40px;
 
-.padding-t-b-40 
+.padding-t-b-40
  padding: 40px 0;
 
 .padding-t-40
  padding-top:40px !important
 
-.padding-b-40  
+.padding-b-40
  padding-bottom: 40px;
 
 .padding-l-15
@@ -202,10 +294,10 @@ $bg-ten=#f0f3f6
 .padding-20
  padding: 20px;
 
-.padding-b-54 
+.padding-b-54
  padding-bottom: 54px;
 
-.padding-b-20 
+.padding-b-20
  padding-bottom: 20px;
 
 .padding-top-0
@@ -220,31 +312,31 @@ $bg-ten=#f0f3f6
 .padding-top-32
  padding-top: 32px;
 
-.padding-right-0 
+.padding-right-0
  padding-right: 0px;
 
-.padding-right-20 
+.padding-right-20
  padding-right: 20px;
 
-.padding-right-40 
+.padding-right-40
  padding-right: 40px;
 
-.padding-bottom-0 
+.padding-bottom-0
  padding-bottom: 0px;
 
-.padding-bottom-10 
+.padding-bottom-10
  padding-bottom: 10px;
 
-.padding-bottom-20 
+.padding-bottom-20
  padding-bottom: 20px;
 
-.padding-bottom-30 
+.padding-bottom-30
  padding-bottom: 30px;
 
-.padding-bottom-40 
+.padding-bottom-40
  padding-bottom: 40px;
 
-.padding-bottom-60 
+.padding-bottom-60
  padding-bottom: 60px;
 
 .padding-10
@@ -278,7 +370,7 @@ $bg-ten=#f0f3f6
 .modal-content
   max-width: 600px !important
 
-.modal-header    
+.modal-header
  background: #43aea8
  color: #ffffff
  font-size: 18px
@@ -320,27 +412,27 @@ $bg-ten=#f0f3f6
 
 .q-table th
  color: #000000
- font-size: 16px  
+ font-size: 16px
 
 .chips-input-color .q-if-label
  color:#000000
 
 .q-table tbody td
-//  border 1px solid #dddddd   
- text-align: center   
+//  border 1px solid #dddddd
+ text-align: center
 
 .cursor-pointer
  cursor: pointer;
  text-decoration: none;
 
 .q-table-top
- padding: 0 24px   
+ padding: 0 24px
 
 .blocks-datail-table tr td:nth-child(1)
   text-align: right;
 
-//  .blocks-datail-table 
-//    tr 
+//  .blocks-datail-table
+//    tr
 //     td:nth-child(even)
 //       overflow hidden;
 //       text-align: left;
@@ -352,34 +444,34 @@ $bg-ten=#f0f3f6
  color:#000000
  font-size: 18px
 
-.assetDetail-card-content tr 
+.assetDetail-card-content tr
  height: 30px
 
 .blocks-padding-40
- padding 60px 0 30px 0    
+ padding 60px 0 30px 0
 
 .q-table th
- text-align: center    
+ text-align: center
 
 .personal-table tbody
-  
-.personal-table tbody td 
+
+.personal-table tbody td
  border: none
- text-align: left 
+ text-align: left
 
 .transfer-container .transfer-bottom-container
  padding: 0 !important
 
-input.q-input-target   
+input.q-input-target
  font-size: 12px
  color: #000
  margin auto
 
-.proposal-detail-container input.q-input-target 
- font-size: 16px 
+.proposal-detail-container input.q-input-target
+ font-size: 16px
  margin auto
 
-.login-container textarea 
+.login-container textarea
  min-height: 0px !important
 
 .vote-right-container .q-tab-pane
@@ -394,7 +486,7 @@ input.q-input-target
 .q-field-label-inner
  color: #333333
  font-weight: 600
- font-size: 16px 
+ font-size: 16px
 
 .personal-icon
  width: 20px
